@@ -1,0 +1,5 @@
+{
+  "name": "PokeFactory",
+  "description": "A Pokemon battle factory game with random encounters, team building, and item upgrades using PokeAPI.",
+  "requestFramePermissions": []
+}

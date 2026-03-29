@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --animate-barber-pole: barber-pole 10s linear infinite;
+
+  @keyframes barber-pole {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 100px 100px;
+    }
+  }
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  touch-action: manipulation; /* 防止双击缩放，提升移动端体验 */
+}
+
+body {
+  background-color: #f0f0f0;
+  -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #0f172a;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #1e293b;
+}
+
+/* 模拟剑盾风格的斜角和粗体字 */
+h1, h2, h3, button {
+  font-family: 'Inter', sans-serif;
+}
