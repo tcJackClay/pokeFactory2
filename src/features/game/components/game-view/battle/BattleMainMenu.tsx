@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Dna, Package, RefreshCw, Sparkles, Sword } from 'lucide-react';
+import { Dna, Package, RefreshCw, Sword } from 'lucide-react';
 import type { GameViewSectionProps } from '../shared';
 
 export function BattleMainMenu({ viewModel }: GameViewSectionProps) {
@@ -7,105 +7,66 @@ export function BattleMainMenu({ viewModel }: GameViewSectionProps) {
     t,
     setBattleMenuTab,
     forfeitChallenge,
-    triggerBattleSpecial,
-    canUseBattleSpecial,
-    canUseBattleSpecialByMode,
-    specialModeUnlocked,
-    battleSpecialUsage,
   } = viewModel;
 
+  const commandButtons = [
+    {
+      key: 'MOVES' as const,
+      label: t('battle'),
+      icon: Sword,
+      className: 'from-red-400 to-red-600 hover:from-red-500 hover:to-red-700',
+      onClick: () => setBattleMenuTab('MOVES'),
+    },
+    {
+      key: 'BAG' as const,
+      label: t('bag'),
+      icon: Package,
+      className: 'from-yellow-400 to-amber-600 hover:from-yellow-500 hover:to-amber-700',
+      onClick: () => setBattleMenuTab('BAG'),
+    },
+    {
+      key: 'POKEMON' as const,
+      label: t('pokemon'),
+      icon: Dna,
+      className: 'from-emerald-400 to-emerald-600 hover:from-emerald-500 hover:to-emerald-700',
+      onClick: () => setBattleMenuTab('POKEMON'),
+    },
+    {
+      key: 'RUN' as const,
+      label: t('run'),
+      icon: RefreshCw,
+      className: 'from-slate-500 to-slate-700 hover:from-slate-600 hover:to-slate-800',
+      onClick: forfeitChallenge,
+    },
+  ];
+
   return (
-    <motion.div key="main-menu" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} className="grid grid-cols-2 gap-2 sm:gap-3 h-full">
-      <button onClick={() => setBattleMenuTab('MOVES')} className="group relative bg-red-500 text-white p-2 sm:p-3 font-black italic text-base sm:text-xl skew-x-[-10deg] hover:bg-red-600 transition-all overflow-hidden">
-        <div className="absolute inset-0 bg-white/10 translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-        <span className="relative z-10 skew-x-[10deg] flex items-center justify-center gap-2">
-          <Sword className="w-4 h-4 sm:w-5 sm:h-5" />
-          {t('battle')}
-        </span>
-      </button>
-      <button onClick={() => setBattleMenuTab('BAG')} className="group relative bg-yellow-500 text-white p-2 sm:p-3 font-black italic text-base sm:text-xl skew-x-[-10deg] hover:bg-yellow-600 transition-all overflow-hidden">
-        <div className="absolute inset-0 bg-white/10 translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-        <span className="relative z-10 skew-x-[10deg] flex items-center justify-center gap-2">
-          <Package className="w-4 h-4 sm:w-5 sm:h-5" />
-          {t('bag')}
-        </span>
-      </button>
-      <button onClick={() => setBattleMenuTab('POKEMON')} className="group relative bg-emerald-500 text-white p-2 sm:p-3 font-black italic text-base sm:text-xl skew-x-[-10deg] hover:bg-emerald-600 transition-all overflow-hidden">
-        <div className="absolute inset-0 bg-white/10 translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-        <span className="relative z-10 skew-x-[10deg] flex items-center justify-center gap-2">
-          <Dna className="w-4 h-4 sm:w-5 sm:h-5" />
-          {t('pokemon')}
-        </span>
-      </button>
-      <button onClick={forfeitChallenge} className="group relative bg-slate-500 text-white p-2 sm:p-3 font-black italic text-base sm:text-xl skew-x-[-10deg] hover:bg-slate-600 transition-all overflow-hidden">
-        <div className="absolute inset-0 bg-white/10 translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-        <span className="relative z-10 skew-x-[10deg] flex items-center justify-center gap-2">
-          <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5" />
-          {t('run')}
-        </span>
-      </button>
-      <button
-        onClick={() => void triggerBattleSpecial('MEGA')}
-        disabled={!canUseBattleSpecialByMode.MEGA}
-        className={`group relative p-2 sm:p-3 font-black italic text-sm sm:text-base skew-x-[-10deg] transition-all overflow-hidden ${
-          canUseBattleSpecialByMode.MEGA
-            ? 'bg-fuchsia-600 text-white hover:bg-fuchsia-700'
-            : 'bg-slate-200 text-slate-500 cursor-not-allowed'
-        }`}
-      >
-        <div className="absolute inset-0 bg-white/10 translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-        <span className="relative z-10 skew-x-[10deg] flex items-center justify-center gap-2">
-          <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
-          {battleSpecialUsage.MEGA ? t('specialMegaUsed') : t('specialMega')}
-        </span>
-      </button>
-      <button
-        onClick={() => void triggerBattleSpecial('DYNAMAX')}
-        disabled={!canUseBattleSpecialByMode.DYNAMAX}
-        className={`group relative p-2 sm:p-3 font-black italic text-sm sm:text-base skew-x-[-10deg] transition-all overflow-hidden ${
-          canUseBattleSpecialByMode.DYNAMAX
-            ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-            : 'bg-slate-200 text-slate-500 cursor-not-allowed'
-        }`}
-      >
-        <div className="absolute inset-0 bg-white/10 translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-        <span className="relative z-10 skew-x-[10deg] flex items-center justify-center gap-2">
-          <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
-          {battleSpecialUsage.DYNAMAX ? t('specialDynamaxUsed') : t('specialDynamax')}
-        </span>
-      </button>
-      <button
-        onClick={() => void triggerBattleSpecial('TERA')}
-        disabled={!canUseBattleSpecialByMode.TERA}
-        className={`group relative p-2 sm:p-3 font-black italic text-sm sm:text-base skew-x-[-10deg] transition-all overflow-hidden ${
-          canUseBattleSpecialByMode.TERA
-            ? 'bg-cyan-600 text-white hover:bg-cyan-700'
-            : 'bg-slate-200 text-slate-500 cursor-not-allowed'
-        }`}
-      >
-        <div className="absolute inset-0 bg-white/10 translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-        <span className="relative z-10 skew-x-[10deg] flex items-center justify-center gap-2">
-          <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
-          {battleSpecialUsage.TERA ? t('specialTeraUsed') : t('specialTera')}
-        </span>
-      </button>
-      <button
-        onClick={() => setBattleMenuTab('MAIN')}
-        disabled={!canUseBattleSpecial}
-        className={`col-span-2 group relative p-2 sm:p-3 font-black italic text-base sm:text-xl skew-x-[-10deg] transition-all overflow-hidden ${
-          canUseBattleSpecial
-            ? 'bg-violet-600 text-white'
-            : 'bg-slate-200 text-slate-500 cursor-not-allowed'
-        }`}
-      >
-        <div className="absolute inset-0 bg-white/10 translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
-        <span className="relative z-10 skew-x-[10deg] flex items-center justify-center gap-2">
-          <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
-          {!specialModeUnlocked
-            ? t('specialLocked')
-            : t('specialTriggerHint')}
-        </span>
-      </button>
+    <motion.div
+      key="main-menu"
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      className="h-full"
+    >
+      <div className="grid grid-cols-2 grid-rows-2 gap-2 h-full">
+        {commandButtons.map((button) => {
+          const Icon = button.icon;
+
+          return (
+            <button
+              key={button.key}
+              onClick={button.onClick}
+              className={`group relative border-2 border-slate-900 bg-gradient-to-b p-2 sm:p-3 font-black tracking-wide text-white transition-all active:translate-y-[1px] ${button.className}`}
+            >
+              <span className="absolute inset-x-0 top-0 h-[2px] bg-white/40" />
+              <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                {button.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </motion.div>
   );
 }
