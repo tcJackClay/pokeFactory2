@@ -234,5 +234,32 @@ export const ALL_ITEMS: Item[] = [
     zhDescription: '本回合受到的伤害降低30%',
     isBattleItem: true,
     effect: (p) => p
+  },
+  {
+    id: 'special_mega_stone',
+    name: 'Mega Trigger Stone',
+    zhName: 'Mega触发石',
+    description: 'Consume in battle to activate Mega trigger once',
+    zhDescription: '战斗中消耗，触发一次 Mega 强化',
+    isSpecialTriggerItem: true,
+    effect: (p) => p
+  },
+  {
+    id: 'special_dmax_band',
+    name: 'Dynamax Band Core',
+    zhName: '极巨核心腕带',
+    description: 'Consume in battle to activate Dynamax trigger once',
+    zhDescription: '战斗中消耗，触发一次极巨化强化',
+    isSpecialTriggerItem: true,
+    effect: (p) => p
+  },
+  {
+    id: 'special_tera_orb',
+    name: 'Tera Orb Charge',
+    zhName: '太晶珠充能',
+    description: 'Consume in battle to activate Tera trigger once',
+    zhDescription: '战斗中消耗，触发一次太晶化强化',
+    isSpecialTriggerItem: true,
+    effect: (p) => p
   }
 ];

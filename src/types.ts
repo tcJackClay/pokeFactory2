@@ -90,8 +90,13 @@ export interface GamePokemon extends Pokemon {
   baseStats: Stats;
   calculatedStats: Stats;
   isGym?: boolean;
+  factoryHeldItemId?: string;
   status?: string;
   statStages: StatStages;
+  specialBoostActive?: boolean;
+  specialBoostMode?: 'MEGA' | 'DYNAMAX' | 'TERA';
+  teraType?: string;
+  dynamaxTurnsLeft?: number;
 }
 
 export interface Item {
@@ -103,12 +108,13 @@ export interface Item {
   effect: (pokemon: GamePokemon) => GamePokemon;
   isBattleItem?: boolean;
   isBall?: boolean;
+  isSpecialTriggerItem?: boolean;
   catchRate?: number;
 }
 
 export type Weather = 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail';
 
-export type GameState = 'START' | 'MENU' | 'BATTLE' | 'REWARD' | 'LEARN_MOVE' | 'POKEMON_INFO' | 'GAMEOVER' | 'STARTER_SELECT' | 'EVOLUTION' | 'FACTORY_SELECT' | 'FACTORY_SWAP';
+export type GameState = 'START' | 'MENU' | 'BATTLE' | 'REWARD' | 'LEARN_MOVE' | 'POKEMON_INFO' | 'GAMEOVER' | 'STARTER_SELECT' | 'EVOLUTION' | 'FACTORY_SELECT' | 'FACTORY_SWAP' | 'ROUND_RESULT';
 export type BattleMenuTab = 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG';
 
 export interface LanguageConfig {

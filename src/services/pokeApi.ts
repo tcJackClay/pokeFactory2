@@ -1,13 +1,39 @@
 import { Pokemon, Move, GamePokemon, Stats, Nature } from '../types';
 import { GENERATIONS, NATURES } from '../constants';
+import { DIRECT_SPECIAL_FORMS, SPECIAL_FORM_RANDOM_RATE } from '../features/game/config/specialForms';
 
 const BASE_URL = 'https://pokeapi.co/api/v2';
+
+export type PokemonIdentifier = number | string;
 
 export async function getRandomPokemonId(selectedGens: number[] = [1]): Promise<number> {
   const possibleGens = GENERATIONS.filter(g => selectedGens.includes(g.id));
   const targetGen = possibleGens[Math.floor(Math.random() * possibleGens.length)] || GENERATIONS[0];
   const [start, end] = targetGen.range;
   return Math.floor(Math.random() * (end - start + 1)) + start;
+}
+
+function weightedPick<T>(items: T[], getWeight: (item: T) => number): T | null {
+  if (items.length === 0) return null;
+  const total = items.reduce((sum, item) => sum + Math.max(0, getWeight(item)), 0);
+  if (total <= 0) return items[Math.floor(Math.random() * items.length)] ?? null;
+
+  let roll = Math.random() * total;
+  for (const item of items) {
+    roll -= Math.max(0, getWeight(item));
+    if (roll <= 0) return item;
+  }
+  return items[items.length - 1] ?? null;
+}
+
+export async function getRandomPokemonIdentifier(selectedGens: number[] = [1]): Promise<PokemonIdentifier> {
+  const shouldPickSpecial = Math.random() < SPECIAL_FORM_RANDOM_RATE;
+  if (!shouldPickSpecial) return getRandomPokemonId(selectedGens);
+
+  const specialPool = DIRECT_SPECIAL_FORMS.filter((form) => selectedGens.includes(form.gen));
+  const picked = weightedPick(specialPool, (form) => form.weight ?? 1);
+  if (!picked) return getRandomPokemonId(selectedGens);
+  return picked.pokeApiName;
 }
 
 function getZhName(names: any[]): string | undefined {
@@ -30,8 +56,8 @@ function getZhDescription(entries: any[]): string | undefined {
   return zhEntries[zhEntries.length - 1].flavor_text;
 }
 
-export async function fetchPokemon(id: number): Promise<Pokemon> {
-  const response = await fetch(`${BASE_URL}/pokemon/${id}`);
+export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokemon> {
+  const response = await fetch(`${BASE_URL}/pokemon/${identifier}`);
   if (!response.ok) throw new Error('Failed to fetch pokemon');
   const data = await response.json();
   
@@ -179,8 +205,10 @@ function calculateStat(base: number, iv: number, level: number, isHp: boolean = 
   return Math.floor((Math.floor((base * 2 + iv) * level / 100) + 5) * natureMod);
 }
 
-export async function getProcessedPokemon(id: number, level: number = 50): Promise<GamePokemon> {
-  const raw = await fetchPokemon(id);
+export async function getProcessedPokemon(identifier: PokemonIdentifier, level: number = 50): Promise<GamePokemon> {
+  const raw = await fetchPokemon(identifier);
+  const teraTypePool = raw.types.map((slot) => slot.type.name);
+  const teraType = teraTypePool[Math.floor(Math.random() * teraTypePool.length)] || 'normal';
   
   // Pick random moves that have power
   const validMoves: Move[] = [];
@@ -258,6 +286,7 @@ export async function getProcessedPokemon(id: number, level: number = 50): Promi
     ivs,
     baseStats,
     calculatedStats,
+    teraType,
     statStages: {
       attack: 0,
       defense: 0,
