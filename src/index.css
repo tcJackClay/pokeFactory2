@@ -15,6 +15,27 @@
   }
 }
 
+:root {
+  --type-normal: #ffffff;
+  --type-fire: #ffa55a;
+  --type-water: #5294df;
+  --type-electric: #f7d63a;
+  --type-grass: #63c55a;
+  --type-ice: #73d6ce;
+  --type-fighting: #d64273;
+  --type-poison: #d652ce;
+  --type-ground: #cebd94;
+  --type-flying: #ffd642;
+  --type-psychic: #ff737b;
+  --type-bug: #94c531;
+  --type-rock: #948442;
+  --type-ghost: #635284;
+  --type-dragon: #5294df;
+  --type-dark: #312942;
+  --type-steel: #9c9ca5;
+  --type-fairy: #ff7bad;
+}
+
 html, body, #root {
   height: 100%;
   width: 100%;

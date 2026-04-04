@@ -1,21 +1,12 @@
 import { motion } from 'motion/react';
-import { Package } from 'lucide-react';
 import type { GameViewSectionProps } from '../shared';
 
 export function BattleBagPanel({ viewModel }: GameViewSectionProps) {
-  const { inventory, t, getLocalized, getLocalizedDesc, useItem, setBattleMenuTab } = viewModel;
+  const { inventory, t, getLocalized, getLocalizedDesc, useItem } = viewModel;
 
   return (
-    <motion.div key="items" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h3 className="font-black italic flex items-center gap-2">
-          <Package className="w-5 h-5" /> {t('myBag')}
-        </h3>
-        <button onClick={() => setBattleMenuTab('MAIN')} className="text-xs font-bold text-slate-400 hover:text-slate-900 underline">
-          {t('back')}
-        </button>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[160px] overflow-y-auto pr-2 custom-scrollbar">
+    <motion.div key="items" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="h-full flex flex-col p-2 sm:p-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 flex-1 min-h-0 overflow-y-auto pr-1 custom-scrollbar">
         {inventory.length > 0 ? (
           inventory.map((item, index) => (
             <button

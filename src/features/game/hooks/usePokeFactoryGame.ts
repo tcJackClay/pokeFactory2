@@ -4,7 +4,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { BattleMenuTab, GamePokemon, GameState, Item, Move, Pokemon, Weather } from '../../../types';
+import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, Weather } from '../../../types';
 import { ALL_ITEMS } from '../../../uiAppConstants';
 import { GENERATIONS } from '../../../constants';
 import { fetchPokemon, getProcessedPokemon, isEvolutionChainBaseSpecies } from '../../../services/pokeApi';
@@ -133,6 +133,8 @@ export function usePokeFactoryGame(): GameViewModel {
   const [battleMenuTab, setBattleMenuTab] = useState<BattleMenuTab>(initialBattleResume?.battleMenuTab ?? 'MAIN');
   const [weather, setWeather] = useState<Weather>(initialBattleResume?.weather ?? 'none');
   const [weatherTurns, setWeatherTurns] = useState(initialBattleResume?.weatherTurns ?? 0);
+  const [fieldState, setFieldState] = useState<FieldState[]>(initialBattleResume?.fieldState ?? []);
+  const [fieldTurns, setFieldTurns] = useState<FieldTurns>(initialBattleResume?.fieldTurns ?? {});
   const [evolutionTarget, setEvolutionTarget] = useState<GamePokemon | null>(null);
   const [isEvolving, setIsEvolving] = useState(false);
   const [evolvedPokemon, setEvolvedPokemon] = useState<GamePokemon | null>(null);
@@ -213,6 +215,8 @@ export function usePokeFactoryGame(): GameViewModel {
       battleMenuTab,
       weather,
       weatherTurns,
+      fieldState,
+      fieldTurns,
       activeBuffs,
       enemyBuffs,
       factoryRentals,
@@ -257,6 +261,8 @@ export function usePokeFactoryGame(): GameViewModel {
     turn,
     weather,
     weatherTurns,
+    fieldState,
+    fieldTurns,
   ]);
 
   const getPersistableBattleResume = useCallback(() => {
@@ -283,6 +289,10 @@ export function usePokeFactoryGame(): GameViewModel {
     setBattleLog([]);
     setTurn('PLAYER');
     setBattleMenuTab('MAIN');
+    setWeather('none');
+    setWeatherTurns(0);
+    setFieldState([]);
+    setFieldTurns({});
     setSpecialBossBattleActive(false);
     setBattleSpecialUsage(EMPTY_BATTLE_SPECIAL_USAGE);
     setEnemySpecialUsage(EMPTY_BATTLE_SPECIAL_USAGE);
@@ -302,6 +312,9 @@ export function usePokeFactoryGame(): GameViewModel {
     activeBuffs,
     enemyBuffs,
     weather,
+    weatherTurns,
+    fieldState,
+    fieldTurns,
     stage,
     streak,
     enemyAiTier,
@@ -321,6 +334,10 @@ export function usePokeFactoryGame(): GameViewModel {
     setEnemyTeam,
     setActiveBuffs,
     setEnemyBuffs,
+    setWeather,
+    setWeatherTurns,
+    setFieldState,
+    setFieldTurns,
     setIsMessageProcessing,
     setBattleLog,
     setTurn,
@@ -379,6 +396,10 @@ export function usePokeFactoryGame(): GameViewModel {
     setBattleLog,
     setTurn,
     setBattleMenuTab,
+    setWeather,
+    setWeatherTurns,
+    setFieldState,
+    setFieldTurns,
     setActiveBuffs,
     setEnemyBuffs,
   });
@@ -462,8 +483,6 @@ export function usePokeFactoryGame(): GameViewModel {
 
   void shopItems;
   void setShopItems;
-  void weatherTurns;
-  void setWeatherTurns;
   void evolutionTarget;
   void isEvolving;
   void evolvedPokemon;
@@ -830,6 +849,98 @@ export function usePokeFactoryGame(): GameViewModel {
     setGameState('REWARD');
   }, [factoryRentals, playerTeam]);
 
+  const devOpenStatusPanel = useCallback(() => {
+    if (gameState !== 'BATTLE') return;
+    setTurn('PLAYER');
+    setBattleMenuTab('STATUS');
+    setIsMessageProcessing(false);
+  }, [gameState]);
+
+  const devSetWeather = useCallback((nextWeather: Weather, turns = 5) => {
+    setWeather(nextWeather);
+    setWeatherTurns(nextWeather === 'none' ? 0 : Math.max(1, turns));
+  }, []);
+
+  const devToggleFieldEffect = useCallback((field: FieldState, turns = 5) => {
+    setFieldState((prev) => (
+      prev.includes(field)
+        ? prev.filter((entry) => entry !== field)
+        : [...prev, field]
+    ));
+    setFieldTurns((prev) => {
+      if (field in prev) {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      }
+      return { ...prev, [field]: Math.max(1, turns) };
+    });
+  }, []);
+
+  const devAdjustLeadStatStage = useCallback((stat: 'attack' | 'defense' | 'spAtk', delta: number) => {
+    setPlayerTeam((prev) => {
+      if (prev.length === 0) return prev;
+      const lead = prev[0];
+      const nextValue = Math.max(-6, Math.min(6, (lead.statStages[stat] ?? 0) + delta));
+      const nextLead = {
+        ...lead,
+        statStages: {
+          ...lead.statStages,
+          [stat]: nextValue,
+        },
+      };
+      return [nextLead, ...prev.slice(1)];
+    });
+  }, []);
+
+  const devClearBattleStatuses = useCallback(() => {
+    setWeather('none');
+    setWeatherTurns(0);
+    setFieldState([]);
+    setFieldTurns({});
+    setPlayerTeam((prev) => {
+      if (prev.length === 0) return prev;
+      const lead = prev[0];
+      const nextLead = {
+        ...lead,
+        specialBoostActive: false,
+        dynamaxTurnsLeft: 0,
+        statStages: {
+          ...lead.statStages,
+          attack: 0,
+          defense: 0,
+          spAtk: 0,
+        },
+      };
+      return [nextLead, ...prev.slice(1)];
+    });
+  }, []);
+
+  const devApplyStatusPanelPreset = useCallback(() => {
+    if (gameState !== 'BATTLE') return;
+    setTurn('PLAYER');
+    setBattleMenuTab('STATUS');
+    setIsMessageProcessing(false);
+    setWeather('sunny');
+    setWeatherTurns(4);
+    setFieldState(['electric_terrain']);
+    setFieldTurns({ electric_terrain: 4 });
+    setPlayerTeam((prev) => {
+      if (prev.length === 0) return prev;
+      const lead = prev[0];
+      const nextLead = {
+        ...lead,
+        statStages: {
+          ...lead.statStages,
+          attack: 2,
+          defense: -1,
+          spAtk: 1,
+        },
+      };
+      return [nextLead, ...prev.slice(1)];
+    });
+  }, [gameState]);
+
   const shouldTriggerPreBattleReward = useCallback((nextStage: number) => {
     const battleInSet = ((nextStage - 1) % FACTORY_REWARD_CONFIG.battlesPerSet) + 1;
     if (battleInSet !== 1 && battleInSet !== 4 && battleInSet !== 7) return false;
@@ -1035,6 +1146,10 @@ export function usePokeFactoryGame(): GameViewModel {
     setBattleLog([]);
     setTurn('PLAYER');
     setBattleMenuTab('MAIN');
+    setWeather('none');
+    setWeatherTurns(0);
+    setFieldState([]);
+    setFieldTurns({});
     setGameState('BATTLE');
     if (specialEncounter) {
       return `${region.name}: 特殊事件地点 ${specialEncounter.site.name}，遭遇 ${getLocalized(targetPokemon)}`;
@@ -1229,6 +1344,10 @@ export function usePokeFactoryGame(): GameViewModel {
     playerTeam,
     rewards,
     activeBuffs,
+    weather,
+    weatherTurns,
+    fieldState,
+    fieldTurns,
     isTransitioning,
     isMessageProcessing,
     canUseBattleSpecial: battleController.canUseBattleSpecial,
@@ -1354,6 +1473,12 @@ export function usePokeFactoryGame(): GameViewModel {
     devUnlockSpecialMode,
     devResetBattleSpecialUsage,
     devOpenRewardScreen,
+    devOpenStatusPanel,
+    devApplyStatusPanelPreset,
+    devSetWeather,
+    devToggleFieldEffect,
+    devAdjustLeadStatStage,
+    devClearBattleStatuses,
     exportSaveData,
     importSaveData,
     setEventDispatchPokemon,

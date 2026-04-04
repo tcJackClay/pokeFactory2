@@ -3,9 +3,12 @@ import { Sparkles } from 'lucide-react';
 import { TYPE_ZH } from '../constants';
 import { TYPE_COLORS, TYPE_ICONS } from '../uiAppConstants';
 
+const LIGHT_TYPES = new Set(['normal', 'electric', 'ground', 'flying', 'ice', 'steel', 'rock']);
+
 const TypeBadge: React.FC<{ type: string; size?: 'xs' | 'sm' | 'md' | 'lg'; className?: string }> = ({ type, size = 'sm', className = '' }) => {
   const Icon = TYPE_ICONS[type] || Sparkles;
   const color = TYPE_COLORS[type] || '#ccc';
+  const isLight = LIGHT_TYPES.has(type);
 
   const sizeClasses = {
     xs: 'text-[8px] px-1.5 py-0.5 gap-1',
@@ -23,8 +26,10 @@ const TypeBadge: React.FC<{ type: string; size?: 'xs' | 'sm' | 'md' | 'lg'; clas
 
   return (
     <div
-      className={`flex items-center text-white font-black italic uppercase shadow-md ${sizeClasses[size]} ${className}`}
-      style={{ backgroundColor: color }}
+      className={`flex items-center border font-black italic uppercase ${isLight ? 'border-slate-950/12 text-slate-950' : 'border-white/12 text-white'} ${sizeClasses[size]} ${className}`}
+      style={{
+        background: `linear-gradient(135deg, color-mix(in srgb, ${color} 92%, white 8%) 0%, color-mix(in srgb, ${color} 78%, black 22%) 100%)`,
+      }}
     >
       <Icon className={`${iconSizes[size]} drop-shadow-sm`} />
       <span>{TYPE_ZH[type] || type}</span>
