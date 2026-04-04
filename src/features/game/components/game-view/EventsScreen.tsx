@@ -12,6 +12,16 @@ import mapSevii123 from '../../../../../reference/pokeemerald-expansion/graphics
 import mapSevii45 from '../../../../../reference/pokeemerald-expansion/graphics/pokedex/region_map_sevii45.png';
 
 const REGION_CARD_BACKGROUNDS = [mapKanto, mapHoenn, mapSevii123, mapSevii45];
+const POKEMON_JOIN_LINES = [
+  (pokemonName: string) => `「${pokemonName}」眼神发亮，已经把你的队伍当成长期饭票了。`,
+  (pokemonName: string) => `「${pokemonName}」看起来很想加入，连站位都替自己挑好了。`,
+  (pokemonName: string) => `「${pokemonName}」嘴上还在矜持，脚已经诚实地迈进了队伍。`,
+  (pokemonName: string) => `「${pokemonName}」认真思考三秒后，决定先跟你混一阵子。`,
+  (pokemonName: string) => `「${pokemonName}」似乎误以为这里包吃包住，火速加入了队伍。`,
+  (pokemonName: string) => `「${pokemonName}」本来还想装高手，结果还是被你顺手拐回来了。`,
+  (pokemonName: string) => `命运、派遣单和一点点嘴硬，把「${pokemonName}」一起塞进了你的队伍。`,
+  (pokemonName: string) => `「${pokemonName}」还没完全想明白，但入队这件事已经木已成舟。`,
+];
 
 function getEventItemIcon(itemId?: string): string {
   if (itemId === 'hp_up') return eventHpUpIcon;
@@ -24,6 +34,11 @@ function formatRemain(ms: number) {
   const mm = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
   const ss = String(sec % 60).padStart(2, '0');
   return `${hh}:${mm}:${ss}`;
+}
+
+function getRandomPokemonJoinLine(pokemonName: string) {
+  const randomIndex = Math.floor(Math.random() * POKEMON_JOIN_LINES.length);
+  return POKEMON_JOIN_LINES[randomIndex](pokemonName);
 }
 
 export function EventsScreen({ viewModel }: GameViewSectionProps) {
@@ -40,11 +55,21 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
   } = viewModel;
 
   const [now, setNow] = useState(() => Date.now());
+  const [pokemonJoinLine, setPokemonJoinLine] = useState('');
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (!eventDispatchPopup || eventDispatchPopup.kind === 'ITEM') {
+      setPokemonJoinLine('');
+      return;
+    }
+
+    setPokemonJoinLine(getRandomPokemonJoinLine(eventDispatchPopup.pokemonName));
+  }, [eventDispatchPopup]);
 
   return (
     <motion.div
@@ -186,13 +211,11 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
               {eventDispatchPopup.kind === 'ITEM' ? (
                 <>
                   <div className="flex-1 flex items-center justify-center">
-                    <div className="flex h-18 w-18 items-center justify-center rounded-2xl bg-emerald-600/10 border border-emerald-200 shadow-sm p-2">
-                      <img
-                        src={getEventItemIcon(eventDispatchPopup.itemId)}
-                        alt={eventDispatchPopup.itemName}
-                        className="h-full w-full object-contain [image-rendering:pixelated]"
-                      />
-                    </div>
+                    <img
+                      src={getEventItemIcon(eventDispatchPopup.itemId)}
+                      alt={eventDispatchPopup.itemName}
+                      className="h-24 w-24 object-contain drop-shadow-[0_8px_14px_rgba(5,150,105,0.22)] [image-rendering:pixelated]"
+                    />
                   </div>
                   <div className="px-4 pb-4 text-center text-[13px] font-black leading-tight text-emerald-800">
                     获得道具「{eventDispatchPopup.itemName}」
@@ -201,23 +224,21 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
               ) : (
                 <>
                   <div className="flex-1 flex items-center justify-center">
-                    <div className="h-20 w-20 rounded-2xl border-2 border-sky-200 bg-white p-2 shadow-sm">
-                      {eventDispatchPopup.pokemonSprite ? (
-                        <img
-                          src={eventDispatchPopup.pokemonSprite}
-                          alt={eventDispatchPopup.pokemonName}
-                          className="h-full w-full object-contain"
-                          referrerPolicy="no-referrer"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center text-sky-500">
-                          <UserPlus size={34} />
-                        </div>
-                      )}
-                    </div>
+                    {eventDispatchPopup.pokemonSprite ? (
+                      <img
+                        src={eventDispatchPopup.pokemonSprite}
+                        alt={eventDispatchPopup.pokemonName}
+                        className="h-32 w-32 object-contain drop-shadow-[0_10px_18px_rgba(14,165,233,0.24)]"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <div className="flex h-32 w-32 items-center justify-center text-sky-500">
+                        <UserPlus size={58} />
+                      </div>
+                    )}
                   </div>
                   <div className="px-4 pb-4 text-center text-[13px] font-black leading-tight text-sky-800">
-                    「{eventDispatchPopup.pokemonName}」加入队伍
+                    {pokemonJoinLine || `「${eventDispatchPopup.pokemonName}」加入队伍`}
                   </div>
                 </>
               )}
