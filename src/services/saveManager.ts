@@ -1,5 +1,5 @@
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
-const SAVE_SCHEMA_VERSION = 1 as const;
+const SAVE_SCHEMA_VERSION = 4 as const;
 
 export interface CollectionLedger {
   seenIds: number[];
@@ -21,7 +21,30 @@ export interface GameSaveData {
     startLevel: number;
     developerMode: boolean;
   };
+  factory: {
+    challengeStatus: number;
+    curChallengeBattleNum: number;
+    challengePaused: boolean;
+    disableRecordBattle: boolean;
+    winStreakActiveFlags: number;
+    winStreakActiveMasks: number;
+    trainerIdsBySet: Array<{
+      setNo: number;
+      trainerIds: string[];
+    }>;
+  };
   collection: CollectionLedger;
+  events: {
+    speciesBattleCounts: Record<string, number>;
+    dispatchPokemonByRegion: Record<string, number | null>;
+    dispatches: Record<string, {
+      status: 'IDLE' | 'RUNNING' | 'READY';
+      startedAt: number | null;
+      readyAt: number | null;
+      lastResolvedAt: number | null;
+      lastResult: string;
+    }>;
+  };
 }
 
 interface SaveDraftInput {
@@ -32,7 +55,9 @@ interface SaveDraftInput {
   selectedGens: number[];
   startLevel: number;
   developerMode: boolean;
+  factory: GameSaveData['factory'];
   collection: CollectionLedger;
+  events: GameSaveData['events'];
 }
 
 function sanitizePositiveInt(value: unknown, fallback: number) {
@@ -61,6 +86,28 @@ function sanitizeLanguage(value: unknown, fallback = 'zh-hans') {
   return value.trim();
 }
 
+function sanitizeUnsignedInt(value: unknown, fallback: number) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return fallback >>> 0;
+  return (Math.floor(value) >>> 0);
+}
+
+function sanitizeTrainerIdsBySet(values: unknown): GameSaveData['factory']['trainerIdsBySet'] {
+  if (!Array.isArray(values)) return [];
+  const normalized: GameSaveData['factory']['trainerIdsBySet'] = [];
+
+  for (const entry of values) {
+    if (!entry || typeof entry !== 'object') continue;
+    const source = entry as Record<string, unknown>;
+    const setNo = sanitizePositiveInt(source.setNo, 0);
+    if (setNo <= 0) continue;
+    const trainerIds = sanitizeStringArray(source.trainerIds);
+    if (trainerIds.length === 0) continue;
+    normalized.push({ setNo, trainerIds });
+  }
+
+  return normalized.sort((a, b) => a.setNo - b.setNo);
+}
+
 function sanitizeLevel(value: unknown, fallback = 50) {
   const normalized = sanitizePositiveInt(value, fallback);
   return Math.max(1, normalized);
@@ -75,6 +122,48 @@ function sanitizeCollectionLedger(value: unknown): CollectionLedger {
   };
 }
 
+function sanitizeEventBattleCounts(value: unknown): Record<string, number> {
+  if (!value || typeof value !== 'object') return {};
+  const entries = Object.entries(value as Record<string, unknown>)
+    .filter(([key, count]) => key.length > 0 && typeof count === 'number' && Number.isFinite(count) && count >= 0)
+    .map(([key, count]) => [key, Math.floor(count as number)] as const);
+  return Object.fromEntries(entries);
+}
+
+function sanitizeEvents(value: unknown): GameSaveData['events'] {
+  const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+  const dispatchesSource = source.dispatches && typeof source.dispatches === 'object'
+    ? (source.dispatches as Record<string, unknown>)
+    : {};
+
+  const dispatchEntries = Object.entries(dispatchesSource).map(([regionId, raw]) => {
+    const entry = raw && typeof raw === 'object' ? (raw as Record<string, unknown>) : {};
+    const statusRaw = typeof entry.status === 'string' ? entry.status : 'IDLE';
+    const status = statusRaw === 'RUNNING' || statusRaw === 'READY' ? statusRaw : 'IDLE';
+    const startedAt = typeof entry.startedAt === 'number' && Number.isFinite(entry.startedAt) ? Math.floor(entry.startedAt) : null;
+    const readyAt = typeof entry.readyAt === 'number' && Number.isFinite(entry.readyAt) ? Math.floor(entry.readyAt) : null;
+    const lastResolvedAt = typeof entry.lastResolvedAt === 'number' && Number.isFinite(entry.lastResolvedAt) ? Math.floor(entry.lastResolvedAt) : null;
+    const lastResult = typeof entry.lastResult === 'string' ? entry.lastResult : '';
+    return [regionId, { status, startedAt, readyAt, lastResolvedAt, lastResult }] as const;
+  });
+
+  return {
+    speciesBattleCounts: sanitizeEventBattleCounts(source.speciesBattleCounts),
+    dispatchPokemonByRegion: Object.fromEntries(
+      Object.entries(source.dispatchPokemonByRegion && typeof source.dispatchPokemonByRegion === 'object'
+        ? (source.dispatchPokemonByRegion as Record<string, unknown>)
+        : {})
+        .map(([regionId, value]) => {
+          if (typeof value === 'number' && Number.isFinite(value) && value > 0) {
+            return [regionId, Math.floor(value)] as const;
+          }
+          return [regionId, null] as const;
+        }),
+    ),
+    dispatches: Object.fromEntries(dispatchEntries),
+  };
+}
+
 function normalizeSaveData(value: unknown): GameSaveData {
   const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
   const progress = source.progress && typeof source.progress === 'object'
@@ -82,6 +171,9 @@ function normalizeSaveData(value: unknown): GameSaveData {
     : {};
   const settings = source.settings && typeof source.settings === 'object'
     ? (source.settings as Record<string, unknown>)
+    : {};
+  const factory = source.factory && typeof source.factory === 'object'
+    ? (source.factory as Record<string, unknown>)
     : {};
 
   return {
@@ -98,7 +190,17 @@ function normalizeSaveData(value: unknown): GameSaveData {
       startLevel: sanitizeLevel(settings.startLevel, 50),
       developerMode: Boolean(settings.developerMode),
     },
+    factory: {
+      challengeStatus: sanitizePositiveInt(factory.challengeStatus, 0),
+      curChallengeBattleNum: sanitizePositiveInt(factory.curChallengeBattleNum, 0),
+      challengePaused: Boolean(factory.challengePaused),
+      disableRecordBattle: Boolean(factory.disableRecordBattle),
+      winStreakActiveFlags: sanitizeUnsignedInt(factory.winStreakActiveFlags, 0),
+      winStreakActiveMasks: sanitizeUnsignedInt(factory.winStreakActiveMasks, 0xffffffff),
+      trainerIdsBySet: sanitizeTrainerIdsBySet(factory.trainerIdsBySet),
+    },
     collection: sanitizeCollectionLedger(source.collection),
+    events: sanitizeEvents(source.events),
   };
 }
 
@@ -122,10 +224,24 @@ function readLegacySaveFallback(): Partial<GameSaveData> {
       startLevel: 50,
       developerMode,
     },
+    factory: {
+      challengeStatus: 0,
+      curChallengeBattleNum: 0,
+      challengePaused: false,
+      disableRecordBattle: false,
+      winStreakActiveFlags: 0,
+      winStreakActiveMasks: 0xffffffff,
+      trainerIdsBySet: [],
+    },
     collection: {
       seenIds: [],
       ownedIds: [],
       formKeys: [],
+    },
+    events: {
+      speciesBattleCounts: {},
+      dispatchPokemonByRegion: {},
+      dispatches: {},
     },
   };
 }
@@ -145,7 +261,9 @@ export function createSaveData(input: SaveDraftInput): GameSaveData {
       startLevel: input.startLevel,
       developerMode: input.developerMode,
     },
+    factory: input.factory,
     collection: input.collection,
+    events: input.events,
   });
 }
 

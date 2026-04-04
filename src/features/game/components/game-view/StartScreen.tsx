@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+﻿import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
-import { Dna, Languages, Lock, Shield, Store, Swords } from 'lucide-react';
+import { Dna, Languages, Lock, Store, Swords } from 'lucide-react';
 import type { BaseTab } from '../../view-model';
+import { EVENT_REGIONS } from '../../config/events';
 import type { GameViewSectionProps } from './shared';
 import companionAnimSprite from '../../../../../reference/pokeemerald-expansion/graphics/pokemon/pikachu/anim_front.png';
 import pokedexMenuIcon from '../../../../../reference/pokeemerald-expansion/graphics/object_events/pics/misc/pokedex.png';
+import eventsMenuIcon from '../../../../../reference/pokeemerald-expansion/graphics/object_events/pics/misc/clipboard.png';
 import { TopRecordPanel } from './TopRecordPanel';
 import { APP_PALETTE } from '../../../../theme/palette';
 
@@ -23,10 +25,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     coins,
     stage,
     availableEggCount,
-    activeEventCount,
-    seenCount,
-    ownedCount,
-    formCount,
+    eventDispatches,
     shopUnlocked,
     breedingUnlocked,
     collectionUnlocked,
@@ -46,15 +45,15 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
   const copy = useMemo(
     () => ({
       factoryTitle: isZh ? '对战工厂' : 'Battle Factory',
-      factoryDesc: isZh ? '点击图标开始新一轮挑战。' : 'Tap the icon to start your next run.',
+      factoryDesc: isZh ? '点击图标开始下一轮挑战。' : 'Tap the icon to start your next run.',
       hide: isZh ? '收起' : 'Hide',
       setCleared: isZh ? '组别通关' : 'Set Cleared',
       runEnded: isZh ? '挑战结束' : 'Run Ended',
       menuHint: isZh
-        ? '主页面移动端优先布局：上方记录，中间主按钮，下方功能菜单。'
+        ? '移动端优先布局：上方记录，中间主按钮，下方功能菜单。'
         : 'Mobile-first home layout: top records, center factory action, bottom menu.',
-      totalRents: isZh ? `累计租借: ${totalRents}` : `Total rents: ${totalRents}`,
-      menuDeveloping: isZh ? '该功能将在下一版本开放。' : 'This feature is coming in the next version.',
+      totalRents: isZh ? `累计租赁 ${totalRents}` : `Total rents: ${totalRents}`,
+      menuDeveloping: isZh ? '该功能将在下个版本开放。' : 'This feature is coming in the next version.',
       langTitle: isZh ? '语言设置' : 'Language',
       langDesc: isZh ? '当前页面支持中文与英文。' : 'This page supports Chinese and English.',
       zh: '中文',
@@ -75,6 +74,16 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     return () => window.clearInterval(timer);
   }, []);
 
+  const readyEventCount = EVENT_REGIONS.reduce((total, region) => {
+    const dispatch = eventDispatches[region.id];
+    if (!dispatch) return total;
+    const isReady =
+      dispatch.status === 'READY'
+      && dispatch.readyAt !== null
+      && dispatch.readyAt <= Date.now();
+    return total + (isReady ? 1 : 0);
+  }, 0);
+
   const navItems: StartNavItem[] = [
     { menu: 'SHOP', label: copy.shop, locked: !shopUnlocked },
     {
@@ -86,13 +95,12 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     {
       menu: 'COLLECTION',
       label: copy.collection,
-      badge: `${seenCount}/${ownedCount}`,
       locked: !collectionUnlocked,
     },
     {
       menu: 'EVENTS',
       label: copy.events,
-      badge: activeEventCount > 0 ? `${activeEventCount}` : undefined,
+      badge: readyEventCount > 0 ? `${readyEventCount}` : undefined,
       locked: !eventsUnlocked,
     },
     { menu: 'SETTINGS', label: copy.settings },
@@ -133,7 +141,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
             <div className="bg-emerald-500 text-white rounded-xl px-3 py-2 shadow-md">
               <div className="flex items-center justify-between gap-3">
                 <p className="text-[11px] font-black uppercase tracking-wide">
-                  {pendingRunSummary.result === 'WIN' ? copy.setCleared : copy.runEnded} · +{pendingRunSummary.tokenGain}
+                  {pendingRunSummary.result === 'WIN' ? copy.setCleared : copy.runEnded} 路 +{pendingRunSummary.tokenGain}
                 </p>
                 <button
                   onClick={closeRunSummary}
@@ -202,9 +210,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
                     ? Store
                     : item.menu === 'BREEDING'
                       ? Dna
-                      : item.menu === 'EVENTS'
-                          ? Shield
-                          : Languages;
+                      : Languages;
 
                 return (
                   <button
@@ -217,11 +223,16 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
                       if (!isLocked && item.menu === 'COLLECTION') {
                         openBaseTab('COLLECTION');
                         setGameState('COLLECTION');
+                        return;
+                      }
+                      if (!isLocked && item.menu === 'EVENTS') {
+                        openBaseTab('EVENTS');
+                        setGameState('EVENTS');
                       }
                     }}
                     disabled={isLocked}
                     className={`relative min-h-[64px] disabled:opacity-45 ${
-                      item.menu === 'COLLECTION'
+                      item.menu === 'COLLECTION' || item.menu === 'EVENTS'
                         ? 'rounded-none border-0 bg-transparent shadow-none'
                         : 'rounded-xl border border-slate-200 bg-slate-50'
                     }`}
@@ -229,6 +240,8 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
                     <span className="flex h-full w-full flex-col items-center justify-center gap-1">
                       {item.menu === 'COLLECTION' ? (
                         <img src={pokedexMenuIcon} alt="" aria-hidden="true" className="w-8 h-8 object-contain [image-rendering:pixelated]" />
+                      ) : item.menu === 'EVENTS' ? (
+                        <img src={eventsMenuIcon} alt="" aria-hidden="true" className="w-8 h-8 object-contain [image-rendering:pixelated]" />
                       ) : (
                         <Icon className="w-4 h-4 text-slate-700" />
                       )}
@@ -255,3 +268,6 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     </motion.div>
   );
 }
+
+
+

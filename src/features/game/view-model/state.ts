@@ -6,6 +6,7 @@ import type {
   Move,
   Pokemon,
 } from '../../../types';
+import type { RegionDispatchState } from '../config/events';
 import type { FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import type {
   BaseRunSummary,
@@ -30,6 +31,9 @@ export interface GameViewFlowState {
   currentLanguage: string;
   pendingRewardAction: RewardAction;
   loading: boolean;
+  bootProgress: number;
+  canEnterProject: boolean;
+  bootStatusText: string;
   stage: number;
   turn: BattleTurn;
   battleMenuTab: BattleMenuTab;
@@ -100,6 +104,11 @@ export interface GameViewBaseState {
   eventsUnlocked: boolean;
 }
 
+export interface GameViewEventState {
+  eventDispatches: Record<string, RegionDispatchState>;
+  eventDispatchPokemonByRegion: Record<string, number | null>;
+}
+
 export interface GameViewState
   extends GameViewFlowState,
     GameViewRosterState,
@@ -107,5 +116,6 @@ export interface GameViewState
     GameViewBattleState,
     GameViewSetupState,
     GameViewBaseState,
+    GameViewEventState,
     GameViewAnimationState,
     GameViewSelectionState {}

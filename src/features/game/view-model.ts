@@ -24,6 +24,7 @@ export type {
   GameViewFlowState,
   GameViewProgressState,
   GameViewRosterState,
+  GameViewEventState,
   GameViewSetupState,
   GameViewState,
 } from './view-model/state';

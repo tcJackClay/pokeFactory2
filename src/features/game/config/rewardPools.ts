@@ -18,6 +18,7 @@ const FREE_REWARD_ITEM_IDS = [
   'special_mega_stone',
   'special_dmax_band',
   'special_tera_orb',
+  'special_z_crystal',
 ] as const;
 
 const SHOP_REWARD_ITEM_IDS = [

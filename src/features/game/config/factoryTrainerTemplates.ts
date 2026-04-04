@@ -13,10 +13,11 @@ export interface FactoryTrainerTemplate {
 }
 
 // Auto-generated from reference battle_frontier_trainers.h + battle_frontier_trainer_mons.h
-// Templates: 299
+// Templates: 300
 export const FACTORY_TRAINER_TEMPLATES: FactoryTrainerTemplate[] = [
   { id: 'FRONTIER_TRAINER_ABBIE', trainerName: 'ABBIE', facilityClass: 'FACILITY_CLASS_AROMA_LADY', monSetExpr: 'FRONTIER_MONS_AROMA_LADY_1', monSetBase: 'FRONTIER_MONS_AROMA_LADY_1', monSetKey: 'FRONTIER_MONS_AROMA_LADY_1', tierHint: 1, challengeTierMin: 0, challengeTierMax: 2, qualityBiasOffset: 0, betterRangeSlots: 0 },
   { id: 'FRONTIER_TRAINER_ABBY', trainerName: 'ABBY', facilityClass: 'FACILITY_CLASS_AROMA_LADY', monSetExpr: 'FRONTIER_MONS_AROMA_LADY_3', monSetBase: 'FRONTIER_MONS_AROMA_LADY_3', monSetKey: 'FRONTIER_MONS_AROMA_LADY_3', tierHint: 3, challengeTierMin: 3, challengeTierMax: 6, qualityBiasOffset: 2, betterRangeSlots: 1 },
+  { id: 'FRONTIER_TRAINER_GRETEL', trainerName: 'GRETEL', facilityClass: 'FACILITY_CLASS_AROMA_LADY', monSetExpr: 'FRONTIER_MONS_AROMA_LADY_3', monSetBase: 'FRONTIER_MONS_AROMA_LADY_3', monSetKey: 'FRONTIER_MONS_AROMA_LADY_3', tierHint: 3, challengeTierMin: 3, challengeTierMax: 6, qualityBiasOffset: 2, betterRangeSlots: 1 },
   { id: 'FRONTIER_TRAINER_ADRIAN', trainerName: 'ADRIAN', facilityClass: 'FACILITY_CLASS_COLLECTOR', monSetExpr: 'FRONTIER_MONS_SCHOOL_KID_1', monSetBase: 'FRONTIER_MONS_SCHOOL_KID_1', monSetKey: 'FRONTIER_MONS_SCHOOL_KID_1', tierHint: 1, challengeTierMin: 0, challengeTierMax: 2, qualityBiasOffset: 0, betterRangeSlots: 0 },
   { id: 'FRONTIER_TRAINER_ADRIANA', trainerName: 'ADRIANA', facilityClass: 'FACILITY_CLASS_SWIMMING_TRIATHLETE_F', monSetExpr: 'FRONTIER_MONS_SWIMMING_TRIATHLETE_1', monSetBase: 'FRONTIER_MONS_SWIMMING_TRIATHLETE_1', monSetKey: 'FRONTIER_MONS_SWIMMING_TRIATHLETE_1', tierHint: 1, challengeTierMin: 0, challengeTierMax: 2, qualityBiasOffset: 0, betterRangeSlots: 0 },
   { id: 'FRONTIER_TRAINER_AIDEN', trainerName: 'AIDEN', facilityClass: 'FACILITY_CLASS_RUIN_MANIAC', monSetExpr: 'FRONTIER_MONS_RUIN_MANIAC_3', monSetBase: 'FRONTIER_MONS_RUIN_MANIAC_3', monSetKey: 'FRONTIER_MONS_RUIN_MANIAC_3', tierHint: 3, challengeTierMin: 3, challengeTierMax: 6, qualityBiasOffset: 2, betterRangeSlots: 1 },

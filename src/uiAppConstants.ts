@@ -264,9 +264,18 @@ export const ALL_ITEMS: Item[] = [
   {
     id: 'special_tera_orb',
     name: 'Tera Orb Charge',
-    zhName: '太晶珠充能',
+    zhName: 'Tera Orb Charge',
     description: 'Consume in battle to activate Tera trigger once',
-    zhDescription: '战斗中消耗，触发一次太晶化强化',
+    zhDescription: 'Consume in battle to activate Tera trigger once',
+    isSpecialTriggerItem: true,
+    effect: (p) => p
+  },
+  {
+    id: 'special_z_crystal',
+    name: 'Z-Crystal Resonance',
+    zhName: 'Z-Crystal Resonance',
+    description: 'Consume in battle to activate Z-Move trigger once',
+    zhDescription: 'Consume in battle to activate Z-Move trigger once',
     isSpecialTriggerItem: true,
     effect: (p) => p
   }

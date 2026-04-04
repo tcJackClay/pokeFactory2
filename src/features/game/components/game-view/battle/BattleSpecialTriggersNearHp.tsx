@@ -3,6 +3,7 @@ import type { GameViewSectionProps } from '../shared';
 import megaTriggerIcon from '../../../../../assets/battle/mega-trigger.png';
 import dynamaxTriggerIcon from '../../../../../assets/battle/dynamax-trigger.png';
 import teraTriggerIcon from '../../../../../assets/battle/tera-trigger.png';
+import zmoveTriggerIcon from '../../../../../assets/battle/tera-trigger.png';
 
 export function BattleSpecialTriggersNearHp({ viewModel }: GameViewSectionProps) {
   const {
@@ -36,6 +37,13 @@ export function BattleSpecialTriggersNearHp({ viewModel }: GameViewSectionProps)
       enabled: canUseBattleSpecialByMode.TERA,
       activated: battleSpecialUsage.TERA,
     },
+    {
+      mode: 'ZMOVE' as const,
+      icon: zmoveTriggerIcon,
+      label: battleSpecialUsage.ZMOVE ? t('specialZMoveUsed') : t('specialZMove'),
+      enabled: canUseBattleSpecialByMode.ZMOVE,
+      activated: battleSpecialUsage.ZMOVE,
+    },
   ];
 
   return (
@@ -44,7 +52,7 @@ export function BattleSpecialTriggersNearHp({ viewModel }: GameViewSectionProps)
       animate={{ opacity: 1, x: 0 }}
       className="h-full min-h-[110px] p-1 flex flex-col justify-between"
     >
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-4 gap-2">
         {triggerButtons.map((button) => (
           <button
             key={button.mode}

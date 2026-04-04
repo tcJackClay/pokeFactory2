@@ -9,7 +9,7 @@ export type BattleTurn = 'PLAYER' | 'ENEMY';
 export type BattleAnimation = 'idle' | 'attack' | 'hit';
 export type RoundResult = 'WIN' | 'LOSS' | null;
 export type { FactoryAiTier };
-export type BattleSpecialMode = 'MEGA' | 'DYNAMAX' | 'TERA';
+export type BattleSpecialMode = 'MEGA' | 'DYNAMAX' | 'TERA' | 'ZMOVE';
 export type BaseTab = 'HOME' | 'FACTORY' | 'SHOP' | 'BREEDING' | 'COLLECTION' | 'EVENTS' | 'PROFILE';
 
 export interface BaseRunSummary {
@@ -27,6 +27,7 @@ export interface BattleSpecialUsageState {
   MEGA: boolean;
   DYNAMAX: boolean;
   TERA: boolean;
+  ZMOVE: boolean;
 }
 
 export interface GameReward {

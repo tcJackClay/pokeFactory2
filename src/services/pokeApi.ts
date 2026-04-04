@@ -7,6 +7,7 @@ const BASE_URL = 'https://pokeapi.co/api/v2';
 
 export type PokemonIdentifier = number | string;
 const moveByNameCache = new Map<string, Move>();
+const pokemonSpeciesCache = new Map<number, any>();
 
 export async function getRandomPokemonId(selectedGens: number[] = [1]): Promise<number> {
   const possibleGens = GENERATIONS.filter(g => selectedGens.includes(g.id));
@@ -180,6 +181,25 @@ export async function fetchEvolutionChain(pokemonId: number): Promise<number[]> 
   }
 }
 
+export async function fetchPokemonSpeciesById(id: number): Promise<any> {
+  const cached = pokemonSpeciesCache.get(id);
+  if (cached) return cached;
+  const response = await fetch(`${BASE_URL}/pokemon-species/${id}`);
+  if (!response.ok) throw new Error('Failed to fetch pokemon species');
+  const data = await response.json();
+  pokemonSpeciesCache.set(id, data);
+  return data;
+}
+
+export async function isEvolutionChainBaseSpecies(id: number): Promise<boolean> {
+  try {
+    const species = await fetchPokemonSpeciesById(id);
+    return !species?.evolves_from_species;
+  } catch {
+    return false;
+  }
+}
+
 export async function fetchMoveByName(moveName: string): Promise<Move> {
   const normalized = moveName.trim().toLowerCase();
   const cached = moveByNameCache.get(normalized);
@@ -292,7 +312,7 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
       type: 'normal',
       damage_class: 'physical',
       pp: 35,
-      zhDescription: '用整个身体撞向对手进行攻击。'
+      zhDescription: '用整个身体撞向对手进行攻击。',
     });
   }
 
@@ -304,6 +324,15 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
     spAtk: Math.floor(Math.random() * 32),
     spDef: Math.floor(Math.random() * 32),
     speed: Math.floor(Math.random() * 32),
+  };
+  
+  const evs: Stats = {
+    hp: 0,
+    attack: 0,
+    defense: 0,
+    spAtk: 0,
+    spDef: 0,
+    speed: 0,
   };
 
   // Pick Nature
@@ -346,6 +375,7 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
     selectedMoves: validMoves,
     nature,
     ivs,
+    evs,
     baseStats,
     calculatedStats,
     teraType,
@@ -394,6 +424,16 @@ export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceS
     speed: Math.floor(Math.random() * 32),
   };
 
+  
+  const evs: Stats = {
+    hp: 0,
+    attack: 0,
+    defense: 0,
+    spAtk: 0,
+    spDef: 0,
+    speed: 0,
+  };
+
   const nature: Nature = NATURES[Math.floor(Math.random() * NATURES.length)];
   const baseStats: Stats = {
     hp: raw.stats.find((s) => s.stat.name === 'hp')?.base_stat || 50,
@@ -430,6 +470,7 @@ export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceS
     selectedMoves: selectedMoves.slice(0, 4),
     nature,
     ivs,
+    evs,
     baseStats,
     calculatedStats,
     teraType,
@@ -444,3 +485,5 @@ export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceS
     },
   };
 }
+
+

@@ -9,6 +9,8 @@ import { PokemonInfoScreen } from './game-view/PokemonInfoScreen';
 import { RoundResultScreen } from './game-view/RoundResultScreen';
 import { RewardScreen } from './game-view/RewardScreen';
 import { SettingsScreen } from './game-view/SettingsScreen';
+import { EventsScreen } from './game-view/EventsScreen';
+import { BootLoadingScreen } from './game-view/BootLoadingScreen';
 import { StartScreen } from './game-view/StartScreen';
 import { TransitionOverlay } from './game-view/TransitionOverlay';
 import { DeveloperPanel } from './game-view/DeveloperPanel';
@@ -46,6 +48,8 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
         <AnimatePresence mode="wait">
           {isTransitioning && <TransitionOverlay />}
 
+          {gameState === 'BOOT' && <BootLoadingScreen viewModel={viewModel} />}
+
           {gameState === 'START' && <StartScreen viewModel={viewModel} />}
 
           {gameState === 'COLLECTION' && (
@@ -63,6 +67,8 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
           )}
 
           {gameState === 'SETTINGS' && <SettingsScreen viewModel={viewModel} />}
+
+          {gameState === 'EVENTS' && <EventsScreen viewModel={viewModel} />}
 
           {gameState === 'BATTLE' && playerTeam[0] && <BattleScreen viewModel={viewModel} />}
 
