@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from 'motion/react';
 import TypeBadge from '../../../../components/TypeBadge';
 import type { PokemonInfoScreenProps } from './shared';
+import { TeamRosterSelector } from './team/TeamRosterSelector';
 
-export function PokemonInfoScreen({ viewModel, displayPokemon, isMobileViewport }: PokemonInfoScreenProps) {
+export function PokemonInfoScreen({ viewModel, displayPokemon, pokemonList, selectedIndex, isMobileViewport }: PokemonInfoScreenProps) {
   const {
     hoveredMove,
     t,
@@ -12,6 +13,7 @@ export function PokemonInfoScreen({ viewModel, displayPokemon, isMobileViewport 
     getStatName,
     setHoveredMove,
     setGameState,
+    setInfoPokemonIdx,
     prevGameState,
   } = viewModel;
 
@@ -24,6 +26,13 @@ export function PokemonInfoScreen({ viewModel, displayPokemon, isMobileViewport 
       className="flex-1 flex flex-col max-w-5xl mx-auto w-full overflow-hidden"
     >
       <div className="bg-white shadow-2xl overflow-hidden border-y-4 md:border-y-8 border-slate-900 flex-1 flex flex-col">
+        <TeamRosterSelector
+          team={pokemonList}
+          selectedIndex={selectedIndex}
+          onSelect={setInfoPokemonIdx}
+          getLocalized={getLocalized}
+          title={t('viewTeam')}
+        />
         <div className="flex-1 overflow-y-auto custom-scrollbar">
           <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-4 md:p-8 bg-slate-50 relative overflow-hidden">

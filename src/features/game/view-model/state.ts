@@ -6,7 +6,11 @@ import type {
   Move,
   Pokemon,
 } from '../../../types';
+import type { RegionDispatchState } from '../config/events';
+import type { FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import type {
+  BaseRunSummary,
+  BaseTab,
   BattleSpecialMode,
   BattleSpecialUsageState,
   BattleTurn,
@@ -14,17 +18,23 @@ import type {
   RoundResult,
   GameViewAnimationState,
   GameViewSelectionState,
+  EventDispatchPopup,
   FactoryAiTier,
   RewardAction,
 } from './common';
 
 export interface GameViewFlowState {
   gameState: GameState;
+  devToolsAvailable: boolean;
+  developerMode: boolean;
   startStep: number;
   showLogHistory: boolean;
   currentLanguage: string;
   pendingRewardAction: RewardAction;
   loading: boolean;
+  bootProgress: number;
+  canEnterProject: boolean;
+  bootStatusText: string;
   stage: number;
   turn: BattleTurn;
   battleMenuTab: BattleMenuTab;
@@ -35,6 +45,7 @@ export interface GameViewRosterState {
   playerTeam: GamePokemon[];
   enemy: GamePokemon | null;
   enemyTeam: GamePokemon[];
+  currentEnemyTrainer: FactoryTrainerTemplate | null;
   factoryRentals: GamePokemon[];
   selectedRentalIndices: number[];
   inventory: Item[];
@@ -73,11 +84,40 @@ export interface GameViewSetupState {
   evolutionChoices: Pokemon[];
 }
 
+export interface GameViewBaseState {
+  currentBaseTab: BaseTab;
+  pendingRunSummary: BaseRunSummary | null;
+  hasFactoryRunToResume: boolean;
+  highestStreak: number;
+  starterName: string;
+  starterBondLevel: number;
+  availableEggCount: number;
+  activeEventCount: number;
+  seenCount: number;
+  ownedCount: number;
+  formCount: number;
+  collectionSeenIds: number[];
+  collectionOwnedIds: number[];
+  collectionFormKeys: string[];
+  shopUnlocked: boolean;
+  breedingUnlocked: boolean;
+  collectionUnlocked: boolean;
+  eventsUnlocked: boolean;
+}
+
+export interface GameViewEventState {
+  eventDispatches: Record<string, RegionDispatchState>;
+  eventDispatchPokemonByRegion: Record<string, number | null>;
+  eventDispatchPopup: EventDispatchPopup | null;
+}
+
 export interface GameViewState
   extends GameViewFlowState,
     GameViewRosterState,
     GameViewProgressState,
     GameViewBattleState,
     GameViewSetupState,
+    GameViewBaseState,
+    GameViewEventState,
     GameViewAnimationState,
     GameViewSelectionState {}

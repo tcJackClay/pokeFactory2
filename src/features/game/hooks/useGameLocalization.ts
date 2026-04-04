@@ -21,7 +21,7 @@ export function useGameLocalization(currentLanguage: string) {
   const getLocalized = useCallback((obj: any) => {
     if (!obj) return '';
 
-    if (obj.id && (obj.id === 'potion' || obj.id === 'pokeball' || obj.isBall || obj.isBattleItem)) {
+    if (obj.id && typeof obj.effect === 'function') {
       return currentLanguage.startsWith('zh') ? obj.zhName : obj.name;
     }
 
@@ -47,7 +47,7 @@ export function useGameLocalization(currentLanguage: string) {
   const getLocalizedDesc = useCallback((obj: any) => {
     if (!obj) return '';
 
-    if (obj.id && (obj.id === 'potion' || obj.id === 'pokeball' || obj.isBall || obj.isBattleItem)) {
+    if (obj.id && typeof obj.effect === 'function') {
       return currentLanguage.startsWith('zh') ? obj.zhDescription : obj.description;
     }
 

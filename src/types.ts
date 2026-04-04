@@ -83,10 +83,15 @@ export interface StatStages {
 export interface GamePokemon extends Pokemon {
   currentHp: number;
   maxHp: number;
+  speciesId?: number;
   selectedMoves: Move[];
   level: number;
+  speciesName?: string;
+  pokeApiName?: string;
+  formLedgerSlug?: string;
   nature: Nature;
   ivs: Stats;
+  evs: Stats;
   baseStats: Stats;
   calculatedStats: Stats;
   isGym?: boolean;
@@ -94,9 +99,10 @@ export interface GamePokemon extends Pokemon {
   status?: string;
   statStages: StatStages;
   specialBoostActive?: boolean;
-  specialBoostMode?: 'MEGA' | 'DYNAMAX' | 'TERA';
+  specialBoostMode?: 'MEGA' | 'DYNAMAX' | 'TERA' | 'ZMOVE';
   teraType?: string;
   dynamaxTurnsLeft?: number;
+  factoryPlannedSpecialMode?: 'MEGA' | 'DYNAMAX' | 'TERA' | 'ZMOVE';
 }
 
 export interface Item {
@@ -114,7 +120,7 @@ export interface Item {
 
 export type Weather = 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail';
 
-export type GameState = 'START' | 'MENU' | 'BATTLE' | 'REWARD' | 'LEARN_MOVE' | 'POKEMON_INFO' | 'GAMEOVER' | 'STARTER_SELECT' | 'EVOLUTION' | 'FACTORY_SELECT' | 'FACTORY_SWAP' | 'ROUND_RESULT';
+export type GameState = 'BOOT' | 'START' | 'MENU' | 'BASE' | 'BATTLE' | 'REWARD' | 'LEARN_MOVE' | 'POKEMON_INFO' | 'GAMEOVER' | 'STARTER_SELECT' | 'EVOLUTION' | 'FACTORY_SELECT' | 'FACTORY_SWAP' | 'ROUND_RESULT' | 'COLLECTION' | 'EVENTS' | 'SETTINGS';
 export type BattleMenuTab = 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG';
 
 export interface LanguageConfig {

@@ -1,10 +1,18 @@
 import { Pokemon, Move, GamePokemon, Stats, Nature } from '../types';
 import { GENERATIONS, NATURES } from '../constants';
 import { DIRECT_SPECIAL_FORMS, SPECIAL_FORM_RANDOM_RATE } from '../features/game/config/specialForms';
-
-const BASE_URL = 'https://pokeapi.co/api/v2';
+import type { FactoryReferenceSet } from '../features/game/config/factoryReferenceSets';
+import {
+  buildPokeApiUrl,
+  fetchPokeApiJson,
+  fetchPokeApiJsonByResourceUrl,
+  normalizePokeApiResourceUrl,
+} from './pokeApiEndpoint';
 
 export type PokemonIdentifier = number | string;
+const moveByNameCache = new Map<string, Move>();
+const pokemonSpeciesCache = new Map<number, any>();
+const UNOWN_FORM_IDENTIFIER_REGEX = /^unown-(?:[a-z]|question|exclamation)$/;
 
 export async function getRandomPokemonId(selectedGens: number[] = [1]): Promise<number> {
   const possibleGens = GENERATIONS.filter(g => selectedGens.includes(g.id));
@@ -56,15 +64,37 @@ function getZhDescription(entries: any[]): string | undefined {
   return zhEntries[zhEntries.length - 1].flavor_text;
 }
 
+function parsePokeApiNumericId(url: string | undefined): number | null {
+  if (!url) return null;
+  const match = /\/(\d+)\/?$/.exec(url);
+  if (!match) return null;
+  const parsed = Number(match[1]);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+}
+
 export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokemon> {
-  const response = await fetch(`${BASE_URL}/pokemon/${identifier}`);
-  if (!response.ok) throw new Error('Failed to fetch pokemon');
-  const data = await response.json();
+  const normalizedIdentifier = typeof identifier === 'string' ? identifier.trim().toLowerCase() : '';
+  let data: any;
+
+  if (UNOWN_FORM_IDENTIFIER_REGEX.test(normalizedIdentifier)) {
+    const formData = await fetchPokeApiJson(`pokemon-form/${normalizedIdentifier}`);
+    const baseData = await fetchPokeApiJson(`pokemon/${formData.pokemon.name}`);
+    data = {
+      ...baseData,
+      name: formData.name ?? normalizedIdentifier,
+      sprites: {
+        ...baseData.sprites,
+        front_default: formData.sprites?.front_default ?? baseData.sprites?.front_default ?? '',
+        back_default: formData.sprites?.back_default ?? baseData.sprites?.back_default ?? '',
+      },
+    };
+  } else {
+    data = await fetchPokeApiJson(`pokemon/${identifier}`);
+  }
   
   // Fetch Chinese name from species
   try {
-    const speciesRes = await fetch(data.species.url);
-    const speciesData = await speciesRes.json();
+    const speciesData = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(data.species.url));
     data.names = speciesData.names;
     const zhName = getZhName(speciesData.names);
     data.zhName = zhName || data.name;
@@ -83,9 +113,7 @@ export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokem
 
 export async function fetchAbilityNames(url: string): Promise<any[]> {
   try {
-    const response = await fetch(url);
-    if (!response.ok) return [];
-    const data = await response.json();
+    const data = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(url));
     return data.names;
   } catch (e) {
     return [];
@@ -94,9 +122,7 @@ export async function fetchAbilityNames(url: string): Promise<any[]> {
 
 export async function fetchAbility(url: string): Promise<string> {
   try {
-    const response = await fetch(url);
-    if (!response.ok) return '';
-    const data = await response.json();
+    const data = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(url));
     const zhName = getZhName(data.names);
     return zhName || data.name;
   } catch (e) {
@@ -105,9 +131,7 @@ export async function fetchAbility(url: string): Promise<string> {
 }
 
 export async function fetchMove(url: string): Promise<Move> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error('Failed to fetch move');
-  const data = await response.json();
+  const data = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(url));
   
   const zhName = getZhName(data.names);
   const zhDescription = getZhDescription(data.flavor_text_entries);
@@ -146,12 +170,8 @@ export async function fetchMove(url: string): Promise<Move> {
 
 export async function fetchEvolutionChain(pokemonId: number): Promise<number[]> {
   try {
-    const speciesRes = await fetch(`${BASE_URL}/pokemon-species/${pokemonId}`);
-    if (!speciesRes.ok) return [];
-    const speciesData = await speciesRes.json();
-    const evolutionRes = await fetch(speciesData.evolution_chain.url);
-    if (!evolutionRes.ok) return [];
-    const evolutionData = await evolutionRes.json();
+    const speciesData = await fetchPokeApiJson(`pokemon-species/${pokemonId}`);
+    const evolutionData = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(speciesData.evolution_chain.url));
     
     const evolutions: number[] = [];
     let current = evolutionData.chain;
@@ -176,6 +196,71 @@ export async function fetchEvolutionChain(pokemonId: number): Promise<number[]> 
   } catch (e) {
     return [];
   }
+}
+
+export async function fetchPokemonSpeciesById(id: number): Promise<any> {
+  const cached = pokemonSpeciesCache.get(id);
+  if (cached) return cached;
+  const data = await fetchPokeApiJson(`pokemon-species/${id}`);
+  pokemonSpeciesCache.set(id, data);
+  return data;
+}
+
+export async function isEvolutionChainBaseSpecies(id: number): Promise<boolean> {
+  try {
+    const species = await fetchPokemonSpeciesById(id);
+    return !species?.evolves_from_species;
+  } catch {
+    return false;
+  }
+}
+
+export async function fetchMoveByName(moveName: string): Promise<Move> {
+  const normalized = moveName.trim().toLowerCase();
+  const cached = moveByNameCache.get(normalized);
+  if (cached) return cached;
+
+  const data = await fetchPokeApiJson(`move/${normalized}`);
+
+  const zhName = getZhName(data.names);
+  const zhDescription = getZhDescription(data.flavor_text_entries);
+  const statChanges = data.stat_changes?.map((sc: any) => {
+    let statName = sc.stat.name;
+    if (statName === 'special-attack') statName = 'spAtk';
+    if (statName === 'special-defense') statName = 'spDef';
+    return {
+      change: sc.change,
+      stat: statName,
+    };
+  });
+
+  const move: Move = {
+    name: data.name,
+    names: data.names,
+    zhName: zhName || data.name,
+    power: data.power,
+    accuracy: data.accuracy,
+    type: data.type.name,
+    damage_class: data.damage_class.name,
+    pp: data.pp,
+    zhDescription: zhDescription || '暂无描述',
+    flavor_text_entries: data.flavor_text_entries,
+    ailment: data.meta?.ailment?.name !== 'none' ? data.meta?.ailment?.name : undefined,
+    ailmentChance: data.meta?.ailment_chance || 0,
+    flinchChance: data.meta?.flinch_chance || 0,
+    statChanges: statChanges?.length > 0 ? statChanges : undefined,
+    drain: data.meta?.drain || 0,
+    healing: data.meta?.healing || 0,
+    critRate: data.meta?.crit_rate || 0,
+    target: data.target?.name,
+  };
+
+  moveByNameCache.set(normalized, move);
+  return move;
+}
+
+export async function fetchAvailableEvolutionChain(pokemonId: number): Promise<number[]> {
+  return fetchEvolutionChain(pokemonId);
 }
 
 export async function getLearnableMoves(pokemon: any, currentMoves: Move[], count: number = 3): Promise<Move[]> {
@@ -207,6 +292,14 @@ function calculateStat(base: number, iv: number, level: number, isHp: boolean = 
 
 export async function getProcessedPokemon(identifier: PokemonIdentifier, level: number = 50): Promise<GamePokemon> {
   const raw = await fetchPokemon(identifier);
+  const normalizedIdentifier = typeof identifier === 'string' ? identifier.trim().toLowerCase() : '';
+  const speciesId = parsePokeApiNumericId((raw as any)?.species?.url) ?? raw.id;
+  const speciesFromRaw = typeof (raw as any)?.species?.name === 'string'
+    ? String((raw as any).species.name).toLowerCase()
+    : '';
+  const speciesName = speciesFromRaw || String(raw.name ?? '').toLowerCase();
+  const pokeApiName = String(raw.name ?? '').toLowerCase();
+  const formLedgerSlug = normalizedIdentifier || pokeApiName || speciesName;
   const teraTypePool = raw.types.map((slot) => slot.type.name);
   const teraType = teraTypePool[Math.floor(Math.random() * teraTypePool.length)] || 'normal';
   
@@ -233,7 +326,7 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
       type: 'normal',
       damage_class: 'physical',
       pp: 35,
-      zhDescription: '用整个身体撞向对手进行攻击。'
+      zhDescription: '用整个身体撞向对手进行攻击。',
     });
   }
 
@@ -245,6 +338,15 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
     spAtk: Math.floor(Math.random() * 32),
     spDef: Math.floor(Math.random() * 32),
     speed: Math.floor(Math.random() * 32),
+  };
+  
+  const evs: Stats = {
+    hp: 0,
+    attack: 0,
+    defense: 0,
+    spAtk: 0,
+    spDef: 0,
+    speed: 0,
   };
 
   // Pick Nature
@@ -279,11 +381,16 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
   return {
     ...raw,
     level,
+    speciesId,
+    speciesName,
+    pokeApiName,
+    formLedgerSlug,
     maxHp: calculatedStats.hp,
     currentHp: calculatedStats.hp,
     selectedMoves: validMoves,
     nature,
     ivs,
+    evs,
     baseStats,
     calculatedStats,
     teraType,
@@ -298,3 +405,102 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
     }
   };
 }
+
+export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceSet, level: number = 50): Promise<GamePokemon> {
+  const raw = await fetchPokemon(set.speciesId);
+  const speciesId = parsePokeApiNumericId((raw as any)?.species?.url) ?? set.speciesId;
+  const speciesName = String(raw.name ?? '').toLowerCase();
+  const setBaseKey = set.key.replace(/-\d+$/, '').toLowerCase();
+  const inferredFormSlug = setBaseKey.startsWith(`${speciesName}-`) ? setBaseKey : speciesName;
+  const pokeApiName = inferredFormSlug;
+  const formLedgerSlug = inferredFormSlug;
+  const teraTypePool = raw.types.map((slot) => slot.type.name);
+  const teraType = teraTypePool[Math.floor(Math.random() * teraTypePool.length)] || 'normal';
+
+  const selectedMoves: Move[] = [];
+  for (const moveName of set.moveNames) {
+    try {
+      const move = await fetchMoveByName(moveName);
+      selectedMoves.push(move);
+    } catch {
+      continue;
+    }
+  }
+
+  if (selectedMoves.length === 0) {
+    return getProcessedPokemon(set.speciesId, level);
+  }
+
+  const ivs: Stats = {
+    hp: Math.floor(Math.random() * 32),
+    attack: Math.floor(Math.random() * 32),
+    defense: Math.floor(Math.random() * 32),
+    spAtk: Math.floor(Math.random() * 32),
+    spDef: Math.floor(Math.random() * 32),
+    speed: Math.floor(Math.random() * 32),
+  };
+
+  
+  const evs: Stats = {
+    hp: 0,
+    attack: 0,
+    defense: 0,
+    spAtk: 0,
+    spDef: 0,
+    speed: 0,
+  };
+
+  const nature: Nature = NATURES[Math.floor(Math.random() * NATURES.length)];
+  const baseStats: Stats = {
+    hp: raw.stats.find((s) => s.stat.name === 'hp')?.base_stat || 50,
+    attack: raw.stats.find((s) => s.stat.name === 'attack')?.base_stat || 50,
+    defense: raw.stats.find((s) => s.stat.name === 'defense')?.base_stat || 50,
+    spAtk: raw.stats.find((s) => s.stat.name === 'special-attack')?.base_stat || 50,
+    spDef: raw.stats.find((s) => s.stat.name === 'special-defense')?.base_stat || 50,
+    speed: raw.stats.find((s) => s.stat.name === 'speed')?.base_stat || 50,
+  };
+
+  const getMod = (statName: string) => {
+    if (nature.plus === statName) return 1.1;
+    if (nature.minus === statName) return 0.9;
+    return 1;
+  };
+
+  const calculatedStats: Stats = {
+    hp: calculateStat(baseStats.hp, ivs.hp, level, true),
+    attack: calculateStat(baseStats.attack, ivs.attack, level, false, getMod('attack')),
+    defense: calculateStat(baseStats.defense, ivs.defense, level, false, getMod('defense')),
+    spAtk: calculateStat(baseStats.spAtk, ivs.spAtk, level, false, getMod('spAtk')),
+    spDef: calculateStat(baseStats.spDef, ivs.spDef, level, false, getMod('spDef')),
+    speed: calculateStat(baseStats.speed, ivs.speed, level, false, getMod('speed')),
+  };
+
+  return {
+    ...raw,
+    level,
+    speciesId,
+    speciesName,
+    pokeApiName,
+    formLedgerSlug,
+    maxHp: calculatedStats.hp,
+    currentHp: calculatedStats.hp,
+    selectedMoves: selectedMoves.slice(0, 4),
+    nature,
+    ivs,
+    evs,
+    baseStats,
+    calculatedStats,
+    teraType,
+    statStages: {
+      attack: 0,
+      defense: 0,
+      spAtk: 0,
+      spDef: 0,
+      speed: 0,
+      accuracy: 0,
+      evasion: 0,
+    },
+  };
+}
+
+

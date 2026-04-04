@@ -1,8 +1,11 @@
 export type {
   BattleAnimation,
+  BaseRunSummary,
+  BaseTab,
   BattleSpecialMode,
   BattleTurn,
   BattleSpecialUsageState,
+  EventDispatchPopup,
   FactoryAiTier,
   GameReward,
   GameViewAnimationState,
@@ -18,9 +21,11 @@ export type { GameViewActions } from './view-model/actions';
 export type { GameViewSetters } from './view-model/setters';
 export type {
   GameViewBattleState,
+  GameViewBaseState,
   GameViewFlowState,
   GameViewProgressState,
   GameViewRosterState,
+  GameViewEventState,
   GameViewSetupState,
   GameViewState,
 } from './view-model/state';

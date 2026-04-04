@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+@source "../src";
 
 @theme {
   --animate-barber-pole: barber-pole 10s linear infinite;
@@ -44,4 +45,13 @@ body {
 /* 模拟剑盾风格的斜角和粗体字 */
 h1, h2, h3, button {
   font-family: 'Inter', sans-serif;
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
 }

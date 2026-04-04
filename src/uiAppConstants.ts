@@ -236,6 +236,14 @@ export const ALL_ITEMS: Item[] = [
     effect: (p) => p
   },
   {
+    id: 'team_capacity_permit',
+    name: 'Team Expansion Permit',
+    zhName: '缁勯槦鎵╁璁稿彲',
+    description: 'Increase team capacity by 1 (up to 6)',
+    zhDescription: '闃熶紞涓婇檺 +1锛堟渶澶?6锛?',
+    effect: (p) => p
+  },
+  {
     id: 'special_mega_stone',
     name: 'Mega Trigger Stone',
     zhName: 'Mega触发石',
@@ -256,9 +264,18 @@ export const ALL_ITEMS: Item[] = [
   {
     id: 'special_tera_orb',
     name: 'Tera Orb Charge',
-    zhName: '太晶珠充能',
+    zhName: 'Tera Orb Charge',
     description: 'Consume in battle to activate Tera trigger once',
-    zhDescription: '战斗中消耗，触发一次太晶化强化',
+    zhDescription: 'Consume in battle to activate Tera trigger once',
+    isSpecialTriggerItem: true,
+    effect: (p) => p
+  },
+  {
+    id: 'special_z_crystal',
+    name: 'Z-Crystal Resonance',
+    zhName: 'Z-Crystal Resonance',
+    description: 'Consume in battle to activate Z-Move trigger once',
+    zhDescription: 'Consume in battle to activate Z-Move trigger once',
     isSpecialTriggerItem: true,
     effect: (p) => p
   }

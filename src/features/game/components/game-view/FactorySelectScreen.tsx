@@ -1,12 +1,33 @@
 import { motion } from 'motion/react';
+import { Info } from 'lucide-react';
 import TypeBadge from '../../../../components/TypeBadge';
 import type { GameViewSectionProps } from './shared';
+import { TopRecordPanel } from './TopRecordPanel';
+
+function PokeballIndicator({ active }: { active: boolean }) {
+  return (
+    <span
+      className={`relative block h-4 w-4 rounded-full border border-slate-500 overflow-hidden ${
+        active ? 'shadow-[0_0_0_1px_rgba(37,99,235,0.35)]' : 'opacity-60'
+      }`}
+      aria-hidden="true"
+    >
+      <span className={`${active ? 'bg-red-500' : 'bg-slate-300'} absolute left-0 top-0 h-1/2 w-full`} />
+      <span className="bg-white absolute left-0 bottom-0 h-1/2 w-full" />
+      <span className="absolute left-0 top-1/2 h-[1px] w-full -translate-y-1/2 bg-slate-700" />
+      <span className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white border border-slate-700" />
+    </span>
+  );
+}
 
 export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
   const {
     factoryRentals,
     selectedRentalIndices,
     currentLanguage,
+    coins,
+    stage,
+    streak,
     t,
     getLocalized,
     toggleRental,
@@ -15,6 +36,7 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
     setGameState,
     confirmRentals,
   } = viewModel;
+  const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
     <motion.div
@@ -22,17 +44,75 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      className="flex-1 flex flex-col p-4 overflow-hidden"
+      className="flex-1 flex flex-col p-3 md:p-4 overflow-hidden"
     >
-      <div className="text-center mb-8">
-        <div className="inline-block bg-slate-900 px-12 py-3 skew-x-[-12deg] shadow-xl mb-4">
-          <h2 className="text-3xl font-black italic tracking-tighter skew-x-[12deg] text-white uppercase">{t('factorySelect')}</h2>
-        </div>
-        <p className="text-slate-500 font-bold italic text-sm">{t('factorySelectDesc')}</p>
+      <div className="px-1 md:px-0 mb-2 md:mb-3">
+        <TopRecordPanel
+          currentLanguage={currentLanguage}
+          coins={coins}
+          stage={stage}
+          streak={streak}
+          battleIndexOverride={0}
+        />
       </div>
 
-      <div className="flex-1 overflow-y-auto custom-scrollbar px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8">
+      {isMobileViewport ? (
+        <div className="flex-1 px-1 min-h-0">
+          <div className="grid grid-cols-2 gap-2 h-full">
+            {factoryRentals.map((pokemon, index) => {
+              const isSelected = selectedRentalIndices.includes(index);
+              return (
+                <button
+                  key={`${pokemon.id}-${index}`}
+                  onClick={() => toggleRental(index)}
+                  className={`relative bg-white rounded-xl border p-2 text-left transition-all flex flex-col justify-between ${
+                    isSelected ? 'border-blue-500 shadow-md' : 'border-slate-200'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-black text-slate-400">#{index + 1}</span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={pokemon.sprites.front_default}
+                      alt={pokemon.name}
+                      className="w-11 h-11 object-contain shrink-0"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[11px] font-black uppercase truncate">{getLocalized(pokemon)}</p>
+                      <div className="mt-1 flex gap-1">
+                        {pokemon.types.map((typeSlot) => (
+                          <TypeBadge key={typeSlot.type.name} type={typeSlot.type.name} size="xs" />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-2 flex items-center justify-between gap-2">
+                    <button
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        setInfoPokemonIdx(index);
+                        setPrevGameState('FACTORY_SELECT');
+                        setGameState('POKEMON_INFO');
+                      }}
+                      className="flex items-center gap-1 px-2 py-1 rounded-md bg-slate-100 text-slate-700 text-[10px] font-black uppercase"
+                    >
+                      <Info className="w-3 h-3" />
+                      {t('info')}
+                    </button>
+                    <PokeballIndicator active={isSelected} />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <div className="flex-1 overflow-y-auto custom-scrollbar px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8">
           {factoryRentals.map((pokemon, index) => {
             const isSelected = selectedRentalIndices.includes(index);
             return (
@@ -99,14 +179,15 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
               </div>
             );
           })}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className="p-4 bg-white border-t-4 border-slate-900 flex justify-center">
+      <div className="pt-2 pb-1 md:p-4 bg-white border-t-4 border-slate-900 flex justify-center mt-2">
         <button
           disabled={selectedRentalIndices.length !== 3}
           onClick={confirmRentals}
-          className={`px-12 py-4 font-black italic text-xl skew-x-[-12deg] transition-all shadow-xl ${
+          className={`px-6 md:px-12 py-3 md:py-4 font-black italic text-base md:text-xl skew-x-[-12deg] transition-all shadow-xl ${
             selectedRentalIndices.length === 3
               ? 'bg-blue-600 text-white hover:bg-blue-700'
               : 'bg-slate-200 text-slate-400 cursor-not-allowed'

@@ -3,7 +3,7 @@ import { RefreshCw, Skull } from 'lucide-react';
 import type { GameViewSectionProps } from './shared';
 
 export function GameOverScreen({ viewModel }: GameViewSectionProps) {
-  const { stage, t, setGameState } = viewModel;
+  const { stage, t, enterBase } = viewModel;
 
   return (
     <motion.div
@@ -21,7 +21,7 @@ export function GameOverScreen({ viewModel }: GameViewSectionProps) {
       </div>
 
       <button
-        onClick={() => setGameState('START')}
+        onClick={enterBase}
         className="px-10 md:px-12 py-4 md:py-5 bg-slate-900 text-white font-black text-xl md:text-2xl skew-x-[-12deg] hover:bg-blue-600 transition-all shadow-xl"
       >
         <span className="flex items-center gap-3 skew-x-[12deg]">

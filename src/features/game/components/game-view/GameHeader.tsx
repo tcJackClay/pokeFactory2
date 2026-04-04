@@ -7,6 +7,8 @@ import type { GameViewSectionProps } from './shared';
 export function GameHeader({ viewModel }: GameViewSectionProps) {
   const {
     gameState,
+    devToolsAvailable,
+    developerMode,
     coins,
     stage,
     streak,
@@ -17,11 +19,16 @@ export function GameHeader({ viewModel }: GameViewSectionProps) {
     setShowLangMenu,
     setCurrentLanguage,
     setShowLogHistory,
+    toggleDeveloperMode,
   } = viewModel;
 
   const currentLanguageLabel = SUPPORTED_LANGUAGES.find((lang) => lang.code === currentLanguage)?.name ?? 'English';
   const battlesPerSet = FACTORY_REWARD_CONFIG.battlesPerSet;
-  const setBattleProgress = ((stage - 1) % battlesPerSet) + 1;
+  const setBattleProgress = gameState === 'FACTORY_SELECT'
+    ? 0
+    : ((stage - 1) % battlesPerSet) + 1;
+  const showTokenHud = gameState !== 'START';
+  const showRunHud = gameState !== 'START' && gameState !== 'BASE';
 
   return (
     <header className="flex justify-between items-center flex-none mb-4 relative z-50">
@@ -74,28 +81,32 @@ export function GameHeader({ viewModel }: GameViewSectionProps) {
           </AnimatePresence>
         </div>
 
-        {gameState !== 'START' && (
+        {showTokenHud && (
           <>
             <div className="bg-white px-4 py-1.5 skew-x-[-12deg] shadow-sm border-r-4 border-yellow-500">
               <span className="font-black italic skew-x-[12deg] inline-block flex items-center gap-2 text-sm">
                 <Sparkles className="w-4 h-4 text-yellow-500" /> {coins}
               </span>
             </div>
-            <div className="bg-white px-4 py-1.5 skew-x-[-12deg] shadow-sm border-r-4 border-red-500">
-              <span className="font-black italic skew-x-[12deg] inline-block text-sm uppercase tracking-widest">
-                {t('stage')} {stage}
-              </span>
-            </div>
-            <div className="bg-white px-4 py-1.5 skew-x-[-12deg] shadow-sm border-r-4 border-emerald-500">
-              <span className="font-black italic skew-x-[12deg] inline-block text-xs uppercase tracking-wide">
-                {t('setProgress', { current: setBattleProgress, total: battlesPerSet })}
-              </span>
-            </div>
-            <div className="bg-white px-4 py-1.5 skew-x-[-12deg] shadow-sm border-r-4 border-violet-500">
-              <span className="font-black italic skew-x-[12deg] inline-block text-xs uppercase tracking-wide">
-                {t('streak', { count: streak })}
-              </span>
-            </div>
+            {showRunHud && (
+              <>
+                <div className="bg-white px-4 py-1.5 skew-x-[-12deg] shadow-sm border-r-4 border-red-500">
+                  <span className="font-black italic skew-x-[12deg] inline-block text-sm uppercase tracking-widest">
+                    {t('stage')} {stage}
+                  </span>
+                </div>
+                <div className="bg-white px-4 py-1.5 skew-x-[-12deg] shadow-sm border-r-4 border-emerald-500">
+                  <span className="font-black italic skew-x-[12deg] inline-block text-xs uppercase tracking-wide">
+                    {t('setProgress', { current: setBattleProgress, total: battlesPerSet })}
+                  </span>
+                </div>
+                <div className="bg-white px-4 py-1.5 skew-x-[-12deg] shadow-sm border-r-4 border-violet-500">
+                  <span className="font-black italic skew-x-[12deg] inline-block text-xs uppercase tracking-wide">
+                    {t('streak', { count: streak })}
+                  </span>
+                </div>
+              </>
+            )}
           </>
         )}
 
@@ -112,6 +123,20 @@ export function GameHeader({ viewModel }: GameViewSectionProps) {
             <RefreshCw
               className={`w-4 h-4 skew-x-[12deg] ${showLogHistory ? 'rotate-180' : ''} transition-transform duration-500`}
             />
+          </button>
+        )}
+
+        {devToolsAvailable && (
+          <button
+            onClick={toggleDeveloperMode}
+            className={`px-3 py-2 skew-x-[-12deg] font-black text-[10px] uppercase transition-all border ${
+              developerMode
+                ? 'bg-cyan-500 text-slate-950 border-cyan-500'
+                : 'bg-white text-slate-700 border-slate-300 hover:border-cyan-500'
+            }`}
+            title="Toggle developer mode"
+          >
+            <span className="skew-x-[12deg] inline-block tracking-widest">DEV</span>
           </button>
         )}
       </div>

@@ -23,6 +23,7 @@ export interface GameViewSetters {
   setPendingRewardAction: Dispatch<SetStateAction<RewardAction>>;
   setLearningPokemonIdx: Dispatch<SetStateAction<number | null>>;
   setSelectedNewMove: Dispatch<SetStateAction<Move | null>>;
+  setPendingEvolutionEligibleIndexes: Dispatch<SetStateAction<number[]>>;
   setSelectedPokemonForEvolution: Dispatch<SetStateAction<SelectedEvolutionPokemon | null>>;
   setEvolutionChoices: Dispatch<SetStateAction<Pokemon[]>>;
   setShowReplaceUI: Dispatch<SetStateAction<GamePokemon | null>>;
