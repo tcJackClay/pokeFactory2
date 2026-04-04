@@ -6,10 +6,10 @@ import { EVENT_REGIONS } from '../../config/events';
 import { TYPE_COLORS, TYPE_ICONS } from '../../../../uiAppConstants';
 import eventHpUpIcon from '../../../../assets/items/event-hp-up.png';
 import eventBattleStatItemIcon from '../../../../assets/items/event-battle-stat-item.png';
-import mapHoenn from '../../../../../reference/pokeemerald-expansion/graphics/pokedex/region_map.png';
-import mapKanto from '../../../../../reference/pokeemerald-expansion/graphics/pokedex/region_map_kanto.png';
-import mapSevii123 from '../../../../../reference/pokeemerald-expansion/graphics/pokedex/region_map_sevii123.png';
-import mapSevii45 from '../../../../../reference/pokeemerald-expansion/graphics/pokedex/region_map_sevii45.png';
+import mapHoenn from '../../../../assets/maps/region-map-hoenn.png';
+import mapKanto from '../../../../assets/maps/region-map-kanto.png';
+import mapSevii123 from '../../../../assets/maps/region-map-sevii123.png';
+import mapSevii45 from '../../../../assets/maps/region-map-sevii45.png';
 
 const REGION_CARD_BACKGROUNDS = [mapKanto, mapHoenn, mapSevii123, mapSevii45];
 const POKEMON_JOIN_LINES = [

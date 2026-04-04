@@ -4,9 +4,9 @@ import { Dna, Languages, Lock, Store, Swords } from 'lucide-react';
 import type { BaseTab } from '../../view-model';
 import { EVENT_REGIONS } from '../../config/events';
 import type { GameViewSectionProps } from './shared';
-import companionAnimSprite from '../../../../../reference/pokeemerald-expansion/graphics/pokemon/pikachu/anim_front.png';
-import pokedexMenuIcon from '../../../../../reference/pokeemerald-expansion/graphics/object_events/pics/misc/pokedex.png';
-import eventsMenuIcon from '../../../../../reference/pokeemerald-expansion/graphics/object_events/pics/misc/clipboard.png';
+import companionAnimSprite from '../../../../assets/menu/pikachu-anim-front.png';
+import pokedexMenuIcon from '../../../../assets/menu/pokedex.png';
+import eventsMenuIcon from '../../../../assets/menu/clipboard.png';
 import { TopRecordPanel } from './TopRecordPanel';
 import { APP_PALETTE } from '../../../../theme/palette';
 
