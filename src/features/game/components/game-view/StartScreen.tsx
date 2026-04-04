@@ -33,6 +33,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     totalRents,
     pendingRunSummary,
     closeRunSummary,
+    hasFactoryRunToResume,
     startGame,
     openBaseTab,
     setGameState,
@@ -133,6 +134,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
             coins={coins}
             stage={stage}
             streak={viewModel.streak}
+            battleIndexOverride={hasFactoryRunToResume ? undefined : 0}
           />
         </div>
 

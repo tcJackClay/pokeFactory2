@@ -51,6 +51,7 @@ interface UseFactoryFlowParams {
   setEnemyAiTier: Dispatch<SetStateAction<FactoryAiTier>>;
   setSpecialBossBattleActive: Dispatch<SetStateAction<boolean>>;
   setBattleSpecialUsage: Dispatch<SetStateAction<BattleSpecialUsageState>>;
+  setEnemySpecialUsage: Dispatch<SetStateAction<BattleSpecialUsageState>>;
   setStage: Dispatch<SetStateAction<number>>;
   setStreak: Dispatch<SetStateAction<number>>;
   setGameState: Dispatch<SetStateAction<GameState>>;
@@ -337,6 +338,7 @@ export function useFactoryFlow({
   setEnemyAiTier,
   setSpecialBossBattleActive,
   setBattleSpecialUsage,
+  setEnemySpecialUsage,
   setStage,
   setStreak,
   setGameState,
@@ -483,6 +485,7 @@ export function useFactoryFlow({
     setNo,
     isBoss,
     applyEvolutionStageWeights = false,
+    requiredEvolutionStage,
   }: {
     count: number;
     level: number;
@@ -497,6 +500,7 @@ export function useFactoryFlow({
     setNo: number;
     isBoss: boolean;
     applyEvolutionStageWeights?: boolean;
+    requiredEvolutionStage?: EvolutionStage;
   }) => {
     const pickedSpecies = new Set<number>([...blockedSpecies, ...FACTORY_BANNED_SPECIES_IDS]);
     const pickedItems = new Set<string>();
@@ -539,7 +543,7 @@ export function useFactoryFlow({
             const pokemon = await getProcessedPokemonFromReferenceSet(picked, level);
             const fixedIvPokemon = applyFixedIvBuild(pokemon, fixedIv);
             const candidatePokemon = isBoss ? applyBossBuildEnhancement(fixedIvPokemon, FACTORY_BATTLE_CONFIG.boss.minIv) : fixedIvPokemon;
-            const stage = await getEvolutionStage(candidatePokemon.id);
+            const stage = await getEvolutionStage(candidatePokemon.speciesId ?? candidatePokemon.id);
             candidates.push({
               pokemon: candidatePokemon,
               itemId: picked.heldItemId,
@@ -574,7 +578,7 @@ export function useFactoryFlow({
             }
             const fixedIvCandidate = applyFixedIvBuild(candidate, fixedIv);
             const candidatePokemon = isBoss ? applyBossBuildEnhancement(fixedIvCandidate, FACTORY_BATTLE_CONFIG.boss.minIv) : fixedIvCandidate;
-            const stage = await getEvolutionStage(candidatePokemon.id);
+            const stage = await getEvolutionStage(candidatePokemon.speciesId ?? candidatePokemon.id);
             candidates.push({
               pokemon: candidatePokemon,
               itemId: getHeldItemBySlot(mons.length, setNo),
@@ -591,8 +595,10 @@ export function useFactoryFlow({
 
       const challengeForStage = referenceChallengeNum ?? 0;
       const stageWeights = getEvolutionStageWeights(challengeForStage);
-      const targetStage = applyEvolutionStageWeights ? pickEvolutionStageByWeight(stageWeights) : 'MID';
-      const fallbackOrder = applyEvolutionStageWeights ? getFallbackStageOrder(targetStage) : ['MID', 'BASE', 'FINAL'];
+      const targetStage = requiredEvolutionStage ?? (applyEvolutionStageWeights ? pickEvolutionStageByWeight(stageWeights) : 'MID');
+      const fallbackOrder = requiredEvolutionStage
+        ? [requiredEvolutionStage]
+        : (applyEvolutionStageWeights ? getFallbackStageOrder(targetStage) : ['MID', 'BASE', 'FINAL']);
 
       let stagePool: FactoryPoolCandidate[] = [];
       for (const stage of fallbackOrder) {
@@ -601,6 +607,9 @@ export function useFactoryFlow({
           stagePool = pool;
           break;
         }
+      }
+      if (requiredEvolutionStage && stagePool.length === 0) {
+        continue;
       }
       if (stagePool.length === 0) {
         stagePool = candidates;
@@ -644,6 +653,7 @@ export function useFactoryFlow({
       setNo: 1,
       isBoss: false,
       applyEvolutionStageWeights: true,
+      requiredEvolutionStage: 'BASE',
     });
 
     if (rentals.length < FACTORY_BATTLE_CONFIG.rentalsPerDraft) {
@@ -806,6 +816,7 @@ export function useFactoryFlow({
       const { firstEnemy, team, isBoss, isSpecialUnlockBoss, aiTier, setNo, trainer } = encounter;
       setSpecialBossBattleActive(isSpecialUnlockBoss);
       setBattleSpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false });
+      setEnemySpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false });
       setEnemyAiTier(isSpecialUnlockBoss ? 'BOSS' : aiTier);
       setEnemyTeam(team);
       setEnemy(firstEnemy);
@@ -846,6 +857,7 @@ export function useFactoryFlow({
     setBattleLog,
     setBattleMenuTab,
     setBattleSpecialUsage,
+    setEnemySpecialUsage,
     setEnemy,
     setEnemyAiTier,
     setCurrentEnemyTrainer,
@@ -878,6 +890,7 @@ export function useFactoryFlow({
       setSwapCount(0);
       setSpecialBossBattleActive(false);
       setBattleSpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false });
+      setEnemySpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false });
       setEnemyAiTier(getAiTier(1, FACTORY_REWARD_CONFIG.battlesPerSet));
       setStage(1);
       setStreak(0);
@@ -908,6 +921,7 @@ export function useFactoryFlow({
     setStage,
     setStreak,
     setBattleSpecialUsage,
+    setEnemySpecialUsage,
     setSwapCount,
     prefetchEnemy,
   ]);
@@ -934,6 +948,7 @@ export function useFactoryFlow({
         setNo: 1,
         isBoss: false,
         applyEvolutionStageWeights: true,
+        requiredEvolutionStage: 'BASE',
       });
 
       if (rentals.length < FACTORY_BATTLE_CONFIG.rentalsPerDraft) {
@@ -952,6 +967,7 @@ export function useFactoryFlow({
       setSwapCount(0);
       setSpecialBossBattleActive(false);
       setBattleSpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false });
+      setEnemySpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false });
       setEnemyAiTier(getAiTier(1, FACTORY_REWARD_CONFIG.battlesPerSet));
       setStage(1);
       setStreak(0);
@@ -981,6 +997,7 @@ export function useFactoryFlow({
     setStage,
     setStreak,
     setBattleSpecialUsage,
+    setEnemySpecialUsage,
     setSwapCount,
     spawnEnemy,
     startLevel,

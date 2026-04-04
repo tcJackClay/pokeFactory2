@@ -43,4 +43,5 @@ export interface GameViewActions {
   setEventDispatchPokemon: (regionId: string, pokemonId: number | null) => void;
   dispatchEventRegion: (regionId: string) => Promise<void>;
   mockEventDispatchResult: (regionId: string, outcome: 'item' | 'join' | 'battle_special') => void;
+  closeEventDispatchPopup: () => void;
 }

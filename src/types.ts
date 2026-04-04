@@ -83,6 +83,7 @@ export interface StatStages {
 export interface GamePokemon extends Pokemon {
   currentHp: number;
   maxHp: number;
+  speciesId?: number;
   selectedMoves: Move[];
   level: number;
   speciesName?: string;

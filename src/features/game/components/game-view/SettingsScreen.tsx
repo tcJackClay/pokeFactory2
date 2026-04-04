@@ -10,6 +10,9 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
     currentLanguage,
     setCurrentLanguage,
     setGameState,
+    devToolsAvailable,
+    developerMode,
+    toggleDeveloperMode,
     coins,
     stage,
     streak,
@@ -159,14 +162,49 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
             </p>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-3 opacity-75">
+          <div className="rounded-xl border border-slate-200 bg-white p-3">
             <div className="flex items-center gap-2">
-              <SlidersHorizontal className="w-4 h-4 text-slate-500" />
-              <p className="text-sm font-black text-slate-900">{isZh ? '更多选项' : 'More Options'}</p>
+              <SlidersHorizontal className="w-4 h-4 text-cyan-600" />
+              <p className="text-sm font-black text-slate-900">{isZh ? 'DEV 面板' : 'DEV Panel'}</p>
             </div>
             <p className="mt-1 text-[11px] text-slate-500 font-semibold">
-              {isZh ? '后续版本开放。' : 'Coming in a later version.'}
+              {isZh ? '在游戏画面显示或隐藏 DEV 控制面板。' : 'Show or hide the DEV control panel in game view.'}
             </p>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              <button
+                onClick={() => {
+                  if (!devToolsAvailable || developerMode) return;
+                  toggleDeveloperMode();
+                }}
+                disabled={!devToolsAvailable || developerMode}
+                className={`rounded-lg px-3 py-2 text-xs font-black uppercase tracking-wide border ${
+                  developerMode
+                    ? 'bg-slate-900 text-white border-slate-900'
+                    : 'bg-white text-slate-700 border-slate-300'
+                } disabled:opacity-45`}
+              >
+                {isZh ? '开启' : 'Enable'}
+              </button>
+              <button
+                onClick={() => {
+                  if (!devToolsAvailable || !developerMode) return;
+                  toggleDeveloperMode();
+                }}
+                disabled={!devToolsAvailable || !developerMode}
+                className={`rounded-lg px-3 py-2 text-xs font-black uppercase tracking-wide border ${
+                  !developerMode
+                    ? 'bg-slate-900 text-white border-slate-900'
+                    : 'bg-white text-slate-700 border-slate-300'
+                } disabled:opacity-45`}
+              >
+                {isZh ? '关闭' : 'Disable'}
+              </button>
+            </div>
+            {!devToolsAvailable && (
+              <p className="mt-2 text-[11px] font-semibold text-amber-600">
+                {isZh ? '当前环境未开启 DEV 工具。' : 'DEV tools are unavailable in this environment.'}
+              </p>
+            )}
           </div>
         </div>
       </div>

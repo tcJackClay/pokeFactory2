@@ -1,3 +1,10 @@
+import {
+  fetchPokeApiJson,
+  fetchPokeApiJsonByResourceUrl,
+  normalizePokeApiResourceUrl,
+  POKEAPI_CSV_BASE_URL,
+} from './pokeApiEndpoint';
+
 interface LocalizedName {
   name: string;
   language: { name: string };
@@ -53,24 +60,22 @@ let dexTypeMapCache: Record<string, string[]> | null = null;
 let moveNameFallbackMapPromise: Promise<Record<string, { zh?: string; en?: string }>> | null = null;
 let pokemonClientPromise: Promise<{
   getPokemonById: (id: number) => Promise<any>;
-  getPokemonSpeciesById: (id: number) => Promise<any>;
   listPokemons: (offset?: number, limit?: number) => Promise<{ results: Array<{ name: string; url: string }> }>;
   getTypeByName: (typeName: string) => Promise<{ pokemon: Array<{ pokemon: { name: string } }> }>;
   getMoveByName: (name: string) => Promise<any>;
 }> | null = null;
 
+async function fetchJson(path: string): Promise<any> {
+  return fetchPokeApiJson(path);
+}
+
 async function getPokemonClient() {
   if (!pokemonClientPromise) {
-    pokemonClientPromise = import('pokenode-ts').then(({ PokemonClient, MoveClient }) => {
-      const pokemonClient = new PokemonClient();
-      const moveClient = new MoveClient();
-      return {
-        getPokemonById: pokemonClient.getPokemonById.bind(pokemonClient),
-        getPokemonSpeciesById: pokemonClient.getPokemonSpeciesById.bind(pokemonClient),
-        listPokemons: pokemonClient.listPokemons.bind(pokemonClient),
-        getTypeByName: pokemonClient.getTypeByName.bind(pokemonClient),
-        getMoveByName: moveClient.getMoveByName.bind(moveClient),
-      };
+    pokemonClientPromise = Promise.resolve({
+      getPokemonById: async (id: number) => fetchJson(`pokemon/${id}`),
+      listPokemons: async (offset = 0, limit = 20) => fetchJson(`pokemon?offset=${offset}&limit=${limit}`),
+      getTypeByName: async (typeName: string) => fetchJson(`type/${typeName}`),
+      getMoveByName: async (name: string) => fetchJson(`move/${name}`),
     }).catch((error) => {
       pokemonClientPromise = null;
       throw error;
@@ -149,7 +154,7 @@ function parseCsvRows(content: string): string[][] {
 async function loadMoveNameFallbackMap(): Promise<Record<string, { zh?: string; en?: string }>> {
   if (!moveNameFallbackMapPromise) {
     moveNameFallbackMapPromise = (async () => {
-      const base = 'https://raw.githubusercontent.com/veekun/pokedex/master/pokedex/data/csv';
+      const base = POKEAPI_CSV_BASE_URL;
       const [languagesRes, movesRes, moveNamesRes] = await Promise.all([
         fetch(`${base}/languages.csv`),
         fetch(`${base}/moves.csv`),
@@ -330,10 +335,10 @@ export async function fetchDexSnapshotById(id: number): Promise<DexSnapshot | nu
 
   try {
     const pokemonClient = await getPokemonClient();
-    const [pokemon, species] = await Promise.all([
-      pokemonClient.getPokemonById(id),
-      pokemonClient.getPokemonSpeciesById(id),
-    ]);
+    const pokemon = await pokemonClient.getPokemonById(id);
+    const species = await fetchPokeApiJsonByResourceUrl(
+      normalizePokeApiResourceUrl(pokemon.species.url),
+    );
 
     const names = species.names.map((entry) => ({
       name: entry.name,

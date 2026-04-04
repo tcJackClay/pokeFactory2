@@ -1,5 +1,53 @@
+import type { GamePokemon } from '../types';
+
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
-const SAVE_SCHEMA_VERSION = 4 as const;
+const SAVE_SCHEMA_VERSION = 5 as const;
+
+export interface BattleResumeSpecialUsageState {
+  MEGA: boolean;
+  DYNAMAX: boolean;
+  TERA: boolean;
+  ZMOVE: boolean;
+}
+
+export interface EmptyBattleResume {
+  status: 'EMPTY';
+}
+
+export interface BattleResumeSnapshot {
+  status: 'READY';
+  battleKind: 'FACTORY';
+  checkpointAt: string;
+  stage: number;
+  streak: number;
+  swapCount: number;
+  coins: number;
+  totalRents: number;
+  enemyAiTier: 'RANDOM' | 'BASIC' | 'ADVANCED' | 'BOSS';
+  specialModeUnlocked: boolean;
+  specialBossBattleActive: boolean;
+  battleSpecialUsage: BattleResumeSpecialUsageState;
+  enemySpecialUsage: BattleResumeSpecialUsageState;
+  turn: 'PLAYER' | 'ENEMY';
+  battleMenuTab: 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG';
+  weather: 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail';
+  weatherTurns: number;
+  activeBuffs: { atk: boolean; def: boolean };
+  enemyBuffs: { atk: boolean; def: boolean };
+  factoryRentals: GamePokemon[];
+  selectedRentalIndices: number[];
+  playerTeam: GamePokemon[];
+  enemyTeam: GamePokemon[];
+  currentEnemyTrainerId: string | null;
+  inventoryItemIds: string[];
+  battleLog: string[];
+}
+
+export type FactoryBattleResume = EmptyBattleResume | BattleResumeSnapshot;
+
+export function createEmptyBattleResume(): EmptyBattleResume {
+  return { status: 'EMPTY' };
+}
 
 export interface CollectionLedger {
   seenIds: number[];
@@ -32,6 +80,7 @@ export interface GameSaveData {
       setNo: number;
       trainerIds: string[];
     }>;
+    battleResume: FactoryBattleResume;
   };
   collection: CollectionLedger;
   events: {
@@ -73,12 +122,26 @@ function sanitizeIntArray(values: unknown): number[] {
   return [...new Set(normalized)];
 }
 
+function sanitizeNonNegativeIntList(values: unknown): number[] {
+  if (!Array.isArray(values)) return [];
+  return values
+    .map((value) => (typeof value === 'number' && Number.isFinite(value) ? Math.floor(value) : NaN))
+    .filter((value) => Number.isFinite(value) && value >= 0);
+}
+
 function sanitizeStringArray(values: unknown): string[] {
   if (!Array.isArray(values)) return [];
   const normalized = values
     .map((value) => (typeof value === 'string' ? value.trim() : ''))
     .filter((value) => value.length > 0);
   return [...new Set(normalized)];
+}
+
+function sanitizeStringList(values: unknown): string[] {
+  if (!Array.isArray(values)) return [];
+  return values
+    .map((value) => (typeof value === 'string' ? value.trim() : ''))
+    .filter((value) => value.length > 0);
 }
 
 function sanitizeLanguage(value: unknown, fallback = 'zh-hans') {
@@ -89,6 +152,96 @@ function sanitizeLanguage(value: unknown, fallback = 'zh-hans') {
 function sanitizeUnsignedInt(value: unknown, fallback: number) {
   if (typeof value !== 'number' || !Number.isFinite(value)) return fallback >>> 0;
   return (Math.floor(value) >>> 0);
+}
+
+function sanitizeSpecialUsage(value: unknown): BattleResumeSpecialUsageState {
+  const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+  return {
+    MEGA: Boolean(source.MEGA),
+    DYNAMAX: Boolean(source.DYNAMAX),
+    TERA: Boolean(source.TERA),
+    ZMOVE: Boolean(source.ZMOVE),
+  };
+}
+
+function sanitizeAtkDefFlags(value: unknown): { atk: boolean; def: boolean } {
+  const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+  return {
+    atk: Boolean(source.atk),
+    def: Boolean(source.def),
+  };
+}
+
+function sanitizeGamePokemonArray(value: unknown): GamePokemon[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((entry) => entry && typeof entry === 'object') as GamePokemon[];
+}
+
+function sanitizeBattleResume(value: unknown): FactoryBattleResume {
+  const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+  if (source.status !== 'READY') {
+    return createEmptyBattleResume();
+  }
+
+  const battleKind = source.battleKind === 'FACTORY' ? 'FACTORY' : null;
+  const enemyAiTierRaw = typeof source.enemyAiTier === 'string' ? source.enemyAiTier : 'RANDOM';
+  const enemyAiTier = enemyAiTierRaw === 'BASIC'
+    || enemyAiTierRaw === 'ADVANCED'
+    || enemyAiTierRaw === 'BOSS'
+    ? enemyAiTierRaw
+    : 'RANDOM';
+  const turn = source.turn === 'ENEMY' ? 'ENEMY' : 'PLAYER';
+  const battleMenuTab = source.battleMenuTab === 'MOVES'
+    || source.battleMenuTab === 'POKEMON'
+    || source.battleMenuTab === 'BAG'
+    ? source.battleMenuTab
+    : 'MAIN';
+  const weather = source.weather === 'sunny'
+    || source.weather === 'rainy'
+    || source.weather === 'sandstorm'
+    || source.weather === 'hail'
+    ? source.weather
+    : 'none';
+  const stage = sanitizePositiveInt(source.stage, 0);
+  const playerTeam = sanitizeGamePokemonArray(source.playerTeam);
+  const enemyTeam = sanitizeGamePokemonArray(source.enemyTeam);
+
+  if (!battleKind || stage <= 0 || playerTeam.length === 0 || enemyTeam.length === 0) {
+    return createEmptyBattleResume();
+  }
+
+  return {
+    status: 'READY',
+    battleKind,
+    checkpointAt: typeof source.checkpointAt === 'string' && source.checkpointAt.length > 0
+      ? source.checkpointAt
+      : new Date().toISOString(),
+    stage,
+    streak: sanitizePositiveInt(source.streak, 0),
+    swapCount: sanitizePositiveInt(source.swapCount, 0),
+    coins: sanitizePositiveInt(source.coins, 0),
+    totalRents: sanitizePositiveInt(source.totalRents, 0),
+    enemyAiTier,
+    specialModeUnlocked: Boolean(source.specialModeUnlocked),
+    specialBossBattleActive: Boolean(source.specialBossBattleActive),
+    battleSpecialUsage: sanitizeSpecialUsage(source.battleSpecialUsage),
+    enemySpecialUsage: sanitizeSpecialUsage(source.enemySpecialUsage),
+    turn,
+    battleMenuTab,
+    weather,
+    weatherTurns: sanitizePositiveInt(source.weatherTurns, 0),
+    activeBuffs: sanitizeAtkDefFlags(source.activeBuffs),
+    enemyBuffs: sanitizeAtkDefFlags(source.enemyBuffs),
+    factoryRentals: sanitizeGamePokemonArray(source.factoryRentals),
+    selectedRentalIndices: sanitizeNonNegativeIntList(source.selectedRentalIndices),
+    playerTeam,
+    enemyTeam,
+    currentEnemyTrainerId: typeof source.currentEnemyTrainerId === 'string' && source.currentEnemyTrainerId.length > 0
+      ? source.currentEnemyTrainerId
+      : null,
+    inventoryItemIds: sanitizeStringList(source.inventoryItemIds),
+    battleLog: sanitizeStringList(source.battleLog),
+  };
 }
 
 function sanitizeTrainerIdsBySet(values: unknown): GameSaveData['factory']['trainerIdsBySet'] {
@@ -198,6 +351,7 @@ function normalizeSaveData(value: unknown): GameSaveData {
       winStreakActiveFlags: sanitizeUnsignedInt(factory.winStreakActiveFlags, 0),
       winStreakActiveMasks: sanitizeUnsignedInt(factory.winStreakActiveMasks, 0xffffffff),
       trainerIdsBySet: sanitizeTrainerIdsBySet(factory.trainerIdsBySet),
+      battleResume: sanitizeBattleResume(factory.battleResume),
     },
     collection: sanitizeCollectionLedger(source.collection),
     events: sanitizeEvents(source.events),
@@ -232,6 +386,7 @@ function readLegacySaveFallback(): Partial<GameSaveData> {
       winStreakActiveFlags: 0,
       winStreakActiveMasks: 0xffffffff,
       trainerIdsBySet: [],
+      battleResume: createEmptyBattleResume(),
     },
     collection: {
       seenIds: [],

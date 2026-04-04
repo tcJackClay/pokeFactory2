@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { BattleMenuTab, GamePokemon, GameState, Item, Move, Pokemon, Weather } from '../../../types';
 import { ALL_ITEMS } from '../../../uiAppConstants';
 import { GENERATIONS } from '../../../constants';
@@ -16,11 +16,12 @@ import { useBattleController } from './useBattleController';
 import { useFactoryFlow } from './useFactoryFlow';
 import { useRewardFlow } from './useRewardFlow';
 import { addEvToPokemon, addIvToPokemon, type StatKey } from '../utils/pokemonStats';
-import type { FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
+import { getFactoryTrainerTemplateById, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import type {
   BaseRunSummary,
   BaseTab,
   BattleSpecialUsageState,
+  EventDispatchPopup,
   FactoryAiTier,
   GameReward,
   GameViewModel,
@@ -30,11 +31,13 @@ import type {
 import { getBattleIndexInSet, getSetNoByStage } from '../config/factoryRewards';
 import {
   buildSaveExportFilename,
+  createEmptyBattleResume,
   createSaveData,
   loadSaveData,
   parseSaveDataFromText,
   persistSaveData,
   triggerJsonDownload,
+  type BattleResumeSnapshot,
   type CollectionLedger,
 } from '../../../services/saveManager';
 import { createPokemonFormLedgerKey, normalizeStoredFormKeys } from '../utils/formLedger';
@@ -44,15 +47,30 @@ import {
   fetchDexSnapshots,
   fetchDexTypeMap,
 } from '../../../services/pokedexClient';
+import { getPokemonSpriteUrl } from '../../../services/pokeApiEndpoint';
 
 const STREAK_FACTORY_SINGLES_50 = 1 << 8;
 const STREAK_FACTORY_SINGLES_OPEN = 1 << 9;
 const WIN_STREAK_ACTIVE_MASK_DEFAULT = 0xffffffff;
 const CHALLENGE_ACTIVE_STATES: GameState[] = ['FACTORY_SELECT', 'FACTORY_SWAP', 'BATTLE', 'REWARD', 'ROUND_RESULT'];
 const BOOT_ENTER_THRESHOLD = 80;
+const EMPTY_BATTLE_SPECIAL_USAGE: BattleSpecialUsageState = { MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false };
+const ITEM_BY_ID = Object.fromEntries(ALL_ITEMS.map((item) => [item.id, item] as const));
+
+function hydrateInventoryFromItemIds(itemIds: string[]): Item[] {
+  return itemIds
+    .map((itemId) => ITEM_BY_ID[itemId])
+    .filter((item): item is Item => Boolean(item));
+}
 
 export function usePokeFactoryGame(): GameViewModel {
   const initialSave = loadSaveData();
+  const initialBattleResume = initialSave?.factory.battleResume.status === 'READY'
+    ? initialSave.factory.battleResume
+    : null;
+  const initialEnemyTrainer = initialBattleResume?.currentEnemyTrainerId
+    ? getFactoryTrainerTemplateById(initialBattleResume.currentEnemyTrainerId)
+    : null;
   const devToolsAvailable = import.meta.env.DEV || import.meta.env.VITE_ENABLE_DEVTOOLS === '1';
   const [gameState, setGameState] = useState<GameState>('BOOT');
   const [developerMode, setDeveloperMode] = useState(() => {
@@ -60,15 +78,15 @@ export function usePokeFactoryGame(): GameViewModel {
     return devToolsAvailable ? saved : false;
   });
   const [startStep, setStartStep] = useState(0);
-  const [coins, setCoins] = useState(0);
+  const [coins, setCoins] = useState(initialBattleResume?.coins ?? 0);
   const [shopItems, setShopItems] = useState<{ item: Item; price: number }[]>([]);
   const [rewardChoiceMade, setRewardChoiceMade] = useState(false);
   const [rerollCount, setRerollCount] = useState(0);
   const [teamCapacity, setTeamCapacity] = useState(3);
-  const [playerTeam, setPlayerTeam] = useState<GamePokemon[]>([]);
+  const [playerTeam, setPlayerTeam] = useState<GamePokemon[]>(initialBattleResume?.playerTeam ?? []);
   const [rewards, setRewards] = useState<GameReward[]>([]);
-  const [activeBuffs, setActiveBuffs] = useState({ atk: false, def: false });
-  const [enemyBuffs, setEnemyBuffs] = useState({ atk: false, def: false });
+  const [activeBuffs, setActiveBuffs] = useState(initialBattleResume?.activeBuffs ?? { atk: false, def: false });
+  const [enemyBuffs, setEnemyBuffs] = useState(initialBattleResume?.enemyBuffs ?? { atk: false, def: false });
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isMessageProcessing, setIsMessageProcessing] = useState(false);
   const [showReplaceUI, setShowReplaceUI] = useState<GamePokemon | null>(null);
@@ -91,34 +109,30 @@ export function usePokeFactoryGame(): GameViewModel {
   const [loading, setLoading] = useState(false);
   const [bootProgress, setBootProgress] = useState(0);
   const [bootStatusText, setBootStatusText] = useState('');
-  const [inventory, setInventory] = useState<Item[]>([]);
-  const [stage, setStage] = useState(1);
-  const [enemy, setEnemy] = useState<GamePokemon | null>(null);
-  const [enemyTeam, setEnemyTeam] = useState<GamePokemon[]>([]);
-  const [currentEnemyTrainer, setCurrentEnemyTrainer] = useState<FactoryTrainerTemplate | null>(null);
-  const [streak, setStreak] = useState(0);
-  const [swapCount, setSwapCount] = useState(0);
-  const [totalRents, setTotalRents] = useState(initialSave?.progress.totalRents ?? 0);
-  const [specialModeUnlocked, setSpecialModeUnlocked] = useState(initialSave?.progress.specialModeUnlocked ?? false);
-  const [specialBossBattleActive, setSpecialBossBattleActive] = useState(false);
-  const [battleSpecialUsage, setBattleSpecialUsage] = useState<BattleSpecialUsageState>({
-    MEGA: false,
-    DYNAMAX: false,
-    TERA: false,
-    ZMOVE: false,
-  });
+  const [inventory, setInventory] = useState<Item[]>(() => hydrateInventoryFromItemIds(initialBattleResume?.inventoryItemIds ?? []));
+  const [stage, setStage] = useState(initialBattleResume?.stage ?? 1);
+  const [enemy, setEnemy] = useState<GamePokemon | null>(initialBattleResume?.enemyTeam[0] ?? null);
+  const [enemyTeam, setEnemyTeam] = useState<GamePokemon[]>(initialBattleResume?.enemyTeam ?? []);
+  const [currentEnemyTrainer, setCurrentEnemyTrainer] = useState<FactoryTrainerTemplate | null>(initialEnemyTrainer);
+  const [streak, setStreak] = useState(initialBattleResume?.streak ?? 0);
+  const [swapCount, setSwapCount] = useState(initialBattleResume?.swapCount ?? 0);
+  const [totalRents, setTotalRents] = useState(initialBattleResume?.totalRents ?? initialSave?.progress.totalRents ?? 0);
+  const [specialModeUnlocked, setSpecialModeUnlocked] = useState(initialBattleResume?.specialModeUnlocked ?? initialSave?.progress.specialModeUnlocked ?? false);
+  const [specialBossBattleActive, setSpecialBossBattleActive] = useState(initialBattleResume?.specialBossBattleActive ?? false);
+  const [battleSpecialUsage, setBattleSpecialUsage] = useState<BattleSpecialUsageState>(initialBattleResume?.battleSpecialUsage ?? EMPTY_BATTLE_SPECIAL_USAGE);
+  const [enemySpecialUsage, setEnemySpecialUsage] = useState<BattleSpecialUsageState>(initialBattleResume?.enemySpecialUsage ?? EMPTY_BATTLE_SPECIAL_USAGE);
   const [enemyAiTier, setEnemyAiTier] = useState<FactoryAiTier>(
-    getAiTier(1, FACTORY_REWARD_CONFIG.battlesPerSet),
+    initialBattleResume?.enemyAiTier ?? getAiTier(1, FACTORY_REWARD_CONFIG.battlesPerSet),
   );
   const [roundResult, setRoundResult] = useState<RoundResult>(null);
   const [lastTokenGain, setLastTokenGain] = useState(0);
-  const [factoryRentals, setFactoryRentals] = useState<GamePokemon[]>([]);
-  const [selectedRentalIndices, setSelectedRentalIndices] = useState<number[]>([]);
-  const [battleLog, setBattleLog] = useState<string[]>([]);
-  const [turn, setTurn] = useState<'PLAYER' | 'ENEMY'>('PLAYER');
-  const [battleMenuTab, setBattleMenuTab] = useState<BattleMenuTab>('MAIN');
-  const [weather, setWeather] = useState<Weather>('none');
-  const [weatherTurns, setWeatherTurns] = useState(0);
+  const [factoryRentals, setFactoryRentals] = useState<GamePokemon[]>(initialBattleResume?.factoryRentals ?? []);
+  const [selectedRentalIndices, setSelectedRentalIndices] = useState<number[]>(initialBattleResume?.selectedRentalIndices ?? []);
+  const [battleLog, setBattleLog] = useState<string[]>(initialBattleResume?.battleLog ?? []);
+  const [turn, setTurn] = useState<'PLAYER' | 'ENEMY'>(initialBattleResume?.turn ?? 'PLAYER');
+  const [battleMenuTab, setBattleMenuTab] = useState<BattleMenuTab>(initialBattleResume?.battleMenuTab ?? 'MAIN');
+  const [weather, setWeather] = useState<Weather>(initialBattleResume?.weather ?? 'none');
+  const [weatherTurns, setWeatherTurns] = useState(initialBattleResume?.weatherTurns ?? 0);
   const [evolutionTarget, setEvolutionTarget] = useState<GamePokemon | null>(null);
   const [isEvolving, setIsEvolving] = useState(false);
   const [evolvedPokemon, setEvolvedPokemon] = useState<GamePokemon | null>(null);
@@ -133,6 +147,7 @@ export function usePokeFactoryGame(): GameViewModel {
   const [currentBaseTab, setCurrentBaseTab] = useState<BaseTab>('HOME');
   const [pendingRunSummary, setPendingRunSummary] = useState<BaseRunSummary | null>(null);
   const [hasFactoryRunToResume, setHasFactoryRunToResume] = useState(false);
+  const [pendingBattleResumeRestore, setPendingBattleResumeRestore] = useState(Boolean(initialBattleResume));
   const [starterName] = useState('Pikachu');
   const [starterBondLevel] = useState(1);
   const [availableEggCount] = useState(0);
@@ -160,6 +175,7 @@ export function usePokeFactoryGame(): GameViewModel {
     const base = Object.fromEntries(EVENT_REGIONS.map((region) => [region.id, null as number | null]));
     return { ...base, ...saved };
   });
+  const [eventDispatchPopup, setEventDispatchPopup] = useState<EventDispatchPopup | null>(null);
   const [eventBattleActive, setEventBattleActive] = useState(false);
   const [highestStreak, setHighestStreak] = useState(initialSave?.progress.highestStreak ?? 0);
   const [collectionLedger, setCollectionLedger] = useState<CollectionLedger>(() => ({
@@ -170,6 +186,92 @@ export function usePokeFactoryGame(): GameViewModel {
 
   const { t, getLocalized, getLocalizedDesc, getLocalizedNature, getStatName } = useGameLocalization(currentLanguage);
   const canEnterProject = bootProgress >= BOOT_ENTER_THRESHOLD;
+  const battleResumeSnapshotRef = useRef<BattleResumeSnapshot | null>(initialBattleResume);
+
+  const buildStableFactoryBattleResume = useCallback((): BattleResumeSnapshot | null => {
+    if (eventBattleActive || gameState !== 'BATTLE') return null;
+    if (turn !== 'PLAYER' || isMessageProcessing || loading || isTransitioning) return null;
+    if (playerAnim !== 'idle' || enemyAnim !== 'idle' || activeMoveType !== null) return null;
+    if (isCatching || showReplaceUI !== null) return null;
+    if (playerTeam.length === 0 || enemyTeam.length === 0 || !currentEnemyTrainer) return null;
+
+    return {
+      status: 'READY',
+      battleKind: 'FACTORY',
+      checkpointAt: new Date().toISOString(),
+      stage,
+      streak,
+      swapCount,
+      coins,
+      totalRents,
+      enemyAiTier,
+      specialModeUnlocked,
+      specialBossBattleActive,
+      battleSpecialUsage,
+      enemySpecialUsage,
+      turn,
+      battleMenuTab,
+      weather,
+      weatherTurns,
+      activeBuffs,
+      enemyBuffs,
+      factoryRentals,
+      selectedRentalIndices,
+      playerTeam,
+      enemyTeam,
+      currentEnemyTrainerId: currentEnemyTrainer.id,
+      inventoryItemIds: inventory.map((item) => item.id),
+      battleLog,
+    };
+  }, [
+    activeBuffs,
+    activeMoveType,
+    battleLog,
+    battleMenuTab,
+    battleSpecialUsage,
+    coins,
+    currentEnemyTrainer,
+    enemyAiTier,
+    enemyAnim,
+    enemyBuffs,
+    enemySpecialUsage,
+    enemyTeam,
+    eventBattleActive,
+    factoryRentals,
+    gameState,
+    inventory,
+    isCatching,
+    isMessageProcessing,
+    isTransitioning,
+    loading,
+    playerAnim,
+    playerTeam,
+    selectedRentalIndices,
+    showReplaceUI,
+    specialBossBattleActive,
+    specialModeUnlocked,
+    stage,
+    streak,
+    swapCount,
+    totalRents,
+    turn,
+    weather,
+    weatherTurns,
+  ]);
+
+  const getPersistableBattleResume = useCallback(() => {
+    const stableSnapshot = buildStableFactoryBattleResume();
+    if (stableSnapshot) {
+      return stableSnapshot;
+    }
+    if (pendingBattleResumeRestore && battleResumeSnapshotRef.current) {
+      return battleResumeSnapshotRef.current;
+    }
+    if (!eventBattleActive && gameState === 'BATTLE' && battleResumeSnapshotRef.current) {
+      return battleResumeSnapshotRef.current;
+    }
+    return createEmptyBattleResume();
+  }, [buildStableFactoryBattleResume, eventBattleActive, gameState, pendingBattleResumeRestore]);
 
   const handleSuppressedBattleResolved = useCallback((_result: 'WIN' | 'LOSS') => {
     if (!eventBattleActive) return;
@@ -182,7 +284,8 @@ export function usePokeFactoryGame(): GameViewModel {
     setTurn('PLAYER');
     setBattleMenuTab('MAIN');
     setSpecialBossBattleActive(false);
-    setBattleSpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false });
+    setBattleSpecialUsage(EMPTY_BATTLE_SPECIAL_USAGE);
+    setEnemySpecialUsage(EMPTY_BATTLE_SPECIAL_USAGE);
     setCatchSuccess(null);
     setGameState('EVENTS');
     setEventBattleActive(false);
@@ -205,6 +308,7 @@ export function usePokeFactoryGame(): GameViewModel {
     specialModeUnlocked,
     specialBossBattleActive,
     battleSpecialUsage,
+    enemySpecialUsage,
     allowWildCatch: eventBattleActive,
     suppressFactoryBattleResult: eventBattleActive,
     onSuppressBattleResolved: handleSuppressedBattleResolved,
@@ -235,6 +339,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setSpecialModeUnlocked,
     setSpecialBossBattleActive,
     setBattleSpecialUsage,
+    setEnemySpecialUsage,
   });
 
   const factoryFlow = useFactoryFlow({
@@ -262,6 +367,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setEnemyAiTier,
     setSpecialBossBattleActive,
     setBattleSpecialUsage,
+    setEnemySpecialUsage,
     setStage,
     setStreak,
     setGameState,
@@ -286,6 +392,25 @@ export function usePokeFactoryGame(): GameViewModel {
   useEffect(() => {
     importUsedTrainerIdsBySet(initialSave?.factory.trainerIdsBySet ?? []);
   }, [importUsedTrainerIdsBySet, initialSave?.factory.trainerIdsBySet]);
+
+  useEffect(() => {
+    const stableSnapshot = buildStableFactoryBattleResume();
+    if (!stableSnapshot) return;
+    battleResumeSnapshotRef.current = stableSnapshot;
+  }, [buildStableFactoryBattleResume]);
+
+  useEffect(() => {
+    if (pendingBattleResumeRestore) return;
+    if (eventBattleActive || gameState !== 'BATTLE') {
+      battleResumeSnapshotRef.current = null;
+    }
+  }, [eventBattleActive, gameState, pendingBattleResumeRestore]);
+
+  useEffect(() => {
+    if (!pendingBattleResumeRestore || !canEnterProject || gameState !== 'START') return;
+    setPendingBattleResumeRestore(false);
+    setGameState('BATTLE');
+  }, [canEnterProject, gameState, pendingBattleResumeRestore]);
 
   const rewardFlow = useRewardFlow({
     selectedGens,
@@ -508,6 +633,12 @@ export function usePokeFactoryGame(): GameViewModel {
     }
   }, [highestStreak, streak]);
 
+  useEffect(() => {
+    if (gameState !== 'EVENTS') {
+      setEventDispatchPopup(null);
+    }
+  }, [gameState]);
+
   const buildCurrentSaveData = useCallback(() => {
     const levelModeIsOpen = startLevel > 50;
     const activeFlag = levelModeIsOpen ? STREAK_FACTORY_SINGLES_OPEN : STREAK_FACTORY_SINGLES_50;
@@ -515,6 +646,7 @@ export function usePokeFactoryGame(): GameViewModel {
     const winStreakActiveFlags = challengeActive || hasFactoryRunToResume ? activeFlag : 0;
     const winStreakActiveMasks = (WIN_STREAK_ACTIVE_MASK_DEFAULT & (~activeFlag >>> 0)) >>> 0;
     const curChallengeBattleNum = Math.max(0, Math.min(FACTORY_REWARD_CONFIG.battlesPerSet - 1, (stage - 1) % FACTORY_REWARD_CONFIG.battlesPerSet));
+    const battleResume = getPersistableBattleResume();
 
     return createSaveData({
       totalRents,
@@ -532,6 +664,7 @@ export function usePokeFactoryGame(): GameViewModel {
         winStreakActiveFlags,
         winStreakActiveMasks,
         trainerIdsBySet: exportUsedTrainerIdsBySet(),
+        battleResume,
       },
       events: {
         speciesBattleCounts: eventSpeciesBattleCounts,
@@ -549,6 +682,7 @@ export function usePokeFactoryGame(): GameViewModel {
     eventDispatchPokemonByRegion,
     eventSpeciesBattleCounts,
     exportUsedTrainerIdsBySet,
+    getPersistableBattleResume,
     gameState,
     hasFactoryRunToResume,
     highestStreak,
@@ -561,6 +695,26 @@ export function usePokeFactoryGame(): GameViewModel {
 
   useEffect(() => {
     persistSaveData(buildCurrentSaveData());
+  }, [buildCurrentSaveData]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const persistCurrentState = () => {
+      persistSaveData(buildCurrentSaveData());
+    };
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        persistCurrentState();
+      }
+    };
+
+    window.addEventListener('beforeunload', persistCurrentState);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      window.removeEventListener('beforeunload', persistCurrentState);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, [buildCurrentSaveData]);
 
   const enterBase = useCallback(() => {
@@ -794,6 +948,13 @@ export function usePokeFactoryGame(): GameViewModel {
       const growthPool = ALL_ITEMS.filter((item) => ['protein', 'iron', 'calcium', 'zinc_item', 'carbos', 'hp_up'].includes(item.id));
       const rewardItem = growthPool[Math.floor(Math.random() * growthPool.length)] ?? ALL_ITEMS[0];
       setInventory((prev) => [...prev, rewardItem]);
+      setEventDispatchPopup({
+        kind: 'ITEM',
+        title: `${region.name}派遣完成`,
+        message: '侦察队带回了珍贵补给，已自动放入背包。',
+        itemName: getLocalized(rewardItem),
+        itemId: rewardItem.id,
+      });
       return `${region.name}: Gained growth item ${getLocalized(rewardItem)}`;
     }
 
@@ -846,6 +1007,14 @@ export function usePokeFactoryGame(): GameViewModel {
       });
 
       setPlayerTeam((prev) => (prev.length < 6 ? [...prev, targetPokemon] : prev));
+      setEventDispatchPopup({
+        kind: 'POKEMON',
+        title: `${region.name}奇遇成功`,
+        message: '目标宝可梦认可了你的队伍，主动申请加入。',
+        pokemonName: getLocalized(targetPokemon),
+        pokemonSprite: targetPokemon.sprites.front_default ?? '',
+        pokemonLevel: targetPokemon.level,
+      });
       return `${region.name}: ${getLocalized(targetPokemon)} joined directly`;
     }
 
@@ -876,6 +1045,7 @@ export function usePokeFactoryGame(): GameViewModel {
     getLocalized,
     inventory,
     pickSpecialSiteEncounter,
+    setEventDispatchPopup,
     startLevel,
   ]);
 
@@ -938,6 +1108,42 @@ export function usePokeFactoryGame(): GameViewModel {
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region) return;
 
+    if (outcome === 'item') {
+      setEventDispatchPopup({
+        kind: 'ITEM',
+        title: `${region.name}派遣完成（Mock）`,
+        message: '测试投放：一份成长补给已加入背包预览。',
+        itemName: '体力增强剂',
+        itemId: 'hp_up',
+      });
+    }
+
+    if (outcome === 'join') {
+      const mockPokemonId = eventDispatchPokemonByRegion[regionId] ?? region.dexRange[0];
+      const level = Math.max(20, startLevel);
+      void fetchPokemon(mockPokemonId)
+        .then((pokemon) => {
+          setEventDispatchPopup({
+            kind: 'POKEMON',
+            title: `${region.name}奇遇成功（Mock）`,
+            message: '测试投放：宝可梦加入弹窗展示。',
+            pokemonName: getLocalized(pokemon),
+            pokemonSprite: pokemon.sprites?.front_default || getPokemonSpriteUrl(mockPokemonId),
+            pokemonLevel: level,
+          });
+        })
+        .catch(() => {
+          setEventDispatchPopup({
+            kind: 'POKEMON',
+            title: `${region.name}奇遇成功（Mock）`,
+            message: '测试投放：宝可梦加入弹窗展示。',
+            pokemonName: '未知宝可梦',
+            pokemonSprite: getPokemonSpriteUrl(mockPokemonId),
+            pokemonLevel: level,
+          });
+        });
+    }
+
     const firstSite = region.specialSites[0];
     const resultText = outcome === 'item'
       ? `${region.name}: 获得成长道具 体力增强剂（Mock）`
@@ -953,7 +1159,12 @@ export function usePokeFactoryGame(): GameViewModel {
         lastResult: resultText,
       },
     }));
-  }, [developerMode]);
+  }, [developerMode, eventDispatchPokemonByRegion, getLocalized, startLevel]);
+
+  const closeEventDispatchPopup = useCallback(() => {
+    setEventDispatchPopup(null);
+  }, []);
+
   const exportSaveData = useCallback(() => {
     const saveData = buildCurrentSaveData();
     const exportText = JSON.stringify(saveData, null, 2);
@@ -1078,6 +1289,7 @@ export function usePokeFactoryGame(): GameViewModel {
     activeEventCount,
     eventDispatches,
     eventDispatchPokemonByRegion,
+    eventDispatchPopup,
     seenCount,
     ownedCount,
     formCount,
@@ -1147,6 +1359,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setEventDispatchPokemon,
     dispatchEventRegion,
     mockEventDispatchResult,
+    closeEventDispatchPopup,
   } satisfies GameViewModel;
 
   return viewModel;

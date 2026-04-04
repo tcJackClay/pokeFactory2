@@ -1,14 +1,22 @@
 ﻿import { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
+import { UserPlus } from 'lucide-react';
 import type { GameViewSectionProps } from './shared';
 import { EVENT_REGIONS } from '../../config/events';
 import { TYPE_COLORS, TYPE_ICONS } from '../../../../uiAppConstants';
+import eventHpUpIcon from '../../../../assets/items/event-hp-up.png';
+import eventBattleStatItemIcon from '../../../../assets/items/event-battle-stat-item.png';
 import mapHoenn from '../../../../../reference/pokeemerald-expansion/graphics/pokedex/region_map.png';
 import mapKanto from '../../../../../reference/pokeemerald-expansion/graphics/pokedex/region_map_kanto.png';
 import mapSevii123 from '../../../../../reference/pokeemerald-expansion/graphics/pokedex/region_map_sevii123.png';
 import mapSevii45 from '../../../../../reference/pokeemerald-expansion/graphics/pokedex/region_map_sevii45.png';
 
 const REGION_CARD_BACKGROUNDS = [mapKanto, mapHoenn, mapSevii123, mapSevii45];
+
+function getEventItemIcon(itemId?: string): string {
+  if (itemId === 'hp_up') return eventHpUpIcon;
+  return eventBattleStatItemIcon;
+}
 
 function formatRemain(ms: number) {
   const sec = Math.max(0, Math.ceil(ms / 1000));
@@ -20,10 +28,14 @@ function formatRemain(ms: number) {
 
 export function EventsScreen({ viewModel }: GameViewSectionProps) {
   const {
+    devToolsAvailable,
     developerMode,
     eventDispatches,
+    eventDispatchPopup,
     dispatchEventRegion,
     mockEventDispatchResult,
+    closeEventDispatchPopup,
+    toggleDeveloperMode,
     setGameState,
   } = viewModel;
 
@@ -45,13 +57,34 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
       <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-md space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-black tracking-wide">事件派遣</h2>
-          <button
-            onClick={() => setGameState('START')}
-            className="text-xs font-black px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200"
-          >
-            返回主页
-          </button>
+          <div className="flex items-center gap-2">
+            {devToolsAvailable && (
+              <button
+                onClick={toggleDeveloperMode}
+                className={`text-xs font-black px-3 py-1.5 rounded-lg border transition-colors ${
+                  developerMode
+                    ? 'bg-cyan-500 text-slate-950 border-cyan-500'
+                    : 'bg-slate-100 text-slate-700 border-slate-300'
+                }`}
+                title="Toggle event mock mode"
+              >
+                {developerMode ? 'Mock模式: 开' : 'Mock模式: 关'}
+              </button>
+            )}
+            <button
+              onClick={() => setGameState('START')}
+              className="text-xs font-black px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200"
+            >
+              返回主页
+            </button>
+          </div>
         </div>
+
+        {devToolsAvailable && !developerMode && (
+          <p className="text-[11px] text-slate-500">
+            开启上方 Mock 模式后，可使用每个地区下方的 Mock 道具/加入/特殊按钮。
+          </p>
+        )}
 
         <div className="grid grid-cols-2 gap-2">
           {EVENT_REGIONS.map((region, index) => {
@@ -127,14 +160,71 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                   </div>
                 )}
 
-                {dispatch?.lastResult && (
-                  <p className="mt-2 text-xs text-slate-700">{dispatch.lastResult}</p>
-                )}
               </div>
             );
           })}
         </div>
       </div>
+
+      <AnimatePresence>
+        {eventDispatchPopup && (
+          <motion.div
+            className="fixed inset-0 z-[140] flex items-center justify-center bg-slate-900/45 px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeEventDispatchPopup}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 12, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.97 }}
+              transition={{ duration: 0.18 }}
+              className="w-[min(62vw,220px)] aspect-square rounded-2xl border-4 border-slate-900 bg-white shadow-2xl flex flex-col"
+              onClick={(event) => event.stopPropagation()}
+            >
+              {eventDispatchPopup.kind === 'ITEM' ? (
+                <>
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="flex h-18 w-18 items-center justify-center rounded-2xl bg-emerald-600/10 border border-emerald-200 shadow-sm p-2">
+                      <img
+                        src={getEventItemIcon(eventDispatchPopup.itemId)}
+                        alt={eventDispatchPopup.itemName}
+                        className="h-full w-full object-contain [image-rendering:pixelated]"
+                      />
+                    </div>
+                  </div>
+                  <div className="px-4 pb-4 text-center text-[13px] font-black leading-tight text-emerald-800">
+                    获得道具「{eventDispatchPopup.itemName}」
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="h-20 w-20 rounded-2xl border-2 border-sky-200 bg-white p-2 shadow-sm">
+                      {eventDispatchPopup.pokemonSprite ? (
+                        <img
+                          src={eventDispatchPopup.pokemonSprite}
+                          alt={eventDispatchPopup.pokemonName}
+                          className="h-full w-full object-contain"
+                          referrerPolicy="no-referrer"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-sky-500">
+                          <UserPlus size={34} />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="px-4 pb-4 text-center text-[13px] font-black leading-tight text-sky-800">
+                    「{eventDispatchPopup.pokemonName}」加入队伍
+                  </div>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

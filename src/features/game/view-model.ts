@@ -5,6 +5,7 @@ export type {
   BattleSpecialMode,
   BattleTurn,
   BattleSpecialUsageState,
+  EventDispatchPopup,
   FactoryAiTier,
   GameReward,
   GameViewAnimationState,

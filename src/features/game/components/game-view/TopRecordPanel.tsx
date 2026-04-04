@@ -7,9 +7,10 @@ interface TopRecordPanelProps {
   coins: number;
   stage: number;
   streak: number;
+  battleIndexOverride?: number;
 }
 
-export function TopRecordPanel({ currentLanguage, coins, stage, streak }: TopRecordPanelProps) {
+export function TopRecordPanel({ currentLanguage, coins, stage, streak, battleIndexOverride }: TopRecordPanelProps) {
   const isZh = currentLanguage.startsWith('zh');
 
   const copy = {
@@ -29,7 +30,7 @@ export function TopRecordPanel({ currentLanguage, coins, stage, streak }: TopRec
   };
 
   const battlesPerSet = FACTORY_REWARD_CONFIG.battlesPerSet;
-  const battleIndex = getBattleIndexInSet(stage, battlesPerSet);
+  const battleIndex = battleIndexOverride ?? getBattleIndexInSet(stage, battlesPerSet);
 
   const items = [
     { key: 'tokens', label: copy.tokens, value: String(coins), icon: Coins, iconClass: 'text-amber-500' },

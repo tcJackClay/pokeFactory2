@@ -2,12 +2,17 @@ import { Pokemon, Move, GamePokemon, Stats, Nature } from '../types';
 import { GENERATIONS, NATURES } from '../constants';
 import { DIRECT_SPECIAL_FORMS, SPECIAL_FORM_RANDOM_RATE } from '../features/game/config/specialForms';
 import type { FactoryReferenceSet } from '../features/game/config/factoryReferenceSets';
-
-const BASE_URL = 'https://pokeapi.co/api/v2';
+import {
+  buildPokeApiUrl,
+  fetchPokeApiJson,
+  fetchPokeApiJsonByResourceUrl,
+  normalizePokeApiResourceUrl,
+} from './pokeApiEndpoint';
 
 export type PokemonIdentifier = number | string;
 const moveByNameCache = new Map<string, Move>();
 const pokemonSpeciesCache = new Map<number, any>();
+const UNOWN_FORM_IDENTIFIER_REGEX = /^unown-(?:[a-z]|question|exclamation)$/;
 
 export async function getRandomPokemonId(selectedGens: number[] = [1]): Promise<number> {
   const possibleGens = GENERATIONS.filter(g => selectedGens.includes(g.id));
@@ -59,15 +64,37 @@ function getZhDescription(entries: any[]): string | undefined {
   return zhEntries[zhEntries.length - 1].flavor_text;
 }
 
+function parsePokeApiNumericId(url: string | undefined): number | null {
+  if (!url) return null;
+  const match = /\/(\d+)\/?$/.exec(url);
+  if (!match) return null;
+  const parsed = Number(match[1]);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+}
+
 export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokemon> {
-  const response = await fetch(`${BASE_URL}/pokemon/${identifier}`);
-  if (!response.ok) throw new Error('Failed to fetch pokemon');
-  const data = await response.json();
+  const normalizedIdentifier = typeof identifier === 'string' ? identifier.trim().toLowerCase() : '';
+  let data: any;
+
+  if (UNOWN_FORM_IDENTIFIER_REGEX.test(normalizedIdentifier)) {
+    const formData = await fetchPokeApiJson(`pokemon-form/${normalizedIdentifier}`);
+    const baseData = await fetchPokeApiJson(`pokemon/${formData.pokemon.name}`);
+    data = {
+      ...baseData,
+      name: formData.name ?? normalizedIdentifier,
+      sprites: {
+        ...baseData.sprites,
+        front_default: formData.sprites?.front_default ?? baseData.sprites?.front_default ?? '',
+        back_default: formData.sprites?.back_default ?? baseData.sprites?.back_default ?? '',
+      },
+    };
+  } else {
+    data = await fetchPokeApiJson(`pokemon/${identifier}`);
+  }
   
   // Fetch Chinese name from species
   try {
-    const speciesRes = await fetch(data.species.url);
-    const speciesData = await speciesRes.json();
+    const speciesData = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(data.species.url));
     data.names = speciesData.names;
     const zhName = getZhName(speciesData.names);
     data.zhName = zhName || data.name;
@@ -86,9 +113,7 @@ export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokem
 
 export async function fetchAbilityNames(url: string): Promise<any[]> {
   try {
-    const response = await fetch(url);
-    if (!response.ok) return [];
-    const data = await response.json();
+    const data = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(url));
     return data.names;
   } catch (e) {
     return [];
@@ -97,9 +122,7 @@ export async function fetchAbilityNames(url: string): Promise<any[]> {
 
 export async function fetchAbility(url: string): Promise<string> {
   try {
-    const response = await fetch(url);
-    if (!response.ok) return '';
-    const data = await response.json();
+    const data = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(url));
     const zhName = getZhName(data.names);
     return zhName || data.name;
   } catch (e) {
@@ -108,9 +131,7 @@ export async function fetchAbility(url: string): Promise<string> {
 }
 
 export async function fetchMove(url: string): Promise<Move> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error('Failed to fetch move');
-  const data = await response.json();
+  const data = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(url));
   
   const zhName = getZhName(data.names);
   const zhDescription = getZhDescription(data.flavor_text_entries);
@@ -149,12 +170,8 @@ export async function fetchMove(url: string): Promise<Move> {
 
 export async function fetchEvolutionChain(pokemonId: number): Promise<number[]> {
   try {
-    const speciesRes = await fetch(`${BASE_URL}/pokemon-species/${pokemonId}`);
-    if (!speciesRes.ok) return [];
-    const speciesData = await speciesRes.json();
-    const evolutionRes = await fetch(speciesData.evolution_chain.url);
-    if (!evolutionRes.ok) return [];
-    const evolutionData = await evolutionRes.json();
+    const speciesData = await fetchPokeApiJson(`pokemon-species/${pokemonId}`);
+    const evolutionData = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(speciesData.evolution_chain.url));
     
     const evolutions: number[] = [];
     let current = evolutionData.chain;
@@ -184,9 +201,7 @@ export async function fetchEvolutionChain(pokemonId: number): Promise<number[]> 
 export async function fetchPokemonSpeciesById(id: number): Promise<any> {
   const cached = pokemonSpeciesCache.get(id);
   if (cached) return cached;
-  const response = await fetch(`${BASE_URL}/pokemon-species/${id}`);
-  if (!response.ok) throw new Error('Failed to fetch pokemon species');
-  const data = await response.json();
+  const data = await fetchPokeApiJson(`pokemon-species/${id}`);
   pokemonSpeciesCache.set(id, data);
   return data;
 }
@@ -205,9 +220,7 @@ export async function fetchMoveByName(moveName: string): Promise<Move> {
   const cached = moveByNameCache.get(normalized);
   if (cached) return cached;
 
-  const response = await fetch(`${BASE_URL}/move/${normalized}`);
-  if (!response.ok) throw new Error(`Failed to fetch move by name: ${normalized}`);
-  const data = await response.json();
+  const data = await fetchPokeApiJson(`move/${normalized}`);
 
   const zhName = getZhName(data.names);
   const zhDescription = getZhDescription(data.flavor_text_entries);
@@ -280,6 +293,7 @@ function calculateStat(base: number, iv: number, level: number, isHp: boolean = 
 export async function getProcessedPokemon(identifier: PokemonIdentifier, level: number = 50): Promise<GamePokemon> {
   const raw = await fetchPokemon(identifier);
   const normalizedIdentifier = typeof identifier === 'string' ? identifier.trim().toLowerCase() : '';
+  const speciesId = parsePokeApiNumericId((raw as any)?.species?.url) ?? raw.id;
   const speciesFromRaw = typeof (raw as any)?.species?.name === 'string'
     ? String((raw as any).species.name).toLowerCase()
     : '';
@@ -367,6 +381,7 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
   return {
     ...raw,
     level,
+    speciesId,
     speciesName,
     pokeApiName,
     formLedgerSlug,
@@ -393,6 +408,7 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
 
 export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceSet, level: number = 50): Promise<GamePokemon> {
   const raw = await fetchPokemon(set.speciesId);
+  const speciesId = parsePokeApiNumericId((raw as any)?.species?.url) ?? set.speciesId;
   const speciesName = String(raw.name ?? '').toLowerCase();
   const setBaseKey = set.key.replace(/-\d+$/, '').toLowerCase();
   const inferredFormSlug = setBaseKey.startsWith(`${speciesName}-`) ? setBaseKey : speciesName;
@@ -462,6 +478,7 @@ export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceS
   return {
     ...raw,
     level,
+    speciesId,
     speciesName,
     pokeApiName,
     formLedgerSlug,

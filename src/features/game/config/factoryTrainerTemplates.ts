@@ -350,3 +350,7 @@ export function selectFactoryTrainerTemplate(params: {
   }
   return best;
 }
+
+export function getFactoryTrainerTemplateById(id: string): FactoryTrainerTemplate | null {
+  return FACTORY_TRAINER_TEMPLATES.find((template) => template.id === id) ?? null;
+}

@@ -18,6 +18,7 @@ import type {
   RoundResult,
   GameViewAnimationState,
   GameViewSelectionState,
+  EventDispatchPopup,
   FactoryAiTier,
   RewardAction,
 } from './common';
@@ -107,6 +108,7 @@ export interface GameViewBaseState {
 export interface GameViewEventState {
   eventDispatches: Record<string, RegionDispatchState>;
   eventDispatchPokemonByRegion: Record<string, number | null>;
+  eventDispatchPopup: EventDispatchPopup | null;
 }
 
 export interface GameViewState

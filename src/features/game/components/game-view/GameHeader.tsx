@@ -24,7 +24,9 @@ export function GameHeader({ viewModel }: GameViewSectionProps) {
 
   const currentLanguageLabel = SUPPORTED_LANGUAGES.find((lang) => lang.code === currentLanguage)?.name ?? 'English';
   const battlesPerSet = FACTORY_REWARD_CONFIG.battlesPerSet;
-  const setBattleProgress = ((stage - 1) % battlesPerSet) + 1;
+  const setBattleProgress = gameState === 'FACTORY_SELECT'
+    ? 0
+    : ((stage - 1) % battlesPerSet) + 1;
   const showTokenHud = gameState !== 'START';
   const showRunHud = gameState !== 'START' && gameState !== 'BASE';
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import type { BattleMenuTab, GamePokemon, GameState, Item, Move, Weather } from '../../../types';
 import { TYPE_CHART } from '../../../constants';
@@ -44,6 +44,7 @@ interface UseBattleControllerParams {
   specialModeUnlocked: boolean;
   specialBossBattleActive: boolean;
   battleSpecialUsage: BattleSpecialUsageState;
+  enemySpecialUsage: BattleSpecialUsageState;
   allowWildCatch: boolean;
   suppressFactoryBattleResult: boolean;
   onSuppressBattleResolved: (result: 'WIN' | 'LOSS') => void;
@@ -74,6 +75,7 @@ interface UseBattleControllerParams {
   setSpecialModeUnlocked: Dispatch<SetStateAction<boolean>>;
   setSpecialBossBattleActive: Dispatch<SetStateAction<boolean>>;
   setBattleSpecialUsage: Dispatch<SetStateAction<BattleSpecialUsageState>>;
+  setEnemySpecialUsage: Dispatch<SetStateAction<BattleSpecialUsageState>>;
 }
 
 const AI_FLAG_CHECK_BAD_MOVE = 1 << 0;
@@ -138,6 +140,7 @@ export function useBattleController({
   specialModeUnlocked,
   specialBossBattleActive,
   battleSpecialUsage,
+  enemySpecialUsage,
   allowWildCatch,
   suppressFactoryBattleResult,
   onSuppressBattleResolved,
@@ -168,14 +171,8 @@ export function useBattleController({
   setSpecialModeUnlocked,
   setSpecialBossBattleActive,
   setBattleSpecialUsage,
+  setEnemySpecialUsage,
 }: UseBattleControllerParams) {
-  const enemySpecialUsageRef = useRef<BattleSpecialUsageState>({
-    MEGA: false,
-    DYNAMAX: false,
-    TERA: false,
-    ZMOVE: false,
-  });
-
   const addMessagesSequentially = useCallback(async (messages: string[]) => {
     setIsMessageProcessing(true);
 
@@ -723,7 +720,7 @@ export function useBattleController({
     const mode = actingEnemy.factoryPlannedSpecialMode;
     if (!mode) return null;
     if (actingEnemy.specialBoostActive) return null;
-    if (enemySpecialUsageRef.current[mode]) return null;
+    if (enemySpecialUsage[mode]) return null;
     if (mode === 'MEGA') {
       const held = actingEnemy.factoryHeldItemId?.toLowerCase() ?? '';
       if (!(held.includes('ite') || held === 'red_orb' || held === 'blue_orb')) return null;
@@ -731,7 +728,7 @@ export function useBattleController({
     if (mode === 'ZMOVE' && !hasMatchingZCrystal(actingEnemy)) return null;
     if (mode === 'TERA' && !actingEnemy.teraType) return null;
     return mode;
-  }, [hasMatchingZCrystal]);
+  }, [enemySpecialUsage, hasMatchingZCrystal]);
 
   const getProjectedHpAfterGimmick = useCallback((
     pokemon: GamePokemon,
@@ -1437,10 +1434,10 @@ export function useBattleController({
       setEnemy(boostedEnemy);
       enemyTeamForTurn = nextEnemyTeam;
       actingEnemy = boostedEnemy;
-      enemySpecialUsageRef.current = {
-        ...enemySpecialUsageRef.current,
+      setEnemySpecialUsage((prev) => ({
+        ...prev,
         [decision.usableGimmick]: true,
-      };
+      }));
       await addMessagesSequentially([
         t('specialActivated').replace('{mode}', getSpecialLabel(decision.usableGimmick)).replace('{name}', getLocalized(boostedEnemy)),
       ]);
@@ -1472,6 +1469,7 @@ export function useBattleController({
     resolvePreTurnStatus,
     setEnemy,
     setEnemyTeam,
+    setEnemySpecialUsage,
     setMainBattleTurn,
     t,
     turn,
@@ -1482,10 +1480,6 @@ export function useBattleController({
       void enemyTurn();
     }
   }, [enemyTurn, gameState, turn]);
-
-  useEffect(() => {
-    enemySpecialUsageRef.current = { MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false };
-  }, [stage, gameState]);
 
   useEffect(() => {
     if (turn !== 'PLAYER' || gameState !== 'BATTLE') return;

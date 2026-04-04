@@ -67,3 +67,20 @@ export interface GameViewSelectionState {
   showReplaceUI: GamePokemon | null;
   selectedPokemonForEvolution: SelectedEvolutionPokemon | null;
 }
+
+export type EventDispatchPopup =
+  | {
+      kind: 'ITEM';
+      title: string;
+      message: string;
+      itemName: string;
+      itemId?: string;
+    }
+  | {
+      kind: 'POKEMON';
+      title: string;
+      message: string;
+      pokemonName: string;
+      pokemonSprite: string;
+      pokemonLevel: number;
+    };

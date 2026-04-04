@@ -52,6 +52,7 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
           coins={coins}
           stage={stage}
           streak={streak}
+          battleIndexOverride={0}
         />
       </div>
 

@@ -18,7 +18,7 @@ export function DeveloperPanel({ viewModel }: GameViewSectionProps) {
   if (!developerMode) return null;
 
   return (
-    <aside className="fixed bottom-4 right-4 z-[120] w-[280px] max-w-[calc(100vw-1rem)] bg-slate-900 text-white border-2 border-cyan-400 shadow-2xl p-3 space-y-3">
+    <aside className="fixed top-4 left-4 z-[120] w-[280px] max-w-[calc(100vw-1rem)] bg-slate-900 text-white border-2 border-cyan-400 shadow-2xl p-3 space-y-3">
       <div className="flex items-center justify-between">
         <h3 className="text-xs font-black uppercase tracking-widest text-cyan-300">Developer Mode</h3>
         <span className="text-[10px] font-bold text-slate-300">{gameState}</span>

@@ -12,6 +12,7 @@ import {
   type DexMoveDetail,
   type DexSnapshot,
 } from '../../../../services/pokedexClient';
+import { getPokemonSpriteUrl } from '../../../../services/pokeApiEndpoint';
 import type { GameViewSectionProps } from './shared';
 import { TopRecordPanel } from './TopRecordPanel';
 
@@ -108,7 +109,7 @@ function getPokedexNumber(id: number) {
 }
 
 function getDefaultSprite(id: number) {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+  return getPokemonSpriteUrl(id);
 }
 
 function getSpriteCandidates(entry: Pick<DexEntry, 'id' | 'sprite' | 'raw'>): string[] {
