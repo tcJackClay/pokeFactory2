@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react';
 import { motion } from 'motion/react';
 import type { GameViewSectionProps } from './shared';
-import factoryBallSprite from '../../../../../reference/pokeemerald-expansion/graphics/battle_frontier/factory_screen/pokeball.png';
-import gearSprite from '../../../../../reference/pokeemerald-expansion/graphics/battle_anims/sprites/gear.png';
+import factoryBallSprite from '../../../../assets/loading/factory-ball.png';
+import gearSprite from '../../../../assets/loading/gear.png';
 
 export function BootLoadingScreen({ viewModel }: GameViewSectionProps) {
   const {
