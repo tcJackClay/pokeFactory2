@@ -56,6 +56,29 @@ const CHALLENGE_ACTIVE_STATES: GameState[] = ['FACTORY_SELECT', 'FACTORY_SWAP', 
 const BOOT_ENTER_THRESHOLD = 80;
 const EMPTY_BATTLE_SPECIAL_USAGE: BattleSpecialUsageState = { MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false };
 const ITEM_BY_ID = Object.fromEntries(ALL_ITEMS.map((item) => [item.id, item] as const));
+const BOOT_DEX_SNAPSHOT_IDS = [1, 4, 7, 25, 39, 94, 133, 150, 245, 249, 384, 493, 722, 810, 905];
+const BOOT_MOVE_DETAIL_KEYS = [
+  'tackle',
+  'quick-attack',
+  'thunderbolt',
+  'ice-beam',
+  'flamethrower',
+  'surf',
+  'earthquake',
+  'psychic',
+  'shadow-ball',
+  'dragon-claw',
+  'close-combat',
+  'moonblast',
+  'dark-pulse',
+  'iron-head',
+  'energy-ball',
+  'stone-edge',
+  'u-turn',
+  'protect',
+  'toxic',
+  'swords-dance',
+];
 
 function hydrateInventoryFromItemIds(itemIds: string[]): Item[] {
   return itemIds
@@ -189,6 +212,7 @@ export function usePokeFactoryGame(): GameViewModel {
   const { t, getLocalized, getLocalizedDesc, getLocalizedNature, getStatName } = useGameLocalization(currentLanguage);
   const canEnterProject = bootProgress >= BOOT_ENTER_THRESHOLD;
   const battleResumeSnapshotRef = useRef<BattleResumeSnapshot | null>(initialBattleResume);
+  const backgroundWarmupStartedRef = useRef(false);
 
   const buildStableFactoryBattleResume = useCallback((): BattleResumeSnapshot | null => {
     if (eventBattleActive || gameState !== 'BATTLE') return null;
@@ -560,6 +584,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [gameState, prefetchRentals]);
 
   useEffect(() => {
+    if (gameState !== 'BOOT') return;
     let cancelled = false;
     let progressValue = 0;
     const setProgress = (value: number) => {
@@ -568,73 +593,21 @@ export function usePokeFactoryGame(): GameViewModel {
     };
 
     void (async () => {
-      setBootStatusText(t('bootPreparingRentalPool'));
-      setProgress(10);
-      try {
-        await prefetchRentals();
-      } catch {
-        // Allow degraded startup if rental prefetch fails.
+      if (pendingBattleResumeRestore) {
+        setBootStatusText(t('bootFinalizingStartup'));
+        setProgress(72);
+      } else {
+        setBootStatusText(t('bootPreparingRentalPool'));
+        setProgress(18);
+        try {
+          await prefetchRentals();
+        } catch {
+          // Allow degraded startup if rental prefetch fails.
+        }
       }
-      setProgress(30);
-
-      setBootStatusText(t('bootPreparingEnemyPreview'));
-      try {
-        await prefetchEnemy(1);
-      } catch {
-        // Allow degraded startup if enemy prefetch fails.
-      }
-      setProgress(45);
-
-      setBootStatusText(t('bootPreparingPokedexIndex'));
-      try {
-        await Promise.all([
-          fetchDexCatalogEntries(),
-          fetchDexTypeMap(),
-        ]);
-      } catch {
-        // Allow degraded startup if Pokedex prefetch fails.
-      }
-      setProgress(70);
-
-      setBootStatusText(t('bootPreparingDexSnapshots'));
-      try {
-        await fetchDexSnapshots([1, 4, 7, 25, 39, 94, 133, 150, 245, 249, 384, 493, 722, 810, 905]);
-      } catch {
-        // Allow degraded startup if snapshot prefetch fails.
-      }
-      setProgress(84);
-
-      setBootStatusText(t('bootPreparingMoveIndex'));
-      try {
-        await fetchDexMoveDetails([
-          'tackle',
-          'quick-attack',
-          'thunderbolt',
-          'ice-beam',
-          'flamethrower',
-          'surf',
-          'earthquake',
-          'psychic',
-          'shadow-ball',
-          'dragon-claw',
-          'close-combat',
-          'moonblast',
-          'dark-pulse',
-          'iron-head',
-          'energy-ball',
-          'stone-edge',
-          'u-turn',
-          'protect',
-          'toxic',
-          'swords-dance',
-        ]);
-      } catch {
-        // Allow degraded startup if move index prefetch fails.
-      }
-      setProgress(92);
 
       setBootStatusText(t('bootFinalizingStartup'));
-      await new Promise((resolve) => setTimeout(resolve, 120));
+      await new Promise((resolve) => setTimeout(resolve, 80));
       setProgress(100);
       if (!cancelled) {
         setBootStatusText(t('bootReady'));
@@ -644,7 +617,23 @@ export function usePokeFactoryGame(): GameViewModel {
     return () => {
       cancelled = true;
     };
-  }, [prefetchEnemy, prefetchRentals, t]);
+  }, [gameState, pendingBattleResumeRestore, prefetchRentals, t]);
+
+  useEffect(() => {
+    if (gameState !== 'START') return;
+    if (backgroundWarmupStartedRef.current) return;
+    backgroundWarmupStartedRef.current = true;
+
+    const timer = window.setTimeout(() => {
+      void Promise.allSettled([
+        Promise.all([fetchDexCatalogEntries(), fetchDexTypeMap()]),
+        fetchDexSnapshots(BOOT_DEX_SNAPSHOT_IDS),
+        fetchDexMoveDetails(BOOT_MOVE_DETAIL_KEYS),
+      ]);
+    }, 600);
+
+    return () => window.clearTimeout(timer);
+  }, [gameState]);
 
   useEffect(() => {
     if (streak > highestStreak) {

@@ -1,6 +1,6 @@
 ﻿import { useEffect, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowLeft, Filter, Search, Sparkles } from 'lucide-react';
+import { ArrowLeft, Filter, Search } from 'lucide-react';
 import TypeBadge from '../../../../components/TypeBadge';
 import {
   fetchDexCatalogEntries,
@@ -431,6 +431,20 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     [getLocalized, isZh, selectedEntry],
   );
 
+  const seenCount = entries.filter((entry) => entry.seen).length;
+  const selectedSourceLabel = selectedEntry
+    ? (
+      isZh
+        ? {
+            TEAM: '队伍',
+            ENEMY: '对手',
+            RENTAL: '租赁',
+            ARCHIVE: '档案',
+          }[selectedEntry.sourceLabel]
+        : selectedEntry.sourceLabel
+    )
+    : '';
+
   useEffect(() => {
     if (!selectedEntry) {
       setSelectedId(null);
@@ -477,10 +491,15 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
       </div>
 
       <div className="pf-system-header">
-        <div>
+        <div className="flex items-center gap-3">
           <h2 className={`text-slate-950 ${isZh ? 'text-[28px] font-black' : 'text-[26px] font-black uppercase tracking-[0.05em]'}`}>
             {isZh ? '宝可梦图鉴' : 'Pokedex'}
           </h2>
+          <div className="hidden items-center gap-2 sm:flex">
+            <span className="rounded-full border border-slate-200 bg-white/90 px-3 py-1 text-[11px] font-black text-slate-500">
+              Seen {seenCount}
+            </span>
+          </div>
         </div>
         <button
           type="button"
@@ -493,8 +512,8 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
       </div>
 
       <div className="pf-system-toolbar">
-        <div className="pf-toolbar-panel p-3">
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-[1.4fr_1fr_1fr_1fr_auto]">
+        <div className="pf-toolbar-panel p-2.5">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-[1.5fr_1.5fr_1fr]">
             <label className="pf-filter-field">
               <Search className="h-4 w-4 text-slate-400" />
               <input
@@ -505,35 +524,34 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
               />
             </label>
 
-            <label className="pf-filter-field">
-              <Filter className="h-4 w-4 text-slate-400" />
-              <select
-                value={typeFilterPrimary}
-                onChange={(event) => setTypeFilterPrimary(event.target.value)}
-                className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 truncate"
-              >
-                {PREBUILT_TYPE_OPTIONS.map((type) => (
-                  <option key={type} value={type}>
-                    {type === 'all' ? (isZh ? '属性一' : 'Type 1') : getTypeLabel(type)}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <div className="pf-filter-field gap-3">
+              <Filter className="h-4 w-4 shrink-0 text-slate-400" />
+              <div className="grid min-w-0 flex-1 grid-cols-2 gap-2">
+                <select
+                  value={typeFilterPrimary}
+                  onChange={(event) => setTypeFilterPrimary(event.target.value)}
+                  className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 truncate"
+                >
+                  {PREBUILT_TYPE_OPTIONS.map((type) => (
+                    <option key={type} value={type}>
+                      {type === 'all' ? (isZh ? '属性一' : 'Type 1') : getTypeLabel(type)}
+                    </option>
+                  ))}
+                </select>
 
-            <label className="pf-filter-field">
-              <Filter className="h-4 w-4 text-slate-400" />
-              <select
-                value={typeFilterSecondary}
-                onChange={(event) => setTypeFilterSecondary(event.target.value)}
-                className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 truncate"
-              >
-                {PREBUILT_TYPE_OPTIONS.map((type) => (
-                  <option key={`secondary-${type}`} value={type}>
-                    {type === 'all' ? (isZh ? '属性二' : 'Type 2') : getTypeLabel(type)}
-                  </option>
-                ))}
-              </select>
-            </label>
+                <select
+                  value={typeFilterSecondary}
+                  onChange={(event) => setTypeFilterSecondary(event.target.value)}
+                  className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 truncate"
+                >
+                  {PREBUILT_TYPE_OPTIONS.map((type) => (
+                    <option key={`secondary-${type}`} value={type}>
+                      {type === 'all' ? (isZh ? '属性二' : 'Type 2') : getTypeLabel(type)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
             <label className="pf-filter-field">
               <Filter className="h-4 w-4 text-slate-400" />
@@ -550,48 +568,30 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
               </select>
             </label>
 
-            <div className="pf-terminal-section flex min-h-[44px] items-center justify-center gap-2 px-4">
-              <Sparkles className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-black text-slate-800">{filteredEntries.length}</span>
-            </div>
           </div>
         </div>
       </div>
 
       <div className="relative z-10 flex-1 min-h-0 px-3 pb-3">
-        <div className="grid h-full min-h-0 grid-cols-1 gap-3 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="pf-terminal-panel min-h-0 p-3">
-            <div className="custom-scrollbar min-h-0 overflow-y-auto pr-1">
-              <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+        <div className="grid h-full min-h-0 grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1.4fr)_360px]">
+          <div className="pf-terminal-panel min-h-0 overflow-hidden p-2.5 flex flex-col">
+            <div className="scrollbar-hidden min-h-0 flex-1 overflow-y-auto pr-1">
+              <div className="grid grid-cols-6 gap-1.5">
                 {filteredEntries.map((entry) => {
-                  const selected = selectedEntry?.id === entry.id;
                   return (
                     <button
                       key={`${entry.id}:${entry.raw?.name ?? ''}`}
                       type="button"
-                      data-selected={selected ? 'true' : 'false'}
-                      data-owned={entry.owned ? 'true' : 'false'}
                       onClick={() => setSelectedId(entry.id)}
-                      className="pf-collection-tile p-2"
+                      className="relative aspect-square overflow-hidden"
                     >
-                      <div className="absolute left-2 top-2 z-10 flex items-center gap-1.5">
-                        <PokeballStatusIcon owned={entry.owned} seen={entry.seen} />
-                        <span className="text-[9px] font-black uppercase tracking-[0.08em] text-slate-400">
-                          {String(entry.id).padStart(3, '0')}
-                        </span>
-                      </div>
-
                       <motion.div
-                        animate={selected && !shouldReduceMotion ? { y: [0, -2, 0] } : { y: 0 }}
-                        transition={selected && !shouldReduceMotion ? { duration: 0.7, repeat: Infinity, ease: 'easeInOut' } : { duration: 0 }}
+                        animate={{ y: 0 }}
+                        transition={{ duration: 0 }}
                         className="relative z-10 flex h-full w-full items-center justify-center"
                       >
-                        <DexSprite entry={entry} alt={entry.name} className="h-[88%] w-[88%] object-contain" />
+                        <DexSprite entry={entry} alt={entry.name} className="h-full w-full scale-[1.08] object-contain" />
                       </motion.div>
-
-                      <div className="absolute inset-x-2 bottom-2 z-10 truncate rounded-full bg-white/90 px-2 py-1 text-center text-[9px] font-black text-slate-700 shadow-sm">
-                        {entry.name}
-                      </div>
                     </button>
                   );
                 })}
@@ -605,21 +605,22 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
             </div>
           </div>
 
-          <div className="pf-terminal-panel min-h-0 p-3">
-            <div className="custom-scrollbar min-h-0 overflow-y-auto pr-1">
+          <div className="pf-terminal-panel min-h-0 overflow-hidden p-3 flex flex-col">
+            <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-1">
               {selectedEntry ? (
                 <div className="space-y-3">
-                  <div className="pf-terminal-section p-4">
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-[0.9fr_1.1fr]">
-                      <div>
+                  <div className="rounded-[22px] border border-slate-200 bg-white/90 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)]">
+                    <div className="grid grid-cols-[0.95fr_1.05fr] items-start gap-4">
+                      <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
                           <PokeballStatusIcon owned={selectedEntry.owned} seen={selectedEntry.seen} />
                           <span className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">
                             {getPokedexNumber(selectedEntry.id)}
                           </span>
                         </div>
+
                         <div className="mt-2 flex flex-wrap items-center gap-2">
-                          <h3 className={`text-slate-950 ${isZh ? 'text-[24px] font-black' : 'text-[22px] font-black uppercase tracking-[0.04em]'}`}>
+                          <h3 className={`text-slate-950 ${isZh ? 'text-[26px] font-black' : 'text-[24px] font-black uppercase tracking-[0.04em]'}`}>
                             {selectedEntry.name}
                           </h3>
                           {selectedFormLabel && (
@@ -628,47 +629,46 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
                             </span>
                           )}
                         </div>
-                        <div className="mt-3 flex justify-center rounded-[20px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(243,246,250,0.96)_100%)] px-3 py-4">
+
+                        <div className="mt-3 flex justify-center">
                           <DexSprite
                             entry={selectedEntry}
                             alt={selectedEntry.name}
-                            className="h-32 w-32 object-contain drop-shadow-[0_12px_20px_rgba(15,23,42,0.18)]"
+                            className="h-24 w-24 object-contain drop-shadow-[0_8px_16px_rgba(15,23,42,0.2)]"
                           />
                         </div>
-                        <div className="mt-3 flex flex-wrap gap-1.5">
+
+                        <div className="mt-2 flex flex-wrap gap-1.5 justify-center">
                           {selectedEntry.types.map((type) => (
                             <TypeBadge key={`detail-${selectedEntry.id}-${type}`} type={type} size="sm" />
                           ))}
                         </div>
                       </div>
 
-                      <div>
-                        <div className="grid grid-cols-2 gap-2">
-                          {[
-                            { key: 'BST', value: selectedEntry.bst, color: 'bg-slate-900' },
-                            { key: 'HP', value: selectedEntry.hp, color: 'bg-red-500' },
-                            { key: 'ATK', value: selectedEntry.attack, color: 'bg-orange-500' },
-                            { key: 'DEF', value: selectedEntry.defense, color: 'bg-yellow-500' },
-                            { key: 'SPA', value: selectedEntry.spAtk, color: 'bg-blue-500' },
-                            { key: 'SPD', value: selectedEntry.spDef, color: 'bg-emerald-500' },
-                            { key: 'SPE', value: selectedEntry.speed, color: 'bg-pink-500' },
-                          ].map((stat) => (
-                            <div key={`${selectedEntry.id}-${stat.key}`} className="rounded-[16px] border border-slate-200 bg-white/90 px-3 py-2.5">
-                              <div className="flex items-center justify-between gap-2">
-                                <span className="text-[10px] font-black uppercase tracking-[0.12em] text-slate-400">{stat.key}</span>
-                                <span className="text-sm font-black text-slate-900">{stat.value}</span>
-                              </div>
-                              <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100">
-                                <div className={`h-full rounded-full ${stat.color}`} style={{ width: `${Math.min(100, (stat.value / 255) * 100)}%` }} />
-                              </div>
+                      <div className="min-w-0 space-y-1.5">
+                        {[
+                          { key: 'HP', value: selectedEntry.hp, color: 'bg-red-500' },
+                          { key: 'ATK', value: selectedEntry.attack, color: 'bg-orange-500' },
+                          { key: 'DEF', value: selectedEntry.defense, color: 'bg-yellow-500' },
+                          { key: 'SPA', value: selectedEntry.spAtk, color: 'bg-blue-500' },
+                          { key: 'SPD', value: selectedEntry.spDef, color: 'bg-emerald-500' },
+                          { key: 'SPE', value: selectedEntry.speed, color: 'bg-pink-500' },
+                        ].map((stat) => (
+                          <div key={`${selectedEntry.id}-${stat.key}`}>
+                            <div className="mb-0.5 flex items-center justify-between text-[11px] font-bold text-slate-600">
+                              <span>{stat.key}</span>
+                              <span>{stat.value}</span>
                             </div>
-                          ))}
-                        </div>
+                            <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                              <div className={`h-full ${stat.color}`} style={{ width: `${Math.min(100, (stat.value / 255) * 100)}%` }} />
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
 
-                  <div className="pf-terminal-section p-4">
+                  <div className="rounded-[22px] border border-slate-200 bg-white/90 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)]">
                     {selectedEntry.learnableMoves && selectedEntry.learnableMoves.length > 0 ? (
                       <div className="space-y-1.5">
                         {selectedEntry.learnableMoves.map((move) => {
@@ -678,7 +678,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
                           return (
                             <div
                               key={`${selectedEntry.id}-${move}`}
-                              className="grid grid-cols-[1.4fr_0.8fr_0.9fr_0.5fr] items-center gap-2 rounded-[14px] border border-slate-200 bg-white/90 px-3 py-2"
+                              className="grid grid-cols-[1.35fr_0.75fr_0.8fr_0.45fr] items-center gap-2 rounded-[14px] border border-slate-200 bg-slate-50/90 px-3 py-2"
                             >
                               <span className="truncate text-[12px] font-semibold text-slate-800">{displayName}</span>
                               <div className="min-w-0">

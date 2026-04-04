@@ -1071,12 +1071,23 @@ button {
 }
 
 .scrollbar-hidden {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }
 
 .scrollbar-hidden::-webkit-scrollbar {
-  display: none;
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+  background: transparent !important;
+}
+
+.scrollbar-hidden::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb {
+  background: transparent !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
