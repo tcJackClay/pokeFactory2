@@ -26,13 +26,23 @@ const TypeBadge: React.FC<{ type: string; size?: 'xs' | 'sm' | 'md' | 'lg'; clas
 
   return (
     <div
-      className={`flex items-center border font-black italic uppercase ${isLight ? 'border-slate-950/12 text-slate-950' : 'border-white/12 text-white'} ${sizeClasses[size]} ${className}`}
+      className={`relative flex items-center overflow-hidden border-[2px] font-black italic uppercase ${isLight ? 'border-slate-950/20 text-slate-950' : 'border-slate-950/30 text-white'} ${sizeClasses[size]} ${className}`}
       style={{
-        background: `linear-gradient(135deg, color-mix(in srgb, ${color} 92%, white 8%) 0%, color-mix(in srgb, ${color} 78%, black 22%) 100%)`,
+        background: `linear-gradient(180deg, color-mix(in srgb, ${color} 76%, black 24%) 0%, color-mix(in srgb, ${color} 56%, black 44%) 100%)`,
       }}
     >
-      <Icon className={`${iconSizes[size]} drop-shadow-sm`} />
-      <span>{TYPE_ZH[type] || type}</span>
+      <div
+        className="absolute inset-[1px] flex items-center"
+        style={{
+          background: `linear-gradient(180deg, color-mix(in srgb, ${color} 96%, white 4%) 0%, color-mix(in srgb, ${color} 84%, black 16%) 100%)`,
+        }}
+      />
+      <div className="absolute inset-x-[1px] top-[1px] h-[1px] bg-white/45" />
+      <div className="absolute inset-x-[1px] bottom-[1px] h-[2px] bg-slate-950/16" />
+      <div className="relative z-10 flex items-center gap-inherit">
+        <Icon className={`${iconSizes[size]} drop-shadow-sm`} />
+        <span>{TYPE_ZH[type] || type}</span>
+      </div>
     </div>
   );
 };

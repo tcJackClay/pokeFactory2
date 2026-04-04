@@ -23,7 +23,7 @@ import { getReferenceRangeByChallenge, inReferenceRange } from '../config/factor
 import { FACTORY_BANNED_SPECIES_IDS, isFactoryBannedSpecies } from '../config/factorySpeciesRules';
 import { selectFactoryTrainerTemplate, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools';
-import type { BattleMenuTab, GamePokemon, GameState, Item, Move, Stats } from '../../../types';
+import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Stats, Weather } from '../../../types';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
 
 interface UseFactoryFlowParams {
@@ -63,6 +63,10 @@ interface UseFactoryFlowParams {
   setBattleLog: Dispatch<SetStateAction<string[]>>;
   setTurn: Dispatch<SetStateAction<BattleTurn>>;
   setBattleMenuTab: Dispatch<SetStateAction<BattleMenuTab>>;
+  setWeather: Dispatch<SetStateAction<Weather>>;
+  setWeatherTurns: Dispatch<SetStateAction<number>>;
+  setFieldState: Dispatch<SetStateAction<FieldState[]>>;
+  setFieldTurns: Dispatch<SetStateAction<FieldTurns>>;
   setActiveBuffs: Dispatch<SetStateAction<{ atk: boolean; def: boolean }>>;
   setEnemyBuffs: Dispatch<SetStateAction<{ atk: boolean; def: boolean }>>;
 }
@@ -350,6 +354,10 @@ export function useFactoryFlow({
   setBattleLog,
   setTurn,
   setBattleMenuTab,
+  setWeather,
+  setWeatherTurns,
+  setFieldState,
+  setFieldTurns,
   setActiveBuffs,
   setEnemyBuffs,
 }: UseFactoryFlowParams) {
@@ -387,6 +395,10 @@ export function useFactoryFlow({
     setBattleLog([]);
     setTurn('PLAYER');
     setBattleMenuTab('MAIN');
+    setWeather('none');
+    setWeatherTurns(0);
+    setFieldState([]);
+    setFieldTurns({});
     setActiveBuffs({ atk: false, def: false });
     setEnemyBuffs({ atk: false, def: false });
   }, [
@@ -397,7 +409,11 @@ export function useFactoryFlow({
     setEnemy,
     setEnemyBuffs,
     setEnemyTeam,
+    setFieldState,
+    setFieldTurns,
     setTurn,
+    setWeather,
+    setWeatherTurns,
   ]);
 
   const getUsedTrainerIdsForSet = useCallback((setNo: number) => {
@@ -837,6 +853,10 @@ export function useFactoryFlow({
 
       setTurn('PLAYER');
       setBattleMenuTab('MAIN');
+      setWeather('none');
+      setWeatherTurns(0);
+      setFieldState([]);
+      setFieldTurns({});
       setActiveBuffs({ atk: false, def: false });
       setEnemyBuffs({ atk: false, def: false });
       success = true;
@@ -863,10 +883,14 @@ export function useFactoryFlow({
     setCurrentEnemyTrainer,
     setEnemyBuffs,
     setEnemyTeam,
+    setFieldState,
+    setFieldTurns,
     setLoading,
     markTrainerUsedForSet,
     setSpecialBossBattleActive,
     setTurn,
+    setWeather,
+    setWeatherTurns,
     t,
   ]);
 

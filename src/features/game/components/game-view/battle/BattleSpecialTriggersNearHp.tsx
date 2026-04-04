@@ -3,17 +3,28 @@ import type { GameViewSectionProps } from '../shared';
 import megaTriggerIcon from '../../../../../assets/battle/mega-trigger.png';
 import dynamaxTriggerIcon from '../../../../../assets/battle/dynamax-trigger.png';
 import teraTriggerIcon from '../../../../../assets/battle/tera-trigger.png';
-import zmoveTriggerIcon from '../../../../../assets/battle/tera-trigger.png';
+import zmoveTriggerIcon from '../../../../../assets/battle/zmove-trigger.png';
 
-export function BattleSpecialTriggersNearHp({ viewModel }: GameViewSectionProps) {
+interface BattleSpecialTriggersNearHpProps extends GameViewSectionProps {
+  variant?: 'panel' | 'dock';
+}
+
+export function BattleSpecialTriggersNearHp({
+  viewModel,
+  variant = 'panel',
+}: BattleSpecialTriggersNearHpProps) {
   const {
     t,
     battleMenuTab,
     triggerBattleSpecial,
     canUseBattleSpecialByMode,
-    specialModeUnlocked,
     battleSpecialUsage,
+    playerTeam,
   } = viewModel;
+  const lead = playerTeam[0];
+  const heldItemId = lead?.factoryHeldItemId?.toLowerCase() ?? '';
+  const canShowMega = heldItemId.includes('ite') || heldItemId === 'red_orb' || heldItemId === 'blue_orb';
+  const canShowZMove = heldItemId.endsWith('-z') || heldItemId.endsWith('_z') || heldItemId.includes('ium-z') || heldItemId.includes('ium_z');
 
   const triggerButtons = [
     {
@@ -22,6 +33,7 @@ export function BattleSpecialTriggersNearHp({ viewModel }: GameViewSectionProps)
       label: battleSpecialUsage.MEGA ? t('specialMegaUsed') : t('specialMega'),
       enabled: canUseBattleSpecialByMode.MEGA,
       activated: battleSpecialUsage.MEGA,
+      visible: battleSpecialUsage.MEGA || (canUseBattleSpecialByMode.MEGA && canShowMega),
     },
     {
       mode: 'DYNAMAX' as const,
@@ -29,6 +41,7 @@ export function BattleSpecialTriggersNearHp({ viewModel }: GameViewSectionProps)
       label: battleSpecialUsage.DYNAMAX ? t('specialDynamaxUsed') : t('specialDynamax'),
       enabled: canUseBattleSpecialByMode.DYNAMAX,
       activated: battleSpecialUsage.DYNAMAX,
+      visible: battleSpecialUsage.DYNAMAX || canUseBattleSpecialByMode.DYNAMAX,
     },
     {
       mode: 'TERA' as const,
@@ -36,6 +49,7 @@ export function BattleSpecialTriggersNearHp({ viewModel }: GameViewSectionProps)
       label: battleSpecialUsage.TERA ? t('specialTeraUsed') : t('specialTera'),
       enabled: canUseBattleSpecialByMode.TERA,
       activated: battleSpecialUsage.TERA,
+      visible: battleSpecialUsage.TERA || canUseBattleSpecialByMode.TERA,
     },
     {
       mode: 'ZMOVE' as const,
@@ -43,27 +57,45 @@ export function BattleSpecialTriggersNearHp({ viewModel }: GameViewSectionProps)
       label: battleSpecialUsage.ZMOVE ? t('specialZMoveUsed') : t('specialZMove'),
       enabled: canUseBattleSpecialByMode.ZMOVE,
       activated: battleSpecialUsage.ZMOVE,
+      visible: battleSpecialUsage.ZMOVE || (canUseBattleSpecialByMode.ZMOVE && canShowZMove),
     },
   ];
+  const isDock = variant === 'dock';
+  const visibleButtons = triggerButtons.filter((button) => button.visible);
+  const specialTriggersInteractive = battleMenuTab === 'MAIN' || battleMenuTab === 'MOVES';
+
+  if (visibleButtons.length === 0) {
+    return null;
+  }
 
   return (
     <motion.div
       initial={{ opacity: 0, x: 6 }}
       animate={{ opacity: 1, x: 0 }}
-      className="h-full min-h-[110px] p-1 flex flex-col justify-between"
+      className={
+        isDock
+          ? 'pf-battle-trigger-dock shrink-0 self-end px-1.5 py-1.5'
+          : 'flex h-full min-h-[110px] flex-col justify-between rounded-[18px] border border-slate-200 bg-white/86 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.90)]'
+      }
     >
-      <div className="grid grid-cols-4 gap-2">
-        {triggerButtons.map((button) => (
+      <div className={isDock ? 'flex items-center gap-1.5' : 'grid grid-cols-4 gap-2'}>
+        {visibleButtons.map((button) => (
           <button
             key={button.mode}
             title={button.label}
             aria-label={button.label}
             onClick={() => void triggerBattleSpecial(button.mode)}
-            disabled={!button.enabled || battleMenuTab !== 'MAIN'}
-            className={`relative overflow-hidden transition-all w-14 h-14 sm:w-16 sm:h-16 p-0 border-0 bg-transparent shadow-none ${
-              button.enabled && battleMenuTab === 'MAIN'
+            disabled={!button.enabled || !specialTriggersInteractive}
+            className={`relative overflow-hidden transition-all p-0 border-0 shadow-none ${
+              isDock
+                ? 'h-9 w-9 rounded-[8px] bg-transparent sm:h-10 sm:w-10'
+                : 'h-14 w-14 rounded-[10px] bg-transparent sm:h-16 sm:w-16'
+            } ${
+              button.enabled && specialTriggersInteractive
                 ? 'hover:-translate-y-[1px] hover:brightness-110'
-                : 'cursor-not-allowed'
+                : 'cursor-not-allowed opacity-60 saturate-50'
+            } ${
+              button.activated && isDock ? 'ring-1 ring-violet-500 ring-offset-1 ring-offset-white' : ''
             }`}
           >
             <span
@@ -77,9 +109,6 @@ export function BattleSpecialTriggersNearHp({ viewModel }: GameViewSectionProps)
             />
           </button>
         ))}
-      </div>
-      <div className="mt-1 text-center text-[8px] font-black tracking-wide text-slate-700">
-        {specialModeUnlocked ? t('specialTriggerHint') : t('specialLocked')}
       </div>
     </motion.div>
   );

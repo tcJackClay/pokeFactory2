@@ -12,7 +12,7 @@ import {
   Zap,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import type { FieldState, StatStages, Weather } from '../../../../../types';
 import type { GameViewSectionProps } from '../shared';
 
@@ -53,6 +53,7 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
     currentLanguage,
     getStatName,
   } = viewModel;
+  const shouldReduceMotion = useReducedMotion();
   const player = playerTeam[0];
   const isZh = currentLanguage.startsWith('zh');
 
@@ -99,59 +100,65 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
   return (
     <motion.div
       key="status-panel"
-      initial={{ opacity: 0, y: 10 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="h-full overflow-y-auto custom-scrollbar p-3 sm:p-4"
+      exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+      transition={{ duration: shouldReduceMotion ? 0.01 : 0.18, ease: 'easeOut' }}
+      className="flex h-full flex-col gap-3 overflow-y-auto p-3 sm:p-4"
     >
-      <div className="flex h-full flex-col gap-3">
-        {effectRows.length > 0 && (
-          <div className="space-y-2">
-            {effectRows.map((effect) => {
-              const Icon = effect.icon;
-              return (
-                <div key={effect.key} className="flex items-center justify-between gap-3 border-b border-slate-200/80 pb-2 last:border-b-0 last:pb-0">
+      {effectRows.length > 0 && (
+        <div className="grid gap-2">
+          {effectRows.map((effect) => {
+            const Icon = effect.icon;
+            return (
+              <div key={effect.key} className="rounded-[18px] border border-slate-200 bg-white/88 px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)]">
+                <div className="flex items-center justify-between gap-3">
                   <div className="flex min-w-0 items-center gap-2.5">
-                    <Icon className={`h-4 w-4 shrink-0 ${effect.iconClassName}`} strokeWidth={2.25} />
-                    <span className="truncate text-[11px] font-black tracking-[0.08em] text-slate-700">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50">
+                      <Icon className={`h-4 w-4 ${effect.iconClassName}`} strokeWidth={2.2} />
+                    </div>
+                    <span className="truncate text-sm font-black text-slate-800">
                       {isZh ? effect.label.zh : effect.label.en}
                     </span>
                   </div>
-                  <span className="shrink-0 text-[10px] font-bold text-slate-400">
+
+                  <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-slate-500">
                     {getTurnLabel(effect.turns, isZh)}
                   </span>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              </div>
+            );
+          })}
+        </div>
+      )}
 
-        {stageRows.length > 0 && (
-          <div className="grid grid-cols-3 gap-2 pt-1">
-            {stageRows.map((row) => {
-              const isBuff = row.value > 0;
-              return (
-                <div key={row.key} className="flex min-w-0 items-center justify-center gap-1.5 text-[11px] font-black text-slate-700">
-                  <span className="truncate">{getStatName(row.key)}</span>
-                  <span className={`flex items-center gap-0.5 ${isBuff ? 'text-red-600' : 'text-blue-600'}`}>
-                    <Triangle
-                      className={`h-3 w-3 ${isBuff ? 'fill-current' : 'rotate-180 fill-current'}`}
-                      strokeWidth={1.8}
-                    />
-                    <span>{Math.abs(row.value)}</span>
-                  </span>
+      {stageRows.length > 0 && (
+        <div className="grid grid-cols-3 gap-2">
+          {stageRows.map((row) => {
+            const isBuff = row.value > 0;
+            return (
+              <div key={row.key} className="rounded-[18px] border border-slate-200 bg-white/88 px-3 py-2.5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.92)]">
+                <div className="truncate text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
+                  {getStatName(row.key)}
                 </div>
-              );
-            })}
-          </div>
-        )}
+                <div className={`mt-2 inline-flex items-center gap-1 text-sm font-black ${isBuff ? 'text-red-600' : 'text-blue-600'}`}>
+                  <Triangle
+                    className={`h-3.5 w-3.5 ${isBuff ? 'fill-current' : 'rotate-180 fill-current'}`}
+                    strokeWidth={1.8}
+                  />
+                  <span>{Math.abs(row.value)}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
-        {effectRows.length === 0 && stageRows.length === 0 && (
-          <div className="flex h-full items-center justify-center text-[11px] font-bold tracking-[0.08em] text-slate-400">
-            {isZh ? '当前无状态变化' : 'No active effects'}
-          </div>
-        )}
-      </div>
+      {effectRows.length === 0 && stageRows.length === 0 && (
+        <div className="flex h-full items-center justify-center rounded-[18px] border border-dashed border-slate-200 bg-slate-50/80 px-4 py-6 text-center text-sm font-bold text-slate-400">
+          {isZh ? '当前无场地效果' : 'No active effects'}
+        </div>
+      )}
     </motion.div>
   );
 }

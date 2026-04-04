@@ -2,6 +2,7 @@ import type { GamePokemon } from '../../../../types';
 import type { GameViewModel } from '../../view-model';
 
 export interface GameViewSectionProps {
+  key?: string;
   viewModel: GameViewModel;
 }
 

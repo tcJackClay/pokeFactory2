@@ -1,10 +1,13 @@
 import type {
   BattleMenuTab,
+  FieldState,
+  FieldTurns,
   GamePokemon,
   GameState,
   Item,
   Move,
   Pokemon,
+  Weather,
 } from '../../../types';
 import type { RegionDispatchState } from '../config/events';
 import type { FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
@@ -67,6 +70,10 @@ export interface GameViewProgressState {
 
 export interface GameViewBattleState {
   activeBuffs: { atk: boolean; def: boolean };
+  weather: Weather;
+  weatherTurns: number;
+  fieldState: FieldState[];
+  fieldTurns: FieldTurns;
   isTransitioning: boolean;
   isMessageProcessing: boolean;
   specialModeUnlocked: boolean;

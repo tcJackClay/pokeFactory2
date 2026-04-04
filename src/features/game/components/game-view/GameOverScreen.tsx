@@ -1,33 +1,60 @@
-import { motion } from 'motion/react';
-import { RefreshCw, Skull } from 'lucide-react';
+import { motion, useReducedMotion } from 'motion/react';
+import { RefreshCw, Skull, TriangleAlert } from 'lucide-react';
 import type { GameViewSectionProps } from './shared';
 
 export function GameOverScreen({ viewModel }: GameViewSectionProps) {
-  const { stage, t, enterBase } = viewModel;
+  const { stage, currentLanguage, t, enterBase } = viewModel;
+  const shouldReduceMotion = useReducedMotion();
+  const isZh = currentLanguage.startsWith('zh');
 
   return (
     <motion.div
       key="gameover"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="flex-1 flex flex-col items-center justify-center p-4 text-center"
+      initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.98, y: 8 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98, y: 8 }}
+      className="flex flex-1 items-center justify-center p-4"
     >
-      <div className="bg-red-500 p-6 md:p-8 skew-x-[-12deg] shadow-2xl mb-6 md:mb-8">
-        <Skull className="w-12 h-12 md:w-20 md:h-20 text-white skew-x-[12deg]" />
-      </div>
-      <h2 className="text-4xl md:text-7xl font-black mb-4 tracking-tighter italic text-slate-900 uppercase">{t('gameOver')}</h2>
-      <div className="bg-slate-900 text-white px-6 py-2 skew-x-[-10deg] mb-8">
-        <p className="font-black italic text-lg md:text-2xl skew-x-[10deg]">{t('reachedFloor', { stage })}</p>
-      </div>
+      <div className="pf-result-shell relative w-full max-w-[820px] p-6 sm:p-8" data-tone="danger">
+        <div className="relative z-10 text-center">
+          <div className="inline-flex h-20 w-20 items-center justify-center rounded-full border border-rose-200 bg-rose-50 shadow-sm sm:h-24 sm:w-24">
+            <Skull className="h-10 w-10 text-rose-500 sm:h-12 sm:w-12" />
+          </div>
 
-      <button
-        onClick={enterBase}
-        className="px-10 md:px-12 py-4 md:py-5 bg-slate-900 text-white font-black text-xl md:text-2xl skew-x-[-12deg] hover:bg-blue-600 transition-all shadow-xl"
-      >
-        <span className="flex items-center gap-3 skew-x-[12deg]">
-          <RefreshCw className="w-5 h-5 md:w-6 md:h-6" /> {t('restart')}
-        </span>
-      </button>
+          <h2 className={`mt-5 text-slate-950 ${isZh ? 'text-[34px] font-black' : 'text-[32px] font-black uppercase tracking-[0.05em]'}`}>
+            {t('gameOver')}
+          </h2>
+
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="pf-result-metric-card text-left">
+              <div className="text-[10px] font-black uppercase tracking-[0.12em] text-slate-400">
+                {isZh ? '倒下位置' : 'End Point'}
+              </div>
+              <div className="mt-2 text-lg font-black text-slate-900">{t('reachedFloor', { stage })}</div>
+            </div>
+
+            <div className="pf-result-metric-card text-left">
+              <div className="text-[10px] font-black uppercase tracking-[0.12em] text-slate-400">
+                {isZh ? '状态' : 'Status'}
+              </div>
+              <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-3 py-1.5 text-sm font-black text-rose-700">
+                <TriangleAlert className="h-4 w-4" />
+                {isZh ? '挑战失败' : 'Run Failed'}
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            data-tone="primary"
+            onClick={enterBase}
+            className="pf-action-button mt-7 min-w-[280px] px-6"
+          >
+            <RefreshCw className="h-4 w-4" />
+            <span>{t('restart')}</span>
+          </button>
+        </div>
+      </div>
     </motion.div>
   );
 }
