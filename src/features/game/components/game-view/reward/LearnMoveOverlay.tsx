@@ -8,6 +8,8 @@ export function LearnMoveOverlay({ viewModel }: GameViewSectionProps) {
     learningPokemonIdx,
     potentialMoves,
     selectedNewMove,
+    pendingTmMove,
+    pendingTmLearnerIndexes,
     playerTeam,
     loading,
     t,
@@ -32,36 +34,50 @@ export function LearnMoveOverlay({ viewModel }: GameViewSectionProps) {
         <div className="inline-block bg-blue-600 px-12 py-3 skew-x-[-12deg] shadow-xl mb-4">
           <h2 className="text-3xl font-black italic tracking-tighter skew-x-[12deg] text-white">{t('learnMove')}</h2>
         </div>
-        <p className="text-slate-300 font-bold italic text-sm">{t('selectToLearn')}</p>
+        <p className="text-slate-300 font-bold italic text-sm">
+          {pendingTmMove
+            ? `${t('selectToLearn')} (${getLocalized(pendingTmMove)})`
+            : t('selectToLearn')}
+        </p>
       </div>
 
       {learningPokemonIdx === null ? (
         <div className="flex-1 flex flex-col overflow-hidden">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-4 overflow-y-auto custom-scrollbar pr-2 flex-1">
-            {playerTeam.map((pokemon, index) => (
-              <div
-                key={`${pokemon.id}-${index}`}
-                className="bg-white p-4 md:p-6 shadow-xl hover:shadow-2xl transition-all border-b-4 border-slate-100 hover:border-blue-500 group flex items-center md:flex-col gap-4 md:gap-0"
-              >
-                <img
-                  src={pokemon.sprites.front_default}
-                  className="w-16 h-16 md:w-24 md:h-24 group-hover:scale-110 transition-transform"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="flex-1 md:flex-none text-left md:text-center">
-                  <div className="font-black italic text-base md:text-xl uppercase truncate">{getLocalized(pokemon)}</div>
-                  <div className="text-[8px] md:text-[10px] font-bold text-slate-400 mt-1 mb-2 md:mb-4">
-                    {t('movesCount').replace('{count}', pokemon.selectedMoves.length.toString())}
+            {playerTeam.map((pokemon, index) => {
+              const tmBlocked = !!pendingTmMove && !pendingTmLearnerIndexes.includes(index);
+              return (
+                <div
+                  key={`${pokemon.id}-${index}`}
+                  className="bg-white p-4 md:p-6 shadow-xl hover:shadow-2xl transition-all border-b-4 border-slate-100 hover:border-blue-500 group flex items-center md:flex-col gap-4 md:gap-0"
+                >
+                  <img
+                    src={pokemon.sprites.front_default}
+                    className="w-16 h-16 md:w-24 md:h-24 group-hover:scale-110 transition-transform"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="flex-1 md:flex-none text-left md:text-center">
+                    <div className="font-black italic text-base md:text-xl uppercase truncate">{getLocalized(pokemon)}</div>
+                    <div className="text-[8px] md:text-[10px] font-bold text-slate-400 mt-1 mb-2 md:mb-4">
+                      {t('movesCount').replace('{count}', pokemon.selectedMoves.length.toString())}
+                    </div>
+                    <button
+                      onClick={() => startLearningMove(index)}
+                      disabled={tmBlocked}
+                      className={`w-full py-2 font-black italic text-[10px] md:text-sm transition-colors skew-x-[-10deg] ${
+                        tmBlocked
+                          ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                          : 'bg-blue-500 text-white hover:bg-blue-600'
+                      }`}
+                    >
+                      <span className="skew-x-[10deg] inline-block">
+                        {tmBlocked ? 'Cannot Learn TM' : t('learnMoveBtn')}
+                      </span>
+                    </button>
                   </div>
-                  <button
-                    onClick={() => startLearningMove(index)}
-                    className="w-full py-2 bg-blue-500 text-white font-black italic text-[10px] md:text-sm hover:bg-blue-600 transition-colors skew-x-[-10deg]"
-                  >
-                    <span className="skew-x-[10deg] inline-block">{t('learnMoveBtn')}</span>
-                  </button>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="mt-auto pt-4 flex-none">
             <button

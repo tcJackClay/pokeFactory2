@@ -42,13 +42,13 @@ export function RewardCard({ viewModel, reward, index }: RewardCardProps) {
             <h4 className="text-base font-black italic mb-1 leading-tight text-center">{getLocalized(reward.data)}</h4>
             <p className="text-[10px] text-slate-400 font-bold line-clamp-2 text-center px-2">{getLocalizedDesc(reward.data)}</p>
           </>
-        ) : reward.type === 'MOVE' ? (
+        ) : reward.type === 'TM' ? (
           <>
-            <div className="w-16 h-16 bg-yellow-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <Zap className="w-8 h-8 text-yellow-500" />
+            <div className="w-16 h-16 bg-cyan-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <Zap className="w-8 h-8 text-cyan-500" />
             </div>
-            <h4 className="text-base font-black italic mb-1 leading-tight text-center">{t('learnMove')}</h4>
-            <p className="text-[10px] text-slate-400 font-bold line-clamp-2 text-center px-2">{t('learnMoveDesc')}</p>
+            <h4 className="text-base font-black italic mb-1 leading-tight text-center">TM: {getLocalized(reward.data.move)}</h4>
+            <p className="text-[10px] text-slate-400 font-bold line-clamp-2 text-center px-2">{getLocalizedDesc(reward.data.move)}</p>
           </>
         ) : reward.type === 'EVOLUTION' ? (
           <>

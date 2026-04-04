@@ -1,5 +1,7 @@
 export type {
   BattleAnimation,
+  BaseRunSummary,
+  BaseTab,
   BattleSpecialMode,
   BattleTurn,
   BattleSpecialUsageState,
@@ -18,6 +20,7 @@ export type { GameViewActions } from './view-model/actions';
 export type { GameViewSetters } from './view-model/setters';
 export type {
   GameViewBattleState,
+  GameViewBaseState,
   GameViewFlowState,
   GameViewProgressState,
   GameViewRosterState,

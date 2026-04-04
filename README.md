@@ -18,3 +18,9 @@ View your app in AI Studio: https://ai.studio/apps/c1a2ce94-c302-48d8-b502-1e2f8
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Developer mode (for feature testing)
+
+- In local development (`npm run dev`), a `DEV` button is shown in the top-right header.
+- Click it to open the in-app developer panel for quick battle setup, resource injection, and reward-screen testing.
+- To force-enable this panel in other environments, set `VITE_ENABLE_DEVTOOLS=1`.

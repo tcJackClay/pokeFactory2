@@ -10,6 +10,18 @@ export type BattleAnimation = 'idle' | 'attack' | 'hit';
 export type RoundResult = 'WIN' | 'LOSS' | null;
 export type { FactoryAiTier };
 export type BattleSpecialMode = 'MEGA' | 'DYNAMAX' | 'TERA';
+export type BaseTab = 'HOME' | 'FACTORY' | 'SHOP' | 'BREEDING' | 'COLLECTION' | 'EVENTS' | 'PROFILE';
+
+export interface BaseRunSummary {
+  visible: boolean;
+  mode: 'CLASSIC' | 'ROGUE' | null;
+  setNo: number | null;
+  battleIndexInSet: number | null;
+  result: 'WIN' | 'LOSS' | 'RETIRE' | null;
+  tokenGain: number;
+  newRecord: boolean;
+  unlockedFeatureIds: string[];
+}
 
 export interface BattleSpecialUsageState {
   MEGA: boolean;
@@ -18,7 +30,7 @@ export interface BattleSpecialUsageState {
 }
 
 export interface GameReward {
-  type: 'ITEM' | 'POKEMON' | 'MOVE' | 'EVOLUTION' | 'SHOP_ITEM';
+  type: 'ITEM' | 'POKEMON' | 'TM' | 'EVOLUTION' | 'SHOP_ITEM';
   data: any;
 }
 
@@ -47,6 +59,9 @@ export interface GameViewSelectionState {
   learningPokemonIdx: number | null;
   potentialMoves: Move[];
   selectedNewMove: Move | null;
+  pendingTmMove: Move | null;
+  pendingTmLearnerIndexes: number[];
+  pendingEvolutionEligibleIndexes: number[];
   hoveredMove: Move | null;
   showReplaceUI: GamePokemon | null;
   selectedPokemonForEvolution: SelectedEvolutionPokemon | null;

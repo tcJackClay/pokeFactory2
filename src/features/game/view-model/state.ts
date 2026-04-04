@@ -6,7 +6,10 @@ import type {
   Move,
   Pokemon,
 } from '../../../types';
+import type { FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import type {
+  BaseRunSummary,
+  BaseTab,
   BattleSpecialMode,
   BattleSpecialUsageState,
   BattleTurn,
@@ -20,6 +23,8 @@ import type {
 
 export interface GameViewFlowState {
   gameState: GameState;
+  devToolsAvailable: boolean;
+  developerMode: boolean;
   startStep: number;
   showLogHistory: boolean;
   currentLanguage: string;
@@ -35,6 +40,7 @@ export interface GameViewRosterState {
   playerTeam: GamePokemon[];
   enemy: GamePokemon | null;
   enemyTeam: GamePokemon[];
+  currentEnemyTrainer: FactoryTrainerTemplate | null;
   factoryRentals: GamePokemon[];
   selectedRentalIndices: number[];
   inventory: Item[];
@@ -73,11 +79,33 @@ export interface GameViewSetupState {
   evolutionChoices: Pokemon[];
 }
 
+export interface GameViewBaseState {
+  currentBaseTab: BaseTab;
+  pendingRunSummary: BaseRunSummary | null;
+  hasFactoryRunToResume: boolean;
+  highestStreak: number;
+  starterName: string;
+  starterBondLevel: number;
+  availableEggCount: number;
+  activeEventCount: number;
+  seenCount: number;
+  ownedCount: number;
+  formCount: number;
+  collectionSeenIds: number[];
+  collectionOwnedIds: number[];
+  collectionFormKeys: string[];
+  shopUnlocked: boolean;
+  breedingUnlocked: boolean;
+  collectionUnlocked: boolean;
+  eventsUnlocked: boolean;
+}
+
 export interface GameViewState
   extends GameViewFlowState,
     GameViewRosterState,
     GameViewProgressState,
     GameViewBattleState,
     GameViewSetupState,
+    GameViewBaseState,
     GameViewAnimationState,
     GameViewSelectionState {}

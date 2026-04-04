@@ -4,6 +4,7 @@ import type { GameViewSectionProps } from '../shared';
 
 export function EvolutionOverlay({ viewModel }: GameViewSectionProps) {
   const {
+    pendingEvolutionEligibleIndexes,
     selectedPokemonForEvolution,
     evolutionChoices,
     playerTeam,
@@ -12,9 +13,14 @@ export function EvolutionOverlay({ viewModel }: GameViewSectionProps) {
     startEvolution,
     performEvolution,
     setPendingRewardAction,
+    setPendingEvolutionEligibleIndexes,
     setSelectedPokemonForEvolution,
     setEvolutionChoices,
   } = viewModel;
+
+  const evolvableTeamEntries = playerTeam
+    .map((pokemon, index) => ({ pokemon, index }))
+    .filter((entry) => pendingEvolutionEligibleIndexes.includes(entry.index));
 
   return (
     <motion.div
@@ -35,7 +41,7 @@ export function EvolutionOverlay({ viewModel }: GameViewSectionProps) {
       {!selectedPokemonForEvolution ? (
         <div className="flex-1 flex flex-col overflow-hidden">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-8 overflow-y-auto custom-scrollbar pr-2">
-            {playerTeam.map((pokemon, index) => (
+            {evolvableTeamEntries.map(({ pokemon, index }) => (
               <div
                 key={`${pokemon.id}-${index}`}
                 className="bg-white p-6 shadow-xl hover:shadow-2xl transition-all border-b-4 border-slate-100 hover:border-purple-500 group flex flex-col items-center"
@@ -54,10 +60,18 @@ export function EvolutionOverlay({ viewModel }: GameViewSectionProps) {
                 </button>
               </div>
             ))}
+            {evolvableTeamEntries.length === 0 && (
+              <div className="col-span-full text-center py-8">
+                <p className="text-slate-300 font-bold italic">{t('cannotEvolve')}</p>
+              </div>
+            )}
           </div>
           <div className="mt-auto pt-4 flex-none">
             <button
-              onClick={() => setPendingRewardAction(null)}
+              onClick={() => {
+                setPendingRewardAction(null);
+                setPendingEvolutionEligibleIndexes([]);
+              }}
               className="w-full py-3 bg-slate-800 text-white font-black italic skew-x-[-12deg] hover:bg-slate-700 transition-colors"
             >
               <span className="skew-x-[12deg] inline-block">{t('back')}</span>

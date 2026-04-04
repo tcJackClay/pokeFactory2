@@ -1,8 +1,23 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { getProcessedPokemon, getRandomPokemonIdentifier } from '../../../services/pokeApi';
-import { FACTORY_BATTLE_CONFIG, getAiTier, getRentalHistoryRank, getSetNoByStage } from '../config/factoryBattle';
+import {
+  getProcessedPokemon,
+  getProcessedPokemonFromReferenceSet,
+  getRandomPokemonIdentifier,
+} from '../../../services/pokeApi';
+import {
+  FACTORY_BATTLE_CONFIG,
+  getAiTier,
+  getFactoryChallengeNum,
+  getFactoryQualityBiasByChallenge,
+  getRentalHistoryRank,
+  getSetNoByStage,
+} from '../config/factoryBattle';
 import { FACTORY_REWARD_CONFIG } from '../config/factoryRewards';
+import { getReferenceSetsByRange, hasReferenceFrontierMonId } from '../config/factoryReferenceSets';
+import { getReferenceRangeByChallenge, inReferenceRange } from '../config/factoryReferenceRanges';
+import { selectFactoryTrainerTemplate, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
+import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools';
 import type { BattleMenuTab, GamePokemon, GameState, Item, Move, Stats } from '../../../types';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
 
@@ -38,11 +53,27 @@ interface UseFactoryFlowParams {
   setIsTransitioning: Dispatch<SetStateAction<boolean>>;
   setEnemyTeam: Dispatch<SetStateAction<GamePokemon[]>>;
   setEnemy: Dispatch<SetStateAction<GamePokemon | null>>;
+  setCurrentEnemyTrainer: Dispatch<SetStateAction<FactoryTrainerTemplate | null>>;
   setBattleLog: Dispatch<SetStateAction<string[]>>;
   setTurn: Dispatch<SetStateAction<BattleTurn>>;
   setBattleMenuTab: Dispatch<SetStateAction<BattleMenuTab>>;
   setActiveBuffs: Dispatch<SetStateAction<{ atk: boolean; def: boolean }>>;
   setEnemyBuffs: Dispatch<SetStateAction<{ atk: boolean; def: boolean }>>;
+}
+
+interface EnemyEncounterData {
+  team: GamePokemon[];
+  firstEnemy: GamePokemon;
+  isBoss: boolean;
+  isSpecialUnlockBoss: boolean;
+  aiTier: FactoryAiTier;
+  setNo: number;
+  trainer: FactoryTrainerTemplate;
+}
+
+interface RentalDraftCache {
+  key: string;
+  rentals: GamePokemon[];
 }
 
 function statNatureModifier(statName: keyof Omit<Stats, 'hp'>, plus: string, minus: string): number {
@@ -150,15 +181,23 @@ export function useFactoryFlow({
   setIsTransitioning,
   setEnemyTeam,
   setEnemy,
+  setCurrentEnemyTrainer,
   setBattleLog,
   setTurn,
   setBattleMenuTab,
   setActiveBuffs,
   setEnemyBuffs,
 }: UseFactoryFlowParams) {
+  const prefetchedEncounterRef = useRef<{ stage: number; key: string; data: EnemyEncounterData } | null>(null);
+  const prefetchRequestTokenRef = useRef(0);
+  const prefetchedRentalsRef = useRef<RentalDraftCache | null>(null);
+  const rentalPrefetchTokenRef = useRef(0);
+  const usedTrainerIdsBySetRef = useRef<Map<number, Set<string>>>(new Map());
+
   const resetBattlePreview = useCallback(() => {
     setEnemy(null);
     setEnemyTeam([]);
+    setCurrentEnemyTrainer(null);
     setBattleLog([]);
     setTurn('PLAYER');
     setBattleMenuTab('MAIN');
@@ -168,11 +207,28 @@ export function useFactoryFlow({
     setActiveBuffs,
     setBattleLog,
     setBattleMenuTab,
+    setCurrentEnemyTrainer,
     setEnemy,
     setEnemyBuffs,
     setEnemyTeam,
     setTurn,
   ]);
+
+  const getUsedTrainerIdsForSet = useCallback((setNo: number) => {
+    return usedTrainerIdsBySetRef.current.get(setNo) ?? new Set<string>();
+  }, []);
+
+  const markTrainerUsedForSet = useCallback((setNo: number, trainerId: string) => {
+    const current = usedTrainerIdsBySetRef.current.get(setNo) ?? new Set<string>();
+    current.add(trainerId);
+    usedTrainerIdsBySetRef.current.set(setNo, current);
+
+    for (const existingSetNo of [...usedTrainerIdsBySetRef.current.keys()]) {
+      if (existingSetNo < setNo) {
+        usedTrainerIdsBySetRef.current.delete(existingSetNo);
+      }
+    }
+  }, []);
 
   const healAllPokemon = useCallback(() => {
     setPlayerTeam((prev) => prev.map((pokemon) => ({ ...pokemon, currentHp: pokemon.maxHp })));
@@ -187,10 +243,38 @@ export function useFactoryFlow({
     }, 800);
   }, [setGameState, setIsTransitioning]);
 
+  const buildEncounterContextKey = useCallback((currentStage: number, overrides?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[] }) => {
+    const factoryPool = overrides?.factoryPool ?? factoryRentals;
+    const playerPool = overrides?.playerPool ?? playerTeam;
+    const selectedGensKey = [...selectedGens].sort((a, b) => a - b).join(',');
+    const factoryIds = factoryPool.map((pokemon) => pokemon.id).join(',');
+    const playerIds = playerPool.map((pokemon) => pokemon.id).join(',');
+
+    return [
+      currentStage,
+      startLevel,
+      totalRents,
+      specialModeUnlocked ? 1 : 0,
+      selectedGensKey,
+      factoryIds,
+      playerIds,
+    ].join('|');
+  }, [factoryRentals, playerTeam, selectedGens, specialModeUnlocked, startLevel, totalRents]);
+
+  const buildRentalPrefetchKey = useCallback(() => {
+    const selectedGensKey = [...selectedGens].sort((a, b) => a - b).join(',');
+    return [startLevel, totalRents, selectedGensKey].join('|');
+  }, [selectedGens, startLevel, totalRents]);
+
   const buildFactoryPool = useCallback(async ({
     count,
     level,
     qualityBias,
+    perSlotQualityBiases,
+    referenceChallengeNum,
+    useBetterRange,
+    perSlotUseBetterRange,
+    allowedFrontierMonIds,
     blockedSpecies = new Set<number>(),
     setNo,
     isBoss,
@@ -198,6 +282,11 @@ export function useFactoryFlow({
     count: number;
     level: number;
     qualityBias: number;
+    perSlotQualityBiases?: number[];
+    referenceChallengeNum?: number;
+    useBetterRange?: boolean;
+    perSlotUseBetterRange?: boolean[];
+    allowedFrontierMonIds?: Set<number>;
     blockedSpecies?: Set<number>;
     setNo: number;
     isBoss: boolean;
@@ -205,87 +294,266 @@ export function useFactoryFlow({
     const pickedSpecies = new Set<number>(blockedSpecies);
     const pickedItems = new Set<string>();
     const mons: GamePokemon[] = [];
+    const slotRangeSetCache = new Map<string, Awaited<ReturnType<typeof getReferenceSetsByRange>>>();
     const maxAttempts = count * 25;
+    const useReferenceSets = FACTORY_BATTLE_CONFIG.useReferenceSetPool;
     let attempts = 0;
 
     while (mons.length < count && attempts < maxAttempts) {
       attempts += 1;
-      const sampleCount = Math.max(2, 2 + qualityBias);
-      const candidates: GamePokemon[] = [];
+      const slotQualityBias = perSlotQualityBiases?.[mons.length] ?? qualityBias;
+      const slotUseBetterRange = perSlotUseBetterRange?.[mons.length] ?? useBetterRange ?? false;
+      const sampleCount = Math.max(2, 2 + slotQualityBias);
+      const candidates: Array<{ pokemon: GamePokemon; itemId: string }> = [];
 
-      for (let i = 0; i < sampleCount; i += 1) {
-        const identifier = await getRandomPokemonIdentifier(selectedGens);
-        if (typeof identifier === 'number' && pickedSpecies.has(identifier)) continue;
+      if (useReferenceSets) {
+        const challengeForRange = referenceChallengeNum ?? 0;
+        const slotRange = getReferenceRangeByChallenge(level, challengeForRange, slotUseBetterRange);
+        const slotRangeKey = `${slotRange.min}-${slotRange.max}`;
+        if (!slotRangeSetCache.has(slotRangeKey)) {
+          const rangeSets = await getReferenceSetsByRange(slotRange.min, slotRange.max);
+          slotRangeSetCache.set(slotRangeKey, rangeSets);
+        }
+        const slotRangeSets = slotRangeSetCache.get(slotRangeKey) ?? [];
+        const eligibleSets = slotRangeSets.filter((entry) =>
+          selectedGens.includes(entry.gen)
+          && inReferenceRange(entry.frontierMonId, slotRange)
+          && (!allowedFrontierMonIds || allowedFrontierMonIds.has(entry.frontierMonId))
+          && !pickedSpecies.has(entry.speciesId),
+        );
 
-        try {
-          const candidate = await getProcessedPokemon(identifier, level);
-          if (pickedSpecies.has(candidate.id)) continue;
-          candidates.push(isBoss ? applyBossBuildEnhancement(candidate, FACTORY_BATTLE_CONFIG.boss.minIv) : candidate);
-        } catch {
-          // 某些特殊形态在 PokeAPI 名称可能不可用，直接跳过并重试。
-          continue;
+        for (let i = 0; i < sampleCount; i += 1) {
+          if (eligibleSets.length === 0) break;
+          const picked = eligibleSets[Math.floor(Math.random() * eligibleSets.length)];
+          if (!picked || pickedSpecies.has(picked.speciesId)) continue;
+
+          try {
+            const pokemon = await getProcessedPokemonFromReferenceSet(picked, level);
+            candidates.push({
+              pokemon: isBoss ? applyBossBuildEnhancement(pokemon, FACTORY_BATTLE_CONFIG.boss.minIv) : pokemon,
+              itemId: picked.heldItemId,
+            });
+          } catch {
+            continue;
+          }
+        }
+      }
+
+      if (candidates.length === 0) {
+        for (let i = 0; i < sampleCount; i += 1) {
+          const identifier = await getRandomPokemonIdentifier(selectedGens);
+          if (typeof identifier === 'number' && pickedSpecies.has(identifier)) continue;
+
+          try {
+            const candidate = await getProcessedPokemon(identifier, level);
+            if (pickedSpecies.has(candidate.id)) continue;
+            candidates.push({
+              pokemon: isBoss ? applyBossBuildEnhancement(candidate, FACTORY_BATTLE_CONFIG.boss.minIv) : candidate,
+              itemId: getHeldItemBySlot(mons.length, setNo),
+            });
+          } catch {
+            continue;
+          }
         }
       }
 
       if (candidates.length === 0) continue;
 
-      const best = candidates.sort((a, b) => scorePokemonQuality(b) - scorePokemonQuality(a))[0];
-      const itemId = getHeldItemBySlot(mons.length, setNo);
-      if (pickedItems.has(itemId)) continue;
+      const best = candidates.sort((a, b) => scorePokemonQuality(b.pokemon) - scorePokemonQuality(a.pokemon))[0];
+      const itemId = best.itemId;
+      const hasRealItem = itemId.length > 0 && itemId !== 'none';
+      if (hasRealItem && pickedItems.has(itemId)) continue;
 
-      pickedSpecies.add(best.id);
-      pickedItems.add(itemId);
-      mons.push({ ...best, factoryHeldItemId: itemId });
+      pickedSpecies.add(best.pokemon.id);
+      if (hasRealItem) {
+        pickedItems.add(itemId);
+      }
+      mons.push({ ...best.pokemon, factoryHeldItemId: itemId });
     }
 
     return mons;
   }, [selectedGens]);
 
-  const spawnEnemy = useCallback(async (currentStage: number) => {
-    setLoading(true);
+  const generateRentalDraft = useCallback(async () => {
+    const challengeNum = getFactoryChallengeNum(1, FACTORY_REWARD_CONFIG.battlesPerSet);
+    const rentalRank = getRentalHistoryRank(totalRents);
+    const perSlotQualityBiases = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, (_, index) =>
+      getFactoryQualityBiasByChallenge(startLevel, challengeNum, index < rentalRank),
+    );
+    const perSlotUseBetterRange = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, (_, index) => index < rentalRank);
+    const rentals = await buildFactoryPool({
+      count: FACTORY_BATTLE_CONFIG.rentalsPerDraft,
+      level: startLevel,
+      qualityBias: perSlotQualityBiases[0] ?? 0,
+      perSlotQualityBiases,
+      referenceChallengeNum: challengeNum,
+      perSlotUseBetterRange,
+      setNo: 1,
+      isBoss: false,
+    });
+
+    if (rentals.length < FACTORY_BATTLE_CONFIG.rentalsPerDraft) {
+      throw new Error('Failed to generate enough rentals.');
+    }
+
+    return rentals;
+  }, [buildFactoryPool, startLevel, totalRents]);
+
+  const prefetchRentals = useCallback(async () => {
+    const key = buildRentalPrefetchKey();
+    const cached = prefetchedRentalsRef.current;
+    if (cached && cached.key === key) {
+      return true;
+    }
+
+    const requestToken = ++rentalPrefetchTokenRef.current;
+    try {
+      const rentals = await generateRentalDraft();
+      if (rentalPrefetchTokenRef.current !== requestToken) return false;
+      prefetchedRentalsRef.current = { key, rentals };
+      return true;
+    } catch (error) {
+      console.error(error);
+      if (rentalPrefetchTokenRef.current === requestToken) {
+        prefetchedRentalsRef.current = null;
+      }
+      return false;
+    }
+  }, [buildRentalPrefetchKey, generateRentalDraft]);
+
+  const generateEnemyEncounter = useCallback(async (
+    currentStage: number,
+    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[] },
+  ): Promise<EnemyEncounterData> => {
+    const battlesPerSet = FACTORY_REWARD_CONFIG.battlesPerSet;
+    const battleInSet = ((currentStage - 1) % battlesPerSet) + 1;
+    const setNo = getSetNoByStage(currentStage, battlesPerSet);
+    const isBoss = battleInSet === battlesPerSet;
+    const isSpecialUnlockBoss = currentStage === FACTORY_BATTLE_CONFIG.specialUnlock.unlockBossStage && !specialModeUnlocked;
+    const aiTier = getAiTier(currentStage, battlesPerSet);
+    const challengeNum = getFactoryChallengeNum(currentStage, battlesPerSet);
+    const qualityBias = getFactoryQualityBiasByChallenge(startLevel, challengeNum, false);
+    const usedTrainerIds = getUsedTrainerIdsForSet(setNo);
+    const trainer = selectFactoryTrainerTemplate({
+      challengeNum,
+      isBoss,
+      isSpecialUnlockBoss,
+      usedTrainerIds,
+    });
+    const trainerMonSetPool = getFactoryTrainerMonSetPool(trainer.monSetKey);
+    const trainerAllowedFrontierMonIds = trainerMonSetPool
+      ? new Set<number>(
+        trainerMonSetPool.frontierMonIds.filter((frontierMonId) => hasReferenceFrontierMonId(frontierMonId)),
+      )
+      : undefined;
+    const useTrainerMonSetFilter = Boolean(trainerAllowedFrontierMonIds && trainerAllowedFrontierMonIds.size > 0);
+    const level = startLevel
+      + (isBoss ? FACTORY_BATTLE_CONFIG.boss.extraLevel : 0)
+      + (isSpecialUnlockBoss ? FACTORY_BATTLE_CONFIG.specialUnlock.bossExtraLevel : 0);
+
+    const factoryPool = options?.factoryPool ?? factoryRentals;
+    const playerPool = options?.playerPool ?? playerTeam;
+    const blockedSpecies = new Set<number>([
+      ...factoryPool.map((pokemon) => pokemon.id),
+      ...playerPool.map((pokemon) => pokemon.id),
+    ]);
+
+    const templateQualityBias = qualityBias + trainer.qualityBiasOffset;
+    const perSlotUseBetterRange = Array.from(
+      { length: FACTORY_BATTLE_CONFIG.teamSize },
+      (_, index) => index < trainer.betterRangeSlots,
+    );
+    const perSlotQualityBiases = Array.from(
+      { length: FACTORY_BATTLE_CONFIG.teamSize },
+      (_, index) => templateQualityBias + (index < trainer.betterRangeSlots ? 1 : 0),
+    );
+
+    const team = await buildFactoryPool({
+      count: FACTORY_BATTLE_CONFIG.teamSize,
+      level,
+      qualityBias: templateQualityBias + (isBoss ? 1 : 0) + (isSpecialUnlockBoss ? 2 : 0),
+      perSlotQualityBiases,
+      referenceChallengeNum: challengeNum,
+      perSlotUseBetterRange,
+      allowedFrontierMonIds: useTrainerMonSetFilter ? trainerAllowedFrontierMonIds : undefined,
+      blockedSpecies,
+      setNo,
+      isBoss,
+    });
+
+    if (team.length < FACTORY_BATTLE_CONFIG.teamSize) {
+      throw new Error('Failed to generate valid opponent team.');
+    }
+
+    const tunedTeam = isSpecialUnlockBoss
+      ? team.map((pokemon) => applyBossBuildEnhancement(pokemon, FACTORY_BATTLE_CONFIG.specialUnlock.bossIvFloor))
+      : team;
+
+    return {
+      team: tunedTeam,
+      firstEnemy: tunedTeam[0],
+      isBoss,
+      isSpecialUnlockBoss,
+      aiTier,
+      setNo,
+      trainer,
+    };
+  }, [
+    buildFactoryPool,
+    factoryRentals,
+    getUsedTrainerIdsForSet,
+    playerTeam,
+    specialModeUnlocked,
+    startLevel,
+    totalRents,
+  ]);
+
+  const prefetchEnemy = useCallback(async (
+    currentStage: number,
+    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[] },
+  ) => {
+    const key = buildEncounterContextKey(currentStage, options);
+    const cached = prefetchedEncounterRef.current;
+    if (cached && cached.stage === currentStage && cached.key === key) {
+      return true;
+    }
+
+    const requestToken = ++prefetchRequestTokenRef.current;
 
     try {
-      const battlesPerSet = FACTORY_REWARD_CONFIG.battlesPerSet;
-      const battleInSet = ((currentStage - 1) % battlesPerSet) + 1;
-      const setNo = getSetNoByStage(currentStage, battlesPerSet);
-      const isBoss = battleInSet === battlesPerSet;
-      const isSpecialUnlockBoss = currentStage === FACTORY_BATTLE_CONFIG.specialUnlock.unlockBossStage && !specialModeUnlocked;
-      const aiTier = getAiTier(currentStage, battlesPerSet);
-      const qualityBias = Math.min(
-        FACTORY_BATTLE_CONFIG.stageTierBonusCap,
-        Math.floor((currentStage - 1) / battlesPerSet) + getRentalHistoryRank(totalRents),
-      );
-      const level = startLevel
-        + (isBoss ? FACTORY_BATTLE_CONFIG.boss.extraLevel : 0)
-        + (isSpecialUnlockBoss ? FACTORY_BATTLE_CONFIG.specialUnlock.bossExtraLevel : 0);
-
-      const blockedSpecies = new Set<number>([
-        ...factoryRentals.map((pokemon) => pokemon.id),
-        ...playerTeam.map((pokemon) => pokemon.id),
-      ]);
-
-      const team = await buildFactoryPool({
-        count: FACTORY_BATTLE_CONFIG.teamSize,
-        level,
-        qualityBias: qualityBias + (isBoss ? 1 : 0) + (isSpecialUnlockBoss ? 2 : 0),
-        blockedSpecies,
-        setNo,
-        isBoss,
-      });
-
-      if (team.length < FACTORY_BATTLE_CONFIG.teamSize) {
-        throw new Error('Failed to generate valid opponent team.');
+      const data = await generateEnemyEncounter(currentStage, options);
+      if (prefetchRequestTokenRef.current !== requestToken) return false;
+      prefetchedEncounterRef.current = { stage: currentStage, key, data };
+      return true;
+    } catch (error) {
+      console.error(error);
+      if (prefetchRequestTokenRef.current === requestToken) {
+        prefetchedEncounterRef.current = null;
       }
+      return false;
+    }
+  }, [buildEncounterContextKey, generateEnemyEncounter]);
 
-      const tunedTeam = isSpecialUnlockBoss
-        ? team.map((pokemon) => applyBossBuildEnhancement(pokemon, FACTORY_BATTLE_CONFIG.specialUnlock.bossIvFloor))
-        : team;
-      const firstEnemy = tunedTeam[0];
+  const spawnEnemy = useCallback(async (currentStage: number) => {
+    setLoading(true);
+    let success = false;
+
+    try {
+      const contextKey = buildEncounterContextKey(currentStage);
+      const cached = prefetchedEncounterRef.current;
+      const encounter = cached && cached.stage === currentStage && cached.key === contextKey
+        ? cached.data
+        : await generateEnemyEncounter(currentStage);
+      prefetchedEncounterRef.current = null;
+
+      const { firstEnemy, team, isBoss, isSpecialUnlockBoss, aiTier, setNo, trainer } = encounter;
       setSpecialBossBattleActive(isSpecialUnlockBoss);
       setBattleSpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false });
       setEnemyAiTier(isSpecialUnlockBoss ? 'BOSS' : aiTier);
-      setEnemyTeam(tunedTeam);
+      setEnemyTeam(team);
       setEnemy(firstEnemy);
+      setCurrentEnemyTrainer(trainer);
+      markTrainerUsedForSet(setNo, trainer.id);
       setBattleLog([]);
 
       if (isSpecialUnlockBoss) {
@@ -303,50 +571,46 @@ export function useFactoryFlow({
       setBattleMenuTab('MAIN');
       setActiveBuffs({ atk: false, def: false });
       setEnemyBuffs({ atk: false, def: false });
+      success = true;
     } catch (error) {
       console.error(error);
+      prefetchedEncounterRef.current = null;
     } finally {
       setLoading(false);
     }
+
+    return success;
   }, [
     addMessagesSequentially,
-    buildFactoryPool,
-    factoryRentals,
+    buildEncounterContextKey,
+    generateEnemyEncounter,
     getLocalized,
-    playerTeam,
-    specialModeUnlocked,
     setActiveBuffs,
     setBattleLog,
     setBattleMenuTab,
     setBattleSpecialUsage,
     setEnemy,
     setEnemyAiTier,
+    setCurrentEnemyTrainer,
     setEnemyBuffs,
     setEnemyTeam,
     setLoading,
+    markTrainerUsedForSet,
     setSpecialBossBattleActive,
     setTurn,
-    startLevel,
     t,
-    totalRents,
   ]);
 
   const startGame = useCallback(async () => {
     setLoading(true);
 
     try {
-      const qualityBias = getRentalHistoryRank(totalRents);
-      const rentals = await buildFactoryPool({
-        count: FACTORY_BATTLE_CONFIG.rentalsPerDraft,
-        level: startLevel,
-        qualityBias,
-        setNo: 1,
-        isBoss: false,
-      });
-
-      if (rentals.length < FACTORY_BATTLE_CONFIG.rentalsPerDraft) {
-        throw new Error('Failed to generate enough rentals.');
-      }
+      const key = buildRentalPrefetchKey();
+      const cached = prefetchedRentalsRef.current;
+      const rentals = cached && cached.key === key
+        ? cached.rentals
+        : await generateRentalDraft();
+      prefetchedRentalsRef.current = null;
 
       setFactoryRentals(rentals);
       setSelectedRentalIndices([]);
@@ -361,13 +625,19 @@ export function useFactoryFlow({
       setStage(1);
       setStreak(0);
       setGameState('FACTORY_SELECT');
+      usedTrainerIdsBySetRef.current.clear();
+      void prefetchEnemy(1, { factoryPool: rentals, playerPool: [] });
+      void prefetchRentals();
     } catch (error) {
       console.error(error);
+      prefetchedRentalsRef.current = null;
     } finally {
       setLoading(false);
     }
   }, [
-    buildFactoryPool,
+    buildRentalPrefetchKey,
+    generateRentalDraft,
+    prefetchRentals,
     setCoins,
     setEnemyAiTier,
     setFactoryRentals,
@@ -382,6 +652,77 @@ export function useFactoryFlow({
     setStreak,
     setBattleSpecialUsage,
     setSwapCount,
+    prefetchEnemy,
+  ]);
+
+  const quickStartDevBattle = useCallback(async () => {
+    setLoading(true);
+
+    try {
+      const challengeNum = getFactoryChallengeNum(1, FACTORY_REWARD_CONFIG.battlesPerSet);
+      const rentalRank = getRentalHistoryRank(totalRents);
+      const perSlotQualityBiases = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, (_, index) =>
+        getFactoryQualityBiasByChallenge(startLevel, challengeNum, index < rentalRank),
+      );
+      const perSlotUseBetterRange = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, (_, index) => index < rentalRank);
+      const rentals = await buildFactoryPool({
+        count: FACTORY_BATTLE_CONFIG.rentalsPerDraft,
+        level: startLevel,
+        qualityBias: perSlotQualityBiases[0] ?? 0,
+        perSlotQualityBiases,
+        referenceChallengeNum: challengeNum,
+        perSlotUseBetterRange,
+        setNo: 1,
+        isBoss: false,
+      });
+
+      if (rentals.length < FACTORY_BATTLE_CONFIG.rentalsPerDraft) {
+        throw new Error('Failed to generate enough rentals for quick start.');
+      }
+
+      const selected = [0, 1, 2];
+      const team = selected.map((index) => rentals[index]);
+      setFactoryRentals(rentals);
+      setSelectedRentalIndices(selected);
+      setPlayerTeam(team);
+      setInventory([]);
+      setCoins(500);
+      setRoundResult(null);
+      setLastTokenGain(0);
+      setSwapCount(0);
+      setSpecialBossBattleActive(false);
+      setBattleSpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false });
+      setEnemyAiTier(getAiTier(1, FACTORY_REWARD_CONFIG.battlesPerSet));
+      setStage(1);
+      setStreak(0);
+      setGameState('BATTLE');
+      usedTrainerIdsBySetRef.current.clear();
+      resetBattlePreview();
+      await spawnEnemy(1);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [
+    buildFactoryPool,
+    resetBattlePreview,
+    setCoins,
+    setEnemyAiTier,
+    setFactoryRentals,
+    setGameState,
+    setInventory,
+    setLastTokenGain,
+    setLoading,
+    setPlayerTeam,
+    setRoundResult,
+    setSelectedRentalIndices,
+    setSpecialBossBattleActive,
+    setStage,
+    setStreak,
+    setBattleSpecialUsage,
+    setSwapCount,
+    spawnEnemy,
     startLevel,
     totalRents,
   ]);
@@ -406,17 +747,20 @@ export function useFactoryFlow({
     const team = selectedRentalIndices.map((index) => factoryRentals[index]);
     setPlayerTeam(team);
     resetBattlePreview();
+    const enemyReady = await spawnEnemy(1);
+    if (!enemyReady) return;
     startBattleTransition();
-    await spawnEnemy(1);
   }, [factoryRentals, resetBattlePreview, selectedRentalIndices, setPlayerTeam, spawnEnemy, startBattleTransition]);
 
   const nextFactoryStage = useCallback(async () => {
     healAllPokemon();
     setStage((prev) => prev + 1);
     resetBattlePreview();
+    const nextStageNo = stage + 1;
+    await prefetchEnemy(nextStageNo);
     startBattleTransition();
-    await spawnEnemy(stage + 1);
-  }, [healAllPokemon, resetBattlePreview, setStage, spawnEnemy, stage, startBattleTransition]);
+    await spawnEnemy(nextStageNo);
+  }, [healAllPokemon, prefetchEnemy, resetBattlePreview, setStage, spawnEnemy, stage, startBattleTransition]);
 
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
     const newTeam = [...playerTeam];
@@ -429,11 +773,11 @@ export function useFactoryFlow({
     setPlayerTeam(newTeam);
     setSwapCount((prev) => prev + 1);
     setTotalRents((prev) => prev + 1);
-    await nextFactoryStage();
-  }, [enemyTeam, nextFactoryStage, playerTeam, setPlayerTeam, setSwapCount, setTotalRents]);
+  }, [enemyTeam, playerTeam, setPlayerTeam, setSwapCount, setTotalRents]);
 
   return {
     startGame,
+    quickStartDevBattle,
     toggleRental,
     confirmRentals,
     performSwap,
@@ -441,5 +785,8 @@ export function useFactoryFlow({
     healAllPokemon,
     startBattleTransition,
     spawnEnemy,
+    prefetchEnemy,
+    prefetchRentals,
   };
 }
+

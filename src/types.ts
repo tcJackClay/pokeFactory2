@@ -85,6 +85,9 @@ export interface GamePokemon extends Pokemon {
   maxHp: number;
   selectedMoves: Move[];
   level: number;
+  speciesName?: string;
+  pokeApiName?: string;
+  formLedgerSlug?: string;
   nature: Nature;
   ivs: Stats;
   baseStats: Stats;
@@ -114,7 +117,7 @@ export interface Item {
 
 export type Weather = 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail';
 
-export type GameState = 'START' | 'MENU' | 'BATTLE' | 'REWARD' | 'LEARN_MOVE' | 'POKEMON_INFO' | 'GAMEOVER' | 'STARTER_SELECT' | 'EVOLUTION' | 'FACTORY_SELECT' | 'FACTORY_SWAP' | 'ROUND_RESULT';
+export type GameState = 'START' | 'MENU' | 'BASE' | 'BATTLE' | 'REWARD' | 'LEARN_MOVE' | 'POKEMON_INFO' | 'GAMEOVER' | 'STARTER_SELECT' | 'EVOLUTION' | 'FACTORY_SELECT' | 'FACTORY_SWAP' | 'ROUND_RESULT' | 'COLLECTION' | 'SETTINGS';
 export type BattleMenuTab = 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG';
 
 export interface LanguageConfig {

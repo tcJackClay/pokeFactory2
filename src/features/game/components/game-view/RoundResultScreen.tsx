@@ -4,7 +4,7 @@ import { FACTORY_REWARD_CONFIG } from '../../config/factoryRewards';
 import type { GameViewSectionProps } from './shared';
 
 export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
-  const { stage, streak, swapCount, enemyAiTier, roundResult, lastTokenGain, t, continueAfterRoundResult } = viewModel;
+  const { stage, streak, swapCount, enemyAiTier, roundResult, lastTokenGain, currentEnemyTrainer, t, continueAfterRoundResult } = viewModel;
 
   const battlesPerSet = FACTORY_REWARD_CONFIG.battlesPerSet;
   const battleInSet = ((stage - 1) % battlesPerSet) + 1;
@@ -33,6 +33,11 @@ export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
         <p className="text-slate-600 font-bold mt-1">{t('swapCount', { count: swapCount })}</p>
         <p className="text-slate-500 text-sm mt-1">{t('setProgress', { current: battleInSet, total: battlesPerSet })}</p>
         <p className="text-slate-500 text-sm mt-1">{t('enemyAiTier', { tier: enemyAiTier })}</p>
+        {currentEnemyTrainer && (
+          <p className="text-slate-500 text-sm mt-1">
+            {currentEnemyTrainer.trainerName} · {currentEnemyTrainer.facilityClass.replace('FACILITY_CLASS_', '')}
+          </p>
+        )}
       </div>
 
       {isSetCompleted && (

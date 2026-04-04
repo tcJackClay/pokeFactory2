@@ -7,5 +7,7 @@ export interface GameViewSectionProps {
 
 export interface PokemonInfoScreenProps extends GameViewSectionProps {
   displayPokemon: GamePokemon;
+  pokemonList: GamePokemon[];
+  selectedIndex: number;
   isMobileViewport: boolean;
 }

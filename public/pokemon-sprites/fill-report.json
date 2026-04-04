@@ -1,0 +1,2724 @@
+{
+  "generatedAt": "2026-04-04T00:50:49.902Z",
+  "basedOn": "public/pokemon-sprites/report.json",
+  "referenceRoot": "reference/pokeemerald-expansion/graphics/pokemon",
+  "summary": {
+    "front_default": {
+      "total": 60,
+      "filled": 60,
+      "alreadyExists": 0,
+      "missingInReference": 0
+    },
+    "back_default": {
+      "total": 225,
+      "filled": 225,
+      "alreadyExists": 0,
+      "missingInReference": 0
+    },
+    "official_artwork": {
+      "total": 14,
+      "filled": 14,
+      "alreadyExists": 0,
+      "missingInReference": 0
+    }
+  },
+  "mappings": {
+    "front_default": [
+      {
+        "id": 10128,
+        "name": "lurantis-totem",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10128-lurantis-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/lurantis/anim_front.png",
+        "strategy": "dir:lurantis/file:anim_front.png"
+      },
+      {
+        "id": 10129,
+        "name": "salazzle-totem",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10129-salazzle-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/salazzle/anim_front.png",
+        "strategy": "dir:salazzle/file:anim_front.png"
+      },
+      {
+        "id": 10153,
+        "name": "araquanid-totem",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10153-araquanid-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/araquanid/anim_front.png",
+        "strategy": "dir:araquanid/file:anim_front.png"
+      },
+      {
+        "id": 10154,
+        "name": "togedemaru-totem",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10154-togedemaru-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/togedemaru/anim_front.png",
+        "strategy": "dir:togedemaru/file:anim_front.png"
+      },
+      {
+        "id": 10159,
+        "name": "eevee-starter",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10159-eevee-starter.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/eevee/anim_front.png",
+        "strategy": "dir:eevee/file:anim_front.png"
+      },
+      {
+        "id": 10158,
+        "name": "pikachu-starter",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10158-pikachu-starter.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pikachu/anim_front.png",
+        "strategy": "dir:pikachu/file:anim_front.png"
+      },
+      {
+        "id": 10264,
+        "name": "koraidon-limited-build",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10264-koraidon-limited-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/front.png",
+        "strategy": "dir:koraidon/file:front.png"
+      },
+      {
+        "id": 10265,
+        "name": "koraidon-sprinting-build",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10265-koraidon-sprinting-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/front.png",
+        "strategy": "dir:koraidon/file:front.png"
+      },
+      {
+        "id": 10266,
+        "name": "koraidon-swimming-build",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10266-koraidon-swimming-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/front.png",
+        "strategy": "dir:koraidon/file:front.png"
+      },
+      {
+        "id": 10267,
+        "name": "koraidon-gliding-build",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10267-koraidon-gliding-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/front.png",
+        "strategy": "dir:koraidon/file:front.png"
+      },
+      {
+        "id": 10268,
+        "name": "miraidon-low-power-mode",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10268-miraidon-low-power-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/front.png",
+        "strategy": "dir:miraidon/file:front.png"
+      },
+      {
+        "id": 10269,
+        "name": "miraidon-drive-mode",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10269-miraidon-drive-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/front.png",
+        "strategy": "dir:miraidon/file:front.png"
+      },
+      {
+        "id": 10270,
+        "name": "miraidon-aquatic-mode",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10270-miraidon-aquatic-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/front.png",
+        "strategy": "dir:miraidon/file:front.png"
+      },
+      {
+        "id": 10271,
+        "name": "miraidon-glide-mode",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10271-miraidon-glide-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/front.png",
+        "strategy": "dir:miraidon/file:front.png"
+      },
+      {
+        "id": 10278,
+        "name": "clefable-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10278-clefable-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/clefable/anim_front.png",
+        "strategy": "dir:clefable/file:anim_front.png"
+      },
+      {
+        "id": 10280,
+        "name": "starmie-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10280-starmie-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/starmie/anim_front.png",
+        "strategy": "dir:starmie/file:anim_front.png"
+      },
+      {
+        "id": 10282,
+        "name": "meganium-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10282-meganium-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/meganium/anim_front.png",
+        "strategy": "dir:meganium/file:anim_front.png"
+      },
+      {
+        "id": 10283,
+        "name": "feraligatr-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10283-feraligatr-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/feraligatr/mega/front.png",
+        "strategy": "dir:feraligatr/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10284,
+        "name": "skarmory-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10284-skarmory-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/skarmory/mega/front.png",
+        "strategy": "dir:skarmory/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10285,
+        "name": "froslass-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10285-froslass-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/froslass/anim_front.png",
+        "strategy": "dir:froslass/file:anim_front.png"
+      },
+      {
+        "id": 10286,
+        "name": "emboar-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10286-emboar-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/emboar/anim_front.png",
+        "strategy": "dir:emboar/file:anim_front.png"
+      },
+      {
+        "id": 10287,
+        "name": "excadrill-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10287-excadrill-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/excadrill/anim_front.png",
+        "strategy": "dir:excadrill/file:anim_front.png"
+      },
+      {
+        "id": 10288,
+        "name": "scolipede-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10288-scolipede-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/scolipede/mega/front.png",
+        "strategy": "dir:scolipede/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10289,
+        "name": "scrafty-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10289-scrafty-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/scrafty/anim_front.png",
+        "strategy": "dir:scrafty/file:anim_front.png"
+      },
+      {
+        "id": 10290,
+        "name": "eelektross-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10290-eelektross-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/eelektross/anim_front.png",
+        "strategy": "dir:eelektross/file:anim_front.png"
+      },
+      {
+        "id": 10291,
+        "name": "chandelure-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10291-chandelure-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/chandelure/mega/front.png",
+        "strategy": "dir:chandelure/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10292,
+        "name": "chesnaught-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10292-chesnaught-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/chesnaught/mega/front.png",
+        "strategy": "dir:chesnaught/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10295,
+        "name": "pyroar-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10295-pyroar-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pyroar/mega/front.png",
+        "strategy": "dir:pyroar/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10296,
+        "name": "floette-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10296-floette-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/floette/anim_front.png",
+        "strategy": "dir:floette/file:anim_front.png"
+      },
+      {
+        "id": 10297,
+        "name": "malamar-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10297-malamar-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/malamar/anim_front.png",
+        "strategy": "dir:malamar/file:anim_front.png"
+      },
+      {
+        "id": 10293,
+        "name": "delphox-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10293-delphox-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/delphox/mega/front.png",
+        "strategy": "dir:delphox/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10294,
+        "name": "greninja-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10294-greninja-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/greninja/mega/front.png",
+        "strategy": "dir:greninja/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10299,
+        "name": "dragalge-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10299-dragalge-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/dragalge/mega/front.png",
+        "strategy": "dir:dragalge/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10298,
+        "name": "barbaracle-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10298-barbaracle-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/barbaracle/anim_front.png",
+        "strategy": "dir:barbaracle/file:anim_front.png"
+      },
+      {
+        "id": 10300,
+        "name": "hawlucha-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10300-hawlucha-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/hawlucha/anim_front.png",
+        "strategy": "dir:hawlucha/file:anim_front.png"
+      },
+      {
+        "id": 10301,
+        "name": "zygarde-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10301-zygarde-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/zygarde/anim_front.png",
+        "strategy": "dir:zygarde/file:anim_front.png"
+      },
+      {
+        "id": 10302,
+        "name": "drampa-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10302-drampa-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/drampa/anim_front.png",
+        "strategy": "dir:drampa/file:anim_front.png"
+      },
+      {
+        "id": 10303,
+        "name": "falinks-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10303-falinks-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/falinks/mega/front.png",
+        "strategy": "dir:falinks/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10304,
+        "name": "raichu-mega-x",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10304-raichu-mega-x.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/raichu/anim_front.png",
+        "strategy": "dir:raichu/file:anim_front.png"
+      },
+      {
+        "id": 10305,
+        "name": "raichu-mega-y",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10305-raichu-mega-y.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/raichu/anim_front.png",
+        "strategy": "dir:raichu/file:anim_front.png"
+      },
+      {
+        "id": 10306,
+        "name": "chimecho-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10306-chimecho-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/chimecho/anim_front.png",
+        "strategy": "dir:chimecho/file:anim_front.png"
+      },
+      {
+        "id": 10307,
+        "name": "absol-mega-z",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10307-absol-mega-z.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/absol/mega/front.png",
+        "strategy": "dir:absol/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10308,
+        "name": "staraptor-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10308-staraptor-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/staraptor/mega/front.png",
+        "strategy": "dir:staraptor/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10309,
+        "name": "garchomp-mega-z",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10309-garchomp-mega-z.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/garchomp/mega/front.png",
+        "strategy": "dir:garchomp/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10310,
+        "name": "lucario-mega-z",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10310-lucario-mega-z.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/lucario/mega/front.png",
+        "strategy": "dir:lucario/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10311,
+        "name": "heatran-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10311-heatran-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/heatran/anim_front.png",
+        "strategy": "dir:heatran/file:anim_front.png"
+      },
+      {
+        "id": 10312,
+        "name": "darkrai-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10312-darkrai-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/darkrai/anim_front.png",
+        "strategy": "dir:darkrai/file:anim_front.png"
+      },
+      {
+        "id": 10313,
+        "name": "golurk-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10313-golurk-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/golurk/anim_front.png",
+        "strategy": "dir:golurk/file:anim_front.png"
+      },
+      {
+        "id": 10314,
+        "name": "meowstic-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10314-meowstic-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/meowstic/anim_front.png",
+        "strategy": "dir:meowstic/file:anim_front.png"
+      },
+      {
+        "id": 10315,
+        "name": "crabominable-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10315-crabominable-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/crabominable/front.png",
+        "strategy": "dir:crabominable/file:front.png"
+      },
+      {
+        "id": 10316,
+        "name": "golisopod-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10316-golisopod-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/golisopod/anim_front.png",
+        "strategy": "dir:golisopod/file:anim_front.png"
+      },
+      {
+        "id": 10317,
+        "name": "magearna-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10317-magearna-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/magearna/front.png",
+        "strategy": "dir:magearna/file:front.png"
+      },
+      {
+        "id": 10318,
+        "name": "magearna-original-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10318-magearna-original-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/magearna/front.png",
+        "strategy": "dir:magearna/file:front.png"
+      },
+      {
+        "id": 10319,
+        "name": "zeraora-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10319-zeraora-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/zeraora/front.png",
+        "strategy": "dir:zeraora/file:front.png"
+      },
+      {
+        "id": 10320,
+        "name": "scovillain-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10320-scovillain-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/scovillain/front.png",
+        "strategy": "dir:scovillain/file:front.png"
+      },
+      {
+        "id": 10321,
+        "name": "glimmora-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10321-glimmora-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/glimmora/mega/front.png",
+        "strategy": "dir:glimmora/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10322,
+        "name": "tatsugiri-curly-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10322-tatsugiri-curly-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/front.png",
+        "strategy": "dir:tatsugiri/file:front.png"
+      },
+      {
+        "id": 10323,
+        "name": "tatsugiri-droopy-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10323-tatsugiri-droopy-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/front.png",
+        "strategy": "dir:tatsugiri/file:front.png"
+      },
+      {
+        "id": 10324,
+        "name": "tatsugiri-stretchy-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10324-tatsugiri-stretchy-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/front.png",
+        "strategy": "dir:tatsugiri/file:front.png"
+      },
+      {
+        "id": 10325,
+        "name": "baxcalibur-mega",
+        "spriteKey": "front_default",
+        "target": "public/pokemon-sprites/front_default/10325-baxcalibur-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/baxcalibur/front.png",
+        "strategy": "dir:baxcalibur/file:front.png"
+      }
+    ],
+    "back_default": [
+      {
+        "id": 907,
+        "name": "floragato",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0907-floragato.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/floragato/back.png",
+        "strategy": "dir:floragato/file:back.png"
+      },
+      {
+        "id": 906,
+        "name": "sprigatito",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0906-sprigatito.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/sprigatito/back.png",
+        "strategy": "dir:sprigatito/file:back.png"
+      },
+      {
+        "id": 909,
+        "name": "fuecoco",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0909-fuecoco.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/fuecoco/back.png",
+        "strategy": "dir:fuecoco/file:back.png"
+      },
+      {
+        "id": 910,
+        "name": "crocalor",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0910-crocalor.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/crocalor/back.png",
+        "strategy": "dir:crocalor/file:back.png"
+      },
+      {
+        "id": 912,
+        "name": "quaxly",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0912-quaxly.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/quaxly/back.png",
+        "strategy": "dir:quaxly/file:back.png"
+      },
+      {
+        "id": 911,
+        "name": "skeledirge",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0911-skeledirge.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/skeledirge/back.png",
+        "strategy": "dir:skeledirge/file:back.png"
+      },
+      {
+        "id": 913,
+        "name": "quaxwell",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0913-quaxwell.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/quaxwell/back.png",
+        "strategy": "dir:quaxwell/file:back.png"
+      },
+      {
+        "id": 908,
+        "name": "meowscarada",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0908-meowscarada.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/meowscarada/back.png",
+        "strategy": "dir:meowscarada/file:back.png"
+      },
+      {
+        "id": 915,
+        "name": "lechonk",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0915-lechonk.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/lechonk/back.png",
+        "strategy": "dir:lechonk/file:back.png"
+      },
+      {
+        "id": 914,
+        "name": "quaquaval",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0914-quaquaval.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/quaquaval/back.png",
+        "strategy": "dir:quaquaval/file:back.png"
+      },
+      {
+        "id": 917,
+        "name": "tarountula",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0917-tarountula.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tarountula/back.png",
+        "strategy": "dir:tarountula/file:back.png"
+      },
+      {
+        "id": 916,
+        "name": "oinkologne-male",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0916-oinkologne-male.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/oinkologne/back.png",
+        "strategy": "dir:oinkologne/file:back.png"
+      },
+      {
+        "id": 918,
+        "name": "spidops",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0918-spidops.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/spidops/back.png",
+        "strategy": "dir:spidops/file:back.png"
+      },
+      {
+        "id": 919,
+        "name": "nymble",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0919-nymble.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/nymble/back.png",
+        "strategy": "dir:nymble/file:back.png"
+      },
+      {
+        "id": 920,
+        "name": "lokix",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0920-lokix.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/lokix/back.png",
+        "strategy": "dir:lokix/file:back.png"
+      },
+      {
+        "id": 921,
+        "name": "pawmi",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0921-pawmi.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pawmi/back.png",
+        "strategy": "dir:pawmi/file:back.png"
+      },
+      {
+        "id": 923,
+        "name": "pawmot",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0923-pawmot.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pawmot/back.png",
+        "strategy": "dir:pawmot/file:back.png"
+      },
+      {
+        "id": 924,
+        "name": "tandemaus",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0924-tandemaus.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tandemaus/back.png",
+        "strategy": "dir:tandemaus/file:back.png"
+      },
+      {
+        "id": 922,
+        "name": "pawmo",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0922-pawmo.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pawmo/back.png",
+        "strategy": "dir:pawmo/file:back.png"
+      },
+      {
+        "id": 925,
+        "name": "maushold-family-of-four",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0925-maushold-family-of-four.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/maushold/back.png",
+        "strategy": "dir:maushold/file:back.png"
+      },
+      {
+        "id": 926,
+        "name": "fidough",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0926-fidough.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/fidough/back.png",
+        "strategy": "dir:fidough/file:back.png"
+      },
+      {
+        "id": 927,
+        "name": "dachsbun",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0927-dachsbun.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/dachsbun/back.png",
+        "strategy": "dir:dachsbun/file:back.png"
+      },
+      {
+        "id": 929,
+        "name": "dolliv",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0929-dolliv.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/dolliv/back.png",
+        "strategy": "dir:dolliv/file:back.png"
+      },
+      {
+        "id": 928,
+        "name": "smoliv",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0928-smoliv.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/smoliv/back.png",
+        "strategy": "dir:smoliv/file:back.png"
+      },
+      {
+        "id": 931,
+        "name": "squawkabilly-green-plumage",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0931-squawkabilly-green-plumage.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/squawkabilly/back.png",
+        "strategy": "dir:squawkabilly/file:back.png"
+      },
+      {
+        "id": 930,
+        "name": "arboliva",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0930-arboliva.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/arboliva/back.png",
+        "strategy": "dir:arboliva/file:back.png"
+      },
+      {
+        "id": 934,
+        "name": "garganacl",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0934-garganacl.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/garganacl/back.png",
+        "strategy": "dir:garganacl/file:back.png"
+      },
+      {
+        "id": 933,
+        "name": "naclstack",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0933-naclstack.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/naclstack/back.png",
+        "strategy": "dir:naclstack/file:back.png"
+      },
+      {
+        "id": 936,
+        "name": "armarouge",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0936-armarouge.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/armarouge/back.png",
+        "strategy": "dir:armarouge/file:back.png"
+      },
+      {
+        "id": 932,
+        "name": "nacli",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0932-nacli.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/nacli/back.png",
+        "strategy": "dir:nacli/file:back.png"
+      },
+      {
+        "id": 937,
+        "name": "ceruledge",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0937-ceruledge.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/ceruledge/back.png",
+        "strategy": "dir:ceruledge/file:back.png"
+      },
+      {
+        "id": 935,
+        "name": "charcadet",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0935-charcadet.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/charcadet/back.png",
+        "strategy": "dir:charcadet/file:back.png"
+      },
+      {
+        "id": 938,
+        "name": "tadbulb",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0938-tadbulb.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tadbulb/back.png",
+        "strategy": "dir:tadbulb/file:back.png"
+      },
+      {
+        "id": 940,
+        "name": "wattrel",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0940-wattrel.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/wattrel/back.png",
+        "strategy": "dir:wattrel/file:back.png"
+      },
+      {
+        "id": 941,
+        "name": "kilowattrel",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0941-kilowattrel.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/kilowattrel/back.png",
+        "strategy": "dir:kilowattrel/file:back.png"
+      },
+      {
+        "id": 942,
+        "name": "maschiff",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0942-maschiff.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/maschiff/back.png",
+        "strategy": "dir:maschiff/file:back.png"
+      },
+      {
+        "id": 943,
+        "name": "mabosstiff",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0943-mabosstiff.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/mabosstiff/back.png",
+        "strategy": "dir:mabosstiff/file:back.png"
+      },
+      {
+        "id": 944,
+        "name": "shroodle",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0944-shroodle.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/shroodle/back.png",
+        "strategy": "dir:shroodle/file:back.png"
+      },
+      {
+        "id": 939,
+        "name": "bellibolt",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0939-bellibolt.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/bellibolt/back.png",
+        "strategy": "dir:bellibolt/file:back.png"
+      },
+      {
+        "id": 947,
+        "name": "brambleghast",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0947-brambleghast.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/brambleghast/back.png",
+        "strategy": "dir:brambleghast/file:back.png"
+      },
+      {
+        "id": 946,
+        "name": "bramblin",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0946-bramblin.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/bramblin/back.png",
+        "strategy": "dir:bramblin/file:back.png"
+      },
+      {
+        "id": 945,
+        "name": "grafaiai",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0945-grafaiai.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/grafaiai/back.png",
+        "strategy": "dir:grafaiai/file:back.png"
+      },
+      {
+        "id": 948,
+        "name": "toedscool",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0948-toedscool.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/toedscool/back.png",
+        "strategy": "dir:toedscool/file:back.png"
+      },
+      {
+        "id": 949,
+        "name": "toedscruel",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0949-toedscruel.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/toedscruel/back.png",
+        "strategy": "dir:toedscruel/file:back.png"
+      },
+      {
+        "id": 950,
+        "name": "klawf",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0950-klawf.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/klawf/back.png",
+        "strategy": "dir:klawf/file:back.png"
+      },
+      {
+        "id": 951,
+        "name": "capsakid",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0951-capsakid.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/capsakid/back.png",
+        "strategy": "dir:capsakid/file:back.png"
+      },
+      {
+        "id": 952,
+        "name": "scovillain",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0952-scovillain.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/scovillain/back.png",
+        "strategy": "dir:scovillain/file:back.png"
+      },
+      {
+        "id": 954,
+        "name": "rabsca",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0954-rabsca.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/rabsca/back.png",
+        "strategy": "dir:rabsca/file:back.png"
+      },
+      {
+        "id": 955,
+        "name": "flittle",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0955-flittle.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/flittle/back.png",
+        "strategy": "dir:flittle/file:back.png"
+      },
+      {
+        "id": 956,
+        "name": "espathra",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0956-espathra.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/espathra/back.png",
+        "strategy": "dir:espathra/file:back.png"
+      },
+      {
+        "id": 957,
+        "name": "tinkatink",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0957-tinkatink.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tinkatink/back.png",
+        "strategy": "dir:tinkatink/file:back.png"
+      },
+      {
+        "id": 953,
+        "name": "rellor",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0953-rellor.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/rellor/back.png",
+        "strategy": "dir:rellor/file:back.png"
+      },
+      {
+        "id": 959,
+        "name": "tinkaton",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0959-tinkaton.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tinkaton/back.png",
+        "strategy": "dir:tinkaton/file:back.png"
+      },
+      {
+        "id": 960,
+        "name": "wiglett",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0960-wiglett.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/wiglett/back.png",
+        "strategy": "dir:wiglett/file:back.png"
+      },
+      {
+        "id": 958,
+        "name": "tinkatuff",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0958-tinkatuff.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tinkatuff/back.png",
+        "strategy": "dir:tinkatuff/file:back.png"
+      },
+      {
+        "id": 961,
+        "name": "wugtrio",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0961-wugtrio.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/wugtrio/back.png",
+        "strategy": "dir:wugtrio/file:back.png"
+      },
+      {
+        "id": 962,
+        "name": "bombirdier",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0962-bombirdier.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/bombirdier/back.png",
+        "strategy": "dir:bombirdier/file:back.png"
+      },
+      {
+        "id": 963,
+        "name": "finizen",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0963-finizen.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/finizen/back.png",
+        "strategy": "dir:finizen/file:back.png"
+      },
+      {
+        "id": 964,
+        "name": "palafin-zero",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0964-palafin-zero.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/palafin/back.png",
+        "strategy": "dir:palafin/file:back.png"
+      },
+      {
+        "id": 965,
+        "name": "varoom",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0965-varoom.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/varoom/back.png",
+        "strategy": "dir:varoom/file:back.png"
+      },
+      {
+        "id": 966,
+        "name": "revavroom",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0966-revavroom.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/revavroom/back.png",
+        "strategy": "dir:revavroom/file:back.png"
+      },
+      {
+        "id": 967,
+        "name": "cyclizar",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0967-cyclizar.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/cyclizar/back.png",
+        "strategy": "dir:cyclizar/file:back.png"
+      },
+      {
+        "id": 968,
+        "name": "orthworm",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0968-orthworm.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/orthworm/back.png",
+        "strategy": "dir:orthworm/file:back.png"
+      },
+      {
+        "id": 970,
+        "name": "glimmora",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0970-glimmora.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/glimmora/back.png",
+        "strategy": "dir:glimmora/file:back.png"
+      },
+      {
+        "id": 971,
+        "name": "greavard",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0971-greavard.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/greavard/back.png",
+        "strategy": "dir:greavard/file:back.png"
+      },
+      {
+        "id": 972,
+        "name": "houndstone",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0972-houndstone.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/houndstone/back.png",
+        "strategy": "dir:houndstone/file:back.png"
+      },
+      {
+        "id": 974,
+        "name": "cetoddle",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0974-cetoddle.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/cetoddle/back.png",
+        "strategy": "dir:cetoddle/file:back.png"
+      },
+      {
+        "id": 973,
+        "name": "flamigo",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0973-flamigo.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/flamigo/back.png",
+        "strategy": "dir:flamigo/file:back.png"
+      },
+      {
+        "id": 969,
+        "name": "glimmet",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0969-glimmet.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/glimmet/back.png",
+        "strategy": "dir:glimmet/file:back.png"
+      },
+      {
+        "id": 975,
+        "name": "cetitan",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0975-cetitan.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/cetitan/back.png",
+        "strategy": "dir:cetitan/file:back.png"
+      },
+      {
+        "id": 976,
+        "name": "veluza",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0976-veluza.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/veluza/back.png",
+        "strategy": "dir:veluza/file:back.png"
+      },
+      {
+        "id": 978,
+        "name": "tatsugiri-curly",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0978-tatsugiri-curly.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/back.png",
+        "strategy": "dir:tatsugiri/file:back.png"
+      },
+      {
+        "id": 979,
+        "name": "annihilape",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0979-annihilape.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/annihilape/back.png",
+        "strategy": "dir:annihilape/file:back.png"
+      },
+      {
+        "id": 981,
+        "name": "farigiraf",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0981-farigiraf.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/farigiraf/back.png",
+        "strategy": "dir:farigiraf/file:back.png"
+      },
+      {
+        "id": 980,
+        "name": "clodsire",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0980-clodsire.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/clodsire/back.png",
+        "strategy": "dir:clodsire/file:back.png"
+      },
+      {
+        "id": 982,
+        "name": "dudunsparce-two-segment",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0982-dudunsparce-two-segment.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/dudunsparce/back.png",
+        "strategy": "dir:dudunsparce/file:back.png"
+      },
+      {
+        "id": 983,
+        "name": "kingambit",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0983-kingambit.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/kingambit/back.png",
+        "strategy": "dir:kingambit/file:back.png"
+      },
+      {
+        "id": 977,
+        "name": "dondozo",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0977-dondozo.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/dondozo/back.png",
+        "strategy": "dir:dondozo/file:back.png"
+      },
+      {
+        "id": 984,
+        "name": "great-tusk",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0984-great-tusk.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/great_tusk/back.png",
+        "strategy": "dir:great_tusk/file:back.png"
+      },
+      {
+        "id": 986,
+        "name": "brute-bonnet",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0986-brute-bonnet.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/brute_bonnet/back.png",
+        "strategy": "dir:brute_bonnet/file:back.png"
+      },
+      {
+        "id": 987,
+        "name": "flutter-mane",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0987-flutter-mane.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/flutter_mane/back.png",
+        "strategy": "dir:flutter_mane/file:back.png"
+      },
+      {
+        "id": 988,
+        "name": "slither-wing",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0988-slither-wing.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/slither_wing/back.png",
+        "strategy": "dir:slither_wing/file:back.png"
+      },
+      {
+        "id": 989,
+        "name": "sandy-shocks",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0989-sandy-shocks.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/sandy_shocks/back.png",
+        "strategy": "dir:sandy_shocks/file:back.png"
+      },
+      {
+        "id": 985,
+        "name": "scream-tail",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0985-scream-tail.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/scream_tail/back.png",
+        "strategy": "dir:scream_tail/file:back.png"
+      },
+      {
+        "id": 990,
+        "name": "iron-treads",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0990-iron-treads.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/iron_treads/back.png",
+        "strategy": "dir:iron_treads/file:back.png"
+      },
+      {
+        "id": 991,
+        "name": "iron-bundle",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0991-iron-bundle.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/iron_bundle/back.png",
+        "strategy": "dir:iron_bundle/file:back.png"
+      },
+      {
+        "id": 992,
+        "name": "iron-hands",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0992-iron-hands.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/iron_hands/back.png",
+        "strategy": "dir:iron_hands/file:back.png"
+      },
+      {
+        "id": 993,
+        "name": "iron-jugulis",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0993-iron-jugulis.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/iron_jugulis/back.png",
+        "strategy": "dir:iron_jugulis/file:back.png"
+      },
+      {
+        "id": 994,
+        "name": "iron-moth",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0994-iron-moth.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/iron_moth/back.png",
+        "strategy": "dir:iron_moth/file:back.png"
+      },
+      {
+        "id": 996,
+        "name": "frigibax",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0996-frigibax.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/frigibax/back.png",
+        "strategy": "dir:frigibax/file:back.png"
+      },
+      {
+        "id": 998,
+        "name": "baxcalibur",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0998-baxcalibur.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/baxcalibur/back.png",
+        "strategy": "dir:baxcalibur/file:back.png"
+      },
+      {
+        "id": 1000,
+        "name": "gholdengo",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1000-gholdengo.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/gholdengo/back.png",
+        "strategy": "dir:gholdengo/file:back.png"
+      },
+      {
+        "id": 999,
+        "name": "gimmighoul",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0999-gimmighoul.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/gimmighoul/back.png",
+        "strategy": "dir:gimmighoul/file:back.png"
+      },
+      {
+        "id": 1001,
+        "name": "wo-chien",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1001-wo-chien.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/wo_chien/back.png",
+        "strategy": "dir:wo_chien/file:back.png"
+      },
+      {
+        "id": 995,
+        "name": "iron-thorns",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0995-iron-thorns.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/iron_thorns/back.png",
+        "strategy": "dir:iron_thorns/file:back.png"
+      },
+      {
+        "id": 997,
+        "name": "arctibax",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/0997-arctibax.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/arctibax/back.png",
+        "strategy": "dir:arctibax/file:back.png"
+      },
+      {
+        "id": 1002,
+        "name": "chien-pao",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1002-chien-pao.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/chien_pao/back.png",
+        "strategy": "dir:chien_pao/file:back.png"
+      },
+      {
+        "id": 1003,
+        "name": "ting-lu",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1003-ting-lu.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/ting_lu/back.png",
+        "strategy": "dir:ting_lu/file:back.png"
+      },
+      {
+        "id": 1004,
+        "name": "chi-yu",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1004-chi-yu.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/chi_yu/back.png",
+        "strategy": "dir:chi_yu/file:back.png"
+      },
+      {
+        "id": 1005,
+        "name": "roaring-moon",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1005-roaring-moon.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/roaring_moon/back.png",
+        "strategy": "dir:roaring_moon/file:back.png"
+      },
+      {
+        "id": 1006,
+        "name": "iron-valiant",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1006-iron-valiant.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/iron_valiant/back.png",
+        "strategy": "dir:iron_valiant/file:back.png"
+      },
+      {
+        "id": 1007,
+        "name": "koraidon",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1007-koraidon.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/back.png",
+        "strategy": "dir:koraidon/file:back.png"
+      },
+      {
+        "id": 1008,
+        "name": "miraidon",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1008-miraidon.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/back.png",
+        "strategy": "dir:miraidon/file:back.png"
+      },
+      {
+        "id": 1009,
+        "name": "walking-wake",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1009-walking-wake.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/walking_wake/back.png",
+        "strategy": "dir:walking_wake/file:back.png"
+      },
+      {
+        "id": 1010,
+        "name": "iron-leaves",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1010-iron-leaves.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/iron_leaves/back.png",
+        "strategy": "dir:iron_leaves/file:back.png"
+      },
+      {
+        "id": 1011,
+        "name": "dipplin",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1011-dipplin.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/dipplin/back.png",
+        "strategy": "dir:dipplin/file:back.png"
+      },
+      {
+        "id": 1012,
+        "name": "poltchageist",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1012-poltchageist.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/poltchageist/back.png",
+        "strategy": "dir:poltchageist/file:back.png"
+      },
+      {
+        "id": 1013,
+        "name": "sinistcha",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1013-sinistcha.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/sinistcha/back.png",
+        "strategy": "dir:sinistcha/file:back.png"
+      },
+      {
+        "id": 1015,
+        "name": "munkidori",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1015-munkidori.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/munkidori/back.png",
+        "strategy": "dir:munkidori/file:back.png"
+      },
+      {
+        "id": 1016,
+        "name": "fezandipiti",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1016-fezandipiti.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/fezandipiti/back.png",
+        "strategy": "dir:fezandipiti/file:back.png"
+      },
+      {
+        "id": 1017,
+        "name": "ogerpon",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1017-ogerpon.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/ogerpon/back.png",
+        "strategy": "dir:ogerpon/file:back.png"
+      },
+      {
+        "id": 1018,
+        "name": "archaludon",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1018-archaludon.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/archaludon/back.png",
+        "strategy": "dir:archaludon/file:back.png"
+      },
+      {
+        "id": 1019,
+        "name": "hydrapple",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1019-hydrapple.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/hydrapple/back.png",
+        "strategy": "dir:hydrapple/file:back.png"
+      },
+      {
+        "id": 1020,
+        "name": "gouging-fire",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1020-gouging-fire.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/gouging_fire/back.png",
+        "strategy": "dir:gouging_fire/file:back.png"
+      },
+      {
+        "id": 1014,
+        "name": "okidogi",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1014-okidogi.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/okidogi/back.png",
+        "strategy": "dir:okidogi/file:back.png"
+      },
+      {
+        "id": 1021,
+        "name": "raging-bolt",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1021-raging-bolt.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/raging_bolt/back.png",
+        "strategy": "dir:raging_bolt/file:back.png"
+      },
+      {
+        "id": 1023,
+        "name": "iron-crown",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1023-iron-crown.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/iron_crown/back.png",
+        "strategy": "dir:iron_crown/file:back.png"
+      },
+      {
+        "id": 1022,
+        "name": "iron-boulder",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1022-iron-boulder.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/iron_boulder/back.png",
+        "strategy": "dir:iron_boulder/file:back.png"
+      },
+      {
+        "id": 1024,
+        "name": "terapagos",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1024-terapagos.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/terapagos/back.png",
+        "strategy": "dir:terapagos/file:back.png"
+      },
+      {
+        "id": 1025,
+        "name": "pecharunt",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/1025-pecharunt.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pecharunt/back.png",
+        "strategy": "dir:pecharunt/file:back.png"
+      },
+      {
+        "id": 10027,
+        "name": "pumpkaboo-small",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10027-pumpkaboo-small.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pumpkaboo/back.png",
+        "strategy": "dir:pumpkaboo/file:back.png"
+      },
+      {
+        "id": 10028,
+        "name": "pumpkaboo-large",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10028-pumpkaboo-large.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pumpkaboo/back.png",
+        "strategy": "dir:pumpkaboo/file:back.png"
+      },
+      {
+        "id": 10029,
+        "name": "pumpkaboo-super",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10029-pumpkaboo-super.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pumpkaboo/back.png",
+        "strategy": "dir:pumpkaboo/file:back.png"
+      },
+      {
+        "id": 10030,
+        "name": "gourgeist-small",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10030-gourgeist-small.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/gourgeist/back.png",
+        "strategy": "dir:gourgeist/file:back.png"
+      },
+      {
+        "id": 10031,
+        "name": "gourgeist-large",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10031-gourgeist-large.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/gourgeist/back.png",
+        "strategy": "dir:gourgeist/file:back.png"
+      },
+      {
+        "id": 10032,
+        "name": "gourgeist-super",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10032-gourgeist-super.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/gourgeist/back.png",
+        "strategy": "dir:gourgeist/file:back.png"
+      },
+      {
+        "id": 10093,
+        "name": "raticate-totem-alola",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10093-raticate-totem-alola.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/raticate/alola/back.png",
+        "strategy": "dir:raticate/subdir:alola/file:back.png"
+      },
+      {
+        "id": 10122,
+        "name": "vikavolt-totem",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10122-vikavolt-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/vikavolt/back.png",
+        "strategy": "dir:vikavolt/file:back.png"
+      },
+      {
+        "id": 10121,
+        "name": "gumshoos-totem",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10121-gumshoos-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/gumshoos/back.png",
+        "strategy": "dir:gumshoos/file:back.png"
+      },
+      {
+        "id": 10128,
+        "name": "lurantis-totem",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10128-lurantis-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/lurantis/back.png",
+        "strategy": "dir:lurantis/file:back.png"
+      },
+      {
+        "id": 10129,
+        "name": "salazzle-totem",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10129-salazzle-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/salazzle/back.png",
+        "strategy": "dir:salazzle/file:back.png"
+      },
+      {
+        "id": 10130,
+        "name": "minior-orange-meteor",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10130-minior-orange-meteor.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/minior/back.png",
+        "strategy": "dir:minior/file:back.png"
+      },
+      {
+        "id": 10131,
+        "name": "minior-yellow-meteor",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10131-minior-yellow-meteor.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/minior/back.png",
+        "strategy": "dir:minior/file:back.png"
+      },
+      {
+        "id": 10132,
+        "name": "minior-green-meteor",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10132-minior-green-meteor.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/minior/back.png",
+        "strategy": "dir:minior/file:back.png"
+      },
+      {
+        "id": 10133,
+        "name": "minior-blue-meteor",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10133-minior-blue-meteor.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/minior/back.png",
+        "strategy": "dir:minior/file:back.png"
+      },
+      {
+        "id": 10134,
+        "name": "minior-indigo-meteor",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10134-minior-indigo-meteor.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/minior/back.png",
+        "strategy": "dir:minior/file:back.png"
+      },
+      {
+        "id": 10135,
+        "name": "minior-violet-meteor",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10135-minior-violet-meteor.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/minior/back.png",
+        "strategy": "dir:minior/file:back.png"
+      },
+      {
+        "id": 10144,
+        "name": "mimikyu-totem-disguised",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10144-mimikyu-totem-disguised.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/mimikyu/back.png",
+        "strategy": "dir:mimikyu/file:back.png"
+      },
+      {
+        "id": 10146,
+        "name": "kommo-o-totem",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10146-kommo-o-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/kommo_o/back.png",
+        "strategy": "dir:kommo_o/file:back.png"
+      },
+      {
+        "id": 10145,
+        "name": "mimikyu-totem-busted",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10145-mimikyu-totem-busted.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/mimikyu/back.png",
+        "strategy": "dir:mimikyu/file:back.png"
+      },
+      {
+        "id": 10153,
+        "name": "araquanid-totem",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10153-araquanid-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/araquanid/back.png",
+        "strategy": "dir:araquanid/file:back.png"
+      },
+      {
+        "id": 10149,
+        "name": "marowak-totem",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10149-marowak-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/marowak/back.png",
+        "strategy": "dir:marowak/file:back.png"
+      },
+      {
+        "id": 10154,
+        "name": "togedemaru-totem",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10154-togedemaru-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/togedemaru/back.png",
+        "strategy": "dir:togedemaru/file:back.png"
+      },
+      {
+        "id": 10150,
+        "name": "ribombee-totem",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10150-ribombee-totem.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/ribombee/back.png",
+        "strategy": "dir:ribombee/file:back.png"
+      },
+      {
+        "id": 10151,
+        "name": "rockruff-own-tempo",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10151-rockruff-own-tempo.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/rockruff/back.png",
+        "strategy": "dir:rockruff/file:back.png"
+      },
+      {
+        "id": 10159,
+        "name": "eevee-starter",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10159-eevee-starter.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/eevee/back.png",
+        "strategy": "dir:eevee/file:back.png"
+      },
+      {
+        "id": 10158,
+        "name": "pikachu-starter",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10158-pikachu-starter.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pikachu/back.png",
+        "strategy": "dir:pikachu/file:back.png"
+      },
+      {
+        "id": 10216,
+        "name": "flapple-gmax",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10216-flapple-gmax.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/flapple/gmax/back.png",
+        "strategy": "dir:flapple/subdir:gmax/file:back.png"
+      },
+      {
+        "id": 10228,
+        "name": "toxtricity-low-key-gmax",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10228-toxtricity-low-key-gmax.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/toxtricity/gmax/back.png",
+        "strategy": "dir:toxtricity/subdir:gmax/file:back.png"
+      },
+      {
+        "id": 10250,
+        "name": "tauros-paldea-combat-breed",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10250-tauros-paldea-combat-breed.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tauros/back.png",
+        "strategy": "dir:tauros/file:back.png"
+      },
+      {
+        "id": 10251,
+        "name": "tauros-paldea-blaze-breed",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10251-tauros-paldea-blaze-breed.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tauros/back.png",
+        "strategy": "dir:tauros/file:back.png"
+      },
+      {
+        "id": 10253,
+        "name": "wooper-paldea",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10253-wooper-paldea.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/wooper/paldea/back.png",
+        "strategy": "dir:wooper/subdir:paldea/file:back.png"
+      },
+      {
+        "id": 10252,
+        "name": "tauros-paldea-aqua-breed",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10252-tauros-paldea-aqua-breed.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tauros/back.png",
+        "strategy": "dir:tauros/file:back.png"
+      },
+      {
+        "id": 10254,
+        "name": "oinkologne-female",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10254-oinkologne-female.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/oinkologne/back.png",
+        "strategy": "dir:oinkologne/file:back.png"
+      },
+      {
+        "id": 10264,
+        "name": "koraidon-limited-build",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10264-koraidon-limited-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/back.png",
+        "strategy": "dir:koraidon/file:back.png"
+      },
+      {
+        "id": 10258,
+        "name": "tatsugiri-droopy",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10258-tatsugiri-droopy.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/back.png",
+        "strategy": "dir:tatsugiri/file:back.png"
+      },
+      {
+        "id": 10259,
+        "name": "tatsugiri-stretchy",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10259-tatsugiri-stretchy.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/back.png",
+        "strategy": "dir:tatsugiri/file:back.png"
+      },
+      {
+        "id": 10265,
+        "name": "koraidon-sprinting-build",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10265-koraidon-sprinting-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/back.png",
+        "strategy": "dir:koraidon/file:back.png"
+      },
+      {
+        "id": 10260,
+        "name": "squawkabilly-blue-plumage",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10260-squawkabilly-blue-plumage.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/squawkabilly/back.png",
+        "strategy": "dir:squawkabilly/file:back.png"
+      },
+      {
+        "id": 10266,
+        "name": "koraidon-swimming-build",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10266-koraidon-swimming-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/back.png",
+        "strategy": "dir:koraidon/file:back.png"
+      },
+      {
+        "id": 10267,
+        "name": "koraidon-gliding-build",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10267-koraidon-gliding-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/back.png",
+        "strategy": "dir:koraidon/file:back.png"
+      },
+      {
+        "id": 10261,
+        "name": "squawkabilly-yellow-plumage",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10261-squawkabilly-yellow-plumage.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/squawkabilly/back.png",
+        "strategy": "dir:squawkabilly/file:back.png"
+      },
+      {
+        "id": 10268,
+        "name": "miraidon-low-power-mode",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10268-miraidon-low-power-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/back.png",
+        "strategy": "dir:miraidon/file:back.png"
+      },
+      {
+        "id": 10255,
+        "name": "dudunsparce-three-segment",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10255-dudunsparce-three-segment.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/dudunsparce/back.png",
+        "strategy": "dir:dudunsparce/file:back.png"
+      },
+      {
+        "id": 10269,
+        "name": "miraidon-drive-mode",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10269-miraidon-drive-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/back.png",
+        "strategy": "dir:miraidon/file:back.png"
+      },
+      {
+        "id": 10270,
+        "name": "miraidon-aquatic-mode",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10270-miraidon-aquatic-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/back.png",
+        "strategy": "dir:miraidon/file:back.png"
+      },
+      {
+        "id": 10263,
+        "name": "gimmighoul-roaming",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10263-gimmighoul-roaming.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/gimmighoul/back.png",
+        "strategy": "dir:gimmighoul/file:back.png"
+      },
+      {
+        "id": 10271,
+        "name": "miraidon-glide-mode",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10271-miraidon-glide-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/back.png",
+        "strategy": "dir:miraidon/file:back.png"
+      },
+      {
+        "id": 10272,
+        "name": "ursaluna-bloodmoon",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10272-ursaluna-bloodmoon.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/ursaluna/back.png",
+        "strategy": "dir:ursaluna/file:back.png"
+      },
+      {
+        "id": 10273,
+        "name": "ogerpon-wellspring-mask",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10273-ogerpon-wellspring-mask.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/ogerpon/back.png",
+        "strategy": "dir:ogerpon/file:back.png"
+      },
+      {
+        "id": 10256,
+        "name": "palafin-hero",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10256-palafin-hero.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/palafin/back.png",
+        "strategy": "dir:palafin/file:back.png"
+      },
+      {
+        "id": 10262,
+        "name": "squawkabilly-white-plumage",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10262-squawkabilly-white-plumage.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/squawkabilly/back.png",
+        "strategy": "dir:squawkabilly/file:back.png"
+      },
+      {
+        "id": 10274,
+        "name": "ogerpon-hearthflame-mask",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10274-ogerpon-hearthflame-mask.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/ogerpon/back.png",
+        "strategy": "dir:ogerpon/file:back.png"
+      },
+      {
+        "id": 10278,
+        "name": "clefable-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10278-clefable-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/clefable/back.png",
+        "strategy": "dir:clefable/file:back.png"
+      },
+      {
+        "id": 10257,
+        "name": "maushold-family-of-three",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10257-maushold-family-of-three.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/maushold/back.png",
+        "strategy": "dir:maushold/file:back.png"
+      },
+      {
+        "id": 10275,
+        "name": "ogerpon-cornerstone-mask",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10275-ogerpon-cornerstone-mask.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/ogerpon/back.png",
+        "strategy": "dir:ogerpon/file:back.png"
+      },
+      {
+        "id": 10276,
+        "name": "terapagos-terastal",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10276-terapagos-terastal.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/terapagos/back.png",
+        "strategy": "dir:terapagos/file:back.png"
+      },
+      {
+        "id": 10277,
+        "name": "terapagos-stellar",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10277-terapagos-stellar.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/terapagos/back.png",
+        "strategy": "dir:terapagos/file:back.png"
+      },
+      {
+        "id": 10280,
+        "name": "starmie-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10280-starmie-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/starmie/back.png",
+        "strategy": "dir:starmie/file:back.png"
+      },
+      {
+        "id": 10282,
+        "name": "meganium-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10282-meganium-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/meganium/back.png",
+        "strategy": "dir:meganium/file:back.png"
+      },
+      {
+        "id": 10283,
+        "name": "feraligatr-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10283-feraligatr-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/feraligatr/mega/back.png",
+        "strategy": "dir:feraligatr/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10279,
+        "name": "victreebel-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10279-victreebel-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/victreebel/mega/back.png",
+        "strategy": "dir:victreebel/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10284,
+        "name": "skarmory-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10284-skarmory-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/skarmory/mega/back.png",
+        "strategy": "dir:skarmory/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10285,
+        "name": "froslass-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10285-froslass-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/froslass/back.png",
+        "strategy": "dir:froslass/file:back.png"
+      },
+      {
+        "id": 10286,
+        "name": "emboar-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10286-emboar-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/emboar/back.png",
+        "strategy": "dir:emboar/file:back.png"
+      },
+      {
+        "id": 10287,
+        "name": "excadrill-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10287-excadrill-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/excadrill/back.png",
+        "strategy": "dir:excadrill/file:back.png"
+      },
+      {
+        "id": 10281,
+        "name": "dragonite-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10281-dragonite-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/dragonite/back.png",
+        "strategy": "dir:dragonite/file:back.png"
+      },
+      {
+        "id": 10288,
+        "name": "scolipede-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10288-scolipede-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/scolipede/mega/back.png",
+        "strategy": "dir:scolipede/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10289,
+        "name": "scrafty-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10289-scrafty-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/scrafty/back.png",
+        "strategy": "dir:scrafty/file:back.png"
+      },
+      {
+        "id": 10290,
+        "name": "eelektross-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10290-eelektross-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/eelektross/back.png",
+        "strategy": "dir:eelektross/file:back.png"
+      },
+      {
+        "id": 10291,
+        "name": "chandelure-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10291-chandelure-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/chandelure/mega/back.png",
+        "strategy": "dir:chandelure/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10292,
+        "name": "chesnaught-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10292-chesnaught-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/chesnaught/mega/back.png",
+        "strategy": "dir:chesnaught/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10295,
+        "name": "pyroar-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10295-pyroar-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/pyroar/mega/back.png",
+        "strategy": "dir:pyroar/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10296,
+        "name": "floette-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10296-floette-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/floette/back.png",
+        "strategy": "dir:floette/file:back.png"
+      },
+      {
+        "id": 10297,
+        "name": "malamar-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10297-malamar-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/malamar/back.png",
+        "strategy": "dir:malamar/file:back.png"
+      },
+      {
+        "id": 10293,
+        "name": "delphox-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10293-delphox-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/delphox/mega/back.png",
+        "strategy": "dir:delphox/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10294,
+        "name": "greninja-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10294-greninja-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/greninja/mega/back.png",
+        "strategy": "dir:greninja/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10299,
+        "name": "dragalge-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10299-dragalge-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/dragalge/mega/back.png",
+        "strategy": "dir:dragalge/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10298,
+        "name": "barbaracle-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10298-barbaracle-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/barbaracle/back.png",
+        "strategy": "dir:barbaracle/file:back.png"
+      },
+      {
+        "id": 10300,
+        "name": "hawlucha-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10300-hawlucha-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/hawlucha/back.png",
+        "strategy": "dir:hawlucha/file:back.png"
+      },
+      {
+        "id": 10301,
+        "name": "zygarde-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10301-zygarde-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/zygarde/back.png",
+        "strategy": "dir:zygarde/file:back.png"
+      },
+      {
+        "id": 10302,
+        "name": "drampa-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10302-drampa-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/drampa/back.png",
+        "strategy": "dir:drampa/file:back.png"
+      },
+      {
+        "id": 10303,
+        "name": "falinks-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10303-falinks-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/falinks/mega/back.png",
+        "strategy": "dir:falinks/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10304,
+        "name": "raichu-mega-x",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10304-raichu-mega-x.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/raichu/back.png",
+        "strategy": "dir:raichu/file:back.png"
+      },
+      {
+        "id": 10305,
+        "name": "raichu-mega-y",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10305-raichu-mega-y.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/raichu/back.png",
+        "strategy": "dir:raichu/file:back.png"
+      },
+      {
+        "id": 10306,
+        "name": "chimecho-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10306-chimecho-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/chimecho/back.png",
+        "strategy": "dir:chimecho/file:back.png"
+      },
+      {
+        "id": 10307,
+        "name": "absol-mega-z",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10307-absol-mega-z.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/absol/mega/back.png",
+        "strategy": "dir:absol/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10308,
+        "name": "staraptor-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10308-staraptor-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/staraptor/mega/back.png",
+        "strategy": "dir:staraptor/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10309,
+        "name": "garchomp-mega-z",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10309-garchomp-mega-z.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/garchomp/mega/back.png",
+        "strategy": "dir:garchomp/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10310,
+        "name": "lucario-mega-z",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10310-lucario-mega-z.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/lucario/mega/back.png",
+        "strategy": "dir:lucario/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10311,
+        "name": "heatran-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10311-heatran-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/heatran/back.png",
+        "strategy": "dir:heatran/file:back.png"
+      },
+      {
+        "id": 10312,
+        "name": "darkrai-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10312-darkrai-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/darkrai/back.png",
+        "strategy": "dir:darkrai/file:back.png"
+      },
+      {
+        "id": 10313,
+        "name": "golurk-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10313-golurk-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/golurk/back.png",
+        "strategy": "dir:golurk/file:back.png"
+      },
+      {
+        "id": 10314,
+        "name": "meowstic-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10314-meowstic-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/meowstic/back.png",
+        "strategy": "dir:meowstic/file:back.png"
+      },
+      {
+        "id": 10315,
+        "name": "crabominable-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10315-crabominable-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/crabominable/back.png",
+        "strategy": "dir:crabominable/file:back.png"
+      },
+      {
+        "id": 10316,
+        "name": "golisopod-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10316-golisopod-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/golisopod/back.png",
+        "strategy": "dir:golisopod/file:back.png"
+      },
+      {
+        "id": 10317,
+        "name": "magearna-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10317-magearna-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/magearna/back.png",
+        "strategy": "dir:magearna/file:back.png"
+      },
+      {
+        "id": 10318,
+        "name": "magearna-original-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10318-magearna-original-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/magearna/back.png",
+        "strategy": "dir:magearna/file:back.png"
+      },
+      {
+        "id": 10319,
+        "name": "zeraora-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10319-zeraora-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/zeraora/back.png",
+        "strategy": "dir:zeraora/file:back.png"
+      },
+      {
+        "id": 10320,
+        "name": "scovillain-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10320-scovillain-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/scovillain/back.png",
+        "strategy": "dir:scovillain/file:back.png"
+      },
+      {
+        "id": 10321,
+        "name": "glimmora-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10321-glimmora-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/glimmora/mega/back.png",
+        "strategy": "dir:glimmora/subdir:mega/file:back.png"
+      },
+      {
+        "id": 10322,
+        "name": "tatsugiri-curly-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10322-tatsugiri-curly-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/back.png",
+        "strategy": "dir:tatsugiri/file:back.png"
+      },
+      {
+        "id": 10323,
+        "name": "tatsugiri-droopy-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10323-tatsugiri-droopy-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/back.png",
+        "strategy": "dir:tatsugiri/file:back.png"
+      },
+      {
+        "id": 10324,
+        "name": "tatsugiri-stretchy-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10324-tatsugiri-stretchy-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/back.png",
+        "strategy": "dir:tatsugiri/file:back.png"
+      },
+      {
+        "id": 10325,
+        "name": "baxcalibur-mega",
+        "spriteKey": "back_default",
+        "target": "public/pokemon-sprites/back_default/10325-baxcalibur-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/baxcalibur/back.png",
+        "strategy": "dir:baxcalibur/file:back.png"
+      }
+    ],
+    "official_artwork": [
+      {
+        "id": 10143,
+        "name": "mimikyu-busted",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10143-mimikyu-busted.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/mimikyu/front.png",
+        "strategy": "dir:mimikyu/file:front.png"
+      },
+      {
+        "id": 10145,
+        "name": "mimikyu-totem-busted",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10145-mimikyu-totem-busted.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/mimikyu/front.png",
+        "strategy": "dir:mimikyu/file:front.png"
+      },
+      {
+        "id": 10264,
+        "name": "koraidon-limited-build",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10264-koraidon-limited-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/front.png",
+        "strategy": "dir:koraidon/file:front.png"
+      },
+      {
+        "id": 10265,
+        "name": "koraidon-sprinting-build",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10265-koraidon-sprinting-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/front.png",
+        "strategy": "dir:koraidon/file:front.png"
+      },
+      {
+        "id": 10266,
+        "name": "koraidon-swimming-build",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10266-koraidon-swimming-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/front.png",
+        "strategy": "dir:koraidon/file:front.png"
+      },
+      {
+        "id": 10267,
+        "name": "koraidon-gliding-build",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10267-koraidon-gliding-build.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/koraidon/front.png",
+        "strategy": "dir:koraidon/file:front.png"
+      },
+      {
+        "id": 10268,
+        "name": "miraidon-low-power-mode",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10268-miraidon-low-power-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/front.png",
+        "strategy": "dir:miraidon/file:front.png"
+      },
+      {
+        "id": 10269,
+        "name": "miraidon-drive-mode",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10269-miraidon-drive-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/front.png",
+        "strategy": "dir:miraidon/file:front.png"
+      },
+      {
+        "id": 10270,
+        "name": "miraidon-aquatic-mode",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10270-miraidon-aquatic-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/front.png",
+        "strategy": "dir:miraidon/file:front.png"
+      },
+      {
+        "id": 10271,
+        "name": "miraidon-glide-mode",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10271-miraidon-glide-mode.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/miraidon/front.png",
+        "strategy": "dir:miraidon/file:front.png"
+      },
+      {
+        "id": 10309,
+        "name": "garchomp-mega-z",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10309-garchomp-mega-z.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/garchomp/mega/front.png",
+        "strategy": "dir:garchomp/subdir:mega/file:front.png"
+      },
+      {
+        "id": 10318,
+        "name": "magearna-original-mega",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10318-magearna-original-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/magearna/front.png",
+        "strategy": "dir:magearna/file:front.png"
+      },
+      {
+        "id": 10322,
+        "name": "tatsugiri-curly-mega",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10322-tatsugiri-curly-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/front.png",
+        "strategy": "dir:tatsugiri/file:front.png"
+      },
+      {
+        "id": 10323,
+        "name": "tatsugiri-droopy-mega",
+        "spriteKey": "official_artwork",
+        "target": "public/pokemon-sprites/official_artwork/10323-tatsugiri-droopy-mega.png",
+        "status": "filled",
+        "source": "reference/pokeemerald-expansion/graphics/pokemon/tatsugiri/front.png",
+        "strategy": "dir:tatsugiri/file:front.png"
+      }
+    ]
+  }
+}

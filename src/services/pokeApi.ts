@@ -1,10 +1,12 @@
 import { Pokemon, Move, GamePokemon, Stats, Nature } from '../types';
 import { GENERATIONS, NATURES } from '../constants';
 import { DIRECT_SPECIAL_FORMS, SPECIAL_FORM_RANDOM_RATE } from '../features/game/config/specialForms';
+import type { FactoryReferenceSet } from '../features/game/config/factoryReferenceSets';
 
 const BASE_URL = 'https://pokeapi.co/api/v2';
 
 export type PokemonIdentifier = number | string;
+const moveByNameCache = new Map<string, Move>();
 
 export async function getRandomPokemonId(selectedGens: number[] = [1]): Promise<number> {
   const possibleGens = GENERATIONS.filter(g => selectedGens.includes(g.id));
@@ -178,6 +180,56 @@ export async function fetchEvolutionChain(pokemonId: number): Promise<number[]> 
   }
 }
 
+export async function fetchMoveByName(moveName: string): Promise<Move> {
+  const normalized = moveName.trim().toLowerCase();
+  const cached = moveByNameCache.get(normalized);
+  if (cached) return cached;
+
+  const response = await fetch(`${BASE_URL}/move/${normalized}`);
+  if (!response.ok) throw new Error(`Failed to fetch move by name: ${normalized}`);
+  const data = await response.json();
+
+  const zhName = getZhName(data.names);
+  const zhDescription = getZhDescription(data.flavor_text_entries);
+  const statChanges = data.stat_changes?.map((sc: any) => {
+    let statName = sc.stat.name;
+    if (statName === 'special-attack') statName = 'spAtk';
+    if (statName === 'special-defense') statName = 'spDef';
+    return {
+      change: sc.change,
+      stat: statName,
+    };
+  });
+
+  const move: Move = {
+    name: data.name,
+    names: data.names,
+    zhName: zhName || data.name,
+    power: data.power,
+    accuracy: data.accuracy,
+    type: data.type.name,
+    damage_class: data.damage_class.name,
+    pp: data.pp,
+    zhDescription: zhDescription || '暂无描述',
+    flavor_text_entries: data.flavor_text_entries,
+    ailment: data.meta?.ailment?.name !== 'none' ? data.meta?.ailment?.name : undefined,
+    ailmentChance: data.meta?.ailment_chance || 0,
+    flinchChance: data.meta?.flinch_chance || 0,
+    statChanges: statChanges?.length > 0 ? statChanges : undefined,
+    drain: data.meta?.drain || 0,
+    healing: data.meta?.healing || 0,
+    critRate: data.meta?.crit_rate || 0,
+    target: data.target?.name,
+  };
+
+  moveByNameCache.set(normalized, move);
+  return move;
+}
+
+export async function fetchAvailableEvolutionChain(pokemonId: number): Promise<number[]> {
+  return fetchEvolutionChain(pokemonId);
+}
+
 export async function getLearnableMoves(pokemon: any, currentMoves: Move[], count: number = 3): Promise<Move[]> {
   const currentNames = currentMoves.map(m => m.name);
   const potentialMoves = pokemon.moves.filter((m: any) => !currentNames.includes(m.move.name));
@@ -207,6 +259,13 @@ function calculateStat(base: number, iv: number, level: number, isHp: boolean = 
 
 export async function getProcessedPokemon(identifier: PokemonIdentifier, level: number = 50): Promise<GamePokemon> {
   const raw = await fetchPokemon(identifier);
+  const normalizedIdentifier = typeof identifier === 'string' ? identifier.trim().toLowerCase() : '';
+  const speciesFromRaw = typeof (raw as any)?.species?.name === 'string'
+    ? String((raw as any).species.name).toLowerCase()
+    : '';
+  const speciesName = speciesFromRaw || String(raw.name ?? '').toLowerCase();
+  const pokeApiName = String(raw.name ?? '').toLowerCase();
+  const formLedgerSlug = normalizedIdentifier || pokeApiName || speciesName;
   const teraTypePool = raw.types.map((slot) => slot.type.name);
   const teraType = teraTypePool[Math.floor(Math.random() * teraTypePool.length)] || 'normal';
   
@@ -279,6 +338,9 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
   return {
     ...raw,
     level,
+    speciesName,
+    pokeApiName,
+    formLedgerSlug,
     maxHp: calculatedStats.hp,
     currentHp: calculatedStats.hp,
     selectedMoves: validMoves,
@@ -296,5 +358,89 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
       accuracy: 0,
       evasion: 0,
     }
+  };
+}
+
+export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceSet, level: number = 50): Promise<GamePokemon> {
+  const raw = await fetchPokemon(set.speciesId);
+  const speciesName = String(raw.name ?? '').toLowerCase();
+  const setBaseKey = set.key.replace(/-\d+$/, '').toLowerCase();
+  const inferredFormSlug = setBaseKey.startsWith(`${speciesName}-`) ? setBaseKey : speciesName;
+  const pokeApiName = inferredFormSlug;
+  const formLedgerSlug = inferredFormSlug;
+  const teraTypePool = raw.types.map((slot) => slot.type.name);
+  const teraType = teraTypePool[Math.floor(Math.random() * teraTypePool.length)] || 'normal';
+
+  const selectedMoves: Move[] = [];
+  for (const moveName of set.moveNames) {
+    try {
+      const move = await fetchMoveByName(moveName);
+      selectedMoves.push(move);
+    } catch {
+      continue;
+    }
+  }
+
+  if (selectedMoves.length === 0) {
+    return getProcessedPokemon(set.speciesId, level);
+  }
+
+  const ivs: Stats = {
+    hp: Math.floor(Math.random() * 32),
+    attack: Math.floor(Math.random() * 32),
+    defense: Math.floor(Math.random() * 32),
+    spAtk: Math.floor(Math.random() * 32),
+    spDef: Math.floor(Math.random() * 32),
+    speed: Math.floor(Math.random() * 32),
+  };
+
+  const nature: Nature = NATURES[Math.floor(Math.random() * NATURES.length)];
+  const baseStats: Stats = {
+    hp: raw.stats.find((s) => s.stat.name === 'hp')?.base_stat || 50,
+    attack: raw.stats.find((s) => s.stat.name === 'attack')?.base_stat || 50,
+    defense: raw.stats.find((s) => s.stat.name === 'defense')?.base_stat || 50,
+    spAtk: raw.stats.find((s) => s.stat.name === 'special-attack')?.base_stat || 50,
+    spDef: raw.stats.find((s) => s.stat.name === 'special-defense')?.base_stat || 50,
+    speed: raw.stats.find((s) => s.stat.name === 'speed')?.base_stat || 50,
+  };
+
+  const getMod = (statName: string) => {
+    if (nature.plus === statName) return 1.1;
+    if (nature.minus === statName) return 0.9;
+    return 1;
+  };
+
+  const calculatedStats: Stats = {
+    hp: calculateStat(baseStats.hp, ivs.hp, level, true),
+    attack: calculateStat(baseStats.attack, ivs.attack, level, false, getMod('attack')),
+    defense: calculateStat(baseStats.defense, ivs.defense, level, false, getMod('defense')),
+    spAtk: calculateStat(baseStats.spAtk, ivs.spAtk, level, false, getMod('spAtk')),
+    spDef: calculateStat(baseStats.spDef, ivs.spDef, level, false, getMod('spDef')),
+    speed: calculateStat(baseStats.speed, ivs.speed, level, false, getMod('speed')),
+  };
+
+  return {
+    ...raw,
+    level,
+    speciesName,
+    pokeApiName,
+    formLedgerSlug,
+    maxHp: calculatedStats.hp,
+    currentHp: calculatedStats.hp,
+    selectedMoves: selectedMoves.slice(0, 4),
+    nature,
+    ivs,
+    baseStats,
+    calculatedStats,
+    teraType,
+    statStages: {
+      attack: 0,
+      defense: 0,
+      spAtk: 0,
+      spDef: 0,
+      speed: 0,
+      accuracy: 0,
+      evasion: 0,
+    },
   };
 }

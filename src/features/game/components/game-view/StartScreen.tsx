@@ -1,150 +1,257 @@
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
-import { ChevronRight, Dna, RefreshCw, Sparkles, Sword, Zap } from 'lucide-react';
-import { GENERATIONS } from '../../../../constants';
+import { Dna, Languages, Lock, Shield, Store, Swords } from 'lucide-react';
+import type { BaseTab } from '../../view-model';
 import type { GameViewSectionProps } from './shared';
+import companionAnimSprite from '../../../../../reference/pokeemerald-expansion/graphics/pokemon/pikachu/anim_front.png';
+import pokedexMenuIcon from '../../../../../reference/pokeemerald-expansion/graphics/object_events/pics/misc/pokedex.png';
+import { TopRecordPanel } from './TopRecordPanel';
+import { APP_PALETTE } from '../../../../theme/palette';
+
+type StartMenu = BaseTab | 'SETTINGS';
+
+interface StartNavItem {
+  menu: StartMenu;
+  label: string;
+  badge?: string;
+  locked?: boolean;
+}
 
 export function StartScreen({ viewModel }: GameViewSectionProps) {
   const {
-    startStep,
-    selectedGens,
-    startLevel,
     loading,
-    t,
-    setStartStep,
-    setSelectedGens,
-    setStartLevel,
+    coins,
+    stage,
+    availableEggCount,
+    activeEventCount,
+    seenCount,
+    ownedCount,
+    formCount,
+    shopUnlocked,
+    breedingUnlocked,
+    collectionUnlocked,
+    eventsUnlocked,
+    totalRents,
+    pendingRunSummary,
+    closeRunSummary,
     startGame,
+    openBaseTab,
+    setGameState,
+    currentLanguage,
   } = viewModel;
+
+  const [companionFrame, setCompanionFrame] = useState(0);
+  const isZh = currentLanguage.startsWith('zh');
+
+  const copy = useMemo(
+    () => ({
+      factoryTitle: isZh ? '对战工厂' : 'Battle Factory',
+      factoryDesc: isZh ? '点击图标开始新一轮挑战。' : 'Tap the icon to start your next run.',
+      hide: isZh ? '收起' : 'Hide',
+      setCleared: isZh ? '组别通关' : 'Set Cleared',
+      runEnded: isZh ? '挑战结束' : 'Run Ended',
+      menuHint: isZh
+        ? '主页面移动端优先布局：上方记录，中间主按钮，下方功能菜单。'
+        : 'Mobile-first home layout: top records, center factory action, bottom menu.',
+      totalRents: isZh ? `累计租借: ${totalRents}` : `Total rents: ${totalRents}`,
+      menuDeveloping: isZh ? '该功能将在下一版本开放。' : 'This feature is coming in the next version.',
+      langTitle: isZh ? '语言设置' : 'Language',
+      langDesc: isZh ? '当前页面支持中文与英文。' : 'This page supports Chinese and English.',
+      zh: '中文',
+      en: 'English',
+      shop: isZh ? '商店' : 'Shop',
+      breeding: isZh ? '培育' : 'Breed',
+      collection: isZh ? '图鉴' : 'Collection',
+      events: isZh ? '事件' : 'Events',
+      settings: isZh ? '设置' : 'Settings',
+    }),
+    [isZh, totalRents],
+  );
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCompanionFrame((prev) => (prev + 1) % 2);
+    }, 420);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const navItems: StartNavItem[] = [
+    { menu: 'SHOP', label: copy.shop, locked: !shopUnlocked },
+    {
+      menu: 'BREEDING',
+      label: copy.breeding,
+      badge: availableEggCount > 0 ? `${availableEggCount}` : undefined,
+      locked: !breedingUnlocked,
+    },
+    {
+      menu: 'COLLECTION',
+      label: copy.collection,
+      badge: `${seenCount}/${ownedCount}`,
+      locked: !collectionUnlocked,
+    },
+    {
+      menu: 'EVENTS',
+      label: copy.events,
+      badge: activeEventCount > 0 ? `${activeEventCount}` : undefined,
+      locked: !eventsUnlocked,
+    },
+    { menu: 'SETTINGS', label: copy.settings },
+  ];
+
+  const startRootStyle = {
+    backgroundImage: `linear-gradient(180deg, ${APP_PALETTE.page.backgroundTop} 0%, ${APP_PALETTE.page.backgroundBottom} 100%)`,
+  };
+
+  const factoryButtonStyle = {
+    backgroundImage: `radial-gradient(circle at 50% 38%, #ffffff 0%, #f8fafc 42%, #e2e8f0 100%)`,
+    borderColor: APP_PALETTE.border.soft,
+    color: APP_PALETTE.accent.primary,
+    boxShadow: '0 16px 36px rgba(15, 23, 42, 0.12)',
+  };
 
   return (
     <motion.div
       key="start"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, x: -100 }}
-      className="flex-1 flex flex-col items-center justify-center py-4 text-center overflow-y-auto custom-scrollbar"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 12 }}
+      className="flex-1 flex flex-col min-h-0"
+      style={startRootStyle}
     >
-      {startStep === 0 ? (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center">
-          <div className="relative mb-6">
-            <div className="w-48 h-48 bg-white rounded-full shadow-2xl flex items-center justify-center relative overflow-hidden border-8 border-slate-100">
-              <Dna className="w-24 h-24 text-blue-500 relative z-10" />
-              <div className="absolute top-0 left-0 w-full h-1/2 bg-red-500 opacity-10" />
-            </div>
-            <div className="absolute -bottom-4 -right-4 bg-red-500 text-white p-4 rounded-full shadow-lg">
-              <Sword className="w-8 h-8" />
+      <section className="flex-1 flex flex-col min-h-0">
+        <div className="px-3 pt-1 pb-0.5">
+          <TopRecordPanel
+            currentLanguage={currentLanguage}
+            coins={coins}
+            stage={stage}
+            streak={viewModel.streak}
+          />
+        </div>
+
+        {pendingRunSummary?.visible && (
+          <div className="px-3 pb-1">
+            <div className="bg-emerald-500 text-white rounded-xl px-3 py-2 shadow-md">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-[11px] font-black uppercase tracking-wide">
+                  {pendingRunSummary.result === 'WIN' ? copy.setCleared : copy.runEnded} · +{pendingRunSummary.tokenGain}
+                </p>
+                <button
+                  onClick={closeRunSummary}
+                  className="text-[10px] uppercase font-black tracking-wide bg-emerald-800/40 px-2 py-1 rounded-md"
+                >
+                  {copy.hide}
+                </button>
+              </div>
             </div>
           </div>
-          <h2 className="text-4xl sm:text-6xl font-black mb-6 tracking-tighter italic text-slate-900 uppercase">PokeFactory</h2>
-          <p className="text-slate-500 max-w-md mb-12 text-base sm:text-lg font-medium italic px-4">{t('rogueJourney')}</p>
-          <button
-            onClick={() => setStartStep(1)}
-            className="group relative px-10 sm:px-16 py-4 sm:py-6 bg-slate-900 text-white rounded-none skew-x-[-12deg] font-black text-xl sm:text-3xl transition-all hover:bg-blue-600 hover:scale-105 active:scale-95 shadow-[12px_12px_0px_#00000022]"
+        )}
+
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center px-4">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.03 }}
+            onClick={() => void startGame()}
+            disabled={loading}
+            className="relative w-44 h-44 md:w-52 md:h-52 rounded-full border-[6px] disabled:opacity-60"
+            style={factoryButtonStyle}
+            aria-label="Enter Battle Factory"
           >
-            <span className="flex items-center gap-3 skew-x-[12deg]">
-              {t('startBattle')}
-              <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10" />
+            <span className="absolute inset-0 rounded-full bg-white/55" />
+            <span className="relative z-10 flex h-full w-full items-center justify-center">
+              <Swords className="w-16 h-16 md:w-20 md:h-20" />
             </span>
-          </button>
-        </motion.div>
-      ) : (
-        <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} className="w-full max-w-3xl">
-          <div className="mb-8 flex items-center justify-between">
-            <button
-              onClick={() => setStartStep((prev) => prev - 1)}
-              className="text-slate-400 font-black italic hover:text-slate-900 flex items-center gap-2"
+          </motion.button>
+
+          <p className="mt-5 text-base font-black uppercase tracking-[0.2em] text-slate-900">{copy.factoryTitle}</p>
+          <p className="mt-2 text-sm font-semibold text-slate-600 text-center max-w-[280px]">{copy.factoryDesc}</p>
+        </div>
+
+        <div className="px-2 pb-2 pt-1 relative">
+          <motion.div
+            initial={{ opacity: 0, x: -10, y: 10 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 0.35 }}
+            className="pointer-events-none absolute left-3 top-0 -translate-y-full z-20"
+          >
+            <motion.div
+              animate={{ y: [0, -5, 0], rotate: [0, -2, 0, 2, 0] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+              className="relative"
             >
-              <ChevronRight className="w-5 h-5 rotate-180" />
-              {t('back')}
-            </button>
-            <div className="flex gap-2">
-              {[1, 2].map((stepIndex) => (
-                <div key={stepIndex} className={`w-3 h-3 rounded-full ${startStep >= stepIndex ? 'bg-blue-500' : 'bg-slate-200'}`} />
-              ))}
-            </div>
-          </div>
+              <div className="h-16 w-16 overflow-hidden">
+                <img
+                  src={companionAnimSprite}
+                  alt=""
+                  aria-hidden="true"
+                  className="w-16 h-auto drop-shadow-[0_6px_10px_rgba(0,0,0,0.3)]"
+                  style={{
+                    transform: `translateY(-${companionFrame * 50}%)`,
+                    transition: 'transform 120ms steps(1)',
+                  }}
+                />
+              </div>
+            </motion.div>
+          </motion.div>
 
-          <div className="bg-white p-6 md:p-10 shadow-2xl border-b-8 border-slate-900 mb-6 md:mb-12">
-            {startStep === 1 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <h3 className="text-xl md:text-2xl font-black italic mb-6 md:mb-8 uppercase tracking-tighter flex items-center gap-3">
-                  <Dna className="w-5 h-5 md:w-6 md:h-6 text-blue-500" /> {t('selectRegion')}
-                </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
-                  {GENERATIONS.map((generation) => (
-                    <button
-                      key={generation.id}
-                      onClick={() => {
-                        setSelectedGens((prev) =>
-                          prev.includes(generation.id)
-                            ? (prev.length > 1 ? prev.filter((id) => id !== generation.id) : prev)
-                            : [...prev, generation.id],
-                        );
-                      }}
-                      className={`p-3 md:p-4 border-2 md:border-4 skew-x-[-4deg] transition-all relative overflow-hidden group ${
-                        selectedGens.includes(generation.id)
-                          ? 'bg-slate-900 text-white border-slate-900 shadow-xl scale-105'
-                          : 'bg-white text-slate-400 border-slate-100 hover:border-slate-300'
-                      }`}
-                    >
-                      <div className="skew-x-[4deg] relative z-10">
-                        <div className="font-black text-base md:text-lg italic">{generation.name}</div>
-                        <div className="text-[8px] md:text-[10px] font-bold opacity-60 uppercase tracking-widest">{generation.region}</div>
-                      </div>
-                      {selectedGens.includes(generation.id) && (
-                        <div className="absolute top-0 right-0 w-6 h-6 md:w-8 md:h-8 bg-blue-500 flex items-center justify-center skew-x-[4deg] -translate-y-1 md:-translate-y-2 translate-x-1 md:translate-x-2">
-                          <Sparkles className="w-2 h-2 md:w-3 md:h-3 text-white" />
-                        </div>
+          <div className="bg-white/95 backdrop-blur border border-slate-200 rounded-2xl shadow-lg px-2 py-2">
+            <div className="grid grid-cols-5 gap-1.5">
+              {navItems.map((item) => {
+                const isLocked = Boolean(item.locked);
+                const Icon =
+                  item.menu === 'SHOP'
+                    ? Store
+                    : item.menu === 'BREEDING'
+                      ? Dna
+                      : item.menu === 'EVENTS'
+                          ? Shield
+                          : Languages;
+
+                return (
+                  <button
+                    key={item.menu}
+                    onClick={() => {
+                      if (item.menu === 'SETTINGS') {
+                        setGameState('SETTINGS');
+                        return;
+                      }
+                      if (!isLocked && item.menu === 'COLLECTION') {
+                        openBaseTab('COLLECTION');
+                        setGameState('COLLECTION');
+                      }
+                    }}
+                    disabled={isLocked}
+                    className={`relative min-h-[64px] disabled:opacity-45 ${
+                      item.menu === 'COLLECTION'
+                        ? 'rounded-none border-0 bg-transparent shadow-none'
+                        : 'rounded-xl border border-slate-200 bg-slate-50'
+                    }`}
+                  >
+                    <span className="flex h-full w-full flex-col items-center justify-center gap-1">
+                      {item.menu === 'COLLECTION' ? (
+                        <img src={pokedexMenuIcon} alt="" aria-hidden="true" className="w-8 h-8 object-contain [image-rendering:pixelated]" />
+                      ) : (
+                        <Icon className="w-4 h-4 text-slate-700" />
                       )}
-                    </button>
-                  ))}
-                </div>
-                <button
-                  onClick={() => setStartStep(2)}
-                  className="mt-8 md:mt-12 w-full py-4 md:py-5 bg-blue-600 text-white font-black text-lg md:text-xl italic skew-x-[-10deg] hover:bg-blue-700 transition-all shadow-lg"
-                >
-                  <span className="skew-x-[10deg] inline-block">{t('nextStep')}</span>
-                </button>
-              </motion.div>
-            )}
+                      <span className="text-[9px] font-black uppercase tracking-wide text-slate-700">{item.label}</span>
+                    </span>
+                    {isLocked && (
+                      <span className="absolute top-1 right-1">
+                        <Lock className="w-3 h-3 text-slate-400" />
+                      </span>
+                    )}
+                    {item.badge && !isLocked && (
+                      <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full">
+                        {item.badge}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
 
-            {startStep === 2 && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <h3 className="text-xl md:text-2xl font-black italic mb-6 md:mb-8 uppercase tracking-tighter flex items-center gap-3">
-                  <Zap className="w-5 h-5 md:w-6 md:h-6 text-yellow-500" /> {t('setDifficulty')}
-                </h3>
-                <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
-                  {[30, 50].map((level) => (
-                    <button
-                      key={level}
-                      onClick={() => setStartLevel(level)}
-                      className={`flex-1 py-6 md:py-8 px-8 md:px-10 text-3xl md:text-4xl font-black italic transition-all skew-x-[-10deg] border-2 md:border-4 ${
-                        startLevel === level
-                          ? 'bg-yellow-400 text-white border-yellow-400 shadow-2xl scale-105'
-                          : 'bg-white text-slate-400 border-slate-100 hover:border-slate-300'
-                      }`}
-                    >
-                      <div className="skew-x-[10deg]">
-                        <div className="text-[10px] md:text-sm uppercase opacity-60 mb-1 md:mb-2">Level</div>
-                        <div>{level}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-                <button
-                  onClick={startGame}
-                  disabled={loading}
-                  className="mt-8 md:mt-12 w-full py-5 md:py-6 bg-slate-900 text-white font-black text-xl md:text-2xl italic skew-x-[-10deg] hover:bg-red-600 transition-all shadow-xl disabled:opacity-50"
-                >
-                  <span className="skew-x-[10deg] inline-block flex items-center justify-center gap-3">
-                    {loading ? <RefreshCw className="animate-spin w-5 h-5 md:w-6 md:h-6" /> : t('startAdventure')}
-                  </span>
-                </button>
-              </motion.div>
-            )}
           </div>
-        </motion.div>
-      )}
+        </div>
+      </section>
     </motion.div>
   );
 }
