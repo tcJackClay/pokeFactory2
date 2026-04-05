@@ -116,6 +116,8 @@ interface EvolutionStageWeights {
   FINAL: number;
 }
 
+type FactoryIvBuildMode = 'FIXED' | 'RANDOMIZED_RENTAL';
+
 const EVOLUTION_STAGE_WEIGHTS_BY_CHALLENGE: EvolutionStageWeights[] = [
   { BASE: 100, MID: 0, FINAL: 0 },
   { BASE: 80, MID: 20, FINAL: 0 },
@@ -286,6 +288,78 @@ function assignEnemySpecialPlan(team: GamePokemon[], aiTier: FactoryAiTier): Gam
   }));
 }
 
+function clampFactoryIv(iv: number): number {
+  return Math.max(0, Math.min(31, Math.round(iv)));
+}
+
+function buildUniformIvs(fixedIv: number): Stats {
+  return {
+    hp: fixedIv,
+    attack: fixedIv,
+    defense: fixedIv,
+    spAtk: fixedIv,
+    spDef: fixedIv,
+    speed: fixedIv,
+  };
+}
+
+function buildRandomizedRentalIvs(baseIv: number): Stats {
+  const totalIv = clampFactoryIv(baseIv) * 6;
+  const ivs: Stats = {
+    hp: 0,
+    attack: 0,
+    defense: 0,
+    spAtk: 0,
+    spDef: 0,
+    speed: 0,
+  };
+  const statKeys: Array<keyof Stats> = ['hp', 'attack', 'defense', 'spAtk', 'spDef', 'speed'];
+
+  for (let remaining = totalIv; remaining > 0; remaining -= 1) {
+    const availableStats = statKeys.filter((statKey) => ivs[statKey] < 31);
+    const statKey = availableStats[Math.floor(Math.random() * availableStats.length)];
+    if (!statKey) break;
+    ivs[statKey] += 1;
+  }
+
+  return ivs;
+}
+
+function applyIvSpreadBuild(
+  pokemon: GamePokemon,
+  ivs: Stats,
+  options?: { trimMovesToFactoryLimit?: boolean },
+): GamePokemon {
+  const trimMovesToFactoryLimit = options?.trimMovesToFactoryLimit ?? false;
+
+  const nature = pokemon.nature;
+  const calculatedStats: Stats = {
+    hp: calculateStat(pokemon.baseStats.hp, ivs.hp, pokemon.level, true),
+    attack: calculateStat(pokemon.baseStats.attack, ivs.attack, pokemon.level, false, statNatureModifier('attack', nature.plus, nature.minus)),
+    defense: calculateStat(pokemon.baseStats.defense, ivs.defense, pokemon.level, false, statNatureModifier('defense', nature.plus, nature.minus)),
+    spAtk: calculateStat(pokemon.baseStats.spAtk, ivs.spAtk, pokemon.level, false, statNatureModifier('spAtk', nature.plus, nature.minus)),
+    spDef: calculateStat(pokemon.baseStats.spDef, ivs.spDef, pokemon.level, false, statNatureModifier('spDef', nature.plus, nature.minus)),
+    speed: calculateStat(pokemon.baseStats.speed, ivs.speed, pokemon.level, false, statNatureModifier('speed', nature.plus, nature.minus)),
+  };
+
+  const hpRatio = pokemon.currentHp / Math.max(1, pokemon.maxHp);
+  const typeNames = trimMovesToFactoryLimit ? pokemon.types.map((slot) => slot.type.name) : [];
+  const nextMoves = trimMovesToFactoryLimit
+    ? [...pokemon.selectedMoves]
+      .sort((a, b) => scoreMove(b, typeNames) - scoreMove(a, typeNames))
+      .slice(0, FACTORY_BATTLE_CONFIG.movesPerMon)
+    : pokemon.selectedMoves;
+
+  return {
+    ...pokemon,
+    ivs,
+    selectedMoves: nextMoves,
+    calculatedStats,
+    maxHp: calculatedStats.hp,
+    currentHp: Math.floor(calculatedStats.hp * hpRatio),
+  };
+}
+
 function applyBossBuildEnhancement(pokemon: GamePokemon, minIv: number): GamePokemon {
   const ivs: Stats = {
     hp: Math.max(minIv, pokemon.ivs.hp),
@@ -296,58 +370,19 @@ function applyBossBuildEnhancement(pokemon: GamePokemon, minIv: number): GamePok
     speed: Math.max(minIv, pokemon.ivs.speed),
   };
 
-  const nature = pokemon.nature;
-  const calculatedStats: Stats = {
-    hp: calculateStat(pokemon.baseStats.hp, ivs.hp, pokemon.level, true),
-    attack: calculateStat(pokemon.baseStats.attack, ivs.attack, pokemon.level, false, statNatureModifier('attack', nature.plus, nature.minus)),
-    defense: calculateStat(pokemon.baseStats.defense, ivs.defense, pokemon.level, false, statNatureModifier('defense', nature.plus, nature.minus)),
-    spAtk: calculateStat(pokemon.baseStats.spAtk, ivs.spAtk, pokemon.level, false, statNatureModifier('spAtk', nature.plus, nature.minus)),
-    spDef: calculateStat(pokemon.baseStats.spDef, ivs.spDef, pokemon.level, false, statNatureModifier('spDef', nature.plus, nature.minus)),
-    speed: calculateStat(pokemon.baseStats.speed, ivs.speed, pokemon.level, false, statNatureModifier('speed', nature.plus, nature.minus)),
-  };
-
-  const typeNames = pokemon.types.map((slot) => slot.type.name);
-  const moves = [...pokemon.selectedMoves].sort((a, b) => scoreMove(b, typeNames) - scoreMove(a, typeNames)).slice(0, FACTORY_BATTLE_CONFIG.movesPerMon);
-  const hpRatio = pokemon.currentHp / Math.max(1, pokemon.maxHp);
-
-  return {
-    ...pokemon,
-    ivs,
-    selectedMoves: moves,
-    calculatedStats,
-    maxHp: calculatedStats.hp,
-    currentHp: Math.floor(calculatedStats.hp * hpRatio),
-  };
+  return applyIvSpreadBuild(pokemon, ivs, { trimMovesToFactoryLimit: true });
 }
 
 function applyFixedIvBuild(pokemon: GamePokemon, fixedIv: number): GamePokemon {
-  const ivs: Stats = {
-    hp: fixedIv,
-    attack: fixedIv,
-    defense: fixedIv,
-    spAtk: fixedIv,
-    spDef: fixedIv,
-    speed: fixedIv,
-  };
+  return applyIvSpreadBuild(pokemon, buildUniformIvs(fixedIv));
+}
 
-  const nature = pokemon.nature;
-  const calculatedStats: Stats = {
-    hp: calculateStat(pokemon.baseStats.hp, ivs.hp, pokemon.level, true),
-    attack: calculateStat(pokemon.baseStats.attack, ivs.attack, pokemon.level, false, statNatureModifier('attack', nature.plus, nature.minus)),
-    defense: calculateStat(pokemon.baseStats.defense, ivs.defense, pokemon.level, false, statNatureModifier('defense', nature.plus, nature.minus)),
-    spAtk: calculateStat(pokemon.baseStats.spAtk, ivs.spAtk, pokemon.level, false, statNatureModifier('spAtk', nature.plus, nature.minus)),
-    spDef: calculateStat(pokemon.baseStats.spDef, ivs.spDef, pokemon.level, false, statNatureModifier('spDef', nature.plus, nature.minus)),
-    speed: calculateStat(pokemon.baseStats.speed, ivs.speed, pokemon.level, false, statNatureModifier('speed', nature.plus, nature.minus)),
-  };
+function applyFactoryIvBuild(pokemon: GamePokemon, baseIv: number, mode: FactoryIvBuildMode): GamePokemon {
+  if (mode === 'RANDOMIZED_RENTAL') {
+    return applyIvSpreadBuild(pokemon, buildRandomizedRentalIvs(baseIv));
+  }
 
-  const hpRatio = pokemon.currentHp / Math.max(1, pokemon.maxHp);
-  return {
-    ...pokemon,
-    ivs,
-    calculatedStats,
-    maxHp: calculatedStats.hp,
-    currentHp: Math.floor(calculatedStats.hp * hpRatio),
-  };
+  return applyFixedIvBuild(pokemon, baseIv);
 }
 
 function getHeldItemBySlot(slot: number, setNo: number): string {
@@ -551,6 +586,8 @@ export function useFactoryFlow({
     allowedFrontierMonIds,
     blockedSpecies = new Set<number>(),
     fixedIv,
+    perSlotFixedIvs,
+    perSlotIvBuildModes,
     setNo,
     isBoss,
     applyEvolutionStageWeights = false,
@@ -566,6 +603,8 @@ export function useFactoryFlow({
     allowedFrontierMonIds?: Set<number>;
     blockedSpecies?: Set<number>;
     fixedIv: number;
+    perSlotFixedIvs?: number[];
+    perSlotIvBuildModes?: FactoryIvBuildMode[];
     setNo: number;
     isBoss: boolean;
     applyEvolutionStageWeights?: boolean;
@@ -583,6 +622,8 @@ export function useFactoryFlow({
       attempts += 1;
       const slotQualityBias = perSlotQualityBiases?.[mons.length] ?? qualityBias;
       const slotUseBetterRange = perSlotUseBetterRange?.[mons.length] ?? useBetterRange ?? false;
+      const slotFixedIv = perSlotFixedIvs?.[mons.length] ?? fixedIv;
+      const slotIvBuildMode = perSlotIvBuildModes?.[mons.length] ?? 'FIXED';
       const sampleCount = Math.max(2, 2 + slotQualityBias);
       const candidates: FactoryPoolCandidate[] = [];
 
@@ -695,7 +736,7 @@ export function useFactoryFlow({
       const finalizedPokemon = picked.referenceSet
         ? await getProcessedPokemonFromReferenceSet(picked.referenceSet, level)
         : await getProcessedPokemon(picked.identifier, level);
-      const fixedIvPokemon = applyFixedIvBuild(finalizedPokemon, fixedIv);
+      const fixedIvPokemon = applyFactoryIvBuild(finalizedPokemon, slotFixedIv, slotIvBuildMode);
       const candidatePokemon = isBoss ? applyBossBuildEnhancement(fixedIvPokemon, FACTORY_BATTLE_CONFIG.boss.minIv) : fixedIvPokemon;
 
       pickedSpecies.add(picked.pokemonId);
@@ -715,7 +756,11 @@ export function useFactoryFlow({
       getFactoryQualityBiasByChallenge(startLevel, challengeNum, index < rentalRank),
     );
     const fixedIv = getFactoryFixedIvByChallenge(challengeNum, false);
+    const perSlotFixedIvs = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, (_, index) =>
+      getFactoryFixedIvByChallenge(index < rentalRank ? challengeNum + 1 : challengeNum, false),
+    );
     const perSlotUseBetterRange = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, (_, index) => index < rentalRank);
+    const perSlotIvBuildModes = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, () => 'RANDOMIZED_RENTAL' as const);
     const rentals = await buildFactoryPool({
       count: FACTORY_BATTLE_CONFIG.rentalsPerDraft,
       level: startLevel,
@@ -724,6 +769,8 @@ export function useFactoryFlow({
       referenceChallengeNum: challengeNum,
       perSlotUseBetterRange,
       fixedIv,
+      perSlotFixedIvs,
+      perSlotIvBuildModes,
       setNo: 1,
       isBoss: false,
       applyEvolutionStageWeights: true,
@@ -1065,7 +1112,11 @@ export function useFactoryFlow({
         getFactoryQualityBiasByChallenge(startLevel, challengeNum, index < rentalRank),
       );
       const fixedIv = getFactoryFixedIvByChallenge(challengeNum, false);
+      const perSlotFixedIvs = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, (_, index) =>
+        getFactoryFixedIvByChallenge(index < rentalRank ? challengeNum + 1 : challengeNum, false),
+      );
       const perSlotUseBetterRange = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, (_, index) => index < rentalRank);
+      const perSlotIvBuildModes = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, () => 'RANDOMIZED_RENTAL' as const);
       const rentals = await buildFactoryPool({
         count: FACTORY_BATTLE_CONFIG.rentalsPerDraft,
         level: startLevel,
@@ -1074,6 +1125,8 @@ export function useFactoryFlow({
         referenceChallengeNum: challengeNum,
         perSlotUseBetterRange,
         fixedIv,
+        perSlotFixedIvs,
+        perSlotIvBuildModes,
         setNo: 1,
         isBoss: false,
         applyEvolutionStageWeights: true,
