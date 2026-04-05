@@ -86,6 +86,11 @@ interface RentalDraftCache {
   rentals: GamePokemon[];
 }
 
+interface RentalDraftPrefetchInFlight {
+  key: string;
+  promise: Promise<boolean>;
+}
+
 interface FactoryPoolCandidate {
   pokemon: GamePokemon;
   itemId: string;
@@ -364,6 +369,7 @@ export function useFactoryFlow({
   const prefetchedEncounterRef = useRef<{ stage: number; key: string; data: EnemyEncounterData } | null>(null);
   const prefetchRequestTokenRef = useRef(0);
   const prefetchedRentalsRef = useRef<RentalDraftCache | null>(null);
+  const rentalPrefetchInFlightRef = useRef<RentalDraftPrefetchInFlight | null>(null);
   const rentalPrefetchTokenRef = useRef(0);
   const usedTrainerIdsBySetRef = useRef<Map<number, Set<string>>>(new Map());
   const evolutionStageCacheRef = useRef<Map<number, EvolutionStage>>(new Map());
@@ -686,19 +692,34 @@ export function useFactoryFlow({
       return true;
     }
 
-    const requestToken = ++rentalPrefetchTokenRef.current;
-    try {
-      const rentals = await generateRentalDraft();
-      if (rentalPrefetchTokenRef.current !== requestToken) return false;
-      prefetchedRentalsRef.current = { key, rentals };
-      return true;
-    } catch (error) {
-      console.error(error);
-      if (rentalPrefetchTokenRef.current === requestToken) {
-        prefetchedRentalsRef.current = null;
-      }
-      return false;
+    const inFlight = rentalPrefetchInFlightRef.current;
+    if (inFlight && inFlight.key === key) {
+      return inFlight.promise;
     }
+
+    const requestToken = ++rentalPrefetchTokenRef.current;
+    let promise: Promise<boolean>;
+    promise = (async () => {
+      try {
+        const rentals = await generateRentalDraft();
+        if (rentalPrefetchTokenRef.current !== requestToken) return false;
+        prefetchedRentalsRef.current = { key, rentals };
+        return true;
+      } catch (error) {
+        console.error(error);
+        if (rentalPrefetchTokenRef.current === requestToken) {
+          prefetchedRentalsRef.current = null;
+        }
+        return false;
+      } finally {
+        if (rentalPrefetchInFlightRef.current?.promise === promise) {
+          rentalPrefetchInFlightRef.current = null;
+        }
+      }
+    })();
+
+    rentalPrefetchInFlightRef.current = { key, promise };
+    return promise;
   }, [buildRentalPrefetchKey, generateRentalDraft]);
 
   const generateEnemyEncounter = useCallback(async (
@@ -900,9 +921,16 @@ export function useFactoryFlow({
     try {
       const key = buildRentalPrefetchKey();
       const cached = prefetchedRentalsRef.current;
-      const rentals = cached && cached.key === key
-        ? cached.rentals
-        : await generateRentalDraft();
+      let rentals: GamePokemon[];
+      if (cached && cached.key === key) {
+        rentals = cached.rentals;
+      } else {
+        const warmed = await prefetchRentals();
+        const warmedCache = prefetchedRentalsRef.current;
+        rentals = warmed && warmedCache && warmedCache.key === key
+          ? warmedCache.rentals
+          : await generateRentalDraft();
+      }
       prefetchedRentalsRef.current = null;
 
       setFactoryRentals(rentals);

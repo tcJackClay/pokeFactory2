@@ -599,11 +599,7 @@ export function usePokeFactoryGame(): GameViewModel {
       } else {
         setBootStatusText(t('bootPreparingRentalPool'));
         setProgress(18);
-        try {
-          await prefetchRentals();
-        } catch {
-          // Allow degraded startup if rental prefetch fails.
-        }
+        void prefetchRentals();
       }
 
       setBootStatusText(t('bootFinalizingStartup'));

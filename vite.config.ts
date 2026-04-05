@@ -1,10 +1,13 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig, loadEnv} from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
-export default defineConfig(({mode}) => {
+const POKEAPI_DEV_PROXY_PREFIX = '/api/pokeapi';
+
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
+
   return {
     plugins: [react(), tailwindcss()],
     define: {
@@ -17,8 +20,16 @@ export default defineConfig(({mode}) => {
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
+      // Do not modify; file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
+      proxy: {
+        [POKEAPI_DEV_PROXY_PREFIX]: {
+          target: 'https://pokeapi.co',
+          changeOrigin: true,
+          secure: true,
+          rewrite: (requestPath) => requestPath.replace(POKEAPI_DEV_PROXY_PREFIX, '/api/v2'),
+        },
+      },
     },
     build: {
       rollupOptions: {

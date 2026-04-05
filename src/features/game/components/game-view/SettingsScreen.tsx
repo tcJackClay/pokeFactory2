@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { ArrowLeft, Bell, Download, FileJson, Globe, SlidersHorizontal, Upload } from 'lucide-react';
 import type { GameViewSectionProps } from './shared';
-import { TopRecordPanel } from './TopRecordPanel';
 
 export function SettingsScreen({ viewModel }: GameViewSectionProps) {
   const {
@@ -12,9 +11,6 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
     devToolsAvailable,
     developerMode,
     toggleDeveloperMode,
-    coins,
-    stage,
-    streak,
     exportSaveData,
     importSaveData,
   } = viewModel;
@@ -32,10 +28,6 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
       exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
       className="pf-system-page"
     >
-      <div className="px-3 pt-1 pb-0.5">
-        <TopRecordPanel currentLanguage={currentLanguage} coins={coins} stage={stage} streak={streak} />
-      </div>
-
       <div className="pf-system-header">
         <div>
           <h2 className={`text-slate-950 ${isZh ? 'text-[28px] font-black' : 'text-[26px] font-black uppercase tracking-[0.05em]'}`}>
@@ -158,9 +150,10 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
             </div>
           </div>
 
-          <div className="pf-settings-card">
-            <div className="flex items-center gap-2">
-              <SlidersHorizontal className="h-4 w-4 text-cyan-600" />
+          {devToolsAvailable && (
+            <div className="pf-settings-card">
+              <div className="flex items-center gap-2">
+                <SlidersHorizontal className="h-4 w-4 text-cyan-600" />
               <p className="text-sm font-black text-slate-900">{isZh ? 'DEV 面板' : 'DEV Panel'}</p>
             </div>
 
@@ -196,7 +189,8 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
                 {isZh ? '当前环境未开启 DEV 工具。' : 'DEV tools are unavailable in this environment.'}
               </div>
             )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

@@ -14,7 +14,6 @@ import {
 } from '../../../../services/pokedexClient';
 import { getPokemonSpriteUrl } from '../../../../services/pokeApiEndpoint';
 import type { GameViewSectionProps } from './shared';
-import { TopRecordPanel } from './TopRecordPanel';
 
 interface DexEntry {
   id: number;
@@ -244,9 +243,6 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     playerTeam,
     enemyTeam,
     factoryRentals,
-    coins,
-    stage,
-    streak,
     collectionSeenIds,
     collectionOwnedIds,
     collectionFormKeys,
@@ -374,6 +370,8 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
   const filteredEntries = useMemo(() => {
     const keyword = search.trim().toLowerCase();
     const filtered = entries.filter((entry) => {
+      if (!entry.seen) return false;
+
       const matchSearch =
         keyword.length === 0
         || entry.name.toLowerCase().includes(keyword)
@@ -486,10 +484,6 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
       exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
       className="pf-system-page"
     >
-      <div className="px-3 pt-1 pb-0.5">
-        <TopRecordPanel currentLanguage={currentLanguage} coins={coins} stage={stage} streak={streak} />
-      </div>
-
       <div className="pf-system-header">
         <div className="flex items-center gap-3">
           <h2 className={`text-slate-950 ${isZh ? 'text-[28px] font-black' : 'text-[26px] font-black uppercase tracking-[0.05em]'}`}>
@@ -610,60 +604,69 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
               {selectedEntry ? (
                 <div className="space-y-3">
                   <div className="rounded-[22px] border border-slate-200 bg-white/90 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)]">
-                    <div className="grid grid-cols-[0.95fr_1.05fr] items-start gap-4">
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <PokeballStatusIcon owned={selectedEntry.owned} seen={selectedEntry.seen} />
-                          <span className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">
-                            {getPokedexNumber(selectedEntry.id)}
-                          </span>
-                        </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5">
+                        <PokeballStatusIcon owned={selectedEntry.owned} seen={selectedEntry.seen} />
+                        <span className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">
+                          {getPokedexNumber(selectedEntry.id)}
+                        </span>
+                      </div>
+                      {selectedSourceLabel && (
+                        <span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.10em] text-slate-500">
+                          {selectedSourceLabel}
+                        </span>
+                      )}
+                    </div>
 
-                        <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <div className="mt-3 grid grid-cols-[128px_minmax(0,1fr)] items-start gap-4">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="min-w-0">
                           <h3 className={`text-slate-950 ${isZh ? 'text-[26px] font-black' : 'text-[24px] font-black uppercase tracking-[0.04em]'}`}>
                             {selectedEntry.name}
                           </h3>
                           {selectedFormLabel && (
-                            <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-slate-500">
+                            <div className="mt-1 text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">
                               {selectedFormLabel}
-                            </span>
+                            </div>
                           )}
                         </div>
 
-                        <div className="mt-3 flex justify-center">
+                        <div className="flex h-[128px] w-[128px] items-center justify-center rounded-[18px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(243,246,250,0.96)_100%)]">
                           <DexSprite
                             entry={selectedEntry}
                             alt={selectedEntry.name}
-                            className="h-24 w-24 object-contain drop-shadow-[0_8px_16px_rgba(15,23,42,0.2)]"
+                            className="h-[112px] w-[112px] object-contain drop-shadow-[0_8px_16px_rgba(15,23,42,0.2)]"
                           />
                         </div>
 
-                        <div className="mt-2 flex flex-wrap gap-1.5 justify-center">
+                        <div className="mt-2 flex flex-wrap justify-center gap-1.5">
                           {selectedEntry.types.map((type) => (
                             <TypeBadge key={`detail-${selectedEntry.id}-${type}`} type={type} size="sm" />
                           ))}
                         </div>
                       </div>
 
-                      <div className="min-w-0 space-y-1.5">
-                        {[
-                          { key: 'HP', value: selectedEntry.hp, color: 'bg-red-500' },
-                          { key: 'ATK', value: selectedEntry.attack, color: 'bg-orange-500' },
+                      <div className="min-w-0 pt-1">
+                        <div className="space-y-1.5">
+                          {[
+                            { key: 'HP', value: selectedEntry.hp, color: 'bg-red-500' },
+                            { key: 'ATK', value: selectedEntry.attack, color: 'bg-orange-500' },
                           { key: 'DEF', value: selectedEntry.defense, color: 'bg-yellow-500' },
                           { key: 'SPA', value: selectedEntry.spAtk, color: 'bg-blue-500' },
                           { key: 'SPD', value: selectedEntry.spDef, color: 'bg-emerald-500' },
                           { key: 'SPE', value: selectedEntry.speed, color: 'bg-pink-500' },
                         ].map((stat) => (
-                          <div key={`${selectedEntry.id}-${stat.key}`}>
-                            <div className="mb-0.5 flex items-center justify-between text-[11px] font-bold text-slate-600">
-                              <span>{stat.key}</span>
-                              <span>{stat.value}</span>
+                            <div key={`${selectedEntry.id}-${stat.key}`}>
+                              <div className="mb-0.5 flex items-center justify-between text-[11px] font-bold text-slate-600">
+                                <span>{stat.key}</span>
+                                <span>{stat.value}</span>
+                              </div>
+                              <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                                <div className={`h-full ${stat.color}`} style={{ width: `${Math.min(100, (stat.value / 255) * 100)}%` }} />
+                              </div>
                             </div>
-                            <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
-                              <div className={`h-full ${stat.color}`} style={{ width: `${Math.min(100, (stat.value / 255) * 100)}%` }} />
-                            </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
