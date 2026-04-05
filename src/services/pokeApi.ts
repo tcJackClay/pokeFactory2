@@ -12,6 +12,8 @@ import {
 export type PokemonIdentifier = number | string;
 const moveByNameCache = new Map<string, Move>();
 const pokemonSpeciesCache = new Map<number, any>();
+const abilityNamesCache = new Map<string, any[]>();
+const abilityNamesInFlightCache = new Map<string, Promise<any[]>>();
 const UNOWN_FORM_IDENTIFIER_REGEX = /^unown-(?:[a-z]|question|exclamation)$/;
 
 export async function getRandomPokemonId(selectedGens: number[] = [1]): Promise<number> {
@@ -95,6 +97,10 @@ export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokem
   // Fetch Chinese name from species
   try {
     const speciesData = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(data.species.url));
+    const speciesId = parsePokeApiNumericId(data.species.url);
+    if (speciesId) {
+      pokemonSpeciesCache.set(speciesId, speciesData);
+    }
     data.names = speciesData.names;
     const zhName = getZhName(speciesData.names);
     data.zhName = zhName || data.name;
@@ -112,9 +118,29 @@ export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokem
 }
 
 export async function fetchAbilityNames(url: string): Promise<any[]> {
+  const normalizedUrl = normalizePokeApiResourceUrl(url);
+  const cached = abilityNamesCache.get(normalizedUrl);
+  if (cached) return cached;
+
+  const inFlight = abilityNamesInFlightCache.get(normalizedUrl);
+  if (inFlight) return inFlight;
+
+  const request = (async () => {
+    try {
+      const data = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(url));
+      const names = Array.isArray(data.names) ? data.names : [];
+      abilityNamesCache.set(normalizedUrl, names);
+      return names;
+    } catch (e) {
+      return [];
+    } finally {
+      abilityNamesInFlightCache.delete(normalizedUrl);
+    }
+  })();
+
+  abilityNamesInFlightCache.set(normalizedUrl, request);
   try {
-    const data = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(url));
-    return data.names;
+    return await request;
   } catch (e) {
     return [];
   }
@@ -170,7 +196,7 @@ export async function fetchMove(url: string): Promise<Move> {
 
 export async function fetchEvolutionChain(pokemonId: number): Promise<number[]> {
   try {
-    const speciesData = await fetchPokeApiJson(`pokemon-species/${pokemonId}`);
+    const speciesData = await fetchPokemonSpeciesById(pokemonId);
     const evolutionData = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(speciesData.evolution_chain.url));
     
     const evolutions: number[] = [];
@@ -272,7 +298,7 @@ export async function getLearnableMoves(pokemon: any, currentMoves: Move[], coun
   
   for (const m of shuffled) {
     try {
-      const move = await fetchMove(m.move.url);
+      const move = await fetchMoveByName(m.move.name);
       selected.push(move);
       if (selected.length >= count) break;
     } catch (e) {
@@ -309,7 +335,7 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
   
   for (const m of shuffledMoves) {
     try {
-      const move = await fetchMove(m.move.url);
+      const move = await fetchMoveByName(m.move.name);
       validMoves.push(move);
       if (validMoves.length >= 4) break;
     } catch (e) {
