@@ -49,6 +49,7 @@ function RentalCard({
   index,
   isSelected,
   selectionOrder,
+  disabled = false,
   isZh,
   getLocalized,
   t,
@@ -60,6 +61,7 @@ function RentalCard({
   index: number;
   isSelected: boolean;
   selectionOrder: number | null;
+  disabled?: boolean;
   isZh: boolean;
   getLocalized: (value: unknown) => string;
   t: (key: string, vars?: Record<string, string | number>) => string;
@@ -81,13 +83,20 @@ function RentalCard({
   return (
     <div
       role="button"
-      tabIndex={0}
+      tabIndex={disabled ? -1 : 0}
       aria-pressed={isSelected}
+      aria-disabled={disabled}
       aria-label={`${getLocalized(pokemon)} ${isSelected ? (isZh ? '已锁定' : 'Locked In') : t('selectThis')}`}
       data-selected={isSelected ? 'true' : 'false'}
-      onClick={onToggle}
-      onKeyDown={onKeyDown}
-      className="pf-battle-card group relative cursor-pointer p-3 md:p-4"
+      onClick={() => {
+        if (disabled) return;
+        onToggle();
+      }}
+      onKeyDown={(event) => {
+        if (disabled) return;
+        onKeyDown(event);
+      }}
+      className={`pf-battle-card group relative p-3 md:p-4 ${disabled ? 'cursor-default opacity-70' : 'cursor-pointer'}`}
     >
       <div className="pf-battle-ribbon">
         <span className="inline-block skew-x-[10deg]">
@@ -135,8 +144,10 @@ function RentalCard({
               type="button"
               onClick={(event) => {
                 event.stopPropagation();
+                if (disabled) return;
                 onOpenInfo();
               }}
+              disabled={disabled}
               className="inline-flex min-h-[36px] items-center gap-1 rounded-full border border-slate-200 bg-white/[0.88] px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-slate-700 transition-colors hover:bg-slate-50"
             >
               <Info className="h-3.5 w-3.5" />
@@ -183,6 +194,8 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
   const {
     factoryRentals,
     selectedRentalIndices,
+    loading,
+    isTransitioning,
     currentLanguage,
     coins,
     stage,
@@ -201,6 +214,7 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
   const selectedCount = selectedRentalIndices.length;
   const teamSize = FACTORY_BATTLE_CONFIG.teamSize;
   const canConfirm = selectedCount === teamSize;
+  const interactionLocked = loading || isTransitioning;
 
   const copy = useMemo(
     () => ({
@@ -280,12 +294,17 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
                     index={index}
                     isSelected={isSelected}
                     selectionOrder={selectionOrder}
+                    disabled={interactionLocked}
                     isZh={isZh}
                     getLocalized={getLocalized}
                     t={t}
-                    onToggle={() => toggleRental(index)}
+                    onToggle={() => {
+                      if (interactionLocked) return;
+                      toggleRental(index);
+                    }}
                     onOpenInfo={() => openPokemonInfo(index)}
                     onKeyDown={(event) => {
+                      if (interactionLocked) return;
                       if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
                         toggleRental(index);
@@ -318,10 +337,13 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
 
             <button
               type="button"
-              disabled={!canConfirm}
-              onClick={confirmRentals}
+              disabled={!canConfirm || interactionLocked}
+              onClick={() => {
+                if (interactionLocked) return;
+                void confirmRentals();
+              }}
               className={`min-h-[52px] rounded-[18px] border px-6 py-3 text-sm font-black uppercase tracking-[0.14em] transition-all md:min-w-[260px] md:px-8 ${
-                canConfirm
+                canConfirm && !interactionLocked
                   ? 'border-orange-300 bg-orange-500 text-white shadow-[0_18px_28px_rgba(249,115,22,0.26)] hover:bg-orange-600'
                   : 'border-slate-200 bg-slate-200 text-slate-400'
               }`}
