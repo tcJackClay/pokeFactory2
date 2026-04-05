@@ -9,9 +9,10 @@ const TypeBadge: React.FC<{ type: string; size?: 'xs' | 'sm' | 'md' | 'lg'; clas
   const Icon = TYPE_ICONS[type] || Sparkles;
   const color = TYPE_COLORS[type] || '#ccc';
   const isLight = LIGHT_TYPES.has(type);
+  const label = type === 'psychic' ? '超能' : (TYPE_ZH[type] || type);
 
   const sizeClasses = {
-    xs: 'text-[8px] px-1.5 py-0.5 gap-1',
+    xs: 'w-[52px] justify-center text-[8px] px-1.5 py-0.5 gap-1 shrink-0',
     sm: 'text-[10px] px-2 py-1 gap-1.5',
     md: 'text-xs px-3 py-1 gap-2',
     lg: 'text-sm px-5 py-1.5 gap-2.5',
@@ -39,9 +40,9 @@ const TypeBadge: React.FC<{ type: string; size?: 'xs' | 'sm' | 'md' | 'lg'; clas
       />
       <div className="absolute inset-x-[1px] top-[1px] h-[1px] bg-white/45" />
       <div className="absolute inset-x-[1px] bottom-[1px] h-[2px] bg-slate-950/16" />
-      <div className="relative z-10 flex items-center gap-inherit">
-        <Icon className={`${iconSizes[size]} drop-shadow-sm`} />
-        <span>{TYPE_ZH[type] || type}</span>
+      <div className="relative z-10 flex items-center justify-center gap-inherit">
+        <Icon className={`${iconSizes[size]} shrink-0 drop-shadow-sm`} />
+        <span className="text-center whitespace-nowrap">{label}</span>
       </div>
     </div>
   );

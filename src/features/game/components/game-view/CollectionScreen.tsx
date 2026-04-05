@@ -74,7 +74,7 @@ const TYPE_LABELS_ZH: Record<string, string> = {
   poison: '毒',
   ground: '地面',
   flying: '飞行',
-  psychic: '超能力',
+  psychic: '超能',
   bug: '虫',
   rock: '岩石',
   ghost: '幽灵',

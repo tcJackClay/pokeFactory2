@@ -2,10 +2,12 @@ import { useCallback, useEffect, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import {
   fetchEvolutionChain,
+  fetchPokemonLite,
   fetchPokemonSpeciesById,
   getProcessedPokemon,
   getProcessedPokemonFromReferenceSet,
   getRandomPokemonIdentifier,
+  type PokemonIdentifier,
 } from '../../../services/pokeApi';
 import {
   FACTORY_BATTLE_CONFIG,
@@ -18,12 +20,12 @@ import {
 } from '../config/factoryBattle';
 import { getFactoryBstBand } from '../config/factoryDifficultyBands';
 import { FACTORY_REWARD_CONFIG } from '../config/factoryRewards';
-import { getReferenceSetsByRange, hasReferenceFrontierMonId } from '../config/factoryReferenceSets';
+import { getReferenceSetsByRange, hasReferenceFrontierMonId, type FactoryReferenceSet } from '../config/factoryReferenceSets';
 import { getReferenceRangeByChallenge, inReferenceRange } from '../config/factoryReferenceRanges';
 import { FACTORY_BANNED_SPECIES_IDS, isFactoryBannedSpecies } from '../config/factorySpeciesRules';
 import { selectFactoryTrainerTemplate, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools';
-import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Stats, Weather } from '../../../types';
+import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, Stats, Weather } from '../../../types';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
 
 interface UseFactoryFlowParams {
@@ -98,7 +100,9 @@ interface EnemyEncounterPrefetchInFlight {
 }
 
 interface FactoryPoolCandidate {
-  pokemon: GamePokemon;
+  identifier: PokemonIdentifier;
+  pokemonId: number;
+  referenceSet?: FactoryReferenceSet;
   itemId: string;
   quality: number;
   stage: EvolutionStage;
@@ -190,6 +194,30 @@ function getPokemonBst(pokemon: GamePokemon): number {
     + pokemon.baseStats.spAtk
     + pokemon.baseStats.spDef
     + pokemon.baseStats.speed;
+}
+
+function getPokemonBstFromRaw(pokemon: Pokemon): number {
+  return (pokemon.stats.find((entry) => entry.stat.name === 'hp')?.base_stat ?? 0)
+    + (pokemon.stats.find((entry) => entry.stat.name === 'attack')?.base_stat ?? 0)
+    + (pokemon.stats.find((entry) => entry.stat.name === 'defense')?.base_stat ?? 0)
+    + (pokemon.stats.find((entry) => entry.stat.name === 'special-attack')?.base_stat ?? 0)
+    + (pokemon.stats.find((entry) => entry.stat.name === 'special-defense')?.base_stat ?? 0)
+    + (pokemon.stats.find((entry) => entry.stat.name === 'speed')?.base_stat ?? 0);
+}
+
+function getSpeciesIdFromRawPokemon(pokemon: Pokemon): number {
+  const rawSpeciesUrl = (pokemon as any)?.species?.url;
+  if (typeof rawSpeciesUrl === 'string') {
+    const match = /\/(\d+)\/?$/.exec(rawSpeciesUrl);
+    if (match) {
+      const parsed = Number(match[1]);
+      if (Number.isFinite(parsed) && parsed > 0) {
+        return parsed;
+      }
+    }
+  }
+
+  return pokemon.id;
 }
 
 function hasMatchingMegaStone(pokemon: GamePokemon): boolean {
@@ -581,14 +609,14 @@ export function useFactoryFlow({
           if (!picked || pickedSpecies.has(picked.speciesId)) continue;
 
           try {
-            const pokemon = await getProcessedPokemonFromReferenceSet(picked, level);
-            const fixedIvPokemon = applyFixedIvBuild(pokemon, fixedIv);
-            const candidatePokemon = isBoss ? applyBossBuildEnhancement(fixedIvPokemon, FACTORY_BATTLE_CONFIG.boss.minIv) : fixedIvPokemon;
-            const stage = await getEvolutionStage(candidatePokemon.speciesId ?? candidatePokemon.id);
+            const pokemon = await fetchPokemonLite(picked.speciesId);
+            const stage = await getEvolutionStage(getSpeciesIdFromRawPokemon(pokemon));
             candidates.push({
-              pokemon: candidatePokemon,
+              identifier: picked.speciesId,
+              pokemonId: pokemon.id,
+              referenceSet: picked,
               itemId: picked.heldItemId,
-              quality: scorePokemonQuality(candidatePokemon),
+              quality: getPokemonBstFromRaw(pokemon),
               stage,
             });
           } catch {
@@ -609,21 +637,20 @@ export function useFactoryFlow({
           if (typeof identifier === 'number' && (pickedSpecies.has(identifier) || isFactoryBannedSpecies(identifier))) continue;
 
           try {
-            const candidate = await getProcessedPokemon(identifier, level);
+            const candidate = await fetchPokemonLite(identifier);
             if (pickedSpecies.has(candidate.id) || isFactoryBannedSpecies(candidate.id)) continue;
-            const bst = getPokemonBst(candidate);
+            const bst = getPokemonBstFromRaw(candidate);
             if (strictBand) {
               if (bst < bstBand.min || bst > bstBand.max) continue;
             } else if (bst < relaxedMin || bst > relaxedMax) {
               continue;
             }
-            const fixedIvCandidate = applyFixedIvBuild(candidate, fixedIv);
-            const candidatePokemon = isBoss ? applyBossBuildEnhancement(fixedIvCandidate, FACTORY_BATTLE_CONFIG.boss.minIv) : fixedIvCandidate;
-            const stage = await getEvolutionStage(candidatePokemon.speciesId ?? candidatePokemon.id);
+            const stage = await getEvolutionStage(getSpeciesIdFromRawPokemon(candidate));
             candidates.push({
-              pokemon: candidatePokemon,
+              identifier,
+              pokemonId: candidate.id,
               itemId: getHeldItemBySlot(mons.length, setNo),
-              quality: scorePokemonQuality(candidatePokemon),
+              quality: bst,
               stage,
             });
           } catch {
@@ -665,11 +692,17 @@ export function useFactoryFlow({
       const hasRealItem = itemId.length > 0 && itemId !== 'none';
       if (hasRealItem && pickedItems.has(itemId)) continue;
 
-      pickedSpecies.add(picked.pokemon.id);
+      const finalizedPokemon = picked.referenceSet
+        ? await getProcessedPokemonFromReferenceSet(picked.referenceSet, level)
+        : await getProcessedPokemon(picked.identifier, level);
+      const fixedIvPokemon = applyFixedIvBuild(finalizedPokemon, fixedIv);
+      const candidatePokemon = isBoss ? applyBossBuildEnhancement(fixedIvPokemon, FACTORY_BATTLE_CONFIG.boss.minIv) : fixedIvPokemon;
+
+      pickedSpecies.add(picked.pokemonId);
       if (hasRealItem) {
         pickedItems.add(itemId);
       }
-      mons.push({ ...picked.pokemon, factoryHeldItemId: itemId });
+      mons.push({ ...candidatePokemon, factoryHeldItemId: itemId });
     }
 
     return mons;

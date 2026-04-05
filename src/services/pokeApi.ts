@@ -11,6 +11,8 @@ import {
 
 export type PokemonIdentifier = number | string;
 const moveByNameCache = new Map<string, Move>();
+const pokemonBaseCache = new Map<string, Pokemon>();
+const pokemonBaseInFlightCache = new Map<string, Promise<Pokemon>>();
 const pokemonSpeciesCache = new Map<number, any>();
 const abilityNamesCache = new Map<string, any[]>();
 const abilityNamesInFlightCache = new Map<string, Promise<any[]>>();
@@ -74,14 +76,18 @@ function parsePokeApiNumericId(url: string | undefined): number | null {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
 }
 
-export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokemon> {
-  const normalizedIdentifier = typeof identifier === 'string' ? identifier.trim().toLowerCase() : '';
-  let data: any;
+function getPokemonCacheKey(identifier: PokemonIdentifier): string {
+  return typeof identifier === 'string'
+    ? `name:${identifier.trim().toLowerCase()}`
+    : `id:${identifier}`;
+}
 
+async function loadPokemonBase(identifier: PokemonIdentifier): Promise<Pokemon> {
+  const normalizedIdentifier = typeof identifier === 'string' ? identifier.trim().toLowerCase() : '';
   if (UNOWN_FORM_IDENTIFIER_REGEX.test(normalizedIdentifier)) {
     const formData = await fetchPokeApiJson(`pokemon-form/${normalizedIdentifier}`);
     const baseData = await fetchPokeApiJson(`pokemon/${formData.pokemon.name}`);
-    data = {
+    return {
       ...baseData,
       name: formData.name ?? normalizedIdentifier,
       sprites: {
@@ -90,31 +96,73 @@ export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokem
         back_default: formData.sprites?.back_default ?? baseData.sprites?.back_default ?? '',
       },
     };
-  } else {
-    data = await fetchPokeApiJson(`pokemon/${identifier}`);
   }
-  
-  // Fetch Chinese name from species
-  try {
-    const speciesData = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(data.species.url));
-    const speciesId = parsePokeApiNumericId(data.species.url);
-    if (speciesId) {
-      pokemonSpeciesCache.set(speciesId, speciesData);
+
+  return fetchPokeApiJson(`pokemon/${identifier}`);
+}
+
+async function fetchPokemonBase(identifier: PokemonIdentifier): Promise<Pokemon> {
+  const cacheKey = getPokemonCacheKey(identifier);
+  const cached = pokemonBaseCache.get(cacheKey);
+  if (cached) return cached;
+
+  const inFlight = pokemonBaseInFlightCache.get(cacheKey);
+  if (inFlight) return inFlight;
+
+  const request = (async () => {
+    try {
+      const data = await loadPokemonBase(identifier);
+      pokemonBaseCache.set(cacheKey, data);
+      return data;
+    } finally {
+      pokemonBaseInFlightCache.delete(cacheKey);
     }
-    data.names = speciesData.names;
-    const zhName = getZhName(speciesData.names);
-    data.zhName = zhName || data.name;
-    
-    // Fetch ability names
+  })();
+
+  pokemonBaseInFlightCache.set(cacheKey, request);
+  return request;
+}
+
+async function hydratePokemonDetails(data: Pokemon): Promise<Pokemon> {
+  try {
+    const rawSpeciesUrl = (data as any)?.species?.url;
+    if (rawSpeciesUrl && !Array.isArray(data.names)) {
+      const speciesData = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(rawSpeciesUrl));
+      const speciesId = parsePokeApiNumericId(rawSpeciesUrl);
+      if (speciesId) {
+        pokemonSpeciesCache.set(speciesId, speciesData);
+      }
+      data.names = speciesData.names;
+      const zhName = getZhName(speciesData.names);
+      data.zhName = zhName || data.name;
+    } else if (!data.zhName) {
+      data.zhName = data.name;
+    }
+
     for (const a of data.abilities) {
+      if (Array.isArray(a.ability.names) && a.ability.names.length > 0) {
+        if (!a.ability.zhName) {
+          a.ability.zhName = getZhName(a.ability.names);
+        }
+        continue;
+      }
       a.ability.names = await fetchAbilityNames(a.ability.url);
       a.ability.zhName = getZhName(a.ability.names);
     }
   } catch (e) {
     data.zhName = data.name;
   }
-  
+
   return data;
+}
+
+export async function fetchPokemonLite(identifier: PokemonIdentifier): Promise<Pokemon> {
+  return fetchPokemonBase(identifier);
+}
+
+export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokemon> {
+  const data = await fetchPokemonBase(identifier);
+  return hydratePokemonDetails(data);
 }
 
 export async function fetchAbilityNames(url: string): Promise<any[]> {
