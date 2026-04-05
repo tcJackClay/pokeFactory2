@@ -9,12 +9,15 @@ export function RewardCardsGrid({ viewModel }: GameViewSectionProps) {
   });
 
   return (
-    <div className="flex-1 overflow-y-auto custom-scrollbar px-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-8">
+    <div className="custom-scrollbar relative z-10 min-h-0 flex-1 overflow-y-auto pr-1">
+      <div className="grid grid-cols-1 gap-3 pb-2 md:grid-cols-2 xl:grid-cols-3">
         {visibleRewards.map((reward, index) => (
-          <div key={`${reward.type}-${index}`}>
-            <RewardCard viewModel={viewModel} reward={reward} index={index} />
-          </div>
+          <RewardCard
+            key={`${reward.type}-${index}`}
+            viewModel={viewModel}
+            reward={reward}
+            index={index}
+          />
         ))}
       </div>
     </div>

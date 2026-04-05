@@ -1,72 +1,123 @@
-import { motion } from 'motion/react';
-import { Dna, Package, RefreshCw, Sword } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
+import { Dna, Package, RefreshCw, ShieldCheck, Swords } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import type { GameViewSectionProps } from '../shared';
+
+interface CommandButtonConfig {
+  key: string;
+  label: string;
+  icon: LucideIcon;
+  variant?: 'default' | 'danger';
+  onClick: () => void;
+  active: boolean;
+}
 
 export function BattleMainMenu({ viewModel }: GameViewSectionProps) {
   const {
     t,
+    battleMenuTab,
     setBattleMenuTab,
     forfeitChallenge,
   } = viewModel;
 
-  const commandButtons = [
-    {
-      key: 'MOVES' as const,
-      label: t('battle'),
-      icon: Sword,
-      className: 'from-red-400 to-red-600 hover:from-red-500 hover:to-red-700',
-      onClick: () => setBattleMenuTab('MOVES'),
-    },
-    {
-      key: 'BAG' as const,
-      label: t('bag'),
-      icon: Package,
-      className: 'from-yellow-400 to-amber-600 hover:from-yellow-500 hover:to-amber-700',
-      onClick: () => setBattleMenuTab('BAG'),
-    },
-    {
-      key: 'POKEMON' as const,
-      label: t('pokemon'),
-      icon: Dna,
-      className: 'from-emerald-400 to-emerald-600 hover:from-emerald-500 hover:to-emerald-700',
-      onClick: () => setBattleMenuTab('POKEMON'),
-    },
-    {
-      key: 'RUN' as const,
-      label: t('run'),
-      icon: RefreshCw,
-      className: 'from-slate-500 to-slate-700 hover:from-slate-600 hover:to-slate-800',
-      onClick: forfeitChallenge,
-    },
-  ];
+  const shouldReduceMotion = useReducedMotion();
+  const [runConfirmPending, setRunConfirmPending] = useState(false);
+
+  useEffect(() => {
+    if (!runConfirmPending) return undefined;
+    const timer = window.setTimeout(() => setRunConfirmPending(false), 2200);
+    return () => window.clearTimeout(timer);
+  }, [runConfirmPending]);
+
+  const runLabel = runConfirmPending ? t('confirm') : t('run');
+
+  const buttons = useMemo<CommandButtonConfig[]>(
+    () => [
+      {
+        key: 'battle',
+        label: t('battle'),
+        icon: Swords,
+        onClick: () => {
+          setRunConfirmPending(false);
+          setBattleMenuTab('MAIN');
+        },
+        active: battleMenuTab === 'MAIN' || battleMenuTab === 'MOVES',
+      },
+      {
+        key: 'status',
+        label: t('status'),
+        icon: ShieldCheck,
+        onClick: () => {
+          setRunConfirmPending(false);
+          setBattleMenuTab('STATUS');
+        },
+        active: battleMenuTab === 'STATUS',
+      },
+      {
+        key: 'bag',
+        label: t('bag'),
+        icon: Package,
+        onClick: () => {
+          setRunConfirmPending(false);
+          setBattleMenuTab('BAG');
+        },
+        active: battleMenuTab === 'BAG',
+      },
+      {
+        key: 'pokemon',
+        label: t('pokemon'),
+        icon: Dna,
+        onClick: () => {
+          setRunConfirmPending(false);
+          setBattleMenuTab('POKEMON');
+        },
+        active: battleMenuTab === 'POKEMON',
+      },
+      {
+        key: 'run',
+        label: runLabel,
+        icon: RefreshCw,
+        variant: 'danger',
+        onClick: () => {
+          if (runConfirmPending) {
+            setRunConfirmPending(false);
+            forfeitChallenge();
+            return;
+          }
+          setRunConfirmPending(true);
+        },
+        active: runConfirmPending,
+      },
+    ],
+    [battleMenuTab, forfeitChallenge, runConfirmPending, setBattleMenuTab, t],
+  );
 
   return (
     <motion.div
       key="main-menu"
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      className="h-full"
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+      transition={{ duration: shouldReduceMotion ? 0.01 : 0.18, ease: 'easeOut' }}
+      className="pf-battle-command-grid"
     >
-      <div className="grid grid-cols-2 grid-rows-2 gap-2 h-full">
-        {commandButtons.map((button) => {
-          const Icon = button.icon;
-
-          return (
-            <button
-              key={button.key}
-              onClick={button.onClick}
-              className={`group relative border-2 border-slate-900 bg-gradient-to-b p-2 sm:p-3 font-black tracking-wide text-white transition-all active:translate-y-[1px] ${button.className}`}
-            >
-              <span className="absolute inset-x-0 top-0 h-[2px] bg-white/40" />
-              <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
-                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                {button.label}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+      {buttons.map((button) => {
+        const Icon = button.icon;
+        return (
+          <button
+            key={button.key}
+            type="button"
+            data-active={button.active ? 'true' : 'false'}
+            data-variant={button.variant ?? 'default'}
+            onClick={button.onClick}
+            className="pf-battle-command-button"
+          >
+            <Icon className={`h-4 w-4 shrink-0 ${button.key === 'run' && runConfirmPending ? 'animate-spin' : ''}`} />
+            <span className="truncate">{button.label}</span>
+          </button>
+        );
+      })}
     </motion.div>
   );
 }

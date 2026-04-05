@@ -1,6 +1,6 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import type { BattleMenuTab, GamePokemon, GameState, Item, Move, Weather } from '../../../types';
+import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Weather } from '../../../types';
 import { TYPE_CHART } from '../../../constants';
 import { ACC_EVA_STAGE_MODIFIERS, STAT_STAGE_MODIFIERS } from '../../../uiAppConstants';
 import { getFactoryTokenReward } from '../config/factoryRewards';
@@ -38,6 +38,9 @@ interface UseBattleControllerParams {
   activeBuffs: { atk: boolean; def: boolean };
   enemyBuffs: { atk: boolean; def: boolean };
   weather: Weather;
+  weatherTurns: number;
+  fieldState: FieldState[];
+  fieldTurns: FieldTurns;
   stage: number;
   streak: number;
   enemyAiTier: FactoryAiTier;
@@ -57,6 +60,10 @@ interface UseBattleControllerParams {
   setEnemyTeam: Dispatch<SetStateAction<GamePokemon[]>>;
   setActiveBuffs: Dispatch<SetStateAction<{ atk: boolean; def: boolean }>>;
   setEnemyBuffs: Dispatch<SetStateAction<{ atk: boolean; def: boolean }>>;
+  setWeather: Dispatch<SetStateAction<Weather>>;
+  setWeatherTurns: Dispatch<SetStateAction<number>>;
+  setFieldState: Dispatch<SetStateAction<FieldState[]>>;
+  setFieldTurns: Dispatch<SetStateAction<FieldTurns>>;
   setIsMessageProcessing: Dispatch<SetStateAction<boolean>>;
   setBattleLog: Dispatch<SetStateAction<string[]>>;
   setTurn: Dispatch<SetStateAction<BattleTurn>>;
@@ -98,6 +105,41 @@ const AI_FLAG_SMART_TRAINER =
 
 const AI_CONSERVE_GIMMICK_CHANCE_PER_MON = 10;
 const AI_GIMMICK_PREDICT_CHANCE = 40;
+const DEFAULT_WEATHER_TURNS = 5;
+const DEFAULT_FIELD_TURNS = 5;
+
+const WEATHER_BY_MOVE: Partial<Record<string, Weather>> = {
+  'sunny-day': 'sunny',
+  'rain-dance': 'rainy',
+  sandstorm: 'sandstorm',
+  hail: 'hail',
+  snowscape: 'hail',
+};
+
+const FIELD_BY_MOVE: Partial<Record<string, FieldState>> = {
+  'electric-terrain': 'electric_terrain',
+  'grassy-terrain': 'grassy_terrain',
+  'misty-terrain': 'misty_terrain',
+  'psychic-terrain': 'psychic_terrain',
+  'trick-room': 'trick_room',
+  'magic-room': 'magic_room',
+  'wonder-room': 'wonder_room',
+  gravity: 'gravity',
+  'fairy-lock': 'fairy_lock',
+};
+
+const TERRAIN_FIELD_STATES: FieldState[] = ['electric_terrain', 'grassy_terrain', 'misty_terrain', 'psychic_terrain'];
+const FIELD_TURN_BY_STATE: Record<FieldState, number> = {
+  electric_terrain: 5,
+  grassy_terrain: 5,
+  misty_terrain: 5,
+  psychic_terrain: 5,
+  trick_room: 5,
+  magic_room: 5,
+  wonder_room: 5,
+  gravity: 5,
+  fairy_lock: 2,
+};
 
 interface AiMoveEval {
   move: Move;
@@ -134,6 +176,9 @@ export function useBattleController({
   activeBuffs,
   enemyBuffs,
   weather,
+  weatherTurns,
+  fieldState,
+  fieldTurns,
   stage,
   streak,
   enemyAiTier,
@@ -153,6 +198,10 @@ export function useBattleController({
   setEnemyTeam,
   setActiveBuffs,
   setEnemyBuffs,
+  setWeather,
+  setWeatherTurns,
+  setFieldState,
+  setFieldTurns,
   setIsMessageProcessing,
   setBattleLog,
   setTurn,
@@ -173,6 +222,8 @@ export function useBattleController({
   setBattleSpecialUsage,
   setEnemySpecialUsage,
 }: UseBattleControllerParams) {
+  const previousTurnRef = useRef<BattleTurn | null>(null);
+
   const addMessagesSequentially = useCallback(async (messages: string[]) => {
     setIsMessageProcessing(true);
 
@@ -188,6 +239,36 @@ export function useBattleController({
     setTurn(nextTurn);
     setBattleMenuTab('MAIN');
   }, [setBattleMenuTab, setTurn]);
+
+  const getWeatherFromMove = useCallback((moveName: string): Weather | null => {
+    return WEATHER_BY_MOVE[moveName] ?? null;
+  }, []);
+
+  const getFieldFromMove = useCallback((moveName: string): FieldState | null => {
+    return FIELD_BY_MOVE[moveName] ?? null;
+  }, []);
+
+  const getMoveMaxPp = useCallback((move: Move) => move.maxPp ?? move.pp ?? 0, []);
+  const getMoveCurrentPp = useCallback((move: Move) => move.currentPp ?? getMoveMaxPp(move), [getMoveMaxPp]);
+
+  const applyFieldEffect = useCallback((nextField: FieldState) => {
+    setFieldState((prev) => {
+      const withoutTerrain = TERRAIN_FIELD_STATES.includes(nextField)
+        ? prev.filter((field) => !TERRAIN_FIELD_STATES.includes(field))
+        : [...prev];
+      return withoutTerrain.includes(nextField) ? withoutTerrain : [...withoutTerrain, nextField];
+    });
+    setFieldTurns((prev) => {
+      const nextTurns: FieldTurns = { ...prev };
+      if (TERRAIN_FIELD_STATES.includes(nextField)) {
+        for (const terrain of TERRAIN_FIELD_STATES) {
+          delete nextTurns[terrain];
+        }
+      }
+      nextTurns[nextField] = FIELD_TURN_BY_STATE[nextField] ?? DEFAULT_FIELD_TURNS;
+      return nextTurns;
+    });
+  }, [setFieldState, setFieldTurns]);
 
   const syncEnemyLead = useCallback((nextEnemy: GamePokemon, currentEnemyTeam: GamePokemon[] = enemyTeam) => {
     const nextEnemyTeam = [...currentEnemyTeam];
@@ -1136,6 +1217,27 @@ export function useBattleController({
         : t('enemyUsedMove').replace('{name}', getLocalized(actor)).replace('{move}', getLocalized(move)),
     ]);
 
+    const actorMoveIndex = actor.selectedMoves.findIndex(
+      (candidate) => candidate === move || (candidate.name === move.name && candidate.type === move.type),
+    );
+
+    if (actorMoveIndex >= 0) {
+      updatedActor = {
+        ...actor,
+        selectedMoves: actor.selectedMoves.map((candidate, index) => {
+          if (index !== actorMoveIndex) return candidate;
+          const maxPp = getMoveMaxPp(candidate);
+          const currentPp = getMoveCurrentPp(candidate);
+          return {
+            ...candidate,
+            maxPp,
+            currentPp: Math.max(0, currentPp - 1),
+          };
+        }),
+      };
+      syncLeadBySide(actingSide, updatedActor);
+    }
+
     const { damage, multiplier, isMiss, isCrit } = calculateDamage(move, actor, defender, attackBuffApplied, defenseBuffApplied);
 
     if (isMiss) {
@@ -1171,7 +1273,7 @@ export function useBattleController({
     if (move.healing !== 0) actorHpChange += Math.floor(actor.maxHp * move.healing / 100);
 
     updatedActor = {
-      ...actor,
+      ...updatedActor,
       currentHp: Math.max(0, Math.min(actor.maxHp, actor.currentHp + actorHpChange)),
     };
     if (updatedActor.specialBoostActive && updatedActor.specialBoostMode === 'ZMOVE') {
@@ -1183,11 +1285,6 @@ export function useBattleController({
     }
     syncLeadBySide(actingSide, updatedActor);
     await announceHpChange(actorLabel, actorHpChange);
-
-    if (updatedDefender.currentHp > 0) {
-      updatedDefender = await applyWeatherChipDamage(updatedDefender);
-      syncLeadBySide(defendingSide, updatedDefender);
-    }
 
     if (isPlayerActing) {
       setPlayerAnim('idle');
@@ -1240,6 +1337,17 @@ export function useBattleController({
       }
     }
 
+    const nextWeather = getWeatherFromMove(move.name);
+    if (nextWeather) {
+      setWeather(nextWeather);
+      setWeatherTurns(DEFAULT_WEATHER_TURNS);
+    }
+
+    const nextField = getFieldFromMove(move.name);
+    if (nextField) {
+      applyFieldEffect(nextField);
+    }
+
     if (updatedDefender.currentHp > 0 && (updatedDefender.status === 'poison' || updatedDefender.status === 'burn')) {
       const residualResult = await applyResidualStatusDamage(updatedDefender);
       updatedDefender = residualResult.pokemon;
@@ -1289,20 +1397,28 @@ export function useBattleController({
     enemyBuffs.atk,
     enemyBuffs.def,
     getLocalized,
+    getMoveCurrentPp,
+    getMoveMaxPp,
     sendOutNextEnemy,
     sendOutNextPlayer,
     setActiveBuffs,
     setActiveMoveType,
     setEnemyAnim,
+    applyFieldEffect,
     setMainBattleTurn,
     setPlayerAnim,
     setPlayerTeam,
+    setWeather,
+    setWeatherTurns,
     syncEnemyLead,
     t,
+    getFieldFromMove,
+    getWeatherFromMove,
   ]);
 
   const handleAttack = useCallback(async (move: Move) => {
     if (!enemy || gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing) return;
+    if (getMoveCurrentPp(move) <= 0) return;
 
     const preTurnResult = await resolvePreTurnStatus({
       combatant: playerTeam[0],
@@ -1319,9 +1435,11 @@ export function useBattleController({
       defender: enemy,
       defenderTeam: enemyTeam,
     });
-  }, [enemy, enemyTeam, executeTurn, gameState, isMessageProcessing, playerTeam, resolvePreTurnStatus, turn]);
+  }, [enemy, enemyTeam, executeTurn, gameState, getMoveCurrentPp, isMessageProcessing, playerTeam, resolvePreTurnStatus, turn]);
 
   const chooseEnemyMove = useCallback((actingEnemy: GamePokemon, defender: GamePokemon) => {
+    const usableMoves = actingEnemy.selectedMoves.filter((move) => getMoveCurrentPp(move) > 0);
+    const candidateMoves = usableMoves.length > 0 ? usableMoves : actingEnemy.selectedMoves;
     const aiFlags = getAiFlagsForTier(enemyAiTier);
     const usableGimmick = getEnemyUsableGimmick(actingEnemy);
     let useGimmick = decideEnemyGimmickUse(usableGimmick, actingEnemy, defender, aiFlags);
@@ -1333,22 +1451,24 @@ export function useBattleController({
       defender,
       effectiveStyle,
       useGimmick && usableGimmick ? usableGimmick : 'NONE',
-    ).sort((a, b) => b.score - a.score);
+    )
+      .filter((entry) => candidateMoves.some((move) => move === entry.move || (move.name === entry.move.name && move.type === entry.move.type)))
+      .sort((a, b) => b.score - a.score);
 
     const pickFromTop = (topN: number) => {
       const pool = moveEvals.slice(0, Math.min(topN, moveEvals.length));
-      return pool[Math.floor(Math.random() * pool.length)]?.move ?? actingEnemy.selectedMoves[0];
+      return pool[Math.floor(Math.random() * pool.length)]?.move ?? candidateMoves[0];
     };
 
     let selectedMove: Move;
     if (enemyAiTier === 'RANDOM') {
-      selectedMove = actingEnemy.selectedMoves[Math.floor(Math.random() * actingEnemy.selectedMoves.length)];
+      selectedMove = candidateMoves[Math.floor(Math.random() * candidateMoves.length)];
     } else if (enemyAiTier === 'BASIC') {
       selectedMove = pickFromTop(2);
     } else if (enemyAiTier === 'ADVANCED') {
       selectedMove = pickFromTop(3);
     } else {
-      selectedMove = moveEvals[0]?.move ?? actingEnemy.selectedMoves[0];
+      selectedMove = moveEvals[0]?.move ?? candidateMoves[0];
     }
 
     useGimmick = reconsiderGimmickAfterMove(useGimmick, usableGimmick, selectedMove);
@@ -1360,6 +1480,7 @@ export function useBattleController({
     evaluateEnemyMoves,
     getAiFlagsForTier,
     getEnemyUsableGimmick,
+    getMoveCurrentPp,
     reconsiderGimmickAfterMove,
   ]);
 
@@ -1482,83 +1603,184 @@ export function useBattleController({
   }, [enemyTurn, gameState, turn]);
 
   useEffect(() => {
-    if (turn !== 'PLAYER' || gameState !== 'BATTLE') return;
-    const lead = playerTeam[0];
-    if (!lead || lead.specialBoostMode !== 'DYNAMAX' || !lead.specialBoostActive) return;
+    const prevTurn = previousTurnRef.current;
+    previousTurnRef.current = turn;
 
-    const turnsLeft = (lead.dynamaxTurnsLeft ?? 0) - 1;
-    if (turnsLeft > 0) {
-      const nextTeam = [...playerTeam];
-      nextTeam[0] = { ...lead, dynamaxTurnsLeft: turnsLeft };
-      setPlayerTeam(nextTeam);
-      return;
-    }
+    if (gameState !== 'BATTLE' || isMessageProcessing) return;
+    if (prevTurn !== 'ENEMY' || turn !== 'PLAYER') return;
+    if (!playerTeam[0] || !enemyTeam[0]) return;
 
-    const revertedStats = {
-      hp: lead.calculatedStats.hp,
-      attack: Math.max(1, Math.floor(lead.calculatedStats.attack / 1.2)),
-      defense: Math.max(1, Math.floor(lead.calculatedStats.defense / 1.2)),
-      spAtk: Math.max(1, Math.floor(lead.calculatedStats.spAtk / 1.2)),
-      spDef: Math.max(1, Math.floor(lead.calculatedStats.spDef / 1.2)),
-      speed: Math.max(1, Math.floor(lead.calculatedStats.speed / 1.05)),
+    let cancelled = false;
+
+    const handleRoundEnd = async () => {
+      let nextPlayerTeam = [...playerTeam];
+      let nextEnemyTeam = [...enemyTeam];
+      let playerLead = nextPlayerTeam[0];
+      let enemyLead = nextEnemyTeam[0];
+      let playerChanged = false;
+      let enemyChanged = false;
+      const endTurnMessages: string[] = [];
+
+      if (playerLead?.specialBoostMode === 'DYNAMAX' && playerLead.specialBoostActive) {
+        const turnsLeft = (playerLead.dynamaxTurnsLeft ?? 0) - 1;
+        if (turnsLeft > 0) {
+          playerLead = { ...playerLead, dynamaxTurnsLeft: turnsLeft };
+        } else {
+          const revertedStats = {
+            hp: playerLead.calculatedStats.hp,
+            attack: Math.max(1, Math.floor(playerLead.calculatedStats.attack / 1.2)),
+            defense: Math.max(1, Math.floor(playerLead.calculatedStats.defense / 1.2)),
+            spAtk: Math.max(1, Math.floor(playerLead.calculatedStats.spAtk / 1.2)),
+            spDef: Math.max(1, Math.floor(playerLead.calculatedStats.spDef / 1.2)),
+            speed: Math.max(1, Math.floor(playerLead.calculatedStats.speed / 1.05)),
+          };
+          const revertedMaxHp = Math.max(1, Math.floor(playerLead.maxHp / 1.35));
+          const revertedHp = Math.max(1, Math.min(revertedMaxHp, Math.floor(playerLead.currentHp / 1.35)));
+          playerLead = {
+            ...playerLead,
+            calculatedStats: revertedStats,
+            maxHp: revertedMaxHp,
+            currentHp: revertedHp,
+            specialBoostActive: false,
+            specialBoostMode: undefined,
+            dynamaxTurnsLeft: undefined,
+          };
+          endTurnMessages.push(t('specialDynamaxEnd').replace('{name}', getLocalized(playerLead)));
+        }
+        nextPlayerTeam[0] = playerLead;
+        playerChanged = true;
+      }
+
+      if (enemyLead?.specialBoostMode === 'DYNAMAX' && enemyLead.specialBoostActive) {
+        const turnsLeft = (enemyLead.dynamaxTurnsLeft ?? 0) - 1;
+        if (turnsLeft > 0) {
+          enemyLead = { ...enemyLead, dynamaxTurnsLeft: turnsLeft };
+        } else {
+          const revertedStats = {
+            hp: enemyLead.calculatedStats.hp,
+            attack: Math.max(1, Math.floor(enemyLead.calculatedStats.attack / 1.2)),
+            defense: Math.max(1, Math.floor(enemyLead.calculatedStats.defense / 1.2)),
+            spAtk: Math.max(1, Math.floor(enemyLead.calculatedStats.spAtk / 1.2)),
+            spDef: Math.max(1, Math.floor(enemyLead.calculatedStats.spDef / 1.2)),
+            speed: Math.max(1, Math.floor(enemyLead.calculatedStats.speed / 1.05)),
+          };
+          const revertedMaxHp = Math.max(1, Math.floor(enemyLead.maxHp / 1.35));
+          const revertedHp = Math.max(1, Math.min(revertedMaxHp, Math.floor(enemyLead.currentHp / 1.35)));
+          enemyLead = {
+            ...enemyLead,
+            calculatedStats: revertedStats,
+            maxHp: revertedMaxHp,
+            currentHp: revertedHp,
+            specialBoostActive: false,
+            specialBoostMode: undefined,
+            dynamaxTurnsLeft: undefined,
+          };
+          endTurnMessages.push(t('specialDynamaxEnd').replace('{name}', getLocalized(enemyLead)));
+        }
+        nextEnemyTeam[0] = enemyLead;
+        enemyChanged = true;
+      }
+
+      if (weather !== 'none') {
+        const playerWeatherResult = resolveWeatherChipDamage({ pokemon: playerLead, weather, getLocalized });
+        if (playerWeatherResult.messages.length > 0) {
+          playerLead = playerWeatherResult.pokemon;
+          nextPlayerTeam[0] = playerLead;
+          playerChanged = true;
+          endTurnMessages.push(...playerWeatherResult.messages);
+        }
+
+        const enemyWeatherResult = resolveWeatherChipDamage({ pokemon: enemyLead, weather, getLocalized });
+        if (enemyWeatherResult.messages.length > 0) {
+          enemyLead = enemyWeatherResult.pokemon;
+          nextEnemyTeam[0] = enemyLead;
+          enemyChanged = true;
+          endTurnMessages.push(...enemyWeatherResult.messages);
+        }
+      }
+
+      if (playerChanged) {
+        setPlayerTeam(nextPlayerTeam);
+      }
+      if (enemyChanged) {
+        setEnemyTeam(nextEnemyTeam);
+        setEnemy(nextEnemyTeam[0] ?? null);
+      }
+
+      if (endTurnMessages.length > 0) {
+        await addMessagesSequentially(endTurnMessages);
+      }
+      if (cancelled) return;
+
+      if (playerLead.currentHp <= 0) {
+        await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(playerLead))]);
+        if (cancelled) return;
+        await sendOutNextPlayer(nextPlayerTeam);
+      }
+
+      if (enemyLead.currentHp <= 0) {
+        await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(enemyLead))]);
+        if (cancelled) return;
+        await sendOutNextEnemy(nextEnemyTeam, enemyLead.id);
+      }
+
+      if (weather !== 'none' && weatherTurns > 0) {
+        const nextTurns = weatherTurns - 1;
+        if (nextTurns <= 0) {
+          setWeather('none');
+          setWeatherTurns(0);
+        } else {
+          setWeatherTurns(nextTurns);
+        }
+      }
+
+      if (fieldState.length > 0) {
+        const nextFieldTurns: FieldTurns = {};
+        const remainingFieldState: FieldState[] = [];
+
+        for (const state of fieldState) {
+          const currentTurns = fieldTurns[state] ?? 0;
+          if (currentTurns <= 0) continue;
+          const nextTurns = currentTurns - 1;
+          if (nextTurns > 0) {
+            nextFieldTurns[state] = nextTurns;
+            remainingFieldState.push(state);
+          }
+        }
+
+        setFieldState(remainingFieldState);
+        setFieldTurns(nextFieldTurns);
+      }
     };
-    const revertedMaxHp = Math.max(1, Math.floor(lead.maxHp / 1.35));
-    const revertedHp = Math.max(1, Math.min(revertedMaxHp, Math.floor(lead.currentHp / 1.35)));
-    const revertedLead: GamePokemon = {
-      ...lead,
-      calculatedStats: revertedStats,
-      maxHp: revertedMaxHp,
-      currentHp: revertedHp,
-      specialBoostActive: false,
-      specialBoostMode: undefined,
-      dynamaxTurnsLeft: undefined,
-    };
-    const nextTeam = [...playerTeam];
-    nextTeam[0] = revertedLead;
-    setPlayerTeam(nextTeam);
-    void addMessagesSequentially([t('specialDynamaxEnd').replace('{name}', getLocalized(revertedLead))]);
-  }, [addMessagesSequentially, gameState, getLocalized, playerTeam, setPlayerTeam, t, turn]);
 
-  useEffect(() => {
-    if (turn !== 'PLAYER' || gameState !== 'BATTLE') return;
-    const lead = enemyTeam[0];
-    if (!lead || lead.specialBoostMode !== 'DYNAMAX' || !lead.specialBoostActive) return;
+    void handleRoundEnd();
 
-    const turnsLeft = (lead.dynamaxTurnsLeft ?? 0) - 1;
-    if (turnsLeft > 0) {
-      const nextTeam = [...enemyTeam];
-      const nextLead = { ...lead, dynamaxTurnsLeft: turnsLeft };
-      nextTeam[0] = nextLead;
-      setEnemyTeam(nextTeam);
-      setEnemy(nextLead);
-      return;
-    }
-
-    const revertedStats = {
-      hp: lead.calculatedStats.hp,
-      attack: Math.max(1, Math.floor(lead.calculatedStats.attack / 1.2)),
-      defense: Math.max(1, Math.floor(lead.calculatedStats.defense / 1.2)),
-      spAtk: Math.max(1, Math.floor(lead.calculatedStats.spAtk / 1.2)),
-      spDef: Math.max(1, Math.floor(lead.calculatedStats.spDef / 1.2)),
-      speed: Math.max(1, Math.floor(lead.calculatedStats.speed / 1.05)),
+    return () => {
+      cancelled = true;
     };
-    const revertedMaxHp = Math.max(1, Math.floor(lead.maxHp / 1.35));
-    const revertedHp = Math.max(1, Math.min(revertedMaxHp, Math.floor(lead.currentHp / 1.35)));
-    const revertedLead: GamePokemon = {
-      ...lead,
-      calculatedStats: revertedStats,
-      maxHp: revertedMaxHp,
-      currentHp: revertedHp,
-      specialBoostActive: false,
-      specialBoostMode: undefined,
-      dynamaxTurnsLeft: undefined,
-    };
-    const nextTeam = [...enemyTeam];
-    nextTeam[0] = revertedLead;
-    setEnemyTeam(nextTeam);
-    setEnemy(revertedLead);
-    void addMessagesSequentially([t('specialDynamaxEnd').replace('{name}', getLocalized(revertedLead))]);
-  }, [addMessagesSequentially, enemyTeam, gameState, getLocalized, setEnemy, setEnemyTeam, t, turn]);
+  }, [
+    addMessagesSequentially,
+    enemyTeam,
+    fieldState,
+    fieldTurns,
+    gameState,
+    getLocalized,
+    isMessageProcessing,
+    playerTeam,
+    sendOutNextEnemy,
+    sendOutNextPlayer,
+    setEnemy,
+    setEnemyTeam,
+    setFieldState,
+    setFieldTurns,
+    setPlayerTeam,
+    setWeather,
+    setWeatherTurns,
+    t,
+    turn,
+    weather,
+    weatherTurns,
+  ]);
 
   const forfeitChallenge = useCallback(() => {
     if (gameState !== 'BATTLE' || isMessageProcessing) return;

@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import {
   fetchEvolutionChain,
@@ -23,7 +23,7 @@ import { getReferenceRangeByChallenge, inReferenceRange } from '../config/factor
 import { FACTORY_BANNED_SPECIES_IDS, isFactoryBannedSpecies } from '../config/factorySpeciesRules';
 import { selectFactoryTrainerTemplate, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools';
-import type { BattleMenuTab, GamePokemon, GameState, Item, Move, Stats } from '../../../types';
+import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Stats, Weather } from '../../../types';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
 
 interface UseFactoryFlowParams {
@@ -63,6 +63,10 @@ interface UseFactoryFlowParams {
   setBattleLog: Dispatch<SetStateAction<string[]>>;
   setTurn: Dispatch<SetStateAction<BattleTurn>>;
   setBattleMenuTab: Dispatch<SetStateAction<BattleMenuTab>>;
+  setWeather: Dispatch<SetStateAction<Weather>>;
+  setWeatherTurns: Dispatch<SetStateAction<number>>;
+  setFieldState: Dispatch<SetStateAction<FieldState[]>>;
+  setFieldTurns: Dispatch<SetStateAction<FieldTurns>>;
   setActiveBuffs: Dispatch<SetStateAction<{ atk: boolean; def: boolean }>>;
   setEnemyBuffs: Dispatch<SetStateAction<{ atk: boolean; def: boolean }>>;
 }
@@ -80,6 +84,17 @@ interface EnemyEncounterData {
 interface RentalDraftCache {
   key: string;
   rentals: GamePokemon[];
+}
+
+interface RentalDraftPrefetchInFlight {
+  key: string;
+  promise: Promise<boolean>;
+}
+
+interface EnemyEncounterPrefetchInFlight {
+  stage: number;
+  key: string;
+  promise: Promise<boolean>;
 }
 
 interface FactoryPoolCandidate {
@@ -350,15 +365,29 @@ export function useFactoryFlow({
   setBattleLog,
   setTurn,
   setBattleMenuTab,
+  setWeather,
+  setWeatherTurns,
+  setFieldState,
+  setFieldTurns,
   setActiveBuffs,
   setEnemyBuffs,
 }: UseFactoryFlowParams) {
   const prefetchedEncounterRef = useRef<{ stage: number; key: string; data: EnemyEncounterData } | null>(null);
+  const enemyPrefetchInFlightRef = useRef<EnemyEncounterPrefetchInFlight | null>(null);
   const prefetchRequestTokenRef = useRef(0);
   const prefetchedRentalsRef = useRef<RentalDraftCache | null>(null);
+  const rentalPrefetchInFlightRef = useRef<RentalDraftPrefetchInFlight | null>(null);
   const rentalPrefetchTokenRef = useRef(0);
+  const confirmRentalsInFlightRef = useRef(false);
+  const transitionTimerRef = useRef<number | null>(null);
   const usedTrainerIdsBySetRef = useRef<Map<number, Set<string>>>(new Map());
   const evolutionStageCacheRef = useRef<Map<number, EvolutionStage>>(new Map());
+
+  useEffect(() => () => {
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current);
+    }
+  }, []);
 
   const getEvolutionStage = useCallback(async (speciesId: number): Promise<EvolutionStage> => {
     const cached = evolutionStageCacheRef.current.get(speciesId);
@@ -387,6 +416,10 @@ export function useFactoryFlow({
     setBattleLog([]);
     setTurn('PLAYER');
     setBattleMenuTab('MAIN');
+    setWeather('none');
+    setWeatherTurns(0);
+    setFieldState([]);
+    setFieldTurns({});
     setActiveBuffs({ atk: false, def: false });
     setEnemyBuffs({ atk: false, def: false });
   }, [
@@ -397,7 +430,11 @@ export function useFactoryFlow({
     setEnemy,
     setEnemyBuffs,
     setEnemyTeam,
+    setFieldState,
+    setFieldTurns,
     setTurn,
+    setWeather,
+    setWeatherTurns,
   ]);
 
   const getUsedTrainerIdsForSet = useCallback((setNo: number) => {
@@ -440,12 +477,16 @@ export function useFactoryFlow({
   }, [setPlayerTeam]);
 
   const startBattleTransition = useCallback(() => {
-    setIsTransitioning(true);
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current);
+    }
 
-    setTimeout(() => {
-      setGameState('BATTLE');
-      setTimeout(() => setIsTransitioning(false), 400);
-    }, 800);
+    setIsTransitioning(true);
+    setGameState('BATTLE');
+    transitionTimerRef.current = window.setTimeout(() => {
+      setIsTransitioning(false);
+      transitionTimerRef.current = null;
+    }, 1200);
   }, [setGameState, setIsTransitioning]);
 
   const buildEncounterContextKey = useCallback((currentStage: number, overrides?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[] }) => {
@@ -670,19 +711,34 @@ export function useFactoryFlow({
       return true;
     }
 
-    const requestToken = ++rentalPrefetchTokenRef.current;
-    try {
-      const rentals = await generateRentalDraft();
-      if (rentalPrefetchTokenRef.current !== requestToken) return false;
-      prefetchedRentalsRef.current = { key, rentals };
-      return true;
-    } catch (error) {
-      console.error(error);
-      if (rentalPrefetchTokenRef.current === requestToken) {
-        prefetchedRentalsRef.current = null;
-      }
-      return false;
+    const inFlight = rentalPrefetchInFlightRef.current;
+    if (inFlight && inFlight.key === key) {
+      return inFlight.promise;
     }
+
+    const requestToken = ++rentalPrefetchTokenRef.current;
+    let promise: Promise<boolean>;
+    promise = (async () => {
+      try {
+        const rentals = await generateRentalDraft();
+        if (rentalPrefetchTokenRef.current !== requestToken) return false;
+        prefetchedRentalsRef.current = { key, rentals };
+        return true;
+      } catch (error) {
+        console.error(error);
+        if (rentalPrefetchTokenRef.current === requestToken) {
+          prefetchedRentalsRef.current = null;
+        }
+        return false;
+      } finally {
+        if (rentalPrefetchInFlightRef.current?.promise === promise) {
+          rentalPrefetchInFlightRef.current = null;
+        }
+      }
+    })();
+
+    rentalPrefetchInFlightRef.current = { key, promise };
+    return promise;
   }, [buildRentalPrefetchKey, generateRentalDraft]);
 
   const generateEnemyEncounter = useCallback(async (
@@ -785,32 +841,57 @@ export function useFactoryFlow({
       return true;
     }
 
-    const requestToken = ++prefetchRequestTokenRef.current;
-
-    try {
-      const data = await generateEnemyEncounter(currentStage, options);
-      if (prefetchRequestTokenRef.current !== requestToken) return false;
-      prefetchedEncounterRef.current = { stage: currentStage, key, data };
-      return true;
-    } catch (error) {
-      console.error(error);
-      if (prefetchRequestTokenRef.current === requestToken) {
-        prefetchedEncounterRef.current = null;
-      }
-      return false;
+    const inFlight = enemyPrefetchInFlightRef.current;
+    if (inFlight && inFlight.stage === currentStage && inFlight.key === key) {
+      return inFlight.promise;
     }
+
+    const requestToken = ++prefetchRequestTokenRef.current;
+    let promise: Promise<boolean>;
+    promise = (async () => {
+      try {
+        const data = await generateEnemyEncounter(currentStage, options);
+        if (prefetchRequestTokenRef.current !== requestToken) return false;
+        prefetchedEncounterRef.current = { stage: currentStage, key, data };
+        return true;
+      } catch (error) {
+        console.error(error);
+        if (prefetchRequestTokenRef.current === requestToken) {
+          prefetchedEncounterRef.current = null;
+        }
+        return false;
+      } finally {
+        if (enemyPrefetchInFlightRef.current?.promise === promise) {
+          enemyPrefetchInFlightRef.current = null;
+        }
+      }
+    })();
+
+    enemyPrefetchInFlightRef.current = { stage: currentStage, key, promise };
+    return promise;
   }, [buildEncounterContextKey, generateEnemyEncounter]);
 
-  const spawnEnemy = useCallback(async (currentStage: number) => {
+  const spawnEnemy = useCallback(async (
+    currentStage: number,
+    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[] },
+  ) => {
     setLoading(true);
     let success = false;
 
     try {
-      const contextKey = buildEncounterContextKey(currentStage);
-      const cached = prefetchedEncounterRef.current;
+      const contextKey = buildEncounterContextKey(currentStage, options);
+      let cached = prefetchedEncounterRef.current;
+      if (!(cached && cached.stage === currentStage && cached.key === contextKey)) {
+        const inFlight = enemyPrefetchInFlightRef.current;
+        if (inFlight && inFlight.stage === currentStage && inFlight.key === contextKey) {
+          await inFlight.promise;
+          cached = prefetchedEncounterRef.current;
+        }
+      }
+
       const encounter = cached && cached.stage === currentStage && cached.key === contextKey
         ? cached.data
-        : await generateEnemyEncounter(currentStage);
+        : await generateEnemyEncounter(currentStage, options);
       prefetchedEncounterRef.current = null;
 
       const { firstEnemy, team, isBoss, isSpecialUnlockBoss, aiTier, setNo, trainer } = encounter;
@@ -837,6 +918,10 @@ export function useFactoryFlow({
 
       setTurn('PLAYER');
       setBattleMenuTab('MAIN');
+      setWeather('none');
+      setWeatherTurns(0);
+      setFieldState([]);
+      setFieldTurns({});
       setActiveBuffs({ atk: false, def: false });
       setEnemyBuffs({ atk: false, def: false });
       success = true;
@@ -863,10 +948,14 @@ export function useFactoryFlow({
     setCurrentEnemyTrainer,
     setEnemyBuffs,
     setEnemyTeam,
+    setFieldState,
+    setFieldTurns,
     setLoading,
     markTrainerUsedForSet,
     setSpecialBossBattleActive,
     setTurn,
+    setWeather,
+    setWeatherTurns,
     t,
   ]);
 
@@ -876,9 +965,16 @@ export function useFactoryFlow({
     try {
       const key = buildRentalPrefetchKey();
       const cached = prefetchedRentalsRef.current;
-      const rentals = cached && cached.key === key
-        ? cached.rentals
-        : await generateRentalDraft();
+      let rentals: GamePokemon[];
+      if (cached && cached.key === key) {
+        rentals = cached.rentals;
+      } else {
+        const warmed = await prefetchRentals();
+        const warmedCache = prefetchedRentalsRef.current;
+        rentals = warmed && warmedCache && warmedCache.key === key
+          ? warmedCache.rentals
+          : await generateRentalDraft();
+      }
       prefetchedRentalsRef.current = null;
 
       setFactoryRentals(rentals);
@@ -1020,14 +1116,24 @@ export function useFactoryFlow({
 
   const confirmRentals = useCallback(async () => {
     if (selectedRentalIndices.length !== FACTORY_BATTLE_CONFIG.teamSize) return;
+    if (confirmRentalsInFlightRef.current) return;
 
-    const team = selectedRentalIndices.map((index) => factoryRentals[index]);
-    setPlayerTeam(team);
-    resetBattlePreview();
-    const enemyReady = await spawnEnemy(1);
-    if (!enemyReady) return;
-    startBattleTransition();
-  }, [factoryRentals, resetBattlePreview, selectedRentalIndices, setPlayerTeam, spawnEnemy, startBattleTransition]);
+    confirmRentalsInFlightRef.current = true;
+
+    try {
+      const team = selectedRentalIndices.map((index) => factoryRentals[index]);
+      setPlayerTeam(team);
+      resetBattlePreview();
+      startBattleTransition();
+      const enemyReady = await spawnEnemy(1, { factoryPool: factoryRentals, playerPool: [] });
+      if (!enemyReady) {
+        setIsTransitioning(false);
+        setGameState('FACTORY_SELECT');
+      }
+    } finally {
+      confirmRentalsInFlightRef.current = false;
+    }
+  }, [factoryRentals, resetBattlePreview, selectedRentalIndices, setGameState, setIsTransitioning, setPlayerTeam, spawnEnemy, startBattleTransition]);
 
   const nextFactoryStage = useCallback(async () => {
     healAllPokemon();

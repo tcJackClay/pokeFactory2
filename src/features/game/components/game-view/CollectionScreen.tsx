@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ArrowLeft, Filter, Search } from 'lucide-react';
 import TypeBadge from '../../../../components/TypeBadge';
 import {
@@ -14,7 +14,6 @@ import {
 } from '../../../../services/pokedexClient';
 import { getPokemonSpriteUrl } from '../../../../services/pokeApiEndpoint';
 import type { GameViewSectionProps } from './shared';
-import { TopRecordPanel } from './TopRecordPanel';
 
 interface DexEntry {
   id: number;
@@ -37,7 +36,6 @@ interface DexEntry {
 }
 
 type DexScopeFilter = 'NATIONAL' | 'KANTO' | 'JOHTO' | 'HOENN' | 'SINNOH' | 'UNOVA' | 'KALOS' | 'ALOLA' | 'GALAR' | 'PALDEA';
-const ENABLE_TEMP_DEX_MOCK = true;
 
 const PREBUILT_TYPE_OPTIONS = [
   'all',
@@ -86,24 +84,6 @@ const TYPE_LABELS_ZH: Record<string, string> = {
   fairy: '妖精',
 };
 
-const TEMP_MOCK_DEX_ENTRIES: DexEntry[] = [
-  { id: 25, name: 'Pikachu', sprite: getDefaultSprite(25), types: ['electric'], bst: 320, hp: 35, attack: 55, defense: 40, spAtk: 50, spDef: 50, speed: 90, seen: true, owned: true, formCategory: 'BASE', sourceLabel: 'TEAM', raw: { name: 'pikachu' } },
-  { id: 6, name: 'Charizard', sprite: getDefaultSprite(6), types: ['fire', 'flying'], bst: 534, hp: 78, attack: 84, defense: 78, spAtk: 109, spDef: 85, speed: 100, seen: true, owned: true, formCategory: 'BASE', sourceLabel: 'TEAM', raw: { name: 'charizard' } },
-  { id: 131, name: 'Lapras', sprite: getDefaultSprite(131), types: ['water', 'ice'], bst: 535, hp: 130, attack: 85, defense: 80, spAtk: 85, spDef: 95, speed: 60, seen: true, owned: false, formCategory: 'BASE', sourceLabel: 'ENEMY', raw: { name: 'lapras' } },
-  { id: 197, name: 'Umbreon', sprite: getDefaultSprite(197), types: ['dark'], bst: 525, hp: 95, attack: 65, defense: 110, spAtk: 60, spDef: 130, speed: 65, seen: true, owned: false, formCategory: 'BASE', sourceLabel: 'RENTAL', raw: { name: 'umbreon' } },
-  { id: 260, name: 'Swampert', sprite: getDefaultSprite(260), types: ['water', 'ground'], bst: 535, hp: 100, attack: 110, defense: 90, spAtk: 85, spDef: 90, speed: 60, seen: true, owned: true, formCategory: 'BASE', sourceLabel: 'TEAM', raw: { name: 'swampert' } },
-  { id: 282, name: 'Gardevoir', sprite: getDefaultSprite(282), types: ['psychic', 'fairy'], bst: 518, hp: 68, attack: 65, defense: 65, spAtk: 125, spDef: 115, speed: 80, seen: true, owned: false, formCategory: 'BASE', sourceLabel: 'ENEMY', raw: { name: 'gardevoir' } },
-  { id: 384, name: 'Rayquaza', sprite: getDefaultSprite(384), types: ['dragon', 'flying'], bst: 680, hp: 105, attack: 150, defense: 90, spAtk: 150, spDef: 90, speed: 95, seen: true, owned: false, formCategory: 'BASE', sourceLabel: 'ARCHIVE', raw: { name: 'rayquaza' } },
-  { id: 445, name: 'Garchomp', sprite: getDefaultSprite(445), types: ['dragon', 'ground'], bst: 600, hp: 108, attack: 130, defense: 95, spAtk: 80, spDef: 85, speed: 102, seen: true, owned: false, formCategory: 'BASE', sourceLabel: 'ENEMY', raw: { name: 'garchomp' } },
-  { id: 530, name: 'Excadrill', sprite: getDefaultSprite(530), types: ['ground', 'steel'], bst: 508, hp: 110, attack: 135, defense: 60, spAtk: 50, spDef: 65, speed: 88, seen: true, owned: false, formCategory: 'BASE', sourceLabel: 'RENTAL', raw: { name: 'excadrill' } },
-  { id: 658, name: 'Greninja', sprite: getDefaultSprite(658), types: ['water', 'dark'], bst: 530, hp: 72, attack: 95, defense: 67, spAtk: 103, spDef: 71, speed: 122, seen: true, owned: false, formCategory: 'BASE', sourceLabel: 'ENEMY', raw: { name: 'greninja' } },
-  { id: 778, name: 'Mimikyu', sprite: getDefaultSprite(778), types: ['ghost', 'fairy'], bst: 476, hp: 55, attack: 90, defense: 80, spAtk: 50, spDef: 105, speed: 96, seen: true, owned: true, formCategory: 'FORM', sourceLabel: 'TEAM', raw: { name: 'mimikyu' } },
-  { id: 849, name: 'Toxtricity', sprite: getDefaultSprite(849), types: ['electric', 'poison'], bst: 502, hp: 75, attack: 98, defense: 70, spAtk: 114, spDef: 70, speed: 75, seen: true, owned: false, formCategory: 'FORM', sourceLabel: 'ARCHIVE', raw: { name: 'toxtricity' } },
-  { id: 908, name: 'Meowscarada', sprite: getDefaultSprite(908), types: ['grass', 'dark'], bst: 530, hp: 76, attack: 110, defense: 70, spAtk: 81, spDef: 70, speed: 123, seen: false, owned: false, formCategory: 'BASE', sourceLabel: 'ARCHIVE', raw: { name: 'meowscarada' } },
-  { id: 937, name: 'Ceruledge', sprite: getDefaultSprite(937), types: ['fire', 'ghost'], bst: 525, hp: 75, attack: 125, defense: 80, spAtk: 60, spDef: 100, speed: 85, seen: true, owned: false, formCategory: 'BASE', sourceLabel: 'RENTAL', raw: { name: 'ceruledge' } },
-  { id: 1000, name: 'Gholdengo', sprite: getDefaultSprite(1000), types: ['steel', 'ghost'], bst: 550, hp: 87, attack: 60, defense: 95, spAtk: 133, spDef: 91, speed: 84, seen: false, owned: false, formCategory: 'BASE', sourceLabel: 'ARCHIVE', raw: { name: 'gholdengo' } },
-];
-
 function getPokedexNumber(id: number) {
   return `#${String(id).padStart(4, '0')}`;
 }
@@ -132,11 +112,60 @@ function getFormKey(id: number, apiName: string) {
   return `form-v2:${id}:${normalizeApiSlug(apiName)}`;
 }
 
-function getFormCategoryLabel(category: DexFormCategory, isZh: boolean) {
-  if (category === 'BASE') return isZh ? '基础' : 'Base';
-  if (category === 'REGIONAL') return isZh ? '地区' : 'Regional';
-  if (category === 'GENDER') return isZh ? '性别' : 'Gender';
-  return isZh ? '形态' : 'Form';
+const FORM_SUFFIX_FALLBACK_LABELS: Record<string, { zh: string; en: string }> = {
+  alola: { zh: '阿罗拉', en: 'Alola' },
+  galar: { zh: '伽勒尔', en: 'Galar' },
+  hisui: { zh: '洗翠', en: 'Hisui' },
+  paldea: { zh: '帕底亚', en: 'Paldea' },
+  male: { zh: '雄性', en: 'Male' },
+  female: { zh: '雌性', en: 'Female' },
+  m: { zh: '雄性', en: 'Male' },
+  f: { zh: '雌性', en: 'Female' },
+};
+
+function toTitleCaseLabel(value: string) {
+  return value
+    .split(/[-_\s]+/g)
+    .filter(Boolean)
+    .map((part) => part[0].toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function getFallbackFormLabel(apiName: string, formCategory: DexFormCategory, isZh: boolean) {
+  const normalized = normalizeApiSlug(apiName);
+  const directSuffix = Object.keys(FORM_SUFFIX_FALLBACK_LABELS).find((suffix) => normalized.endsWith(`-${suffix}`));
+  if (directSuffix) {
+    return isZh ? FORM_SUFFIX_FALLBACK_LABELS[directSuffix].zh : FORM_SUFFIX_FALLBACK_LABELS[directSuffix].en;
+  }
+
+  if (formCategory === 'GENDER') {
+    return isZh ? '性别差异' : 'Gender Variant';
+  }
+
+  const parts = normalized.split('-').filter(Boolean);
+  if (parts.length <= 1) {
+    return isZh ? '特殊形态' : 'Form Variant';
+  }
+
+  return toTitleCaseLabel(parts.slice(1).join(' '));
+}
+
+function getFormDisplayLabel(
+  entry: DexEntry,
+  getLocalized: (value: any) => string,
+  isZh: boolean,
+) {
+  if (entry.formCategory === 'BASE') return '';
+
+  const localized = getLocalized({
+    name: entry.raw?.formName,
+    names: entry.raw?.formNames,
+    zhName: entry.raw?.formZhName,
+  }).trim();
+
+  if (localized) return localized;
+
+  return getFallbackFormLabel(String(entry.raw?.name ?? ''), entry.formCategory, isZh);
 }
 
 function formatMoveName(name: string) {
@@ -214,9 +243,6 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     playerTeam,
     enemyTeam,
     factoryRentals,
-    coins,
-    stage,
-    streak,
     collectionSeenIds,
     collectionOwnedIds,
     collectionFormKeys,
@@ -225,6 +251,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     setGameState,
   } = viewModel;
 
+  const shouldReduceMotion = useReducedMotion();
   const isZh = currentLanguage.startsWith('zh');
   const [catalogEntries, setCatalogEntries] = useState<DexCatalogEntry[]>([]);
   const [dexTypeMap, setDexTypeMap] = useState<Record<string, string[]>>({});
@@ -235,7 +262,6 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
   const [typeFilterSecondary, setTypeFilterSecondary] = useState('all');
   const [dexScopeFilter, setDexScopeFilter] = useState<DexScopeFilter>('NATIONAL');
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const usingTempMock = ENABLE_TEMP_DEX_MOCK || catalogEntries.length === 0;
 
   useEffect(() => {
     let cancelled = false;
@@ -251,27 +277,6 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
   }, []);
 
   const entries = useMemo<DexEntry[]>(() => {
-    if (usingTempMock) {
-      return TEMP_MOCK_DEX_ENTRIES.map((entry) => {
-        const snapshot = snapshotMap[entry.id];
-        return {
-          ...entry,
-          name: snapshot ? getLocalized({ name: snapshot.apiName, names: snapshot.names, zhName: snapshot.zhName }) : entry.name,
-          sprite: snapshot?.sprite || entry.sprite,
-          types: snapshot?.types ?? entry.types,
-          hp: snapshot?.baseStats.hp ?? entry.hp,
-          attack: snapshot?.baseStats.attack ?? entry.attack,
-          defense: snapshot?.baseStats.defense ?? entry.defense,
-          spAtk: snapshot?.baseStats.spAtk ?? entry.spAtk,
-          spDef: snapshot?.baseStats.spDef ?? entry.spDef,
-          speed: snapshot?.baseStats.speed ?? entry.speed,
-          bst: snapshot
-            ? snapshot.baseStats.hp + snapshot.baseStats.attack + snapshot.baseStats.defense + snapshot.baseStats.spAtk + snapshot.baseStats.spDef + snapshot.baseStats.speed
-            : entry.bst,
-          learnableMoves: snapshot?.learnableMoves ?? [],
-        };
-      });
-    }
     if (catalogEntries.length === 0) return [];
 
     const runtimeById = new Map<number, any>();
@@ -341,6 +346,9 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
           name: apiName,
           names: snapshot?.names ?? runtime?.names,
           zhName: snapshot?.zhName ?? runtime?.zhName,
+          formName: snapshot?.formName,
+          formZhName: snapshot?.formZhName,
+          formNames: snapshot?.formNames,
         },
       };
     });
@@ -355,7 +363,6 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     getLocalized,
     playerTeam,
     snapshotMap,
-    usingTempMock,
   ]);
 
   const getTypeLabel = (type: string) => (isZh ? (TYPE_LABELS_ZH[type] ?? type) : type);
@@ -363,6 +370,8 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
   const filteredEntries = useMemo(() => {
     const keyword = search.trim().toLowerCase();
     const filtered = entries.filter((entry) => {
+      if (!entry.seen) return false;
+
       const matchSearch =
         keyword.length === 0
         || entry.name.toLowerCase().includes(keyword)
@@ -415,6 +424,25 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     [filteredEntries, selectedId],
   );
 
+  const selectedFormLabel = useMemo(
+    () => (selectedEntry ? getFormDisplayLabel(selectedEntry, getLocalized, isZh) : ''),
+    [getLocalized, isZh, selectedEntry],
+  );
+
+  const seenCount = entries.filter((entry) => entry.seen).length;
+  const selectedSourceLabel = selectedEntry
+    ? (
+      isZh
+        ? {
+            TEAM: '队伍',
+            ENEMY: '对手',
+            RENTAL: '租赁',
+            ARCHIVE: '档案',
+          }[selectedEntry.sourceLabel]
+        : selectedEntry.sourceLabel
+    )
+    : '';
+
   useEffect(() => {
     if (!selectedEntry) {
       setSelectedId(null);
@@ -451,195 +479,201 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
   return (
     <motion.div
       key="collection"
-      initial={{ opacity: 0, y: 12 }}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 12 }}
-      className="relative flex-1 min-h-0 flex flex-col overflow-hidden bg-[linear-gradient(180deg,#dbeafe_0%,#ecf5ff_55%,#f8fafc_100%)]"
+      exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+      className="pf-system-page"
     >
-      <div className="pointer-events-none absolute left-0 top-0 h-1.5 w-1/2 bg-red-500" />
-      <div className="pointer-events-none absolute right-0 top-0 h-1.5 w-1/2 bg-blue-600" />
-
-      <div className="px-3 pt-1 pb-0.5">
-        <TopRecordPanel currentLanguage={currentLanguage} coins={coins} stage={stage} streak={streak} />
-      </div>
-
-      <div className="flex items-center justify-between gap-3 px-3 pt-2 pb-2">
-        <div>
-          <p className="text-[11px] font-black uppercase tracking-[0.24em] text-slate-500">
-            {isZh ? '图鉴中心' : 'Dex Center'}
-          </p>
-          <h2 className="mt-1 text-2xl font-black italic tracking-tight text-slate-900">
+      <div className="pf-system-header">
+        <div className="flex items-center gap-3">
+          <h2 className={`text-slate-950 ${isZh ? 'text-[28px] font-black' : 'text-[26px] font-black uppercase tracking-[0.05em]'}`}>
             {isZh ? '宝可梦图鉴' : 'Pokedex'}
           </h2>
+          <div className="hidden items-center gap-2 sm:flex">
+            <span className="rounded-full border border-slate-200 bg-white/90 px-3 py-1 text-[11px] font-black text-slate-500">
+              Seen {seenCount}
+            </span>
+          </div>
         </div>
         <button
+          type="button"
           onClick={() => setGameState('START')}
-          className="h-10 px-4 skew-x-[-12deg] border border-slate-300 bg-white text-slate-800 font-black text-xs uppercase tracking-wide flex items-center gap-2 hover:border-slate-900"
+          className="pf-action-button px-4"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="skew-x-[12deg]">{isZh ? '返回' : 'Back'}</span>
+          <ArrowLeft className="h-4 w-4" />
+          <span>{isZh ? '返回' : 'Back'}</span>
         </button>
       </div>
 
-      <div className="px-3 pb-2 grid grid-cols-2 md:grid-cols-[1.2fr_0.9fr_0.9fr_0.9fr] gap-2">
-        <label className="col-span-2 md:col-span-1 min-w-0 h-10 rounded-xl border border-slate-300 bg-white flex items-center gap-2 px-3">
-          <Search className="w-4 h-4 text-slate-400" />
-          <input
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder={isZh ? '搜索名称 / 编号' : 'Search name / id'}
-            className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 placeholder:text-slate-400"
-          />
-        </label>
+      <div className="pf-system-toolbar">
+        <div className="pf-toolbar-panel p-2.5">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-[1.5fr_1.5fr_1fr]">
+            <label className="pf-filter-field">
+              <Search className="h-4 w-4 text-slate-400" />
+              <input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder={isZh ? '搜索名称 / 编号' : 'Search name / id'}
+                className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 placeholder:text-slate-400"
+              />
+            </label>
 
-        <label className="min-w-0 h-10 rounded-xl border border-slate-300 bg-white flex items-center gap-2 px-3">
-          <Filter className="w-4 h-4 text-slate-400" />
-          <select
-            value={typeFilterPrimary}
-            onChange={(event) => setTypeFilterPrimary(event.target.value)}
-            className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 truncate"
-          >
-            {PREBUILT_TYPE_OPTIONS.map((type) => (
-              <option key={type} value={type}>
-                {type === 'all' ? (isZh ? '属性一' : 'Type 1') : getTypeLabel(type)}
-              </option>
-            ))}
-          </select>
-        </label>
+            <div className="pf-filter-field gap-3">
+              <Filter className="h-4 w-4 shrink-0 text-slate-400" />
+              <div className="grid min-w-0 flex-1 grid-cols-2 gap-2">
+                <select
+                  value={typeFilterPrimary}
+                  onChange={(event) => setTypeFilterPrimary(event.target.value)}
+                  className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 truncate"
+                >
+                  {PREBUILT_TYPE_OPTIONS.map((type) => (
+                    <option key={type} value={type}>
+                      {type === 'all' ? (isZh ? '属性一' : 'Type 1') : getTypeLabel(type)}
+                    </option>
+                  ))}
+                </select>
 
-        <label className="min-w-0 h-10 rounded-xl border border-slate-300 bg-white flex items-center gap-2 px-3">
-          <Filter className="w-4 h-4 text-slate-400" />
-          <select
-            value={typeFilterSecondary}
-            onChange={(event) => setTypeFilterSecondary(event.target.value)}
-            className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 truncate"
-          >
-            {PREBUILT_TYPE_OPTIONS.map((type) => (
-              <option key={`secondary-${type}`} value={type}>
-                {type === 'all' ? (isZh ? '属性二' : 'Type 2') : getTypeLabel(type)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="col-span-2 md:col-span-1 min-w-0 h-10 rounded-xl border border-slate-300 bg-white flex items-center gap-2 px-3">
-          <Filter className="w-4 h-4 text-slate-400" />
-          <select
-            value={dexScopeFilter}
-            onChange={(event) => setDexScopeFilter(event.target.value as DexScopeFilter)}
-            className="min-w-0 w-full bg-transparent outline-none text-[13px] font-semibold text-slate-800 truncate"
-          >
-            {DEX_SCOPE_OPTIONS.map((option) => (
-              <option key={option.id} value={option.id}>
-                {isZh ? option.zh : option.en}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-
-      <div className="flex-1 min-h-0 px-3 pb-3 grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-3">
-        <div className="min-h-0 flex flex-col">
-          <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hidden p-0.5">
-            <div className="grid grid-cols-6 gap-2">
-              {filteredEntries.map((entry) => {
-                const selected = selectedEntry?.id === entry.id;
-                return (
-                  <button
-                    key={`${entry.id}:${entry.raw?.name ?? ''}`}
-                    onClick={() => setSelectedId(entry.id)}
-                    className={`relative w-full aspect-square p-0 flex items-center justify-center ${selected ? 'scale-105' : ''}`}
-                  >
-                    <motion.div
-                      animate={selected ? { y: [0, -3, 0] } : { y: 0 }}
-                      transition={selected ? { duration: 0.55, repeat: Infinity, ease: 'easeInOut' } : { duration: 0 }}
-                      className="w-full h-full flex items-center justify-center"
-                    >
-                      <DexSprite entry={entry} alt={entry.name} className="w-[96%] h-[96%] object-contain" />
-                    </motion.div>
-                  </button>
-                );
-              })}
-              {filteredEntries.length === 0 && (
-                <div className="col-span-6 h-36 rounded-xl border border-dashed border-slate-300 bg-slate-50" />
-              )}
-              {filteredEntries.length < 12 && Array.from({ length: 12 - filteredEntries.length }).map((_, index) => (
-                <div
-                  key={`filler-${index}`}
-                  className="aspect-square"
-                />
-              ))}
+                <select
+                  value={typeFilterSecondary}
+                  onChange={(event) => setTypeFilterSecondary(event.target.value)}
+                  className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 truncate"
+                >
+                  {PREBUILT_TYPE_OPTIONS.map((type) => (
+                    <option key={`secondary-${type}`} value={type}>
+                      {type === 'all' ? (isZh ? '属性二' : 'Type 2') : getTypeLabel(type)}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
+
+            <label className="pf-filter-field">
+              <Filter className="h-4 w-4 text-slate-400" />
+              <select
+                value={dexScopeFilter}
+                onChange={(event) => setDexScopeFilter(event.target.value as DexScopeFilter)}
+                className="min-w-0 w-full bg-transparent outline-none text-sm font-semibold text-slate-800 truncate"
+              >
+                {DEX_SCOPE_OPTIONS.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {isZh ? option.zh : option.en}
+                  </option>
+                ))}
+              </select>
+            </label>
+
           </div>
         </div>
+      </div>
 
-        <div className="min-h-0 flex flex-col">
-          <div className="px-3 py-2 border-b border-slate-200">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-              {isZh ? '图鉴详情' : 'Dex Detail'}
-            </p>
+      <div className="relative z-10 flex-1 min-h-0 px-3 pb-3">
+        <div className="grid h-full min-h-0 grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1.4fr)_360px]">
+          <div className="pf-terminal-panel min-h-0 overflow-hidden p-2.5 flex flex-col">
+            <div className="scrollbar-hidden min-h-0 flex-1 overflow-y-auto pr-1">
+              <div className="grid grid-cols-6 gap-1.5">
+                {filteredEntries.map((entry) => {
+                  return (
+                    <button
+                      key={`${entry.id}:${entry.raw?.name ?? ''}`}
+                      type="button"
+                      onClick={() => setSelectedId(entry.id)}
+                      className="relative aspect-square overflow-hidden"
+                    >
+                      <motion.div
+                        animate={{ y: 0 }}
+                        transition={{ duration: 0 }}
+                        className="relative z-10 flex h-full w-full items-center justify-center"
+                      >
+                        <DexSprite entry={entry} alt={entry.name} className="h-full w-full scale-[1.08] object-contain" />
+                      </motion.div>
+                    </button>
+                  );
+                })}
+
+                {filteredEntries.length === 0 && (
+                  <div className="col-span-full flex h-36 items-center justify-center rounded-[18px] border border-dashed border-slate-200 bg-slate-50/80 text-sm font-semibold text-slate-400">
+                    {isZh ? '没有匹配结果。' : 'No matching entries.'}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto scrollbar-hidden p-4">
-            {selectedEntry ? (
-              <div>
-                <div className="rounded-2xl border border-slate-200 bg-[linear-gradient(160deg,#ffffff_0%,#f8fafc_100%)] p-2.5">
-                  <div className="grid grid-cols-[0.95fr_1.05fr] gap-1.5 items-start">
-                    <div>
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <p className="text-[10px] font-black uppercase tracking-wide text-slate-400">{getPokedexNumber(selectedEntry.id)}</p>
-                          <PokeballStatusIcon owned={selectedEntry.owned} seen={selectedEntry.seen} />
-                        </div>
-                        <h3 className="text-xl font-black italic text-slate-900 leading-tight whitespace-normal break-words">{selectedEntry.name}</h3>
+
+          <div className="pf-terminal-panel min-h-0 overflow-hidden p-3 flex flex-col">
+            <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-1">
+              {selectedEntry ? (
+                <div className="space-y-3">
+                  <div className="rounded-[22px] border border-slate-200 bg-white/90 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)]">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5">
+                        <PokeballStatusIcon owned={selectedEntry.owned} seen={selectedEntry.seen} />
+                        <span className="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">
+                          {getPokedexNumber(selectedEntry.id)}
+                        </span>
                       </div>
-                      <div className="mt-1 flex justify-center">
-                        <DexSprite
-                          entry={selectedEntry}
-                          alt={selectedEntry.name}
-                          className="w-24 h-24 object-contain drop-shadow-[0_8px_16px_rgba(15,23,42,0.2)]"
-                        />
-                      </div>
-                      <div className="mt-2 flex flex-wrap gap-1.5 justify-center">
-                        {selectedEntry.types.map((type) => (
-                          <TypeBadge key={`detail-${selectedEntry.id}-${type}`} type={type} size="sm" />
-                        ))}
-                        {selectedEntry.formCategory !== 'BASE' && (
-                          <span className="px-2 py-1 rounded-lg text-[10px] font-black uppercase bg-slate-100 text-slate-600">
-                            {getFormCategoryLabel(selectedEntry.formCategory, isZh)}
-                          </span>
-                        )}
-                      </div>
+                      {selectedSourceLabel && (
+                        <span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.10em] text-slate-500">
+                          {selectedSourceLabel}
+                        </span>
+                      )}
                     </div>
-                    <div className="space-y-1.5">
-                      {[
-                        { key: 'HP', value: selectedEntry.hp, color: 'bg-red-500' },
-                        { key: 'ATK', value: selectedEntry.attack, color: 'bg-orange-500' },
-                        { key: 'DEF', value: selectedEntry.defense, color: 'bg-yellow-500' },
-                        { key: 'SPA', value: selectedEntry.spAtk, color: 'bg-blue-500' },
-                        { key: 'SPD', value: selectedEntry.spDef, color: 'bg-green-500' },
-                        { key: 'SPE', value: selectedEntry.speed, color: 'bg-pink-500' },
-                      ].map((stat) => (
-                        <div key={`${selectedEntry.id}-${stat.key}`}>
-                          <div className="mb-0.5 flex items-center justify-between text-[11px] font-bold text-slate-600">
-                            <span>{stat.key}</span>
-                            <span>{stat.value}</span>
-                          </div>
-                          <div className="h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                            <div className={`h-full ${stat.color}`} style={{ width: `${Math.min(100, (stat.value / 255) * 100)}%` }} />
-                          </div>
+
+                    <div className="mt-3 grid grid-cols-[128px_minmax(0,1fr)] items-start gap-4">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="min-w-0">
+                          <h3 className={`text-slate-950 ${isZh ? 'text-[26px] font-black' : 'text-[24px] font-black uppercase tracking-[0.04em]'}`}>
+                            {selectedEntry.name}
+                          </h3>
+                          {selectedFormLabel && (
+                            <div className="mt-1 text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">
+                              {selectedFormLabel}
+                            </div>
+                          )}
                         </div>
-                      ))}
+
+                        <div className="flex h-[128px] w-[128px] items-center justify-center rounded-[18px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(243,246,250,0.96)_100%)]">
+                          <DexSprite
+                            entry={selectedEntry}
+                            alt={selectedEntry.name}
+                            className="h-[112px] w-[112px] object-contain drop-shadow-[0_8px_16px_rgba(15,23,42,0.2)]"
+                          />
+                        </div>
+
+                        <div className="mt-2 flex flex-wrap justify-center gap-1.5">
+                          {selectedEntry.types.map((type) => (
+                            <TypeBadge key={`detail-${selectedEntry.id}-${type}`} type={type} size="sm" />
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="min-w-0 pt-1">
+                        <div className="space-y-1.5">
+                          {[
+                            { key: 'HP', value: selectedEntry.hp, color: 'bg-red-500' },
+                            { key: 'ATK', value: selectedEntry.attack, color: 'bg-orange-500' },
+                          { key: 'DEF', value: selectedEntry.defense, color: 'bg-yellow-500' },
+                          { key: 'SPA', value: selectedEntry.spAtk, color: 'bg-blue-500' },
+                          { key: 'SPD', value: selectedEntry.spDef, color: 'bg-emerald-500' },
+                          { key: 'SPE', value: selectedEntry.speed, color: 'bg-pink-500' },
+                        ].map((stat) => (
+                            <div key={`${selectedEntry.id}-${stat.key}`}>
+                              <div className="mb-0.5 flex items-center justify-between text-[11px] font-bold text-slate-600">
+                                <span>{stat.key}</span>
+                                <span>{stat.value}</span>
+                              </div>
+                              <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                                <div className={`h-full ${stat.color}`} style={{ width: `${Math.min(100, (stat.value / 255) * 100)}%` }} />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="mt-2 rounded-2xl border border-slate-200 bg-white p-3">
-                  <p className="text-[10px] uppercase tracking-wide text-slate-500 font-black mb-2">
-                    {isZh ? '可学习技能' : 'Learnable Moves'}
-                  </p>
-                  {selectedEntry.learnableMoves && selectedEntry.learnableMoves.length > 0 ? (
-                    <div className="space-y-1.5">
-                      <div className="space-y-1">
+                  <div className="rounded-[22px] border border-slate-200 bg-white/90 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)]">
+                    {selectedEntry.learnableMoves && selectedEntry.learnableMoves.length > 0 ? (
+                      <div className="space-y-1.5">
                         {selectedEntry.learnableMoves.map((move) => {
                           const normalizedMove = String(move || '').toLowerCase();
                           const detail = moveDetailMap[normalizedMove];
@@ -647,9 +681,9 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
                           return (
                             <div
                               key={`${selectedEntry.id}-${move}`}
-                              className="grid grid-cols-[1.6fr_0.9fr_0.9fr_0.6fr] gap-1 items-center rounded-md border border-slate-200 bg-slate-50 px-2 py-1"
+                              className="grid grid-cols-[1.35fr_0.75fr_0.8fr_0.45fr] items-center gap-2 rounded-[14px] border border-slate-200 bg-slate-50/90 px-3 py-2"
                             >
-                              <span className="text-[11px] font-semibold text-slate-800 truncate">{displayName}</span>
+                              <span className="truncate text-[12px] font-semibold text-slate-800">{displayName}</span>
                               <div className="min-w-0">
                                 {detail ? (
                                   <TypeBadge type={detail.type} size="xs" />
@@ -657,25 +691,29 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
                                   <span className="text-[10px] font-semibold text-slate-400">--</span>
                                 )}
                               </div>
-                              <span className="text-[10px] font-semibold text-slate-600 truncate">
+                              <span className="truncate text-[10px] font-semibold text-slate-500">
                                 {getDamageClassLabel(detail?.damageClass, isZh)}
                               </span>
-                              <span className="text-[11px] font-black text-slate-700 text-right">{detail?.power ?? '--'}</span>
+                              <span className="text-right text-[11px] font-black text-slate-700">
+                                {detail?.power ?? '--'}
+                              </span>
                             </div>
                           );
                         })}
                       </div>
-                    </div>
-                  ) : (
-                    <div className="h-10 rounded-lg border border-dashed border-slate-200 bg-slate-50" />
-                  )}
+                    ) : (
+                      <div className="flex h-16 items-center justify-center rounded-[16px] border border-dashed border-slate-200 bg-slate-50/80 text-sm font-semibold text-slate-400">
+                        {isZh ? '暂无可学习技能。' : 'No learnable moves.'}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="h-full rounded-xl border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-sm font-semibold text-slate-500">
-                {isZh ? '暂无数据' : 'No Data'}
-              </div>
-            )}
+              ) : (
+                <div className="flex h-full items-center justify-center rounded-[20px] border border-dashed border-slate-200 bg-slate-50/80 px-4 text-center text-sm font-semibold text-slate-400">
+                  {isZh ? '暂无数据' : 'No Data'}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

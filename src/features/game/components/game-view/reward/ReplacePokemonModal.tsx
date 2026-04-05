@@ -1,46 +1,59 @@
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import type { GameViewSectionProps } from '../shared';
 
 export function ReplacePokemonModal({ viewModel }: GameViewSectionProps) {
-  const { showReplaceUI, playerTeam, t, getLocalized, replacePokemon, setShowReplaceUI } = viewModel;
+  const { showReplaceUI, playerTeam, currentLanguage, t, getLocalized, replacePokemon, setShowReplaceUI } = viewModel;
+  const shouldReduceMotion = useReducedMotion();
+  const isZh = currentLanguage.startsWith('zh');
+
   if (!showReplaceUI) return null;
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={shouldReduceMotion ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[110] bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-6"
+      className="pf-modal-backdrop"
     >
-      <div className="bg-white max-w-2xl w-full p-8 skew-x-[-2deg] shadow-2xl relative">
-        <div className="skew-x-[2deg]">
-          <h2 className="text-3xl font-black italic mb-2 tracking-tighter">{t('teamFull')}</h2>
-          <p className="text-slate-500 mb-8 font-bold italic">
-            {t('replacePartner')}{' '}
-            <span className="text-blue-600 uppercase">{getLocalized(showReplaceUI)}</span>
+      <div className="pf-modal-sheet p-5 sm:p-6">
+        <div>
+          <h2 className="text-2xl font-black text-slate-950 sm:text-[30px]">{t('teamFull')}</h2>
+          <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
+            {t('replacePartner')} <span className="font-black text-blue-600">{getLocalized(showReplaceUI)}</span>
           </p>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {playerTeam.map((pokemon, index) => (
               <button
                 key={`${pokemon.id}-${index}`}
+                type="button"
                 onClick={() => replacePokemon(index)}
-                className="p-4 bg-slate-50 hover:bg-blue-50 border-2 border-slate-200 hover:border-blue-500 transition-all text-left flex items-center gap-4 group"
+                className="rounded-[20px] border border-slate-200 bg-white/92 p-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.92)] transition-all hover:border-blue-300 hover:bg-blue-50/70"
               >
-                <img src={pokemon.sprites.front_default} className="w-16 h-16 object-contain" referrerPolicy="no-referrer" />
-                <div>
-                  <div className="font-black text-lg uppercase group-hover:text-blue-600">{getLocalized(pokemon)}</div>
-                  <div className="text-xs font-bold text-slate-400">Lv.{pokemon.level}</div>
+                <div className="flex items-center gap-4">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-[18px] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(243,246,250,0.96)_100%)]">
+                    <img
+                      src={pokemon.sprites.front_default}
+                      className="h-14 w-14 object-contain"
+                      referrerPolicy="no-referrer"
+                      alt={pokemon.name}
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="truncate text-lg font-black text-slate-900">{getLocalized(pokemon)}</div>
+                    <div className="mt-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400">Lv.{pokemon.level}</div>
+                  </div>
                 </div>
               </button>
             ))}
           </div>
 
           <button
+            type="button"
             onClick={() => setShowReplaceUI(null)}
-            className="mt-8 w-full py-4 bg-slate-200 text-slate-600 font-black italic hover:bg-slate-300 transition-all"
+            className="pf-action-button mt-5 w-full"
           >
-            {t('cancelReplace')}
+            <span>{t('cancelReplace')}</span>
           </button>
         </div>
       </div>

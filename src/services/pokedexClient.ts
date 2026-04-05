@@ -26,6 +26,9 @@ export interface DexSnapshot {
   apiName: string;
   zhName?: string;
   names: LocalizedName[];
+  formName?: string;
+  formZhName?: string;
+  formNames?: LocalizedName[];
   sprite: string;
   types: string[];
   baseStats: BaseStats;
@@ -103,6 +106,21 @@ function getZhName(names: LocalizedName[]): string | undefined {
 
 function getEnName(names: LocalizedName[]): string | undefined {
   return names.find((entry) => entry.language.name?.toLowerCase() === 'en')?.name;
+}
+
+function toLocalizedNames(entries: Array<{ name?: string; language?: { name?: string } }> | undefined): LocalizedName[] {
+  if (!Array.isArray(entries)) return [];
+  return entries
+    .map((entry) => {
+      const name = String(entry?.name ?? '').trim();
+      const languageName = String(entry?.language?.name ?? '').trim();
+      if (!name || !languageName) return null;
+      return {
+        name,
+        language: { name: languageName },
+      } satisfies LocalizedName;
+    })
+    .filter((entry): entry is LocalizedName => Boolean(entry));
 }
 
 function parseCsvRows(content: string): string[][] {
@@ -336,20 +354,35 @@ export async function fetchDexSnapshotById(id: number): Promise<DexSnapshot | nu
   try {
     const pokemonClient = await getPokemonClient();
     const pokemon = await pokemonClient.getPokemonById(id);
-    const species = await fetchPokeApiJsonByResourceUrl(
-      normalizePokeApiResourceUrl(pokemon.species.url),
-    );
+    const isFormEntry = classifyFormCategory(pokemon.name) !== 'BASE';
+    const formResourceUrl = Array.isArray(pokemon.forms) && pokemon.forms.length > 0
+      ? normalizePokeApiResourceUrl(pokemon.forms[0].url)
+      : null;
+    const [species, form] = await Promise.all([
+      fetchPokeApiJsonByResourceUrl(
+        normalizePokeApiResourceUrl(pokemon.species.url),
+      ),
+      isFormEntry && formResourceUrl
+        ? fetchPokeApiJsonByResourceUrl(formResourceUrl).catch(() => null)
+        : Promise.resolve(null),
+    ]);
 
-    const names = species.names.map((entry) => ({
-      name: entry.name,
-      language: { name: entry.language.name },
-    }));
+    const names = toLocalizedNames(species.names);
+    const formNames = toLocalizedNames(
+      Array.isArray(form?.form_names) && form.form_names.length > 0
+        ? form.form_names
+        : form?.names,
+    );
+    const formName = String(form?.form_name ?? '').trim() || getEnName(formNames);
 
     const snapshot: DexSnapshot = {
       id: pokemon.id,
       apiName: pokemon.name,
       zhName: getZhName(names),
       names,
+      formName: formName || undefined,
+      formZhName: getZhName(formNames),
+      formNames,
       sprite: pokemon.sprites.front_default ?? '',
       types: pokemon.types.map((slot) => slot.type.name),
       baseStats: toBaseStats(pokemon.stats),

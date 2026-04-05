@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import type { ReactNode } from 'react';
-import { AnimatePresence } from 'motion/react';
+import { AnimatePresence, useReducedMotion } from 'motion/react';
 import type { GameViewModel } from '../view-model';
 import { BattleScreen } from './game-view/BattleScreen';
 import { FactorySelectScreen } from './game-view/FactorySelectScreen';
@@ -21,6 +21,7 @@ const CollectionScreen = lazy(async () => import('./game-view/CollectionScreen')
 
 export function GameView({ viewModel }: { viewModel: GameViewModel }) {
   const { gameState, infoPokemonIdx, prevGameState, factoryRentals, playerTeam, isTransitioning } = viewModel;
+  const shouldReduceMotion = useReducedMotion();
 
   const infoPokemonList = prevGameState === 'FACTORY_SELECT' ? factoryRentals : playerTeam;
   const displayPokemon =
@@ -30,13 +31,13 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
 
   const isMobileViewport = typeof window !== 'undefined' && window.innerWidth < 768;
   const viewStyle = {
-    backgroundColor: APP_PALETTE.page.backgroundBottom,
+    backgroundImage: `linear-gradient(180deg, ${APP_PALETTE.page.backgroundTop} 0%, ${APP_PALETTE.page.backgroundBottom} 100%)`,
   };
 
   const stripeStyle = {
     backgroundImage:
-      'linear-gradient(45deg, rgba(148,163,184,0.18) 25%, transparent 25%, transparent 50%, rgba(148,163,184,0.18) 50%, rgba(148,163,184,0.18) 75%, transparent 75%, transparent)',
-    backgroundSize: '100px 100px',
+      `linear-gradient(45deg, ${APP_PALETTE.page.stripe} 25%, transparent 25%, transparent 50%, ${APP_PALETTE.page.stripe} 50%, ${APP_PALETTE.page.stripe} 75%, transparent 75%, transparent)`,
+    backgroundSize: '96px 96px',
   };
 
   let screenContent: ReactNode = null;
@@ -90,17 +91,22 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
   }
 
   return (
-    <div className="h-[100dvh] text-slate-900 font-sans overflow-hidden select-none" style={viewStyle}>
-      <div className="fixed inset-0 pointer-events-none opacity-10">
-        <div className="absolute top-0 left-0 w-full h-full animate-barber-pole" style={stripeStyle} />
+    <div className="h-[100dvh] overflow-hidden select-none" style={viewStyle}>
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.12),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(249,115,22,0.08),_transparent_28%)]" />
+        <div
+          className={`absolute inset-0 opacity-[0.56] ${shouldReduceMotion ? '' : 'animate-barber-pole'}`}
+          style={stripeStyle}
+        />
+        <div className="absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),transparent)]" />
       </div>
 
-      <div className="max-w-6xl mx-auto h-full flex flex-col p-2 md:p-4 relative z-10 overflow-hidden">
-        <AnimatePresence>
+      <div className="relative z-10 mx-auto flex h-full max-w-[1200px] flex-col overflow-hidden px-2 pb-2 pt-[max(8px,env(safe-area-inset-top))] md:px-4 md:py-4">
+        <AnimatePresence initial={!shouldReduceMotion}>
           {isTransitioning && <TransitionOverlay key="transition-overlay-screen" />}
         </AnimatePresence>
 
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" initial={!shouldReduceMotion}>
           {screenContent}
         </AnimatePresence>
       </div>

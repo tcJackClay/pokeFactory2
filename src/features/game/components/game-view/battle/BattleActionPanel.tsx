@@ -1,65 +1,80 @@
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { BattleBagPanel } from './BattleBagPanel';
 import { BattleLogPanel } from './BattleLogPanel';
 import { BattleMainMenu } from './BattleMainMenu';
 import { BattleMovesPanel } from './BattleMovesPanel';
 import { BattlePokemonPanel } from './BattlePokemonPanel';
-import { BattleSpecialTriggersNearHp } from './BattleSpecialTriggersNearHp';
+import { BattleStatusPanel } from './BattleStatusPanel';
 import type { GameViewSectionProps } from '../shared';
 
 export function BattleActionPanel({ viewModel }: GameViewSectionProps) {
-  const { isMessageProcessing, turn, battleMenuTab, activeBuffs, specialModeUnlocked, specialBossBattleActive, battleSpecialUsage, t } = viewModel;
+  const {
+    isMessageProcessing,
+    turn,
+    battleMenuTab,
+    activeBuffs,
+    specialBossBattleActive,
+    battleSpecialUsage,
+    t,
+  } = viewModel;
+  const shouldReduceMotion = useReducedMotion();
+
+  const stateBadges = [
+    activeBuffs.atk ? { key: 'atk', label: t('atkUp'), tone: 'text-red-700 bg-red-50 border-red-200' } : null,
+    activeBuffs.def ? { key: 'def', label: t('defUp'), tone: 'text-blue-700 bg-blue-50 border-blue-200' } : null,
+    specialBossBattleActive ? { key: 'boss', label: t('specialBossBattle'), tone: 'text-orange-700 bg-orange-50 border-orange-200' } : null,
+    Object.values(battleSpecialUsage).some(Boolean)
+      ? { key: 'special', label: t('specialUsed'), tone: 'text-violet-700 bg-violet-50 border-violet-200' }
+      : null,
+  ].filter((badge): badge is { key: string; label: string; tone: string } => Boolean(badge));
+
+  const showPlayerConsole = !isMessageProcessing && turn !== 'ENEMY';
+  const activePanelKey = battleMenuTab === 'MOVES' ? 'MAIN' : battleMenuTab;
 
   return (
-    <div className="relative flex-[3] bg-white shadow-2xl border-4 sm:border-8 border-slate-900 overflow-hidden">
+    <div className="pf-battle-console relative flex min-h-[244px] flex-[1.05] flex-col overflow-hidden sm:min-h-0 sm:flex-[3]">
       <AnimatePresence mode="wait">
-        {isMessageProcessing || turn === 'ENEMY' ? (
-          <BattleLogPanel viewModel={viewModel} />
-        ) : (
+        {showPlayerConsole ? (
           <motion.div
             key="interaction-panel"
-            initial={{ opacity: 0 }}
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-white grid grid-cols-1 md:grid-cols-2 gap-0 overflow-y-auto custom-scrollbar"
+            className="absolute inset-0 flex flex-col p-3 sm:p-4"
           >
-            <div className="p-3 sm:p-4 border-b-4 md:border-b-0 md:border-r-4 border-slate-900 bg-slate-50">
-              <div className="h-full grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-3">
-                <div className="flex flex-col justify-center">
-                  <div className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-1">{t('commandPhase')}</div>
-                  <div className="text-lg sm:text-2xl font-black tracking-tight text-slate-900">{t('whatToDo')}</div>
-                  <div className="mt-2.5 flex flex-wrap gap-1.5">
-                    {activeBuffs.atk && (
-                      <span className="bg-red-500 text-white text-[8px] sm:text-[9px] px-2 py-0.5 font-black border border-red-700">{t('atkUp')}</span>
-                    )}
-                    {activeBuffs.def && (
-                      <span className="bg-blue-500 text-white text-[8px] sm:text-[9px] px-2 py-0.5 font-black border border-blue-700">{t('defUp')}</span>
-                    )}
-                    <span className={`text-[8px] sm:text-[9px] px-2 py-0.5 font-black border ${specialModeUnlocked ? 'bg-violet-600 text-white border-violet-800' : 'bg-slate-300 text-slate-600 border-slate-400'}`}>
-                      {specialModeUnlocked ? t('specialModeReady') : t('specialModeLocked')}
-                    </span>
-                    {specialBossBattleActive && (
-                      <span className="bg-orange-500 text-white text-[8px] sm:text-[9px] px-2 py-0.5 font-black border border-orange-700">{t('specialBossBattle')}</span>
-                    )}
-                    {(battleSpecialUsage.MEGA || battleSpecialUsage.DYNAMAX || battleSpecialUsage.TERA) && (
-                      <span className="bg-violet-800 text-white text-[8px] sm:text-[9px] px-2 py-0.5 font-black border border-violet-950">{t('specialUsed')}</span>
-                    )}
-                  </div>
-                </div>
-
-                <BattleSpecialTriggersNearHp viewModel={viewModel} />
+            {stateBadges.length > 0 && (
+              <div className="mb-3 flex flex-wrap gap-2">
+                {stateBadges.map((badge) => (
+                  <span
+                    key={badge.key}
+                    className={`inline-flex min-h-[30px] items-center rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] ${badge.tone}`}
+                  >
+                    {badge.label}
+                  </span>
+                ))}
               </div>
-            </div>
+            )}
 
-            <div className="p-2 sm:p-3 bg-white relative">
-              <AnimatePresence mode="wait">
-                {turn === 'PLAYER' && battleMenuTab === 'MAIN' && <BattleMainMenu viewModel={viewModel} />}
-                {turn === 'PLAYER' && battleMenuTab === 'BAG' && <BattleBagPanel viewModel={viewModel} />}
-                {turn === 'PLAYER' && battleMenuTab === 'POKEMON' && <BattlePokemonPanel viewModel={viewModel} />}
-                {turn === 'PLAYER' && battleMenuTab === 'MOVES' && <BattleMovesPanel viewModel={viewModel} />}
-              </AnimatePresence>
-            </div>
+            <BattleMainMenu viewModel={viewModel} />
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activePanelKey}
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+                transition={{ duration: shouldReduceMotion ? 0.01 : 0.18, ease: 'easeOut' }}
+                className="pf-battle-console-panel mt-3 min-h-0 flex-1 overflow-hidden"
+              >
+                {(battleMenuTab === 'MAIN' || battleMenuTab === 'MOVES') && <BattleMovesPanel viewModel={viewModel} />}
+                {battleMenuTab === 'STATUS' && <BattleStatusPanel viewModel={viewModel} />}
+                {battleMenuTab === 'BAG' && <BattleBagPanel viewModel={viewModel} />}
+                {battleMenuTab === 'POKEMON' && <BattlePokemonPanel viewModel={viewModel} />}
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
+        ) : (
+          <BattleLogPanel viewModel={viewModel} />
         )}
       </AnimatePresence>
     </div>

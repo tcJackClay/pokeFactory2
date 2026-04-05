@@ -13,15 +13,10 @@ interface TopRecordPanelProps {
 export function TopRecordPanel({ currentLanguage, coins, stage, streak, battleIndexOverride }: TopRecordPanelProps) {
   const isZh = currentLanguage.startsWith('zh');
 
-  const copy = {
-    tokens: isZh ? '代币' : 'Coins',
-    round: isZh ? '轮次' : 'Round',
-    streak: isZh ? '连胜' : 'Streak',
-  };
-
   const panelStyle = {
     backgroundColor: APP_PALETTE.surface.panel,
     borderColor: APP_PALETTE.border.soft,
+    boxShadow: APP_PALETTE.shadow.panel,
   };
 
   const chipStyle = {
@@ -33,29 +28,35 @@ export function TopRecordPanel({ currentLanguage, coins, stage, streak, battleIn
   const battleIndex = battleIndexOverride ?? getBattleIndexInSet(stage, battlesPerSet);
 
   const items = [
-    { key: 'tokens', label: copy.tokens, value: String(coins), icon: Coins, iconClass: 'text-amber-500' },
-    { key: 'round', label: copy.round, value: `${battleIndex}/${battlesPerSet}`, icon: Hash, iconClass: 'text-sky-600' },
-    { key: 'streak', label: copy.streak, value: String(streak), icon: Flame, iconClass: 'text-orange-500' },
+    { key: 'tokens', label: isZh ? '代币' : 'Coins', value: String(coins), icon: Coins, iconClass: 'text-amber-500' },
+    { key: 'round', label: isZh ? '轮次' : 'Round', value: `${battleIndex}/${battlesPerSet}`, icon: Hash, iconClass: 'text-sky-600' },
+    { key: 'streak', label: isZh ? '连胜' : 'Streak', value: String(streak), icon: Flame, iconClass: 'text-orange-500' },
   ] as const;
 
   return (
-    <div className="rounded-xl shadow-sm border overflow-hidden" style={panelStyle}>
-      <div className="h-1 bg-[linear-gradient(90deg,#ef4444_0%,#ef4444_48%,#f8fafc_50%,#2563eb_52%,#2563eb_100%)]" />
-      <div className="px-2 py-1.5">
-        <div className="grid gap-1.5" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
+    <div className="pf-panel overflow-hidden" style={panelStyle}>
+      <div className="h-1.5 bg-[linear-gradient(90deg,#ef4444_0%,#ef4444_38%,#f8fafc_50%,#2563eb_62%,#2563eb_100%)]" />
+      <div className="px-3 py-2">
+        <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
           {items.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.key}
-                className="flex items-center justify-center gap-1 px-2 py-1 border rounded-lg text-[11px] font-black text-slate-900 min-w-0"
+                className="pf-hud-chip min-w-0 px-2.5 py-2"
                 style={chipStyle}
                 title={item.label}
                 aria-label={item.label}
               >
-                <Icon className={`w-3 h-3 shrink-0 ${item.iconClass}`} />
-                <span className="truncate">{item.value}</span>
-                <span className="truncate text-[10px] font-semibold text-slate-500">{item.label}</span>
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/70 bg-white shadow-sm">
+                    <Icon className={`h-3.5 w-3.5 ${item.iconClass}`} />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="pf-data-value truncate">{item.value}</div>
+                    <div className="mt-0.5 truncate text-[10px] font-bold text-slate-500">{item.label}</div>
+                  </div>
+                </div>
               </div>
             );
           })}

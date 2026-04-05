@@ -1,4 +1,4 @@
-import type { GamePokemon } from '../types';
+import type { FieldState, FieldTurns, GamePokemon } from '../types';
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
 const SAVE_SCHEMA_VERSION = 5 as const;
@@ -29,9 +29,11 @@ export interface BattleResumeSnapshot {
   battleSpecialUsage: BattleResumeSpecialUsageState;
   enemySpecialUsage: BattleResumeSpecialUsageState;
   turn: 'PLAYER' | 'ENEMY';
-  battleMenuTab: 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG';
+  battleMenuTab: 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG' | 'STATUS';
   weather: 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail';
   weatherTurns: number;
+  fieldState: FieldState[];
+  fieldTurns: FieldTurns;
   activeBuffs: { atk: boolean; def: boolean };
   enemyBuffs: { atk: boolean; def: boolean };
   factoryRentals: GamePokemon[];
@@ -177,6 +179,49 @@ function sanitizeGamePokemonArray(value: unknown): GamePokemon[] {
   return value.filter((entry) => entry && typeof entry === 'object') as GamePokemon[];
 }
 
+const VALID_FIELD_STATES: FieldState[] = [
+  'electric_terrain',
+  'grassy_terrain',
+  'misty_terrain',
+  'psychic_terrain',
+  'trick_room',
+  'magic_room',
+  'wonder_room',
+  'gravity',
+  'fairy_lock',
+];
+
+function isFieldState(value: unknown): value is FieldState {
+  return typeof value === 'string' && VALID_FIELD_STATES.includes(value as FieldState);
+}
+
+function sanitizeFieldStateList(value: unknown): FieldState[] {
+  if (Array.isArray(value)) {
+    return [...new Set(value.filter(isFieldState))];
+  }
+  if (isFieldState(value)) {
+    return [value];
+  }
+  return [];
+}
+
+function sanitizeFieldTurns(value: unknown, activeStates: FieldState[]): FieldTurns {
+  if (typeof value === 'number' && Number.isFinite(value) && activeStates.length === 1) {
+    return { [activeStates[0]]: Math.max(0, Math.floor(value)) };
+  }
+  if (!value || typeof value !== 'object') return {};
+
+  const source = value as Record<string, unknown>;
+  const normalized: FieldTurns = {};
+  for (const field of activeStates) {
+    const raw = source[field];
+    if (typeof raw === 'number' && Number.isFinite(raw) && raw > 0) {
+      normalized[field] = Math.floor(raw);
+    }
+  }
+  return normalized;
+}
+
 function sanitizeBattleResume(value: unknown): FactoryBattleResume {
   const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
   if (source.status !== 'READY') {
@@ -194,6 +239,7 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
   const battleMenuTab = source.battleMenuTab === 'MOVES'
     || source.battleMenuTab === 'POKEMON'
     || source.battleMenuTab === 'BAG'
+    || source.battleMenuTab === 'STATUS'
     ? source.battleMenuTab
     : 'MAIN';
   const weather = source.weather === 'sunny'
@@ -202,6 +248,8 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
     || source.weather === 'hail'
     ? source.weather
     : 'none';
+  const fieldState = sanitizeFieldStateList(source.fieldState);
+  const fieldTurns = sanitizeFieldTurns(source.fieldTurns, fieldState);
   const stage = sanitizePositiveInt(source.stage, 0);
   const playerTeam = sanitizeGamePokemonArray(source.playerTeam);
   const enemyTeam = sanitizeGamePokemonArray(source.enemyTeam);
@@ -230,6 +278,8 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
     battleMenuTab,
     weather,
     weatherTurns: sanitizePositiveInt(source.weatherTurns, 0),
+    fieldState,
+    fieldTurns,
     activeBuffs: sanitizeAtkDefFlags(source.activeBuffs),
     enemyBuffs: sanitizeAtkDefFlags(source.enemyBuffs),
     factoryRentals: sanitizeGamePokemonArray(source.factoryRentals),

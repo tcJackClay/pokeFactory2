@@ -1,4 +1,4 @@
-import { ChevronRight, Coins, Dna, RefreshCw } from 'lucide-react';
+import { ChevronRight, Coins, Dna, RefreshCw, Sparkles, Trophy } from 'lucide-react';
 import type { GameViewSectionProps } from '../shared';
 
 export function RewardHeader({ viewModel }: GameViewSectionProps) {
@@ -9,6 +9,7 @@ export function RewardHeader({ viewModel }: GameViewSectionProps) {
     pendingRewardAction,
     loading,
     gameState,
+    currentLanguage,
     t,
     rerollRewards,
     nextStage,
@@ -17,63 +18,68 @@ export function RewardHeader({ viewModel }: GameViewSectionProps) {
     setGameState,
   } = viewModel;
 
+  const isZh = currentLanguage.startsWith('zh');
   const canRerollRewards = coins >= 50 + rerollCount * 50;
 
   return (
-    <div className="flex justify-between items-center mb-6 px-4 flex-none">
-      <div className="flex items-center gap-4">
-        <div className="bg-yellow-400 px-6 py-2 skew-x-[-12deg] shadow-lg">
-          <h2 className="text-2xl font-black italic tracking-tighter skew-x-[12deg] text-white uppercase">{t('victory')}</h2>
+    <div className="relative z-10 mb-4 flex flex-col gap-4">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+        <div>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-black text-amber-700 shadow-sm">
+              <Trophy className="h-4 w-4" />
+              {t('victory')}
+            </div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm font-black text-slate-700 shadow-sm">
+              <Coins className="h-4 w-4 text-amber-500" />
+              {coins}
+            </div>
+          </div>
         </div>
-        <div className="bg-slate-900 px-4 py-2 skew-x-[-10deg] shadow-md flex items-center gap-2">
-          <Coins className="w-4 h-4 text-yellow-400 skew-x-[10deg]" />
-          <span className="text-white font-black italic text-sm skew-x-[10deg]">{coins}</span>
-        </div>
-      </div>
 
-      <div className="flex items-center gap-2">
-        {!rewardChoiceMade && (
-          <button
-            onClick={rerollRewards}
-            disabled={!canRerollRewards || loading}
-            className={`px-3 md:px-4 py-2 font-black italic text-[10px] md:text-xs transition-all skew-x-[-10deg] flex items-center gap-2 ${
-              !canRerollRewards
-                ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                : 'bg-yellow-400 text-slate-900 hover:bg-yellow-500 shadow-md'
-            }`}
-          >
-            <span className="skew-x-[10deg] inline-block flex items-center gap-1 md:gap-2">
-              <RefreshCw className={`w-3 h-3 ${loading ? 'animate-spin' : ''}`} />
-              {t('reroll')}
-              <span className="bg-slate-900/10 px-1.5 py-0.5 rounded text-[8px] md:text-[10px] flex items-center gap-1">
-                <Coins className="w-2 h-2" />
+        <div className="flex flex-wrap items-center gap-2">
+          {!rewardChoiceMade && (
+            <button
+              type="button"
+              onClick={rerollRewards}
+              disabled={!canRerollRewards || loading}
+              className="pf-action-button px-4"
+            >
+              <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+              <span>{t('reroll')}</span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-black/6 px-2 py-0.5 text-[10px] tracking-normal">
+                <Coins className="h-3 w-3" />
                 {50 + rerollCount * 50}
               </span>
-            </span>
-          </button>
-        )}
-        <button
-          onClick={() => {
-            setInfoPokemonIdx(0);
-            setPrevGameState(gameState);
-            setGameState('POKEMON_INFO');
-          }}
-          className="px-4 py-2 bg-slate-100 text-slate-500 font-black italic text-xs hover:bg-slate-200 transition-all skew-x-[-10deg]"
-        >
-          <span className="skew-x-[10deg] inline-block flex items-center gap-2">
-            <Dna className="w-3 h-3" /> {t('viewTeam')}
-          </span>
-        </button>
-        {rewardChoiceMade && !pendingRewardAction && (
+            </button>
+          )}
+
           <button
-            onClick={nextStage}
-            className="px-8 py-2 bg-blue-600 text-white font-black italic text-sm hover:bg-blue-700 transition-all skew-x-[-10deg] shadow-lg animate-pulse"
+            type="button"
+            onClick={() => {
+              setInfoPokemonIdx(0);
+              setPrevGameState(gameState);
+              setGameState('POKEMON_INFO');
+            }}
+            className="pf-action-button px-4"
           >
-            <span className="skew-x-[10deg] inline-block flex items-center gap-2">
-              {t('nextStep')} <ChevronRight className="w-4 h-4" />
-            </span>
+            <Dna className="h-4 w-4" />
+            <span>{t('viewTeam')}</span>
           </button>
-        )}
+
+          {rewardChoiceMade && !pendingRewardAction && (
+            <button
+              type="button"
+              data-tone="primary"
+              onClick={nextStage}
+              className="pf-action-button px-5"
+            >
+              <Sparkles className="h-4 w-4" />
+              <span>{t('nextStep')}</span>
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -42,6 +42,8 @@ export interface Move {
   type: string;
   damage_class: string;
   pp?: number;
+  currentPp?: number;
+  maxPp?: number;
   zhDescription?: string;
   flavor_text_entries?: { flavor_text: string; language: { name: string } }[];
   ailment?: string;
@@ -119,9 +121,20 @@ export interface Item {
 }
 
 export type Weather = 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail';
+export type FieldState =
+  | 'electric_terrain'
+  | 'grassy_terrain'
+  | 'misty_terrain'
+  | 'psychic_terrain'
+  | 'trick_room'
+  | 'magic_room'
+  | 'wonder_room'
+  | 'gravity'
+  | 'fairy_lock';
+export type FieldTurns = Partial<Record<FieldState, number>>;
 
 export type GameState = 'BOOT' | 'START' | 'MENU' | 'BASE' | 'BATTLE' | 'REWARD' | 'LEARN_MOVE' | 'POKEMON_INFO' | 'GAMEOVER' | 'STARTER_SELECT' | 'EVOLUTION' | 'FACTORY_SELECT' | 'FACTORY_SWAP' | 'ROUND_RESULT' | 'COLLECTION' | 'EVENTS' | 'SETTINGS';
-export type BattleMenuTab = 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG';
+export type BattleMenuTab = 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG' | 'STATUS';
 
 export interface LanguageConfig {
   code: string;
