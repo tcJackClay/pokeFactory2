@@ -5,6 +5,10 @@ import type { GameViewSectionProps } from '../shared';
 export function BattlePokemonPanel({ viewModel }: GameViewSectionProps) {
   const { playerTeam, gameState, t, getLocalized, switchPokemon, setInfoPokemonIdx, setPrevGameState, setGameState } = viewModel;
   const shouldReduceMotion = useReducedMotion();
+  const mustChooseReplacement = playerTeam[0]?.currentHp <= 0 && playerTeam.some((pokemon, index) => index !== 0 && pokemon.currentHp > 0);
+  const forcedSwitchHint = viewModel.currentLanguage.startsWith('zh')
+    ? '请选择一只仍可战斗的宝可梦出战。'
+    : 'Choose a Pokemon that can still battle.';
 
   return (
     <motion.div
@@ -15,20 +19,32 @@ export function BattlePokemonPanel({ viewModel }: GameViewSectionProps) {
       transition={{ duration: shouldReduceMotion ? 0.01 : 0.18, ease: 'easeOut' }}
       className="flex h-full flex-col p-3 sm:p-4"
     >
+      {mustChooseReplacement && (
+        <div className="mb-3 rounded-[18px] border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)]">
+          {forcedSwitchHint}
+        </div>
+      )}
+
       <div className="custom-scrollbar grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
         {playerTeam.map((pokemon, index) => {
           const hpRatio = pokemon.maxHp > 0 ? pokemon.currentHp / pokemon.maxHp : 0;
+          const isLead = index === 0;
+          const isFainted = pokemon.currentHp <= 0;
           const canSwitch = pokemon.currentHp > 0 && index !== 0;
 
           return (
             <div
               key={`${pokemon.id}-${index}`}
               className={`rounded-[20px] border p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)] ${
-                index === 0
+                isLead && isFainted
+                  ? 'border-rose-200 bg-rose-50/90'
+                  : isLead
                   ? 'border-blue-200 bg-blue-50/80'
-                  : pokemon.currentHp <= 0
+                  : isFainted
                     ? 'border-slate-200 bg-slate-100/80 opacity-70'
-                    : 'border-slate-200 bg-white/90'
+                    : mustChooseReplacement && canSwitch
+                      ? 'border-emerald-200 bg-emerald-50/70'
+                      : 'border-slate-200 bg-white/90'
               }`}
             >
               <div className="flex items-center gap-3">
@@ -70,7 +86,9 @@ export function BattlePokemonPanel({ viewModel }: GameViewSectionProps) {
                   onClick={() => switchPokemon(index)}
                   className={`inline-flex min-h-[40px] items-center justify-center gap-1 rounded-[14px] border px-3 py-2 text-[10px] font-black uppercase tracking-[0.12em] transition-all ${
                     canSwitch
-                      ? 'border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100'
+                      ? mustChooseReplacement
+                        ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                        : 'border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100'
                       : 'border-slate-200 bg-slate-100 text-slate-400'
                   }`}
                 >

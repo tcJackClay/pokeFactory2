@@ -28,7 +28,11 @@ export function BattleActionPanel({ viewModel }: GameViewSectionProps) {
       : null,
   ].filter((badge): badge is { key: string; label: string; tone: string } => Boolean(badge));
 
-  const showPlayerConsole = !isMessageProcessing && turn !== 'ENEMY';
+  const showPlayerConsole = !isMessageProcessing
+    && turn !== 'ENEMY'
+    && !viewModel.isTransitioning
+    && !viewModel.trainerIntroActive
+    && !viewModel.trainerIntroAwaitingContinue;
   const activePanelKey = battleMenuTab === 'MOVES' ? 'MAIN' : battleMenuTab;
 
   return (

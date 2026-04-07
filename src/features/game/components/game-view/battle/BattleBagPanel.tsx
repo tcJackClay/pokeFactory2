@@ -2,8 +2,9 @@ import { motion, useReducedMotion } from 'motion/react';
 import type { GameViewSectionProps } from '../shared';
 
 export function BattleBagPanel({ viewModel }: GameViewSectionProps) {
-  const { inventory, t, getLocalized, getLocalizedDesc, useItem } = viewModel;
+  const { inventory, playerTeam, t, getLocalized, getLocalizedDesc, useItem } = viewModel;
   const shouldReduceMotion = useReducedMotion();
+  const mustChooseReplacement = playerTeam[0]?.currentHp <= 0 && playerTeam.some((pokemon, index) => index !== 0 && pokemon.currentHp > 0);
 
   return (
     <motion.div
@@ -20,8 +21,13 @@ export function BattleBagPanel({ viewModel }: GameViewSectionProps) {
             <button
               key={`${item.id}-${index}`}
               type="button"
+              disabled={mustChooseReplacement}
               onClick={() => useItem(item, index)}
-              className="min-h-[96px] rounded-[18px] border border-slate-200 bg-white/90 p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.90)] transition-all hover:border-blue-200 hover:bg-blue-50/60 active:scale-[0.98]"
+              className={`min-h-[96px] rounded-[18px] border border-slate-200 bg-white/90 p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.90)] transition-all active:scale-[0.98] ${
+                mustChooseReplacement
+                  ? 'cursor-not-allowed opacity-60 saturate-75'
+                  : 'hover:border-blue-200 hover:bg-blue-50/60'
+              }`}
             >
               <div className="mt-1 text-sm font-black text-slate-900">{getLocalized(item)}</div>
               <div className="mt-2 line-clamp-2 text-[11px] font-semibold leading-5 text-slate-500">

@@ -22,6 +22,7 @@ import { getFactoryBstBand } from '../config/factoryDifficultyBands';
 import { FACTORY_REWARD_CONFIG } from '../config/factoryRewards';
 import { getReferenceSetsByRange, hasReferenceFrontierMonId, type FactoryReferenceSet } from '../config/factoryReferenceSets';
 import { getReferenceRangeByChallenge, inReferenceRange } from '../config/factoryReferenceRanges';
+import { getFactorySpeciesIndexEntry } from '../config/factorySpeciesIndex';
 import { FACTORY_BANNED_SPECIES_IDS, isFactoryBannedSpecies } from '../config/factorySpeciesRules';
 import { selectFactoryTrainerTemplate, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools';
@@ -31,6 +32,7 @@ import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, Tr
 interface UseFactoryFlowParams {
   selectedGens: number[];
   startLevel: number;
+  developerMode: boolean;
   stage: number;
   totalRents: number;
   specialModeUnlocked: boolean;
@@ -59,6 +61,8 @@ interface UseFactoryFlowParams {
   setGameState: Dispatch<SetStateAction<GameState>>;
   setPlayerTeam: Dispatch<SetStateAction<GamePokemon[]>>;
   setIsTransitioning: Dispatch<SetStateAction<boolean>>;
+  setTrainerIntroActive: Dispatch<SetStateAction<boolean>>;
+  setTrainerIntroAwaitingContinue: Dispatch<SetStateAction<boolean>>;
   setEnemyTeam: Dispatch<SetStateAction<GamePokemon[]>>;
   setEnemy: Dispatch<SetStateAction<GamePokemon | null>>;
   setCurrentEnemyTrainer: Dispatch<SetStateAction<FactoryTrainerTemplate | null>>;
@@ -106,6 +110,7 @@ interface FactoryPoolCandidate {
   itemId: string;
   quality: number;
   stage: EvolutionStage;
+  source: 'reference' | 'trainer-pool' | 'global-pool';
 }
 
 type EvolutionStage = 'BASE' | 'MID' | 'FINAL';
@@ -128,6 +133,8 @@ const EVOLUTION_STAGE_WEIGHTS_BY_CHALLENGE: EvolutionStageWeights[] = [
   { BASE: 9, MID: 28, FINAL: 63 },
   { BASE: 5, MID: 22, FINAL: 73 },
 ];
+
+const FACTORY_TRAINER_INTRO_DURATION_MS = 900;
 
 function getEvolutionStageWeights(challengeNum: number): EvolutionStageWeights {
   const idx = Math.max(0, Math.min(EVOLUTION_STAGE_WEIGHTS_BY_CHALLENGE.length - 1, challengeNum));
@@ -394,6 +401,7 @@ function getHeldItemBySlot(slot: number, setNo: number): string {
 export function useFactoryFlow({
   selectedGens,
   startLevel,
+  developerMode,
   stage,
   totalRents,
   specialModeUnlocked,
@@ -422,6 +430,8 @@ export function useFactoryFlow({
   setGameState,
   setPlayerTeam,
   setIsTransitioning,
+  setTrainerIntroActive,
+  setTrainerIntroAwaitingContinue,
   setEnemyTeam,
   setEnemy,
   setCurrentEnemyTrainer,
@@ -442,15 +452,10 @@ export function useFactoryFlow({
   const rentalPrefetchInFlightRef = useRef<RentalDraftPrefetchInFlight | null>(null);
   const rentalPrefetchTokenRef = useRef(0);
   const confirmRentalsInFlightRef = useRef(false);
-  const transitionTimerRef = useRef<number | null>(null);
   const usedTrainerIdsBySetRef = useRef<Map<number, Set<string>>>(new Map());
   const evolutionStageCacheRef = useRef<Map<number, EvolutionStage>>(new Map());
-
-  useEffect(() => () => {
-    if (transitionTimerRef.current !== null) {
-      window.clearTimeout(transitionTimerRef.current);
-    }
-  }, []);
+  const trainerIntroContinueResolverRef = useRef<(() => void) | null>(null);
+  const debugFactoryEnabled = import.meta.env.DEV || developerMode;
 
   const getEvolutionStage = useCallback(async (speciesId: number): Promise<EvolutionStage> => {
     const cached = evolutionStageCacheRef.current.get(speciesId);
@@ -472,10 +477,51 @@ export function useFactoryFlow({
     }
   }, []);
 
+  const getFactoryCandidateMeta = useCallback(async (
+    identifier: PokemonIdentifier,
+  ): Promise<{ pokemonId: number; bst: number; stage: EvolutionStage } | null> => {
+    try {
+      const indexed = await getFactorySpeciesIndexEntry(identifier);
+      if (indexed) {
+        evolutionStageCacheRef.current.set(indexed.speciesId, indexed.evolutionStage);
+        return {
+          pokemonId: indexed.pokemonId,
+          bst: indexed.bst,
+          stage: indexed.evolutionStage,
+        };
+      }
+    } catch {
+      // Fall through to runtime API lookup when the local index is unavailable.
+    }
+
+    try {
+      const pokemon = await fetchPokemonLite(identifier);
+      return {
+        pokemonId: pokemon.id,
+        bst: getPokemonBstFromRaw(pokemon),
+        stage: await getEvolutionStage(getSpeciesIdFromRawPokemon(pokemon)),
+      };
+    } catch {
+      return null;
+    }
+  }, [getEvolutionStage]);
+
+  const debugFactoryLog = useCallback((event: string, payload?: Record<string, unknown>) => {
+    if (!debugFactoryEnabled) return;
+    if (payload) {
+      console.info(`[FactoryFlow:${event}]`, payload);
+      return;
+    }
+    console.info(`[FactoryFlow:${event}]`);
+  }, [debugFactoryEnabled]);
+
   const resetBattlePreview = useCallback(() => {
     setEnemy(null);
     setEnemyTeam([]);
     setCurrentEnemyTrainer(null);
+    setTrainerIntroActive(false);
+    setTrainerIntroAwaitingContinue(false);
+    trainerIntroContinueResolverRef.current = null;
     setBattleLog([]);
     setTurn('PLAYER');
     setBattleMenuTab('MAIN');
@@ -495,6 +541,8 @@ export function useFactoryFlow({
     setEnemyTeam,
     setFieldState,
     setFieldTurns,
+    setTrainerIntroActive,
+    setTrainerIntroAwaitingContinue,
     setTurn,
     setWeather,
     setWeatherTurns,
@@ -540,17 +588,20 @@ export function useFactoryFlow({
   }, [setPlayerTeam]);
 
   const startBattleTransition = useCallback(() => {
-    if (transitionTimerRef.current !== null) {
-      window.clearTimeout(transitionTimerRef.current);
-    }
-
     setIsTransitioning(true);
+    setTrainerIntroActive(false);
+    setTrainerIntroAwaitingContinue(false);
+    trainerIntroContinueResolverRef.current = null;
     setGameState('BATTLE');
-    transitionTimerRef.current = window.setTimeout(() => {
-      setIsTransitioning(false);
-      transitionTimerRef.current = null;
-    }, 1200);
-  }, [setGameState, setIsTransitioning]);
+  }, [setGameState, setIsTransitioning, setTrainerIntroActive, setTrainerIntroAwaitingContinue]);
+
+  const continueTrainerIntro = useCallback(() => {
+    if (!trainerIntroContinueResolverRef.current) return;
+    const resolve = trainerIntroContinueResolverRef.current;
+    trainerIntroContinueResolverRef.current = null;
+    setTrainerIntroAwaitingContinue(false);
+    resolve();
+  }, [setTrainerIntroAwaitingContinue]);
 
   const buildEncounterContextKey = useCallback((currentStage: number, overrides?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[] }) => {
     const factoryPool = overrides?.factoryPool ?? factoryRentals;
@@ -575,15 +626,37 @@ export function useFactoryFlow({
     return [startLevel, totalRents, selectedGensKey].join('|');
   }, [selectedGens, startLevel, totalRents]);
 
+  const getTrainerReferenceSetPool = useCallback(async (allowedFrontierMonIds?: Set<number>) => {
+    if (!allowedFrontierMonIds || allowedFrontierMonIds.size === 0) {
+      return [] as FactoryReferenceSet[];
+    }
+
+    const frontierIds = [...allowedFrontierMonIds].sort((a, b) => a - b);
+    const minId = frontierIds[0];
+    const maxId = frontierIds[frontierIds.length - 1];
+    if (minId === undefined || maxId === undefined) {
+      return [] as FactoryReferenceSet[];
+    }
+
+    const rangeSets = await getReferenceSetsByRange(minId, maxId);
+    return rangeSets.filter((entry) =>
+      allowedFrontierMonIds.has(entry.frontierMonId)
+      && selectedGens.includes(entry.gen),
+    );
+  }, [selectedGens]);
+
   const buildFactoryPool = useCallback(async ({
     count,
     level,
     qualityBias,
     perSlotQualityBiases,
     referenceChallengeNum,
+    selectionMode = 'GLOBAL_RANDOM',
     useBetterRange,
     perSlotUseBetterRange,
     allowedFrontierMonIds,
+    trainerSpeciesHint,
+    trainerLabel,
     blockedSpecies = new Set<number>(),
     fixedIv,
     perSlotFixedIvs,
@@ -598,9 +671,12 @@ export function useFactoryFlow({
     qualityBias: number;
     perSlotQualityBiases?: number[];
     referenceChallengeNum?: number;
+    selectionMode?: 'GLOBAL_RANDOM' | 'TRAINER_POOL_FIRST';
     useBetterRange?: boolean;
     perSlotUseBetterRange?: boolean[];
     allowedFrontierMonIds?: Set<number>;
+    trainerSpeciesHint?: Set<number>;
+    trainerLabel?: string;
     blockedSpecies?: Set<number>;
     fixedIv: number;
     perSlotFixedIvs?: number[];
@@ -614,9 +690,26 @@ export function useFactoryFlow({
     const pickedItems = new Set<string>();
     const mons: GamePokemon[] = [];
     const slotRangeSetCache = new Map<string, Awaited<ReturnType<typeof getReferenceSetsByRange>>>();
+    const trainerReferenceSets = selectionMode === 'TRAINER_POOL_FIRST'
+      ? await getTrainerReferenceSetPool(allowedFrontierMonIds)
+      : [];
     const maxAttempts = count * 25;
-    const useReferenceSets = FACTORY_BATTLE_CONFIG.useReferenceSetPool;
+    const useReferenceSets = FACTORY_BATTLE_CONFIG.useReferenceSetPool || trainerReferenceSets.length > 0;
+    const selectedSources: Array<FactoryPoolCandidate['source']> = [];
     let attempts = 0;
+
+    debugFactoryLog('buildFactoryPool:start', {
+      count,
+      level,
+      selectionMode,
+      trainerLabel,
+      trainerReferenceSetCount: trainerReferenceSets.length,
+      trainerSpeciesHintCount: trainerSpeciesHint?.size ?? 0,
+      blockedSpeciesCount: blockedSpecies.size,
+      qualityBias,
+      referenceChallengeNum,
+      isBoss,
+    });
 
     while (mons.length < count && attempts < maxAttempts) {
       attempts += 1;
@@ -630,13 +723,16 @@ export function useFactoryFlow({
       if (useReferenceSets) {
         const challengeForRange = referenceChallengeNum ?? 0;
         const slotRange = getReferenceRangeByChallenge(level, challengeForRange, slotUseBetterRange);
-        const slotRangeKey = `${slotRange.min}-${slotRange.max}`;
-        if (!slotRangeSetCache.has(slotRangeKey)) {
-          const rangeSets = await getReferenceSetsByRange(slotRange.min, slotRange.max);
-          slotRangeSetCache.set(slotRangeKey, rangeSets);
+        let loadedSlotRangeSets = trainerReferenceSets;
+        if (selectionMode !== 'TRAINER_POOL_FIRST') {
+          const slotRangeKey = `${slotRange.min}-${slotRange.max}`;
+          if (!slotRangeSetCache.has(slotRangeKey)) {
+            const rangeSets = await getReferenceSetsByRange(slotRange.min, slotRange.max);
+            slotRangeSetCache.set(slotRangeKey, rangeSets);
+          }
+          loadedSlotRangeSets = slotRangeSetCache.get(slotRangeKey) ?? [];
         }
-        const slotRangeSets = slotRangeSetCache.get(slotRangeKey) ?? [];
-        const eligibleSets = slotRangeSets.filter((entry) =>
+        const eligibleSets = loadedSlotRangeSets.filter((entry) =>
           selectedGens.includes(entry.gen)
           && inReferenceRange(entry.frontierMonId, slotRange)
           && (!allowedFrontierMonIds || allowedFrontierMonIds.has(entry.frontierMonId))
@@ -649,24 +745,52 @@ export function useFactoryFlow({
           const picked = eligibleSets[Math.floor(Math.random() * eligibleSets.length)];
           if (!picked || pickedSpecies.has(picked.speciesId)) continue;
 
-          try {
-            const pokemon = await fetchPokemonLite(picked.speciesId);
-            const stage = await getEvolutionStage(getSpeciesIdFromRawPokemon(pokemon));
-            candidates.push({
-              identifier: picked.speciesId,
-              pokemonId: pokemon.id,
-              referenceSet: picked,
-              itemId: picked.heldItemId,
-              quality: getPokemonBstFromRaw(pokemon),
-              stage,
-            });
-          } catch {
-            continue;
-          }
+          const meta = await getFactoryCandidateMeta(picked.speciesId);
+          if (!meta) continue;
+
+          candidates.push({
+            identifier: picked.speciesId,
+            pokemonId: meta.pokemonId,
+            referenceSet: picked,
+            itemId: picked.heldItemId,
+            quality: meta.bst,
+            stage: meta.stage,
+            source: 'reference',
+          });
         }
       }
 
-      if (candidates.length === 0) {
+      if (candidates.length === 0 && selectionMode === 'TRAINER_POOL_FIRST' && trainerSpeciesHint && trainerSpeciesHint.size > 0) {
+        const challengeForBand = referenceChallengeNum ?? 0;
+        const bstBand = getFactoryBstBand(level, challengeForBand, slotUseBetterRange);
+        const strictBand = attempts < Math.floor(maxAttempts * 0.75);
+        const relaxedMin = Math.max(1, bstBand.min - 35);
+        const relaxedMax = bstBand.max + 45;
+        const speciesPool = [...trainerSpeciesHint];
+
+        for (let i = 0; i < sampleCount; i += 1) {
+          const speciesId = speciesPool[Math.floor(Math.random() * speciesPool.length)];
+          if (!speciesId || pickedSpecies.has(speciesId) || isFactoryBannedSpecies(speciesId)) continue;
+
+          const meta = await getFactoryCandidateMeta(speciesId);
+          if (!meta || pickedSpecies.has(meta.pokemonId) || isFactoryBannedSpecies(meta.pokemonId)) continue;
+          if (strictBand) {
+            if (meta.bst < bstBand.min || meta.bst > bstBand.max) continue;
+          } else if (meta.bst < relaxedMin || meta.bst > relaxedMax) {
+            continue;
+          }
+          candidates.push({
+            identifier: speciesId,
+            pokemonId: meta.pokemonId,
+            itemId: getHeldItemBySlot(mons.length, setNo),
+            quality: meta.bst,
+            stage: meta.stage,
+            source: 'trainer-pool',
+          });
+        }
+      }
+
+      if (candidates.length === 0 && (selectionMode === 'GLOBAL_RANDOM' || FACTORY_BATTLE_CONFIG.trainerPoolFallbackToGlobal)) {
         const challengeForBand = referenceChallengeNum ?? 0;
         const bstBand = getFactoryBstBand(level, challengeForBand, slotUseBetterRange);
         const strictBand = attempts < Math.floor(maxAttempts * 0.75);
@@ -677,26 +801,21 @@ export function useFactoryFlow({
           const identifier = await getRandomPokemonIdentifier(selectedGens);
           if (typeof identifier === 'number' && (pickedSpecies.has(identifier) || isFactoryBannedSpecies(identifier))) continue;
 
-          try {
-            const candidate = await fetchPokemonLite(identifier);
-            if (pickedSpecies.has(candidate.id) || isFactoryBannedSpecies(candidate.id)) continue;
-            const bst = getPokemonBstFromRaw(candidate);
-            if (strictBand) {
-              if (bst < bstBand.min || bst > bstBand.max) continue;
-            } else if (bst < relaxedMin || bst > relaxedMax) {
-              continue;
-            }
-            const stage = await getEvolutionStage(getSpeciesIdFromRawPokemon(candidate));
-            candidates.push({
-              identifier,
-              pokemonId: candidate.id,
-              itemId: getHeldItemBySlot(mons.length, setNo),
-              quality: bst,
-              stage,
-            });
-          } catch {
+          const meta = await getFactoryCandidateMeta(identifier);
+          if (!meta || pickedSpecies.has(meta.pokemonId) || isFactoryBannedSpecies(meta.pokemonId)) continue;
+          if (strictBand) {
+            if (meta.bst < bstBand.min || meta.bst > bstBand.max) continue;
+          } else if (meta.bst < relaxedMin || meta.bst > relaxedMax) {
             continue;
           }
+          candidates.push({
+            identifier,
+            pokemonId: meta.pokemonId,
+            itemId: getHeldItemBySlot(mons.length, setNo),
+            quality: meta.bst,
+            stage: meta.stage,
+            source: 'global-pool',
+          });
         }
       }
 
@@ -743,11 +862,23 @@ export function useFactoryFlow({
       if (hasRealItem) {
         pickedItems.add(itemId);
       }
+      selectedSources.push(picked.source);
       mons.push({ ...candidatePokemon, factoryHeldItemId: itemId });
     }
 
+    debugFactoryLog('buildFactoryPool:done', {
+      count,
+      generated: mons.length,
+      level,
+      selectionMode,
+      trainerLabel,
+      attempts,
+      selectedSources,
+      speciesIds: mons.map((pokemon) => pokemon.id),
+    });
+
     return mons;
-  }, [getEvolutionStage, selectedGens]);
+  }, [debugFactoryLog, getFactoryCandidateMeta, getTrainerReferenceSetPool, selectedGens]);
 
   const generateRentalDraft = useCallback(async () => {
     const challengeNum = getFactoryChallengeNum(1, FACTORY_REWARD_CONFIG.battlesPerSet);
@@ -848,6 +979,12 @@ export function useFactoryFlow({
       )
       : undefined;
     const useTrainerMonSetFilter = Boolean(trainerAllowedFrontierMonIds && trainerAllowedFrontierMonIds.size > 0);
+    const trainerReferenceSets = useTrainerMonSetFilter
+      ? await getTrainerReferenceSetPool(trainerAllowedFrontierMonIds)
+      : [];
+    const trainerSpeciesHint = trainerReferenceSets.length > 0
+      ? new Set<number>(trainerReferenceSets.map((entry) => entry.speciesId))
+      : undefined;
     const level = startLevel
       + (isBoss ? FACTORY_BATTLE_CONFIG.boss.extraLevel : 0)
       + (isSpecialUnlockBoss ? FACTORY_BATTLE_CONFIG.specialUnlock.bossExtraLevel : 0);
@@ -869,14 +1006,32 @@ export function useFactoryFlow({
       (_, index) => templateQualityBias + (index < trainer.betterRangeSlots ? 1 : 0),
     );
 
+    debugFactoryLog('generateEnemyEncounter:trainer', {
+      stage: currentStage,
+      setNo,
+      battleInSet,
+      challengeNum,
+      trainerId: trainer.id,
+      trainerName: trainer.trainerName,
+      facilityClass: trainer.facilityClass,
+      monSetKey: trainer.monSetKey,
+      trainerPoolSize: trainerMonSetPool?.frontierMonIds.length ?? 0,
+      referenceSetCount: trainerReferenceSets.length,
+      trainerSpeciesHintCount: trainerSpeciesHint?.size ?? 0,
+      blockedSpecies: [...blockedSpecies],
+    });
+
     const team = await buildFactoryPool({
       count: FACTORY_BATTLE_CONFIG.teamSize,
       level,
       qualityBias: templateQualityBias + (isBoss ? 1 : 0) + (isSpecialUnlockBoss ? 2 : 0),
       perSlotQualityBiases,
       referenceChallengeNum: challengeNum,
+      selectionMode: FACTORY_BATTLE_CONFIG.enemySelectionMode,
       perSlotUseBetterRange,
       allowedFrontierMonIds: useTrainerMonSetFilter ? trainerAllowedFrontierMonIds : undefined,
+      trainerSpeciesHint,
+      trainerLabel: trainer.id,
       blockedSpecies,
       fixedIv,
       setNo,
@@ -892,6 +1047,15 @@ export function useFactoryFlow({
       : team;
     const plannedTeam = assignEnemySpecialPlan(tunedTeam, isSpecialUnlockBoss ? 'BOSS' : aiTier);
 
+    debugFactoryLog('generateEnemyEncounter:result', {
+      stage: currentStage,
+      trainerId: trainer.id,
+      speciesIds: plannedTeam.map((pokemon) => pokemon.id),
+      aiTier,
+      isBoss,
+      isSpecialUnlockBoss,
+    });
+
     return {
       team: plannedTeam,
       firstEnemy: plannedTeam[0],
@@ -903,7 +1067,9 @@ export function useFactoryFlow({
     };
   }, [
     buildFactoryPool,
+    debugFactoryLog,
     factoryRentals,
+    getTrainerReferenceSetPool,
     getUsedTrainerIdsForSet,
     playerTeam,
     specialModeUnlocked,
@@ -916,8 +1082,15 @@ export function useFactoryFlow({
     options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[] },
   ) => {
     const key = buildEncounterContextKey(currentStage, options);
+    debugFactoryLog('prefetchEnemy:request', {
+      stage: currentStage,
+      key,
+      factoryPool: options?.factoryPool?.map((pokemon) => pokemon.id) ?? factoryRentals.map((pokemon) => pokemon.id),
+      playerPool: options?.playerPool?.map((pokemon) => pokemon.id) ?? playerTeam.map((pokemon) => pokemon.id),
+    });
     const cached = prefetchedEncounterRef.current;
     if (cached && cached.stage === currentStage && cached.key === key) {
+      debugFactoryLog('prefetchEnemy:cache-hit', { stage: currentStage, key });
       return true;
     }
 
@@ -933,6 +1106,12 @@ export function useFactoryFlow({
         const data = await generateEnemyEncounter(currentStage, options);
         if (prefetchRequestTokenRef.current !== requestToken) return false;
         prefetchedEncounterRef.current = { stage: currentStage, key, data };
+        debugFactoryLog('prefetchEnemy:stored', {
+          stage: currentStage,
+          key,
+          trainerId: data.trainer.id,
+          speciesIds: data.team.map((pokemon) => pokemon.id),
+        });
         return true;
       } catch (error) {
         console.error(error);
@@ -949,17 +1128,18 @@ export function useFactoryFlow({
 
     enemyPrefetchInFlightRef.current = { stage: currentStage, key, promise };
     return promise;
-  }, [buildEncounterContextKey, generateEnemyEncounter]);
+  }, [buildEncounterContextKey, debugFactoryLog, factoryRentals, generateEnemyEncounter, playerTeam]);
 
   const spawnEnemy = useCallback(async (
     currentStage: number,
-    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[] },
+    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[]; playTrainerIntro?: boolean },
   ) => {
     setLoading(true);
     let success = false;
 
     try {
       const contextKey = buildEncounterContextKey(currentStage, options);
+      debugFactoryLog('spawnEnemy:start', { stage: currentStage, contextKey });
       let cached = prefetchedEncounterRef.current;
       if (!(cached && cached.stage === currentStage && cached.key === contextKey)) {
         const inFlight = enemyPrefetchInFlightRef.current;
@@ -972,6 +1152,13 @@ export function useFactoryFlow({
       const encounter = cached && cached.stage === currentStage && cached.key === contextKey
         ? cached.data
         : await generateEnemyEncounter(currentStage, options);
+      debugFactoryLog('spawnEnemy:resolved', {
+        stage: currentStage,
+        contextKey,
+        usedPrefetch: Boolean(cached && cached.stage === currentStage && cached.key === contextKey),
+        trainerId: encounter.trainer.id,
+        speciesIds: encounter.team.map((pokemon) => pokemon.id),
+      });
       prefetchedEncounterRef.current = null;
 
       const { firstEnemy, team, isBoss, isSpecialUnlockBoss, aiTier, setNo, trainer } = encounter;
@@ -979,11 +1166,34 @@ export function useFactoryFlow({
       setBattleSpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false });
       setEnemySpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false });
       setEnemyAiTier(isSpecialUnlockBoss ? 'BOSS' : aiTier);
+      setCurrentEnemyTrainer(trainer);
+      setBattleLog([]);
+
+      if (options?.playTrainerIntro) {
+        setTrainerIntroActive(true);
+        debugFactoryLog('spawnEnemy:trainer-intro', {
+          stage: currentStage,
+          trainerId: trainer.id,
+          durationMs: FACTORY_TRAINER_INTRO_DURATION_MS,
+        });
+        await new Promise((resolve) =>
+          (typeof window !== 'undefined' && typeof window.requestAnimationFrame === 'function')
+            ? window.requestAnimationFrame(() => resolve(undefined))
+            : window.setTimeout(resolve, 16),
+        );
+        await new Promise((resolve) => window.setTimeout(resolve, FACTORY_TRAINER_INTRO_DURATION_MS));
+        setTrainerIntroAwaitingContinue(true);
+        await new Promise<void>((resolve) => {
+          trainerIntroContinueResolverRef.current = resolve;
+        });
+      }
+
       setEnemyTeam(team);
       setEnemy(firstEnemy);
-      setCurrentEnemyTrainer(trainer);
       markTrainerUsedForSet(setNo, trainer.id);
-      setBattleLog([]);
+      setTrainerIntroActive(false);
+      setTrainerIntroAwaitingContinue(false);
+      setIsTransitioning(false);
 
       if (isSpecialUnlockBoss) {
         await addMessagesSequentially([
@@ -1009,6 +1219,7 @@ export function useFactoryFlow({
       console.error(error);
       prefetchedEncounterRef.current = null;
     } finally {
+      debugFactoryLog('spawnEnemy:done', { stage: currentStage, success });
       setLoading(false);
     }
 
@@ -1016,6 +1227,7 @@ export function useFactoryFlow({
   }, [
     addMessagesSequentially,
     buildEncounterContextKey,
+    debugFactoryLog,
     generateEnemyEncounter,
     getLocalized,
     setActiveBuffs,
@@ -1033,6 +1245,9 @@ export function useFactoryFlow({
     setLoading,
     markTrainerUsedForSet,
     setSpecialBossBattleActive,
+    setIsTransitioning,
+    setTrainerIntroActive,
+    setTrainerIntroAwaitingContinue,
     setTurn,
     setWeather,
     setWeatherTurns,
@@ -1072,6 +1287,9 @@ export function useFactoryFlow({
       setStreak(0);
       setGameState('FACTORY_SELECT');
       usedTrainerIdsBySetRef.current.clear();
+      debugFactoryLog('startGame:rentals-ready', {
+        rentals: rentals.map((pokemon) => pokemon.id),
+      });
       void prefetchEnemy(1, { factoryPool: rentals, playerPool: [] });
       void prefetchRentals();
     } catch (error) {
@@ -1082,6 +1300,7 @@ export function useFactoryFlow({
     }
   }, [
     buildRentalPrefetchKey,
+    debugFactoryLog,
     generateRentalDraft,
     prefetchRentals,
     setCoins,
@@ -1211,7 +1430,7 @@ export function useFactoryFlow({
       setPlayerTeam(team);
       resetBattlePreview();
       startBattleTransition();
-      const enemyReady = await spawnEnemy(1, { factoryPool: factoryRentals, playerPool: [] });
+      const enemyReady = await spawnEnemy(1, { factoryPool: factoryRentals, playerPool: [], playTrainerIntro: true });
       if (!enemyReady) {
         setIsTransitioning(false);
         setGameState('FACTORY_SELECT');
@@ -1228,7 +1447,7 @@ export function useFactoryFlow({
     const nextStageNo = stage + 1;
     await prefetchEnemy(nextStageNo);
     startBattleTransition();
-    await spawnEnemy(nextStageNo);
+    await spawnEnemy(nextStageNo, { playTrainerIntro: true });
   }, [healAllPokemon, prefetchEnemy, resetBattlePreview, setStage, spawnEnemy, stage, startBattleTransition]);
 
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
@@ -1253,6 +1472,7 @@ export function useFactoryFlow({
     nextFactoryStage,
     healAllPokemon,
     startBattleTransition,
+    continueTrainerIntro,
     spawnEnemy,
     prefetchEnemy,
     prefetchRentals,

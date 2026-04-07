@@ -7,7 +7,6 @@ import type { GamePokemon } from '../../../../types';
 import { FACTORY_BATTLE_CONFIG } from '../../config/factoryBattle';
 import type { GameViewSectionProps } from './shared';
 import { FactoryRentalDetailDialog } from './FactoryRentalDetailDialog';
-import { TopRecordPanel } from './TopRecordPanel';
 
 function PokeballIndicator({ active, compact = false }: { active: boolean; compact?: boolean }) {
   const shellSize = compact ? 'h-4 w-4' : 'h-5 w-5';
@@ -158,9 +157,6 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
     loading,
     isTransitioning,
     currentLanguage,
-    coins,
-    stage,
-    streak,
     t,
     getLocalized,
     getLocalizedDesc,
@@ -216,16 +212,6 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
       transition={{ duration: shouldReduceMotion ? 0.01 : 0.24, ease: 'easeOut' }}
       className="relative flex min-h-0 flex-1 flex-col overflow-hidden px-2 py-2 md:px-3 md:py-3"
     >
-      <div className="mb-1 px-1 md:mb-2 md:px-0">
-        <TopRecordPanel
-          currentLanguage={currentLanguage}
-          coins={coins}
-          stage={stage}
-          streak={streak}
-          battleIndexOverride={0}
-        />
-      </div>
-
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto px-1 py-1">
           <div className="mx-auto grid w-full max-w-[430px] grid-cols-2 gap-2">

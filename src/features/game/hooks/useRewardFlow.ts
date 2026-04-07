@@ -26,7 +26,10 @@ interface UseRewardFlowParams {
   addMessagesSequentially: (messages: string[]) => Promise<void>;
   healAllPokemon: () => void;
   startBattleTransition: () => void;
-  spawnEnemy: (currentStage: number) => Promise<boolean>;
+  spawnEnemy: (
+    currentStage: number,
+    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[]; playTrainerIntro?: boolean },
+  ) => Promise<boolean>;
   prefetchEnemy: (currentStage: number) => Promise<boolean>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setCoins: Dispatch<SetStateAction<number>>;
@@ -498,7 +501,7 @@ export function useRewardFlow({
     setStage((prev) => prev + 1);
     await prefetchEnemy(nextStageNo);
     startBattleTransition();
-    await spawnEnemy(nextStageNo);
+    await spawnEnemy(nextStageNo, { playTrainerIntro: true });
     setPendingTmMove(null);
     setPendingTmLearnerIndexes([]);
     setPendingEvolutionEligibleIndexes([]);

@@ -1,5 +1,5 @@
-import { Circle, Flame, Droplets, Leaf, Zap, Snowflake, Swords, Skull, Mountain, Wind, Eye, Bug, Gem, Ghost, Dna, Shield, Heart, Moon } from 'lucide-react';
 import { Item } from './types';
+import { TYPE_ICON_COMPONENTS, type TypeIconComponent } from './components/TypeIcon';
 
 export const TYPE_COLORS: Record<string, string> = {
   normal: 'var(--type-normal)',
@@ -22,25 +22,25 @@ export const TYPE_COLORS: Record<string, string> = {
   fairy: 'var(--type-fairy)',
 };
 
-export const TYPE_ICONS: Record<string, any> = {
-  normal: Circle,
-  fire: Flame,
-  water: Droplets,
-  grass: Leaf,
-  electric: Zap,
-  ice: Snowflake,
-  fighting: Swords,
-  poison: Skull,
-  ground: Mountain,
-  flying: Wind,
-  psychic: Eye,
-  bug: Bug,
-  rock: Gem,
-  ghost: Ghost,
-  dragon: Dna,
-  steel: Shield,
-  fairy: Heart,
-  dark: Moon,
+export const TYPE_ICONS: Record<string, TypeIconComponent> = {
+  normal: TYPE_ICON_COMPONENTS.normal,
+  fire: TYPE_ICON_COMPONENTS.fire,
+  water: TYPE_ICON_COMPONENTS.water,
+  grass: TYPE_ICON_COMPONENTS.grass,
+  electric: TYPE_ICON_COMPONENTS.electric,
+  ice: TYPE_ICON_COMPONENTS.ice,
+  fighting: TYPE_ICON_COMPONENTS.fighting,
+  poison: TYPE_ICON_COMPONENTS.poison,
+  ground: TYPE_ICON_COMPONENTS.ground,
+  flying: TYPE_ICON_COMPONENTS.flying,
+  psychic: TYPE_ICON_COMPONENTS.psychic,
+  bug: TYPE_ICON_COMPONENTS.bug,
+  rock: TYPE_ICON_COMPONENTS.rock,
+  ghost: TYPE_ICON_COMPONENTS.ghost,
+  dragon: TYPE_ICON_COMPONENTS.dragon,
+  steel: TYPE_ICON_COMPONENTS.steel,
+  fairy: TYPE_ICON_COMPONENTS.fairy,
+  dark: TYPE_ICON_COMPONENTS.dark,
 };
 
 export const AILMENT_ZH: Record<string, string> = {

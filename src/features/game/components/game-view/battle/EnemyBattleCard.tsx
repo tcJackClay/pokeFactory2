@@ -2,16 +2,18 @@ import { motion, useReducedMotion } from 'motion/react';
 import TypeBadge from '../../../../../components/TypeBadge';
 import { AILMENT_ZH } from '../../../../../uiAppConstants';
 import type { GamePokemon } from '../../../../../types';
+import type { FactoryTrainerTemplate } from '../../../config/factoryTrainerTemplates';
 import type { BattleAnimation, LocalizeFn } from '../../../view-model';
 
 interface EnemyBattleCardProps {
   enemy: GamePokemon;
+  trainer: FactoryTrainerTemplate | null;
   enemyAnim: BattleAnimation;
   isCatching: boolean;
   getLocalized: LocalizeFn;
 }
 
-export function EnemyBattleCard({ enemy, enemyAnim, isCatching, getLocalized }: EnemyBattleCardProps) {
+export function EnemyBattleCard({ enemy, trainer, enemyAnim, isCatching, getLocalized }: EnemyBattleCardProps) {
   const shouldReduceMotion = useReducedMotion();
   const hpRatio = enemy.maxHp > 0 ? enemy.currentHp / enemy.maxHp : 0;
 

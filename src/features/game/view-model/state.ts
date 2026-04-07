@@ -75,6 +75,8 @@ export interface GameViewBattleState {
   fieldState: FieldState[];
   fieldTurns: FieldTurns;
   isTransitioning: boolean;
+  trainerIntroActive: boolean;
+  trainerIntroAwaitingContinue: boolean;
   isMessageProcessing: boolean;
   specialModeUnlocked: boolean;
   specialBossBattleActive: boolean;
