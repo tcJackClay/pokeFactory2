@@ -26,8 +26,16 @@ function cleanEnvValue(value: string | undefined): string | null {
   return trimmed.length > 0 ? trimTrailingSlash(trimmed) : null;
 }
 
+function isTruthyEnvFlag(value: string | undefined): boolean {
+  if (!value) return false;
+  const normalized = String(value).trim().toLowerCase();
+  return normalized === '1' || normalized === 'true' || normalized === 'yes' || normalized === 'on';
+}
+
+const preferDevProxy = isTruthyEnvFlag(import.meta.env.VITE_POKEAPI_USE_PROXY);
+
 export const POKEAPI_BASE_URL = cleanEnvValue(import.meta.env.VITE_POKEAPI_BASE_URL)
-  ?? (import.meta.env.DEV ? DEFAULT_DEV_POKEAPI_PROXY_BASE_URL : DEFAULT_POKEAPI_BASE_URL);
+  ?? (import.meta.env.DEV && preferDevProxy ? DEFAULT_DEV_POKEAPI_PROXY_BASE_URL : DEFAULT_POKEAPI_BASE_URL);
 export const POKEAPI_CSV_BASE_URL = cleanEnvValue(import.meta.env.VITE_POKEAPI_CSV_BASE_URL) ?? DEFAULT_POKEAPI_CSV_BASE_URL;
 export const POKEAPI_SPRITE_BASE_URL = cleanEnvValue(import.meta.env.VITE_POKEAPI_SPRITE_BASE_URL) ?? DEFAULT_POKEAPI_SPRITE_BASE_URL;
 

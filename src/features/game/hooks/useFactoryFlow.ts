@@ -1291,7 +1291,6 @@ export function useFactoryFlow({
         rentals: rentals.map((pokemon) => pokemon.id),
       });
       void prefetchEnemy(1, { factoryPool: rentals, playerPool: [] });
-      void prefetchRentals();
     } catch (error) {
       console.error(error);
       prefetchedRentalsRef.current = null;

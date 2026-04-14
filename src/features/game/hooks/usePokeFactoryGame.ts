@@ -589,11 +589,6 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [catchSuccess, enemy, eventBattleActive]);
 
   useEffect(() => {
-    if (gameState !== 'START') return;
-    void prefetchRentals();
-  }, [gameState, prefetchRentals]);
-
-  useEffect(() => {
     if (gameState !== 'BOOT') return;
     let cancelled = false;
     let progressValue = 0;
