@@ -7,7 +7,6 @@ import type { GameViewSectionProps } from './shared';
 import companionAnimSprite from '../../../../assets/menu/pikachu-anim-front.png';
 import pokedexMenuIcon from '../../../../assets/menu/pokedex.png';
 import eventsMenuIcon from '../../../../assets/menu/clipboard.png';
-import { TopRecordPanel } from './TopRecordPanel';
 import { APP_PALETTE } from '../../../../theme/palette';
 
 type StartMenu = BaseTab | 'SETTINGS';
@@ -24,8 +23,6 @@ interface StartNavItem {
 export function StartScreen({ viewModel }: GameViewSectionProps) {
   const {
     loading,
-    coins,
-    stage,
     availableEggCount,
     eventDispatches,
     shopUnlocked,
@@ -124,16 +121,6 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
       className="flex min-h-0 flex-1 flex-col"
     >
       <section className="flex min-h-0 flex-1 flex-col gap-2 md:gap-3">
-        <div className="px-3 pt-1">
-          <TopRecordPanel
-            currentLanguage={currentLanguage}
-            coins={coins}
-            stage={stage}
-            streak={viewModel.streak}
-            battleIndexOverride={hasFactoryRunToResume ? undefined : 0}
-          />
-        </div>
-
         {pendingRunSummary?.visible && (
           <div className="px-3">
             <div className="pf-panel border-emerald-200 bg-emerald-50/90 px-3 py-2.5">

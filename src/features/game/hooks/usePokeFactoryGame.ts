@@ -29,6 +29,7 @@ import type {
   SelectedEvolutionPokemon,
 } from '../view-model';
 import { getBattleIndexInSet, getSetNoByStage } from '../config/factoryRewards';
+import { preloadFactorySpeciesIndex } from '../config/factorySpeciesIndex';
 import {
   buildSaveExportFilename,
   createEmptyBattleResume,
@@ -111,6 +112,8 @@ export function usePokeFactoryGame(): GameViewModel {
   const [activeBuffs, setActiveBuffs] = useState(initialBattleResume?.activeBuffs ?? { atk: false, def: false });
   const [enemyBuffs, setEnemyBuffs] = useState(initialBattleResume?.enemyBuffs ?? { atk: false, def: false });
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [trainerIntroActive, setTrainerIntroActive] = useState(false);
+  const [trainerIntroAwaitingContinue, setTrainerIntroAwaitingContinue] = useState(false);
   const [isMessageProcessing, setIsMessageProcessing] = useState(false);
   const [showReplaceUI, setShowReplaceUI] = useState<GamePokemon | null>(null);
   const [learningPokemonIdx, setLearningPokemonIdx] = useState<number | null>(null);
@@ -216,7 +219,7 @@ export function usePokeFactoryGame(): GameViewModel {
 
   const buildStableFactoryBattleResume = useCallback((): BattleResumeSnapshot | null => {
     if (eventBattleActive || gameState !== 'BATTLE') return null;
-    if (turn !== 'PLAYER' || isMessageProcessing || loading || isTransitioning) return null;
+    if (turn !== 'PLAYER' || isMessageProcessing || loading || isTransitioning || trainerIntroActive || trainerIntroAwaitingContinue) return null;
     if (playerAnim !== 'idle' || enemyAnim !== 'idle' || activeMoveType !== null) return null;
     if (isCatching || showReplaceUI !== null) return null;
     if (playerTeam.length === 0 || enemyTeam.length === 0 || !currentEnemyTrainer) return null;
@@ -271,6 +274,8 @@ export function usePokeFactoryGame(): GameViewModel {
     isCatching,
     isMessageProcessing,
     isTransitioning,
+    trainerIntroActive,
+    trainerIntroAwaitingContinue,
     loading,
     playerAnim,
     playerTeam,
@@ -307,10 +312,12 @@ export function usePokeFactoryGame(): GameViewModel {
     if (!eventBattleActive) return;
     setRoundResult(null);
     setLastTokenGain(0);
-    setEnemy(null);
-    setEnemyTeam([]);
-    setCurrentEnemyTrainer(null);
-    setBattleLog([]);
+      setEnemy(null);
+      setEnemyTeam([]);
+      setCurrentEnemyTrainer(null);
+      setTrainerIntroActive(false);
+      setTrainerIntroAwaitingContinue(false);
+      setBattleLog([]);
     setTurn('PLAYER');
     setBattleMenuTab('MAIN');
     setWeather('none');
@@ -384,11 +391,12 @@ export function usePokeFactoryGame(): GameViewModel {
   });
 
   const factoryFlow = useFactoryFlow({
-    selectedGens,
-    startLevel,
-    stage,
-    totalRents,
-    specialModeUnlocked,
+      selectedGens,
+      startLevel,
+      developerMode: devToolsAvailable ? developerMode : false,
+      stage,
+  totalRents,
+  specialModeUnlocked,
     selectedRentalIndices,
     factoryRentals,
     playerTeam,
@@ -412,9 +420,11 @@ export function usePokeFactoryGame(): GameViewModel {
     setStage,
     setStreak,
     setGameState,
-    setPlayerTeam,
-    setIsTransitioning,
-    setEnemyTeam,
+      setPlayerTeam,
+      setIsTransitioning,
+      setTrainerIntroActive,
+      setTrainerIntroAwaitingContinue,
+      setEnemyTeam,
     setEnemy,
     setCurrentEnemyTrainer,
     setBattleLog,
@@ -579,11 +589,6 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [catchSuccess, enemy, eventBattleActive]);
 
   useEffect(() => {
-    if (gameState !== 'START') return;
-    void prefetchRentals();
-  }, [gameState, prefetchRentals]);
-
-  useEffect(() => {
     if (gameState !== 'BOOT') return;
     let cancelled = false;
     let progressValue = 0;
@@ -622,6 +627,7 @@ export function usePokeFactoryGame(): GameViewModel {
 
     const timer = window.setTimeout(() => {
       void Promise.allSettled([
+        preloadFactorySpeciesIndex(),
         Promise.all([fetchDexCatalogEntries(), fetchDexTypeMap()]),
         fetchDexSnapshots(BOOT_DEX_SNAPSHOT_IDS),
         fetchDexMoveDetails(BOOT_MOVE_DETAIL_KEYS),
@@ -1334,6 +1340,8 @@ export function usePokeFactoryGame(): GameViewModel {
     fieldState,
     fieldTurns,
     isTransitioning,
+    trainerIntroActive,
+    trainerIntroAwaitingContinue,
     isMessageProcessing,
     canUseBattleSpecial: battleController.canUseBattleSpecial,
     canUseBattleSpecialByMode: battleController.canUseBattleSpecialByMode,
@@ -1451,6 +1459,7 @@ export function usePokeFactoryGame(): GameViewModel {
     performEvolution: rewardFlow.performEvolution,
     replacePokemon: rewardFlow.replacePokemon,
     continueAfterRoundResult,
+    continueTrainerIntro: factoryFlow.continueTrainerIntro,
     forfeitChallenge: battleController.forfeitChallenge,
     toggleDeveloperMode,
     devAddCoins,

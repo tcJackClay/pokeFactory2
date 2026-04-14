@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
+    "generate:factory-species-index": "node scripts/generate_factory_species_index.cjs",
     "download:sprites": "node scripts/download_pokemon_sprites.cjs",
     "fill:sprites": "node scripts/fill_missing_sprites_from_reference.cjs"
   },

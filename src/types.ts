@@ -21,6 +21,7 @@ export interface Pokemon {
   abilities: {
     ability: {
       name: string;
+      url: string;
       zhName?: string;
       names?: { name: string; language: { name: string } }[];
     };

@@ -13,15 +13,40 @@ import { SettingsScreen } from './game-view/SettingsScreen';
 import { EventsScreen } from './game-view/EventsScreen';
 import { BootLoadingScreen } from './game-view/BootLoadingScreen';
 import { StartScreen } from './game-view/StartScreen';
-import { TransitionOverlay } from './game-view/TransitionOverlay';
+import { TopRecordPanel } from './game-view/TopRecordPanel';
 import { DeveloperPanel } from './game-view/DeveloperPanel';
 import { APP_PALETTE } from '../../../theme/palette';
 
 const CollectionScreen = lazy(async () => import('./game-view/CollectionScreen').then((module) => ({ default: module.CollectionScreen })));
 
 export function GameView({ viewModel }: { viewModel: GameViewModel }) {
-  const { gameState, infoPokemonIdx, prevGameState, factoryRentals, playerTeam, isTransitioning } = viewModel;
+  const {
+    gameState,
+    infoPokemonIdx,
+    prevGameState,
+    factoryRentals,
+    playerTeam,
+    isTransitioning,
+    currentLanguage,
+    coins,
+    stage,
+    streak,
+    hasFactoryRunToResume,
+  } = viewModel;
   const shouldReduceMotion = useReducedMotion();
+  const showFactoryTopRecord = [
+    'START',
+    'FACTORY_SELECT',
+    'BATTLE',
+    'FACTORY_SWAP',
+    'REWARD',
+    'ROUND_RESULT',
+    'POKEMON_INFO',
+    'GAMEOVER',
+  ].includes(gameState);
+  const battleIndexOverride = gameState === 'FACTORY_SELECT' || (gameState === 'START' && !hasFactoryRunToResume)
+    ? 0
+    : undefined;
 
   const infoPokemonList = prevGameState === 'FACTORY_SELECT' ? factoryRentals : playerTeam;
   const displayPokemon =
@@ -102,13 +127,23 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
       </div>
 
       <div className="relative z-10 mx-auto flex h-full max-w-[1200px] flex-col overflow-hidden px-2 pb-2 pt-[max(8px,env(safe-area-inset-top))] md:px-4 md:py-4">
-        <AnimatePresence initial={!shouldReduceMotion}>
-          {isTransitioning && <TransitionOverlay key="transition-overlay-screen" />}
-        </AnimatePresence>
+        {showFactoryTopRecord && (
+          <div className="px-3 pb-2 pt-1">
+            <TopRecordPanel
+              currentLanguage={currentLanguage}
+              coins={coins}
+              stage={stage}
+              streak={streak}
+              battleIndexOverride={battleIndexOverride}
+            />
+          </div>
+        )}
 
-        <AnimatePresence mode="wait" initial={!shouldReduceMotion}>
-          {screenContent}
-        </AnimatePresence>
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          <AnimatePresence mode="wait" initial={!shouldReduceMotion}>
+            {screenContent}
+          </AnimatePresence>
+        </div>
       </div>
 
       <DeveloperPanel viewModel={viewModel} />

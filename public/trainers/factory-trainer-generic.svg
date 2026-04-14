@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Factory Trainer Portrait</title>
+  <desc id="desc">Generic trainer portrait placeholder for Battle Factory opponents.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a" />
+      <stop offset="100%" stop-color="#fb7185" />
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#bg)" />
+  <circle cx="64" cy="44" r="22" fill="#0f172a" opacity="0.9" />
+  <path d="M31 106c6-22 22-34 33-34s27 12 33 34" fill="#0f172a" opacity="0.9" />
+  <circle cx="64" cy="44" r="14" fill="#f8fafc" opacity="0.9" />
+  <path d="M42 106c4-14 13-22 22-22s18 8 22 22" fill="#f8fafc" opacity="0.9" />
+</svg>

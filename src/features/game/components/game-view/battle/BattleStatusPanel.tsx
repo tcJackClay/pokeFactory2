@@ -16,7 +16,15 @@ import { motion, useReducedMotion } from 'motion/react';
 import type { FieldState, StatStages, Weather } from '../../../../../types';
 import type { GameViewSectionProps } from '../shared';
 
-const STAGE_KEYS: Array<keyof Pick<StatStages, 'attack' | 'defense' | 'spAtk'>> = ['attack', 'defense', 'spAtk'];
+const STAGE_KEYS: Array<keyof Pick<StatStages, 'attack' | 'defense' | 'spAtk' | 'spDef' | 'accuracy' | 'evasion' | 'speed'>> = [
+  'attack',
+  'defense',
+  'spAtk',
+  'spDef',
+  'accuracy',
+  'evasion',
+  'speed',
+];
 
 const WEATHER_META: Record<Weather, { icon: LucideIcon; label: { zh: string; en: string }; iconClassName: string }> = {
   none: { icon: Wind, label: { zh: '无天气', en: 'No Weather' }, iconClassName: 'text-slate-400' },
@@ -133,7 +141,7 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
       )}
 
       {stageRows.length > 0 && (
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {stageRows.map((row) => {
             const isBuff = row.value > 0;
             return (

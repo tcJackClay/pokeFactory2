@@ -20,11 +20,13 @@ export function BattleSpecialTriggersNearHp({
     canUseBattleSpecialByMode,
     battleSpecialUsage,
     playerTeam,
+    developerMode,
   } = viewModel;
   const lead = playerTeam[0];
   const heldItemId = lead?.factoryHeldItemId?.toLowerCase() ?? '';
   const canShowMega = heldItemId.includes('ite') || heldItemId === 'red_orb' || heldItemId === 'blue_orb';
   const canShowZMove = heldItemId.endsWith('-z') || heldItemId.endsWith('_z') || heldItemId.includes('ium-z') || heldItemId.includes('ium_z');
+  const forceShowInDev = developerMode;
 
   const triggerButtons = [
     {
@@ -33,7 +35,7 @@ export function BattleSpecialTriggersNearHp({
       label: battleSpecialUsage.MEGA ? t('specialMegaUsed') : t('specialMega'),
       enabled: canUseBattleSpecialByMode.MEGA,
       activated: battleSpecialUsage.MEGA,
-      visible: battleSpecialUsage.MEGA || (canUseBattleSpecialByMode.MEGA && canShowMega),
+      visible: forceShowInDev || battleSpecialUsage.MEGA || (canUseBattleSpecialByMode.MEGA && canShowMega),
     },
     {
       mode: 'DYNAMAX' as const,
@@ -41,7 +43,7 @@ export function BattleSpecialTriggersNearHp({
       label: battleSpecialUsage.DYNAMAX ? t('specialDynamaxUsed') : t('specialDynamax'),
       enabled: canUseBattleSpecialByMode.DYNAMAX,
       activated: battleSpecialUsage.DYNAMAX,
-      visible: battleSpecialUsage.DYNAMAX || canUseBattleSpecialByMode.DYNAMAX,
+      visible: forceShowInDev || battleSpecialUsage.DYNAMAX || canUseBattleSpecialByMode.DYNAMAX,
     },
     {
       mode: 'TERA' as const,
@@ -49,7 +51,7 @@ export function BattleSpecialTriggersNearHp({
       label: battleSpecialUsage.TERA ? t('specialTeraUsed') : t('specialTera'),
       enabled: canUseBattleSpecialByMode.TERA,
       activated: battleSpecialUsage.TERA,
-      visible: battleSpecialUsage.TERA || canUseBattleSpecialByMode.TERA,
+      visible: forceShowInDev || battleSpecialUsage.TERA || canUseBattleSpecialByMode.TERA,
     },
     {
       mode: 'ZMOVE' as const,
@@ -57,7 +59,7 @@ export function BattleSpecialTriggersNearHp({
       label: battleSpecialUsage.ZMOVE ? t('specialZMoveUsed') : t('specialZMove'),
       enabled: canUseBattleSpecialByMode.ZMOVE,
       activated: battleSpecialUsage.ZMOVE,
-      visible: battleSpecialUsage.ZMOVE || (canUseBattleSpecialByMode.ZMOVE && canShowZMove),
+      visible: forceShowInDev || battleSpecialUsage.ZMOVE || (canUseBattleSpecialByMode.ZMOVE && canShowZMove),
     },
   ];
   const isDock = variant === 'dock';

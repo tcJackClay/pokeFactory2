@@ -15,7 +15,6 @@ import {
   applyStatusResidualDamage as resolveStatusResidualDamage,
   applyWeatherChipDamage as resolveWeatherChipDamage,
   findNextLivingLeadIndex,
-  moveTeamMemberToFront,
 } from '../lib/battleResolution';
 import type {
   BattleAnimation,
@@ -223,6 +222,7 @@ export function useBattleController({
   setEnemySpecialUsage,
 }: UseBattleControllerParams) {
   const previousTurnRef = useRef<BattleTurn | null>(null);
+  const pendingPlayerSwitchRef = useRef(false);
 
   const addMessagesSequentially = useCallback(async (messages: string[]) => {
     setIsMessageProcessing(true);
@@ -491,17 +491,17 @@ export function useBattleController({
 
   const sendOutNextPlayer = useCallback(async (currentPlayerTeam: GamePokemon[]) => {
     const aliveIdx = findNextLivingLeadIndex(currentPlayerTeam);
+    pendingPlayerSwitchRef.current = false;
     if (aliveIdx === -1) {
       setTimeout(() => void loseBattle(), 500);
       return false;
     }
 
-    const nextTeam = aliveIdx === 0 ? [...currentPlayerTeam] : moveTeamMemberToFront(currentPlayerTeam, aliveIdx);
-    setPlayerTeam(nextTeam);
-    await addMessagesSequentially([t('playerSentOut').replace('{name}', getLocalized(nextTeam[0]))]);
-    setMainBattleTurn('PLAYER');
+    setPlayerTeam([...currentPlayerTeam]);
+    setTurn('PLAYER');
+    setBattleMenuTab('POKEMON');
     return true;
-  }, [addMessagesSequentially, getLocalized, loseBattle, setMainBattleTurn, setPlayerTeam, t]);
+  }, [loseBattle, setBattleMenuTab, setPlayerTeam, setTurn]);
 
   const calculateDamage = useCallback((
     move: Move,
@@ -985,6 +985,7 @@ export function useBattleController({
   const canPlayerUseSpecialByMode = useCallback((mode: BattleSpecialMode) => {
     if (gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing) return false;
     if (!playerTeam[0]) return false;
+    if (playerTeam[0].currentHp <= 0) return false;
     if (battleSpecialUsage[mode]) return false;
     if (!specialModeUnlocked) return false;
     return getSpecialItemCount(mode) > 0;
@@ -1052,7 +1053,7 @@ export function useBattleController({
   ]);
 
   const useItem = useCallback(async (item: Item, index: number) => {
-    if (gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing || !enemy) return;
+    if (gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing || !enemy || playerTeam[0]?.currentHp <= 0) return;
 
     await addMessagesSequentially([t('youUsed').replace('{name}', getLocalized(item))]);
 
@@ -1141,10 +1142,20 @@ export function useBattleController({
 
     const newTeam = [...playerTeam];
     const currentLead = newTeam[0];
+    const incomingPokemon = newTeam[index];
+    if (!currentLead || !incomingPokemon || incomingPokemon.currentHp <= 0) return;
+
+    const currentLeadFainted = currentLead.currentHp <= 0;
     newTeam[0] = newTeam[index];
     newTeam[index] = currentLead;
 
     setPlayerTeam(newTeam);
+    if (currentLeadFainted) {
+      await addMessagesSequentially([t('playerSentOut').replace('{name}', getLocalized(newTeam[0]))]);
+      setMainBattleTurn('PLAYER');
+      return;
+    }
+
     await addMessagesSequentially([
       t('withdrew').replace('{name}', getLocalized(currentLead)),
       t('playerSentOut').replace('{name}', getLocalized(newTeam[0])),
@@ -1358,10 +1369,18 @@ export function useBattleController({
       }
 
       if (residualResult.fainted) {
-        await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedDefender))]);
         if (defendingSide === 'player') {
-          await sendOutNextPlayer(nextPlayerTeam);
+          if (isPlayerActing) {
+            await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedDefender))]);
+            await sendOutNextPlayer(nextPlayerTeam);
+          } else {
+            pendingPlayerSwitchRef.current = true;
+            await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedDefender))]);
+            setTurn('PLAYER');
+            setBattleMenuTab('POKEMON');
+          }
         } else {
+          await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedDefender))]);
           await sendOutNextEnemy(nextEnemyTeam, defender.id);
         }
         return;
@@ -1375,10 +1394,18 @@ export function useBattleController({
     }
 
     if (newDefenderHp <= 0) {
-      await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(defender))]);
       if (defendingSide === 'player') {
-        await sendOutNextPlayer(nextPlayerTeam);
+        if (isPlayerActing) {
+          await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(defender))]);
+          await sendOutNextPlayer(nextPlayerTeam);
+        } else {
+          pendingPlayerSwitchRef.current = true;
+          await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(defender))]);
+          setTurn('PLAYER');
+          setBattleMenuTab('POKEMON');
+        }
       } else {
+        await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(defender))]);
         await sendOutNextEnemy(nextEnemyTeam, defender.id);
       }
       return;
@@ -1713,8 +1740,12 @@ export function useBattleController({
       if (cancelled) return;
 
       if (playerLead.currentHp <= 0) {
-        await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(playerLead))]);
-        if (cancelled) return;
+        if (pendingPlayerSwitchRef.current) {
+          pendingPlayerSwitchRef.current = false;
+        } else {
+          await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(playerLead))]);
+          if (cancelled) return;
+        }
         await sendOutNextPlayer(nextPlayerTeam);
       }
 

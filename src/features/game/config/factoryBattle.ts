@@ -6,6 +6,8 @@ export const FACTORY_BATTLE_CONFIG = {
   movesPerMon: 4,
   // Disable legacy Frontier-only set pool so the factory can cover all selected regions/gens.
   useReferenceSetPool: false,
+  enemySelectionMode: 'TRAINER_POOL_FIRST',
+  trainerPoolFallbackToGlobal: true,
   // 历史租借次数阈值，值越高初始租借池质量越好（对应原作 rental rank）。
   rentalRankThresholds: [15, 22, 29, 36, 43],
   // 用质量偏置模拟原作 Battle Factory 的“区间档位”。
