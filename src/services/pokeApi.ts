@@ -1,7 +1,8 @@
-import { Pokemon, Move, GamePokemon, Stats, Nature } from '../types';
+import { Pokemon, Move, GamePokemon, Stats, Nature, PokemonGender } from '../types';
 import { GENERATIONS, NATURES } from '../constants';
 import { DIRECT_SPECIAL_FORMS, SPECIAL_FORM_RANDOM_RATE } from '../features/game/config/specialForms';
 import type { FactoryReferenceSet } from '../features/game/config/factoryReferenceSets';
+import { buildMoveBattleDataFromPokeApiMove } from '../features/game/data/battle';
 import {
   buildPokeApiUrl,
   fetchPokeApiJson,
@@ -80,6 +81,13 @@ function getPokemonCacheKey(identifier: PokemonIdentifier): string {
   return typeof identifier === 'string'
     ? `name:${identifier.trim().toLowerCase()}`
     : `id:${identifier}`;
+}
+
+function resolvePokemonGender(genderRate: number | undefined, random: () => number = Math.random): PokemonGender {
+  if (genderRate === -1) return 'genderless';
+  const normalizedRate = Number.isFinite(genderRate) ? Math.max(0, Math.min(8, Number(genderRate))) : 4;
+  const femaleChance = normalizedRate / 8;
+  return random() < femaleChance ? 'female' : 'male';
 }
 
 async function loadPokemonBase(identifier: PokemonIdentifier): Promise<Pokemon> {
@@ -239,6 +247,7 @@ export async function fetchMove(url: string): Promise<Move> {
     healing: data.meta?.healing || 0,
     critRate: data.meta?.crit_rate || 0,
     target: data.target?.name,
+    battleData: buildMoveBattleDataFromPokeApiMove(data),
   };
 }
 
@@ -327,6 +336,7 @@ export async function fetchMoveByName(moveName: string): Promise<Move> {
     healing: data.meta?.healing || 0,
     critRate: data.meta?.crit_rate || 0,
     target: data.target?.name,
+    battleData: buildMoveBattleDataFromPokeApiMove(data),
   };
 
   moveByNameCache.set(normalized, move);
@@ -368,6 +378,7 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
   const raw = await fetchPokemon(identifier);
   const normalizedIdentifier = typeof identifier === 'string' ? identifier.trim().toLowerCase() : '';
   const speciesId = parsePokeApiNumericId((raw as any)?.species?.url) ?? raw.id;
+  const speciesData = await fetchPokemonSpeciesById(speciesId);
   const speciesFromRaw = typeof (raw as any)?.species?.name === 'string'
     ? String((raw as any).species.name).toLowerCase()
     : '';
@@ -376,6 +387,7 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
   const formLedgerSlug = normalizedIdentifier || pokeApiName || speciesName;
   const teraTypePool = raw.types.map((slot) => slot.type.name);
   const teraType = teraTypePool[Math.floor(Math.random() * teraTypePool.length)] || 'normal';
+  const gender = resolvePokemonGender(speciesData?.gender_rate);
   
   // Pick random moves that have power
   const validMoves: Move[] = [];
@@ -400,6 +412,28 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
       type: 'normal',
       damage_class: 'physical',
       pp: 35,
+      battleData: {
+        effectId: 'NONE',
+        priority: 0,
+        target: 'selected-pokemon',
+        flags: ['contact', 'protect', 'mirror'],
+        critStage: 0,
+        drainPercent: 0,
+        recoilPercent: 0,
+        healingPercent: 0,
+        strikeMode: 'single',
+        minHits: 1,
+        maxHits: 1,
+        secondaryEffects: [],
+        substituteInteraction: 'blocked',
+        makesContact: true,
+        soundMove: false,
+        powderMove: false,
+        ballisticMove: false,
+        punchMove: false,
+        bypassProtect: false,
+        ignoreAccuracyCheck: false,
+      },
       zhDescription: '用整个身体撞向对手进行攻击。',
     });
   }
@@ -461,13 +495,17 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
     formLedgerSlug,
     maxHp: calculatedStats.hp,
     currentHp: calculatedStats.hp,
+    baseTypes: raw.types.map((slot) => ({ type: { name: slot.type.name } })),
     selectedMoves: validMoves,
     nature,
     ivs,
     evs,
     baseStats,
     calculatedStats,
+    gender,
     teraType,
+    nonVolatileStatus: undefined,
+    volatileStatuses: {},
     statStages: {
       attack: 0,
       defense: 0,
@@ -476,13 +514,15 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
       speed: 0,
       accuracy: 0,
       evasion: 0,
-    }
-  };
-}
+      },
+      factoryLastUsedMoveName: null,
+    };
+  }
 
 export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceSet, level: number = 50): Promise<GamePokemon> {
   const raw = await fetchPokemon(set.speciesId);
   const speciesId = parsePokeApiNumericId((raw as any)?.species?.url) ?? set.speciesId;
+  const speciesData = await fetchPokemonSpeciesById(speciesId);
   const speciesName = String(raw.name ?? '').toLowerCase();
   const setBaseKey = set.key.replace(/-\d+$/, '').toLowerCase();
   const inferredFormSlug = setBaseKey.startsWith(`${speciesName}-`) ? setBaseKey : speciesName;
@@ -490,6 +530,7 @@ export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceS
   const formLedgerSlug = inferredFormSlug;
   const teraTypePool = raw.types.map((slot) => slot.type.name);
   const teraType = teraTypePool[Math.floor(Math.random() * teraTypePool.length)] || 'normal';
+  const gender = resolvePokemonGender(speciesData?.gender_rate);
 
   const selectedMoves: Move[] = [];
   for (const moveName of set.moveNames) {
@@ -558,13 +599,17 @@ export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceS
     formLedgerSlug,
     maxHp: calculatedStats.hp,
     currentHp: calculatedStats.hp,
+    baseTypes: raw.types.map((slot) => ({ type: { name: slot.type.name } })),
     selectedMoves: selectedMoves.slice(0, 4),
     nature,
     ivs,
     evs,
     baseStats,
     calculatedStats,
+    gender,
     teraType,
+    nonVolatileStatus: undefined,
+    volatileStatuses: {},
     statStages: {
       attack: 0,
       defense: 0,
@@ -574,6 +619,7 @@ export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceS
       accuracy: 0,
       evasion: 0,
     },
+    factoryLastUsedMoveName: null,
   };
 }
 

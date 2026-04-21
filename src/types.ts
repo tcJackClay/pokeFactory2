@@ -55,6 +55,7 @@ export interface Move {
   healing?: number;
   critRate?: number;
   target?: string;
+  battleData?: MoveBattleData;
 }
 
 export interface Nature {
@@ -83,10 +84,205 @@ export interface StatStages {
   evasion: number;
 }
 
+export type MoveBattleFlag =
+  | 'contact'
+  | 'protect'
+  | 'mirror'
+  | 'sound'
+  | 'punch'
+  | 'powder'
+  | 'ballistic'
+  | 'bypass-protect'
+  | 'ignore-accuracy-check';
+
+export type MoveBattleTarget =
+  | 'selected-pokemon'
+  | 'user'
+  | 'all-opponents'
+  | 'entire-field'
+  | (string & {});
+
+export type MoveEffectId =
+  | 'NONE'
+  | 'REST'
+  | 'SLEEP_TALK'
+  | 'SNORE'
+  | 'UPROAR'
+  | 'SUBSTITUTE'
+  | 'TRIPLE_KICK'
+  | 'POPULATION_BOMB'
+  | 'YAWN'
+  | 'NIGHTMARE'
+  | 'TAUNT'
+  | 'TORMENT'
+  | 'DISABLE'
+  | 'ENCORE'
+  | 'ATTRACT'
+  | 'CURSE'
+  | 'PROTECT'
+  | 'DETECT'
+  | 'KINGS_SHIELD'
+  | 'SPIKY_SHIELD'
+  | (string & {});
+
+export interface MoveBattleData {
+  effectId: MoveEffectId;
+  priority: number;
+  target: MoveBattleTarget;
+  flags: MoveBattleFlag[];
+  critStage: number;
+  drainPercent: number;
+  recoilPercent: number;
+  healingPercent: number;
+  strikeMode: 'single' | 'multi-hit' | 'progressive-multi-hit' | 'multi-hit-per-accuracy';
+  minHits: number;
+  maxHits: number;
+  guaranteedHits?: number;
+  secondaryEffects: MoveSecondaryEffect[];
+  substituteInteraction: 'blocked' | 'bypass';
+  makesContact: boolean;
+  soundMove: boolean;
+  powderMove: boolean;
+  ballisticMove: boolean;
+  punchMove: boolean;
+  bypassProtect: boolean;
+  ignoreAccuracyCheck: boolean;
+  weather?: Weather;
+  fieldState?: FieldState;
+}
+
+export interface MoveSecondaryEffect {
+  kind: 'status' | 'volatile-status' | 'flinch' | 'stat-stage';
+  chance: number;
+  group?: string;
+  appliesTo?: 'user' | 'target';
+  isPrimary?: boolean;
+  requiresHit?: boolean;
+  blockedBySubstitute?: boolean;
+  statusId?: string;
+  stat?: string;
+  change?: number;
+}
+
+export type AbilityEffectId =
+  | 'NONE'
+  | 'EARLY_BIRD'
+  | 'BATTLE_ARMOR'
+  | 'SKILL_LINK'
+  | 'SOUNDPROOF'
+  | 'SHELL_ARMOR'
+  | 'COMATOSE'
+  | 'INSOMNIA'
+  | 'VITAL_SPIRIT'
+  | 'PURIFYING_SALT'
+  | 'OBLIVIOUS'
+  | (string & {});
+
+export interface AbilityBattleData {
+  id: string;
+  effectId: AbilityEffectId;
+  hooks?: string[];
+}
+
+export type ItemEffectId =
+  | 'NONE'
+  | 'BRIGHT_POWDER'
+  | 'LAX_INCENSE'
+  | 'LOADED_DICE'
+  | 'KINGS_ROCK'
+  | 'LEFTOVERS'
+  | 'QUICK_CLAW'
+  | 'SCOPE_LENS'
+  | 'SHELL_BELL'
+  | 'SITRUS_BERRY'
+  | 'STATUS_CURE_BERRY'
+  | 'PINCH_STAT_BERRY'
+  | 'CHOICE_BAND'
+  | 'FOCUS_BAND'
+  | 'WHITE_HERB'
+  | 'MENTAL_HERB'
+  | 'THICK_CLUB'
+  | 'LEEK'
+  | 'DEEP_SEA_SCALE'
+  | 'LEPPA_BERRY'
+  | 'TYPE_BOOST'
+  | (string & {});
+
+export interface ItemBattleData {
+  id: string;
+  effectId: ItemEffectId;
+  hooks?: string[];
+  accuracyMultiplier?: number;
+  flinchChance?: number;
+  endTurnHealDenominator?: number;
+  pinchTriggerDenominator?: number;
+  pinchHealDenominator?: number;
+  pinchStat?: keyof StatStages;
+  statusCures?: string[];
+  mentalStatuses?: string[];
+  critStageBonus?: number;
+  ppRestoreAmount?: number;
+  priorityProcChance?: number;
+  surviveAtOneHpChance?: number;
+  physicalAttackMultiplier?: number;
+  specialDefenseMultiplier?: number;
+  damageBasedHealDenominator?: number;
+  typeBoostType?: string;
+  typeBoostMultiplier?: number;
+  speciesIds?: number[];
+}
+
+export type NonVolatileStatus =
+  | 'sleep'
+  | 'poison'
+  | 'bad_poison'
+  | 'burn'
+  | 'paralysis'
+  | 'freeze';
+
+export type KnownVolatileStatus =
+  | 'confusion'
+  | 'flinch'
+  | 'attract'
+  | 'infatuation'
+  | 'taunt'
+  | 'encore'
+  | 'torment'
+  | 'disable'
+  | 'nightmare'
+  | 'curse'
+  | 'yawn'
+  | 'uproar'
+  | 'protect'
+  | 'substitute';
+
+export type VolatileStatusId = KnownVolatileStatus | (string & {});
+export type PokemonGender = 'male' | 'female' | 'genderless';
+
+export interface NonVolatileStatusState {
+  id: NonVolatileStatus;
+  turnsRemaining?: number;
+  toxicCounter?: number;
+  sourceMoveName?: string;
+}
+
+export interface VolatileStatusState {
+  id: VolatileStatusId;
+  active: boolean;
+  turnsRemaining?: number;
+  counter?: number;
+  sourceMoveName?: string;
+  linkedMoveName?: string;
+  linkedPokemonId?: number;
+}
+
+export type VolatileStatusMap = Partial<Record<string, VolatileStatusState>>;
+
 export interface GamePokemon extends Pokemon {
   currentHp: number;
   maxHp: number;
   speciesId?: number;
+  baseTypes?: Pokemon['types'];
   selectedMoves: Move[];
   level: number;
   speciesName?: string;
@@ -97,15 +293,19 @@ export interface GamePokemon extends Pokemon {
   evs: Stats;
   baseStats: Stats;
   calculatedStats: Stats;
+  gender?: PokemonGender;
   isGym?: boolean;
   factoryHeldItemId?: string;
-  status?: string;
+  nonVolatileStatus?: NonVolatileStatusState;
+  volatileStatuses?: VolatileStatusMap;
   statStages: StatStages;
   specialBoostActive?: boolean;
   specialBoostMode?: 'MEGA' | 'DYNAMAX' | 'TERA' | 'ZMOVE';
   teraType?: string;
   dynamaxTurnsLeft?: number;
   factoryPlannedSpecialMode?: 'MEGA' | 'DYNAMAX' | 'TERA' | 'ZMOVE';
+  factoryChoiceLockedMoveName?: string | null;
+  factoryLastUsedMoveName?: string | null;
 }
 
 export interface Item {

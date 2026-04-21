@@ -1,7 +1,7 @@
 import type { FieldState, FieldTurns, GamePokemon } from '../types';
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
-const SAVE_SCHEMA_VERSION = 5 as const;
+const SAVE_SCHEMA_VERSION = 7 as const;
 
 export interface BattleResumeSpecialUsageState {
   MEGA: boolean;
@@ -111,6 +111,31 @@ interface SaveDraftInput {
   events: GameSaveData['events'];
 }
 
+const NON_VOLATILE_STATUS_IDS = new Set([
+  'sleep',
+  'poison',
+  'bad_poison',
+  'burn',
+  'paralysis',
+  'freeze',
+]);
+
+const STATUS_ALIAS_MAP: Record<string, string> = {
+  badly_poisoned: 'bad_poison',
+  paralyzed: 'paralysis',
+  toxic: 'bad_poison',
+};
+
+const DEFAULT_STAT_STAGES: GamePokemon['statStages'] = {
+  attack: 0,
+  defense: 0,
+  spAtk: 0,
+  spDef: 0,
+  speed: 0,
+  accuracy: 0,
+  evasion: 0,
+};
+
 function sanitizePositiveInt(value: unknown, fallback: number) {
   if (typeof value !== 'number' || !Number.isFinite(value)) return fallback;
   return Math.max(0, Math.floor(value));
@@ -176,7 +201,130 @@ function sanitizeAtkDefFlags(value: unknown): { atk: boolean; def: boolean } {
 
 function sanitizeGamePokemonArray(value: unknown): GamePokemon[] {
   if (!Array.isArray(value)) return [];
-  return value.filter((entry) => entry && typeof entry === 'object') as GamePokemon[];
+  return value
+    .map((entry) => sanitizeGamePokemon(entry))
+    .filter((entry): entry is GamePokemon => Boolean(entry));
+}
+
+function normalizeStatusId(value: unknown) {
+  if (typeof value !== 'string') return '';
+  const normalized = value.trim().toLowerCase().replace(/-/g, '_');
+  return STATUS_ALIAS_MAP[normalized] ?? normalized;
+}
+
+function sanitizeStatStages(value: unknown): GamePokemon['statStages'] {
+  const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+  const sanitizeStage = (key: keyof GamePokemon['statStages']) => {
+    const raw = source[key];
+    if (typeof raw !== 'number' || !Number.isFinite(raw)) return 0;
+    return Math.max(-6, Math.min(6, Math.trunc(raw)));
+  };
+  return {
+    attack: sanitizeStage('attack'),
+    defense: sanitizeStage('defense'),
+    spAtk: sanitizeStage('spAtk'),
+    spDef: sanitizeStage('spDef'),
+    speed: sanitizeStage('speed'),
+    accuracy: sanitizeStage('accuracy'),
+    evasion: sanitizeStage('evasion'),
+  };
+}
+
+function sanitizeNonVolatileStatusState(value: unknown, legacyStatus?: unknown) {
+  const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+  const fallbackId = normalizeStatusId(legacyStatus);
+  const id = normalizeStatusId(source.id) || (NON_VOLATILE_STATUS_IDS.has(fallbackId) ? fallbackId : '');
+  if (!NON_VOLATILE_STATUS_IDS.has(id)) return undefined;
+
+  const turnsRemaining = typeof source.turnsRemaining === 'number' && Number.isFinite(source.turnsRemaining)
+    ? Math.max(0, Math.trunc(source.turnsRemaining))
+    : undefined;
+  const toxicCounter = typeof source.toxicCounter === 'number' && Number.isFinite(source.toxicCounter)
+    ? Math.max(1, Math.trunc(source.toxicCounter))
+    : id === 'bad_poison' ? 1 : undefined;
+  const sourceMoveName = typeof source.sourceMoveName === 'string' && source.sourceMoveName.trim().length > 0
+    ? source.sourceMoveName
+    : undefined;
+
+  return {
+    id: id as NonNullable<GamePokemon['nonVolatileStatus']>['id'],
+    turnsRemaining,
+    toxicCounter,
+    sourceMoveName,
+  };
+}
+
+function sanitizeVolatileStatuses(value: unknown, legacyStatus?: unknown) {
+  const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+  const nextStatuses: NonNullable<GamePokemon['volatileStatuses']> = {};
+
+  for (const [rawKey, rawEntry] of Object.entries(source)) {
+    if (!rawEntry || typeof rawEntry !== 'object') continue;
+    const entry = rawEntry as Record<string, unknown>;
+    const id = normalizeStatusId(entry.id ?? rawKey);
+    if (!id) continue;
+    nextStatuses[id] = {
+      id,
+      active: entry.active !== false,
+      turnsRemaining: typeof entry.turnsRemaining === 'number' && Number.isFinite(entry.turnsRemaining)
+        ? Math.max(0, Math.trunc(entry.turnsRemaining))
+        : undefined,
+      counter: typeof entry.counter === 'number' && Number.isFinite(entry.counter)
+        ? Math.max(0, Math.trunc(entry.counter))
+        : undefined,
+      sourceMoveName: typeof entry.sourceMoveName === 'string' && entry.sourceMoveName.trim().length > 0
+        ? entry.sourceMoveName
+        : undefined,
+      linkedMoveName: typeof entry.linkedMoveName === 'string' && entry.linkedMoveName.trim().length > 0
+        ? entry.linkedMoveName
+        : undefined,
+      linkedPokemonId: typeof entry.linkedPokemonId === 'number' && Number.isFinite(entry.linkedPokemonId)
+        ? Math.trunc(entry.linkedPokemonId)
+        : undefined,
+    };
+  }
+
+  const legacyStatusId = normalizeStatusId(legacyStatus);
+  if (legacyStatusId && !NON_VOLATILE_STATUS_IDS.has(legacyStatusId) && !nextStatuses[legacyStatusId]) {
+    nextStatuses[legacyStatusId] = {
+      id: legacyStatusId,
+      active: true,
+    };
+  }
+
+  return nextStatuses;
+}
+
+function sanitizeGamePokemon(value: unknown): GamePokemon | null {
+  if (!value || typeof value !== 'object') return null;
+  const source = value as Record<string, unknown>;
+  const legacyStatus = source.status;
+  const nonVolatileStatus = sanitizeNonVolatileStatusState(source.nonVolatileStatus, legacyStatus);
+  const volatileStatuses = sanitizeVolatileStatuses(source.volatileStatuses, legacyStatus);
+
+  return {
+    ...(source as unknown as GamePokemon),
+    currentHp: sanitizePositiveInt(source.currentHp, 0),
+    maxHp: sanitizePositiveInt(source.maxHp, 1),
+    baseTypes: Array.isArray(source.baseTypes)
+      ? source.baseTypes as GamePokemon['baseTypes']
+      : Array.isArray(source.types)
+        ? source.types as GamePokemon['baseTypes']
+        : [],
+    selectedMoves: Array.isArray(source.selectedMoves) ? source.selectedMoves as GamePokemon['selectedMoves'] : [],
+    gender: source.gender === 'male' || source.gender === 'female' || source.gender === 'genderless'
+      ? source.gender
+      : undefined,
+    nonVolatileStatus,
+    volatileStatuses,
+    statStages: sanitizeStatStages(source.statStages ?? DEFAULT_STAT_STAGES),
+    factoryChoiceLockedMoveName: typeof source.factoryChoiceLockedMoveName === 'string'
+      ? source.factoryChoiceLockedMoveName
+      : null,
+    factoryLastUsedMoveName: typeof source.factoryLastUsedMoveName === 'string'
+      ? source.factoryLastUsedMoveName
+      : null,
+  };
 }
 
 const VALID_FIELD_STATES: FieldState[] = [
@@ -408,6 +556,22 @@ function normalizeSaveData(value: unknown): GameSaveData {
   };
 }
 
+function normalizeSaveDataSafely(value: unknown): GameSaveData {
+  try {
+    return normalizeSaveData(value);
+  } catch (error) {
+    console.error('Failed to normalize full save data, attempting battle resume fallback.', error);
+    const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+    const factory = source.factory && typeof source.factory === 'object'
+      ? { ...(source.factory as Record<string, unknown>), battleResume: createEmptyBattleResume() }
+      : { battleResume: createEmptyBattleResume() };
+    return normalizeSaveData({
+      ...source,
+      factory,
+    });
+  }
+}
+
 function readLegacySaveFallback(): Partial<GameSaveData> {
   if (typeof window === 'undefined') return {};
 
@@ -452,7 +616,7 @@ function readLegacySaveFallback(): Partial<GameSaveData> {
 }
 
 export function createSaveData(input: SaveDraftInput): GameSaveData {
-  return normalizeSaveData({
+  return normalizeSaveDataSafely({
     schemaVersion: SAVE_SCHEMA_VERSION,
     updatedAt: new Date().toISOString(),
     progress: {
@@ -474,7 +638,7 @@ export function createSaveData(input: SaveDraftInput): GameSaveData {
 
 export function parseSaveDataFromText(text: string): GameSaveData {
   const parsed = JSON.parse(text) as unknown;
-  return normalizeSaveData(parsed);
+  return normalizeSaveDataSafely(parsed);
 }
 
 export function loadSaveData(): GameSaveData | null {
@@ -483,7 +647,7 @@ export function loadSaveData(): GameSaveData | null {
   const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
   if (!raw) {
     const legacy = readLegacySaveFallback();
-    const normalized = normalizeSaveData(legacy);
+    const normalized = normalizeSaveDataSafely(legacy);
     if (normalized.progress.totalRents > 0 || normalized.progress.highestStreak > 0 || normalized.progress.specialModeUnlocked || normalized.settings.developerMode) {
       persistSaveData(normalized);
       return normalized;
@@ -493,7 +657,7 @@ export function loadSaveData(): GameSaveData | null {
 
   try {
     const parsed = JSON.parse(raw) as unknown;
-    const normalized = normalizeSaveData(parsed);
+    const normalized = normalizeSaveDataSafely(parsed);
     return normalized;
   } catch (error) {
     console.error('Failed to parse save data from localStorage', error);

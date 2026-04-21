@@ -1,21 +1,69 @@
 import { useCallback, useEffect, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Weather } from '../../../types';
-import { TYPE_CHART } from '../../../constants';
-import { ACC_EVA_STAGE_MODIFIERS, STAT_STAGE_MODIFIERS } from '../../../uiAppConstants';
 import { getFactoryTokenReward } from '../config/factoryRewards';
 import {
   FACTORY_STYLE,
   type FactoryStyleId,
-  getFactoryStyleAffinityBonus,
   getFactoryTeamStyle,
 } from '../config/factoryBattleStyle';
 import {
-  applyMoveSecondaryEffects as resolveMoveSecondaryEffects,
-  applyStatusResidualDamage as resolveStatusResidualDamage,
-  applyWeatherChipDamage as resolveWeatherChipDamage,
+  calculateConfusionSelfHitDamage as resolveConfusionSelfHitDamage,
+  calculateDamage as resolveDamageStep,
+  estimateDeterministicDamageWithContext,
+  evaluateAiMove,
+  getBestTypePressureAgainstTarget,
+  getEffectiveBattleSpeed,
+  resolveActionSelection,
+  resolveBeforeMoveChecks as resolveBeforeMoveChecksStep,
+  clearProtectionChain,
+  resolveEndTurn,
+  resolveMoveStrikePlan,
+  getMoveStrikeBasePower,
+  resolveProtectionCollision,
+  resolveProtectionMoveUse,
+  resolveSecondaryEffectsStep,
+  clearSwitchingBattleState,
+} from '../battle/engine';
+import {
+  getItemDamageBasedHealDenominator,
+  getItemFlinchChance,
+  getItemMentalStatuses,
+  getMoveDrainPercent,
+  getMoveFieldState,
+  getMoveHealingPercent,
+  getMoveSecondaryEffects,
+  getItemBattleData,
+  getItemPinchHealDenominator,
+  getItemPinchStat,
+  getItemPinchTriggerDenominator,
+  getItemPpRestoreAmount,
+  getItemPriorityProcChance,
+  getItemStatusCures,
+  getItemSurviveAtOneHpChance,
+  getMoveTarget,
+  getMoveWeather,
+  hasAbilityBattleEffect,
+  hasMoveBattleEffect,
+  hasItemBattleEffect,
+  isMegaStoneLikeItem,
+  isZCrystalLikeItem,
+  rollMoveHitCount,
+} from '../data/battle';
+import {
   findNextLivingLeadIndex,
 } from '../lib/battleResolution';
+import {
+  clearNonVolatileStatus,
+  clearVolatileStatus,
+  clearVolatileStatuses,
+  getNonVolatileStatusId,
+  getVolatileStatus,
+  hasVolatileStatus,
+  normalizeBattleStatusId,
+  setNonVolatileStatus,
+  setVolatileStatus,
+} from '../utils/battleStatus';
 import type {
   BattleAnimation,
   BattleSpecialMode,
@@ -106,25 +154,90 @@ const AI_CONSERVE_GIMMICK_CHANCE_PER_MON = 10;
 const AI_GIMMICK_PREDICT_CHANCE = 40;
 const DEFAULT_WEATHER_TURNS = 5;
 const DEFAULT_FIELD_TURNS = 5;
+const UPROAR_TURNS_GEN5_PLUS = 3;
+const SLEEP_TALK_BANNED_MOVE_NAMES = new Set([
+  'razor-wind',
+  'fly',
+  'solar-beam',
+  'dig',
+  'mimic',
+  'bide',
+  'skull-bash',
+  'sky-attack',
+  'struggle',
+  'sleep-talk',
+  'uproar',
+  'focus-punch',
+  'nature-power',
+  'assist',
+  'dive',
+  'bounce',
+  'me-first',
+  'copycat',
+  'chatter',
+  'shadow-force',
+  'sky-drop',
+  'freeze-shock',
+  'ice-burn',
+  'belch',
+  'phantom-force',
+  'geomancy',
+  'celebrate',
+  'hold-hands',
+  'solar-blade',
+  'beak-blast',
+  'shell-trap',
+  'dynamax-cannon',
+  'meteor-beam',
+  'blazing-torque',
+  'wicked-torque',
+  'noxious-torque',
+  'combat-torque',
+  'magical-torque',
+  'electro-shot',
+]);
 
-const WEATHER_BY_MOVE: Partial<Record<string, Weather>> = {
-  'sunny-day': 'sunny',
-  'rain-dance': 'rainy',
-  sandstorm: 'sandstorm',
-  hail: 'hail',
-  snowscape: 'hail',
-};
-
-const FIELD_BY_MOVE: Partial<Record<string, FieldState>> = {
-  'electric-terrain': 'electric_terrain',
-  'grassy-terrain': 'grassy_terrain',
-  'misty-terrain': 'misty_terrain',
-  'psychic-terrain': 'psychic_terrain',
-  'trick-room': 'trick_room',
-  'magic-room': 'magic_room',
-  'wonder-room': 'wonder_room',
-  gravity: 'gravity',
-  'fairy-lock': 'fairy_lock',
+const HELD_ITEM_LABELS: Record<string, string> = {
+  bright_powder: 'Bright Powder',
+  kings_rock: "King's Rock",
+  leftovers: 'Leftovers',
+  quick_claw: 'Quick Claw',
+  scope_lens: 'Scope Lens',
+  shell_bell: 'Shell Bell',
+  sitrus_berry: 'Sitrus Berry',
+  lum_berry: 'Lum Berry',
+  cheri_berry: 'Cheri Berry',
+  chesto_berry: 'Chesto Berry',
+  pecha_berry: 'Pecha Berry',
+  rawst_berry: 'Rawst Berry',
+  persim_berry: 'Persim Berry',
+  liechi_berry: 'Liechi Berry',
+  petaya_berry: 'Petaya Berry',
+  salac_berry: 'Salac Berry',
+  lax_incense: 'Lax Incense',
+  charcoal: 'Charcoal',
+  mystic_water: 'Mystic Water',
+  magnet: 'Magnet',
+  black_belt: 'Black Belt',
+  poison_barb: 'Poison Barb',
+  never_melt_ice: 'Never-Melt Ice',
+  twisted_spoon: 'Twisted Spoon',
+  hard_stone: 'Hard Stone',
+  sharp_beak: 'Sharp Beak',
+  silver_powder: 'Silver Powder',
+  metal_coat: 'Metal Coat',
+  miracle_seed: 'Miracle Seed',
+  soft_sand: 'Soft Sand',
+  black_glasses: 'BlackGlasses',
+  silk_scarf: 'Silk Scarf',
+  choice_band: 'Choice Band',
+  focus_band: 'Focus Band',
+  white_herb: 'White Herb',
+  mental_herb: 'Mental Herb',
+  thick_club: 'Thick Club',
+  leek: 'Leek',
+  deep_sea_scale: 'Deep Sea Scale',
+  leppa_berry: 'Leppa Berry',
 };
 
 const TERRAIN_FIELD_STATES: FieldState[] = ['electric_terrain', 'grassy_terrain', 'misty_terrain', 'psychic_terrain'];
@@ -145,6 +258,14 @@ interface AiMoveEval {
   score: number;
   expectedDamage: number;
   wouldKo: boolean;
+}
+
+interface EnemyActionDecision {
+  selectedMove: Move;
+  useGimmick: boolean;
+  usableGimmick: BattleSpecialMode | null;
+  aiFlags: number;
+  moveEvals: AiMoveEval[];
 }
 
 interface GimmickAltCalcs {
@@ -223,6 +344,257 @@ export function useBattleController({
 }: UseBattleControllerParams) {
   const previousTurnRef = useRef<BattleTurn | null>(null);
   const pendingPlayerSwitchRef = useRef(false);
+  const pendingForcedPlayerTurnRef = useRef<BattleTurn | null>(null);
+  const liveBattleStateRef = useRef({
+    gameState,
+    turn,
+    playerTeam,
+    enemyTeam,
+    enemy,
+  });
+  liveBattleStateRef.current = {
+    gameState,
+    turn,
+    playerTeam,
+    enemyTeam,
+    enemy,
+  };
+
+  const normalizeHeldItemId = useCallback((itemId?: string) => {
+    return (itemId ?? '').toLowerCase().replace(/-/g, '_');
+  }, []);
+
+  const getHeldItemLabel = useCallback((itemId?: string) => {
+    const normalized = normalizeHeldItemId(itemId);
+    if (!normalized) return 'Held Item';
+    return HELD_ITEM_LABELS[normalized]
+      ?? normalized
+        .split('_')
+        .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+        .join(' ');
+  }, [normalizeHeldItemId]);
+
+  const getStatusLabel = useCallback((status?: string) => {
+    const normalized = normalizeBattleStatusId(status);
+    if (normalized === 'paralysis') return 'paralysis';
+    if (normalized === 'sleep') return 'sleep';
+    if (normalized === 'poison' || normalized === 'bad_poison') return 'poison';
+    if (normalized === 'burn') return 'burn';
+    if (normalized === 'freeze') return 'freeze';
+    if (normalized === 'confusion') return 'confusion';
+    return normalized || 'status';
+  }, []);
+
+  const getStageLabel = useCallback((stageKey: keyof GamePokemon['statStages']) => {
+    if (stageKey === 'attack') return 'Attack';
+    if (stageKey === 'defense') return 'Defense';
+    if (stageKey === 'spAtk') return 'Sp. Atk';
+    if (stageKey === 'spDef') return 'Sp. Def';
+    if (stageKey === 'speed') return 'Speed';
+    if (stageKey === 'accuracy') return 'Accuracy';
+    return 'Evasion';
+  }, []);
+
+  const isGhostType = useCallback((pokemon: GamePokemon | null | undefined) => {
+    return Boolean(pokemon?.types.some((typeSlot) => typeSlot.type.name === 'ghost'));
+  }, []);
+
+  const hasPrimaryAbilityEffect = useCallback((pokemon: GamePokemon | null | undefined, effectId: string) => {
+    return hasAbilityBattleEffect(pokemon?.abilities?.[0]?.ability?.name, effectId);
+  }, []);
+
+  const isSleepPreventingFieldActive = useCallback(() => {
+    return fieldState.includes('electric_terrain') || fieldState.includes('misty_terrain');
+  }, [fieldState]);
+
+  const isMoveUsableWhileAsleep = useCallback((move?: Move | null) => {
+    if (!move) return false;
+    return hasMoveBattleEffect(move, 'SNORE') || hasMoveBattleEffect(move, 'SLEEP_TALK');
+  }, []);
+
+  const isSleepTalkBannedMove = useCallback((move?: Move | null) => {
+    if (!move) return true;
+    return SLEEP_TALK_BANNED_MOVE_NAMES.has(move.name);
+  }, []);
+
+  const getForcedLockedMove = useCallback((pokemon: GamePokemon | null | undefined) => {
+    if (!pokemon || !hasVolatileStatus(pokemon, 'uproar')) return null;
+    return pokemon.selectedMoves.find((candidate) => candidate.name === 'uproar') ?? null;
+  }, []);
+
+  const chooseSleepTalkMove = useCallback((pokemon: GamePokemon | null | undefined) => {
+    if (!pokemon) return null;
+    if (!hasPrimaryAbilityEffect(pokemon, 'COMATOSE') && getNonVolatileStatusId(pokemon) !== 'sleep') {
+      return null;
+    }
+
+    const eligibleMoves = pokemon.selectedMoves.filter((candidate) => !isSleepTalkBannedMove(candidate));
+    if (eligibleMoves.length === 0) return null;
+
+    return eligibleMoves[Math.floor(Math.random() * eligibleMoves.length)] ?? null;
+  }, [getNonVolatileStatusId, isSleepTalkBannedMove]);
+
+  const hasHeldItem = useCallback((pokemon: GamePokemon | null | undefined, expectedId: string) => {
+    if (!pokemon) return false;
+    return getItemBattleData(pokemon.factoryHeldItemId)?.id === expectedId;
+  }, []);
+
+  const hasHeldItemEffect = useCallback((pokemon: GamePokemon | null | undefined, effectId: string) => {
+    return hasItemBattleEffect(pokemon?.factoryHeldItemId, effectId);
+  }, []);
+
+  const consumeHeldItem = useCallback((pokemon: GamePokemon, consumedItemId: string) => {
+    if (normalizeHeldItemId(pokemon.factoryHeldItemId) !== consumedItemId) return pokemon;
+    return { ...pokemon, factoryHeldItemId: undefined };
+  }, [normalizeHeldItemId]);
+
+  const tryConsumeStatusCureBerry = useCallback((pokemon: GamePokemon | null | undefined) => {
+    if (!pokemon) return { pokemon, message: null as string | null };
+    const nonVolatileStatusId = getNonVolatileStatusId(pokemon);
+    const confused = hasVolatileStatus(pokemon, 'confusion');
+    if (!nonVolatileStatusId && !confused) return { pokemon, message: null as string | null };
+
+    const heldId = normalizeHeldItemId(pokemon.factoryHeldItemId);
+    const curedByItem = getItemStatusCures(heldId);
+    if (curedByItem.length === 0) return { pokemon, message: null as string | null };
+
+    let shouldCure = false;
+    const curedStatuses: string[] = [];
+
+    shouldCure = (
+      curedByItem.includes('any-status') && Boolean(nonVolatileStatusId || confused)
+    ) || (
+      Boolean(nonVolatileStatusId) && curedByItem.includes(nonVolatileStatusId)
+    ) || (
+      confused && curedByItem.includes('confusion')
+    );
+
+    if (!shouldCure) return { pokemon, message: null as string | null };
+
+    let nextPokemon = consumeHeldItem(pokemon, heldId);
+    if (curedByItem.includes('any-status')) {
+      if (nonVolatileStatusId) {
+        nextPokemon = clearNonVolatileStatus(nextPokemon);
+        if (nonVolatileStatusId === 'sleep') {
+          nextPokemon = clearVolatileStatus(nextPokemon, 'nightmare');
+        }
+        curedStatuses.push(getStatusLabel(nonVolatileStatusId));
+      }
+      if (confused) {
+        nextPokemon = clearVolatileStatus(nextPokemon, 'confusion');
+        curedStatuses.push(getStatusLabel('confusion'));
+      }
+    } else if (confused && curedByItem.includes('confusion')) {
+      nextPokemon = clearVolatileStatus(nextPokemon, 'confusion');
+      curedStatuses.push(getStatusLabel('confusion'));
+    } else if (nonVolatileStatusId) {
+      nextPokemon = clearNonVolatileStatus(nextPokemon);
+      if (nonVolatileStatusId === 'sleep') {
+        nextPokemon = clearVolatileStatus(nextPokemon, 'nightmare');
+      }
+      curedStatuses.push(getStatusLabel(nonVolatileStatusId));
+    }
+
+    const curedStatus = curedStatuses.join(' and ');
+    return {
+      pokemon: nextPokemon,
+      message: `${getLocalized(nextPokemon)} cured its ${curedStatus} with ${getHeldItemLabel(heldId)}!`,
+    };
+  }, [consumeHeldItem, getHeldItemLabel, getLocalized, getStatusLabel, normalizeHeldItemId]);
+
+  const tryActivateSitrusBerry = useCallback((pokemon: GamePokemon | null | undefined) => {
+    if (!pokemon) return { pokemon, message: null as string | null };
+    const heldId = normalizeHeldItemId(pokemon.factoryHeldItemId);
+    const triggerDenominator = getItemPinchTriggerDenominator(heldId);
+    const healDenominator = getItemPinchHealDenominator(heldId);
+    if (!hasHeldItemEffect(pokemon, 'SITRUS_BERRY') || !triggerDenominator || !healDenominator) {
+      return { pokemon, message: null as string | null };
+    }
+    if (pokemon.currentHp <= 0) return { pokemon, message: null as string | null };
+    const triggerThreshold = Math.floor(pokemon.maxHp / triggerDenominator);
+    if (pokemon.currentHp > triggerThreshold) return { pokemon, message: null as string | null };
+
+    const maxRecover = Math.floor(pokemon.maxHp / healDenominator);
+    const recover = Math.max(1, Math.min(maxRecover, pokemon.maxHp - pokemon.currentHp));
+    if (recover <= 0) return { pokemon, message: null as string | null };
+
+    const consumed = consumeHeldItem(pokemon, heldId);
+    const nextPokemon = { ...consumed, currentHp: Math.min(consumed.maxHp, consumed.currentHp + recover) };
+    return {
+      pokemon: nextPokemon,
+      message: `${getLocalized(nextPokemon)} restored HP with ${getHeldItemLabel(heldId)}!`,
+    };
+  }, [consumeHeldItem, getHeldItemLabel, getLocalized, hasHeldItemEffect, normalizeHeldItemId]);
+
+  const tryActivatePinchStatBerry = useCallback((pokemon: GamePokemon | null | undefined) => {
+    if (!pokemon) return { pokemon, message: null as string | null };
+    if (pokemon.currentHp <= 0) return { pokemon, message: null as string | null };
+
+    const heldId = normalizeHeldItemId(pokemon.factoryHeldItemId);
+    const targetStat = getItemPinchStat(heldId);
+    const triggerDenominator = getItemPinchTriggerDenominator(heldId);
+    if (!targetStat || !triggerDenominator) return { pokemon, message: null as string | null };
+
+    const triggerThreshold = Math.floor(pokemon.maxHp / triggerDenominator);
+    if (pokemon.currentHp > triggerThreshold) return { pokemon, message: null as string | null };
+
+    const currentStage = pokemon.statStages[targetStat];
+    const nextStage = Math.min(6, currentStage + 1);
+    if (nextStage <= currentStage) return { pokemon, message: null as string | null };
+
+    const consumed = consumeHeldItem(pokemon, heldId);
+    const nextPokemon = {
+      ...consumed,
+      statStages: {
+        ...consumed.statStages,
+        [targetStat]: nextStage,
+      },
+    };
+    return {
+      pokemon: nextPokemon,
+      message: `${getLocalized(nextPokemon)}'s ${getStageLabel(targetStat)} rose with ${getHeldItemLabel(heldId)}!`,
+    };
+  }, [consumeHeldItem, getHeldItemLabel, getLocalized, getStageLabel, normalizeHeldItemId]);
+
+  const tryActivateWhiteHerb = useCallback((before: GamePokemon | null | undefined, after: GamePokemon | null | undefined) => {
+    if (!before || !after) return { pokemon: after, message: null as string | null };
+    if (!hasHeldItem(after, 'white_herb')) return { pokemon: after, message: null as string | null };
+
+    const keys: (keyof GamePokemon['statStages'])[] = ['attack', 'defense', 'spAtk', 'spDef', 'speed', 'accuracy', 'evasion'];
+    let shouldRestore = false;
+    const restoredStages = { ...after.statStages };
+    for (const key of keys) {
+      if (after.statStages[key] < before.statStages[key]) {
+        restoredStages[key] = before.statStages[key];
+        shouldRestore = true;
+      }
+    }
+    if (!shouldRestore) return { pokemon: after, message: null as string | null };
+
+    const consumed = consumeHeldItem(after, 'white_herb');
+    const nextPokemon = { ...consumed, statStages: restoredStages };
+    return {
+      pokemon: nextPokemon,
+      message: `${getLocalized(nextPokemon)} restored its lowered stats with ${getHeldItemLabel('white_herb')}!`,
+    };
+  }, [consumeHeldItem, getHeldItemLabel, getLocalized, hasHeldItem]);
+
+  const tryConsumeMentalHerb = useCallback((pokemon: GamePokemon | null | undefined) => {
+    if (!pokemon) return { pokemon, message: null as string | null };
+    const heldId = normalizeHeldItemId(pokemon.factoryHeldItemId);
+    const mentalStatuses = getItemMentalStatuses(heldId);
+    if (!hasHeldItemEffect(pokemon, 'MENTAL_HERB') || mentalStatuses.length === 0) {
+      return { pokemon, message: null as string | null };
+    }
+    const activeMentalStatuses = [...mentalStatuses].filter((statusId) => hasVolatileStatus(pokemon, statusId));
+    if (activeMentalStatuses.length === 0) return { pokemon, message: null as string | null };
+
+    const nextPokemon = clearVolatileStatuses(consumeHeldItem(pokemon, heldId), activeMentalStatuses);
+    return {
+      pokemon: nextPokemon,
+      message: `${getLocalized(nextPokemon)} recovered from ${getStatusLabel(activeMentalStatuses[0])} with ${getHeldItemLabel(heldId)}!`,
+    };
+  }, [consumeHeldItem, getHeldItemLabel, getLocalized, getItemMentalStatuses, getStatusLabel, hasHeldItemEffect, normalizeHeldItemId]);
 
   const addMessagesSequentially = useCallback(async (messages: string[]) => {
     setIsMessageProcessing(true);
@@ -240,16 +612,30 @@ export function useBattleController({
     setBattleMenuTab('MAIN');
   }, [setBattleMenuTab, setTurn]);
 
-  const getWeatherFromMove = useCallback((moveName: string): Weather | null => {
-    return WEATHER_BY_MOVE[moveName] ?? null;
-  }, []);
-
-  const getFieldFromMove = useCallback((moveName: string): FieldState | null => {
-    return FIELD_BY_MOVE[moveName] ?? null;
-  }, []);
-
   const getMoveMaxPp = useCallback((move: Move) => move.maxPp ?? move.pp ?? 0, []);
   const getMoveCurrentPp = useCallback((move: Move) => move.currentPp ?? getMoveMaxPp(move), [getMoveMaxPp]);
+
+  const getEncoredMove = useCallback((pokemon: GamePokemon | null | undefined) => {
+    const linkedMoveName = getVolatileStatus(pokemon, 'encore')?.linkedMoveName;
+    if (!pokemon || !linkedMoveName) return null;
+    return pokemon.selectedMoves.find((candidate) => candidate.name === linkedMoveName) ?? null;
+  }, []);
+
+  const isMoveBlockedByRestrictions = useCallback((pokemon: GamePokemon | null | undefined, move: Move | null | undefined) => {
+    if (!pokemon || !move) return false;
+
+    const encoredMove = getEncoredMove(pokemon);
+    if (encoredMove && move.name !== encoredMove.name) return true;
+
+    const disabledMoveName = getVolatileStatus(pokemon, 'disable')?.linkedMoveName;
+    if (disabledMoveName && move.name === disabledMoveName) return true;
+
+    if (hasVolatileStatus(pokemon, 'taunt') && move.damage_class === 'status') return true;
+
+    if (hasVolatileStatus(pokemon, 'torment') && pokemon.factoryLastUsedMoveName === move.name) return true;
+
+    return false;
+  }, [getEncoredMove]);
 
   const applyFieldEffect = useCallback((nextField: FieldState) => {
     setFieldState((prev) => {
@@ -293,111 +679,127 @@ export function useBattleController({
     }
   }, [addMessagesSequentially]);
 
-  const applyWeatherChipDamage = useCallback(async (pokemon: GamePokemon) => {
-    const result = resolveWeatherChipDamage({ pokemon, weather, getLocalized });
-    if (result.messages.length > 0) {
-      await addMessagesSequentially(result.messages);
-    }
-    return result.pokemon;
-  }, [addMessagesSequentially, getLocalized, weather]);
-
-  const applyResidualStatusDamage = useCallback(async (pokemon: GamePokemon) => {
-    const result = resolveStatusResidualDamage(pokemon, getLocalized);
-    if (result.messages.length > 0) {
-      await addMessagesSequentially(result.messages);
-    }
-    return result;
-  }, [addMessagesSequentially, getLocalized]);
+  const calculateConfusionSelfHitDamage = useCallback((pokemon: GamePokemon) => {
+    return resolveConfusionSelfHitDamage(pokemon);
+  }, []);
 
   const applyMoveSecondaryEffects = useCallback(async ({
     move,
     actingSide,
     playerTeam: currentPlayerTeam,
     enemyTeam: currentEnemyTeam,
+    targetHasActedThisTurn,
+    extraFlinchChance,
+    allowUserEffects,
+    allowTargetEffects,
   }: {
     move: Move;
     actingSide: 'player' | 'enemy';
     playerTeam: GamePokemon[];
     enemyTeam: GamePokemon[];
+    targetHasActedThisTurn?: boolean;
+    extraFlinchChance?: number;
+    allowUserEffects?: boolean;
+    allowTargetEffects?: boolean;
   }) => {
-    const result = resolveMoveSecondaryEffects({
+    const result = resolveSecondaryEffectsStep({
       move,
       actingSide,
-      teams: {
-        playerTeam: currentPlayerTeam,
-        enemyTeam: currentEnemyTeam,
-      },
+      playerTeam: currentPlayerTeam,
+      enemyTeam: currentEnemyTeam,
+      fieldState,
       getLocalized,
+      targetHasActedThisTurn,
+      extraFlinchChance,
+      allowUserEffects,
+      allowTargetEffects,
     });
 
-    if (result.messages.length > 0) {
-      await addMessagesSequentially(result.messages);
+    const messages = result.events
+      .filter((event) => event.type === 'message')
+      .map((event) => event.message);
+    if (messages.length > 0) {
+      await addMessagesSequentially(messages);
     }
 
     return result;
-  }, [addMessagesSequentially, getLocalized]);
+  }, [addMessagesSequentially, fieldState, getLocalized]);
 
   const resolvePreTurnStatus = useCallback(async ({
     combatant,
     isEnemy,
     currentPlayerTeam,
     currentEnemyTeam,
+    move,
   }: {
     combatant: GamePokemon;
     isEnemy: boolean;
     currentPlayerTeam?: GamePokemon[];
     currentEnemyTeam?: GamePokemon[];
+    move?: Move;
   }) => {
-    let nextCombatant = combatant;
-    let nextPlayerTeam = currentPlayerTeam;
-    let nextEnemyTeam = currentEnemyTeam;
     const displayName = isEnemy ? `Enemy ${getLocalized(combatant)}` : getLocalized(combatant);
+    const result = resolveBeforeMoveChecksStep({
+      snapshot: {
+        playerTeam: [...(currentPlayerTeam ?? playerTeam)],
+        enemyTeam: [...(currentEnemyTeam ?? enemyTeam)],
+        weather,
+        weatherTurns,
+        fieldState,
+        fieldTurns,
+      },
+      side: isEnemy ? 'enemy' : 'player',
+      combatant,
+      move,
+      displayName,
+      hasAbilityEffect: hasPrimaryAbilityEffect,
+      isMoveUsableWhileAsleep,
+      getEncoredMove,
+      getMoveCurrentPp,
+      tryConsumeStatusCureBerry,
+      tryConsumeMentalHerb,
+      calculateConfusionSelfHitDamage,
+    });
 
-    if (combatant.status === 'sleep') {
-      await addMessagesSequentially([`${displayName} is fast asleep...`]);
-      if (Math.random() < 0.33) {
-        nextCombatant = { ...nextCombatant, status: undefined };
-        if (isEnemy) {
-          nextEnemyTeam = syncEnemyLead(nextCombatant, currentEnemyTeam);
-        } else {
-          nextPlayerTeam = syncPlayerLead(nextCombatant, currentPlayerTeam);
-        }
-        await addMessagesSequentially([`${displayName} woke up!`]);
-      } else {
-        setMainBattleTurn(isEnemy ? 'PLAYER' : 'ENEMY');
-        return { canAct: false, combatant, playerTeam: nextPlayerTeam, enemyTeam: nextEnemyTeam };
-      }
+    setPlayerTeam(result.snapshot.playerTeam);
+    setEnemyTeam(result.snapshot.enemyTeam);
+    setEnemy(result.snapshot.enemyTeam[0] ?? null);
+
+    const messages = result.events
+      .filter((event) => event.type === 'message')
+      .map((event) => event.message);
+    if (messages.length > 0) {
+      await addMessagesSequentially(messages);
+    }
+    if (result.nextTurn) {
+      setMainBattleTurn(result.nextTurn);
     }
 
-    if (nextCombatant.status === 'freeze') {
-      await addMessagesSequentially([`${displayName} is frozen solid...`]);
-      if (Math.random() < 0.2) {
-        nextCombatant = { ...nextCombatant, status: undefined };
-        if (isEnemy) {
-          nextEnemyTeam = syncEnemyLead(nextCombatant, nextEnemyTeam);
-        } else {
-          nextPlayerTeam = syncPlayerLead(nextCombatant, nextPlayerTeam);
-        }
-        await addMessagesSequentially([`${displayName} thawed out!`]);
-      } else {
-        setMainBattleTurn(isEnemy ? 'PLAYER' : 'ENEMY');
-        return { canAct: false, combatant: nextCombatant, playerTeam: nextPlayerTeam, enemyTeam: nextEnemyTeam };
-      }
-    }
-
-    if (nextCombatant.status === 'paralysis' && Math.random() < 0.25) {
-      await addMessagesSequentially([`${displayName} is paralyzed and cannot move!`]);
-      setMainBattleTurn(isEnemy ? 'PLAYER' : 'ENEMY');
-      return { canAct: false, combatant: nextCombatant, playerTeam: nextPlayerTeam, enemyTeam: nextEnemyTeam };
-    }
-
-    return { canAct: true, combatant: nextCombatant, playerTeam: nextPlayerTeam, enemyTeam: nextEnemyTeam };
+    return {
+      canAct: result.canAct,
+      combatant: result.combatant,
+      playerTeam: result.snapshot.playerTeam,
+      enemyTeam: result.snapshot.enemyTeam,
+    };
   }, [
     addMessagesSequentially,
+    calculateConfusionSelfHitDamage,
+    enemyTeam,
+    fieldState,
+    fieldTurns,
+    getEncoredMove,
     getLocalized,
+    getMoveCurrentPp,
+    isMoveUsableWhileAsleep,
+    playerTeam,
+    setEnemy,
+    setEnemyTeam,
     setMainBattleTurn,
-    syncEnemyLead,
-    syncPlayerLead,
+    setPlayerTeam,
+    weather,
+    weatherTurns,
+    tryConsumeMentalHerb,
+    tryConsumeStatusCureBerry,
   ]);
 
   const resolveBattleResult = useCallback(async (result: 'WIN' | 'LOSS') => {
@@ -482,14 +884,18 @@ export function useBattleController({
 
     const nextEnemyTeam = [...currentEnemyTeam];
     [nextEnemyTeam[0], nextEnemyTeam[nextEnemyIdx]] = [nextEnemyTeam[nextEnemyIdx], nextEnemyTeam[0]];
+    nextEnemyTeam[0] = clearSwitchingBattleState(nextEnemyTeam[0]);
     setEnemyTeam(nextEnemyTeam);
     setEnemy(nextEnemyTeam[0]);
     await addMessagesSequentially([t('enemySentOut').replace('{name}', getLocalized(nextEnemyTeam[0]))]);
     setMainBattleTurn('PLAYER');
     return true;
-  }, [addMessagesSequentially, getLocalized, setEnemy, setEnemyTeam, setMainBattleTurn, t, winBattle]);
+  }, [addMessagesSequentially, clearSwitchingBattleState, getLocalized, setEnemy, setEnemyTeam, setMainBattleTurn, t, winBattle]);
 
-  const sendOutNextPlayer = useCallback(async (currentPlayerTeam: GamePokemon[]) => {
+  const sendOutNextPlayer = useCallback(async (
+    currentPlayerTeam: GamePokemon[],
+    options?: { nextTurnAfterSwitch?: BattleTurn },
+  ) => {
     const aliveIdx = findNextLivingLeadIndex(currentPlayerTeam);
     pendingPlayerSwitchRef.current = false;
     if (aliveIdx === -1) {
@@ -497,11 +903,14 @@ export function useBattleController({
       return false;
     }
 
-    setPlayerTeam([...currentPlayerTeam]);
+    pendingForcedPlayerTurnRef.current = options?.nextTurnAfterSwitch ?? 'PLAYER';
+    const nextPlayerTeam = [...currentPlayerTeam];
+    nextPlayerTeam[0] = clearSwitchingBattleState(nextPlayerTeam[0]);
+    setPlayerTeam(nextPlayerTeam);
     setTurn('PLAYER');
     setBattleMenuTab('POKEMON');
     return true;
-  }, [loseBattle, setBattleMenuTab, setPlayerTeam, setTurn]);
+  }, [clearSwitchingBattleState, loseBattle, setBattleMenuTab, setPlayerTeam, setTurn]);
 
   const calculateDamage = useCallback((
     move: Move,
@@ -509,69 +918,21 @@ export function useBattleController({
     defender: GamePokemon,
     atkBuff: boolean,
     defBuff: boolean,
+    options?: {
+      basePowerOverride?: number;
+      skipAccuracyCheck?: boolean;
+    },
   ) => {
-    if (move.damage_class === 'status') {
-      return { damage: 0, multiplier: 1, isMiss: false, isCrit: false };
-    }
-
-    const basePower = move.power || 40;
-    const levelMultiplier = (2 * attacker.level / 5) + 2;
-
-    let attack = 50;
-    let defense = 50;
-
-    if (move.damage_class === 'special') {
-      attack = attacker.calculatedStats.spAtk * (STAT_STAGE_MODIFIERS[attacker.statStages.spAtk as keyof typeof STAT_STAGE_MODIFIERS] || 1);
-      defense = defender.calculatedStats.spDef * (STAT_STAGE_MODIFIERS[defender.statStages.spDef as keyof typeof STAT_STAGE_MODIFIERS] || 1);
-    } else {
-      attack = attacker.calculatedStats.attack * (STAT_STAGE_MODIFIERS[attacker.statStages.attack as keyof typeof STAT_STAGE_MODIFIERS] || 1);
-      defense = defender.calculatedStats.defense * (STAT_STAGE_MODIFIERS[defender.statStages.defense as keyof typeof STAT_STAGE_MODIFIERS] || 1);
-    }
-
-    if (attacker.status === 'burn' && move.damage_class === 'physical') {
-      attack *= 0.5;
-    }
-
-    let multiplier = 1;
-    defender.types.forEach((typeSlot) => {
-      const typeMultiplier = TYPE_CHART[move.type]?.[typeSlot.type.name];
-      if (typeMultiplier !== undefined) {
-        multiplier *= typeMultiplier;
-      }
+    return resolveDamageStep({
+      move,
+      attacker,
+      defender,
+      weather,
+      atkBuff,
+      defBuff,
+      basePowerOverride: options?.basePowerOverride,
+      skipAccuracyCheck: options?.skipAccuracyCheck,
     });
-
-    if (weather === 'sunny') {
-      if (move.type === 'fire') multiplier *= 1.5;
-      if (move.type === 'water') multiplier *= 0.5;
-    } else if (weather === 'rainy') {
-      if (move.type === 'water') multiplier *= 1.5;
-      if (move.type === 'fire') multiplier *= 0.5;
-    }
-
-    const combinedStage = Math.max(-6, Math.min(6, attacker.statStages.accuracy - defender.statStages.evasion));
-    const accuracyModifier = ACC_EVA_STAGE_MODIFIERS[combinedStage as keyof typeof ACC_EVA_STAGE_MODIFIERS] || 1;
-    const finalAccuracy = (move.accuracy || 100) * accuracyModifier;
-
-    if (Math.random() * 100 > finalAccuracy && move.accuracy !== null) {
-      return { damage: 0, multiplier: 0, isMiss: true, isCrit: false };
-    }
-
-    let critChance = 1 / 24;
-    if (move.critRate === 1) critChance = 1 / 8;
-    if (move.critRate === 2) critChance = 1 / 2;
-    if (move.critRate && move.critRate >= 3) critChance = 1;
-
-    const isCrit = Math.random() < critChance;
-    const critMultiplier = isCrit ? 1.5 : 1;
-
-    const zMoveBoost = attacker.specialBoostActive && attacker.specialBoostMode === 'ZMOVE' && move.damage_class !== 'status'
-      ? 1.55
-      : 1;
-    let damage = Math.floor((((levelMultiplier * basePower * attack / defense) / 50) + 2) * (Math.random() * 0.15 + 0.85) * multiplier * critMultiplier * zMoveBoost);
-    if (atkBuff) damage = Math.floor(damage * 1.5);
-    if (defBuff) damage = Math.floor(damage * 0.7);
-
-    return { damage, multiplier, isMiss: false, isCrit };
   }, [weather]);
 
   const SPECIAL_ITEM_BY_MODE: Record<BattleSpecialMode, string> = {
@@ -598,6 +959,14 @@ export function useBattleController({
         specialBoostMode: mode,
       };
     }
+    if (mode === 'TERA') {
+      return {
+        ...pokemon,
+        specialBoostActive: true,
+        specialBoostMode: mode,
+        types: [{ type: { name: pokemon.teraType || pokemon.baseTypes?.[0]?.type.name || pokemon.types[0]?.type.name || 'normal' } }],
+      };
+    }
     const multiplier = mode === 'MEGA' ? 1.26 : 1.2;
     const hpBonus = mode === 'DYNAMAX' ? 0.35 : 0.12;
 
@@ -612,10 +981,6 @@ export function useBattleController({
     const newMaxHp = Math.floor(pokemon.maxHp * (1 + hpBonus));
     const healAmount = Math.floor(newMaxHp * 0.2);
 
-    const nextTypes = mode === 'TERA'
-      ? [{ type: { name: pokemon.teraType || pokemon.types[0]?.type.name || 'normal' } }]
-      : pokemon.types;
-
     return {
       ...pokemon,
       calculatedStats,
@@ -623,7 +988,7 @@ export function useBattleController({
       currentHp: Math.min(newMaxHp, pokemon.currentHp + healAmount),
       specialBoostActive: true,
       specialBoostMode: mode,
-      types: nextTypes,
+      types: pokemon.types,
       dynamaxTurnsLeft: mode === 'DYNAMAX' ? 3 : undefined,
     };
   }, []);
@@ -636,147 +1001,17 @@ export function useBattleController({
   }, []);
 
   const isProtectLikeMove = useCallback((move: Move) => {
-    return move.name === 'protect' || move.name === 'detect' || move.name === 'kings-shield' || move.name === 'spiky-shield';
+    return (
+      hasMoveBattleEffect(move, 'PROTECT')
+      || hasMoveBattleEffect(move, 'DETECT')
+      || hasMoveBattleEffect(move, 'KINGS_SHIELD')
+      || hasMoveBattleEffect(move, 'SPIKY_SHIELD')
+    );
   }, []);
 
   const hasMatchingZCrystal = useCallback((pokemon: GamePokemon) => {
-    const held = pokemon.factoryHeldItemId?.toLowerCase() ?? '';
-    if (!held) return false;
-    return held.endsWith('-z') || held.endsWith('_z') || held.includes('ium-z') || held.includes('ium_z');
+    return isZCrystalLikeItem(pokemon.factoryHeldItemId);
   }, []);
-
-  const estimateDeterministicDamage = useCallback((
-    move: Move,
-    attacker: GamePokemon,
-    defender: GamePokemon,
-    gimmickMode: BattleSpecialMode | 'NONE',
-  ) => {
-    if (move.damage_class === 'status') return 0;
-
-    const attackStat = move.damage_class === 'special'
-      ? attacker.calculatedStats.spAtk
-      : attacker.calculatedStats.attack;
-    const defenseStat = move.damage_class === 'special'
-      ? defender.calculatedStats.spDef
-      : defender.calculatedStats.defense;
-    const basePower = move.power ?? 0;
-    const levelScale = ((2 * attacker.level) / 5) + 2;
-    let multiplier = 1;
-    defender.types.forEach((slot) => {
-      const typeMultiplier = TYPE_CHART[move.type]?.[slot.type.name];
-      if (typeMultiplier !== undefined) multiplier *= typeMultiplier;
-    });
-    const stab = attacker.types.some((slot) => slot.type.name === move.type) ? 1.25 : 1;
-    const accuracy = (move.accuracy ?? 100) / 100;
-    const gimmickBoost = gimmickMode === 'MEGA'
-      ? 1.26
-      : gimmickMode === 'DYNAMAX'
-        ? 1.2
-        : gimmickMode === 'ZMOVE'
-          ? 1.55
-        : gimmickMode === 'TERA' && move.type === (attacker.teraType || attacker.types[0]?.type.name || 'normal')
-          ? 1.5
-          : 1;
-    const raw = (((levelScale * basePower * Math.max(1, attackStat)) / Math.max(1, defenseStat)) / 50) + 2;
-    return Math.max(1, Math.floor(raw * multiplier * stab * accuracy * gimmickBoost));
-  }, []);
-
-  const estimateDeterministicDamageWithContext = useCallback((
-    move: Move,
-    attacker: GamePokemon,
-    defender: GamePokemon,
-    options?: {
-      attackerGimmick?: BattleSpecialMode | 'NONE';
-      defenderGimmick?: BattleSpecialMode | 'NONE';
-    },
-  ) => {
-    if (move.damage_class === 'status') return 0;
-    const attackerGimmick = options?.attackerGimmick ?? 'NONE';
-    const defenderGimmick = options?.defenderGimmick ?? 'NONE';
-
-    const attackStat = move.damage_class === 'special'
-      ? attacker.calculatedStats.spAtk
-      : attacker.calculatedStats.attack;
-    const defenseStat = move.damage_class === 'special'
-      ? defender.calculatedStats.spDef
-      : defender.calculatedStats.defense;
-    const basePower = move.power ?? 0;
-    const levelScale = ((2 * attacker.level) / 5) + 2;
-
-    const defenderTypes = defenderGimmick === 'TERA'
-      ? [{ type: { name: defender.teraType || defender.types[0]?.type.name || 'normal' } }]
-      : defender.types;
-
-    let multiplier = 1;
-    defenderTypes.forEach((slot) => {
-      const typeMultiplier = TYPE_CHART[move.type]?.[slot.type.name];
-      if (typeMultiplier !== undefined) multiplier *= typeMultiplier;
-    });
-
-    const attackerBaseStab = attacker.types.some((slot) => slot.type.name === move.type) ? 1.25 : 1;
-    const attackerTeraType = attacker.teraType || attacker.types[0]?.type.name || 'normal';
-    const attackerTeraStab = move.type === attackerTeraType ? 1.5 : 1;
-    const stab = attackerGimmick === 'TERA'
-      ? Math.max(attackerBaseStab, attackerTeraStab)
-      : attackerBaseStab;
-
-    const accuracy = (move.accuracy ?? 100) / 100;
-    const attackBoost = attackerGimmick === 'MEGA'
-      ? 1.26
-      : attackerGimmick === 'DYNAMAX'
-        ? 1.2
-        : attackerGimmick === 'ZMOVE'
-          ? 1.55
-        : 1;
-    const raw = (((levelScale * basePower * Math.max(1, attackStat) * attackBoost) / Math.max(1, defenseStat)) / 50) + 2;
-    return Math.max(1, Math.floor(raw * multiplier * stab * accuracy));
-  }, []);
-
-  const getMoveTypeMultiplier = useCallback((move: Move, defender: GamePokemon) => {
-    let multiplier = 1;
-    defender.types.forEach((typeSlot) => {
-      const typeMultiplier = TYPE_CHART[move.type]?.[typeSlot.type.name];
-      if (typeMultiplier !== undefined) {
-        multiplier *= typeMultiplier;
-      }
-    });
-    return multiplier;
-  }, []);
-
-  const estimateEnemyMoveScore = useCallback((
-    move: Move,
-    attacker: GamePokemon,
-    defender: GamePokemon,
-    preferredStyle: FactoryStyleId,
-  ) => {
-    const isStatus = move.damage_class === 'status';
-    const typeMultiplier = getMoveTypeMultiplier(move, defender);
-    const stab = attacker.types.some((slot) => slot.type.name === move.type) ? 1.25 : 1;
-    const accuracy = (move.accuracy ?? 100) / 100;
-    const basePower = move.power ?? 0;
-    const offensiveStat = move.damage_class === 'special' ? attacker.calculatedStats.spAtk : attacker.calculatedStats.attack;
-    const defensiveStat = move.damage_class === 'special' ? defender.calculatedStats.spDef : defender.calculatedStats.defense;
-    const expectedDamage = isStatus
-      ? 0
-      : Math.max(1, ((basePower * offensiveStat) / Math.max(1, defensiveStat)) * typeMultiplier * stab * accuracy / 12);
-    const wouldKO = expectedDamage >= defender.currentHp;
-
-    let score = expectedDamage;
-    if (wouldKO) score += 140;
-    if (typeMultiplier > 1) score += 18;
-    if (typeMultiplier === 0) score -= 40;
-
-    if (isStatus) {
-      score += 8;
-      if (move.ailment && !defender.status) score += 30;
-      if (move.statChanges?.some((change) => change.change > 0)) score += 18;
-      if (move.healing && attacker.currentHp < attacker.maxHp * 0.5) score += 22;
-    }
-
-    score += getFactoryStyleAffinityBonus(move, preferredStyle);
-
-    return score;
-  }, [getMoveTypeMultiplier]);
 
   const evaluateEnemyMoves = useCallback((
     actingEnemy: GamePokemon,
@@ -785,15 +1020,23 @@ export function useBattleController({
     gimmickMode: BattleSpecialMode | 'NONE',
   ): AiMoveEval[] => {
     return actingEnemy.selectedMoves.map((move) => {
-      const baseScore = estimateEnemyMoveScore(move, actingEnemy, defender, preferredStyle);
-      const expectedDamage = estimateDeterministicDamage(move, actingEnemy, defender, gimmickMode);
-      const wouldKo = expectedDamage >= defender.currentHp;
-      let score = baseScore;
+      const evaluation = evaluateAiMove({
+        move,
+        attacker: actingEnemy,
+        defender,
+        preferredStyle,
+        fieldState,
+        attackerGimmick: gimmickMode,
+        defenderGimmick: 'NONE',
+      });
+      const expectedDamage = evaluation.expectedDamage;
+      const wouldKo = evaluation.wouldKo;
+      let score = evaluation.score;
       if (wouldKo) score += 80;
       if ((getAiFlagsForTier(enemyAiTier) & AI_FLAG_TRY_TO_FAINT) !== 0) score += expectedDamage * 0.25;
       return { move, score, expectedDamage, wouldKo };
     });
-  }, [enemyAiTier, estimateDeterministicDamage, estimateEnemyMoveScore, getAiFlagsForTier]);
+  }, [enemyAiTier, evaluateAiMove, fieldState, getAiFlagsForTier]);
 
   const getEnemyUsableGimmick = useCallback((
     actingEnemy: GamePokemon,
@@ -803,8 +1046,7 @@ export function useBattleController({
     if (actingEnemy.specialBoostActive) return null;
     if (enemySpecialUsage[mode]) return null;
     if (mode === 'MEGA') {
-      const held = actingEnemy.factoryHeldItemId?.toLowerCase() ?? '';
-      if (!(held.includes('ite') || held === 'red_orb' || held === 'blue_orb')) return null;
+      if (!isMegaStoneLikeItem(actingEnemy.factoryHeldItemId)) return null;
     }
     if (mode === 'ZMOVE' && !hasMatchingZCrystal(actingEnemy)) return null;
     if (mode === 'TERA' && !actingEnemy.teraType) return null;
@@ -1000,9 +1242,7 @@ export function useBattleController({
   ]);
 
   const hasMatchingMegaStone = useCallback((pokemon: GamePokemon) => {
-    const held = pokemon.factoryHeldItemId?.toLowerCase() ?? '';
-    if (!held) return false;
-    return held.includes('ite') || held === 'red_orb' || held === 'blue_orb';
+    return isMegaStoneLikeItem(pokemon.factoryHeldItemId);
   }, []);
 
   const canUseBattleSpecialByMode: Record<BattleSpecialMode, boolean> = {
@@ -1144,15 +1384,21 @@ export function useBattleController({
     const currentLead = newTeam[0];
     const incomingPokemon = newTeam[index];
     if (!currentLead || !incomingPokemon || incomingPokemon.currentHp <= 0) return;
+    if (getForcedLockedMove(currentLead)) {
+      await addMessagesSequentially([`${getLocalized(currentLead)} cannot switch out during the uproar!`]);
+      return;
+    }
+    const withdrawnLead = clearSwitchingBattleState(currentLead);
 
     const currentLeadFainted = currentLead.currentHp <= 0;
-    newTeam[0] = newTeam[index];
-    newTeam[index] = currentLead;
+    newTeam[0] = clearSwitchingBattleState(newTeam[index]);
+    newTeam[index] = withdrawnLead;
 
     setPlayerTeam(newTeam);
     if (currentLeadFainted) {
       await addMessagesSequentially([t('playerSentOut').replace('{name}', getLocalized(newTeam[0]))]);
-      setMainBattleTurn('PLAYER');
+      setMainBattleTurn(pendingForcedPlayerTurnRef.current ?? 'PLAYER');
+      pendingForcedPlayerTurnRef.current = null;
       return;
     }
 
@@ -1163,7 +1409,9 @@ export function useBattleController({
     setMainBattleTurn('ENEMY');
   }, [
     addMessagesSequentially,
+    clearSwitchingBattleState,
     gameState,
+    getForcedLockedMove,
     getLocalized,
     isMessageProcessing,
     playerTeam,
@@ -1180,6 +1428,7 @@ export function useBattleController({
     actorTeam,
     defender,
     defenderTeam,
+    targetHasActedThisTurn = false,
   }: {
     actingSide: 'player' | 'enemy';
     move: Move;
@@ -1187,12 +1436,14 @@ export function useBattleController({
     actorTeam: GamePokemon[];
     defender: GamePokemon;
     defenderTeam: GamePokemon[];
+    targetHasActedThisTurn?: boolean;
   }) => {
     const isPlayerActing = actingSide === 'player';
     const defendingSide: 'player' | 'enemy' = isPlayerActing ? 'enemy' : 'player';
     const attackBuffApplied = isPlayerActing ? activeBuffs.atk : enemyBuffs.atk;
     const defenseBuffApplied = isPlayerActing ? enemyBuffs.def : activeBuffs.def;
     const actorLabel = isPlayerActing ? getLocalized(actor) : `Enemy ${getLocalized(actor)}`;
+    const selectedMove = move;
 
     let nextPlayerTeam = isPlayerActing ? [...actorTeam] : [...defenderTeam];
     let nextEnemyTeam = isPlayerActing ? [...defenderTeam] : [...actorTeam];
@@ -1220,19 +1471,21 @@ export function useBattleController({
     } else {
       setEnemyAnim('attack');
     }
-    setActiveMoveType(move.type);
+    setActiveMoveType(selectedMove.type);
 
     await addMessagesSequentially([
       isPlayerActing
-        ? t('usedMove').replace('{name}', getLocalized(actor)).replace('{move}', getLocalized(move))
-        : t('enemyUsedMove').replace('{name}', getLocalized(actor)).replace('{move}', getLocalized(move)),
+        ? t('usedMove').replace('{name}', getLocalized(actor)).replace('{move}', getLocalized(selectedMove))
+        : t('enemyUsedMove').replace('{name}', getLocalized(actor)).replace('{move}', getLocalized(selectedMove)),
     ]);
 
     const actorMoveIndex = actor.selectedMoves.findIndex(
-      (candidate) => candidate === move || (candidate.name === move.name && candidate.type === move.type),
+      (candidate) => candidate === selectedMove || (candidate.name === selectedMove.name && candidate.type === selectedMove.type),
     );
+    let leppaMessage: string | null = null;
+    const isContinuingUproar = hasMoveBattleEffect(selectedMove, 'UPROAR') && hasVolatileStatus(actor, 'uproar');
 
-    if (actorMoveIndex >= 0) {
+    if (actorMoveIndex >= 0 && !isContinuingUproar) {
       updatedActor = {
         ...actor,
         selectedMoves: actor.selectedMoves.map((candidate, index) => {
@@ -1246,13 +1499,61 @@ export function useBattleController({
           };
         }),
       };
+      if (hasHeldItemEffect(updatedActor, 'CHOICE_BAND') && !updatedActor.factoryChoiceLockedMoveName) {
+        updatedActor = {
+          ...updatedActor,
+          factoryChoiceLockedMoveName: selectedMove.name,
+        };
+      }
+      if (hasHeldItemEffect(updatedActor, 'LEPPA_BERRY')) {
+        const ppRestoreAmount = getItemPpRestoreAmount(updatedActor.factoryHeldItemId);
+        const selectedMove = updatedActor.selectedMoves[actorMoveIndex];
+        const maxPp = getMoveMaxPp(selectedMove);
+        const currentPp = getMoveCurrentPp(selectedMove);
+        if (maxPp > 0 && currentPp <= 0 && ppRestoreAmount > 0) {
+          updatedActor = {
+            ...updatedActor,
+            selectedMoves: updatedActor.selectedMoves.map((candidate, index) => {
+              if (index !== actorMoveIndex) return candidate;
+              return {
+                ...candidate,
+                maxPp,
+                currentPp: Math.min(maxPp, ppRestoreAmount),
+              };
+            }),
+          };
+          updatedActor = consumeHeldItem(updatedActor, 'leppa_berry');
+          leppaMessage = `${actorLabel}'s ${getHeldItemLabel('leppa_berry')} restored PP!`;
+        }
+      }
       syncLeadBySide(actingSide, updatedActor);
     }
+    if (leppaMessage) {
+      await addMessagesSequentially([leppaMessage]);
+    }
 
-    const { damage, multiplier, isMiss, isCrit } = calculateDamage(move, actor, defender, attackBuffApplied, defenseBuffApplied);
+    let resolvedMove = selectedMove;
+    if (hasMoveBattleEffect(selectedMove, 'SLEEP_TALK')) {
+      const calledMove = chooseSleepTalkMove(updatedActor);
+      if (!calledMove) {
+        await addMessagesSequentially([`${actorLabel}'s Sleep Talk failed!`]);
+        if (isPlayerActing) {
+          setPlayerAnim('idle');
+          setMainBattleTurn('ENEMY');
+        } else {
+          setEnemyAnim('idle');
+          setMainBattleTurn('PLAYER');
+        }
+        setActiveMoveType(null);
+        return;
+      }
 
-    if (isMiss) {
-      await addMessagesSequentially([`${actorLabel}'s attack missed!`]);
+      resolvedMove = calledMove;
+      setActiveMoveType(calledMove.type);
+      await addMessagesSequentially([`${actorLabel}'s Sleep Talk used ${getLocalized(calledMove)}!`]);
+    }
+    if (hasMoveBattleEffect(resolvedMove, 'SNORE') && getNonVolatileStatusId(updatedActor) !== 'sleep') {
+      await addMessagesSequentially([`${actorLabel}'s Snore failed!`]);
       if (isPlayerActing) {
         setPlayerAnim('idle');
         setMainBattleTurn('ENEMY');
@@ -1264,28 +1565,443 @@ export function useBattleController({
       return;
     }
 
-    if (isCrit) {
+    updatedActor = {
+      ...updatedActor,
+      factoryLastUsedMoveName: resolvedMove.name,
+    };
+    if (!isProtectLikeMove(resolvedMove)) {
+      updatedActor = clearProtectionChain(updatedActor);
+    }
+    syncLeadBySide(actingSide, updatedActor);
+
+    const activeUproarSource = [nextPlayerTeam[0], nextEnemyTeam[0]]
+      .find((pokemon) => pokemon && hasVolatileStatus(pokemon, 'uproar'));
+
+    if (isProtectLikeMove(resolvedMove)) {
+      const protectionResult = resolveProtectionMoveUse(updatedActor, resolvedMove);
+      updatedActor = protectionResult.pokemon;
+      syncLeadBySide(actingSide, updatedActor);
+      await addMessagesSequentially([
+        protectionResult.succeeded
+          ? `${actorLabel} protected itself!`
+          : `${actorLabel}'s protection failed!`,
+      ]);
+      if (isPlayerActing) {
+        setPlayerAnim('idle');
+        setMainBattleTurn('ENEMY');
+      } else {
+        setEnemyAnim('idle');
+        setMainBattleTurn('PLAYER');
+      }
+      setActiveMoveType(null);
+      return;
+    }
+
+    if (hasMoveBattleEffect(resolvedMove, 'REST')) {
+      const restBlocked = (
+        getNonVolatileStatusId(updatedActor) === 'sleep'
+        || hasPrimaryAbilityEffect(updatedActor, 'COMATOSE')
+        || updatedActor.currentHp >= updatedActor.maxHp
+        || hasPrimaryAbilityEffect(updatedActor, 'INSOMNIA')
+        || hasPrimaryAbilityEffect(updatedActor, 'VITAL_SPIRIT')
+        || hasPrimaryAbilityEffect(updatedActor, 'PURIFYING_SALT')
+        || isSleepPreventingFieldActive()
+        || Boolean(activeUproarSource && !hasPrimaryAbilityEffect(updatedActor, 'SOUNDPROOF'))
+      );
+
+      if (restBlocked) {
+        await addMessagesSequentially([`${actorLabel}'s Rest failed!`]);
+      } else {
+        updatedActor = setNonVolatileStatus({
+          ...updatedActor,
+          currentHp: updatedActor.maxHp,
+        }, 'sleep', {
+          turnsRemaining: 3,
+          sourceMoveName: resolvedMove.name,
+        });
+        updatedActor = clearVolatileStatus(updatedActor, 'nightmare');
+        syncLeadBySide(actingSide, updatedActor);
+        await addMessagesSequentially([`${actorLabel} slept and became healthy!`]);
+      }
+
+      if (isPlayerActing) {
+        setPlayerAnim('idle');
+        setMainBattleTurn('ENEMY');
+      } else {
+        setEnemyAnim('idle');
+        setMainBattleTurn('PLAYER');
+      }
+      setActiveMoveType(null);
+      return;
+    }
+
+    if (hasMoveBattleEffect(resolvedMove, 'SUBSTITUTE')) {
+      const substituteAlreadyActive = hasVolatileStatus(updatedActor, 'substitute');
+      const substituteHpCost = Math.max(1, Math.floor(updatedActor.maxHp / 4));
+      const substituteBlocked = substituteAlreadyActive || updatedActor.currentHp <= substituteHpCost;
+
+      if (substituteBlocked) {
+        await addMessagesSequentially([`${actorLabel}'s Substitute failed!`]);
+      } else {
+        updatedActor = setVolatileStatus({
+          ...updatedActor,
+          currentHp: updatedActor.currentHp - substituteHpCost,
+        }, 'substitute', {
+          counter: substituteHpCost,
+          sourceMoveName: resolvedMove.name,
+        });
+        syncLeadBySide(actingSide, updatedActor);
+        await addMessagesSequentially([`${actorLabel} put in a substitute!`]);
+      }
+
+      if (isPlayerActing) {
+        setPlayerAnim('idle');
+        setMainBattleTurn('ENEMY');
+      } else {
+        setEnemyAnim('idle');
+        setMainBattleTurn('PLAYER');
+      }
+      setActiveMoveType(null);
+      return;
+    }
+
+    if (hasMoveBattleEffect(resolvedMove, 'CURSE') && isGhostType(updatedActor)) {
+      if (hasVolatileStatus(updatedDefender, 'curse')) {
+        await addMessagesSequentially([`${actorLabel}'s Curse failed!`]);
+      } else {
+        updatedDefender = setVolatileStatus(updatedDefender, 'curse', {
+          sourceMoveName: resolvedMove.name,
+          linkedPokemonId: updatedActor.id,
+        });
+        syncLeadBySide(defendingSide, updatedDefender);
+
+        const curseSelfDamage = Math.max(1, Math.floor(updatedActor.maxHp / 2));
+        updatedActor = {
+          ...updatedActor,
+          currentHp: Math.max(0, updatedActor.currentHp - curseSelfDamage),
+        };
+        syncLeadBySide(actingSide, updatedActor);
+        await addMessagesSequentially([`${actorLabel} cut its own HP and laid a curse on ${getLocalized(updatedDefender)}!`]);
+      }
+
+      if (isPlayerActing) {
+        setPlayerAnim('idle');
+      } else {
+        setEnemyAnim('idle');
+      }
+      setActiveMoveType(null);
+
+      if (updatedActor.currentHp <= 0) {
+        await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedActor))]);
+        if (isPlayerActing) {
+          await sendOutNextPlayer(nextPlayerTeam, { nextTurnAfterSwitch: 'ENEMY' });
+        } else {
+          await sendOutNextEnemy(nextEnemyTeam, updatedActor.id);
+        }
+        return;
+      }
+
+      setMainBattleTurn(isPlayerActing ? 'ENEMY' : 'PLAYER');
+      return;
+    }
+
+    const moveFlinchChance = getMoveSecondaryEffects(resolvedMove)
+      .filter((effect) => effect.kind === 'flinch')
+      .reduce((maxChance, effect) => Math.max(maxChance, effect.chance), 0);
+    const kingsRockFlinchChance = (
+      resolvedMove.damage_class !== 'status'
+      && hasHeldItemEffect(updatedActor, 'KINGS_ROCK')
+    )
+      ? getItemFlinchChance(updatedActor.factoryHeldItemId)
+      : 0;
+
+    const resolvePostHitSecondaryEffects = async ({
+      extraFlinchChance,
+      allowUserEffects,
+      allowTargetEffects,
+    }: {
+      extraFlinchChance: number;
+      allowUserEffects: boolean;
+      allowTargetEffects: boolean;
+    }) => {
+      if (!allowUserEffects && !allowTargetEffects) return;
+      const preSecondaryPlayerLead = nextPlayerTeam[0];
+      const preSecondaryEnemyLead = nextEnemyTeam[0];
+      const secondaryEffects = await applyMoveSecondaryEffects({
+        move: resolvedMove,
+        actingSide,
+        playerTeam: nextPlayerTeam,
+        enemyTeam: nextEnemyTeam,
+        targetHasActedThisTurn,
+        extraFlinchChance,
+        allowUserEffects,
+        allowTargetEffects,
+      });
+      nextPlayerTeam = secondaryEffects.playerTeam;
+      nextEnemyTeam = secondaryEffects.enemyTeam;
+      const itemResolutionMessages: string[] = [];
+      const playerWhiteHerbResult = tryActivateWhiteHerb(preSecondaryPlayerLead, nextPlayerTeam[0]);
+      if (playerWhiteHerbResult.message && playerWhiteHerbResult.pokemon) {
+        nextPlayerTeam = [...nextPlayerTeam];
+        nextPlayerTeam[0] = playerWhiteHerbResult.pokemon;
+        itemResolutionMessages.push(playerWhiteHerbResult.message);
+      }
+      const enemyWhiteHerbResult = tryActivateWhiteHerb(preSecondaryEnemyLead, nextEnemyTeam[0]);
+      if (enemyWhiteHerbResult.message && enemyWhiteHerbResult.pokemon) {
+        nextEnemyTeam = [...nextEnemyTeam];
+        nextEnemyTeam[0] = enemyWhiteHerbResult.pokemon;
+        itemResolutionMessages.push(enemyWhiteHerbResult.message);
+      }
+      const playerMentalHerbResult = tryConsumeMentalHerb(nextPlayerTeam[0]);
+      if (playerMentalHerbResult.message && playerMentalHerbResult.pokemon) {
+        nextPlayerTeam = [...nextPlayerTeam];
+        nextPlayerTeam[0] = playerMentalHerbResult.pokemon;
+        itemResolutionMessages.push(playerMentalHerbResult.message);
+      }
+      const enemyMentalHerbResult = tryConsumeMentalHerb(nextEnemyTeam[0]);
+      if (enemyMentalHerbResult.message && enemyMentalHerbResult.pokemon) {
+        nextEnemyTeam = [...nextEnemyTeam];
+        nextEnemyTeam[0] = enemyMentalHerbResult.pokemon;
+        itemResolutionMessages.push(enemyMentalHerbResult.message);
+      }
+      const playerStatusBerryResult = tryConsumeStatusCureBerry(nextPlayerTeam[0]);
+      if (playerStatusBerryResult.message && playerStatusBerryResult.pokemon) {
+        nextPlayerTeam = [...nextPlayerTeam];
+        nextPlayerTeam[0] = playerStatusBerryResult.pokemon;
+        itemResolutionMessages.push(playerStatusBerryResult.message);
+      }
+      const enemyStatusBerryResult = tryConsumeStatusCureBerry(nextEnemyTeam[0]);
+      if (enemyStatusBerryResult.message && enemyStatusBerryResult.pokemon) {
+        nextEnemyTeam = [...nextEnemyTeam];
+        nextEnemyTeam[0] = enemyStatusBerryResult.pokemon;
+        itemResolutionMessages.push(enemyStatusBerryResult.message);
+      }
+      const playerPinchResult = tryActivatePinchStatBerry(nextPlayerTeam[0]);
+      if (playerPinchResult.message && playerPinchResult.pokemon) {
+        nextPlayerTeam = [...nextPlayerTeam];
+        nextPlayerTeam[0] = playerPinchResult.pokemon;
+        itemResolutionMessages.push(playerPinchResult.message);
+      }
+      const enemyPinchResult = tryActivatePinchStatBerry(nextEnemyTeam[0]);
+      if (enemyPinchResult.message && enemyPinchResult.pokemon) {
+        nextEnemyTeam = [...nextEnemyTeam];
+        nextEnemyTeam[0] = enemyPinchResult.pokemon;
+        itemResolutionMessages.push(enemyPinchResult.message);
+      }
+      setPlayerTeam(nextPlayerTeam);
+      nextEnemyTeam = syncEnemyLead(nextEnemyTeam[0], nextEnemyTeam);
+      updatedDefender = defendingSide === 'player' ? nextPlayerTeam[0] : nextEnemyTeam[0];
+      if (itemResolutionMessages.length > 0) {
+        await addMessagesSequentially(itemResolutionMessages);
+      }
+      if (extraFlinchChance > 0 && secondaryEffects.flinched && moveFlinchChance < extraFlinchChance) {
+        await addMessagesSequentially([`${actorLabel}'s King's Rock triggered!`]);
+      }
+    };
+
+    const strikePlan = resolvedMove.damage_class === 'status'
+      ? { plannedHits: 1, usesIndependentAccuracy: false }
+      : resolveMoveStrikePlan({
+        move: resolvedMove,
+        attacker: updatedActor,
+      });
+    let hitCount = 0;
+    let totalDamage = 0;
+    let totalSubstituteDamage = 0;
+    let multiplier = 1;
+    let anyCrit = false;
+    let moveHadNoEffect = false;
+    let focusBandTriggered = false;
+    let newDefenderHp = updatedDefender.currentHp;
+
+    for (let hitIndex = 0; hitIndex < strikePlan.plannedHits; hitIndex += 1) {
+      const hitResult = calculateDamage(
+        resolvedMove,
+        updatedActor,
+        updatedDefender,
+        attackBuffApplied,
+        defenseBuffApplied,
+        {
+          basePowerOverride: getMoveStrikeBasePower(resolvedMove, hitIndex),
+          skipAccuracyCheck: hitIndex > 0 && !strikePlan.usesIndependentAccuracy,
+        },
+      );
+      multiplier = hitResult.multiplier;
+
+      if (hitResult.blockedByProtect) {
+        await addMessagesSequentially([`${getLocalized(updatedDefender)} protected itself!`]);
+        if (!hitResult.protectReducedDamage) {
+          const protectionCollisionResult = resolveProtectionCollision(updatedActor, updatedDefender, resolvedMove);
+          updatedActor = protectionCollisionResult.attacker;
+          syncLeadBySide(actingSide, updatedActor);
+          if (protectionCollisionResult.messages.length > 0) {
+            await addMessagesSequentially(protectionCollisionResult.messages.map((message) => message.replace(updatedActor.name, actorLabel)));
+          }
+          if (updatedActor.currentHp <= 0) {
+            await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedActor))]);
+            if (actingSide === 'player') {
+              await sendOutNextPlayer(nextPlayerTeam, { nextTurnAfterSwitch: 'ENEMY' });
+            } else {
+              await sendOutNextEnemy(nextEnemyTeam, updatedActor.id);
+            }
+            return;
+          }
+          if (isPlayerActing) {
+            setPlayerAnim('idle');
+            setMainBattleTurn('ENEMY');
+          } else {
+            setEnemyAnim('idle');
+            setMainBattleTurn('PLAYER');
+          }
+          setActiveMoveType(null);
+          return;
+        }
+      }
+
+      if (hitResult.blockedBySubstitute && resolvedMove.damage_class === 'status') {
+        await addMessagesSequentially([`${getLocalized(updatedDefender)}'s substitute blocked the move!`]);
+        if (isPlayerActing) {
+          setPlayerAnim('idle');
+          setMainBattleTurn('ENEMY');
+        } else {
+          setEnemyAnim('idle');
+          setMainBattleTurn('PLAYER');
+        }
+        setActiveMoveType(null);
+        return;
+      }
+
+      if (hitResult.isMiss) {
+        if (hitCount === 0) {
+          await addMessagesSequentially([`${actorLabel}'s attack missed!`]);
+          if (isPlayerActing) {
+            setPlayerAnim('idle');
+            setMainBattleTurn('ENEMY');
+          } else {
+            setEnemyAnim('idle');
+            setMainBattleTurn('PLAYER');
+          }
+          setActiveMoveType(null);
+          return;
+        }
+        break;
+      }
+
+      if (hitResult.multiplier === 0) {
+        moveHadNoEffect = true;
+        break;
+      }
+
+      hitCount += 1;
+      anyCrit = anyCrit || hitResult.isCrit;
+
+      if (hitResult.blockedBySubstitute) {
+        const substituteState = getVolatileStatus(updatedDefender, 'substitute');
+        totalSubstituteDamage += Math.max(0, hitResult.substituteDamage);
+        if (substituteState) {
+          updatedDefender = hitResult.substituteHpRemaining && hitResult.substituteHpRemaining > 0
+            ? setVolatileStatus(updatedDefender, 'substitute', {
+              counter: hitResult.substituteHpRemaining,
+              turnsRemaining: substituteState.turnsRemaining,
+              sourceMoveName: substituteState.sourceMoveName,
+              linkedMoveName: substituteState.linkedMoveName,
+              linkedPokemonId: substituteState.linkedPokemonId,
+            })
+            : clearVolatileStatus(updatedDefender, 'substitute');
+        }
+        syncLeadBySide(defendingSide, updatedDefender);
+        await addMessagesSequentially([`${getLocalized(updatedDefender)}'s substitute took the damage!`]);
+        if (hitResult.substituteBroke) {
+          await addMessagesSequentially([`${getLocalized(updatedDefender)}'s substitute broke!`]);
+        }
+        await resolvePostHitSecondaryEffects({
+          extraFlinchChance: kingsRockFlinchChance,
+          allowUserEffects: hitResult.applyUserSecondaryEffects,
+          allowTargetEffects: false,
+        });
+        continue;
+      }
+
+      newDefenderHp = Math.max(0, updatedDefender.currentHp - Math.max(0, hitResult.damage));
+      if (
+        newDefenderHp <= 0
+        && hitResult.damage > 0
+        && hasHeldItemEffect(updatedDefender, 'FOCUS_BAND')
+        && Math.random() < getItemSurviveAtOneHpChance(updatedDefender.factoryHeldItemId)
+      ) {
+        newDefenderHp = 1;
+        updatedDefender = consumeHeldItem(updatedDefender, 'focus_band');
+        focusBandTriggered = true;
+      }
+
+      updatedDefender = {
+        ...updatedDefender,
+        currentHp: newDefenderHp,
+        factoryHeldItemId: focusBandTriggered ? undefined : updatedDefender.factoryHeldItemId,
+      };
+      totalDamage += Math.max(0, hitResult.damage);
+      syncLeadBySide(defendingSide, updatedDefender);
+
+      await resolvePostHitSecondaryEffects({
+        extraFlinchChance: kingsRockFlinchChance,
+        allowUserEffects: hitResult.applyUserSecondaryEffects,
+        allowTargetEffects: hitResult.applyTargetSecondaryEffects && updatedDefender.currentHp > 0,
+      });
+
+      if (updatedDefender.currentHp <= 0) {
+        break;
+      }
+    }
+
+    if (anyCrit) {
       await addMessagesSequentially(['Critical hit!']);
     }
 
-    const newDefenderHp = Math.max(0, defender.currentHp - damage);
-    updatedDefender = { ...defender, currentHp: newDefenderHp };
-    if (damage > 0) {
+    if (totalDamage > 0 || totalSubstituteDamage > 0) {
       if (isPlayerActing) {
         setEnemyAnim('hit');
       } else {
         setPlayerAnim('hit');
       }
     }
-    syncLeadBySide(defendingSide, updatedDefender);
+
+    if (focusBandTriggered) {
+      await addMessagesSequentially([`${getLocalized(updatedDefender)} hung on with ${getHeldItemLabel('focus_band')}!`]);
+    }
+    if (totalDamage > 0) {
+      const defenderSitrusResult = tryActivateSitrusBerry(updatedDefender);
+      if (defenderSitrusResult.message) {
+        updatedDefender = defenderSitrusResult.pokemon;
+        syncLeadBySide(defendingSide, updatedDefender);
+        await addMessagesSequentially([defenderSitrusResult.message]);
+      }
+      const defenderPinchResult = tryActivatePinchStatBerry(updatedDefender);
+      if (defenderPinchResult.message) {
+        updatedDefender = defenderPinchResult.pokemon;
+        syncLeadBySide(defendingSide, updatedDefender);
+        await addMessagesSequentially([defenderPinchResult.message]);
+      }
+    }
 
     let actorHpChange = 0;
-    if (move.drain !== 0 && damage > 0) actorHpChange += Math.floor(damage * move.drain / 100);
-    if (move.healing !== 0) actorHpChange += Math.floor(actor.maxHp * move.healing / 100);
+    const moveDrainPercent = getMoveDrainPercent(resolvedMove);
+    const moveHealingPercent = getMoveHealingPercent(resolvedMove);
+    if (moveDrainPercent !== 0 && totalDamage > 0) actorHpChange += Math.floor(totalDamage * moveDrainPercent / 100);
+    if (moveHealingPercent !== 0) actorHpChange += Math.floor(updatedActor.maxHp * moveHealingPercent / 100);
+    const shellBellHealDenominator = getItemDamageBasedHealDenominator(updatedActor.factoryHeldItemId);
+    const shellBellRecover = (
+      totalDamage > 0
+      && resolvedMove.damage_class !== 'status'
+      && hasHeldItemEffect(updatedActor, 'SHELL_BELL')
+      && shellBellHealDenominator
+    )
+      ? Math.max(1, Math.floor(totalDamage / shellBellHealDenominator))
+      : 0;
+    actorHpChange += shellBellRecover;
 
     updatedActor = {
       ...updatedActor,
-      currentHp: Math.max(0, Math.min(actor.maxHp, actor.currentHp + actorHpChange)),
+      currentHp: Math.max(0, Math.min(updatedActor.maxHp, updatedActor.currentHp + actorHpChange)),
     };
     if (updatedActor.specialBoostActive && updatedActor.specialBoostMode === 'ZMOVE') {
       updatedActor = {
@@ -1296,6 +2012,21 @@ export function useBattleController({
     }
     syncLeadBySide(actingSide, updatedActor);
     await announceHpChange(actorLabel, actorHpChange);
+    if (shellBellRecover > 0) {
+      await addMessagesSequentially([`${actorLabel} restored HP with ${getHeldItemLabel('shell_bell')}!`]);
+    }
+    const actorSitrusResult = tryActivateSitrusBerry(updatedActor);
+    if (actorSitrusResult.message) {
+      updatedActor = actorSitrusResult.pokemon;
+      syncLeadBySide(actingSide, updatedActor);
+      await addMessagesSequentially([actorSitrusResult.message]);
+    }
+    const actorPinchResult = tryActivatePinchStatBerry(updatedActor);
+    if (actorPinchResult.message) {
+      updatedActor = actorPinchResult.pokemon;
+      syncLeadBySide(actingSide, updatedActor);
+      await addMessagesSequentially([actorPinchResult.message]);
+    }
 
     if (isPlayerActing) {
       setPlayerAnim('idle');
@@ -1307,84 +2038,44 @@ export function useBattleController({
     setActiveMoveType(null);
 
     const effectMessages: string[] = [];
-    if (damage > 0) {
+    if (moveHadNoEffect || multiplier === 0) {
+      effectMessages.push(t('noEffect'));
+    } else if (totalDamage > 0 || totalSubstituteDamage > 0) {
       if (multiplier > 1) effectMessages.push(t('superEffective'));
       if (multiplier < 1 && multiplier > 0) effectMessages.push(t('notVeryEffective'));
-      if (multiplier === 0) effectMessages.push(t('noEffect'));
     }
     if (effectMessages.length > 0) {
       await addMessagesSequentially(effectMessages);
     }
-    if (damage > 0) {
+    if (totalDamage > 0) {
       await addMessagesSequentially([
         (isPlayerActing ? t('causedDamage') : t('enemyCausedDamage'))
           .replace('{name}', getLocalized(actor))
-          .replace('{damage}', damage.toString()),
+          .replace('{damage}', totalDamage.toString()),
       ]);
     }
-
-    if (updatedDefender.currentHp > 0) {
-      const secondaryEffects = await applyMoveSecondaryEffects({
-        move,
-        actingSide,
-        playerTeam: nextPlayerTeam,
-        enemyTeam: nextEnemyTeam,
-      });
-      nextPlayerTeam = secondaryEffects.playerTeam;
-      nextEnemyTeam = secondaryEffects.enemyTeam;
-      setPlayerTeam(nextPlayerTeam);
-      nextEnemyTeam = syncEnemyLead(nextEnemyTeam[0], nextEnemyTeam);
-      updatedDefender = defendingSide === 'player' ? nextPlayerTeam[0] : nextEnemyTeam[0];
-
-      if (secondaryEffects.flinched) {
-        if (defendingSide === 'player') {
-          setPlayerAnim('idle');
-          setMainBattleTurn('ENEMY');
-        } else {
-          setEnemyAnim('idle');
-          setMainBattleTurn('PLAYER');
-        }
-        return;
-      }
+    if ((totalDamage > 0 || totalSubstituteDamage > 0) && hitCount > 1) {
+      await addMessagesSequentially([`${actorLabel}'s attack hit ${hitCount} times!`]);
     }
 
-    const nextWeather = getWeatherFromMove(move.name);
+    if (hasMoveBattleEffect(resolvedMove, 'UPROAR') && !hasVolatileStatus(updatedActor, 'uproar')) {
+      updatedActor = setVolatileStatus(updatedActor, 'uproar', {
+        turnsRemaining: UPROAR_TURNS_GEN5_PLUS,
+        linkedMoveName: 'uproar',
+      });
+      syncLeadBySide(actingSide, updatedActor);
+      await addMessagesSequentially([`${actorLabel} caused an uproar!`]);
+    }
+
+    const nextWeather = getMoveWeather(resolvedMove);
     if (nextWeather) {
       setWeather(nextWeather);
       setWeatherTurns(DEFAULT_WEATHER_TURNS);
     }
 
-    const nextField = getFieldFromMove(move.name);
+    const nextField = getMoveFieldState(resolvedMove);
     if (nextField) {
       applyFieldEffect(nextField);
-    }
-
-    if (updatedDefender.currentHp > 0 && (updatedDefender.status === 'poison' || updatedDefender.status === 'burn')) {
-      const residualResult = await applyResidualStatusDamage(updatedDefender);
-      updatedDefender = residualResult.pokemon;
-      if (defendingSide === 'player') {
-        syncPlayerLeadLocally(updatedDefender);
-      } else {
-        nextEnemyTeam = syncEnemyLead(updatedDefender, nextEnemyTeam);
-      }
-
-      if (residualResult.fainted) {
-        if (defendingSide === 'player') {
-          if (isPlayerActing) {
-            await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedDefender))]);
-            await sendOutNextPlayer(nextPlayerTeam);
-          } else {
-            pendingPlayerSwitchRef.current = true;
-            await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedDefender))]);
-            setTurn('PLAYER');
-            setBattleMenuTab('POKEMON');
-          }
-        } else {
-          await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedDefender))]);
-          await sendOutNextEnemy(nextEnemyTeam, defender.id);
-        }
-        return;
-      }
     }
 
     if (defendingSide === 'player') {
@@ -1418,12 +2109,13 @@ export function useBattleController({
     addMessagesSequentially,
     announceHpChange,
     applyMoveSecondaryEffects,
-    applyResidualStatusDamage,
-    applyWeatherChipDamage,
     calculateDamage,
+    clearSwitchingBattleState,
     enemyBuffs.atk,
     enemyBuffs.def,
     getLocalized,
+    getHeldItemLabel,
+    hasHeldItem,
     getMoveCurrentPp,
     getMoveMaxPp,
     sendOutNextEnemy,
@@ -1439,34 +2131,38 @@ export function useBattleController({
     setWeatherTurns,
     syncEnemyLead,
     t,
-    getFieldFromMove,
-    getWeatherFromMove,
+    isProtectLikeMove,
+    getMoveFieldState,
+    getMoveWeather,
+    tryActivateSitrusBerry,
+    tryConsumeStatusCureBerry,
   ]);
 
-  const handleAttack = useCallback(async (move: Move) => {
-    if (!enemy || gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing) return;
-    if (getMoveCurrentPp(move) <= 0) return;
-
-    const preTurnResult = await resolvePreTurnStatus({
-      combatant: playerTeam[0],
-      isEnemy: false,
-      currentPlayerTeam: playerTeam,
-    });
-    if (!preTurnResult.canAct) return;
-
-    await executeTurn({
-      actingSide: 'player',
-      move,
-      actor: preTurnResult.combatant,
-      actorTeam: preTurnResult.playerTeam ?? playerTeam,
-      defender: enemy,
-      defenderTeam: enemyTeam,
-    });
-  }, [enemy, enemyTeam, executeTurn, gameState, getMoveCurrentPp, isMessageProcessing, playerTeam, resolvePreTurnStatus, turn]);
-
   const chooseEnemyMove = useCallback((actingEnemy: GamePokemon, defender: GamePokemon) => {
+    const forcedLockedMove = getForcedLockedMove(actingEnemy);
+    if (forcedLockedMove) {
+      const aiFlags = getAiFlagsForTier(enemyAiTier);
+      return {
+        selectedMove: forcedLockedMove,
+        useGimmick: false,
+        usableGimmick: null,
+        aiFlags,
+        moveEvals: [],
+      };
+    }
+
     const usableMoves = actingEnemy.selectedMoves.filter((move) => getMoveCurrentPp(move) > 0);
-    const candidateMoves = usableMoves.length > 0 ? usableMoves : actingEnemy.selectedMoves;
+    const baseCandidateMoves = usableMoves.length > 0 ? usableMoves : actingEnemy.selectedMoves;
+    const lockedMoveName = actingEnemy.factoryChoiceLockedMoveName;
+    const candidateMoves = (
+      hasHeldItemEffect(actingEnemy, 'CHOICE_BAND')
+      && lockedMoveName
+      && baseCandidateMoves.some((move) => move.name === lockedMoveName)
+    )
+      ? baseCandidateMoves.filter((move) => move.name === lockedMoveName)
+      : baseCandidateMoves;
+    const legalCandidateMoves = candidateMoves.filter((move) => !isMoveBlockedByRestrictions(actingEnemy, move));
+    const selectableMoves = legalCandidateMoves.length > 0 ? legalCandidateMoves : candidateMoves;
     const aiFlags = getAiFlagsForTier(enemyAiTier);
     const usableGimmick = getEnemyUsableGimmick(actingEnemy);
     let useGimmick = decideEnemyGimmickUse(usableGimmick, actingEnemy, defender, aiFlags);
@@ -1479,23 +2175,23 @@ export function useBattleController({
       effectiveStyle,
       useGimmick && usableGimmick ? usableGimmick : 'NONE',
     )
-      .filter((entry) => candidateMoves.some((move) => move === entry.move || (move.name === entry.move.name && move.type === entry.move.type)))
+      .filter((entry) => selectableMoves.some((move) => move === entry.move || (move.name === entry.move.name && move.type === entry.move.type)))
       .sort((a, b) => b.score - a.score);
 
     const pickFromTop = (topN: number) => {
       const pool = moveEvals.slice(0, Math.min(topN, moveEvals.length));
-      return pool[Math.floor(Math.random() * pool.length)]?.move ?? candidateMoves[0];
+      return pool[Math.floor(Math.random() * pool.length)]?.move ?? selectableMoves[0];
     };
 
     let selectedMove: Move;
     if (enemyAiTier === 'RANDOM') {
-      selectedMove = candidateMoves[Math.floor(Math.random() * candidateMoves.length)];
+      selectedMove = selectableMoves[Math.floor(Math.random() * selectableMoves.length)];
     } else if (enemyAiTier === 'BASIC') {
       selectedMove = pickFromTop(2);
     } else if (enemyAiTier === 'ADVANCED') {
       selectedMove = pickFromTop(3);
     } else {
-      selectedMove = moveEvals[0]?.move ?? candidateMoves[0];
+      selectedMove = moveEvals[0]?.move ?? selectableMoves[0];
     }
 
     useGimmick = reconsiderGimmickAfterMove(useGimmick, usableGimmick, selectedMove);
@@ -1505,20 +2201,21 @@ export function useBattleController({
     enemyAiTier,
     enemyTeam,
     evaluateEnemyMoves,
+    getForcedLockedMove,
     getAiFlagsForTier,
     getEnemyUsableGimmick,
     getMoveCurrentPp,
+    hasHeldItemEffect,
+    isMoveBlockedByRestrictions,
     reconsiderGimmickAfterMove,
   ]);
 
   const getBestTypePressure = useCallback((attacker: GamePokemon, defender: GamePokemon) => {
-    return attacker.selectedMoves.reduce((best, move) => {
-      if (move.damage_class === 'status') return best;
-      return Math.max(best, getMoveTypeMultiplier(move, defender));
-    }, 0);
-  }, [getMoveTypeMultiplier]);
+    return getBestTypePressureAgainstTarget(attacker, defender);
+  }, [getBestTypePressureAgainstTarget]);
 
   const chooseEnemySwitchIndex = useCallback((actingEnemy: GamePokemon, defender: GamePokemon, aiFlags: number) => {
+    if (getForcedLockedMove(actingEnemy)) return -1;
     if ((aiFlags & AI_FLAG_SMART_SWITCHING) === 0) return -1;
     const hpRatio = actingEnemy.currentHp / Math.max(1, actingEnemy.maxHp);
     if (hpRatio > 0.35) return -1;
@@ -1540,29 +2237,60 @@ export function useBattleController({
       return topPool[Math.floor(Math.random() * topPool.length)]?.index ?? -1;
     }
     return ranked[0].index;
-  }, [enemyTeam, getBestTypePressure]);
+  }, [enemyTeam, getBestTypePressure, getForcedLockedMove]);
 
-  const enemyTurn = useCallback(async () => {
-    if (!enemy || !playerTeam[0] || turn !== 'ENEMY' || isMessageProcessing) return;
+  const shouldQuickClawActivate = useCallback((pokemon: GamePokemon | null | undefined) => {
+    return hasHeldItemEffect(pokemon, 'QUICK_CLAW') && Math.random() < getItemPriorityProcChance(pokemon.factoryHeldItemId);
+  }, [hasHeldItemEffect]);
+
+  const shouldEnemyActFirst = useCallback((options: {
+    playerPokemon: GamePokemon;
+    playerMove: Move;
+    enemyPokemon: GamePokemon;
+    enemyMove: Move;
+    playerQuickClawActivated: boolean;
+    enemyQuickClawActivated: boolean;
+  }) => {
+    const {
+      playerPokemon,
+      playerMove,
+      enemyPokemon,
+      enemyMove,
+      playerQuickClawActivated,
+      enemyQuickClawActivated,
+    } = options;
+
+    return resolveActionSelection({
+      playerPokemon,
+      playerMove,
+      enemyPokemon,
+      enemyMove,
+      fieldState,
+      playerQuickClawActivated,
+      enemyQuickClawActivated,
+    }).enemyActsFirst;
+  }, [fieldState]);
+
+  const runEnemyAutoAction = useCallback(async (options?: {
+    defenderLead?: GamePokemon;
+    playerTeamForTurn?: GamePokemon[];
+    decisionOverride?: EnemyActionDecision;
+  }) => {
+    const playerLeadForDecision = options?.defenderLead ?? playerTeam[0];
+    const playerTeamForTurn = options?.playerTeamForTurn ?? playerTeam;
+    if (!enemy || !playerLeadForDecision || isMessageProcessing) return false;
 
     const actingEnemyLead = enemy;
     let enemyTeamForTurn = enemyTeam;
-
-    const preTurnResult = await resolvePreTurnStatus({
-      combatant: actingEnemyLead,
-      isEnemy: true,
-      currentEnemyTeam: enemyTeamForTurn,
-    });
-    if (!preTurnResult.canAct) return;
-
-    let actingEnemy = preTurnResult.combatant;
-    enemyTeamForTurn = preTurnResult.enemyTeam ?? enemyTeamForTurn;
     const aiFlags = getAiFlagsForTier(enemyAiTier);
-    const switchIndex = chooseEnemySwitchIndex(actingEnemy, playerTeam[0], aiFlags);
+    const switchIndex = chooseEnemySwitchIndex(actingEnemyLead, playerLeadForDecision, aiFlags);
     if (switchIndex > 0) {
       const switchedTeam = [...enemyTeamForTurn];
       const withdrawn = switchedTeam[0];
+      const clearedWithdrawn = clearSwitchingBattleState(withdrawn);
+      switchedTeam[0] = clearedWithdrawn;
       [switchedTeam[0], switchedTeam[switchIndex]] = [switchedTeam[switchIndex], switchedTeam[0]];
+      switchedTeam[0] = clearSwitchingBattleState(switchedTeam[0]);
       setEnemyTeam(switchedTeam);
       setEnemy(switchedTeam[0]);
       await addMessagesSequentially([
@@ -1570,10 +2298,20 @@ export function useBattleController({
         t('enemySentOut').replace('{name}', getLocalized(switchedTeam[0])),
       ]);
       setMainBattleTurn('PLAYER');
-      return;
+      return true;
     }
 
-    const decision = chooseEnemyMove(actingEnemy, playerTeam[0]);
+    const decision = options?.decisionOverride ?? chooseEnemyMove(actingEnemyLead, playerLeadForDecision);
+    const preTurnResult = await resolvePreTurnStatus({
+      combatant: actingEnemyLead,
+      isEnemy: true,
+      currentEnemyTeam: enemyTeamForTurn,
+      move: decision.selectedMove,
+    });
+    if (!preTurnResult.canAct) return true;
+
+    let actingEnemy = preTurnResult.combatant;
+    enemyTeamForTurn = preTurnResult.enemyTeam ?? enemyTeamForTurn;
     if (decision.useGimmick && decision.usableGimmick) {
       const boostedEnemy = applySpecialBoost(actingEnemy, decision.usableGimmick);
       const nextEnemyTeam = [...enemyTeamForTurn];
@@ -1596,14 +2334,17 @@ export function useBattleController({
       move: decision.selectedMove,
       actor: actingEnemy,
       actorTeam: preTurnResult.enemyTeam ?? enemyTeamForTurn,
-      defender: playerTeam[0],
-      defenderTeam: playerTeam,
+      defender: playerLeadForDecision,
+      defenderTeam: playerTeamForTurn,
+      targetHasActedThisTurn: !options?.defenderLead,
     });
+    return true;
   }, [
     addMessagesSequentially,
     applySpecialBoost,
-    chooseEnemySwitchIndex,
     chooseEnemyMove,
+    chooseEnemySwitchIndex,
+    clearSwitchingBattleState,
     enemy,
     enemyAiTier,
     enemyTeam,
@@ -1611,15 +2352,145 @@ export function useBattleController({
     getAiFlagsForTier,
     getLocalized,
     getSpecialLabel,
-    gameState,
     isMessageProcessing,
     playerTeam,
     resolvePreTurnStatus,
     setEnemy,
-    setEnemyTeam,
     setEnemySpecialUsage,
+    setEnemyTeam,
     setMainBattleTurn,
     t,
+  ]);
+
+  const enemyTurn = useCallback(async () => {
+    if (!enemy || !playerTeam[0] || turn !== 'ENEMY' || isMessageProcessing) return;
+    await runEnemyAutoAction();
+  }, [
+    enemy,
+    isMessageProcessing,
+    playerTeam,
+    runEnemyAutoAction,
+    turn,
+  ]);
+
+  const handleAttack = useCallback(async (move: Move) => {
+    if (!enemy || gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing) return;
+
+    const forcedLockedMove = getForcedLockedMove(playerTeam[0]);
+    if (forcedLockedMove && move.name !== forcedLockedMove.name) {
+      await addMessagesSequentially([`${getLocalized(playerTeam[0])} must keep making an uproar!`]);
+      return;
+    }
+    if (!forcedLockedMove && getMoveCurrentPp(move) <= 0) return;
+
+    const preTurnResult = await resolvePreTurnStatus({
+      combatant: playerTeam[0],
+      isEnemy: false,
+      currentPlayerTeam: playerTeam,
+      move,
+    });
+    if (!preTurnResult.canAct) return;
+
+    const actingPlayerLead = preTurnResult.combatant;
+    const actingPlayerTeam = preTurnResult.playerTeam ?? playerTeam;
+    const playerLockedMoveName = actingPlayerLead.factoryChoiceLockedMoveName;
+    if (
+      hasHeldItemEffect(actingPlayerLead, 'CHOICE_BAND')
+      && playerLockedMoveName
+      && playerLockedMoveName !== move.name
+    ) {
+      await addMessagesSequentially([`${getLocalized(actingPlayerLead)} is locked into ${playerLockedMoveName}!`]);
+      return;
+    }
+    const enemyDecision = chooseEnemyMove(enemy, actingPlayerLead);
+    const playerQuickClawActivated = shouldQuickClawActivate(actingPlayerLead);
+    const enemyQuickClawActivated = shouldQuickClawActivate(enemy);
+    const enemyActsFirst = shouldEnemyActFirst({
+      playerPokemon: actingPlayerLead,
+      playerMove: move,
+      enemyPokemon: enemy,
+      enemyMove: enemyDecision.selectedMove,
+      playerQuickClawActivated,
+      enemyQuickClawActivated,
+    });
+
+    if (playerQuickClawActivated) {
+      await addMessagesSequentially([`${getLocalized(actingPlayerLead)}'s Quick Claw activated!`]);
+    }
+
+    if (enemyQuickClawActivated) {
+      await addMessagesSequentially([`Enemy ${getLocalized(enemy)}'s Quick Claw activated!`]);
+    }
+
+    if (enemyActsFirst) {
+      await runEnemyAutoAction({
+        defenderLead: actingPlayerLead,
+        playerTeamForTurn: actingPlayerTeam,
+        decisionOverride: enemyDecision,
+      });
+
+      const liveState = liveBattleStateRef.current;
+      if (liveState.gameState !== 'BATTLE' || liveState.turn !== 'PLAYER') return;
+      const latestPlayerLead = liveState.playerTeam[0];
+      const latestEnemyLead = liveState.enemy;
+      if (!latestPlayerLead || !latestEnemyLead || latestPlayerLead.currentHp <= 0) return;
+      if (getMoveCurrentPp(move) <= 0) return;
+      const latestLockedMoveName = latestPlayerLead.factoryChoiceLockedMoveName;
+      if (
+      hasHeldItemEffect(latestPlayerLead, 'CHOICE_BAND')
+        && latestLockedMoveName
+        && latestLockedMoveName !== move.name
+      ) {
+        await addMessagesSequentially([`${getLocalized(latestPlayerLead)} is locked into ${latestLockedMoveName}!`]);
+        return;
+      }
+
+      const postInterceptionResult = await resolvePreTurnStatus({
+        combatant: latestPlayerLead,
+        isEnemy: false,
+        currentPlayerTeam: liveState.playerTeam,
+        move,
+      });
+      if (!postInterceptionResult.canAct) return;
+
+    await executeTurn({
+      actingSide: 'player',
+      move,
+      actor: postInterceptionResult.combatant,
+      actorTeam: postInterceptionResult.playerTeam ?? liveState.playerTeam,
+      defender: latestEnemyLead,
+      defenderTeam: liveState.enemyTeam,
+      targetHasActedThisTurn: true,
+    });
+      return;
+    }
+
+    await executeTurn({
+      actingSide: 'player',
+      move,
+      actor: actingPlayerLead,
+      actorTeam: actingPlayerTeam,
+      defender: enemy,
+      defenderTeam: enemyTeam,
+      targetHasActedThisTurn: false,
+    });
+  }, [
+    addMessagesSequentially,
+    chooseEnemyMove,
+    enemy,
+    enemyTeam,
+    executeTurn,
+    gameState,
+    getLocalized,
+    getForcedLockedMove,
+    getMoveCurrentPp,
+    hasHeldItem,
+    isMessageProcessing,
+    playerTeam,
+    resolvePreTurnStatus,
+    runEnemyAutoAction,
+    shouldEnemyActFirst,
+    shouldQuickClawActivate,
     turn,
   ]);
 
@@ -1640,106 +2511,40 @@ export function useBattleController({
     let cancelled = false;
 
     const handleRoundEnd = async () => {
-      let nextPlayerTeam = [...playerTeam];
-      let nextEnemyTeam = [...enemyTeam];
-      let playerLead = nextPlayerTeam[0];
-      let enemyLead = nextEnemyTeam[0];
-      let playerChanged = false;
-      let enemyChanged = false;
-      const endTurnMessages: string[] = [];
+      const endTurnResult = resolveEndTurn({
+        snapshot: {
+          playerTeam: [...playerTeam],
+          enemyTeam: [...enemyTeam],
+          weather,
+          weatherTurns,
+          fieldState,
+          fieldTurns,
+        },
+        getLocalized,
+        formatDynamaxEndMessage: (pokemon) => t('specialDynamaxEnd').replace('{name}', getLocalized(pokemon)),
+        getMoveCurrentPp,
+        tryActivateSitrusBerry,
+        tryActivatePinchStatBerry,
+      });
 
-      if (playerLead?.specialBoostMode === 'DYNAMAX' && playerLead.specialBoostActive) {
-        const turnsLeft = (playerLead.dynamaxTurnsLeft ?? 0) - 1;
-        if (turnsLeft > 0) {
-          playerLead = { ...playerLead, dynamaxTurnsLeft: turnsLeft };
-        } else {
-          const revertedStats = {
-            hp: playerLead.calculatedStats.hp,
-            attack: Math.max(1, Math.floor(playerLead.calculatedStats.attack / 1.2)),
-            defense: Math.max(1, Math.floor(playerLead.calculatedStats.defense / 1.2)),
-            spAtk: Math.max(1, Math.floor(playerLead.calculatedStats.spAtk / 1.2)),
-            spDef: Math.max(1, Math.floor(playerLead.calculatedStats.spDef / 1.2)),
-            speed: Math.max(1, Math.floor(playerLead.calculatedStats.speed / 1.05)),
-          };
-          const revertedMaxHp = Math.max(1, Math.floor(playerLead.maxHp / 1.35));
-          const revertedHp = Math.max(1, Math.min(revertedMaxHp, Math.floor(playerLead.currentHp / 1.35)));
-          playerLead = {
-            ...playerLead,
-            calculatedStats: revertedStats,
-            maxHp: revertedMaxHp,
-            currentHp: revertedHp,
-            specialBoostActive: false,
-            specialBoostMode: undefined,
-            dynamaxTurnsLeft: undefined,
-          };
-          endTurnMessages.push(t('specialDynamaxEnd').replace('{name}', getLocalized(playerLead)));
-        }
-        nextPlayerTeam[0] = playerLead;
-        playerChanged = true;
-      }
+      const nextPlayerTeam = endTurnResult.snapshot.playerTeam;
+      const nextEnemyTeam = endTurnResult.snapshot.enemyTeam;
+      const playerLead = endTurnResult.playerLead;
+      const enemyLead = endTurnResult.enemyLead;
+      const endTurnMessages = endTurnResult.events
+        .filter((event) => event.type === 'message')
+        .map((event) => event.message);
 
-      if (enemyLead?.specialBoostMode === 'DYNAMAX' && enemyLead.specialBoostActive) {
-        const turnsLeft = (enemyLead.dynamaxTurnsLeft ?? 0) - 1;
-        if (turnsLeft > 0) {
-          enemyLead = { ...enemyLead, dynamaxTurnsLeft: turnsLeft };
-        } else {
-          const revertedStats = {
-            hp: enemyLead.calculatedStats.hp,
-            attack: Math.max(1, Math.floor(enemyLead.calculatedStats.attack / 1.2)),
-            defense: Math.max(1, Math.floor(enemyLead.calculatedStats.defense / 1.2)),
-            spAtk: Math.max(1, Math.floor(enemyLead.calculatedStats.spAtk / 1.2)),
-            spDef: Math.max(1, Math.floor(enemyLead.calculatedStats.spDef / 1.2)),
-            speed: Math.max(1, Math.floor(enemyLead.calculatedStats.speed / 1.05)),
-          };
-          const revertedMaxHp = Math.max(1, Math.floor(enemyLead.maxHp / 1.35));
-          const revertedHp = Math.max(1, Math.min(revertedMaxHp, Math.floor(enemyLead.currentHp / 1.35)));
-          enemyLead = {
-            ...enemyLead,
-            calculatedStats: revertedStats,
-            maxHp: revertedMaxHp,
-            currentHp: revertedHp,
-            specialBoostActive: false,
-            specialBoostMode: undefined,
-            dynamaxTurnsLeft: undefined,
-          };
-          endTurnMessages.push(t('specialDynamaxEnd').replace('{name}', getLocalized(enemyLead)));
-        }
-        nextEnemyTeam[0] = enemyLead;
-        enemyChanged = true;
-      }
-
-      if (weather !== 'none') {
-        const playerWeatherResult = resolveWeatherChipDamage({ pokemon: playerLead, weather, getLocalized });
-        if (playerWeatherResult.messages.length > 0) {
-          playerLead = playerWeatherResult.pokemon;
-          nextPlayerTeam[0] = playerLead;
-          playerChanged = true;
-          endTurnMessages.push(...playerWeatherResult.messages);
-        }
-
-        const enemyWeatherResult = resolveWeatherChipDamage({ pokemon: enemyLead, weather, getLocalized });
-        if (enemyWeatherResult.messages.length > 0) {
-          enemyLead = enemyWeatherResult.pokemon;
-          nextEnemyTeam[0] = enemyLead;
-          enemyChanged = true;
-          endTurnMessages.push(...enemyWeatherResult.messages);
-        }
-      }
-
-      if (playerChanged) {
-        setPlayerTeam(nextPlayerTeam);
-      }
-      if (enemyChanged) {
-        setEnemyTeam(nextEnemyTeam);
-        setEnemy(nextEnemyTeam[0] ?? null);
-      }
+      setPlayerTeam(nextPlayerTeam);
+      setEnemyTeam(nextEnemyTeam);
+      setEnemy(nextEnemyTeam[0] ?? null);
 
       if (endTurnMessages.length > 0) {
         await addMessagesSequentially(endTurnMessages);
       }
       if (cancelled) return;
 
-      if (playerLead.currentHp <= 0) {
+      if (endTurnResult.playerLeadFainted) {
         if (pendingPlayerSwitchRef.current) {
           pendingPlayerSwitchRef.current = false;
         } else {
@@ -1749,39 +2554,16 @@ export function useBattleController({
         await sendOutNextPlayer(nextPlayerTeam);
       }
 
-      if (enemyLead.currentHp <= 0) {
+      if (endTurnResult.enemyLeadFainted) {
         await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(enemyLead))]);
         if (cancelled) return;
         await sendOutNextEnemy(nextEnemyTeam, enemyLead.id);
       }
 
-      if (weather !== 'none' && weatherTurns > 0) {
-        const nextTurns = weatherTurns - 1;
-        if (nextTurns <= 0) {
-          setWeather('none');
-          setWeatherTurns(0);
-        } else {
-          setWeatherTurns(nextTurns);
-        }
-      }
-
-      if (fieldState.length > 0) {
-        const nextFieldTurns: FieldTurns = {};
-        const remainingFieldState: FieldState[] = [];
-
-        for (const state of fieldState) {
-          const currentTurns = fieldTurns[state] ?? 0;
-          if (currentTurns <= 0) continue;
-          const nextTurns = currentTurns - 1;
-          if (nextTurns > 0) {
-            nextFieldTurns[state] = nextTurns;
-            remainingFieldState.push(state);
-          }
-        }
-
-        setFieldState(remainingFieldState);
-        setFieldTurns(nextFieldTurns);
-      }
+      setWeather(endTurnResult.snapshot.weather);
+      setWeatherTurns(endTurnResult.snapshot.weatherTurns);
+      setFieldState(endTurnResult.snapshot.fieldState);
+      setFieldTurns(endTurnResult.snapshot.fieldTurns);
     };
 
     void handleRoundEnd();
@@ -1796,6 +2578,7 @@ export function useBattleController({
     fieldTurns,
     gameState,
     getLocalized,
+    hasHeldItem,
     isMessageProcessing,
     playerTeam,
     sendOutNextEnemy,
@@ -1811,12 +2594,18 @@ export function useBattleController({
     turn,
     weather,
     weatherTurns,
+    tryActivateSitrusBerry,
   ]);
 
   const forfeitChallenge = useCallback(() => {
     if (gameState !== 'BATTLE' || isMessageProcessing) return;
     void loseBattle();
   }, [gameState, isMessageProcessing, loseBattle]);
+
+  const devWinBattle = useCallback(() => {
+    if (gameState !== 'BATTLE' || isMessageProcessing) return;
+    void winBattle();
+  }, [gameState, isMessageProcessing, winBattle]);
 
   return {
     addMessagesSequentially,
@@ -1827,6 +2616,7 @@ export function useBattleController({
     canUseBattleSpecial,
     canUseBattleSpecialByMode,
     forfeitChallenge,
+    devWinBattle,
   };
 }
 

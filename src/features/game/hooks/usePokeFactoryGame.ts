@@ -9,12 +9,13 @@ import { ALL_ITEMS } from '../../../uiAppConstants';
 import { GENERATIONS } from '../../../constants';
 import { fetchPokemon, getProcessedPokemon, isEvolutionChainBaseSpecies } from '../../../services/pokeApi';
 import { getAiTier } from '../config/factoryBattle';
-import { FACTORY_REWARD_CONFIG } from '../config/factoryRewards';
+import { FACTORY_REWARD_CONFIG, getFactoryRewardChoiceCount, shouldTriggerPreBattleRewardStage } from '../config/factoryRewards';
 import { EVENT_REGIONS, IV_TRAIN_BATTLE_THRESHOLD, RARE_SPECIES_POOL, createDefaultDispatchState } from '../config/events';
 import { useGameLocalization } from './useGameLocalization';
 import { useBattleController } from './useBattleController';
 import { useFactoryFlow } from './useFactoryFlow';
 import { useRewardFlow } from './useRewardFlow';
+import { clearNonVolatileStatus, clearVolatileStatuses } from '../utils/battleStatus';
 import { addEvToPokemon, addIvToPokemon, type StatKey } from '../utils/pokemonStats';
 import { getFactoryTrainerTemplateById, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import type {
@@ -27,6 +28,7 @@ import type {
   GameViewModel,
   RoundResult,
   SelectedEvolutionPokemon,
+  PokemonInfoSource,
 } from '../view-model';
 import { getBattleIndexInSet, getSetNoByStage } from '../config/factoryRewards';
 import { preloadFactorySpeciesIndex } from '../config/factorySpeciesIndex';
@@ -128,7 +130,8 @@ export function usePokeFactoryGame(): GameViewModel {
   const [startLevel, setStartLevel] = useState(initialSave?.settings.startLevel ?? 50);
   const [hoveredMove, setHoveredMove] = useState<Move | null>(null);
   const [infoPokemonIdx, setInfoPokemonIdx] = useState<number | null>(null);
-  const [prevGameState, setPrevGameState] = useState<GameState>('START');
+  const [infoPokemonSource, setInfoPokemonSource] = useState<PokemonInfoSource>('PLAYER');
+  const [prevGameState, setPrevGameState] = useState<GameState>('BASE');
   const [showLogHistory, setShowLogHistory] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState(initialSave?.settings.currentLanguage ?? 'zh-hans');
   const [pendingRewardAction, setPendingRewardAction] = useState<'MOVE' | 'EVOLUTION' | null>(null);
@@ -140,6 +143,8 @@ export function usePokeFactoryGame(): GameViewModel {
   const [enemy, setEnemy] = useState<GamePokemon | null>(initialBattleResume?.enemyTeam[0] ?? null);
   const [enemyTeam, setEnemyTeam] = useState<GamePokemon[]>(initialBattleResume?.enemyTeam ?? []);
   const [currentEnemyTrainer, setCurrentEnemyTrainer] = useState<FactoryTrainerTemplate | null>(initialEnemyTrainer);
+  const [nextEnemyPreviewTeam, setNextEnemyPreviewTeam] = useState<GamePokemon[]>([]);
+  const [nextEnemyPreviewTrainer, setNextEnemyPreviewTrainer] = useState<FactoryTrainerTemplate | null>(null);
   const [streak, setStreak] = useState(initialBattleResume?.streak ?? 0);
   const [swapCount, setSwapCount] = useState(initialBattleResume?.swapCount ?? 0);
   const [totalRents, setTotalRents] = useState(initialBattleResume?.totalRents ?? initialSave?.progress.totalRents ?? 0);
@@ -216,6 +221,8 @@ export function usePokeFactoryGame(): GameViewModel {
   const canEnterProject = bootProgress >= BOOT_ENTER_THRESHOLD;
   const battleResumeSnapshotRef = useRef<BattleResumeSnapshot | null>(initialBattleResume);
   const backgroundWarmupStartedRef = useRef(false);
+  const nextFactoryStageInFlightRef = useRef(false);
+  const performSwapInFlightRef = useRef(false);
 
   const buildStableFactoryBattleResume = useCallback((): BattleResumeSnapshot | null => {
     if (eventBattleActive || gameState !== 'BATTLE') return null;
@@ -424,9 +431,11 @@ export function usePokeFactoryGame(): GameViewModel {
       setIsTransitioning,
       setTrainerIntroActive,
       setTrainerIntroAwaitingContinue,
-      setEnemyTeam,
+    setEnemyTeam,
     setEnemy,
     setCurrentEnemyTrainer,
+    setNextEnemyPreviewTeam,
+    setNextEnemyPreviewTrainer,
     setBattleLog,
     setTurn,
     setBattleMenuTab,
@@ -462,7 +471,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [eventBattleActive, gameState, pendingBattleResumeRestore]);
 
   useEffect(() => {
-    if (!pendingBattleResumeRestore || !canEnterProject || gameState !== 'START') return;
+    if (!pendingBattleResumeRestore || !canEnterProject || gameState !== 'BASE') return;
     setPendingBattleResumeRestore(false);
     setGameState('BATTLE');
   }, [canEnterProject, gameState, pendingBattleResumeRestore]);
@@ -621,7 +630,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [gameState, pendingBattleResumeRestore, prefetchRentals, t]);
 
   useEffect(() => {
-    if (gameState !== 'START') return;
+    if (gameState !== 'BASE' && gameState !== 'START') return;
     if (backgroundWarmupStartedRef.current) return;
     backgroundWarmupStartedRef.current = true;
 
@@ -729,11 +738,12 @@ export function usePokeFactoryGame(): GameViewModel {
 
   const enterBase = useCallback(() => {
     setCurrentBaseTab('HOME');
-    setGameState('START');
+    setGameState('BASE');
   }, []);
 
   const openBaseTab = useCallback((tab: BaseTab) => {
     setCurrentBaseTab(tab);
+    setGameState('BASE');
   }, []);
 
   const closeRunSummary = useCallback(() => {
@@ -759,7 +769,7 @@ export function usePokeFactoryGame(): GameViewModel {
         });
         setHasFactoryRunToResume(true);
         setCurrentBaseTab('HOME');
-        setGameState('START');
+        setGameState('BASE');
         return;
       }
 
@@ -779,7 +789,7 @@ export function usePokeFactoryGame(): GameViewModel {
     });
     setHasFactoryRunToResume(false);
     setCurrentBaseTab('HOME');
-    setGameState('START');
+    setGameState('BASE');
   };
 
   const toggleDeveloperMode = useCallback(() => {
@@ -809,21 +819,26 @@ export function usePokeFactoryGame(): GameViewModel {
   const devOpenRewardScreen = useCallback(() => {
     const fallbackItem = ALL_ITEMS[0];
     const potionItem = ALL_ITEMS.find((item) => item.id === 'potion') ?? fallbackItem;
-    const ballItem = ALL_ITEMS.find((item) => item.isBall) ?? fallbackItem;
     const battleItem = ALL_ITEMS.find((item) => item.isBattleItem) ?? fallbackItem;
+    const permitItem = ALL_ITEMS.find((item) => item.id === 'team_capacity_permit') ?? fallbackItem;
+    const rewardChoiceCount = getFactoryRewardChoiceCount();
     const samplePokemon = playerTeam[0] ?? factoryRentals[0];
     const sampleTmMove = samplePokemon?.selectedMoves?.[0];
     const tmReward: GameReward = sampleTmMove
       ? { type: 'TM', data: { move: sampleTmMove, learnerIndexes: [0] } }
       : { type: 'ITEM', data: potionItem };
-    const nextRewards: GameReward[] = [
+    const rewardCandidates: GameReward[] = [
       { type: 'ITEM', data: potionItem },
       samplePokemon ? { type: 'POKEMON', data: samplePokemon } : { type: 'ITEM', data: potionItem },
       tmReward,
-      { type: 'EVOLUTION', data: { eligibleIndexes: [0] } },
-      { type: 'SHOP_ITEM', data: { item: battleItem, price: 80 } },
-      { type: 'SHOP_ITEM', data: { item: ballItem, price: 60 } },
+      playerTeam.length > 0 ? { type: 'EVOLUTION', data: { eligibleIndexes: [0] } } : { type: 'ITEM', data: battleItem },
+      { type: 'ITEM', data: permitItem },
+      { type: 'ITEM', data: battleItem },
     ];
+    const nextRewards = rewardCandidates.slice(0, rewardChoiceCount);
+    while (nextRewards.length < rewardChoiceCount) {
+      nextRewards.push({ type: 'ITEM', data: potionItem });
+    }
 
     setRewards(nextRewards);
     setRewardChoiceMade(false);
@@ -896,6 +911,8 @@ export function usePokeFactoryGame(): GameViewModel {
         ...lead,
         specialBoostActive: false,
         dynamaxTurnsLeft: 0,
+        nonVolatileStatus: undefined,
+        volatileStatuses: {},
         statStages: {
           ...lead.statStages,
           attack: 0,
@@ -920,7 +937,7 @@ export function usePokeFactoryGame(): GameViewModel {
       if (prev.length === 0) return prev;
       const lead = prev[0];
       const nextLead = {
-        ...lead,
+        ...clearVolatileStatuses(clearNonVolatileStatus(lead)),
         statStages: {
           ...lead.statStages,
           attack: 2,
@@ -932,26 +949,35 @@ export function usePokeFactoryGame(): GameViewModel {
     });
   }, [gameState]);
 
-  const shouldTriggerPreBattleReward = useCallback((nextStage: number) => {
-    const battleInSet = ((nextStage - 1) % FACTORY_REWARD_CONFIG.battlesPerSet) + 1;
-    if (battleInSet !== 1 && battleInSet !== 4 && battleInSet !== 7) return false;
-    if (battleInSet === 1 && streak === 0) return false;
-    return true;
-  }, [streak]);
+  const shouldTriggerPreBattleReward = useCallback((nextStage: number) => shouldTriggerPreBattleRewardStage(nextStage), []);
 
   const nextFactoryStage = useCallback(async () => {
+    if (nextFactoryStageInFlightRef.current) return;
+    nextFactoryStageInFlightRef.current = true;
+
     const nextStageValue = stage + 1;
-    if (shouldTriggerPreBattleReward(nextStageValue)) {
-      void factoryFlow.prefetchEnemy(nextStageValue);
-      await rewardFlow.openRewardStage();
-      return;
+    try {
+      if (shouldTriggerPreBattleReward(nextStageValue)) {
+        void factoryFlow.prefetchEnemy(nextStageValue);
+        await rewardFlow.openRewardStage();
+        return;
+      }
+      await factoryFlow.nextFactoryStage();
+    } finally {
+      nextFactoryStageInFlightRef.current = false;
     }
-    await factoryFlow.nextFactoryStage();
   }, [factoryFlow, rewardFlow, shouldTriggerPreBattleReward, stage]);
 
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
-    await factoryFlow.performSwap(playerIdx, enemyIdx);
-    await nextFactoryStage();
+    if (performSwapInFlightRef.current) return;
+    performSwapInFlightRef.current = true;
+
+    try {
+      await factoryFlow.performSwap(playerIdx, enemyIdx);
+      await nextFactoryStage();
+    } finally {
+      performSwapInFlightRef.current = false;
+    }
   }, [factoryFlow, nextFactoryStage]);
 
   const startGame = useCallback(async () => {
@@ -982,12 +1008,12 @@ export function usePokeFactoryGame(): GameViewModel {
 
     if (hasFactoryRunToResume) {
       setHasFactoryRunToResume(false);
-      await factoryFlow.nextFactoryStage();
+      await nextFactoryStage();
       return;
     }
 
     await startGame();
-  }, [factoryFlow, hasFactoryRunToResume, startGame]);
+  }, [hasFactoryRunToResume, nextFactoryStage, startGame]);
   const setEventDispatchPokemon = useCallback((regionId: string, pokemonId: number | null) => {
     if (!EVENT_REGIONS.some((region) => region.id === regionId)) return;
     setEventDispatchPokemonByRegion((prev) => ({ ...prev, [regionId]: pokemonId }));
@@ -1166,13 +1192,7 @@ export function usePokeFactoryGame(): GameViewModel {
     if (!isReady && current.status === 'RUNNING') return;
 
     if (!isReady) {
-      let selectedPokemonId = eventDispatchPokemonByRegion[regionId] ?? null;
-      if (!selectedPokemonId) {
-        selectedPokemonId = await autoPickDispatchPokemon(regionId);
-        if (selectedPokemonId) {
-          setEventDispatchPokemonByRegion((prev) => ({ ...prev, [regionId]: selectedPokemonId }));
-        }
-      }
+      const selectedPokemonId = eventDispatchPokemonByRegion[regionId] ?? null;
       if (!selectedPokemonId) {
         setEventDispatches((prev) => ({
           ...prev,
@@ -1180,7 +1200,35 @@ export function usePokeFactoryGame(): GameViewModel {
             ...current,
             status: 'IDLE',
             lastResolvedAt: now,
-            lastResult: `${region.name}: 无可派遣的图鉴宝可梦`,
+            lastResult: `${region.name}: 请先选择派遣宝可梦（可点击“推荐”）`,
+          },
+        }));
+        return;
+      }
+      try {
+        const selectedPokemonData = await fetchPokemon(selectedPokemonId);
+        const selectedTypes = selectedPokemonData.types.map((slot) => slot.type.name);
+        const matched = region.requiredTypes.some((type) => selectedTypes.includes(type));
+        if (!matched) {
+          setEventDispatches((prev) => ({
+            ...prev,
+            [regionId]: {
+              ...current,
+              status: 'IDLE',
+              lastResolvedAt: now,
+              lastResult: `${region.name}: 当前选择宝可梦属性不匹配地区要求`,
+            },
+          }));
+          return;
+        }
+      } catch {
+        setEventDispatches((prev) => ({
+          ...prev,
+          [regionId]: {
+            ...current,
+            status: 'IDLE',
+            lastResolvedAt: now,
+            lastResult: `${region.name}: 派遣前校验失败，请重试`,
           },
         }));
         return;
@@ -1207,7 +1255,7 @@ export function usePokeFactoryGame(): GameViewModel {
         lastResult: resultText,
       },
     }));
-  }, [autoPickDispatchPokemon, eventDispatchPokemonByRegion, eventDispatches, resolveDispatchRegion]);
+  }, [eventDispatchPokemonByRegion, eventDispatches, resolveDispatchRegion]);
 
   const mockEventDispatchResult = useCallback((regionId: string, outcome: 'item' | 'join' | 'battle_special') => {
     if (!developerMode) return;
@@ -1355,6 +1403,7 @@ export function usePokeFactoryGame(): GameViewModel {
     startLevel,
     hoveredMove,
     infoPokemonIdx,
+    infoPokemonSource,
     prevGameState,
     showLogHistory,
     currentLanguage,
@@ -1377,6 +1426,8 @@ export function usePokeFactoryGame(): GameViewModel {
     enemy,
     enemyTeam,
     currentEnemyTrainer,
+    nextEnemyPreviewTeam,
+    nextEnemyPreviewTrainer,
     factoryRentals,
     selectedRentalIndices,
     battleLog,
@@ -1426,6 +1477,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setBattleMenuTab,
     setGameState,
     setInfoPokemonIdx,
+    setInfoPokemonSource,
     setPrevGameState,
     setHoveredMove,
     setPendingRewardAction,
@@ -1464,6 +1516,7 @@ export function usePokeFactoryGame(): GameViewModel {
     toggleDeveloperMode,
     devAddCoins,
     devSetStage,
+    devWinBattle: battleController.devWinBattle,
     devUnlockSpecialMode,
     devResetBattleSpecialUsage,
     devOpenRewardScreen,

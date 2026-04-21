@@ -1,4 +1,12 @@
 import type { GamePokemon, Move } from '../../../types';
+import {
+  getMoveAccuracy,
+  getMoveHealingPercent,
+  getMoveRecoilPercent,
+  getMoveSecondaryEffects,
+  getMoveTarget,
+  getMoveWeather,
+} from '../data/battle';
 
 export const FACTORY_STYLE = {
   NONE: 0,
@@ -25,7 +33,6 @@ export const FACTORY_REQUIRED_MOVE_COUNTS: Record<number, number> = {
   [FACTORY_STYLE.WEATHER]: 2,
 };
 
-const WEATHER_MOVE_NAMES = new Set(['sunny-day', 'rain-dance', 'sandstorm', 'hail', 'snowscape']);
 const ENDURANCE_MOVE_NAMES = new Set([
   'protect',
   'detect',
@@ -60,29 +67,35 @@ function isStatusMove(move: Move): boolean {
 }
 
 export function getMoveFactoryStyle(move: Move): FactoryStyleId {
-  if (WEATHER_MOVE_NAMES.has(move.name)) return FACTORY_STYLE.WEATHER;
+  if (getMoveWeather(move)) return FACTORY_STYLE.WEATHER;
 
   if (UNPREDICTABLE_MOVE_NAMES.has(move.name)) return FACTORY_STYLE.UNPREDICTABLE;
 
   if (SLOW_STEADY_MOVE_NAMES.has(move.name)) return FACTORY_STYLE.SLOW_STEADY;
 
-  if ((move.accuracy ?? 100) < 100 && (move.accuracy ?? 100) > 0) return FACTORY_STYLE.HIGH_RISK;
-  if ((move.drain ?? 0) <= -33) return FACTORY_STYLE.HIGH_RISK;
+  const moveAccuracy = getMoveAccuracy(move);
+  const moveSecondaryEffects = getMoveSecondaryEffects(move);
+  const statusEffect = moveSecondaryEffects.find((effect) => effect.kind === 'status' || effect.kind === 'volatile-status');
 
-  if (move.target?.includes('user') && move.statChanges?.some((change) => change.change <= -2)) {
+  if ((moveAccuracy ?? 100) < 100 && (moveAccuracy ?? 100) > 0) return FACTORY_STYLE.HIGH_RISK;
+  if (getMoveRecoilPercent(move) >= 33) return FACTORY_STYLE.HIGH_RISK;
+
+  if (moveSecondaryEffects.some((effect) => effect.kind === 'stat-stage' && effect.appliesTo === 'user' && (effect.change ?? 0) <= -2)) {
     return FACTORY_STYLE.HIGH_RISK;
   }
 
-  if (move.ailment && NON_VOLATILE_AILMENTS.has(move.ailment)) return FACTORY_STYLE.SLOW_STEADY;
+  if (statusEffect?.statusId && NON_VOLATILE_AILMENTS.has(statusEffect.statusId)) return FACTORY_STYLE.SLOW_STEADY;
 
-  if (ENDURANCE_MOVE_NAMES.has(move.name) || (move.healing ?? 0) > 0) return FACTORY_STYLE.ENDURANCE;
+  if (ENDURANCE_MOVE_NAMES.has(move.name) || getMoveHealingPercent(move) > 0) return FACTORY_STYLE.ENDURANCE;
 
-  if (isStatusMove(move) && move.statChanges?.some((change) => change.change > 0)) return FACTORY_STYLE.PREPARATION;
+  if (isStatusMove(move) && moveSecondaryEffects.some((effect) => effect.kind === 'stat-stage' && effect.appliesTo === 'user' && (effect.change ?? 0) > 0)) {
+    return FACTORY_STYLE.PREPARATION;
+  }
 
   if (
-    move.statChanges?.some((change) => change.change < 0)
-    || (isStatusMove(move) && Boolean(move.ailment))
-    || (move.flinchChance ?? 0) > 0
+    moveSecondaryEffects.some((effect) => effect.kind === 'stat-stage' && (effect.change ?? 0) < 0)
+    || (isStatusMove(move) && Boolean(statusEffect?.statusId))
+    || moveSecondaryEffects.some((effect) => effect.kind === 'flinch')
   ) {
     return FACTORY_STYLE.WEAKENING;
   }
