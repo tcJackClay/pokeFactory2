@@ -205,6 +205,36 @@ test('resolveEndTurn increments toxic counter at end of turn', () => {
   assert.equal(result.snapshot.playerTeam[0].nonVolatileStatus?.toxicCounter, 3);
 });
 
+test('resolveEndTurn heals grounded battlers on grassy terrain', () => {
+  const groundedPokemon = createPokemon(1, 'grounded', {
+    currentHp: 80,
+    maxHp: 160,
+  });
+  const flyingPokemon = createPokemon(2, 'flying', {
+    currentHp: 80,
+    maxHp: 160,
+    types: [{ type: { name: 'flying' } }],
+  });
+  const snapshot = createSnapshot({
+    playerTeam: [groundedPokemon],
+    enemyTeam: [flyingPokemon],
+    fieldState: ['grassy_terrain'],
+    fieldTurns: { grassy_terrain: 2 },
+  });
+
+  const result = resolveEndTurn({
+    snapshot,
+    getLocalized: (pokemon) => pokemon.name,
+    formatDynamaxEndMessage: (pokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (move) => move.currentPp ?? move.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon) => ({ pokemon, message: null }),
+  });
+
+  assert.equal(result.snapshot.playerTeam[0].currentHp, 90);
+  assert.equal(result.snapshot.enemyTeam[0].currentHp, 80);
+});
+
 test('resolveEndTurn wakes sleeping battlers during uproar after yawn processing', () => {
   const sleepingPlayer = setNonVolatileStatus(createPokemon(1, 'sleeper'), 'sleep', {
     turnsRemaining: 2,

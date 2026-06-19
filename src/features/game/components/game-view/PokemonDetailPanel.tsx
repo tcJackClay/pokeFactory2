@@ -5,6 +5,7 @@ import TypeBadge from '../../../../components/TypeBadge';
 import type { GamePokemon } from '../../../../types';
 import { ALL_ITEMS } from '../../../../uiAppConstants';
 import type { LocalizeDescFn, LocalizeFn, TranslateFn } from '../../view-model';
+import { getFactoryHeldItemIcon } from '../../config/factoryHeldItemIcons';
 
 interface PokemonDetailPanelProps {
   pokemon: GamePokemon;
@@ -92,7 +93,7 @@ function DetailMetaCard({
 }: {
   icon: ReactNode;
   label: string;
-  value: string;
+  value: ReactNode;
 }) {
   return (
     <div className="rounded-[20px] border border-slate-200/80 bg-white/[0.92] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.88),0_12px_24px_rgba(15,23,42,0.08)]">
@@ -221,6 +222,7 @@ export function PokemonDetailPanel({
 
   const abilityName = getLocalized(pokemon.abilities[0]?.ability) || t('none');
   const heldItemName = getFactoryHeldItemLabel(pokemon.factoryHeldItemId, getLocalized, isZh);
+  const heldItemIcon = getFactoryHeldItemIcon(pokemon.factoryHeldItemId);
   const specialModeLabel = getSpecialModeLabel(pokemon, isZh);
   const natureAdjustments = [
     pokemon.nature.plus ? `+${getStatName(pokemon.nature.plus)}` : '',
@@ -266,7 +268,24 @@ export function PokemonDetailPanel({
         <div className="grid grid-cols-2 gap-3">
           <DetailMetaCard icon={<Shield className="h-4 w-4" />} label={t('ability')} value={abilityName} />
           <DetailMetaCard icon={<Sparkles className="h-4 w-4" />} label={t('nature')} value={natureSummary} />
-          <DetailMetaCard icon={<Package className="h-4 w-4" />} label={copy.heldItem} value={heldItemName} />
+          <DetailMetaCard
+            icon={<Package className="h-4 w-4" />}
+            label={copy.heldItem}
+            value={(
+              <span className="inline-flex items-center gap-2">
+                {heldItemIcon && (
+                  <img
+                    src={heldItemIcon}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-5 w-5 rounded object-contain [image-rendering:pixelated]"
+                    referrerPolicy="no-referrer"
+                  />
+                )}
+                <span>{heldItemName}</span>
+              </span>
+            )}
+          />
           <DetailMetaCard icon={<Swords className="h-4 w-4" />} label={copy.specialMode} value={specialModeLabel} />
         </div>
       </aside>

@@ -146,6 +146,45 @@ export const MOVE_BATTLE_DATA_OVERRIDES: Partial<Record<string, MoveBattleDataOv
     priority: 4,
     bypassProtect: true,
   },
+  'dragon-rage': {
+    effectId: 'DRAGON_RAGE',
+  },
+  'sonic-boom': {
+    effectId: 'SONIC_BOOM',
+  },
+  'seismic-toss': {
+    effectId: 'LEVEL_DAMAGE',
+  },
+  'night-shade': {
+    effectId: 'LEVEL_DAMAGE',
+  },
+  'super-fang': {
+    effectId: 'HALF_HP',
+  },
+  endeavor: {
+    effectId: 'ENDEAVOR',
+  },
+  flail: {
+    effectId: 'LOW_HP_POWER',
+  },
+  reversal: {
+    effectId: 'LOW_HP_POWER',
+  },
+  eruption: {
+    effectId: 'HIGH_HP_POWER',
+  },
+  'water-spout': {
+    effectId: 'HIGH_HP_POWER',
+  },
+  facade: {
+    effectId: 'FACADE',
+  },
+  explosion: {
+    effectId: 'SELF_DESTRUCT',
+  },
+  'self-destruct': {
+    effectId: 'SELF_DESTRUCT',
+  },
   'electric-terrain': {
     fieldState: 'electric_terrain',
   },

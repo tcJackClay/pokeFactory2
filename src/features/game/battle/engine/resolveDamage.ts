@@ -1,4 +1,4 @@
-import type { GamePokemon, Move, Pokemon } from '../../../../types';
+import type { FieldState, GamePokemon, Move, Pokemon } from '../../../../types';
 import {
   getItemCritStageBonus,
   getItemPhysicalAttackMultiplier,
@@ -25,6 +25,7 @@ interface CalculateDamageOptions {
   attacker: GamePokemon;
   defender: GamePokemon;
   weather: string;
+  fieldState?: FieldState[];
   atkBuff: boolean;
   defBuff: boolean;
   basePowerOverride?: number;
@@ -62,6 +63,10 @@ function getBaseTypeSlots(pokemon: GamePokemon | null | undefined): PokemonTypeS
 
 function hasType(typeSlots: PokemonTypeSlots, typeName: string) {
   return typeSlots.some((slot) => slot.type.name === typeName);
+}
+
+function isGrounded(pokemon: GamePokemon) {
+  return !hasType(getCurrentTypeSlots(pokemon), 'flying');
 }
 
 function doesHeldItemMatchSpecies(pokemon: GamePokemon | null | undefined) {
@@ -133,13 +138,17 @@ function getAdjustedStage(stage: number, { isCrit, forAttacker }: { isCrit: bool
   return stage;
 }
 
-function getEffectiveOffenseAndDefense(move: Move, attacker: GamePokemon, defender: GamePokemon, isCrit: boolean) {
+function getEffectiveOffenseAndDefense(move: Move, attacker: GamePokemon, defender: GamePokemon, isCrit: boolean, weather = 'none') {
   if (move.damage_class === 'special') {
     const attackStage = getAdjustedStage(attacker.statStages.spAtk, { isCrit, forAttacker: true });
     const defenseStage = getAdjustedStage(defender.statStages.spDef, { isCrit, forAttacker: false });
+    const weatherSpecialDefenseMultiplier = weather === 'sandstorm' && hasType(getCurrentTypeSlots(defender), 'rock') ? 1.5 : 1;
     return {
       attack: attacker.calculatedStats.spAtk * getStatStageModifier(attackStage),
-      defense: defender.calculatedStats.spDef * getStatStageModifier(defenseStage) * getSpecialDefenseMultiplierFromItem(defender),
+      defense: defender.calculatedStats.spDef
+        * getStatStageModifier(defenseStage)
+        * getSpecialDefenseMultiplierFromItem(defender)
+        * weatherSpecialDefenseMultiplier,
     };
   }
 
@@ -161,6 +170,40 @@ function getWeatherMultiplier(weather: string, moveType: string) {
     if (moveType === 'fire') return 0.5;
   }
   return 1;
+}
+
+function getTerrainMoveMultiplier(fieldState: FieldState[] | undefined, moveType: string, attacker: GamePokemon, defender: GamePokemon) {
+  if (!fieldState || fieldState.length === 0) return 1;
+  if (fieldState.includes('electric_terrain') && moveType === 'electric' && isGrounded(attacker)) return 1.3;
+  if (fieldState.includes('grassy_terrain') && moveType === 'grass' && isGrounded(attacker)) return 1.3;
+  if (fieldState.includes('psychic_terrain') && moveType === 'psychic' && isGrounded(attacker)) return 1.3;
+  if (fieldState.includes('misty_terrain') && moveType === 'dragon' && isGrounded(defender)) return 0.5;
+  return 1;
+}
+
+function getLowHpPower(attacker: GamePokemon) {
+  const hpRatio = attacker.currentHp / Math.max(1, attacker.maxHp);
+  if (hpRatio <= 1 / 48) return 200;
+  if (hpRatio <= 1 / 16) return 150;
+  if (hpRatio <= 1 / 8) return 100;
+  if (hpRatio <= 1 / 4) return 80;
+  if (hpRatio <= 1 / 3) return 40;
+  if (hpRatio <= 1 / 2) return 20;
+  return 20;
+}
+
+function getHighHpPower(attacker: GamePokemon) {
+  return Math.max(1, Math.floor(150 * attacker.currentHp / Math.max(1, attacker.maxHp)));
+}
+
+function getSpecialCaseDamage(move: Move, attacker: GamePokemon, defender: GamePokemon) {
+  const effectId = move.battleData?.effectId;
+  if (effectId === 'DRAGON_RAGE') return 40;
+  if (effectId === 'SONIC_BOOM') return 20;
+  if (effectId === 'LEVEL_DAMAGE') return Math.max(1, attacker.level);
+  if (effectId === 'HALF_HP') return Math.max(1, Math.floor(defender.currentHp / 2));
+  if (effectId === 'ENDEAVOR') return Math.max(0, defender.currentHp - attacker.currentHp);
+  return null;
 }
 
 function shouldTreatAsZPoweredMove(attacker: GamePokemon, move: Move) {
@@ -191,6 +234,7 @@ export function calculateDamage({
   attacker,
   defender,
   weather,
+  fieldState,
   atkBuff,
   defBuff,
   basePowerOverride,
@@ -271,18 +315,60 @@ export function calculateDamage({
 
   const critStage = (move.battleData?.critStage ?? move.critRate ?? 0) + getAdditionalCritStageFromItem(attacker);
   const isCrit = !isCritBlocked(defender) && random() < getCritChanceFromStage(critStage);
-  const { attack, defense } = getEffectiveOffenseAndDefense(move, attacker, defender, isCrit);
+  const { attack, defense } = getEffectiveOffenseAndDefense(move, attacker, defender, isCrit, weather);
 
   let effectiveAttack = attack;
   if (getNonVolatileStatusId(attacker) === 'burn' && move.damage_class === 'physical') {
     effectiveAttack *= 0.5;
   }
 
-  const basePower = basePowerOverride ?? move.power ?? 40;
+  const specialCaseDamage = getSpecialCaseDamage(move, attacker, defender);
+  if (specialCaseDamage !== null) {
+    const typeMultiplier = resolveTypeEffectiveness(move, defender);
+    const totalDamage = typeMultiplier > 0 ? Math.min(defender.currentHp, specialCaseDamage) : 0;
+    if (blockedBySubstitute && typeMultiplier > 0) {
+      const substituteHp = Math.max(0, getVolatileStatus(defender, 'substitute')?.counter ?? 0);
+      const remainingSubstituteHp = Math.max(0, substituteHp - totalDamage);
+      return {
+        damage: 0,
+        multiplier: typeMultiplier,
+        isMiss: false,
+        isCrit,
+        blockedByProtect,
+        protectReducedDamage,
+        blockedBySubstitute: true,
+        substituteDamage: Math.min(substituteHp, totalDamage),
+        substituteHpRemaining: remainingSubstituteHp,
+        substituteBroke: substituteHp > 0 && remainingSubstituteHp <= 0,
+        applyUserSecondaryEffects: true,
+        applyTargetSecondaryEffects: false,
+      };
+    }
+    return {
+      damage: totalDamage,
+      multiplier: typeMultiplier,
+      isMiss: false,
+      isCrit: false,
+      blockedByProtect,
+      protectReducedDamage,
+      blockedBySubstitute: false,
+      substituteDamage: 0,
+      substituteHpRemaining: null,
+      substituteBroke: false,
+      applyUserSecondaryEffects: typeMultiplier > 0 && !blockedByProtect,
+      applyTargetSecondaryEffects: typeMultiplier > 0 && !blockedByProtect,
+    };
+  }
+
+  let basePower = basePowerOverride ?? move.power ?? 40;
+  if (move.battleData?.effectId === 'LOW_HP_POWER') basePower = getLowHpPower(attacker);
+  if (move.battleData?.effectId === 'HIGH_HP_POWER') basePower = getHighHpPower(attacker);
+  if (move.battleData?.effectId === 'FACADE' && getNonVolatileStatusId(attacker)) basePower *= 2;
   const levelMultiplier = (2 * attacker.level / 5) + 2;
   const typeMultiplier = resolveTypeEffectiveness(move, defender);
   const stabMultiplier = getSameTypeAttackBonusMultiplier(attacker, move.type);
   const weatherMultiplier = getWeatherMultiplier(weather, move.type);
+  const terrainMultiplier = getTerrainMoveMultiplier(fieldState, move.type, attacker, defender);
   const critMultiplier = isCrit ? 1.5 : 1;
   const zMoveBoost = shouldTreatAsZPoweredMove(attacker, move) ? 1.55 : 1;
   const heldTypeBoost = getHeldMovePowerMultiplier(attacker, move.type);
@@ -295,6 +381,7 @@ export function calculateDamage({
       * typeMultiplier
       * stabMultiplier
       * weatherMultiplier
+      * terrainMultiplier
       * critMultiplier
       * zMoveBoost
       * heldTypeBoost

@@ -32,6 +32,7 @@ import {
   getMoveDrainPercent,
   getMoveFieldState,
   getMoveHealingPercent,
+  getMoveRecoilPercent,
   getMoveSecondaryEffects,
   getItemBattleData,
   getItemPinchHealDenominator,
@@ -928,12 +929,13 @@ export function useBattleController({
       attacker,
       defender,
       weather,
+      fieldState,
       atkBuff,
       defBuff,
       basePowerOverride: options?.basePowerOverride,
       skipAccuracyCheck: options?.skipAccuracyCheck,
     });
-  }, [weather]);
+  }, [fieldState, weather]);
 
   const SPECIAL_ITEM_BY_MODE: Record<BattleSpecialMode, string> = {
     MEGA: 'special_mega_stone',
@@ -1985,8 +1987,10 @@ export function useBattleController({
 
     let actorHpChange = 0;
     const moveDrainPercent = getMoveDrainPercent(resolvedMove);
+    const moveRecoilPercent = getMoveRecoilPercent(resolvedMove);
     const moveHealingPercent = getMoveHealingPercent(resolvedMove);
     if (moveDrainPercent !== 0 && totalDamage > 0) actorHpChange += Math.floor(totalDamage * moveDrainPercent / 100);
+    if (moveRecoilPercent !== 0 && totalDamage > 0) actorHpChange -= Math.max(1, Math.floor(totalDamage * moveRecoilPercent / 100));
     if (moveHealingPercent !== 0) actorHpChange += Math.floor(updatedActor.maxHp * moveHealingPercent / 100);
     const shellBellHealDenominator = getItemDamageBasedHealDenominator(updatedActor.factoryHeldItemId);
     const shellBellRecover = (
@@ -2003,6 +2007,12 @@ export function useBattleController({
       ...updatedActor,
       currentHp: Math.max(0, Math.min(updatedActor.maxHp, updatedActor.currentHp + actorHpChange)),
     };
+    if (hasMoveBattleEffect(resolvedMove, 'SELF_DESTRUCT')) {
+      updatedActor = {
+        ...updatedActor,
+        currentHp: 0,
+      };
+    }
     if (updatedActor.specialBoostActive && updatedActor.specialBoostMode === 'ZMOVE') {
       updatedActor = {
         ...updatedActor,
@@ -2026,6 +2036,17 @@ export function useBattleController({
       updatedActor = actorPinchResult.pokemon;
       syncLeadBySide(actingSide, updatedActor);
       await addMessagesSequentially([actorPinchResult.message]);
+    }
+
+    if (updatedActor.currentHp <= 0) {
+      await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedActor))]);
+      if (actingSide === 'player') {
+        await sendOutNextPlayer(nextPlayerTeam, { nextTurnAfterSwitch: 'ENEMY' });
+      } else {
+        await sendOutNextEnemy(nextEnemyTeam, updatedActor.id);
+      }
+      setActiveMoveType(null);
+      return;
     }
 
     if (isPlayerActing) {

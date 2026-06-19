@@ -70,6 +70,14 @@ function isIceType(pokemon: GamePokemon) {
   return pokemon.types.some((typeSlot) => typeSlot.type.name === 'ice');
 }
 
+function hasPokemonType(pokemon: GamePokemon | null | undefined, typeName: string) {
+  return Boolean(pokemon?.types.some((typeSlot) => typeSlot.type.name === typeName));
+}
+
+function isGrounded(pokemon: GamePokemon | null | undefined) {
+  return !hasPokemonType(pokemon, 'flying');
+}
+
 function isGhostType(pokemon: GamePokemon | null | undefined) {
   return Boolean(pokemon?.types.some((typeSlot) => typeSlot.type.name === 'ghost'));
 }
@@ -93,8 +101,23 @@ function findMoveByName(pokemon: GamePokemon, moveName?: string | null) {
   return pokemon.selectedMoves.find((move) => move.name === moveName);
 }
 
-function isSleepPreventingFieldActive(fieldState?: FieldState[]) {
-  return Boolean(fieldState?.some((state) => state === 'electric_terrain' || state === 'misty_terrain'));
+function isNonVolatileStatusBlocked(
+  targetPokemon: GamePokemon,
+  statusId: string | null,
+  fieldState?: FieldState[],
+  move?: Move,
+) {
+  if (!statusId) return false;
+  if (hasAbilityBattleEffect(targetPokemon?.abilities?.[0]?.ability?.name, 'PURIFYING_SALT')) return true;
+  if (move?.battleData?.powderMove && hasPokemonType(targetPokemon, 'grass')) return true;
+  if (statusId === 'burn' && hasPokemonType(targetPokemon, 'fire')) return true;
+  if (statusId === 'freeze' && hasPokemonType(targetPokemon, 'ice')) return true;
+  if (statusId === 'paralysis' && hasPokemonType(targetPokemon, 'electric')) return true;
+  if (statusId === 'paralysis' && move?.type === 'electric' && hasPokemonType(targetPokemon, 'ground')) return true;
+  if ((statusId === 'poison' || statusId === 'bad_poison') && (hasPokemonType(targetPokemon, 'poison') || hasPokemonType(targetPokemon, 'steel'))) return true;
+  if (statusId === 'sleep' && fieldState?.includes('electric_terrain') && isGrounded(targetPokemon)) return true;
+  if (fieldState?.includes('misty_terrain') && isGrounded(targetPokemon)) return true;
+  return false;
 }
 
 function isSleepBlockedByUproar(targetPokemon: GamePokemon, playerTeam: GamePokemon[], enemyTeam: GamePokemon[]) {
@@ -124,7 +147,7 @@ export function applyWeatherChipDamage({
   }
 
   if (weather === 'sandstorm' && !isRockGroundSteelType(pokemon)) {
-    const weatherDamage = Math.floor(pokemon.maxHp / 16);
+    const weatherDamage = Math.max(1, Math.floor(pokemon.maxHp / 16));
     const updatedPokemon = { ...pokemon, currentHp: Math.max(0, pokemon.currentHp - weatherDamage) };
     return {
       pokemon: updatedPokemon,
@@ -134,7 +157,7 @@ export function applyWeatherChipDamage({
   }
 
   if (weather === 'hail' && !isIceType(pokemon)) {
-    const weatherDamage = Math.floor(pokemon.maxHp / 16);
+    const weatherDamage = Math.max(1, Math.floor(pokemon.maxHp / 16));
     const updatedPokemon = { ...pokemon, currentHp: Math.max(0, pokemon.currentHp - weatherDamage) };
     return {
       pokemon: updatedPokemon,
@@ -155,7 +178,7 @@ export function applyStatusResidualDamage(pokemon: GamePokemon, getLocalized: Lo
   const toxicCounter = pokemon.nonVolatileStatus?.toxicCounter ?? 1;
   const statusDamage = statusId === 'bad_poison'
     ? Math.max(1, Math.floor(pokemon.maxHp / 16) * toxicCounter)
-    : Math.floor(pokemon.maxHp / 8);
+    : Math.max(1, Math.floor(pokemon.maxHp / 8));
   let updatedPokemon: GamePokemon = {
     ...pokemon,
     currentHp: Math.max(0, pokemon.currentHp - statusDamage),
@@ -250,7 +273,7 @@ export function resolveYawnEndTurn({
     hasNonVolatileStatus(updatedPokemon)
     || hasAbilityBattleEffect(updatedPokemon?.abilities?.[0]?.ability?.name, 'INSOMNIA')
     || hasAbilityBattleEffect(updatedPokemon?.abilities?.[0]?.ability?.name, 'VITAL_SPIRIT')
-    || isSleepPreventingFieldActive(fieldState)
+    || isNonVolatileStatusBlocked(updatedPokemon, 'sleep', fieldState)
     || isSleepBlockedByUproar(updatedPokemon, playerTeam, enemyTeam)
   ) {
     return { pokemon: updatedPokemon, messages: [], fainted: false };
@@ -311,15 +334,11 @@ export function applyMoveSecondaryEffects({
     .filter((effect) => effect.kind === 'flinch')
     .reduce((maxChance, effect) => Math.max(maxChance, effect.chance), 0);
 
-  const ailmentId = normalizeBattleStatusId(ailmentEffect?.statusId);
-  const nonVolatileAilmentId = normalizeNonVolatileStatusId(ailmentEffect?.statusId);
-  const sleepBlockedByUproar = nonVolatileAilmentId === 'sleep'
-    && isSleepBlockedByUproar(targetPokemon, playerTeam, enemyTeam);
   if (isYawnMove) {
     const canApplyYawn = (
       !hasVolatileStatus(targetPokemon, 'yawn')
       && !hasNonVolatileStatus(targetPokemon)
-      && !isSleepPreventingFieldActive(fieldState)
+      && !isNonVolatileStatusBlocked(targetPokemon, 'sleep', fieldState, move)
     );
     if (canApplyYawn) {
       targetPokemon = setVolatileStatus(targetPokemon, 'yawn', {
@@ -422,10 +441,13 @@ export function applyMoveSecondaryEffects({
       const effectSleepBlockedByUproar = nonVolatileStatusId === 'sleep'
         && affectedIsTarget
         && isSleepBlockedByUproar(affectedPokemon, playerTeam, enemyTeam);
+      const effectNonVolatileBlocked = nonVolatileStatusId
+        ? isNonVolatileStatusBlocked(affectedPokemon, nonVolatileStatusId, fieldState, move)
+        : false;
 
       if (effect.kind === 'status' || effect.kind === 'volatile-status') {
         const canApplyAilment = nonVolatileStatusId
-          ? !hasNonVolatileStatus(affectedPokemon) && !effectSleepBlockedByUproar
+          ? !hasNonVolatileStatus(affectedPokemon) && !effectSleepBlockedByUproar && !effectNonVolatileBlocked
           : statusId
             ? !hasVolatileStatus(affectedPokemon, statusId)
             : false;

@@ -32,7 +32,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     pendingRunSummary,
     closeRunSummary,
     hasFactoryRunToResume,
-    startGame,
+    startOrResumeFactoryFromBase,
     openBaseTab,
     setGameState,
     currentLanguage,
@@ -118,7 +118,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={screenExit}
       transition={{ duration: shouldReduceMotion ? 0.01 : 0.24, ease: 'easeOut' }}
-      className="flex min-h-0 flex-1 flex-col"
+      className="pf-scroll-y flex min-h-0 flex-1 flex-col md:overflow-hidden"
     >
       <section className="flex min-h-0 flex-1 flex-col gap-2 md:gap-3">
         {pendingRunSummary?.visible && (
@@ -169,7 +169,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
                 <motion.button
                   whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
                   whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
-                  onClick={() => void startGame()}
+                  onClick={() => void startOrResumeFactoryFromBase()}
                   disabled={loading}
                   className="pf-primary-orb relative mt-6 flex h-44 w-44 items-center justify-center rounded-full disabled:opacity-70 md:h-52 md:w-52"
                   aria-label="Enter Battle Factory"
@@ -217,7 +217,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
 
         <div className="px-3 pb-2">
           <div className="pf-dock px-2 py-2">
-            <div className="grid grid-cols-5 gap-1.5 md:gap-2">
+            <div className="grid grid-cols-3 gap-1.5 min-[520px]:grid-cols-5 md:gap-2">
               {navItems.map((item) => {
                 const isLocked = Boolean(item.locked);
                 const state: DockState = isLocked ? 'locked' : item.implemented ? 'ready' : 'soon';
@@ -246,13 +246,12 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
 
                       if (item.menu === 'COLLECTION') {
                         openBaseTab('COLLECTION');
-                        setGameState('COLLECTION');
                         return;
                       }
 
                       if (item.menu === 'EVENTS') {
                         openBaseTab('EVENTS');
-                        setGameState('EVENTS');
+                        return;
                       }
                     }}
                     className="pf-dock-button relative flex min-h-[74px] flex-col items-center justify-center gap-1 px-1.5 py-2 text-center"

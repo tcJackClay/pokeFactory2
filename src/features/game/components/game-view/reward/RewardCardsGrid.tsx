@@ -1,22 +1,25 @@
 import { RewardCard } from './RewardCard';
+import type { GameReward } from '../../../view-model';
 import type { GameViewSectionProps } from '../shared';
 
-export function RewardCardsGrid({ viewModel }: GameViewSectionProps) {
-  const { rewards } = viewModel;
-  const visibleRewards = rewards.filter((reward) => {
-    if (reward.type !== 'EVOLUTION') return true;
-    return Array.isArray(reward.data?.eligibleIndexes) && reward.data.eligibleIndexes.length > 0;
-  });
+interface RewardCardsGridProps extends GameViewSectionProps {
+  rewardsToShow: Array<{ key: string; reward: GameReward }>;
+  selectedKey: string | null;
+  onSelect: (key: string) => void;
+}
+
+export function RewardCardsGrid({ viewModel, rewardsToShow, selectedKey, onSelect }: RewardCardsGridProps) {
 
   return (
     <div className="custom-scrollbar relative z-10 min-h-0 flex-1 overflow-y-auto pr-1">
-      <div className="grid grid-cols-1 gap-3 pb-2 md:grid-cols-2 xl:grid-cols-3">
-        {visibleRewards.map((reward, index) => (
+      <div className="mx-auto grid w-full max-w-[920px] grid-cols-1 gap-2 pb-2 min-[480px]:grid-cols-2 xl:grid-cols-3">
+        {rewardsToShow.map((entry) => (
           <RewardCard
-            key={`${reward.type}-${index}`}
+            key={entry.key}
             viewModel={viewModel}
-            reward={reward}
-            index={index}
+            reward={entry.reward}
+            isSelected={selectedKey === entry.key}
+            onSelect={() => onSelect(entry.key)}
           />
         ))}
       </div>

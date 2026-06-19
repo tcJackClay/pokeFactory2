@@ -16,7 +16,7 @@ export function BattleScreen({ viewModel }: GameViewSectionProps) {
           key="battle-intro"
           initial={shouldReduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex min-h-0 flex-1 flex-col gap-3 sm:gap-4"
+          className="pf-battle-screen flex min-h-0 flex-1 flex-col gap-3 overflow-hidden sm:gap-4"
         >
           <BattleFieldPanel viewModel={viewModel} />
           <BattleActionPanel viewModel={viewModel} />
@@ -29,9 +29,9 @@ export function BattleScreen({ viewModel }: GameViewSectionProps) {
         key="battle-loading"
         initial={shouldReduceMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex min-h-0 flex-1 flex-col gap-3 sm:gap-4"
+        className="pf-battle-screen flex min-h-0 flex-1 flex-col gap-3 overflow-hidden sm:gap-4"
       >
-        <div className="pf-arena-stage relative min-h-[320px] flex-[1.12] overflow-hidden sm:min-h-0 sm:flex-[7]">
+        <div className="pf-battle-stage-shell pf-arena-stage relative min-h-[240px] flex-1 overflow-hidden sm:min-h-[320px] sm:flex-[7]">
           <div className="pf-arena-floor" aria-hidden="true" />
           <div className="absolute inset-x-6 top-6 h-10 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.66)_0%,transparent_72%)] blur-xl" aria-hidden="true" />
           {!isTransitioning && (
@@ -42,8 +42,7 @@ export function BattleScreen({ viewModel }: GameViewSectionProps) {
             </div>
           )}
         </div>
-
-        <div className="flex-[0.88]" />
+        <div className="pf-battle-action-shell flex-none" />
       </motion.div>
     );
   }
@@ -53,7 +52,7 @@ export function BattleScreen({ viewModel }: GameViewSectionProps) {
       key="battle"
       initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex min-h-0 flex-1 flex-col gap-3 sm:gap-4"
+      className="pf-battle-screen flex min-h-0 flex-1 flex-col gap-3 overflow-hidden sm:gap-4"
     >
       <BattleFieldPanel viewModel={viewModel} />
       <BattleActionPanel viewModel={viewModel} />

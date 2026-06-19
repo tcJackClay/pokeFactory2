@@ -114,7 +114,7 @@ export function BattleMainMenu({ viewModel }: GameViewSectionProps) {
             className="pf-battle-command-button"
           >
             <Icon className={`h-4 w-4 shrink-0 ${button.key === 'run' && runConfirmPending ? 'animate-spin' : ''}`} />
-            <span className="truncate">{button.label}</span>
+            <span className="pf-battle-command-label truncate">{button.label}</span>
           </button>
         );
       })}

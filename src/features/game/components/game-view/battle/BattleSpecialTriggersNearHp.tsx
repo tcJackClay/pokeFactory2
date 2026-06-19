@@ -72,15 +72,21 @@ export function BattleSpecialTriggersNearHp({
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: 6 }}
-      animate={{ opacity: 1, x: 0 }}
+      initial={isDock ? { opacity: 0, y: 6 } : { opacity: 0, x: 6 }}
+      animate={isDock ? { opacity: 1, y: 0 } : { opacity: 1, x: 0 }}
       className={
         isDock
-          ? 'pf-battle-trigger-dock shrink-0 self-end px-1.5 py-1.5'
-          : 'flex h-full min-h-[110px] flex-col justify-between rounded-[18px] border border-slate-200 bg-white/86 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.90)]'
+          ? 'pf-battle-special-triggers pf-battle-trigger-dock w-full shrink-0 self-start bg-transparent p-0 shadow-none'
+          : 'pf-battle-special-triggers flex h-full min-h-[110px] flex-col justify-between rounded-[18px] border border-slate-200 bg-white/86 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.90)]'
       }
     >
-      <div className={isDock ? 'flex items-center gap-1.5' : 'grid grid-cols-4 gap-2'}>
+      <div
+        className={
+          isDock
+            ? 'flex w-full flex-nowrap items-center justify-start gap-1.5 overflow-x-hidden sm:gap-2'
+            : 'grid grid-cols-4 gap-2'
+        }
+      >
         {visibleButtons.map((button) => (
           <button
             key={button.mode}
@@ -90,14 +96,14 @@ export function BattleSpecialTriggersNearHp({
             disabled={!button.enabled || !specialTriggersInteractive}
             className={`relative overflow-hidden transition-all p-0 border-0 shadow-none ${
               isDock
-                ? 'h-9 w-9 rounded-[8px] bg-transparent sm:h-10 sm:w-10'
+                ? 'h-9 w-9 shrink-0 rounded-[10px] bg-transparent sm:h-10 sm:w-10'
                 : 'h-14 w-14 rounded-[10px] bg-transparent sm:h-16 sm:w-16'
             } ${
               button.enabled && specialTriggersInteractive
                 ? 'hover:-translate-y-[1px] hover:brightness-110'
                 : 'cursor-not-allowed opacity-60 saturate-50'
             } ${
-              button.activated && isDock ? 'ring-1 ring-violet-500 ring-offset-1 ring-offset-white' : ''
+              button.activated ? 'ring-1 ring-violet-500 ring-offset-1 ring-offset-white' : ''
             }`}
           >
             <span

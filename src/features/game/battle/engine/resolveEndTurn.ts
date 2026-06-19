@@ -22,6 +22,10 @@ interface ResolveEndTurnOptions {
   tryActivatePinchStatBerry: (pokemon: GamePokemon | null | undefined) => { pokemon: GamePokemon | null | undefined; message: string | null };
 }
 
+function isGrounded(pokemon: GamePokemon) {
+  return !pokemon.types.some((typeSlot) => typeSlot.type.name === 'flying');
+}
+
 export function resolveEndTurn({
   snapshot,
   getLocalized,
@@ -225,6 +229,30 @@ export function resolveEndTurn({
     const enemyWeatherResult = applyWeatherChipDamage({ pokemon: enemyLead, weather: nextSnapshot.weather, getLocalized });
     enemyWeatherResult.messages.forEach((message) => events.push({ type: 'message', message }));
     syncEnemyLead(enemyWeatherResult.pokemon);
+  }
+
+  const applyGrassyTerrainRecovery = (pokemon: GamePokemon) => {
+    if (!nextSnapshot.fieldState.includes('grassy_terrain') || pokemon.currentHp <= 0 || !isGrounded(pokemon)) {
+      return { pokemon, message: null as string | null };
+    }
+    const recover = Math.max(1, Math.min(Math.floor(pokemon.maxHp / 16), pokemon.maxHp - pokemon.currentHp));
+    if (recover <= 0) return { pokemon, message: null as string | null };
+    const nextPokemon = { ...pokemon, currentHp: Math.min(pokemon.maxHp, pokemon.currentHp + recover) };
+    return {
+      pokemon: nextPokemon,
+      message: `${getLocalized(nextPokemon)} restored HP from Grassy Terrain!`,
+    };
+  };
+
+  const playerGrassyResult = applyGrassyTerrainRecovery(playerLead);
+  if (playerGrassyResult.message) {
+    syncPlayerLead(playerGrassyResult.pokemon);
+    events.push({ type: 'message', message: playerGrassyResult.message });
+  }
+  const enemyGrassyResult = applyGrassyTerrainRecovery(enemyLead);
+  if (enemyGrassyResult.message) {
+    syncEnemyLead(enemyGrassyResult.pokemon);
+    events.push({ type: 'message', message: enemyGrassyResult.message });
   }
 
   const playerSitrusResult = tryActivateSitrusBerry(playerLead);

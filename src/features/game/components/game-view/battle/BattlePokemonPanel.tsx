@@ -3,7 +3,7 @@ import { Info, RotateCcw } from 'lucide-react';
 import type { GameViewSectionProps } from '../shared';
 
 export function BattlePokemonPanel({ viewModel }: GameViewSectionProps) {
-  const { playerTeam, gameState, t, getLocalized, switchPokemon, setInfoPokemonIdx, setPrevGameState, setGameState } = viewModel;
+  const { playerTeam, gameState, t, getLocalized, switchPokemon, setInfoPokemonIdx, setInfoPokemonSource, setPrevGameState, setGameState } = viewModel;
   const shouldReduceMotion = useReducedMotion();
   const mustChooseReplacement = playerTeam[0]?.currentHp <= 0 && playerTeam.some((pokemon, index) => index !== 0 && pokemon.currentHp > 0);
   const forcedSwitchHint = viewModel.currentLanguage.startsWith('zh')
@@ -99,6 +99,7 @@ export function BattlePokemonPanel({ viewModel }: GameViewSectionProps) {
                   type="button"
                   onClick={() => {
                     setInfoPokemonIdx(index);
+                    setInfoPokemonSource('PLAYER');
                     setPrevGameState(gameState);
                     setGameState('POKEMON_INFO');
                   }}

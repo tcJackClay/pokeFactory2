@@ -12,6 +12,7 @@ export type {
   GameViewLocalization,
   LocalizeDescFn,
   LocalizeFn,
+  PokemonInfoSource,
   RoundResult,
   RewardAction,
   SelectedEvolutionPokemon,

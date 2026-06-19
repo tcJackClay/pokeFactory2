@@ -7,7 +7,7 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
   const {
     currentLanguage,
     setCurrentLanguage,
-    setGameState,
+    enterBase,
     devToolsAvailable,
     developerMode,
     toggleDeveloperMode,
@@ -37,7 +37,7 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
 
         <button
           type="button"
-          onClick={() => setGameState('START')}
+          onClick={enterBase}
           className="pf-action-button px-4"
         >
           <ArrowLeft className="h-4 w-4" />

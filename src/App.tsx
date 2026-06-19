@@ -10,7 +10,7 @@ import { usePokeFactoryGame } from './features/game/hooks/usePokeFactoryGame';
 export default function App() {
   const viewModel = usePokeFactoryGame();
 
-  if (viewModel.loading && viewModel.gameState === 'START') {
+  if (viewModel.loading && (viewModel.gameState === 'BASE' || viewModel.gameState === 'START')) {
     return <LoadingScreen message={viewModel.t('searchingPokemon')} />;
   }
 

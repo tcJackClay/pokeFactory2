@@ -88,12 +88,15 @@
 html,
 body,
 #root {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
-  overflow: hidden;
   margin: 0;
   padding: 0;
-  touch-action: manipulation;
+}
+
+html,
+body {
+  overflow-x: hidden;
 }
 
 html {
@@ -106,6 +109,7 @@ body {
     linear-gradient(180deg, var(--pf-bg-page-top) 0%, var(--pf-bg-page-bottom) 100%);
   color: var(--pf-text-strong);
   font-family: var(--pf-font-ui);
+  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior: none;
 }
@@ -163,6 +167,63 @@ textarea:focus-visible {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--pf-text-body);
+}
+
+.custom-scrollbar,
+.scrollbar-hidden,
+.pf-scroll-y {
+  -webkit-overflow-scrolling: touch;
+}
+
+.pf-app-shell {
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+}
+
+.pf-scroll-y {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+.pf-battle-screen {
+  position: relative;
+}
+
+.pf-battle-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.pf-battle-canvas {
+  position: absolute;
+}
+
+.pf-battle-canvas--scaled {
+  left: 50%;
+  top: 50%;
+  will-change: transform;
+}
+
+.pf-battle-canvas-layer,
+.pf-battle-overlay-ui {
+  position: absolute;
+  inset: 0;
+}
+
+.pf-battle-canvas-layer {
+  z-index: 10;
+  pointer-events: none;
+}
+
+.pf-battle-overlay-ui {
+  z-index: 20;
 }
 
 h1,
@@ -556,16 +617,17 @@ button {
 .pf-battle-command-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.65rem;
+  gap: 0.45rem;
 }
 
 .pf-battle-command-button {
   position: relative;
   display: inline-flex;
-  min-height: 52px;
+  min-height: 56px;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
+  flex-direction: column;
+  gap: 0.2rem;
   border: 1px solid rgba(203, 213, 225, 0.92);
   border-radius: 18px;
   background:
@@ -578,9 +640,18 @@ button {
   transition:
     transform var(--pf-motion-fast) ease,
     border-color var(--pf-motion-fast) ease,
-    box-shadow var(--pf-motion-base) ease,
-    background-color var(--pf-motion-fast) ease,
-    color var(--pf-motion-fast) ease;
+      box-shadow var(--pf-motion-base) ease,
+      background-color var(--pf-motion-fast) ease,
+      color var(--pf-motion-fast) ease;
+}
+
+.pf-battle-command-label {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.08em;
 }
 
 .pf-battle-command-button:hover:not(:disabled) {
@@ -608,6 +679,153 @@ button {
     linear-gradient(180deg, rgba(254, 242, 242, 0.98) 0%, rgba(254, 226, 226, 0.95) 100%);
   color: var(--pf-state-danger);
   box-shadow: 0 16px 28px rgba(239, 68, 68, 0.18);
+}
+
+@media (max-width: 359px) {
+  .pf-top-record-grid {
+    gap: 0.45rem;
+  }
+
+  .pf-top-record-chip {
+    padding: 0.45rem 0.6rem;
+    border-radius: 14px;
+  }
+
+  .pf-top-record-chip .pf-data-value {
+    font-size: 0.95rem;
+  }
+
+  .pf-battle-screen {
+    gap: 0.65rem;
+  }
+
+  .pf-battle-command-grid {
+    gap: 0.35rem;
+  }
+
+  .pf-battle-command-button {
+    min-height: 50px;
+    gap: 0.15rem;
+    border-radius: 14px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .pf-battle-command-button svg {
+    height: 13px;
+    width: 13px;
+  }
+
+  .pf-battle-command-label {
+    font-size: 9px;
+  }
+
+  .pf-battle-player-dock {
+    gap: 0.25rem;
+  }
+
+  .pf-battle-action-shell {
+    min-height: 252px;
+  }
+}
+
+@media (orientation: portrait) {
+  .pf-battle-screen {
+    gap: 0.75rem;
+    overflow: hidden;
+  }
+
+  .pf-battle-stage-shell {
+    flex: 1 1 0%;
+    min-height: 11.5rem;
+  }
+
+  .pf-battle-action-shell {
+    flex: 0 0 clamp(250px, 39svh, 348px);
+    min-height: 0;
+    max-height: clamp(250px, 39svh, 348px);
+  }
+
+  .pf-battle-action-shell .pf-battle-console-panel {
+    min-height: 0;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 460px) {
+  .pf-top-record-panel {
+    border-radius: 18px;
+  }
+
+  .pf-top-record-grid {
+    gap: 0.55rem;
+  }
+
+  .pf-top-record-chip {
+    padding: 0.45rem 0.75rem;
+    border-radius: 15px;
+  }
+
+  .pf-top-record-chip .pf-data-value {
+    font-size: clamp(0.9rem, 1.9vw, 1.08rem);
+  }
+
+  .pf-top-record-chip .pf-hud-chip,
+  .pf-top-record-chip .pf-data-value {
+    line-height: 1;
+  }
+
+  .pf-battle-screen {
+    flex-direction: row;
+    gap: 0.7rem;
+    overflow: hidden;
+  }
+
+  .pf-battle-stage-shell {
+    min-height: 0 !important;
+    flex: 1.08 1 0%;
+  }
+
+  .pf-battle-action-shell {
+    min-height: 0 !important;
+    flex: 0.92 1 0%;
+  }
+
+  .pf-battle-action-shell .pf-battle-console-panel {
+    min-height: 0;
+  }
+
+  .pf-battle-player-dock {
+    gap: 0.3rem;
+  }
+
+  .pf-battle-command-grid {
+    gap: 0.4rem;
+  }
+
+  .pf-battle-command-button {
+    min-height: 48px;
+    gap: 0.15rem;
+    border-radius: 14px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .pf-battle-command-button svg {
+    height: 13px;
+    width: 13px;
+  }
+
+  .pf-battle-command-label {
+    font-size: 9px;
+  }
+
+  .pf-battle-console {
+    border-radius: 22px;
+  }
+
+  .pf-battle-console-panel {
+    border-radius: 18px;
+  }
 }
 
 .pf-battle-log {
@@ -638,10 +856,11 @@ button {
 }
 
 .pf-battle-trigger-dock {
-  border: 1px solid rgba(226, 232, 240, 0.92);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.90);
-  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
 }
 
 .pf-system-page {

@@ -36,6 +36,7 @@ export interface GameViewActions {
   toggleDeveloperMode: () => void;
   devAddCoins: (amount: number) => void;
   devSetStage: (stage: number) => void;
+  devWinBattle: () => void;
   devUnlockSpecialMode: () => void;
   devResetBattleSpecialUsage: () => void;
   devOpenRewardScreen: () => void;

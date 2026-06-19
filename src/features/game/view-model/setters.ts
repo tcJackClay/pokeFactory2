@@ -7,6 +7,7 @@ import type {
   Pokemon,
 } from '../../../types';
 import type { RewardAction, SelectedEvolutionPokemon } from './common';
+import type { PokemonInfoSource } from './common';
 
 export interface GameViewSetters {
   setShowLangMenu: Dispatch<SetStateAction<boolean>>;
@@ -18,6 +19,7 @@ export interface GameViewSetters {
   setBattleMenuTab: Dispatch<SetStateAction<BattleMenuTab>>;
   setGameState: Dispatch<SetStateAction<GameState>>;
   setInfoPokemonIdx: Dispatch<SetStateAction<number | null>>;
+  setInfoPokemonSource: Dispatch<SetStateAction<PokemonInfoSource>>;
   setPrevGameState: Dispatch<SetStateAction<GameState>>;
   setHoveredMove: Dispatch<SetStateAction<Move | null>>;
   setPendingRewardAction: Dispatch<SetStateAction<RewardAction>>;

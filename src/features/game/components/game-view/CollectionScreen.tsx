@@ -248,7 +248,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     collectionFormKeys,
     currentLanguage,
     getLocalized,
-    setGameState,
+    enterBase,
   } = viewModel;
 
   const shouldReduceMotion = useReducedMotion();
@@ -497,7 +497,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
         </div>
         <button
           type="button"
-          onClick={() => setGameState('START')}
+          onClick={enterBase}
           className="pf-action-button px-4"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -570,7 +570,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
         <div className="grid h-full min-h-0 grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1.4fr)_360px]">
           <div className="pf-terminal-panel min-h-0 overflow-hidden p-2.5 flex flex-col">
             <div className="scrollbar-hidden min-h-0 flex-1 overflow-y-auto pr-1">
-              <div className="grid grid-cols-6 gap-1.5">
+              <div className="grid grid-cols-4 gap-1.5 min-[420px]:grid-cols-5 lg:grid-cols-6">
                 {filteredEntries.map((entry) => {
                   return (
                     <button
@@ -618,7 +618,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
                       )}
                     </div>
 
-                    <div className="mt-3 grid grid-cols-[128px_minmax(0,1fr)] items-start gap-4">
+                    <div className="mt-3 grid grid-cols-1 items-start gap-4 min-[520px]:grid-cols-[128px_minmax(0,1fr)]">
                       <div className="flex flex-col items-center text-center">
                         <div className="min-w-0">
                           <h3 className={`text-slate-950 ${isZh ? 'text-[26px] font-black' : 'text-[24px] font-black uppercase tracking-[0.04em]'}`}>

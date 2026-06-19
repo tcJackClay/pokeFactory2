@@ -217,3 +217,85 @@ test('applyMoveSecondaryEffects rolls grouped stat boosts once for ancient-power
     evasion: 0,
   });
 });
+
+test('applyMoveSecondaryEffects respects type and terrain status immunities', () => {
+  const thunderWave = createMove({
+    name: 'thunder-wave',
+    type: 'electric',
+    damage_class: 'status',
+    battleData: createBattleData({
+      secondaryEffects: [{
+        kind: 'status',
+        chance: 100,
+        group: 'paralysis',
+        appliesTo: 'target',
+        isPrimary: true,
+        requiresHit: false,
+        blockedBySubstitute: true,
+        statusId: 'paralysis',
+      }],
+    }),
+  });
+  const spore = createMove({
+    name: 'spore',
+    type: 'grass',
+    damage_class: 'status',
+    battleData: createBattleData({
+      powderMove: true,
+      secondaryEffects: [{
+        kind: 'status',
+        chance: 100,
+        group: 'sleep',
+        appliesTo: 'target',
+        isPrimary: true,
+        requiresHit: false,
+        blockedBySubstitute: true,
+        statusId: 'sleep',
+      }],
+    }),
+  });
+  const player = createPokemon(1, 'player');
+  const electricEnemy = createPokemon(2, 'electric-enemy', {
+    types: [{ type: { name: 'electric' } }],
+  });
+  const groundedEnemy = createPokemon(3, 'grounded-enemy');
+  const groundEnemy = createPokemon(4, 'ground-enemy', {
+    types: [{ type: { name: 'ground' } }],
+  });
+
+  const electricResult = applyMoveSecondaryEffects({
+    move: thunderWave,
+    actingSide: 'player',
+    teams: {
+      playerTeam: [player],
+      enemyTeam: [electricEnemy],
+    },
+    getLocalized: (pokemon) => pokemon.name,
+    random: () => 0,
+  });
+  const terrainResult = applyMoveSecondaryEffects({
+    move: spore,
+    actingSide: 'player',
+    teams: {
+      playerTeam: [player],
+      enemyTeam: [groundedEnemy],
+    },
+    fieldState: ['electric_terrain'],
+    getLocalized: (pokemon) => pokemon.name,
+    random: () => 0,
+  });
+  const groundResult = applyMoveSecondaryEffects({
+    move: thunderWave,
+    actingSide: 'player',
+    teams: {
+      playerTeam: [player],
+      enemyTeam: [groundEnemy],
+    },
+    getLocalized: (pokemon) => pokemon.name,
+    random: () => 0,
+  });
+
+  assert.equal(electricResult.enemyTeam[0].nonVolatileStatus, undefined);
+  assert.equal(terrainResult.enemyTeam[0].nonVolatileStatus, undefined);
+  assert.equal(groundResult.enemyTeam[0].nonVolatileStatus, undefined);
+});

@@ -36,7 +36,7 @@ export function BattleActionPanel({ viewModel }: GameViewSectionProps) {
   const activePanelKey = battleMenuTab === 'MOVES' ? 'MAIN' : battleMenuTab;
 
   return (
-    <div className="pf-battle-console relative flex min-h-[244px] flex-[1.05] flex-col overflow-hidden sm:min-h-0 sm:flex-[3]">
+    <div className="pf-battle-action-shell pf-battle-console relative flex min-h-[272px] flex-[1.05] flex-col overflow-hidden sm:min-h-0 sm:flex-[3]">
       <AnimatePresence mode="wait">
         {showPlayerConsole ? (
           <motion.div

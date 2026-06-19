@@ -4,6 +4,14 @@ dist/
 coverage/
 .DS_Store
 *.log
+.idea/
+.codex/
+.playwright-cli/
+output/
+progress.md
+tmp_icons/
+tmp_items.json
+tmp_pokeapi_tree.json
 .env*
 !.env.example
 reference/pokeemerald-expansion/

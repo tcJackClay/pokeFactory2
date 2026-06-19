@@ -66,6 +66,8 @@ interface UseFactoryFlowParams {
   setEnemyTeam: Dispatch<SetStateAction<GamePokemon[]>>;
   setEnemy: Dispatch<SetStateAction<GamePokemon | null>>;
   setCurrentEnemyTrainer: Dispatch<SetStateAction<FactoryTrainerTemplate | null>>;
+  setNextEnemyPreviewTeam: Dispatch<SetStateAction<GamePokemon[]>>;
+  setNextEnemyPreviewTrainer: Dispatch<SetStateAction<FactoryTrainerTemplate | null>>;
   setBattleLog: Dispatch<SetStateAction<string[]>>;
   setTurn: Dispatch<SetStateAction<BattleTurn>>;
   setBattleMenuTab: Dispatch<SetStateAction<BattleMenuTab>>;
@@ -435,6 +437,8 @@ export function useFactoryFlow({
   setEnemyTeam,
   setEnemy,
   setCurrentEnemyTrainer,
+  setNextEnemyPreviewTeam,
+  setNextEnemyPreviewTrainer,
   setBattleLog,
   setTurn,
   setBattleMenuTab,
@@ -519,6 +523,8 @@ export function useFactoryFlow({
     setEnemy(null);
     setEnemyTeam([]);
     setCurrentEnemyTrainer(null);
+    setNextEnemyPreviewTeam([]);
+    setNextEnemyPreviewTrainer(null);
     setTrainerIntroActive(false);
     setTrainerIntroAwaitingContinue(false);
     trainerIntroContinueResolverRef.current = null;
@@ -536,6 +542,8 @@ export function useFactoryFlow({
     setBattleLog,
     setBattleMenuTab,
     setCurrentEnemyTrainer,
+    setNextEnemyPreviewTeam,
+    setNextEnemyPreviewTrainer,
     setEnemy,
     setEnemyBuffs,
     setEnemyTeam,
@@ -1106,6 +1114,8 @@ export function useFactoryFlow({
         const data = await generateEnemyEncounter(currentStage, options);
         if (prefetchRequestTokenRef.current !== requestToken) return false;
         prefetchedEncounterRef.current = { stage: currentStage, key, data };
+        setNextEnemyPreviewTeam(data.team);
+        setNextEnemyPreviewTrainer(data.trainer);
         debugFactoryLog('prefetchEnemy:stored', {
           stage: currentStage,
           key,
@@ -1128,7 +1138,15 @@ export function useFactoryFlow({
 
     enemyPrefetchInFlightRef.current = { stage: currentStage, key, promise };
     return promise;
-  }, [buildEncounterContextKey, debugFactoryLog, factoryRentals, generateEnemyEncounter, playerTeam]);
+  }, [
+    buildEncounterContextKey,
+    debugFactoryLog,
+    factoryRentals,
+    generateEnemyEncounter,
+    playerTeam,
+    setNextEnemyPreviewTeam,
+    setNextEnemyPreviewTrainer,
+  ]);
 
   const spawnEnemy = useCallback(async (
     currentStage: number,
@@ -1160,6 +1178,8 @@ export function useFactoryFlow({
         speciesIds: encounter.team.map((pokemon) => pokemon.id),
       });
       prefetchedEncounterRef.current = null;
+      setNextEnemyPreviewTeam([]);
+      setNextEnemyPreviewTrainer(null);
 
       const { firstEnemy, team, isBoss, isSpecialUnlockBoss, aiTier, setNo, trainer } = encounter;
       setSpecialBossBattleActive(isSpecialUnlockBoss);
@@ -1243,6 +1263,8 @@ export function useFactoryFlow({
     setFieldState,
     setFieldTurns,
     setLoading,
+    setNextEnemyPreviewTeam,
+    setNextEnemyPreviewTrainer,
     markTrainerUsedForSet,
     setSpecialBossBattleActive,
     setIsTransitioning,
@@ -1444,8 +1466,8 @@ export function useFactoryFlow({
     setStage((prev) => prev + 1);
     resetBattlePreview();
     const nextStageNo = stage + 1;
-    await prefetchEnemy(nextStageNo);
     startBattleTransition();
+    void prefetchEnemy(nextStageNo);
     await spawnEnemy(nextStageNo, { playTrainerIntro: true });
   }, [healAllPokemon, prefetchEnemy, resetBattlePreview, setStage, spawnEnemy, stage, startBattleTransition]);
 

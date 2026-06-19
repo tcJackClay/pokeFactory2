@@ -7,7 +7,7 @@ export function BootLoadingScreen({ viewModel }: GameViewSectionProps) {
   const {
     bootProgress,
     canEnterProject,
-    setGameState,
+    enterBase,
     t,
   } = viewModel;
   const shouldReduceMotion = useReducedMotion();
@@ -39,10 +39,10 @@ export function BootLoadingScreen({ viewModel }: GameViewSectionProps) {
   useEffect(() => {
     if (!canEnterProject) return;
     const timer = window.setTimeout(() => {
-      setGameState('START');
+      enterBase();
     }, 380);
     return () => window.clearTimeout(timer);
-  }, [canEnterProject, setGameState]);
+  }, [canEnterProject, enterBase]);
 
   return (
     <motion.div

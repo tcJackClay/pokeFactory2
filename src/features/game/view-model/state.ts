@@ -23,6 +23,7 @@ import type {
   GameViewSelectionState,
   EventDispatchPopup,
   FactoryAiTier,
+  PokemonInfoSource,
   RewardAction,
 } from './common';
 
@@ -49,6 +50,8 @@ export interface GameViewRosterState {
   enemy: GamePokemon | null;
   enemyTeam: GamePokemon[];
   currentEnemyTrainer: FactoryTrainerTemplate | null;
+  nextEnemyPreviewTeam: GamePokemon[];
+  nextEnemyPreviewTrainer: FactoryTrainerTemplate | null;
   factoryRentals: GamePokemon[];
   selectedRentalIndices: number[];
   inventory: Item[];
@@ -89,6 +92,7 @@ export interface GameViewSetupState {
   selectedGens: number[];
   startLevel: number;
   infoPokemonIdx: number | null;
+  infoPokemonSource: PokemonInfoSource;
   showLangMenu: boolean;
   evolutionChoices: Pokemon[];
 }

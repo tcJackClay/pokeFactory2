@@ -34,16 +34,16 @@ export function TopRecordPanel({ currentLanguage, coins, stage, streak, battleIn
   ] as const;
 
   return (
-    <div className="pf-panel overflow-hidden" style={panelStyle}>
+    <div className="pf-top-record-panel pf-panel overflow-hidden" style={panelStyle}>
       <div className="h-1.5 bg-[linear-gradient(90deg,#ef4444_0%,#ef4444_38%,#f8fafc_50%,#2563eb_62%,#2563eb_100%)]" />
       <div className="px-3 py-2">
-        <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
+        <div className="pf-top-record-grid grid gap-2" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
           {items.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.key}
-                className="pf-hud-chip min-w-0 px-2.5 py-2"
+                className="pf-top-record-chip pf-hud-chip min-w-0 px-2.5 py-2"
                 style={chipStyle}
                 title={item.label}
                 aria-label={item.label}

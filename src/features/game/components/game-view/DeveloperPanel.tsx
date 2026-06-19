@@ -11,17 +11,12 @@ export function DeveloperPanel({ viewModel }: GameViewSectionProps) {
     weatherTurns,
     fieldState,
     specialModeUnlocked,
-    quickStartDevBattle,
     devAddCoins,
-    devSetStage,
+    devWinBattle,
     devUnlockSpecialMode,
     devResetBattleSpecialUsage,
     devOpenRewardScreen,
     devOpenStatusPanel,
-    devApplyStatusPanelPreset,
-    devSetWeather,
-    devToggleFieldEffect,
-    devAdjustLeadStatStage,
     devClearBattleStatuses,
   } = viewModel;
   const [collapsed, setCollapsed] = useState(true);
@@ -46,26 +41,20 @@ export function DeveloperPanel({ viewModel }: GameViewSectionProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-1.5 text-[10px]">
-              <button
-                onClick={() => void quickStartDevBattle()}
-                className="col-span-2 rounded-md bg-cyan-600/90 px-2 py-2 font-black uppercase"
-              >
-                Quick Battle
+              <button onClick={devWinBattle} className="rounded-md bg-amber-600/90 px-2 py-1.5 font-black uppercase">
+                Win
+              </button>
+              <button onClick={devOpenRewardScreen} className="rounded-md bg-blue-600/90 px-2 py-1.5 font-black uppercase">
+                Reward
               </button>
               <button onClick={() => devAddCoins(500)} className="rounded-md bg-emerald-600/90 px-2 py-1.5 font-black uppercase">
                 +500
               </button>
-              <button onClick={() => devSetStage(21)} className="rounded-md bg-amber-600/90 px-2 py-1.5 font-black uppercase">
-                Stage 21
-              </button>
               <button onClick={devUnlockSpecialMode} className="rounded-md bg-violet-600/90 px-2 py-1.5 font-black uppercase">
                 Unlock
               </button>
-              <button onClick={devResetBattleSpecialUsage} className="rounded-md bg-fuchsia-600/90 px-2 py-1.5 font-black uppercase">
+              <button onClick={devResetBattleSpecialUsage} className="col-span-2 rounded-md bg-fuchsia-600/90 px-2 py-1.5 font-black uppercase">
                 Reset
-              </button>
-              <button onClick={devOpenRewardScreen} className="col-span-2 rounded-md bg-blue-600/90 px-2 py-1.5 font-black uppercase">
-                Reward Test
               </button>
             </div>
 
@@ -79,47 +68,12 @@ export function DeveloperPanel({ viewModel }: GameViewSectionProps) {
                 <button onClick={devOpenStatusPanel} className="rounded-md bg-slate-700/90 px-2 py-1.5 font-black uppercase">
                   Open
                 </button>
-                <button onClick={devApplyStatusPanelPreset} className="rounded-md bg-teal-600/90 px-2 py-1.5 font-black uppercase">
-                  Preset
-                </button>
-                <button onClick={() => devSetWeather('sunny', 4)} className="rounded-md bg-amber-600/90 px-2 py-1.5 font-black uppercase">
-                  Sunny
-                </button>
-                <button onClick={() => devSetWeather('rainy', 4)} className="rounded-md bg-sky-600/90 px-2 py-1.5 font-black uppercase">
-                  Rain
-                </button>
-                <button onClick={() => devToggleFieldEffect('electric_terrain', 4)} className="rounded-md bg-yellow-600/90 px-2 py-1.5 font-black uppercase">
-                  Electric
-                </button>
-                <button onClick={() => devToggleFieldEffect('trick_room', 4)} className="rounded-md bg-violet-600/90 px-2 py-1.5 font-black uppercase">
-                  Trick
-                </button>
-                <button onClick={() => devAdjustLeadStatStage('attack', 1)} className="rounded-md bg-emerald-700/90 px-2 py-1.5 font-black uppercase">
-                  Atk+
-                </button>
-                <button onClick={() => devAdjustLeadStatStage('attack', -1)} className="rounded-md bg-rose-700/90 px-2 py-1.5 font-black uppercase">
-                  Atk-
-                </button>
-                <button onClick={() => devAdjustLeadStatStage('defense', 1)} className="rounded-md bg-emerald-700/90 px-2 py-1.5 font-black uppercase">
-                  Def+
-                </button>
-                <button onClick={() => devAdjustLeadStatStage('defense', -1)} className="rounded-md bg-rose-700/90 px-2 py-1.5 font-black uppercase">
-                  Def-
-                </button>
-                <button onClick={() => devAdjustLeadStatStage('spAtk', 1)} className="rounded-md bg-emerald-700/90 px-2 py-1.5 font-black uppercase">
-                  SpA+
-                </button>
-                <button onClick={() => devAdjustLeadStatStage('spAtk', -1)} className="rounded-md bg-rose-700/90 px-2 py-1.5 font-black uppercase">
-                  SpA-
-                </button>
-                <button onClick={devClearBattleStatuses} className="col-span-2 rounded-md bg-slate-600/90 px-2 py-1.5 font-black uppercase">
+                <button onClick={devClearBattleStatuses} className="rounded-md bg-slate-600/90 px-2 py-1.5 font-black uppercase">
                   Clear
                 </button>
               </div>
 
-              <p className="text-[9px] font-semibold text-slate-400">
-                F: {fieldState.length > 0 ? fieldState.join(', ') : 'none'}
-              </p>
+              <p className="text-[9px] font-semibold text-slate-400">F: {fieldState.length > 0 ? fieldState.join(', ') : 'none'}</p>
             </section>
 
             <div className="grid grid-cols-3 gap-1 text-[9px] font-semibold text-slate-300">

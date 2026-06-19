@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { fetchAvailableEvolutionChain, fetchPokemon, getLearnableMoves, getProcessedPokemon, getRandomPokemonIdentifier } from '../../../services/pokeApi';
 import type { GamePokemon, GameState, Item, Move, Pokemon } from '../../../types';
-import { FREE_REWARD_TYPE_WEIGHTS, getFreeRewardItemPool, getShopRewardItemPool, pickWeightedRewardType } from '../config/rewardPools';
+import { getFactoryRewardChoiceCount } from '../config/factoryRewards';
+import { FREE_REWARD_TYPE_WEIGHTS, getFreeRewardItemPool, pickWeightedRewardType } from '../config/rewardPools';
 import type { GameReward, LocalizeFn, RewardAction, SelectedEvolutionPokemon, TranslateFn } from '../view-model';
 
 interface UseRewardFlowParams {
@@ -105,6 +106,8 @@ export function useRewardFlow({
 }: UseRewardFlowParams) {
   const TEAM_CAPACITY_ITEM_ID = 'team_capacity_permit';
   const MAX_TEAM_CAPACITY = 6;
+  const openRewardStageInFlightRef = useRef(false);
+  const nextStageInFlightRef = useRef(false);
 
   const canGainTeamCapacity = teamCapacity < MAX_TEAM_CAPACITY;
 
@@ -118,13 +121,6 @@ export function useRewardFlow({
     setInventory((prev) => [...prev, item]);
     return true;
   }, [canGainTeamCapacity, setInventory, setTeamCapacity]);
-
-  const getShopPrice = useCallback((item: Item) => {
-    if (item.id === TEAM_CAPACITY_ITEM_ID) {
-      return 22 + Math.floor(Math.random() * 7);
-    }
-    return 8 + Math.floor(Math.random() * 21);
-  }, []);
 
   const finishReward = useCallback(() => {
     setGameState('REWARD');
@@ -209,8 +205,8 @@ export function useRewardFlow({
     const usedPokemonIds = new Set<number>();
     const usedItems = new Set<string>();
     const freeRewardItemPool = getFreeRewardItemPool(canGainTeamCapacity);
-    const shopRewardItemPool = getShopRewardItemPool(canGainTeamCapacity);
-    if (freeRewardItemPool.length === 0 || shopRewardItemPool.length === 0) return newRewards;
+    const rewardChoiceCount = getFactoryRewardChoiceCount();
+    if (freeRewardItemPool.length === 0) return newRewards;
     const evolvableIndices = await getEvolvableIndices();
     const tmReward = await buildTmReward();
     const freeTypes: Array<'ITEM' | 'POKEMON' | 'TM' | 'EVOLUTION'> = ['ITEM', 'POKEMON'];
@@ -218,8 +214,9 @@ export function useRewardFlow({
     if (evolvableIndices.length > 0) freeTypes.push('EVOLUTION');
     const oneTimeTypes = new Set(['TM', 'EVOLUTION']);
 
-    for (let i = 0; i < 3; i += 1) {
-      if (freeTypes.length === 0) break;
+    let guard = 0;
+    while (newRewards.length < rewardChoiceCount && freeTypes.length > 0 && guard < rewardChoiceCount * 8) {
+      guard += 1;
       const type = pickWeightedRewardType(FREE_REWARD_TYPE_WEIGHTS, freeTypes);
 
       if (type === 'ITEM') {
@@ -270,28 +267,12 @@ export function useRewardFlow({
       }
     }
 
-    for (let i = 0; i < 3; i += 1) {
-      let item: Item;
-      let attempts = 0;
-      do {
-        item = shopRewardItemPool[Math.floor(Math.random() * shopRewardItemPool.length)];
-        attempts += 1;
-      } while (usedItems.has(item.id) && attempts < 10);
-
-      usedItems.add(item.id);
-      newRewards.push({
-        type: 'SHOP_ITEM',
-        data: {
-          item,
-          price: getShopPrice(item),
-        },
-      });
-    }
-
     return newRewards;
-  }, [buildTmReward, canGainTeamCapacity, getEvolvableIndices, getShopPrice, selectedGens, startLevel]);
+  }, [buildTmReward, canGainTeamCapacity, getEvolvableIndices, selectedGens, startLevel]);
 
   const openRewardStage = useCallback(async () => {
+    if (openRewardStageInFlightRef.current) return;
+    openRewardStageInFlightRef.current = true;
     setLoading(true);
     try {
       setRewards(await generateRewardSet());
@@ -311,6 +292,7 @@ export function useRewardFlow({
     } catch (error) {
       console.error(error);
     } finally {
+      openRewardStageInFlightRef.current = false;
       setLoading(false);
     }
   }, [
@@ -365,14 +347,6 @@ export function useRewardFlow({
   ]);
 
   const selectReward = useCallback((reward: GameReward) => {
-    if (reward.type === 'SHOP_ITEM') {
-      if (coins < reward.data.price) return;
-      if (!grantItemReward(reward.data.item)) return;
-      setCoins((prev) => prev - reward.data.price);
-      setRewards((prev) => prev.filter((entry) => entry !== reward));
-      return;
-    }
-
     if (rewardChoiceMade) return;
 
     if (reward.type === 'ITEM') {
@@ -407,15 +381,12 @@ export function useRewardFlow({
     setSelectedPokemonForEvolution(null);
     setEvolutionChoices([]);
   }, [
-    coins,
     playerTeam.length,
     rewardChoiceMade,
     setPendingEvolutionEligibleIndexes,
     setPendingTmLearnerIndexes,
     setPendingTmMove,
-    setCoins,
     setEvolutionChoices,
-    setInventory,
     setLearningPokemonIdx,
     setPendingRewardAction,
     setPlayerTeam,
@@ -496,16 +467,25 @@ export function useRewardFlow({
   ]);
 
   const nextStage = useCallback(async () => {
-    const nextStageNo = stage + 1;
-    healAllPokemon();
-    setStage((prev) => prev + 1);
-    await prefetchEnemy(nextStageNo);
-    startBattleTransition();
-    await spawnEnemy(nextStageNo, { playTrainerIntro: true });
-    setPendingTmMove(null);
-    setPendingTmLearnerIndexes([]);
-    setPendingEvolutionEligibleIndexes([]);
-  }, [healAllPokemon, prefetchEnemy, setPendingEvolutionEligibleIndexes, setPendingTmLearnerIndexes, setPendingTmMove, setStage, spawnEnemy, stage, startBattleTransition]);
+    if (nextStageInFlightRef.current) return;
+    nextStageInFlightRef.current = true;
+    setLoading(true);
+
+    try {
+      const nextStageNo = stage + 1;
+      healAllPokemon();
+      setStage((prev) => prev + 1);
+      await prefetchEnemy(nextStageNo);
+      startBattleTransition();
+      await spawnEnemy(nextStageNo, { playTrainerIntro: true });
+      setPendingTmMove(null);
+      setPendingTmLearnerIndexes([]);
+      setPendingEvolutionEligibleIndexes([]);
+    } finally {
+      nextStageInFlightRef.current = false;
+      setLoading(false);
+    }
+  }, [healAllPokemon, prefetchEnemy, setLoading, setPendingEvolutionEligibleIndexes, setPendingTmLearnerIndexes, setPendingTmMove, setStage, spawnEnemy, stage, startBattleTransition]);
 
   const startLearningMove = useCallback(async (idx: number) => {
     setLoading(true);

@@ -123,6 +123,15 @@ export type MoveEffectId =
   | 'DETECT'
   | 'KINGS_SHIELD'
   | 'SPIKY_SHIELD'
+  | 'DRAGON_RAGE'
+  | 'SONIC_BOOM'
+  | 'LEVEL_DAMAGE'
+  | 'HALF_HP'
+  | 'ENDEAVOR'
+  | 'LOW_HP_POWER'
+  | 'HIGH_HP_POWER'
+  | 'FACADE'
+  | 'SELF_DESTRUCT'
   | (string & {});
 
 export interface MoveBattleData {

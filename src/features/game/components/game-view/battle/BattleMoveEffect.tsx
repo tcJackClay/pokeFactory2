@@ -7,9 +7,12 @@ interface BattleMoveEffectProps {
   playerAnim: BattleAnimation;
   enemyAnim: BattleAnimation;
   activeMoveType: string | null;
+  stageMode?: 'default' | 'portrait-scaled';
 }
 
-export function BattleMoveEffect({ playerAnim, enemyAnim, activeMoveType }: BattleMoveEffectProps) {
+export function BattleMoveEffect({ playerAnim, enemyAnim, activeMoveType, stageMode = 'default' }: BattleMoveEffectProps) {
+  const isPortraitScaled = stageMode === 'portrait-scaled';
+
   return (
     <AnimatePresence>
       {(playerAnim === 'attack' || enemyAnim === 'attack') && activeMoveType && (
@@ -30,7 +33,9 @@ export function BattleMoveEffect({ playerAnim, enemyAnim, activeMoveType }: Batt
                   style={{ backgroundColor: TYPE_COLORS[activeMoveType] }}
                 />
                 <TypeIcon
-                  className="w-20 h-20 sm:w-32 sm:h-32 relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]"
+                  className={`relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] ${
+                    isPortraitScaled ? 'h-16 w-16' : 'h-20 w-20 sm:h-32 sm:w-32'
+                  }`}
                   style={{ color: TYPE_COLORS[activeMoveType] }}
                 />
               </div>

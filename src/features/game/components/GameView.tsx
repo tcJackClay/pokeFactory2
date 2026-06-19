@@ -12,6 +12,7 @@ import { RewardScreen } from './game-view/RewardScreen';
 import { SettingsScreen } from './game-view/SettingsScreen';
 import { EventsScreen } from './game-view/EventsScreen';
 import { BootLoadingScreen } from './game-view/BootLoadingScreen';
+import { BaseScreen } from './game-view/BaseScreen';
 import { StartScreen } from './game-view/StartScreen';
 import { TopRecordPanel } from './game-view/TopRecordPanel';
 import { DeveloperPanel } from './game-view/DeveloperPanel';
@@ -22,10 +23,13 @@ const CollectionScreen = lazy(async () => import('./game-view/CollectionScreen')
 export function GameView({ viewModel }: { viewModel: GameViewModel }) {
   const {
     gameState,
+    currentBaseTab,
     infoPokemonIdx,
+    infoPokemonSource,
     prevGameState,
     factoryRentals,
     playerTeam,
+    enemyTeam,
     isTransitioning,
     currentLanguage,
     coins,
@@ -35,6 +39,7 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
   } = viewModel;
   const shouldReduceMotion = useReducedMotion();
   const showFactoryTopRecord = [
+    'BASE',
     'START',
     'FACTORY_SELECT',
     'BATTLE',
@@ -44,11 +49,15 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
     'POKEMON_INFO',
     'GAMEOVER',
   ].includes(gameState);
-  const battleIndexOverride = gameState === 'FACTORY_SELECT' || (gameState === 'START' && !hasFactoryRunToResume)
+  const battleIndexOverride = gameState === 'FACTORY_SELECT' || ((gameState === 'BASE' || gameState === 'START') && !hasFactoryRunToResume)
     ? 0
     : undefined;
 
-  const infoPokemonList = prevGameState === 'FACTORY_SELECT' ? factoryRentals : playerTeam;
+  const infoPokemonList = prevGameState === 'FACTORY_SELECT' || infoPokemonSource === 'FACTORY'
+    ? factoryRentals
+    : infoPokemonSource === 'ENEMY'
+      ? enemyTeam
+      : playerTeam;
   const displayPokemon =
     gameState === 'POKEMON_INFO' && infoPokemonIdx !== null
       ? infoPokemonList[infoPokemonIdx]
@@ -67,25 +76,35 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
 
   let screenContent: ReactNode = null;
 
+  const renderCollectionScreen = (key: string) => (
+    <Suspense
+      key={key}
+      fallback={
+        <div className="flex-1 flex items-center justify-center">
+          <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-black text-slate-600">
+            Loading Collection...
+          </div>
+        </div>
+      }
+    >
+      <CollectionScreen viewModel={viewModel} />
+    </Suspense>
+  );
+
   if (gameState === 'BOOT') {
     screenContent = <BootLoadingScreen key="boot-screen" viewModel={viewModel} />;
+  } else if (gameState === 'BASE') {
+    if (currentBaseTab === 'COLLECTION') {
+      screenContent = renderCollectionScreen('collection-screen-base');
+    } else if (currentBaseTab === 'EVENTS') {
+      screenContent = <EventsScreen key="events-screen-base" viewModel={viewModel} />;
+    } else {
+      screenContent = <BaseScreen key="base-screen" viewModel={viewModel} />;
+    }
   } else if (gameState === 'START') {
     screenContent = <StartScreen key="start-screen" viewModel={viewModel} />;
   } else if (gameState === 'COLLECTION') {
-    screenContent = (
-      <Suspense
-        key="collection-screen"
-        fallback={
-          <div className="flex-1 flex items-center justify-center">
-            <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-black text-slate-600">
-              Loading Collection...
-            </div>
-          </div>
-        }
-      >
-        <CollectionScreen viewModel={viewModel} />
-      </Suspense>
-    );
+    screenContent = renderCollectionScreen('collection-screen');
   } else if (gameState === 'SETTINGS') {
     screenContent = <SettingsScreen key="settings-screen" viewModel={viewModel} />;
   } else if (gameState === 'EVENTS') {
@@ -116,7 +135,7 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
   }
 
   return (
-    <div className="h-[100dvh] overflow-hidden select-none" style={viewStyle}>
+    <div className="pf-app-shell overflow-hidden select-none" style={viewStyle}>
       <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.12),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(249,115,22,0.08),_transparent_28%)]" />
         <div
@@ -126,7 +145,7 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
         <div className="absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),transparent)]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex h-full max-w-[1200px] flex-col overflow-hidden px-2 pb-2 pt-[max(8px,env(safe-area-inset-top))] md:px-4 md:py-4">
+      <div className="relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[1200px] flex-col overflow-hidden px-2 pb-[max(8px,env(safe-area-inset-bottom))] pt-[max(8px,env(safe-area-inset-top))] md:px-4 md:py-4">
         {showFactoryTopRecord && (
           <div className="px-3 pb-2 pt-1">
             <TopRecordPanel

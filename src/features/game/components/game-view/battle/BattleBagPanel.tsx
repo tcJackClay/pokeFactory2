@@ -15,7 +15,7 @@ export function BattleBagPanel({ viewModel }: GameViewSectionProps) {
       transition={{ duration: shouldReduceMotion ? 0.01 : 0.18, ease: 'easeOut' }}
       className="flex h-full flex-col p-3 sm:p-4"
     >
-      <div className="custom-scrollbar grid min-h-0 flex-1 grid-cols-2 gap-2 overflow-y-auto pr-1 sm:grid-cols-3">
+      <div className="custom-scrollbar grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-y-auto pr-1 min-[420px]:grid-cols-2 sm:grid-cols-3">
         {inventory.length > 0 ? (
           inventory.map((item, index) => (
             <button

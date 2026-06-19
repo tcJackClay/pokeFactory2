@@ -197,6 +197,175 @@ test('calculateDamage respects accuracy and evasion stages', () => {
   assert.equal(result.isMiss, true);
 });
 
+test('calculateDamage applies terrain power and misty dragon reduction', () => {
+  const groundedAttacker = createPokemon(1, ['electric']);
+  const groundedDefender = createPokemon(2, ['normal']);
+  const electricMove = createMove({ type: 'electric' });
+  const dragonMove = createMove({ type: 'dragon' });
+
+  const neutralElectric = calculateDamage({
+    move: electricMove,
+    attacker: groundedAttacker,
+    defender: groundedDefender,
+    weather: 'none',
+    fieldState: [],
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99, 0]),
+  });
+  const terrainElectric = calculateDamage({
+    move: electricMove,
+    attacker: groundedAttacker,
+    defender: groundedDefender,
+    weather: 'none',
+    fieldState: ['electric_terrain'],
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99, 0]),
+  });
+  const neutralDragon = calculateDamage({
+    move: dragonMove,
+    attacker: groundedAttacker,
+    defender: groundedDefender,
+    weather: 'none',
+    fieldState: [],
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99, 0]),
+  });
+  const mistyDragon = calculateDamage({
+    move: dragonMove,
+    attacker: groundedAttacker,
+    defender: groundedDefender,
+    weather: 'none',
+    fieldState: ['misty_terrain'],
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99, 0]),
+  });
+
+  assert.ok(terrainElectric.damage > neutralElectric.damage);
+  assert.ok(mistyDragon.damage < neutralDragon.damage);
+});
+
+test('calculateDamage boosts rock special defense during sandstorm', () => {
+  const attacker = createPokemon(1, ['water']);
+  const rockDefender = createPokemon(2, ['rock']);
+  const specialMove = createMove({ type: 'water', damage_class: 'special' });
+
+  const normalWeather = calculateDamage({
+    move: specialMove,
+    attacker,
+    defender: rockDefender,
+    weather: 'none',
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99, 0]),
+  });
+  const sandstorm = calculateDamage({
+    move: specialMove,
+    attacker,
+    defender: rockDefender,
+    weather: 'sandstorm',
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99, 0]),
+  });
+
+  assert.ok(sandstorm.damage < normalWeather.damage);
+});
+
+test('calculateDamage handles fixed and hp-based damage effects', () => {
+  const attacker = createPokemon(1, ['normal'], {
+    level: 50,
+    currentHp: 20,
+    maxHp: 200,
+  });
+  const defender = createPokemon(2, ['normal'], {
+    currentHp: 120,
+  });
+
+  const seismicToss = calculateDamage({
+    move: createMove({ battleData: createBattleData({ effectId: 'LEVEL_DAMAGE' }) }),
+    attacker,
+    defender,
+    weather: 'none',
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99]),
+  });
+  const superFang = calculateDamage({
+    move: createMove({ battleData: createBattleData({ effectId: 'HALF_HP' }) }),
+    attacker,
+    defender,
+    weather: 'none',
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99]),
+  });
+  const endeavor = calculateDamage({
+    move: createMove({ battleData: createBattleData({ effectId: 'ENDEAVOR' }) }),
+    attacker,
+    defender,
+    weather: 'none',
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99]),
+  });
+
+  assert.equal(seismicToss.damage, 50);
+  assert.equal(superFang.damage, 60);
+  assert.equal(endeavor.damage, 100);
+});
+
+test('calculateDamage handles low-hp, high-hp, and facade power changes', () => {
+  const defender = createPokemon(2, ['normal']);
+  const lowHpAttacker = createPokemon(1, ['normal'], {
+    currentHp: 1,
+    maxHp: 100,
+  });
+  const healthyAttacker = createPokemon(3, ['normal'], {
+    currentHp: 100,
+    maxHp: 100,
+  });
+  const burnedAttacker = {
+    ...healthyAttacker,
+    nonVolatileStatus: { id: 'burn' as const },
+  };
+
+  const flail = calculateDamage({
+    move: createMove({ power: 1, battleData: createBattleData({ effectId: 'LOW_HP_POWER' }) }),
+    attacker: lowHpAttacker,
+    defender,
+    weather: 'none',
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99, 0]),
+  });
+  const waterSpout = calculateDamage({
+    move: createMove({ power: 1, type: 'water', battleData: createBattleData({ effectId: 'HIGH_HP_POWER' }) }),
+    attacker: healthyAttacker,
+    defender,
+    weather: 'none',
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99, 0]),
+  });
+  const facade = calculateDamage({
+    move: createMove({ power: 70, battleData: createBattleData({ effectId: 'FACADE' }) }),
+    attacker: burnedAttacker,
+    defender,
+    weather: 'none',
+    atkBuff: false,
+    defBuff: false,
+    random: createRandomSequence([0, 0.99, 0]),
+  });
+
+  assert.ok(flail.damage > 50);
+  assert.ok(waterSpout.damage > 50);
+  assert.ok(facade.damage > 25);
+});
+
 test('calculateDamage blocks regular moves with protect and reduces z-powered moves', () => {
   const attacker = createPokemon(1, ['normal']);
   const protectedDefender = setVolatileStatus(createPokemon(2, ['normal']), 'protect', {
