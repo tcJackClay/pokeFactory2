@@ -7,11 +7,17 @@ import { getFactoryTrainerTemplateById, selectFactoryTrainerTemplate } from '../
 import {
   beginFactoryWalletRun,
   endFactoryWalletRun,
+  adjustWalletBalance,
+  classifySaveText,
   commitFactoryGroupSettlement,
+  createEmptyBattleResume,
+  discardInvalidSave,
+  inspectStoredSave,
   loadPendingFactorySettlement,
   loadSaveData,
   parseSaveDataFromText,
   persistSaveData,
+  replaceSaveData,
   readUnsupportedSave,
   discardUnsupportedSave,
 } from './saveManager';
@@ -119,9 +125,12 @@ function buildLegacyReadyBattleResume(overrides: Record<string, unknown> = {}) {
         },
       },
     }],
-    currentEnemyTrainerId: 'trainer-1',
+    currentEnemyTrainerId: 'FRONTIER_TRAINER_LIZBETH',
     inventoryItemIds: [],
     battleLog: [],
+    phase: 'BATTLE',
+    roundResult: null,
+    lastBpGain: 0,
     ...overrides,
   };
 }
@@ -151,7 +160,11 @@ test('new save preserves battle snapshots, including postbattle phase', () => {
 
 test('old per-battle saves are rejected with a visible reset path and no BP migration', () => {
   for (const version of [6, 7, 8, 9]) {
+    assert.equal(classifySaveText(JSON.stringify({ schemaVersion: version })).kind, 'legacy');
     assert.throws(() => parseSaveDataFromText(JSON.stringify({ schemaVersion: version, wallet: { balance: 500 }, factory: { battleResume: buildLegacyReadyBattleResume({ coins: 500 }) } })), /旧规则存档不兼容/);
+  }
+  for (const malformed of ['null', '[]', '{}', '{"schemaVersion":"8"}']) {
+    assert.equal(classifySaveText(malformed).kind, 'corrupt');
   }
   withStorage((storage) => {
     storage.set('pokefactory_save_v1', JSON.stringify({ schemaVersion: 8, wallet: { balance: 500 } }));
@@ -159,6 +172,100 @@ test('old per-battle saves are rejected with a visible reset path and no BP migr
     assert.equal(loadSaveData(), null);
     discardUnsupportedSave();
     assert.equal(readUnsupportedSave(), null);
+  });
+});
+
+test('current READY phases and transitional EMPTY saves remain readable', () => {
+  const saved = draft('run:phases', 3, 0, 7);
+  const ready = saved.factory.battleResume;
+  assert.equal(ready.status, 'READY');
+  if (ready.status !== 'READY') return;
+  for (const [stage, phase, result] of [
+    [7, 'BATTLE', null],
+    [7, 'ROUND_RESULT', 'WIN'],
+    [8, 'FACTORY_SWAP', 'WIN'],
+    [7, 'BASE', 'WIN'],
+  ] as const) {
+    const phaseSave = {
+      ...saved,
+      factory: {
+        ...saved.factory,
+        challengePaused: phase === 'BASE',
+        battleResume: {
+          ...ready,
+          stage,
+          phase,
+          roundResult: result,
+          enemyTeam: ready.enemyTeam.map((pokemon) => ({ ...pokemon, currentHp: phase === 'BATTLE' ? pokemon.currentHp : 0 })),
+        },
+      },
+    };
+    assert.equal(classifySaveText(JSON.stringify(phaseSave)).kind, 'valid', `${phase} must remain recoverable`);
+  }
+  const empty = {
+    ...saved,
+    factory: { ...saved.factory, challengeStatus: 1, challengePaused: false, battleResume: createEmptyBattleResume() },
+  };
+  assert.equal(classifySaveText(JSON.stringify(empty)).kind, 'valid');
+});
+
+test('damaged current saves are classified before normalization and their original bytes cannot be overwritten', () => {
+  withStorage((storage, _failNextWrite, session) => {
+    const saved = draft('run:protect', 14, 2, 21);
+    const ready = saved.factory.battleResume;
+    assert.equal(ready.status, 'READY');
+    if (ready.status !== 'READY') return;
+    session.set('pokefactory_pending_settlement_v1', JSON.stringify({ runId: 'run:protect', stage: 21, result: 'WIN', isFrontierBrain: true }));
+    const damaged = [
+      { ...saved, factory: { ...saved.factory, battleResume: { ...ready, stage: 0 } } },
+      { ...saved, factory: { ...saved.factory, battleResume: { ...ready, playerTeam: [{}] } } },
+      { ...saved, factory: { ...saved.factory, battleResume: { ...ready, enemyTeam: [] } } },
+      { ...saved, factory: { ...saved.factory, battleResume: { ...ready, currentEnemyTrainerId: null } } },
+      { ...saved, factory: { ...saved.factory, battleResume: { ...ready, currentEnemyTrainerId: 'UNKNOWN_TRAINER' } } },
+      { ...saved, factory: { ...saved.factory, challengePaused: true, battleResume: { ...ready, phase: 'BATTLE' } } },
+    ];
+    for (const candidate of damaged) {
+      const raw = JSON.stringify(candidate);
+      storage.set('pokefactory_save_v1', raw);
+      assert.equal(inspectStoredSave().kind, 'corrupt');
+      assert.equal(loadSaveData(), null);
+      assert.equal(readUnsupportedSave(), null);
+      assert.throws(() => parseSaveDataFromText(raw), /导入文件损坏/);
+      for (let attempt = 0; attempt < 3; attempt += 1) {
+        assert.throws(() => persistSaveData(saved), /requires backup/);
+      }
+      assert.throws(() => replaceSaveData(saved), /requires backup/);
+      assert.throws(() => adjustWalletBalance(saved, 1));
+      assert.throws(() => beginFactoryWalletRun(saved));
+      assert.throws(() => commitFactoryGroupSettlement(saved, 'run:protect', 21, 'WIN', true));
+      assert.equal(storage.get('pokefactory_save_v1'), raw);
+      assert.ok(loadPendingFactorySettlement());
+    }
+
+    for (const unreadable of ['', '{"schemaVersion":10,"factory":']) {
+      storage.set('pokefactory_save_v1', unreadable);
+      assert.equal(inspectStoredSave().kind, 'unreadable');
+      assert.throws(() => persistSaveData(saved), /requires backup/);
+      assert.throws(() => beginFactoryWalletRun(saved), /requires backup/);
+      assert.equal(storage.get('pokefactory_save_v1'), unreadable);
+      assert.ok(loadPendingFactorySettlement());
+    }
+    discardInvalidSave();
+    assert.equal(storage.has('pokefactory_save_v1'), false);
+    assert.equal(loadPendingFactorySettlement(), null);
+  });
+});
+
+test('a damaged import leaves a valid local save and its wallet untouched', () => {
+  withStorage((storage) => {
+    const saved = draft('run:good', 20);
+    persistSaveData(saved);
+    const original = storage.get('pokefactory_save_v1');
+    const broken = JSON.stringify({ ...saved, factory: { ...saved.factory, battleResume: { status: 'READY', stage: 7 } } });
+    assert.throws(() => parseSaveDataFromText(broken), /导入文件损坏/);
+    assert.throws(() => parseSaveDataFromText('{'), /导入文件损坏/);
+    assert.equal(storage.get('pokefactory_save_v1'), original);
+    assert.equal(loadSaveData()?.wallet.balance, 20);
   });
 });
 
@@ -173,7 +280,7 @@ test('generation setting keeps exactly one valid generation and defaults to Kant
     [[2.5], [1]],
     [['3'], [1]],
   ] as const) {
-    const saved = parseSaveDataFromText(JSON.stringify({ schemaVersion: 10, settings: { selectedGens: raw } }));
+    const saved = parseSaveDataFromText(JSON.stringify({ schemaVersion: 10, settings: { selectedGens: raw }, factory: { battleResume: { status: 'EMPTY' } } }));
     assert.deepEqual(saved.settings.selectedGens, expected);
   }
 });

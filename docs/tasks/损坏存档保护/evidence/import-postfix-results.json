@@ -1,0 +1,22 @@
+[
+  {
+    "case": "damaged_ready",
+    "unchanged": true,
+    "feedback": "\n导入文件损坏，原有存档未修改。\n\n通知\n\n当前版本暂不提供消息推送与提醒。\n\n版权与素材来源\n\n查看版权说明\n\nDEV 面板\n\n开启\n关闭\nDEV"
+  },
+  {
+    "case": "truncated_json",
+    "unchanged": true,
+    "feedback": "\n导入文件损坏，原有存档未修改。\n\n通知\n\n当前版本暂不提供消息推送与提醒。\n\n版权与素材来源\n\n查看版权说明\n\nDEV 面板\n\n开启\n关闭\nDEV"
+  },
+  {
+    "case": "empty_text",
+    "unchanged": true,
+    "feedback": "\n导入文件损坏，原有存档未修改。\n\n通知\n\n当前版本暂不提供消息推送与提醒。\n\n版权与素材来源\n\n查看版权说明\n\nDEV 面板\n\n开启\n关闭\nDEV"
+  },
+  {
+    "case": "legacy_v8",
+    "unchanged": true,
+    "feedback": "\n旧规则存档不兼容（版本 8），请备份后重新开始。\n\n通知\n\n当前版本暂不提供消息推送与提醒。\n\n版权与素材来源\n\n查看版权说明\n\nDEV 面板\n\n开"
+  }
+]

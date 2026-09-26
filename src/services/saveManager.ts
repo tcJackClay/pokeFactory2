@@ -1,9 +1,18 @@
 import type { FieldState, FieldTurns, GamePokemon } from '../types';
 import { getBattleIndexInSet, getFactoryGroupBp, getSetNoByStage, MAX_FACTORY_BP } from '../features/game/config/factoryRewards';
+import { getFactoryTrainerTemplateById } from '../features/game/config/factoryTrainerTemplates';
+import { hasRecoverableFactoryBaseCheckpoint } from '../features/game/hooks/factoryResumeCheckpoint';
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
 const PENDING_SETTLEMENT_KEY = 'pokefactory_pending_settlement_v1';
 const SAVE_SCHEMA_VERSION = 10 as const;
+
+export type SaveInspection =
+  | { kind: 'none' }
+  | { kind: 'valid'; raw: string; save: GameSaveData }
+  | { kind: 'legacy'; raw: string; version: unknown }
+  | { kind: 'unreadable'; raw: string; reason: 'invalid_json' }
+  | { kind: 'corrupt'; raw: string; reason: string };
 
 export interface FactoryWallet {
   balance: number;
@@ -669,22 +678,74 @@ function normalizeSaveData(value: unknown): GameSaveData {
   };
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === 'object' && !Array.isArray(value));
+}
+
+function hasRecoverablePokemonCore(value: unknown): boolean {
+  if (!isRecord(value)) return false;
+  return Number.isSafeInteger(value.id) && (value.id as number) > 0
+    && typeof value.name === 'string' && value.name.length > 0
+    && Number.isSafeInteger(value.level) && (value.level as number) > 0
+    && Number.isSafeInteger(value.currentHp) && (value.currentHp as number) >= 0
+    && Number.isSafeInteger(value.maxHp) && (value.maxHp as number) > 0
+    && Array.isArray(value.selectedMoves)
+    && value.selectedMoves.every((move) => isRecord(move)
+      && typeof move.name === 'string' && move.name.length > 0
+      && typeof move.type === 'string' && move.type.length > 0)
+    && isRecord(value.sprites)
+    && Array.isArray(value.types)
+    && Array.isArray(value.abilities);
+}
+
+function assertCurrentSaveRecoverability(value: unknown): void {
+  if (!isRecord(value)) throw new Error('Current save root is invalid.');
+  const factory = isRecord(value.factory) ? value.factory : null;
+  const resume = factory && isRecord(factory.battleResume) ? factory.battleResume : null;
+  if (!resume || (resume.status !== 'EMPTY' && resume.status !== 'READY')) {
+    throw new Error('Battle checkpoint status is missing or invalid.');
+  }
+
+  if (resume.status === 'READY') {
+    const phase = resume.phase;
+    const validPhase = phase === 'BATTLE' || phase === 'ROUND_RESULT' || phase === 'FACTORY_SWAP' || phase === 'BASE';
+    const playerTeam = resume.playerTeam;
+    const enemyTeam = resume.enemyTeam;
+    if (resume.battleKind !== 'FACTORY' || !Number.isSafeInteger(resume.stage) || (resume.stage as number) < 1
+      || !validPhase || !Array.isArray(playerTeam) || playerTeam.length === 0
+      || !Array.isArray(enemyTeam) || enemyTeam.length === 0
+      || !playerTeam.every(hasRecoverablePokemonCore) || !enemyTeam.every(hasRecoverablePokemonCore)
+      || typeof resume.currentEnemyTrainerId !== 'string'
+      || !getFactoryTrainerTemplateById(resume.currentEnemyTrainerId)) {
+      throw new Error('Battle checkpoint has missing or damaged participants.');
+    }
+    if ((phase === 'ROUND_RESULT' && resume.roundResult !== 'WIN' && resume.roundResult !== 'LOSS')
+      || (phase === 'FACTORY_SWAP' && resume.roundResult !== 'WIN')
+      || (phase === 'BASE' && (resume.roundResult !== 'WIN' || getBattleIndexInSet(resume.stage as number) !== 7))) {
+      throw new Error('Battle checkpoint phase and result disagree.');
+    }
+  }
+
+  if (factory?.challengePaused === true) {
+    const wallet = isRecord(value.wallet) ? value.wallet : null;
+    const candidate = resume.status === 'READY' ? resume as unknown as BattleResumeSnapshot : null;
+    const runId = typeof wallet?.currentRunId === 'string' ? wallet.currentRunId : null;
+    if (!hasRecoverableFactoryBaseCheckpoint(candidate, runId)) {
+      throw new Error('Paused challenge has no recoverable base checkpoint.');
+    }
+  }
+}
+
 function normalizeSaveDataSafely(value: unknown): GameSaveData {
   const version = value && typeof value === 'object' ? (value as Record<string, unknown>).schemaVersion : undefined;
   if (version !== SAVE_SCHEMA_VERSION) throw new Error(`旧规则存档不兼容（版本 ${String(version ?? 'unknown')}），请备份后重新开始。`);
-  try {
-    return normalizeSaveData(value);
-  } catch (error) {
-    console.error('Failed to normalize full save data, attempting battle resume fallback.', error);
-    const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
-    const factory = source.factory && typeof source.factory === 'object'
-      ? { ...(source.factory as Record<string, unknown>), battleResume: createEmptyBattleResume() }
-      : { battleResume: createEmptyBattleResume() };
-    return normalizeSaveData({
-      ...source,
-      factory,
-    });
+  assertCurrentSaveRecoverability(value);
+  const normalized = normalizeSaveData(value);
+  if (isRecord(value) && isRecord(value.factory) && isRecord(value.factory.battleResume)
+    && value.factory.battleResume.status === 'READY' && normalized.factory.battleResume.status !== 'READY') {
+    throw new Error('Battle checkpoint could not be restored.');
   }
+  return normalized;
 }
 
 export function createSaveData(input: SaveDraftInput): GameSaveData {
@@ -710,42 +771,58 @@ export function createSaveData(input: SaveDraftInput): GameSaveData {
 }
 
 export function parseSaveDataFromText(text: string): GameSaveData {
-  const parsed = JSON.parse(text) as unknown;
-  return normalizeSaveDataSafely(parsed);
+  const inspection = classifySaveText(text);
+  if (inspection.kind === 'valid') return inspection.save;
+  if (inspection.kind === 'legacy') {
+    throw new Error(`旧规则存档不兼容（版本 ${String(inspection.version ?? 'unknown')}），请备份后重新开始。`);
+  }
+  throw new Error('导入文件损坏，原有存档未修改。');
 }
 
-export function readUnsupportedSave(): string | null {
-  if (typeof window === 'undefined') return null;
-  const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
-  if (!raw) return null;
+export function classifySaveText(raw: string): Exclude<SaveInspection, { kind: 'none' }> {
+  let parsed: unknown;
   try {
-    const parsed = JSON.parse(raw) as Record<string, unknown>;
-    return parsed.schemaVersion === SAVE_SCHEMA_VERSION ? null : raw;
+    parsed = JSON.parse(raw) as unknown;
   } catch {
-    return raw;
+    return { kind: 'unreadable', raw, reason: 'invalid_json' };
+  }
+  if (!isRecord(parsed)) return { kind: 'corrupt', raw, reason: 'Save root is invalid.' };
+  const version = parsed.schemaVersion;
+  if (!Number.isSafeInteger(version) || (version as number) < 1) {
+    return { kind: 'corrupt', raw, reason: 'Save version is missing or invalid.' };
+  }
+  if (version !== SAVE_SCHEMA_VERSION) return { kind: 'legacy', raw, version };
+  try {
+    return { kind: 'valid', raw, save: normalizeSaveDataSafely(parsed) };
+  } catch (error) {
+    return { kind: 'corrupt', raw, reason: error instanceof Error ? error.message : 'Invalid current save.' };
   }
 }
 
+export function inspectStoredSave(): SaveInspection {
+  if (typeof window === 'undefined') return { kind: 'none' };
+  const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
+  return raw === null ? { kind: 'none' } : classifySaveText(raw);
+}
+
+export function readUnsupportedSave(): string | null {
+  const inspection = inspectStoredSave();
+  return inspection.kind === 'legacy' ? inspection.raw : null;
+}
+
 export function discardUnsupportedSave() {
+  discardInvalidSave();
+}
+
+export function discardInvalidSave() {
   if (typeof window === 'undefined') return;
   window.localStorage.removeItem(SAVE_STORAGE_KEY);
   clearPendingFactorySettlement();
 }
 
 export function loadSaveData(): GameSaveData | null {
-  if (typeof window === 'undefined') return null;
-
-  const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
-  if (!raw || readUnsupportedSave()) return null;
-
-  try {
-    const parsed = JSON.parse(raw) as unknown;
-    const normalized = normalizeSaveDataSafely(parsed);
-    return normalized;
-  } catch (error) {
-    console.error('Failed to parse save data from localStorage', error);
-    return null;
-  }
+  const inspection = inspectStoredSave();
+  return inspection.kind === 'valid' ? inspection.save : null;
 }
 
 export function persistSaveData(saveData: GameSaveData) {
@@ -753,19 +830,17 @@ export function persistSaveData(saveData: GameSaveData) {
   const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
   let wallet = saveData.wallet;
   let battleResume = saveData.factory.battleResume;
-  if (raw) {
-    try {
-      const persisted = normalizeSaveDataSafely(JSON.parse(raw) as unknown);
-      if (persisted.wallet.revision > wallet.revision) wallet = persisted.wallet;
-      const committed = persisted.factory.battleResume;
-      if (committed.status === 'READY' && committed.phase === 'ROUND_RESULT'
-        && battleResume.status === 'READY' && battleResume.phase === 'BATTLE'
-        && committed.stage === battleResume.stage
-        && wallet.currentRunId === persisted.wallet.currentRunId) {
-        battleResume = committed;
-      }
-    } catch {
-      // Preserve the valid draft when an older stored save cannot be parsed.
+  if (raw !== null) {
+    const inspection = classifySaveText(raw);
+    if (inspection.kind !== 'valid') throw new Error('Stored save requires backup or removal before writing.');
+    const persisted = inspection.save;
+    if (persisted.wallet.revision > wallet.revision) wallet = persisted.wallet;
+    const committed = persisted.factory.battleResume;
+    if (committed.status === 'READY' && committed.phase === 'ROUND_RESULT'
+      && battleResume.status === 'READY' && battleResume.phase === 'BATTLE'
+      && committed.stage === battleResume.stage
+      && wallet.currentRunId === persisted.wallet.currentRunId) {
+      battleResume = committed;
     }
   }
   window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
@@ -777,6 +852,11 @@ export function persistSaveData(saveData: GameSaveData) {
 
 export function replaceSaveData(saveData: GameSaveData) {
   if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  normalizeSaveDataSafely(saveData);
+  const inspection = inspectStoredSave();
+  if (inspection.kind !== 'none' && inspection.kind !== 'valid') {
+    throw new Error('Stored save requires backup or removal before replacement.');
+  }
   window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(saveData));
 }
 
@@ -822,8 +902,10 @@ function commitWalletChange(
   if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
   const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
   let wallet = draft.wallet;
-  if (raw) {
-    const persisted = normalizeSaveDataSafely(JSON.parse(raw) as unknown);
+  if (raw !== null) {
+    const inspection = classifySaveText(raw);
+    if (inspection.kind !== 'valid') throw new Error('Stored save requires backup or removal before wallet changes.');
+    const persisted = inspection.save;
     if (persisted.wallet.revision >= wallet.revision) wallet = persisted.wallet;
   }
   const nextWallet = change(wallet);
@@ -956,7 +1038,7 @@ export function commitFactoryGroupSettlement(
     };
   };
   const raw = typeof window !== 'undefined' ? window.localStorage.getItem(SAVE_STORAGE_KEY) : null;
-  const persisted = raw ? normalizeSaveDataSafely(JSON.parse(raw) as unknown) : draft;
+  const persisted = raw !== null ? normalizeSaveDataSafely(JSON.parse(raw) as unknown) : draft;
   const current = persisted.wallet.revision >= draft.wallet.revision ? persisted.wallet : draft.wallet;
   validateSettlement(current);
   let wallet: FactoryWallet;
@@ -1002,8 +1084,12 @@ export function buildSaveExportFilename() {
 }
 
 export function triggerJsonDownload(text: string, filename: string) {
+  triggerTextDownload(text, filename, 'application/json;charset=utf-8');
+}
+
+export function triggerTextDownload(text: string, filename: string, mimeType: string) {
   if (typeof window === 'undefined') return;
-  const blob = new Blob([text], { type: 'application/json;charset=utf-8' });
+  const blob = new Blob([text], { type: mimeType });
   const url = window.URL.createObjectURL(blob);
   const anchor = document.createElement('a');
   anchor.href = url;

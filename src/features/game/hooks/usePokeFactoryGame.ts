@@ -14,6 +14,7 @@ import { EVENT_REGIONS, IV_TRAIN_BATTLE_THRESHOLD, RARE_SPECIES_POOL, createDefa
 import { useGameLocalization } from './useGameLocalization';
 import { useBattleController } from './useBattleController';
 import { useFactoryFlow } from './useFactoryFlow';
+import { hydrateTrainerHistoryOnce } from './factoryTrainerHistory';
 import { hasRecoverableFactoryBaseCheckpoint, shouldReleaseFactoryBaseCheckpoint } from './factoryResumeCheckpoint';
 import { useRewardFlow } from './useRewardFlow';
 import { clearNonVolatileStatus, clearVolatileStatuses } from '../utils/battleStatus';
@@ -47,10 +48,8 @@ import {
   createEmptyBattleResume,
   createEmptyWallet,
   createSaveData,
-  loadSaveData,
+  inspectStoredSave,
   loadPendingFactorySettlement,
-  readUnsupportedSave,
-  discardUnsupportedSave,
   parseSaveDataFromText,
   persistSaveData,
   replaceSaveData,
@@ -93,8 +92,10 @@ function hydrateInventoryFromItemIds(itemIds: string[]): Item[] {
 }
 
 export function usePokeFactoryGame(): GameViewModel {
-  const [legacySaveRaw] = useState<string | null>(() => readUnsupportedSave());
-  const initialSave = loadSaveData();
+  const [initialInspection] = useState(inspectStoredSave);
+  const initialSave = initialInspection.kind === 'valid' ? initialInspection.save : null;
+  const saveBlocked = initialInspection.kind !== 'none' && initialInspection.kind !== 'valid';
+  const trainerHistoryHydratedRef = useRef(false);
   const initialBattleResume = initialSave?.factory.battleResume.status === 'READY'
     ? initialSave.factory.battleResume
     : null;
@@ -611,7 +612,11 @@ export function usePokeFactoryGame(): GameViewModel {
   } = factoryFlow;
 
   useEffect(() => {
-    importUsedTrainerIdsBySet(initialSave?.factory.trainerIdsBySet ?? []);
+    hydrateTrainerHistoryOnce(
+      trainerHistoryHydratedRef,
+      initialSave?.factory.trainerIdsBySet ?? [],
+      importUsedTrainerIdsBySet,
+    );
   }, [importUsedTrainerIdsBySet, initialSave?.factory.trainerIdsBySet]);
 
   useEffect(() => {
@@ -761,7 +766,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [catchSuccess, enemy, eventBattleActive]);
 
   useEffect(() => {
-    if (gameState !== 'BOOT') return;
+    if (saveBlocked || gameState !== 'BOOT') return;
     let cancelled = false;
     let progressValue = 0;
     const setProgress = (value: number) => {
@@ -790,7 +795,7 @@ export function usePokeFactoryGame(): GameViewModel {
     return () => {
       cancelled = true;
     };
-  }, [gameState, pendingBattleResumeRestore, prefetchRentals, t]);
+  }, [gameState, pendingBattleResumeRestore, prefetchRentals, saveBlocked, t]);
 
   useEffect(() => {
     if (streak > highestStreak) {
@@ -864,19 +869,19 @@ export function usePokeFactoryGame(): GameViewModel {
 
   useEffect(() => {
     try {
-      if (legacySaveRaw) return;
+      if (saveBlocked) return;
       persistSaveData(buildCurrentSaveData());
     } catch (error) {
       console.error('Auto save failed', error);
     }
-  }, [buildCurrentSaveData, legacySaveRaw]);
+  }, [buildCurrentSaveData, saveBlocked]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const persistCurrentState = () => {
       try {
-        if (legacySaveRaw) return;
+        if (saveBlocked) return;
         persistSaveData(buildCurrentSaveData());
       } catch (error) {
         console.error('Save on page exit failed', error);
@@ -894,7 +899,7 @@ export function usePokeFactoryGame(): GameViewModel {
       window.removeEventListener('beforeunload', persistCurrentState);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [buildCurrentSaveData, legacySaveRaw]);
+  }, [buildCurrentSaveData, saveBlocked]);
 
   const enterBase = useCallback(() => {
     setCurrentBaseTab('HOME');
@@ -1591,7 +1596,7 @@ export function usePokeFactoryGame(): GameViewModel {
       console.error('Import save failed', error);
       return {
         ok: false,
-        message: error instanceof Error && error.message.includes('旧规则存档不兼容')
+        message: error instanceof Error && (error.message.includes('旧规则存档不兼容') || error.message.includes('导入文件损坏'))
           ? error.message
           : 'Invalid save format. Import failed.',
       };

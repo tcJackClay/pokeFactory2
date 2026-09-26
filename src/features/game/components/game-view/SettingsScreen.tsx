@@ -228,7 +228,7 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
             </div>
 
             {importStatus && (
-              <div className={`mt-3 rounded-[16px] border px-3 py-2 text-sm font-semibold ${
+              <div role={importStatus.ok ? 'status' : 'alert'} className={`mt-3 rounded-[16px] border px-3 py-2 text-sm font-semibold ${
                 importStatus.ok
                   ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
                   : 'border-rose-200 bg-rose-50 text-rose-700'
