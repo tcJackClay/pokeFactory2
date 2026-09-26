@@ -220,9 +220,9 @@ export const ALL_ITEMS: Item[] = [
   {
     id: 'team_capacity_permit',
     name: 'Team Expansion Permit',
-    zhName: '缁勯槦鎵╁璁稿彲',
+    zhName: '组队扩充许可',
     description: 'Increase team capacity by 1 (up to 6)',
-    zhDescription: '闃熶紞涓婇檺 +1锛堟渶澶?6锛?',
+    zhDescription: '队伍上限 +1（最大 6）',
     effect: (p) => p
   },
   {
