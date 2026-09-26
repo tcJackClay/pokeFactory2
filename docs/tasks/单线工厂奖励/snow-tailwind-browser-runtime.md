@@ -1,0 +1,9 @@
+# TM18 雪景与 TM28 顺风手机浏览器验收
+
+2026-09-26 主树提交 `246e038`，Playwright Chromium 手机模拟视口 `390×844`、`320×568`，隔离来源 `127.0.0.168` 至 `.179`。未访问用户 `127.0.0.1` 标签或存档，未改游戏实现，也未从奖励卡领取 TM。先经正常 UI 新建 v13 存档、六选三并进入第 1 战 READY；再复制该检查点到独立来源，注入雪景、顺风及对照招式，并固定测试双方 HP、速度、属性和敌方招式。施放均通过真实 UI 点击。脚本 [run-snow-tailwind-browser.mjs](run-snow-tailwind-browser.mjs)，完整证据见 [雪景/对照/初次顺风](evidence/snow-tailwind/results.json)与[顺风完整四回合](evidence/snow-tailwind-four-turns/results.json)。
+
+雪景在两种视口均可见且可选。[390×844](evidence/snow-tailwind/snow-fixture-ready-390.png)、[320×568](evidence/snow-tailwind/snow-fixture-ready-320.png)。点击后战场状态显示“下雪 4回合”，存档天气为 `snow`、剩余 4；[状态画面](evidence/snow-tailwind/snow-status-320.png)。我方测试精灵为冰属性、初始 300 HP，敌方固定物理“撞击”造成 31 伤，回合结束 269 HP，未见额外雪伤。相同基础检查点、相同双方数值和招式、但改用“跃起”的无雪对照中，敌方物理撞击造成 54 伤，回合结束 246 HP。[雪中结算](evidence/snow-tailwind/snow-turn1-390.png)、[无雪对照](evidence/snow-tailwind/control-turn1-390.png)。这一组实际伤害与冰系物防受雪增益相符；因伤害存在随机浮动，单次对照不能精确量出倍率。雪景后刷新，仍为同一战 `snow`/4 回合、269 HP，属于已经写入的战中检查点。[雪景刷新](evidence/snow-tailwind/snow-reload-checkpoint.png)。
+
+顺风在两种视口均可见且可选，[320×568](evidence/snow-tailwind-four-turns/tailwind-fixture-ready-320.png)。测试将我方速度设为 70、敌方设为 100，两者无速度优先道具。实际点击“顺风”后日志显示“化石盔一方吹起了顺风！”，角标显示“我方顺风 3回合”[初次状态](evidence/snow-tailwind/tailwind-status-320.png)。初次样本第 2 回合截图的日志顺序为我方造成 4 点伤害，随后敌方使用撞击，支持顺风使原本较慢的我方先行动；[先手画面](evidence/snow-tailwind/tailwind-turn2-390.png)。完整四回合样本将敌方测试招式威力调低以避免提前倒下，回合结束计时依次为 3、2、1、0，[第 1 回合](evidence/snow-tailwind-four-turns/tailwind-turn1-390.png)、[第 4 回合](evidence/snow-tailwind-four-turns/tailwind-turn4-390.png)。第 4 回合后刷新保持计时 0、同一战与 HP 253/300。[顺风到期刷新](evidence/snow-tailwind-four-turns/tailwind-reload-checkpoint.png)。两组有效样本未见页面异常或 HTTP 400 及以上响应。
+
+证据边界：这属于测试存档注入招式及数值后的真实 UI 施放，不证明 TM 奖励获取、自然队伍学会或实体手机表现。顺风速度只通过战斗行动顺序验证，没有玩家可见的速度数值；雪的物防倍率没有用大量随机样本估计。未测敌方施放、天气覆盖、交换出入场或跨战保留。

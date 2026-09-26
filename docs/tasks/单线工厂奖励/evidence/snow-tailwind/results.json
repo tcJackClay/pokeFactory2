@@ -1,0 +1,1062 @@
+{
+  "source": {
+    "errors": [],
+    "ready": {
+      "schema": 13,
+      "stage": 1,
+      "phase": "BATTLE",
+      "player": "kabuto",
+      "enemy": "poliwhirl"
+    }
+  },
+  "cases": {
+    "snow": {
+      "name": "snow",
+      "origin": "http://127.0.0.169:4300",
+      "steps": [
+        {
+          "name": "fixture-ready-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 300,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "snowscape",
+                    "pp": 20
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 蚊香君！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n雪景\n冰\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "fixture-ready-320",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 300,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "snowscape",
+                    "pp": 20
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 蚊香君！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n雪景\n冰\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              320,
+              568
+            ],
+            "scrollWidth": 320
+          }
+        },
+        {
+          "name": "turn1-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "snow",
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 269,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "snowscape",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n269/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 31 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n雪景\n冰\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "status-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "snow",
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 269,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "snowscape",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n269/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 31 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n雪景\n冰\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "status-320",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "snow",
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 269,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "snowscape",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n269/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 31 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n下雪\n4回合",
+            "viewport": [
+              320,
+              568
+            ],
+            "scrollWidth": 320
+          }
+        },
+        {
+          "name": "reload-checkpoint",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "snow",
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 269,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "snowscape",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n269/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 31 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n雪景\n冰\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        }
+      ],
+      "errors": []
+    },
+    "control": {
+      "name": "control",
+      "origin": "http://127.0.0.170:4300",
+      "steps": [
+        {
+          "name": "fixture-ready-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 300,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "splash",
+                    "pp": 20
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 蚊香君！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n跃起\n一般\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "fixture-ready-320",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 300,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "splash",
+                    "pp": 20
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 蚊香君！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n跃起\n一般\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              320,
+              568
+            ],
+            "scrollWidth": 320
+          }
+        },
+        {
+          "name": "turn1-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 246,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "splash",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n246/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 54 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n跃起\n一般\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "status-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 246,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "splash",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n246/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 54 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n跃起\n一般\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "status-320",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 246,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "splash",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n246/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 54 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n当前无场地效果",
+            "viewport": [
+              320,
+              568
+            ],
+            "scrollWidth": 320
+          }
+        },
+        {
+          "name": "reload-checkpoint",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 246,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 150,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "splash",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n246/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 54 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n跃起\n一般\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        }
+      ],
+      "errors": []
+    },
+    "tailwind": {
+      "name": "tailwind",
+      "origin": "http://127.0.0.171:4300",
+      "steps": [
+        {
+          "name": "fixture-ready-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 300,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 20
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 蚊香君！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "fixture-ready-320",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 300,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 20
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 蚊香君！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              320,
+              568
+            ],
+            "scrollWidth": 320
+          }
+        },
+        {
+          "name": "turn1-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 300,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 20
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n253/300\n战斗日志\nFCT-01\n\n化石盔 使用了 顺风！\n\n化石盔一方吹起了顺风！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "status-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 205,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n205/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 48 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "status-320",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 205,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n205/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 48 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n我方顺风\n3回合",
+            "viewport": [
+              320,
+              568
+            ],
+            "scrollWidth": 320
+          }
+        },
+        {
+          "name": "turn2-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 205,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n99%\n化石盔\n♀\nLV.50\n冰\nHP\n158/300\n战斗日志\nFCT-01\n\n化石盔 造成了 4 点伤害。\n\n对手的 蚊香君 使用了 撞击！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 19/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "reload-checkpoint",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 140,
+                "hp": 205,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 61,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 150
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n蚊香君\n♀\nLV.50\n水\nHP\n100%\n化石盔\n♀\nLV.50\n冰\nHP\n205/300\n战斗日志\nFCT-01\n\n对手的 蚊香君 使用了 撞击！\n\n对手的 蚊香君 造成了 48 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        }
+      ],
+      "errors": []
+    }
+  },
+  "errors": []
+}

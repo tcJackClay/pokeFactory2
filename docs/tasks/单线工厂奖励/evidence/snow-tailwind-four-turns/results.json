@@ -1,0 +1,508 @@
+{
+  "source": {
+    "errors": [],
+    "ready": {
+      "schema": 13,
+      "stage": 1,
+      "phase": "BATTLE",
+      "player": "oddish",
+      "enemy": "dragonair"
+    }
+  },
+  "cases": {
+    "tailwind": {
+      "name": "tailwind",
+      "origin": "http://127.0.0.179:4300",
+      "steps": [
+        {
+          "name": "fixture-ready-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 43,
+                "hp": 300,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 20
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 148,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 100
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n哈克龙\n♂\nLV.50\n龙\nHP\n100%\n走路草\n♂\nLV.50\n冰\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 哈克龙！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "fixture-ready-320",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 43,
+                "hp": 300,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 20
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 148,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 100
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n哈克龙\n♂\nLV.50\n龙\nHP\n100%\n走路草\n♂\nLV.50\n冰\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 哈克龙！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              320,
+              568
+            ],
+            "scrollWidth": 320
+          }
+        },
+        {
+          "name": "turn1-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 43,
+                "hp": 282,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 148,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 100
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n哈克龙\n♂\nLV.50\n龙\nHP\n100%\n走路草\n♂\nLV.50\n冰\nHP\n282/300\n战斗日志\nFCT-01\n\n对手的 哈克龙 使用了 撞击！\n\n对手的 哈克龙 造成了 9 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "status-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 43,
+                "hp": 282,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 148,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 100
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n哈克龙\n♂\nLV.50\n龙\nHP\n100%\n走路草\n♂\nLV.50\n冰\nHP\n282/300\n战斗日志\nFCT-01\n\n对手的 哈克龙 使用了 撞击！\n\n对手的 哈克龙 造成了 9 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 20/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "status-320",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 43,
+                "hp": 282,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 20
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 148,
+                "hp": 300,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 100
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n哈克龙\n♂\nLV.50\n龙\nHP\n100%\n走路草\n♂\nLV.50\n冰\nHP\n282/300\n战斗日志\nFCT-01\n\n对手的 哈克龙 使用了 撞击！\n\n对手的 哈克龙 造成了 9 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n我方顺风\n3回合",
+            "viewport": [
+              320,
+              568
+            ],
+            "scrollWidth": 320
+          }
+        },
+        {
+          "name": "turn2-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 2,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 43,
+                "hp": 272,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 19
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 148,
+                "hp": 297,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 100
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n哈克龙\n♂\nLV.50\n龙\nHP\n99%\n走路草\n♂\nLV.50\n冰\nHP\n272/300\n战斗日志\nFCT-01\n\n对手的 哈克龙 使用了 撞击！\n\n对手的 哈克龙 造成了 10 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 19/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "turn3-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 1,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 43,
+                "hp": 262,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 18
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 148,
+                "hp": 294,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 100
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n哈克龙\n♂\nLV.50\n龙\nHP\n98%\n走路草\n♂\nLV.50\n冰\nHP\n262/300\n战斗日志\nFCT-01\n\n对手的 哈克龙 使用了 撞击！\n\n对手的 哈克龙 造成了 10 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 18/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "turn4-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 43,
+                "hp": 253,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 17
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 148,
+                "hp": 291,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 100
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n哈克龙\n♂\nLV.50\n龙\nHP\n97%\n走路草\n♂\nLV.50\n冰\nHP\n253/300\n战斗日志\nFCT-01\n\n对手的 哈克龙 使用了 撞击！\n\n对手的 哈克龙 造成了 9 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 17/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "reload-checkpoint",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "player": [
+              {
+                "id": 43,
+                "hp": 253,
+                "maxHp": 300,
+                "types": [
+                  {
+                    "type": {
+                      "name": "ice"
+                    }
+                  }
+                ],
+                "speed": 70,
+                "defense": 100,
+                "moves": [
+                  {
+                    "name": "tailwind",
+                    "pp": 19
+                  },
+                  {
+                    "name": "tackle",
+                    "pp": 17
+                  }
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 148,
+                "hp": 291,
+                "maxHp": 300,
+                "speed": 100,
+                "attack": 100
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n哈克龙\n♂\nLV.50\n龙\nHP\n97%\n走路草\n♂\nLV.50\n冰\nHP\n253/300\n战斗日志\nFCT-01\n\n对手的 哈克龙 使用了 撞击！\n\n对手的 哈克龙 造成了 9 点伤害。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n顺风\n飞行\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 5\n命中 100\nPP 17/20",
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        }
+      ],
+      "errors": []
+    }
+  },
+  "errors": []
+}
