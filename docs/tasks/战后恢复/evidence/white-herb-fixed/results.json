@@ -1,0 +1,1865 @@
+{
+  "origin": "http://127.0.0.165:4300",
+  "commit": "",
+  "fixture": {
+    "source": "manual move metadata",
+    "move": "overheat",
+    "effect": [
+      {
+        "kind": "stat-stage",
+        "chance": 100,
+        "appliesTo": "user",
+        "isPrimary": true,
+        "stat": "spAtk",
+        "change": -2
+      }
+    ],
+    "lead": "voltorb",
+    "enemySleep": true,
+    "originalHeld": "white_herb"
+  },
+  "steps": [
+    {
+      "name": "natural-ready",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 100,
+            "name": "voltorb",
+            "hp": 100,
+            "held": "leftovers",
+            "original": "leftovers",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "hidden-power"
+              },
+              {
+                "name": "helping-hand"
+              },
+              {
+                "name": "eerie-impulse"
+              },
+              {
+                "name": "wild-charge"
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "name": "lickitung",
+            "hp": 150,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "belly-drum"
+              },
+              {
+                "name": "steel-roller"
+              },
+              {
+                "name": "muddy-water"
+              },
+              {
+                "name": "thunder"
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "fury-cutter"
+              },
+              {
+                "name": "x-scissor"
+              },
+              {
+                "name": "chip-away"
+              },
+              {
+                "name": "natural-gift"
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "rock-blast"
+              },
+              {
+                "name": "dig"
+              },
+              {
+                "name": "scary-face"
+              },
+              {
+                "name": "roar"
+              }
+            ]
+          },
+          {
+            "id": 61,
+            "name": "poliwhirl",
+            "hp": 126,
+            "held": "petaya-berry",
+            "original": "petaya-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "water-pulse"
+              },
+              {
+                "name": "double-slap"
+              },
+              {
+                "name": "icy-wind"
+              },
+              {
+                "name": "rain-dance"
+              }
+            ]
+          },
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "bubble-beam"
+              },
+              {
+                "name": "minimize"
+              },
+              {
+                "name": "swift"
+              },
+              {
+                "name": "light-screen"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n独角犀牛\n♀\nLV.50\n地面\n岩石\nHP\n100%\n霹雳电球\n◇\nLV.50\n电\nHP\n100/100\n战斗日志\nFCT-01\n\n对手 派出了 独角犀牛！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n觉醒力量\n一般\n威力 60\n命中 100\nPP 15/15\n帮助\n一般\n威力 --\n命中 --\nPP 20/20\n怪异电波\n电\n威力 --\n命中 100\nPP 15/15\n疯狂伏特\n电\n威力 90\n命中 100\nPP 15/15\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "panel": "true"
+      }
+    },
+    {
+      "name": "fixture-ready",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 100,
+            "name": "voltorb",
+            "hp": 100,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "helping-hand"
+              },
+              {
+                "name": "eerie-impulse"
+              },
+              {
+                "name": "wild-charge"
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "name": "lickitung",
+            "hp": 150,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "belly-drum"
+              },
+              {
+                "name": "steel-roller"
+              },
+              {
+                "name": "muddy-water"
+              },
+              {
+                "name": "thunder"
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "fury-cutter"
+              },
+              {
+                "name": "x-scissor"
+              },
+              {
+                "name": "chip-away"
+              },
+              {
+                "name": "natural-gift"
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "rock-blast"
+              },
+              {
+                "name": "dig"
+              },
+              {
+                "name": "scary-face"
+              },
+              {
+                "name": "roar"
+              }
+            ]
+          },
+          {
+            "id": 61,
+            "name": "poliwhirl",
+            "hp": 126,
+            "held": "petaya-berry",
+            "original": "petaya-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "water-pulse"
+              },
+              {
+                "name": "double-slap"
+              },
+              {
+                "name": "icy-wind"
+              },
+              {
+                "name": "rain-dance"
+              }
+            ]
+          },
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "bubble-beam"
+              },
+              {
+                "name": "minimize"
+              },
+              {
+                "name": "swift"
+              },
+              {
+                "name": "light-screen"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n独角犀牛\n♀\nLV.50\n地面\n岩石\n睡眠\nHP\n100%\n霹雳电球\n◇\nLV.50\n电\nHP\n100/100\n战斗日志\nFCT-01\n\n对手 派出了 独角犀牛！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n过热\n火\n威力 130\n命中 100\nPP 5/5\n帮助\n一般\n威力 --\n命中 --\nPP 20/20\n怪异电波\n电\n威力 --\n命中 100\nPP 15/15\n疯狂伏特\n电\n威力 90\n命中 100\nPP 15/15\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "panel": "true"
+      }
+    },
+    {
+      "name": "after-real-move",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 100,
+            "name": "voltorb",
+            "hp": 100,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "helping-hand"
+              },
+              {
+                "name": "eerie-impulse"
+              },
+              {
+                "name": "wild-charge"
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "name": "lickitung",
+            "hp": 150,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "belly-drum"
+              },
+              {
+                "name": "steel-roller"
+              },
+              {
+                "name": "muddy-water"
+              },
+              {
+                "name": "thunder"
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "fury-cutter"
+              },
+              {
+                "name": "x-scissor"
+              },
+              {
+                "name": "chip-away"
+              },
+              {
+                "name": "natural-gift"
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "rock-blast"
+              },
+              {
+                "name": "dig"
+              },
+              {
+                "name": "scary-face"
+              },
+              {
+                "name": "roar"
+              }
+            ]
+          },
+          {
+            "id": 61,
+            "name": "poliwhirl",
+            "hp": 126,
+            "held": "petaya-berry",
+            "original": "petaya-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "water-pulse"
+              },
+              {
+                "name": "double-slap"
+              },
+              {
+                "name": "icy-wind"
+              },
+              {
+                "name": "rain-dance"
+              }
+            ]
+          },
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "bubble-beam"
+              },
+              {
+                "name": "minimize"
+              },
+              {
+                "name": "swift"
+              },
+              {
+                "name": "light-screen"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n独角犀牛\n♀\nLV.50\n地面\n岩石\n睡眠\nHP\n61%\n霹雳电球\n◇\nLV.50\n电\nHP\n100/100\n战斗日志\nFCT-01\n\n霹雳电球使用白色香草恢复了降低的能力！\n\n这一击收效甚微...\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n过热\n火\n威力 130\n命中 100\nPP 4/5\n帮助\n一般\n威力 --\n命中 --\nPP 20/20\n怪异电波\n电\n威力 --\n命中 100\nPP 15/15\n疯狂伏特\n电\n威力 90\n命中 100\nPP 15/15\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "panel": "false"
+      }
+    },
+    {
+      "name": "stable-after-real-move",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 100,
+            "name": "voltorb",
+            "hp": 100,
+            "held": null,
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 4
+              },
+              {
+                "name": "helping-hand"
+              },
+              {
+                "name": "eerie-impulse"
+              },
+              {
+                "name": "wild-charge"
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "name": "lickitung",
+            "hp": 150,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "belly-drum"
+              },
+              {
+                "name": "steel-roller"
+              },
+              {
+                "name": "muddy-water"
+              },
+              {
+                "name": "thunder"
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "fury-cutter"
+              },
+              {
+                "name": "x-scissor"
+              },
+              {
+                "name": "chip-away"
+              },
+              {
+                "name": "natural-gift"
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 86,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "rock-blast"
+              },
+              {
+                "name": "dig"
+              },
+              {
+                "name": "scary-face"
+              },
+              {
+                "name": "roar"
+              }
+            ]
+          },
+          {
+            "id": 61,
+            "name": "poliwhirl",
+            "hp": 126,
+            "held": "petaya-berry",
+            "original": "petaya-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "water-pulse"
+              },
+              {
+                "name": "double-slap"
+              },
+              {
+                "name": "icy-wind"
+              },
+              {
+                "name": "rain-dance"
+              }
+            ]
+          },
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "bubble-beam"
+              },
+              {
+                "name": "minimize"
+              },
+              {
+                "name": "swift"
+              },
+              {
+                "name": "light-screen"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n独角犀牛\n♀\nLV.50\n地面\n岩石\n睡眠\nHP\n61%\n霹雳电球\n◇\nLV.50\n电\nHP\n100/100\n战斗日志\nFCT-01\n\n霹雳电球 造成了 55 点伤害。\n\n对手独角犀牛睡得正香……\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n过热\n火\n威力 130\n命中 100\nPP 4/5\n帮助\n一般\n威力 --\n命中 --\nPP 20/20\n怪异电波\n电\n威力 --\n命中 100\nPP 15/15\n疯狂伏特\n电\n威力 90\n命中 100\nPP 15/15\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "panel": "true"
+      }
+    },
+    {
+      "name": "result-dev-win",
+      "state": {
+        "schema": 13,
+        "phase": "ROUND_RESULT",
+        "stage": 1,
+        "player": [
+          {
+            "id": 100,
+            "name": "voltorb",
+            "hp": 100,
+            "held": null,
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "helping-hand",
+                "currentPp": 20
+              },
+              {
+                "name": "eerie-impulse",
+                "currentPp": 15
+              },
+              {
+                "name": "wild-charge",
+                "currentPp": 15
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "name": "lickitung",
+            "hp": 150,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "belly-drum",
+                "currentPp": 10
+              },
+              {
+                "name": "steel-roller",
+                "currentPp": 5
+              },
+              {
+                "name": "muddy-water",
+                "currentPp": 10
+              },
+              {
+                "name": "thunder",
+                "currentPp": 10
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "fury-cutter",
+                "currentPp": 20
+              },
+              {
+                "name": "x-scissor",
+                "currentPp": 15
+              },
+              {
+                "name": "chip-away",
+                "currentPp": 20
+              },
+              {
+                "name": "natural-gift",
+                "currentPp": 15
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 86,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "rock-blast"
+              },
+              {
+                "name": "dig"
+              },
+              {
+                "name": "scary-face"
+              },
+              {
+                "name": "roar"
+              }
+            ]
+          },
+          {
+            "id": 61,
+            "name": "poliwhirl",
+            "hp": 126,
+            "held": "petaya-berry",
+            "original": "petaya-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "water-pulse"
+              },
+              {
+                "name": "double-slap"
+              },
+              {
+                "name": "icy-wind"
+              },
+              {
+                "name": "rain-dance"
+              }
+            ]
+          },
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "bubble-beam"
+              },
+              {
+                "name": "minimize"
+              },
+              {
+                "name": "swift"
+              },
+              {
+                "name": "light-screen"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n本局补给券：1\n对手信息\n敌方 AI 档位: RANDOM\nALIZE / PICNICKER\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 1\nC 0\nSP OFF",
+        "viewport": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "result-reload",
+      "state": {
+        "schema": 13,
+        "phase": "ROUND_RESULT",
+        "stage": 1,
+        "player": [
+          {
+            "id": 100,
+            "name": "voltorb",
+            "hp": 100,
+            "held": null,
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "helping-hand",
+                "currentPp": 20
+              },
+              {
+                "name": "eerie-impulse",
+                "currentPp": 15
+              },
+              {
+                "name": "wild-charge",
+                "currentPp": 15
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "name": "lickitung",
+            "hp": 150,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "belly-drum",
+                "currentPp": 10
+              },
+              {
+                "name": "steel-roller",
+                "currentPp": 5
+              },
+              {
+                "name": "muddy-water",
+                "currentPp": 10
+              },
+              {
+                "name": "thunder",
+                "currentPp": 10
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "fury-cutter",
+                "currentPp": 20
+              },
+              {
+                "name": "x-scissor",
+                "currentPp": 15
+              },
+              {
+                "name": "chip-away",
+                "currentPp": 20
+              },
+              {
+                "name": "natural-gift",
+                "currentPp": 15
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 86,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "rock-blast"
+              },
+              {
+                "name": "dig"
+              },
+              {
+                "name": "scary-face"
+              },
+              {
+                "name": "roar"
+              }
+            ]
+          },
+          {
+            "id": 61,
+            "name": "poliwhirl",
+            "hp": 126,
+            "held": "petaya-berry",
+            "original": "petaya-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "water-pulse"
+              },
+              {
+                "name": "double-slap"
+              },
+              {
+                "name": "icy-wind"
+              },
+              {
+                "name": "rain-dance"
+              }
+            ]
+          },
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "bubble-beam"
+              },
+              {
+                "name": "minimize"
+              },
+              {
+                "name": "swift"
+              },
+              {
+                "name": "light-screen"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n本局补给券：1\n对手信息\n敌方 AI 档位: RANDOM\nALIZE / PICNICKER\n前往换怪\nDEV",
+        "viewport": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "swap",
+      "state": {
+        "schema": 13,
+        "phase": "FACTORY_SWAP",
+        "stage": 1,
+        "player": [
+          {
+            "id": 100,
+            "name": "voltorb",
+            "hp": 100,
+            "held": null,
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "helping-hand",
+                "currentPp": 20
+              },
+              {
+                "name": "eerie-impulse",
+                "currentPp": 15
+              },
+              {
+                "name": "wild-charge",
+                "currentPp": 15
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "name": "lickitung",
+            "hp": 150,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "belly-drum",
+                "currentPp": 10
+              },
+              {
+                "name": "steel-roller",
+                "currentPp": 5
+              },
+              {
+                "name": "muddy-water",
+                "currentPp": 10
+              },
+              {
+                "name": "thunder",
+                "currentPp": 10
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "fury-cutter",
+                "currentPp": 20
+              },
+              {
+                "name": "x-scissor",
+                "currentPp": 15
+              },
+              {
+                "name": "chip-away",
+                "currentPp": 20
+              },
+              {
+                "name": "natural-gift",
+                "currentPp": 15
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 86,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "rock-blast"
+              },
+              {
+                "name": "dig"
+              },
+              {
+                "name": "scary-face"
+              },
+              {
+                "name": "roar"
+              }
+            ]
+          },
+          {
+            "id": 61,
+            "name": "poliwhirl",
+            "hp": 126,
+            "held": "petaya-berry",
+            "original": "petaya-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "water-pulse"
+              },
+              {
+                "name": "double-slap"
+              },
+              {
+                "name": "icy-wind"
+              },
+              {
+                "name": "rain-dance"
+              }
+            ]
+          },
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "bubble-beam"
+              },
+              {
+                "name": "minimize"
+              },
+              {
+                "name": "swift"
+              },
+              {
+                "name": "light-screen"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n本局补给券：1\n对手信息\n敌方 AI 档位: RANDOM\nALIZE / PICNICKER\n前往换怪\nDEV",
+        "viewport": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "swap-reload",
+      "state": {
+        "schema": 13,
+        "phase": "FACTORY_SWAP",
+        "stage": 1,
+        "player": [
+          {
+            "id": 100,
+            "name": "voltorb",
+            "hp": 100,
+            "held": null,
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "helping-hand",
+                "currentPp": 20
+              },
+              {
+                "name": "eerie-impulse",
+                "currentPp": 15
+              },
+              {
+                "name": "wild-charge",
+                "currentPp": 15
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "name": "lickitung",
+            "hp": 150,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "belly-drum",
+                "currentPp": 10
+              },
+              {
+                "name": "steel-roller",
+                "currentPp": 5
+              },
+              {
+                "name": "muddy-water",
+                "currentPp": 10
+              },
+              {
+                "name": "thunder",
+                "currentPp": 10
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "fury-cutter",
+                "currentPp": 20
+              },
+              {
+                "name": "x-scissor",
+                "currentPp": 15
+              },
+              {
+                "name": "chip-away",
+                "currentPp": 20
+              },
+              {
+                "name": "natural-gift",
+                "currentPp": 15
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 86,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "rock-blast"
+              },
+              {
+                "name": "dig"
+              },
+              {
+                "name": "scary-face"
+              },
+              {
+                "name": "roar"
+              }
+            ]
+          },
+          {
+            "id": 61,
+            "name": "poliwhirl",
+            "hp": 126,
+            "held": "petaya-berry",
+            "original": "petaya-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "water-pulse"
+              },
+              {
+                "name": "double-slap"
+              },
+              {
+                "name": "icy-wind"
+              },
+              {
+                "name": "rain-dance"
+              }
+            ]
+          },
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "bubble-beam"
+              },
+              {
+                "name": "minimize"
+              },
+              {
+                "name": "swift"
+              },
+              {
+                "name": "light-screen"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n电\n霹雳电球\n我的已选\n一般\n大舌头\n选我方\n水\n大钳蟹\n选我方\n对手队伍\n待选择\n地面\n岩石\n独角犀牛\n选对手\n水\n蚊香君\n选对手\n水\n海星星\n选对手\n当前选择\n霹雳电球\n交换目标\n未选择\n跳过交换\n确认交换\nDEV",
+        "viewport": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "stage2-ready",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 2,
+        "player": [
+          {
+            "id": 100,
+            "name": "voltorb",
+            "hp": 100,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "helping-hand",
+                "currentPp": 20
+              },
+              {
+                "name": "eerie-impulse",
+                "currentPp": 15
+              },
+              {
+                "name": "wild-charge",
+                "currentPp": 15
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "name": "lickitung",
+            "hp": 150,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "belly-drum",
+                "currentPp": 10
+              },
+              {
+                "name": "steel-roller",
+                "currentPp": 5
+              },
+              {
+                "name": "muddy-water",
+                "currentPp": 10
+              },
+              {
+                "name": "thunder",
+                "currentPp": 10
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "fury-cutter",
+                "currentPp": 20
+              },
+              {
+                "name": "x-scissor",
+                "currentPp": 15
+              },
+              {
+                "name": "chip-away",
+                "currentPp": 20
+              },
+              {
+                "name": "natural-gift",
+                "currentPp": 15
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 25,
+            "name": "pikachu",
+            "hp": 96,
+            "held": "leftovers",
+            "original": "leftovers",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "nasty-plot"
+              },
+              {
+                "name": "thunder-punch"
+              },
+              {
+                "name": "surf"
+              },
+              {
+                "name": "magnet-rise"
+              }
+            ]
+          },
+          {
+            "id": 27,
+            "name": "sandshrew",
+            "hp": 111,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "endeavor"
+              },
+              {
+                "name": "detect"
+              },
+              {
+                "name": "protect"
+              },
+              {
+                "name": "focus-punch"
+              }
+            ]
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "ancient-power"
+              },
+              {
+                "name": "heavy-slam"
+              },
+              {
+                "name": "drill-run"
+              },
+              {
+                "name": "take-down"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n2/7\n轮次\n1\n连胜\n皮卡丘\n♀\nLV.50\n电\nHP\n100%\n霹雳电球\n◇\nLV.50\n电\nHP\n100/100\n战斗日志\nFCT-01\n\n对手 派出了 皮卡丘！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n过热\n火\n威力 130\n命中 100\nPP 5/5\n帮助\n一般\n威力 --\n命中 --\nPP 20/20\n怪异电波\n电\n威力 --\n命中 100\nPP 15/15\n疯狂伏特\n电\n威力 90\n命中 100\nPP 15/15\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "panel": "true"
+      }
+    }
+  ],
+  "errors": []
+}

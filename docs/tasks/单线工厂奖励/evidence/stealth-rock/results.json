@@ -1,0 +1,342 @@
+{
+  "origin": "http://127.0.0.166:4300",
+  "steps": [
+    {
+      "name": "natural-ready",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91
+          },
+          {
+            "id": 102,
+            "name": "exeggcute",
+            "hp": 122,
+            "maxHp": 122
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 110,
+            "maxHp": 110
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n臭臭花\n♀\nLV.50\n草\n毒\nHP\n100%\n大钳蟹\n♂\nLV.50\n水\nHP\n91/91\n战斗日志\nFCT-01\n\n对手 派出了 臭臭花！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n泡沫\n水\n威力 40\n命中 100\nPP 30/30\n十字剪\n虫\n威力 80\n命中 100\nPP 15/15\n金属爪\n钢\n威力 50\n命中 95\nPP 35/35\n迁怒\n一般\n威力 --\n命中 100\nPP 20/20",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "fixture-ready-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": true,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91
+          },
+          {
+            "id": 102,
+            "name": "exeggcute",
+            "hp": 1,
+            "maxHp": 122
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 1,
+            "maxHp": 110
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n臭臭花\n♀\nLV.50\n草\n毒\n睡眠\nHP\n100%\n大钳蟹\n♂\nLV.50\n水\nHP\n91/91\n战斗日志\nFCT-01\n\n对手 派出了 臭臭花！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n泡沫\n水\n威力 40\n命中 100\nPP 30/30\n十字剪\n虫\n威力 80\n命中 100\nPP 15/15\n金属爪\n钢\n威力 50\n命中 95\nPP 35/35\n迁怒\n一般\n威力 --\n命中 100\nPP 20/20",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "fixture-ready-320",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": true,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91
+          },
+          {
+            "id": 102,
+            "name": "exeggcute",
+            "hp": 1,
+            "maxHp": 122
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 1,
+            "maxHp": 110
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n臭臭花\n♀\nLV.50\n草\n毒\n睡眠\nHP\n100%\n大钳蟹\n♂\nLV.50\n水\nHP\n91/91\n战斗日志\nFCT-01\n\n对手 派出了 臭臭花！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n泡沫\n水\n威力 40\n命中 100\nPP 30/30\n十字剪\n虫\n威力 80\n命中 100\nPP 15/15\n金属爪\n钢\n威力 50\n命中 95\nPP 35/35\n迁怒\n一般\n威力 --\n命中 100\nPP 20/20",
+        "width": 320,
+        "height": 568,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "name": "switch-list",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": true,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91
+          },
+          {
+            "id": 102,
+            "name": "exeggcute",
+            "hp": 1,
+            "maxHp": 122
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 1,
+            "maxHp": 110
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n臭臭花\n♀\nLV.50\n草\n毒\n睡眠\nHP\n100%\n大钳蟹\n♂\nLV.50\n水\nHP\n91/91\n战斗日志\nFCT-01\n\n对手 派出了 臭臭花！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n泡沫\n水\n威力 40\n命中 100\nPP 30/30\n十字剪\n虫\n威力 80\n命中 100\nPP 15/15\n金属爪\n钢\n威力 50\n命中 95\nPP 35/35\n迁怒\n一般\n威力 --\n命中 100\nPP 20/20",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "first-hazard-faint-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": true,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91
+          },
+          {
+            "id": 102,
+            "name": "exeggcute",
+            "hp": 1,
+            "maxHp": 122
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 1,
+            "maxHp": 110
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n臭臭花\n♀\nLV.50\n草\n毒\n睡眠\nHP\n100%\n蛋蛋\n♀\nLV.50\n草\n超能\nHP\n0/122\n战斗日志\nFCT-01\n\n你派出了 蛋蛋！\n\n蛋蛋受到了隐形岩的伤害！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n请选择一只仍可战斗的宝可梦出战。\n蛋蛋\nLV.50\nHP 0/122\n出战\n详情\n大钳蟹\nLV.50\nHP 91/91\n出战\n详情\n小火马\nLV.50\nHP 1/110\n出战\n详情",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "first-hazard-faint-320",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": true,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91
+          },
+          {
+            "id": 102,
+            "name": "exeggcute",
+            "hp": 1,
+            "maxHp": 122
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 1,
+            "maxHp": 110
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n臭臭花\n♀\nLV.50\n草\n毒\n睡眠\nHP\n100%\n蛋蛋\n♀\nLV.50\n草\n超能\nHP\n0/122\n战斗日志\nFCT-01\n\n蛋蛋受到了隐形岩的伤害！\n\n蛋蛋 倒下了！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n请选择一只仍可战斗的宝可梦出战。\n蛋蛋\nLV.50\nHP 0/122\n出战\n详情\n大钳蟹\nLV.50\nHP 91/91\n出战\n详情\n小火马\nLV.50\nHP 1/110\n出战\n详情",
+        "width": 320,
+        "height": 568,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "name": "second-hazard-faint-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": true,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 102,
+            "name": "exeggcute",
+            "hp": 0,
+            "maxHp": 122
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 1,
+            "maxHp": 110
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n臭臭花\n♀\nLV.50\n草\n毒\n睡眠\nHP\n100%\n小火马\n♂\nLV.50\n火\nHP\n0/110\n战斗日志\nFCT-01\n\n小火马受到了隐形岩的伤害！\n\n小火马 倒下了！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n请选择一只仍可战斗的宝可梦出战。\n小火马\nLV.50\nHP 0/110\n出战\n详情\n大钳蟹\nLV.50\nHP 91/91\n出战\n详情\n蛋蛋\nLV.50\nHP 0/122\n出战\n详情",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "third-switch-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": true,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 0,
+            "maxHp": 110
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91
+          },
+          {
+            "id": 102,
+            "name": "exeggcute",
+            "hp": 0,
+            "maxHp": 122
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n臭臭花\n♀\nLV.50\n草\n毒\n睡眠\nHP\n100%\n大钳蟹\n♂\nLV.50\n水\nHP\n80/91\n战斗日志\nFCT-01\n\n大钳蟹受到了隐形岩的伤害！\n\n对手臭臭花睡得正香……\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n泡沫\n水\n威力 40\n命中 100\nPP 30/30\n十字剪\n虫\n威力 80\n命中 100\nPP 15/15\n金属爪\n钢\n威力 50\n命中 95\nPP 35/35\n迁怒\n一般\n威力 --\n命中 100\nPP 20/20",
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "errors": [],
+  "switchButtons": [
+    "出战",
+    "详情",
+    "出战",
+    "详情",
+    "出战",
+    "详情"
+  ]
+}
