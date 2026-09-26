@@ -15,6 +15,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"sort"
 	"strings"
 	"sync"
@@ -295,6 +296,10 @@ func pathState(value string) string {
 }
 
 func cleanupTaskStaging(versionRoot, stagingRoot, version string) error {
+	versionRoot, err := filepath.Abs(versionRoot)
+	if err != nil {
+		return err
+	}
 	versionsRoot, err := filepath.Abs(filepath.Join(versionRoot, "versions"))
 	if err != nil {
 		return err
@@ -307,7 +312,28 @@ func cleanupTaskStaging(versionRoot, stagingRoot, version string) error {
 	if filepath.Dir(stagingRoot) != versionsRoot || !strings.HasPrefix(base, version+".") || !strings.HasSuffix(base, ".tmp") {
 		return fmt.Errorf("refusing to remove unexpected staging path: %s", stagingRoot)
 	}
-	return os.RemoveAll(stagingRoot)
+	resolvedRoot, err := filepath.EvalSymlinks(versionRoot)
+	if err != nil {
+		return err
+	}
+	resolvedVersions, err := filepath.EvalSymlinks(versionsRoot)
+	if err != nil {
+		return err
+	}
+	resolvedStaging, err := filepath.EvalSymlinks(stagingRoot)
+	if err != nil {
+		return err
+	}
+	samePath := func(left, right string) bool {
+		if runtime.GOOS == "windows" {
+			return strings.EqualFold(filepath.Clean(left), filepath.Clean(right))
+		}
+		return filepath.Clean(left) == filepath.Clean(right)
+	}
+	if !samePath(filepath.Dir(resolvedVersions), resolvedRoot) || !samePath(filepath.Dir(resolvedStaging), resolvedVersions) {
+		return fmt.Errorf("refusing to remove staging outside the resolved version directory: %s", stagingRoot)
+	}
+	return os.RemoveAll(resolvedStaging)
 }
 
 func isRetryableDirectoryMove(err error) bool {
@@ -800,6 +826,7 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 		}
 		return nil, fmt.Errorf("version %s not activated; publish failed, staging preserved at %s (objects=%d manifestBytes=%d): %w", options.Version, stagingAbsolute, len(manifest.Entries), len(manifestData), err)
 	}
+	cleanupStaging = false
 	if activate {
 		if err := ctx.Err(); err != nil {
 			return nil, fmt.Errorf("sync deadline/cancellation before activation: %w", err)

@@ -334,6 +334,51 @@ func TestPublishFailurePreservesCompleteStaging(t *testing.T) {
 	}
 }
 
+func TestCleanupTaskStagingChecksResolvedDirectory(t *testing.T) {
+	root := t.TempDir()
+	versionRoot := filepath.Join(root, "pokeapi")
+	versionsRoot := filepath.Join(versionRoot, "versions")
+	staging := filepath.Join(versionsRoot, "candidate.1.tmp")
+	outside := filepath.Join(root, "outside")
+	if err := os.MkdirAll(staging, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.MkdirAll(outside, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := cleanupTaskStaging(versionRoot, outside, "candidate"); err == nil {
+		t.Fatal("accepted a staging directory outside versions")
+	}
+	if err := cleanupTaskStaging(versionRoot, staging, "candidate"); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := os.Stat(staging); !os.IsNotExist(err) {
+		t.Fatalf("owned staging was not removed: %v", err)
+	}
+	relativeTemp, err := os.MkdirTemp(".", "content-cleanup-relative-")
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = os.RemoveAll(relativeTemp) })
+	relativeRoot := filepath.Join(relativeTemp, "pokeapi")
+	relativeStaging := filepath.Join(relativeRoot, "versions", "candidate.3.tmp")
+	if err := os.MkdirAll(relativeStaging, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := cleanupTaskStaging(relativeRoot, relativeStaging, "candidate"); err != nil {
+		t.Fatalf("relative state root was rejected: %v", err)
+	}
+	alias := filepath.Join(versionsRoot, "candidate.2.tmp")
+	if err := os.Symlink(outside, alias); err == nil {
+		if err := cleanupTaskStaging(versionRoot, alias, "candidate"); err == nil {
+			t.Fatal("accepted a staging alias outside versions")
+		}
+		if _, err := os.Stat(outside); err != nil {
+			t.Fatalf("outside directory changed: %v", err)
+		}
+	}
+}
+
 func TestVersionSyncActivatesImmutableManifest(t *testing.T) {
 	upstream := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
 		responseWriter.Header().Set("Content-Type", "application/json")
