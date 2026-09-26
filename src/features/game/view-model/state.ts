@@ -11,6 +11,7 @@ import type {
 } from '../../../types';
 import type { RegionDispatchState } from '../config/events';
 import type { FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
+import type { CompanionSpeciesId } from '../config/companionCandidates';
 import type {
   BaseRunSummary,
   BaseTab,
@@ -104,8 +105,7 @@ export interface GameViewBaseState {
   pendingRunSummary: BaseRunSummary | null;
   hasFactoryRunToResume: boolean;
   highestStreak: number;
-  starterName: string;
-  starterBondLevel: number;
+  companionSpeciesId: CompanionSpeciesId | null;
   availableEggCount: number;
   activeEventCount: number;
   seenCount: number;

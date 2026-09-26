@@ -401,7 +401,7 @@ export type FieldState =
   | 'fairy_lock';
 export type FieldTurns = Partial<Record<FieldState, number>>;
 
-export type GameState = 'BOOT' | 'START' | 'MENU' | 'BASE' | 'BATTLE' | 'REWARD' | 'LEARN_MOVE' | 'POKEMON_INFO' | 'GAMEOVER' | 'STARTER_SELECT' | 'EVOLUTION' | 'FACTORY_SELECT' | 'FACTORY_SWAP' | 'ROUND_RESULT' | 'COLLECTION' | 'EVENTS' | 'SETTINGS' | 'CREDITS';
+export type GameState = 'BOOT' | 'COMPANION_SELECT' | 'START' | 'MENU' | 'BASE' | 'BATTLE' | 'REWARD' | 'LEARN_MOVE' | 'POKEMON_INFO' | 'GAMEOVER' | 'STARTER_SELECT' | 'EVOLUTION' | 'FACTORY_SELECT' | 'FACTORY_SWAP' | 'ROUND_RESULT' | 'COLLECTION' | 'EVENTS' | 'SETTINGS' | 'CREDITS';
 export type BattleMenuTab = 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG' | 'STATUS';
 
 export interface LanguageConfig {

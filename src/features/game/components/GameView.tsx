@@ -13,6 +13,7 @@ import { SettingsScreen } from './game-view/SettingsScreen';
 import { CreditsScreen } from './game-view/CreditsScreen';
 import { EventsScreen } from './game-view/EventsScreen';
 import { BootLoadingScreen } from './game-view/BootLoadingScreen';
+import { CompanionSelectScreen } from './game-view/CompanionSelectScreen';
 import { BaseScreen } from './game-view/BaseScreen';
 import { StartScreen } from './game-view/StartScreen';
 import { TopRecordPanel } from './game-view/TopRecordPanel';
@@ -36,6 +37,7 @@ function InvalidSaveScreen({ inspection }: { inspection: Extract<SaveInspection,
     wasConfirmingRef.current = confirmClear;
   }, [confirmClear]);
   const isLegacy = inspection.kind === 'legacy';
+  const needsCompanionSchema = inspection.kind === 'legacy' && inspection.version === 10;
   const isUnreadable = inspection.kind === 'unreadable';
   const filename = isLegacy
     ? 'pokefactory-legacy-backup.json'
@@ -45,16 +47,22 @@ function InvalidSaveScreen({ inspection }: { inspection: Extract<SaveInspection,
     <div className="flex min-h-0 flex-1 items-center justify-center overflow-y-auto p-3 sm:p-4">
       <div className="w-full max-w-lg rounded-2xl bg-white p-5 text-center shadow-lg sm:p-6">
         <h1 className="text-xl font-black text-slate-900">
-          {isLegacy ? '旧规则存档不兼容 / Old save is incompatible' : '存档无法读取 / Save cannot be read'}
+          {isLegacy
+            ? needsCompanionSchema ? '旧版本存档不兼容 / Older save is incompatible' : '旧规则存档不兼容 / Old save is incompatible'
+            : '存档无法读取 / Save cannot be read'}
         </h1>
         <p className="mt-3 text-sm leading-6 text-slate-700">
           {isLegacy
-            ? '新版本按七战整组结算 BP，旧版逐场代币不能转入 BP。请先备份旧存档，再重新开始。'
+            ? needsCompanionSchema
+              ? '新版存档需要绑定基地伙伴。此旧版存档不能自动指定伙伴，请先备份，再重新开始。'
+              : '新版本按七战整组结算 BP，旧版逐场代币不能转入 BP。请先备份旧存档，再重新开始。'
             : '保存的挑战记录无法读取，原始存档尚未修改。请先下载备份，再决定是否清除并重新开始。'}
         </p>
         <p className="mt-2 text-sm leading-6 text-slate-700">
           {isLegacy
-            ? 'The new BP rules require a fresh save. Old per-battle tokens cannot be carried over.'
+            ? needsCompanionSchema
+              ? 'The new save requires a bound base companion. This older save cannot choose one automatically. Back it up before starting over.'
+              : 'The new BP rules require a fresh save. Old per-battle tokens cannot be carried over.'
             : 'Your saved challenge cannot be read. The original data is untouched. Download a backup before starting over.'}
         </p>
         <div className="mt-5 flex flex-wrap justify-center gap-3">
@@ -106,10 +114,11 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
     stage,
     streak,
     hasFactoryRunToResume,
+    companionSpeciesId,
   } = viewModel;
   const shouldReduceMotion = useReducedMotion();
   const [storedSave] = useState(inspectStoredSave);
-  const showFactoryTopRecord = [
+  const showFactoryTopRecord = companionSpeciesId !== null && [
     'BASE',
     'START',
     'FACTORY_SELECT',
@@ -166,6 +175,8 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
     screenContent = <InvalidSaveScreen inspection={storedSave} />;
   } else if (gameState === 'BOOT') {
     screenContent = <BootLoadingScreen key="boot-screen" viewModel={viewModel} />;
+  } else if (companionSpeciesId === null) {
+    screenContent = <CompanionSelectScreen key="companion-select-screen" viewModel={viewModel} />;
   } else if (gameState === 'BASE') {
     if (currentBaseTab === 'COLLECTION') {
       screenContent = renderCollectionScreen('collection-screen-base');
@@ -240,7 +251,7 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
         </div>
       </div>
 
-      {(storedSave.kind === 'none' || storedSave.kind === 'valid') && <DeveloperPanel viewModel={viewModel} />}
+      {(storedSave.kind === 'none' || storedSave.kind === 'valid') && companionSpeciesId !== null && <DeveloperPanel viewModel={viewModel} />}
     </div>
   );
 }

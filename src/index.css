@@ -528,7 +528,8 @@ button {
   }
 
   .pf-start-companion {
-    display: none;
+    display: block;
+    transform: scale(0.55);
   }
 
   .pf-start-dock-region .pf-dock-button {

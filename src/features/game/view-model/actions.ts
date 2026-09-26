@@ -9,6 +9,7 @@ export interface SaveImportResult {
 export interface GameViewActions {
   retrySettlement: () => Promise<void>;
   enterBase: () => void;
+  confirmCompanion: (speciesId: number) => boolean;
   openBaseTab: (tab: BaseTab) => void;
   closeRunSummary: () => void;
   startOrResumeFactoryFromBase: () => Promise<void>;

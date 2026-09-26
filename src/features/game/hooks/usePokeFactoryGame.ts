@@ -26,6 +26,7 @@ import {
 } from '../utils/eventDispatchRewards';
 import { getFactoryTrainerTemplateById, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import { FACTORY_BRAIN_TRAINER_ID } from '../config/factoryBrain';
+import { isCompanionSpeciesId, type CompanionSpeciesId } from '../config/companionCandidates';
 import type {
   BaseRunSummary,
   BaseTab,
@@ -41,6 +42,7 @@ import type {
 import { getBattleIndexInSet, getSetNoByStage } from '../config/factoryRewards';
 import {
   buildSaveExportFilename,
+  bindCompanionToSave,
   beginFactoryWalletRun,
   endFactoryWalletRun,
   adjustWalletBalance,
@@ -198,8 +200,9 @@ export function usePokeFactoryGame(): GameViewModel {
     hasRecoverableFactoryBaseCheckpoint(initialBattleResume, initialSave?.wallet.currentRunId),
   );
   const [pendingBattleResumeRestore, setPendingBattleResumeRestore] = useState(Boolean(initialBattleResume));
-  const [starterName] = useState('Pikachu');
-  const [starterBondLevel] = useState(1);
+  const [companionSpeciesId, setCompanionSpeciesId] = useState<CompanionSpeciesId | null>(initialSave?.progress.companionSpeciesId ?? null);
+  const companionCommittedRef = useRef<CompanionSpeciesId | null>(initialSave?.progress.companionSpeciesId ?? null);
+  const companionConfirmingRef = useRef(false);
   const [availableEggCount] = useState(0);
   const [activeEventCount] = useState(EVENT_REGIONS.length);
   const [shopUnlocked] = useState(true);
@@ -821,6 +824,7 @@ export function usePokeFactoryGame(): GameViewModel {
 
     return createSaveData({
       wallet: walletRef.current,
+      companionSpeciesId,
       totalRents,
       highestStreak,
       specialModeUnlocked,
@@ -847,6 +851,7 @@ export function usePokeFactoryGame(): GameViewModel {
     });
   }, [
     collectionLedger,
+    companionSpeciesId,
     currentLanguage,
     developerMode,
     devToolsAvailable,
@@ -901,12 +906,33 @@ export function usePokeFactoryGame(): GameViewModel {
     };
   }, [buildCurrentSaveData, saveBlocked]);
 
+  const confirmCompanion = useCallback((speciesId: number): boolean => {
+    if (!isCompanionSpeciesId(speciesId) || saveBlocked) return false;
+    if (companionCommittedRef.current !== null) return companionCommittedRef.current === speciesId;
+    if (companionConfirmingRef.current) return false;
+    companionConfirmingRef.current = true;
+    try {
+      bindCompanionToSave(buildCurrentSaveData(), speciesId);
+      companionCommittedRef.current = speciesId;
+      setCompanionSpeciesId(speciesId);
+      setCurrentBaseTab('HOME');
+      setGameState('BASE');
+      return true;
+    } catch (error) {
+      console.error('Companion selection could not be saved', error);
+      return false;
+    } finally {
+      companionConfirmingRef.current = false;
+    }
+  }, [buildCurrentSaveData, saveBlocked]);
+
   const enterBase = useCallback(() => {
     setCurrentBaseTab('HOME');
-    setGameState('BASE');
+    setGameState(companionCommittedRef.current === null ? 'COMPANION_SELECT' : 'BASE');
   }, []);
 
   const openBaseTab = useCallback((tab: BaseTab) => {
+    if (companionCommittedRef.current === null) { setGameState('COMPANION_SELECT'); return; }
     setCurrentBaseTab(tab);
     setGameState('BASE');
   }, []);
@@ -992,7 +1018,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [adjustWallet, devToolsAvailable]);
 
   const devSetStage = useCallback((value: number) => {
-    if (!devToolsAvailable || playerTeam.length === 0) return;
+    if (!devToolsAvailable || companionCommittedRef.current === null || playerTeam.length === 0) return;
     const normalized = Math.max(1, Math.floor(value));
     try {
       beginWalletRun(0, normalized);
@@ -1182,7 +1208,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [enemyTeam.length, factoryFlow, gameState, hasFactoryRunToResume, playerTeam, roundResult, stage]);
 
   const startGame = useCallback(async () => {
-    if (!canEnterProject) return;
+    if (!canEnterProject || companionCommittedRef.current === null) return;
     setHasFactoryRunToResume(false);
     setPendingRunSummary(null);
     setTeamCapacity(3);
@@ -1193,7 +1219,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [canEnterProject, factoryFlow]);
 
   const quickStartDevBattle = useCallback(async () => {
-    if (!canEnterProject) return;
+    if (!canEnterProject || companionCommittedRef.current === null) return;
     setHasFactoryRunToResume(false);
     setPendingRunSummary(null);
     setTeamCapacity(3);
@@ -1204,6 +1230,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [canEnterProject, factoryFlow]);
 
   const startOrResumeFactoryFromBase = useCallback(async () => {
+    if (companionCommittedRef.current === null) { setGameState('COMPANION_SELECT'); return; }
     setPendingRunSummary(null);
     setCurrentBaseTab('HOME');
 
@@ -1679,8 +1706,7 @@ export function usePokeFactoryGame(): GameViewModel {
     pendingRunSummary,
     hasFactoryRunToResume,
     highestStreak,
-    starterName,
-    starterBondLevel,
+    companionSpeciesId,
     availableEggCount,
     activeEventCount,
     eventDispatches,
@@ -1721,6 +1747,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setEvolutionChoices,
     setShowReplaceUI,
     enterBase,
+    confirmCompanion,
     openBaseTab,
     closeRunSummary,
     startOrResumeFactoryFromBase,

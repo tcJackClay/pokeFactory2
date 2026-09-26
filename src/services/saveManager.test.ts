@@ -4,7 +4,9 @@ import assert from 'node:assert/strict';
 import { FACTORY_SINGLES_BP, getFactoryGroupBp, getFactorySetBp, MAX_FACTORY_BP } from '../features/game/config/factoryRewards';
 import { FACTORY_BRAIN_TRAINER_ID, isFactoryBrainStage } from '../features/game/config/factoryBrain';
 import { getFactoryTrainerTemplateById, selectFactoryTrainerTemplate } from '../features/game/config/factoryTrainerTemplates';
+import { COMPANION_CANDIDATES } from '../features/game/config/companionCandidates';
 import {
+  bindCompanionToSave,
   beginFactoryWalletRun,
   endFactoryWalletRun,
   adjustWalletBalance,
@@ -137,7 +139,8 @@ function buildLegacyReadyBattleResume(overrides: Record<string, unknown> = {}) {
 
 function draft(runId = 'run:test', balance = 0, settledThrough = 0, stage = 7) {
   return parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 10,
+    schemaVersion: 11,
+    progress: { companionSpeciesId: 25 },
     wallet: { balance, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough },
     factory: { battleResume: buildLegacyReadyBattleResume({ stage, coins: balance }) },
   }));
@@ -145,11 +148,12 @@ function draft(runId = 'run:test', balance = 0, settledThrough = 0, stage = 7) {
 
 test('new save preserves battle snapshots, including postbattle phase', () => {
   const saved = parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 10,
+    schemaVersion: 11,
+    progress: { companionSpeciesId: 25 },
     wallet: { balance: 3, revision: 1, currentRunId: 'run:one', brainSymbols: 0, settledThrough: 1 },
     factory: { battleResume: buildLegacyReadyBattleResume({ stage: 8, phase: 'FACTORY_SWAP', roundResult: 'WIN', lastBpGain: 0 }) },
   }));
-  assert.equal(saved.schemaVersion, 10);
+  assert.equal(saved.schemaVersion, 11);
   assert.equal(saved.wallet.balance, 3);
   assert.equal(saved.factory.battleResume.status, 'READY');
   if (saved.factory.battleResume.status !== 'READY') return;
@@ -158,11 +162,13 @@ test('new save preserves battle snapshots, including postbattle phase', () => {
   assert.equal(saved.factory.battleResume.playerTeam[0].nonVolatileStatus?.id, 'sleep');
 });
 
-test('old per-battle saves are rejected with a visible reset path and no BP migration', () => {
+test('old saves are rejected by version, without misclassifying v10 as per-battle currency', () => {
   for (const version of [6, 7, 8, 9]) {
     assert.equal(classifySaveText(JSON.stringify({ schemaVersion: version })).kind, 'legacy');
     assert.throws(() => parseSaveDataFromText(JSON.stringify({ schemaVersion: version, wallet: { balance: 500 }, factory: { battleResume: buildLegacyReadyBattleResume({ coins: 500 }) } })), /旧规则存档不兼容/);
   }
+  assert.equal(classifySaveText(JSON.stringify({ schemaVersion: 10, wallet: { balance: 500 } })).kind, 'legacy');
+  assert.throws(() => parseSaveDataFromText(JSON.stringify({ schemaVersion: 10, wallet: { balance: 500 } })), /旧规则存档不兼容/);
   for (const malformed of ['null', '[]', '{}', '{"schemaVersion":"8"}']) {
     assert.equal(classifySaveText(malformed).kind, 'corrupt');
   }
@@ -172,6 +178,56 @@ test('old per-battle saves are rejected with a visible reset path and no BP migr
     assert.equal(loadSaveData(), null);
     discardUnsupportedSave();
     assert.equal(readUnsupportedSave(), null);
+  });
+});
+
+test('companion candidates are fixed and same-version saves require null or one approved ID', () => {
+  assert.deepEqual(COMPANION_CANDIDATES.map((candidate) => candidate.id), [25, 133, 175, 447, 744, 921]);
+  const base = { schemaVersion: 11, factory: { battleResume: { status: 'EMPTY' } }, settings: { selectedGens: [9] } };
+  assert.equal(parseSaveDataFromText(JSON.stringify({ ...base, progress: { companionSpeciesId: null } })).progress.companionSpeciesId, null);
+  for (const candidate of COMPANION_CANDIDATES) {
+    assert.equal(parseSaveDataFromText(JSON.stringify({ ...base, progress: { companionSpeciesId: candidate.id } })).progress.companionSpeciesId, candidate.id);
+  }
+  for (const progress of [{}, { companionSpeciesId: 0 }, { companionSpeciesId: 1 }, { companionSpeciesId: 999 }, { companionSpeciesId: '25' }, { companionSpeciesId: 25.5 }]) {
+    const raw = JSON.stringify({ ...base, progress });
+    assert.equal(classifySaveText(raw).kind, 'corrupt');
+    assert.throws(() => parseSaveDataFromText(raw), /导入文件损坏/);
+  }
+  assert.equal(classifySaveText(JSON.stringify({ ...base, progress: { companionSpeciesId: null }, factory: { battleResume: buildLegacyReadyBattleResume() } })).kind, 'corrupt');
+  assert.equal(classifySaveText(JSON.stringify({ ...base, schemaVersion: 10 })).kind, 'legacy');
+  withStorage((storage) => {
+    const brokenRaw = JSON.stringify({ ...base, progress: { companionSpeciesId: 999 } });
+    storage.set('pokefactory_save_v1', brokenRaw);
+    const valid = parseSaveDataFromText(JSON.stringify({ ...base, progress: { companionSpeciesId: null } }));
+    assert.equal(inspectStoredSave().kind, 'corrupt');
+    assert.throws(() => persistSaveData(valid), /requires backup/);
+    assert.equal(storage.get('pokefactory_save_v1'), brokenRaw);
+  });
+});
+
+test('companion binding writes before use, retries failed writes, and cannot be changed by stale saves', () => {
+  withStorage((storage, failNextWrite) => {
+    const unbound = parseSaveDataFromText(JSON.stringify({
+      schemaVersion: 11,
+      progress: { companionSpeciesId: null },
+      settings: { selectedGens: [1] },
+      factory: { battleResume: { status: 'EMPTY' } },
+    }));
+    persistSaveData(unbound);
+    failNextWrite();
+    assert.throws(() => bindCompanionToSave(unbound, 921), /Quota/);
+    assert.equal(loadSaveData()?.progress.companionSpeciesId, null);
+    const bound = bindCompanionToSave(unbound, 921);
+    assert.equal(bound.progress.companionSpeciesId, 921);
+    const committedRaw = storage.get('pokefactory_save_v1');
+    assert.equal(bindCompanionToSave(unbound, 921).progress.companionSpeciesId, 921);
+    assert.equal(storage.get('pokefactory_save_v1'), committedRaw);
+    assert.throws(() => bindCompanionToSave(unbound, 25), /already bound/);
+    assert.throws(() => bindCompanionToSave(unbound, 999), /Invalid companion/);
+    persistSaveData(unbound);
+    assert.equal(loadSaveData()?.progress.companionSpeciesId, 921);
+    const exported = JSON.stringify(loadSaveData());
+    assert.equal(parseSaveDataFromText(exported).progress.companionSpeciesId, 921);
   });
 });
 
@@ -280,7 +336,7 @@ test('generation setting keeps exactly one valid generation and defaults to Kant
     [[2.5], [1]],
     [['3'], [1]],
   ] as const) {
-    const saved = parseSaveDataFromText(JSON.stringify({ schemaVersion: 10, settings: { selectedGens: raw }, factory: { battleResume: { status: 'EMPTY' } } }));
+    const saved = parseSaveDataFromText(JSON.stringify({ schemaVersion: 11, progress: { companionSpeciesId: null }, settings: { selectedGens: raw }, factory: { battleResume: { status: 'EMPTY' } } }));
     assert.deepEqual(saved.settings.selectedGens, expected);
   }
 });
@@ -402,7 +458,8 @@ test('developer jump to the third set starts a fresh run at the correct group ba
 test('ending a paused completed set keeps earned BP and clears continuation without another settlement', () => {
   withStorage((_storage, failNextWrite) => {
     const saved = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 10,
+      schemaVersion: 11,
+      progress: { companionSpeciesId: 25 },
       wallet: { balance: 14, revision: 4, currentRunId: 'run:pause', brainSymbols: 1, settledThrough: 3 },
       factory: {
         challengePaused: true,

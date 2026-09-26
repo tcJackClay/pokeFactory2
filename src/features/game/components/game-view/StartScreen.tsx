@@ -8,6 +8,8 @@ import companionAnimSprite from '../../../../assets/menu/pikachu-anim-front.png'
 import pokedexMenuIcon from '../../../../assets/menu/pokedex.png';
 import eventsMenuIcon from '../../../../assets/menu/clipboard.png';
 import { APP_PALETTE } from '../../../../theme/palette';
+import { getCompanionCandidate } from '../../config/companionCandidates';
+import { getPokemonOfficialArtworkUrl, getPokemonSpriteUrl } from '../../../../services/pokeApiEndpoint';
 
 type StartMenu = BaseTab | 'SETTINGS';
 type DockState = 'locked' | 'soon' | 'ready';
@@ -38,13 +40,17 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     openBaseTab,
     setGameState,
     currentLanguage,
+    companionSpeciesId,
   } = viewModel;
 
   const shouldReduceMotion = useReducedMotion();
   const [companionFrame, setCompanionFrame] = useState(0);
+  const [companionImageFallback, setCompanionImageFallback] = useState(false);
   const [confirmEndRun, setConfirmEndRun] = useState(false);
   const [endRunError, setEndRunError] = useState(false);
   const isZh = currentLanguage.startsWith('zh');
+  const companion = companionSpeciesId === null ? null : getCompanionCandidate(companionSpeciesId);
+  const companionName = companion ? (isZh ? companion.zhName : companion.enName) : '';
 
   const readyEventCount = EVENT_REGIONS.reduce((total, region) => {
     const dispatch = eventDispatches[region.id];
@@ -80,7 +86,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     [hasFactoryRunToResume, isZh, loading, rentalLoadError],
   );
   useEffect(() => {
-    if (shouldReduceMotion) {
+    if (shouldReduceMotion || companionSpeciesId !== 25) {
       setCompanionFrame(0);
       return undefined;
     }
@@ -90,7 +96,9 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     }, 420);
 
     return () => window.clearInterval(timer);
-  }, [shouldReduceMotion]);
+  }, [companionSpeciesId, shouldReduceMotion]);
+
+  useEffect(() => { setCompanionImageFallback(false); }, [companionSpeciesId]);
 
   const navItems: StartNavItem[] = [
     { menu: 'SHOP', label: copy.shop, locked: !shopUnlocked, implemented: false },
@@ -224,18 +232,31 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
                     className="relative"
                   >
                     <div className="h-[80px] w-[80px] overflow-hidden md:h-[88px] md:w-[88px]">
-                      <img
-                        src={companionAnimSprite}
-                        alt=""
-                        aria-hidden="true"
-                        className="h-auto w-[80px] drop-shadow-[0_10px_14px_rgba(0,0,0,0.18)] md:w-[88px]"
-                        style={{
-                          transform: `translateY(-${companionFrame * 50}%)`,
-                          transition: shouldReduceMotion ? undefined : 'transform 120ms steps(1)',
-                        }}
-                      />
+                      {companionSpeciesId === 25 ? (
+                        <img
+                          src={companionAnimSprite}
+                          alt=""
+                          aria-hidden="true"
+                          className="h-auto w-[80px] drop-shadow-[0_10px_14px_rgba(0,0,0,0.18)] md:w-[88px]"
+                          style={{
+                            transform: `translateY(-${companionFrame * 50}%)`,
+                            transition: shouldReduceMotion ? undefined : 'transform 120ms steps(1)',
+                          }}
+                        />
+                      ) : companionSpeciesId !== null ? (
+                        <img
+                          src={companionImageFallback ? getPokemonSpriteUrl(companionSpeciesId) : getPokemonOfficialArtworkUrl(companionSpeciesId)}
+                          onError={() => setCompanionImageFallback(true)}
+                          alt=""
+                          aria-hidden="true"
+                          className="h-full w-full object-contain drop-shadow-[0_10px_14px_rgba(0,0,0,0.18)]"
+                        />
+                      ) : null}
                     </div>
                   </motion.div>
+                  <span className="mt-1 block rounded-full bg-white/90 px-2 py-0.5 text-center text-xs font-black text-slate-800 shadow-sm">
+                    {isZh ? '伙伴：' : 'Companion: '}{companionName}
+                  </span>
                 </motion.div>
               </div>
             </div>

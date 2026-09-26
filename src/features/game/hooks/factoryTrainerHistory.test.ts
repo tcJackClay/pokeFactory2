@@ -49,6 +49,7 @@ test('trainer history survives rerenders and refresh, excluding a trainer alread
 
     persistSaveData(createSaveData({
       wallet: createEmptyWallet(),
+      companionSpeciesId: null,
       totalRents: 0,
       highestStreak: 0,
       specialModeUnlocked: false,

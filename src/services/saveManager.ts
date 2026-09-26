@@ -1,11 +1,12 @@
 import type { FieldState, FieldTurns, GamePokemon } from '../types';
 import { getBattleIndexInSet, getFactoryGroupBp, getSetNoByStage, MAX_FACTORY_BP } from '../features/game/config/factoryRewards';
 import { getFactoryTrainerTemplateById } from '../features/game/config/factoryTrainerTemplates';
+import { isCompanionSpeciesId, type CompanionSpeciesId } from '../features/game/config/companionCandidates';
 import { hasRecoverableFactoryBaseCheckpoint } from '../features/game/hooks/factoryResumeCheckpoint';
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
 const PENDING_SETTLEMENT_KEY = 'pokefactory_pending_settlement_v1';
-const SAVE_SCHEMA_VERSION = 10 as const;
+const SAVE_SCHEMA_VERSION = 11 as const;
 
 export type SaveInspection =
   | { kind: 'none' }
@@ -104,6 +105,7 @@ export interface GameSaveData {
     totalRents: number;
     highestStreak: number;
     specialModeUnlocked: boolean;
+    companionSpeciesId: CompanionSpeciesId | null;
   };
   settings: {
     currentLanguage: string;
@@ -140,6 +142,7 @@ export interface GameSaveData {
 
 interface SaveDraftInput {
   wallet: FactoryWallet;
+  companionSpeciesId: CompanionSpeciesId | null;
   totalRents: number;
   highestStreak: number;
   specialModeUnlocked: boolean;
@@ -656,6 +659,7 @@ function normalizeSaveData(value: unknown): GameSaveData {
       totalRents: sanitizePositiveInt(progress.totalRents, 0),
       highestStreak: sanitizePositiveInt(progress.highestStreak, 0),
       specialModeUnlocked: Boolean(progress.specialModeUnlocked),
+      companionSpeciesId: progress.companionSpeciesId as CompanionSpeciesId | null,
     },
     settings: {
       currentLanguage: sanitizeLanguage(settings.currentLanguage, 'zh-hans'),
@@ -700,6 +704,11 @@ function hasRecoverablePokemonCore(value: unknown): boolean {
 
 function assertCurrentSaveRecoverability(value: unknown): void {
   if (!isRecord(value)) throw new Error('Current save root is invalid.');
+  const progress = isRecord(value.progress) ? value.progress : null;
+  const companionSpeciesId = progress?.companionSpeciesId;
+  if (companionSpeciesId !== null && !isCompanionSpeciesId(companionSpeciesId)) {
+    throw new Error('Companion selection is missing or invalid.');
+  }
   const factory = isRecord(value.factory) ? value.factory : null;
   const resume = factory && isRecord(factory.battleResume) ? factory.battleResume : null;
   if (!resume || (resume.status !== 'EMPTY' && resume.status !== 'READY')) {
@@ -707,6 +716,7 @@ function assertCurrentSaveRecoverability(value: unknown): void {
   }
 
   if (resume.status === 'READY') {
+    if (companionSpeciesId === null) throw new Error('Challenge exists before companion selection.');
     const phase = resume.phase;
     const validPhase = phase === 'BATTLE' || phase === 'ROUND_RESULT' || phase === 'FACTORY_SWAP' || phase === 'BASE';
     const playerTeam = resume.playerTeam;
@@ -754,6 +764,7 @@ export function createSaveData(input: SaveDraftInput): GameSaveData {
     updatedAt: new Date().toISOString(),
     wallet: input.wallet,
     progress: {
+      companionSpeciesId: input.companionSpeciesId,
       totalRents: input.totalRents,
       highestStreak: input.highestStreak,
       specialModeUnlocked: input.specialModeUnlocked,
@@ -830,10 +841,14 @@ export function persistSaveData(saveData: GameSaveData) {
   const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
   let wallet = saveData.wallet;
   let battleResume = saveData.factory.battleResume;
+  let companionSpeciesId = saveData.progress.companionSpeciesId;
   if (raw !== null) {
     const inspection = classifySaveText(raw);
     if (inspection.kind !== 'valid') throw new Error('Stored save requires backup or removal before writing.');
     const persisted = inspection.save;
+    if (persisted.progress.companionSpeciesId !== null) {
+      companionSpeciesId = persisted.progress.companionSpeciesId;
+    }
     if (persisted.wallet.revision > wallet.revision) wallet = persisted.wallet;
     const committed = persisted.factory.battleResume;
     if (committed.status === 'READY' && committed.phase === 'ROUND_RESULT'
@@ -846,8 +861,33 @@ export function persistSaveData(saveData: GameSaveData) {
   window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
     ...saveData,
     wallet,
+    progress: { ...saveData.progress, companionSpeciesId },
     factory: { ...saveData.factory, battleResume },
   }));
+}
+
+export function bindCompanionToSave(draft: GameSaveData, speciesId: number): GameSaveData {
+  if (!isCompanionSpeciesId(speciesId)) throw new Error('Invalid companion species.');
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  const inspection = inspectStoredSave();
+  if (inspection.kind !== 'none' && inspection.kind !== 'valid') {
+    throw new Error('Stored save requires backup or removal before companion selection.');
+  }
+  const existing = inspection.kind === 'valid' ? inspection.save : draft;
+  if (existing.progress.companionSpeciesId !== null) {
+    if (existing.progress.companionSpeciesId !== speciesId) throw new Error('Companion is already bound to this save.');
+    return existing;
+  }
+  const next: GameSaveData = {
+    ...draft,
+    progress: { ...draft.progress, companionSpeciesId: speciesId },
+  };
+  persistSaveData(next);
+  const persisted = loadSaveData();
+  if (!persisted || persisted.progress.companionSpeciesId !== speciesId) {
+    throw new Error('Companion selection could not be verified after saving.');
+  }
+  return persisted;
 }
 
 export function replaceSaveData(saveData: GameSaveData) {
