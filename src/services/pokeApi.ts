@@ -19,6 +19,10 @@ const abilityNamesCache = new Map<string, any[]>();
 const abilityNamesInFlightCache = new Map<string, Promise<any[]>>();
 const UNOWN_FORM_IDENTIFIER_REGEX = /^unown-(?:[a-z]|question|exclamation)$/;
 
+export function getSpeciesBaseFriendship(speciesData: { base_happiness?: number } | null | undefined): number {
+  return Number.isFinite(speciesData?.base_happiness) ? Number(speciesData?.base_happiness) : 70;
+}
+
 export async function getRandomPokemonId(selectedGens: number[] = [1]): Promise<number> {
   const possibleGens = GENERATIONS.filter(g => selectedGens.includes(g.id));
   const targetGen = possibleGens[Math.floor(Math.random() * possibleGens.length)] || GENERATIONS[0];
@@ -520,7 +524,7 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
     calculatedStats,
     gender,
     teraType,
-    friendship: Number.isFinite(speciesData?.base_happiness) ? speciesData.base_happiness : 70,
+    friendship: getSpeciesBaseFriendship(speciesData),
     factoryConsecutiveMoveCount: 0,
     factoryLastDamageReceived: 0,
     factoryDamagedThisTurn: false,
@@ -634,7 +638,7 @@ export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceS
     calculatedStats,
     gender,
     teraType,
-    friendship: Number.isFinite(speciesData?.base_happiness) ? speciesData.base_happiness : 70,
+    friendship: getSpeciesBaseFriendship(speciesData),
     factoryConsecutiveMoveCount: 0,
     factoryLastDamageReceived: 0,
     factoryDamagedThisTurn: false,

@@ -169,6 +169,25 @@ function atBattle(saved: ReturnType<typeof draft>, stage: number) {
   };
 }
 
+test('factory checkpoint preserves Return friendship across save and restore', () => {
+  const saved = draft('run:return-friendship');
+  const checkpoint = saved.factory.battleResume;
+  assert.equal(checkpoint.status, 'READY');
+  if (checkpoint.status !== 'READY') return;
+  const restored = parseSaveDataFromText(JSON.stringify({
+    ...saved,
+    factory: {
+      ...saved.factory,
+      battleResume: {
+        ...checkpoint,
+        playerTeam: checkpoint.playerTeam.map((member, index) => index === 0 ? { ...member, friendship: 255 } : member),
+      },
+    },
+  })).factory.battleResume;
+  assert.equal(restored.status, 'READY');
+  if (restored.status === 'READY') assert.equal(restored.playerTeam[0].friendship, 255);
+});
+
 test('current save accepts snow weather and its remaining turns', () => {
   const saved = draft('run:snow-save');
   const previous = saved.factory.battleResume;

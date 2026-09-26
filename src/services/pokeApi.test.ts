@@ -1,6 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fetchAbilityNames } from './pokeApi';
+import { fetchAbilityNames, getSpeciesBaseFriendship } from './pokeApi';
+
+test('rental and reference-set friendship starts at species base happiness', () => {
+  assert.equal(getSpeciesBaseFriendship({ base_happiness: 0 }), 0);
+  assert.equal(getSpeciesBaseFriendship({ base_happiness: 70 }), 70);
+  assert.equal(getSpeciesBaseFriendship({ base_happiness: 255 }), 255);
+  assert.equal(getSpeciesBaseFriendship(null), 70);
+});
 
 test('missing ability names are not cached and can be retried after content recovery', async () => {
   const originalFetch = globalThis.fetch;
