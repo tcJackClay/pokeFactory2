@@ -54,6 +54,17 @@ interface UseFactoryFlowParams {
   factoryRentals: GamePokemon[];
   playerTeam: GamePokemon[];
   enemyTeam: GamePokemon[];
+  currentEnemyTrainer: FactoryTrainerTemplate | null;
+  gameState: GameState;
+  commitNextBattleStart: (start: {
+    stage: number;
+    playerTeam: GamePokemon[];
+    enemyTeam: GamePokemon[];
+    currentEnemyTrainerId: string;
+    enemyAiTier: FactoryAiTier;
+    specialBossBattleActive: boolean;
+    swapped: boolean;
+  }) => void;
   t: TranslateFn;
   getLocalized: LocalizeFn;
   addMessagesSequentially: (messages: string[]) => Promise<void>;
@@ -427,6 +438,9 @@ export function useFactoryFlow({
   factoryRentals,
   playerTeam,
   enemyTeam,
+  currentEnemyTrainer,
+  gameState,
+  commitNextBattleStart,
   t,
   getLocalized,
   addMessagesSequentially,
@@ -1263,7 +1277,7 @@ export function useFactoryFlow({
 
   const spawnEnemy = useCallback(async (
     currentStage: number,
-    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[]; playTrainerIntro?: boolean },
+    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[]; playTrainerIntro?: boolean; commitBattleStart?: (encounter: EnemyEncounterData) => void },
   ) => {
     setLoading(true);
     let success = false;
@@ -1346,10 +1360,9 @@ export function useFactoryFlow({
 
       setEnemyTeam(team);
       setEnemy(firstEnemy);
-      markTrainerUsedForSet(setNo, trainer.id);
       setTrainerIntroActive(false);
       setTrainerIntroAwaitingContinue(false);
-      setIsTransitioning(false);
+      if (!options?.commitBattleStart) setIsTransitioning(false);
 
       if (isSpecialUnlockBoss) {
         await addMessagesSequentially([
@@ -1362,6 +1375,9 @@ export function useFactoryFlow({
         await addMessagesSequentially([t('enemySentOut').replace('{name}', getLocalized(firstEnemy))]);
       }
 
+      options?.commitBattleStart(encounter);
+      markTrainerUsedForSet(setNo, trainer.id);
+      setIsTransitioning(false);
       setTurn('PLAYER');
       setBattleMenuTab('MAIN');
       setWeather('none');
@@ -1615,24 +1631,42 @@ export function useFactoryFlow({
   }, [factoryRentals, resetBattlePreview, selectedRentalIndices, setGameState, setIsTransitioning, setPlayerTeam, spawnEnemy, startBattleTransition]);
 
   const nextFactoryStage = useCallback(async (playerPool?: GamePokemon[]): Promise<boolean> => {
-    const previousTeam = playerTeam;
     const preparedTeam = prepareFactoryPartyForBattle(playerPool ?? playerTeam);
-    setPlayerTeam(preparedTeam);
-    setStage((prev) => prev + 1);
     resetBattlePreview();
     const nextStageNo = stage + 1;
     startBattleTransition();
     const encounterOptions = { playerPool: preparedTeam };
     void prefetchEnemy(nextStageNo, encounterOptions);
-    const ready = await spawnEnemy(nextStageNo, { ...encounterOptions, playTrainerIntro: true });
+    const ready = await spawnEnemy(nextStageNo, {
+      ...encounterOptions,
+      playTrainerIntro: true,
+      commitBattleStart: (encounter) => {
+        commitNextBattleStart({
+          stage: nextStageNo,
+          playerTeam: preparedTeam,
+          enemyTeam: encounter.team,
+          currentEnemyTrainerId: encounter.trainer.id,
+          enemyAiTier: encounter.isSpecialUnlockBoss ? 'BOSS' : encounter.aiTier,
+          specialBossBattleActive: encounter.isSpecialUnlockBoss,
+          swapped: Boolean(playerPool),
+        });
+        setPlayerTeam(preparedTeam);
+        setStage(nextStageNo);
+      },
+    });
     if (!ready) {
-      setPlayerTeam(previousTeam);
-      setStage(stage);
+      setEnemyTeam(enemyTeam);
+      setEnemy(enemyTeam[0] ?? null);
+      setCurrentEnemyTrainer(currentEnemyTrainer);
+      setTurn('PLAYER');
+      setBattleMenuTab('MAIN');
+      setTrainerIntroActive(false);
+      setTrainerIntroAwaitingContinue(false);
       setIsTransitioning(false);
-      setGameState(playerPool ? 'FACTORY_SWAP' : 'BASE');
+      setGameState(gameState);
     }
     return ready;
-  }, [playerTeam, prefetchEnemy, resetBattlePreview, setPlayerTeam, setStage, setGameState, setIsTransitioning, spawnEnemy, stage, startBattleTransition]);
+  }, [commitNextBattleStart, currentEnemyTrainer, enemyTeam, gameState, playerTeam, prefetchEnemy, resetBattlePreview, setBattleMenuTab, setCurrentEnemyTrainer, setEnemy, setEnemyTeam, setGameState, setIsTransitioning, setPlayerTeam, setStage, setTrainerIntroActive, setTrainerIntroAwaitingContinue, setTurn, spawnEnemy, stage, startBattleTransition]);
 
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
     const newTeam = swapDefeatedPokemon(playerTeam, enemyTeam, playerIdx, enemyIdx);

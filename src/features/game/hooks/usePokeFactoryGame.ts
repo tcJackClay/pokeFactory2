@@ -47,6 +47,7 @@ import {
   endFactoryWalletRun,
   adjustWalletBalance,
   commitFactoryGroupSettlement,
+  commitFactoryBattleStart,
   createEmptyBattleResume,
   createEmptyWallet,
   createSaveData,
@@ -494,6 +495,14 @@ export function usePokeFactoryGame(): GameViewModel {
     return settlement;
   }, [getCurrentSaveDraft, syncWallet]);
 
+  const commitNextBattleStart = useCallback((start: Parameters<typeof commitFactoryBattleStart>[1]) => {
+    const runId = walletRef.current.currentRunId;
+    if (!runId) throw new Error('Factory run is unavailable.');
+    const checkpoint = commitFactoryBattleStart(runId, start);
+    battleResumeSnapshotRef.current = checkpoint;
+    setHasFactoryRunToResume(false);
+  }, []);
+
   const battleController = useBattleController({
     gameState,
     turn,
@@ -568,6 +577,9 @@ export function usePokeFactoryGame(): GameViewModel {
     factoryRentals,
     playerTeam,
     enemyTeam,
+    gameState,
+    commitNextBattleStart,
+    currentEnemyTrainer,
     t,
     getLocalized,
     addMessagesSequentially: battleController.addMessagesSequentially,
@@ -887,19 +899,19 @@ export function usePokeFactoryGame(): GameViewModel {
 
   useEffect(() => {
     try {
-      if (saveBlocked) return;
+      if (saveBlocked || isTransitioning || loading || trainerIntroActive || trainerIntroAwaitingContinue) return;
       persistSaveData(buildCurrentSaveData());
     } catch (error) {
       console.error('Auto save failed', error);
     }
-  }, [buildCurrentSaveData, saveBlocked]);
+  }, [buildCurrentSaveData, isTransitioning, loading, saveBlocked, trainerIntroActive, trainerIntroAwaitingContinue]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const persistCurrentState = () => {
       try {
-        if (saveBlocked) return;
+        if (saveBlocked || isTransitioning || loading || trainerIntroActive || trainerIntroAwaitingContinue) return;
         persistSaveData(buildCurrentSaveData());
       } catch (error) {
         console.error('Save on page exit failed', error);
@@ -917,7 +929,7 @@ export function usePokeFactoryGame(): GameViewModel {
       window.removeEventListener('beforeunload', persistCurrentState);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [buildCurrentSaveData, saveBlocked]);
+  }, [buildCurrentSaveData, isTransitioning, loading, saveBlocked, trainerIntroActive, trainerIntroAwaitingContinue]);
 
   const confirmCompanion = useCallback((speciesId: number): boolean => {
     if (!isCompanionSpeciesId(speciesId) || saveBlocked) return false;

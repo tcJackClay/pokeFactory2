@@ -14,6 +14,7 @@ import {
   adjustWalletBalance,
   classifySaveText,
   commitFactoryGroupSettlement,
+  commitFactoryBattleStart,
   createEmptyBattleResume,
   discardInvalidSave,
   inspectStoredSave,
@@ -285,19 +286,16 @@ test('battle result keeps spent items; next BATTLE checkpoint returns originals 
     }
     if (swapped.status !== 'READY') return;
     const nextBattle = {
-      ...loadSaveData()!,
-      factory: {
-        ...loadSaveData()!.factory,
-        battleResume: {
-          ...swapped,
-          stage: 2,
-          phase: 'BATTLE' as const,
-          roundResult: null,
-          playerTeam: prepareFactoryPartyForBattle(swapped.playerTeam),
-        },
-      },
+      stage: 2,
+      playerTeam: prepareFactoryPartyForBattle(swapped.playerTeam),
+      enemyTeam: swapped.enemyTeam,
+      currentEnemyTrainerId: swapped.currentEnemyTrainerId!,
+      enemyAiTier: swapped.enemyAiTier,
+      specialBossBattleActive: false,
+      swapped: false,
     };
-    persistSaveData(nextBattle);
+    commitFactoryBattleStart('run:held-atomic', nextBattle);
+    assert.deepEqual(commitFactoryBattleStart('run:held-atomic', nextBattle), loadSaveData()!.factory.battleResume);
     const prepared = loadSaveData()!.factory.battleResume;
     assert.equal(prepared.status, 'READY');
     if (prepared.status === 'READY') {
@@ -309,6 +307,94 @@ test('battle result keeps spent items; next BATTLE checkpoint returns originals 
     assert.equal(afterStaleSwap.status, 'READY');
     if (afterStaleSwap.status === 'READY') assert.equal(afterStaleSwap.stage, 2);
     assert.equal(parseSaveDataFromText(JSON.stringify(loadSaveData())).factory.battleResume.status, 'READY');
+  });
+});
+
+test('failed next-battle checkpoint keeps result items spent and allows a retry', () => {
+  withStorage((_storage, failNextWrite) => {
+    const battle = draft('run:next-start-failure', 0, 0, 1);
+    const initial = battle.factory.battleResume;
+    if (initial.status !== 'READY') throw new Error('Expected READY checkpoint.');
+    const spent = { ...initial.playerTeam[0], factoryOriginalHeldItemId: 'sitrus-berry', factoryHeldItemId: undefined };
+    const withSpent = { ...battle, factory: { ...battle.factory, battleResume: { ...initial, playerTeam: [spent] } } };
+    persistSaveData(withSpent);
+    commitFactoryGroupSettlement(withSpent, 'run:next-start-failure', 1, 'WIN', false, { playerTeam: [spent], enemyTeam: initial.enemyTeam });
+    const before = loadSaveData()!.factory.battleResume;
+    if (before.status !== 'READY') throw new Error('Expected result checkpoint.');
+    const start = {
+      stage: 2,
+      playerTeam: prepareFactoryPartyForBattle(before.playerTeam),
+      enemyTeam: before.enemyTeam,
+      currentEnemyTrainerId: before.currentEnemyTrainerId!,
+      enemyAiTier: before.enemyAiTier,
+      specialBossBattleActive: false,
+      swapped: false,
+    };
+    assert.throws(() => commitFactoryBattleStart('run:next-start-failure', { ...start, playerTeam: before.playerTeam }), /cannot start/);
+    failNextWrite();
+    assert.throws(() => commitFactoryBattleStart('run:next-start-failure', start), /Quota/);
+    const afterFailure = loadSaveData()!.factory.battleResume;
+    assert.equal(afterFailure.status, 'READY');
+    if (afterFailure.status !== 'READY') return;
+    assert.equal(afterFailure.phase, 'ROUND_RESULT');
+    assert.equal(afterFailure.stage, 1);
+    assert.equal(afterFailure.playerTeam[0].factoryHeldItemId, undefined);
+    commitFactoryBattleStart('run:next-start-failure', start);
+    const resumed = loadSaveData()!.factory.battleResume;
+    assert.equal(resumed.status, 'READY');
+    if (resumed.status !== 'READY') return;
+    assert.equal(resumed.phase, 'BATTLE');
+    assert.equal(resumed.stage, 2);
+    assert.equal(resumed.playerTeam[0].factoryHeldItemId, 'sitrus-berry');
+  });
+});
+
+test('completed set starts the next battle with the swapped member original item', () => {
+  withStorage(() => {
+    const base = draft('run:next-set-item', 0, 0, 7);
+    const source = base.factory.battleResume;
+    if (source.status !== 'READY') throw new Error('Expected READY checkpoint.');
+    const enemy = { ...source.enemyTeam[0], factoryOriginalHeldItemId: 'white-herb', factoryHeldItemId: undefined };
+    const battle = { ...base, factory: { ...base.factory, battleResume: { ...source, enemyTeam: [enemy] } } };
+    persistSaveData(battle);
+    const settled = commitFactoryGroupSettlement(battle, 'run:next-set-item', 7, 'WIN', false, { playerTeam: source.playerTeam, enemyTeam: [enemy] });
+    const result = loadSaveData()!.factory.battleResume;
+    if (result.status !== 'READY') throw new Error('Expected result checkpoint.');
+    persistSaveData({ ...loadSaveData()!, factory: { ...loadSaveData()!.factory, battleResume: { ...result, phase: 'BASE' } } });
+    const before = loadSaveData()!.factory.battleResume;
+    if (before.status !== 'READY') throw new Error('Expected BASE checkpoint.');
+    assert.equal(before.playerTeam[0].factoryHeldItemId, undefined);
+    commitFactoryBattleStart('run:next-set-item', {
+      stage: 8,
+      playerTeam: prepareFactoryPartyForBattle([enemy]),
+      enemyTeam: before.enemyTeam,
+      currentEnemyTrainerId: before.currentEnemyTrainerId!,
+      enemyAiTier: before.enemyAiTier,
+      specialBossBattleActive: false,
+      swapped: true,
+    });
+    const after = loadSaveData()!;
+    assert.equal(after.wallet.balance, settled.wallet.balance);
+    assert.equal(after.factory.battleResume.status, 'READY');
+    if (after.factory.battleResume.status !== 'READY') return;
+    assert.equal(after.factory.battleResume.stage, 8);
+    assert.equal(after.factory.battleResume.playerTeam[0].factoryHeldItemId, 'white-herb');
+    assert.equal(after.factory.battleResume.swapCount, before.swapCount + 1);
+    assert.equal(after.factory.battleResume.totalRents, before.totalRents + 1);
+    persistSaveData({
+      ...battle,
+      wallet: after.wallet,
+      factory: { ...battle.factory, battleResume: before },
+    });
+    const afterStale = loadSaveData()!;
+    assert.equal(afterStale.factory.battleResume.status, 'READY');
+    if (afterStale.factory.battleResume.status !== 'READY') return;
+    assert.equal(afterStale.factory.battleResume.stage, 8);
+    assert.equal(afterStale.factory.battleResume.playerTeam[0].factoryHeldItemId, 'white-herb');
+    assert.equal(afterStale.progress.totalRents, before.totalRents + 1);
+    assert.equal(afterStale.factory.curChallengeBattleNum, 0);
+    assert.ok(afterStale.factory.trainerIdsBySet.some((entry) => entry.setNo === 2
+      && entry.trainerIds.includes(before.currentEnemyTrainerId!)));
   });
 });
 

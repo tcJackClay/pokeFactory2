@@ -714,6 +714,11 @@ function hasValidFactoryHeldItemState(value: unknown): boolean {
     && (current === undefined || (typeof current === 'string' && current.length > 0 && isKnownFactoryHeldItemId(current)));
 }
 
+function hasPreparedFactoryHeldItem(value: unknown): boolean {
+  return hasValidFactoryHeldItemState(value) && isRecord(value)
+    && (value.factoryOriginalHeldItemId ?? undefined) === value.factoryHeldItemId;
+}
+
 function assertCurrentSaveRecoverability(value: unknown): void {
   if (!isRecord(value)) throw new Error('Current save root is invalid.');
   const progress = isRecord(value.progress) ? value.progress : null;
@@ -858,10 +863,14 @@ export function persistSaveData(saveData: GameSaveData) {
   let wallet = saveData.wallet;
   let battleResume = saveData.factory.battleResume;
   let companionSpeciesId = saveData.progress.companionSpeciesId;
+  let persistedSameRun: GameSaveData | null = null;
   if (raw !== null) {
     const inspection = classifySaveText(raw);
     if (inspection.kind !== 'valid') throw new Error('Stored save requires backup or removal before writing.');
     const persisted = inspection.save;
+    if (persisted.wallet.currentRunId && persisted.wallet.currentRunId === saveData.wallet.currentRunId) {
+      persistedSameRun = persisted;
+    }
     if (persisted.progress.companionSpeciesId !== null) {
       companionSpeciesId = persisted.progress.companionSpeciesId;
     }
@@ -876,11 +885,34 @@ export function persistSaveData(saveData: GameSaveData) {
       }
     }
   }
+  const trainerIdsBySet = new Map<number, Set<string>>();
+  for (const entry of [...(persistedSameRun?.factory.trainerIdsBySet ?? []), ...saveData.factory.trainerIdsBySet]) {
+    const ids = trainerIdsBySet.get(entry.setNo) ?? new Set<string>();
+    entry.trainerIds.forEach((id) => ids.add(id));
+    trainerIdsBySet.set(entry.setNo, ids);
+  }
+  const storedTotalRents = persistedSameRun?.progress.totalRents ?? 0;
+  const checkpointTotalRents = battleResume.status === 'READY' ? battleResume.totalRents : 0;
   window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
     ...saveData,
     wallet,
-    progress: { ...saveData.progress, companionSpeciesId },
-    factory: { ...saveData.factory, battleResume },
+    progress: {
+      ...saveData.progress,
+      companionSpeciesId,
+      totalRents: Math.max(saveData.progress.totalRents, storedTotalRents, checkpointTotalRents),
+    },
+    factory: {
+      ...saveData.factory,
+      challengeStatus: battleResume.status === 'READY' && battleResume.phase === 'BATTLE' ? 1 : saveData.factory.challengeStatus,
+      challengePaused: battleResume.status === 'READY' && battleResume.phase === 'BATTLE' ? false : saveData.factory.challengePaused,
+      curChallengeBattleNum: battleResume.status === 'READY'
+        ? getBattleIndexInSet(battleResume.stage) - 1
+        : saveData.factory.curChallengeBattleNum,
+      trainerIdsBySet: [...trainerIdsBySet.entries()]
+        .map(([setNo, trainerIds]) => ({ setNo, trainerIds: [...trainerIds].sort((a, b) => a.localeCompare(b)) }))
+        .sort((a, b) => a.setNo - b.setNo),
+      battleResume,
+    },
   }));
 }
 
@@ -1139,6 +1171,91 @@ export function commitFactoryGroupSettlement(
     rememberPendingFactorySettlement(pending);
     throw error;
   }
+}
+
+export interface FactoryBattleStart {
+  stage: number;
+  playerTeam: GamePokemon[];
+  enemyTeam: GamePokemon[];
+  currentEnemyTrainerId: string;
+  enemyAiTier: BattleResumeSnapshot['enemyAiTier'];
+  specialBossBattleActive: boolean;
+  swapped: boolean;
+}
+
+export function commitFactoryBattleStart(runId: string, start: FactoryBattleStart): BattleResumeSnapshot {
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  const inspection = inspectStoredSave();
+  if (inspection.kind !== 'valid') throw new Error('A saved factory result is required before the next battle.');
+  const previous = inspection.save;
+  const checkpoint = previous.factory.battleResume;
+  if (!runId || previous.wallet.currentRunId !== runId || checkpoint.status !== 'READY') {
+    throw new Error('Factory run changed before the next battle.');
+  }
+  if (checkpoint.stage === start.stage && checkpoint.phase === 'BATTLE') {
+    const sameEncounter = checkpoint.currentEnemyTrainerId === start.currentEnemyTrainerId
+      && checkpoint.playerTeam.map((pokemon) => pokemon.id).join(',') === start.playerTeam.map((pokemon) => pokemon.id).join(',')
+      && checkpoint.enemyTeam.map((pokemon) => pokemon.id).join(',') === start.enemyTeam.map((pokemon) => pokemon.id).join(',');
+    if (!sameEncounter) throw new Error('A different next battle is already saved.');
+    return checkpoint;
+  }
+  if (checkpoint.stage + 1 !== start.stage || checkpoint.roundResult !== 'WIN'
+    || !['ROUND_RESULT', 'FACTORY_SWAP', 'BASE'].includes(checkpoint.phase)
+    || !getFactoryTrainerTemplateById(start.currentEnemyTrainerId)
+    || start.playerTeam.length === 0 || start.enemyTeam.length === 0
+    || !start.playerTeam.every((pokemon) => hasRecoverablePokemonCore(pokemon) && hasPreparedFactoryHeldItem(pokemon))
+    || !start.enemyTeam.every((pokemon) => hasRecoverablePokemonCore(pokemon) && hasValidFactoryHeldItemState(pokemon))) {
+    throw new Error('Next factory battle cannot start from this checkpoint.');
+  }
+
+  const setNo = getSetNoByStage(start.stage);
+  const usedTrainers = previous.factory.trainerIdsBySet.filter((entry) => entry.setNo !== setNo);
+  const inSet = previous.factory.trainerIdsBySet.find((entry) => entry.setNo === setNo)?.trainerIds ?? [];
+  usedTrainers.push({ setNo, trainerIds: [...new Set([...inSet, start.currentEnemyTrainerId])] });
+  usedTrainers.sort((a, b) => a.setNo - b.setNo);
+  const nextResume: BattleResumeSnapshot = {
+    ...checkpoint,
+    checkpointAt: new Date().toISOString(),
+    stage: start.stage,
+    swapCount: checkpoint.swapCount + (start.swapped ? 1 : 0),
+    totalRents: checkpoint.totalRents + (start.swapped ? 1 : 0),
+    coins: previous.wallet.balance,
+    enemyAiTier: start.enemyAiTier,
+    specialBossBattleActive: start.specialBossBattleActive,
+    battleSpecialUsage: { MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false },
+    enemySpecialUsage: { MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false },
+    turn: 'PLAYER',
+    battleMenuTab: 'MAIN',
+    weather: 'none',
+    weatherTurns: 0,
+    fieldState: [],
+    fieldTurns: {},
+    activeBuffs: { atk: false, def: false },
+    enemyBuffs: { atk: false, def: false },
+    playerTeam: start.playerTeam,
+    enemyTeam: start.enemyTeam,
+    currentEnemyTrainerId: start.currentEnemyTrainerId,
+    battleLog: [],
+    phase: 'BATTLE',
+    roundResult: null,
+    lastBpGain: 0,
+  };
+  const nextSave: GameSaveData = {
+    ...previous,
+    updatedAt: new Date().toISOString(),
+    progress: { ...previous.progress, totalRents: nextResume.totalRents },
+    factory: {
+      ...previous.factory,
+      challengePaused: false,
+      challengeStatus: 1,
+      curChallengeBattleNum: getBattleIndexInSet(start.stage) - 1,
+      trainerIdsBySet: usedTrainers,
+      battleResume: nextResume,
+    },
+  };
+  normalizeSaveDataSafely(nextSave);
+  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  return nextResume;
 }
 
 export function buildSaveExportFilename() {
