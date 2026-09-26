@@ -355,7 +355,7 @@ export function useBattleController({
   const [settlementError, setSettlementError] = useState(Boolean(pendingSettlement));
   const pendingSettlementRef = useRef<PendingFactorySettlement | null>(pendingSettlement);
   const previousTurnRef = useRef<BattleTurn | null>(null);
-  const roundEndInFlightRef = useRef(false);
+  const roundEndInFlightRef = useRef<number | null>(null);
   const battleInstanceRef = useRef({ gameState, factoryRunId, stage, epoch: 0 });
   if (
     battleInstanceRef.current.gameState !== gameState
@@ -2692,9 +2692,9 @@ export function useBattleController({
     if (gameState !== 'BATTLE' || isMessageProcessing || settlementError) return;
     if (prevTurn !== 'ENEMY' || turn !== 'PLAYER') return;
     if (!playerTeam[0] || !enemyTeam[0]) return;
-    if (roundEndInFlightRef.current) return;
-    roundEndInFlightRef.current = true;
     const battleEpoch = battleInstanceRef.current.epoch;
+    if (roundEndInFlightRef.current === battleEpoch) return;
+    roundEndInFlightRef.current = battleEpoch;
     const isCurrentBattle = () => battleMountedRef.current
       && battleInstanceRef.current.epoch === battleEpoch
       && liveBattleStateRef.current.gameState === 'BATTLE';
@@ -2746,7 +2746,9 @@ export function useBattleController({
 
     void handleRoundEnd()
       .catch((error: unknown) => console.error('End-turn resolution failed', error))
-      .finally(() => { roundEndInFlightRef.current = false; });
+      .finally(() => {
+        if (roundEndInFlightRef.current === battleEpoch) roundEndInFlightRef.current = null;
+      });
   }, [
     addMessagesSequentially,
     currentLanguage,
