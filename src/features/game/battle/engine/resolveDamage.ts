@@ -362,7 +362,8 @@ function getResolvedMoveBasePower(
   let basePower = initialPower;
   if (move.battleData?.effectId === 'LOW_HP_POWER') basePower = getLowHpPower(attacker);
   if (move.battleData?.effectId === 'HIGH_HP_POWER') basePower = getHighHpPower(attacker);
-  if (move.battleData?.effectId === 'FACADE' && getNonVolatileStatusId(attacker)) basePower *= 2;
+  if (move.battleData?.effectId === 'FACADE'
+    && ['burn', 'poison', 'bad_poison', 'paralysis'].includes(getNonVolatileStatusId(attacker) ?? '')) basePower *= 2;
   if (move.battleData?.effectId === 'WEIGHT_POWER') basePower = getWeightBasedPower(defender);
   if (move.battleData?.effectId === 'FRIENDSHIP_POWER') {
     basePower = Math.max(1, Math.floor(Math.max(0, Math.min(255, attacker.friendship ?? 70)) / 2.5));

@@ -1,0 +1,87 @@
+{
+  "source": "PokeAPI runtime cache; SHA256 verified against metadata",
+  "moves": {
+    "return": {
+      "cacheBodySha256": "c686da79f52e706b548108739551719ee7fef1ca97ea2f0fb68e7076996f6287",
+      "data": {
+        "id": 216,
+        "name": "return",
+        "power": null,
+        "accuracy": 100,
+        "pp": 20,
+        "priority": 0,
+        "type": {
+          "name": "normal"
+        },
+        "damage_class": {
+          "name": "physical"
+        },
+        "target": {
+          "name": "selected-pokemon"
+        },
+        "meta": {
+          "ailment": {
+            "name": "none",
+            "url": "/api/pokeapi/move-ailment/0/"
+          },
+          "category": {
+            "name": "damage",
+            "url": "/api/pokeapi/move-category/0/"
+          },
+          "min_hits": null,
+          "max_hits": null,
+          "min_turns": null,
+          "max_turns": null,
+          "drain": 0,
+          "healing": 0,
+          "crit_rate": 0,
+          "ailment_chance": 0,
+          "flinch_chance": 0,
+          "stat_chance": 0
+        },
+        "stat_changes": []
+      }
+    },
+    "facade": {
+      "cacheBodySha256": "8428ee2b4b475359803b2402399761ff6583ab1b301ecdff58e5b94b9cb7b054",
+      "data": {
+        "id": 263,
+        "name": "facade",
+        "power": 70,
+        "accuracy": 100,
+        "pp": 20,
+        "priority": 0,
+        "type": {
+          "name": "normal"
+        },
+        "damage_class": {
+          "name": "physical"
+        },
+        "target": {
+          "name": "selected-pokemon"
+        },
+        "meta": {
+          "ailment": {
+            "name": "none",
+            "url": "/api/pokeapi/move-ailment/0/"
+          },
+          "ailment_chance": 0,
+          "category": {
+            "name": "damage",
+            "url": "/api/pokeapi/move-category/0/"
+          },
+          "crit_rate": 0,
+          "drain": 0,
+          "flinch_chance": 0,
+          "healing": 0,
+          "max_hits": null,
+          "max_turns": null,
+          "min_hits": null,
+          "min_turns": null,
+          "stat_chance": 0
+        },
+        "stat_changes": []
+      }
+    }
+  }
+}

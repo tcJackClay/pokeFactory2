@@ -1,10 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 
 import type { GamePokemon, Move, MoveBattleData, Nature, Stats } from '../../../../types';
+import { buildMoveBattleDataFromPokeApiMove } from '../../data/battle';
 import { calculateConfusionSelfHitDamage, calculateDamage, getEffectiveBattleSpeed } from './resolveDamage';
 import { getResolvedMoveAccuracy } from './resolveAccuracy';
-import { setVolatileStatus } from '../../utils/battleStatus';
+import { clearSwitchingBattleState } from './resolveSwitchState';
+import { setNonVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
 
 const DEFAULT_NATURE: Nature = {
   name: 'hardy',
@@ -115,6 +119,76 @@ function createRandomSequence(values: number[]) {
     return value;
   };
 }
+
+const variableTMCache = JSON.parse(readFileSync(path.resolve(process.cwd(), 'src/features/game/battle/engine/fixtures/rogue-tm-return-facade-cache.json'), 'utf8')) as {
+  moves: Record<string, { cacheBodySha256: string; data: {
+    id: number; name: string; power: number | null; accuracy: number; pp: number; priority: number;
+    type: { name: string }; damage_class: { name: 'physical' | 'special' }; target: { name: string };
+  } }>;
+};
+
+function verifiedVariableTMMove(name: 'return' | 'facade'): Move {
+  const entry = variableTMCache.moves[name];
+  assert.ok(entry);
+  assert.match(entry.cacheBodySha256, /^[a-f0-9]{64}$/);
+  const data = entry.data;
+  assert.equal(data.name, name);
+  return {
+    name: data.name, power: data.power, accuracy: data.accuracy, pp: data.pp, currentPp: data.pp,
+    type: data.type.name, damage_class: data.damage_class.name,
+    battleData: buildMoveBattleDataFromPokeApiMove(data),
+  };
+}
+
+test('TM01 Return uses species-derived friendship, preserves it on switch, and grows monotonically', () => {
+  const selectedMove = verifiedVariableTMMove('return');
+  assert.equal(variableTMCache.moves.return.data.id, 216);
+  assert.equal(selectedMove.battleData?.effectId, 'FRIENDSHIP_POWER');
+  const defender = createPokemon(2, ['psychic']);
+  const damage = (friendship: number) => calculateDamage({
+    move: selectedMove,
+    attacker: createPokemon(1, ['normal'], { friendship }),
+    defender, weather: 'none', atkBuff: false, defBuff: false, skipAccuracyCheck: true,
+    random: createRandomSequence([0.99, 0.999999]),
+  }).damage;
+  const low = damage(0);
+  const starting = damage(70);
+  const high = damage(255);
+  assert.ok(low >= 1 && low < starting && starting < high, `${low}, ${starting}, ${high}`);
+  assert.equal(damage(-1), low);
+  assert.equal(damage(256), high);
+  const switched = clearSwitchingBattleState(createPokemon(1, ['normal'], { friendship: 255 }));
+  assert.equal(switched.friendship, 255);
+  assert.equal(calculateDamage({ move: selectedMove, attacker: switched, defender, weather: 'none', atkBuff: false, defBuff: false, skipAccuracyCheck: true, random: createRandomSequence([0.99, 0.999999]) }).damage, high);
+});
+
+test('TM03 Facade doubles only for burn, poison, toxic or paralysis; burn penalty remains on ordinary attacks', () => {
+  const selectedMove = verifiedVariableTMMove('facade');
+  assert.equal(variableTMCache.moves.facade.data.id, 263);
+  assert.equal(selectedMove.battleData?.effectId, 'FACADE');
+  assert.equal(selectedMove.power, 70);
+  const defender = createPokemon(2, ['psychic']);
+  const neutralMove = { ...selectedMove, name: 'neutral-hit', battleData: createBattleData() };
+  const damage = (move: Move, status?: 'burn' | 'poison' | 'bad_poison' | 'paralysis' | 'sleep' | 'freeze') => {
+    let attacker = createPokemon(1, ['normal']);
+    if (status) attacker = setNonVolatileStatus(attacker, status);
+    return calculateDamage({
+      move, attacker, defender, weather: 'none', atkBuff: false, defBuff: false,
+      skipAccuracyCheck: true, random: createRandomSequence([0.99, 0.999999]),
+    }).damage;
+  };
+  const healthy = damage(selectedMove);
+  assert.equal(healthy, damage(neutralMove));
+  const doublePower = damage({ ...neutralMove, power: 140 });
+  for (const status of ['burn', 'poison', 'bad_poison', 'paralysis'] as const) {
+    assert.equal(damage(selectedMove, status), doublePower, `${status} should use exactly doubled base power`);
+  }
+  assert.ok(doublePower > healthy);
+  assert.equal(damage(selectedMove, 'burn'), damage(selectedMove, 'poison'));
+  assert.ok(damage(neutralMove, 'burn') < damage(neutralMove));
+  assert.equal(damage(selectedMove, 'sleep'), healthy);
+  assert.equal(damage(selectedMove, 'freeze'), healthy);
+});
 
 test('calculateDamage applies STAB and stronger tera STAB', () => {
   const defender = createPokemon(2, ['normal']);

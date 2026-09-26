@@ -1,0 +1,1437 @@
+{
+  "commit": "c23989d",
+  "origin": "127.0.0.162",
+  "fixture": {
+    "playerLeadId": 69,
+    "reserveIds": [
+      81,
+      37
+    ],
+    "playerHp": 1,
+    "playerStatus": "poison",
+    "enemyLeadId": 21,
+    "enemyStatus": {
+      "id": "sleep",
+      "turnsRemaining": 10
+    },
+    "weather": "none"
+  },
+  "steps": [
+    {
+      "name": "natural-ready-390",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "wallet": 0,
+        "tickets": 0,
+        "player": [
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 110,
+            "maxHp": 110,
+            "status": null,
+            "moves": [
+              {
+                "id": "leaf-storm",
+                "pp": 5,
+                "power": 130
+              },
+              {
+                "id": "knock-off",
+                "pp": 20,
+                "power": 65
+              },
+              {
+                "id": "grassy-glide",
+                "pp": 20,
+                "power": 55
+              },
+              {
+                "id": "sunny-day",
+                "pp": 5,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "name": "magnemite",
+            "hp": 86,
+            "maxHp": 86,
+            "status": null,
+            "moves": [
+              {
+                "id": "magic-coat",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "tackle",
+                "pp": 35,
+                "power": 40
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "confuse-ray",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 37,
+            "name": "vulpix",
+            "hp": 100,
+            "maxHp": 100,
+            "status": null,
+            "moves": [
+              {
+                "id": "roar",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "encore",
+                "pp": 5,
+                "power": null
+              },
+              {
+                "id": "confide",
+                "pp": 20,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 21,
+            "name": "spearow",
+            "hp": 101,
+            "maxHp": 101,
+            "status": null,
+            "moves": [
+              {
+                "id": "whirlwind",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "pursuit",
+                "pp": 20,
+                "power": 40
+              },
+              {
+                "id": "fury-attack",
+                "pp": 20,
+                "power": 15
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 58,
+            "name": "growlithe",
+            "hp": 116,
+            "maxHp": 116,
+            "status": null,
+            "moves": [
+              {
+                "id": "crunch",
+                "pp": 15,
+                "power": 80
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "will-o-wisp",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "overheat",
+                "pp": 5,
+                "power": 130
+              }
+            ]
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "maxHp": 101,
+            "status": null,
+            "moves": [
+              {
+                "id": "sleep-talk",
+                "pp": 10,
+                "power": null
+              },
+              {
+                "id": "body-slam",
+                "pp": 15,
+                "power": 85
+              },
+              {
+                "id": "mud-shot",
+                "pp": 15,
+                "power": 55
+              },
+              {
+                "id": "endure",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n烈雀\n♀\nLV.50\n一般\n飞行\nHP\n100%\n喇叭芽\n♀\nLV.50\n草\n毒\nHP\n110/110\n战斗日志\nFCT-01\n\n对手 派出了 烈雀！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n飞叶风暴\n草\n威力 130\n命中 90\nPP 5/5\n拍落\n恶\n威力 65\n命中 100\nPP 20/20\n青草滑梯\n草\n威力 55\n命中 100\nPP 20/20\n大晴天\n火\n威力 --\n命中 --\nPP 5/5",
+        "menuEnabled": "true",
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390
+        }
+      }
+    },
+    {
+      "name": "fixture-restored-390",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "wallet": 0,
+        "tickets": 0,
+        "player": [
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 1,
+            "maxHp": 110,
+            "status": {
+              "id": "poison"
+            },
+            "moves": [
+              {
+                "id": "leaf-storm",
+                "pp": 5,
+                "power": 130
+              },
+              {
+                "id": "knock-off",
+                "pp": 20,
+                "power": 65
+              },
+              {
+                "id": "grassy-glide",
+                "pp": 20,
+                "power": 55
+              },
+              {
+                "id": "sunny-day",
+                "pp": 5,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "name": "magnemite",
+            "hp": 86,
+            "maxHp": 86,
+            "status": null,
+            "moves": [
+              {
+                "id": "magic-coat",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "tackle",
+                "pp": 35,
+                "power": 40
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "confuse-ray",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 37,
+            "name": "vulpix",
+            "hp": 100,
+            "maxHp": 100,
+            "status": null,
+            "moves": [
+              {
+                "id": "roar",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "encore",
+                "pp": 5,
+                "power": null
+              },
+              {
+                "id": "confide",
+                "pp": 20,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 21,
+            "name": "spearow",
+            "hp": 101,
+            "maxHp": 101,
+            "status": {
+              "id": "sleep",
+              "turnsRemaining": 10
+            },
+            "moves": [
+              {
+                "id": "whirlwind",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "pursuit",
+                "pp": 20,
+                "power": 40
+              },
+              {
+                "id": "fury-attack",
+                "pp": 20,
+                "power": 15
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 58,
+            "name": "growlithe",
+            "hp": 116,
+            "maxHp": 116,
+            "status": null,
+            "moves": [
+              {
+                "id": "crunch",
+                "pp": 15,
+                "power": 80
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "will-o-wisp",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "overheat",
+                "pp": 5,
+                "power": 130
+              }
+            ]
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "maxHp": 101,
+            "status": null,
+            "moves": [
+              {
+                "id": "sleep-talk",
+                "pp": 10,
+                "power": null
+              },
+              {
+                "id": "body-slam",
+                "pp": 15,
+                "power": 85
+              },
+              {
+                "id": "mud-shot",
+                "pp": 15,
+                "power": 55
+              },
+              {
+                "id": "endure",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n烈雀\n♀\nLV.50\n一般\n飞行\n睡眠\nHP\n100%\n喇叭芽\n♀\nLV.50\n草\n毒\n中毒\nHP\n1/110\n战斗日志\nFCT-01\n\n对手 派出了 烈雀！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n飞叶风暴\n草\n威力 130\n命中 90\nPP 5/5\n拍落\n恶\n威力 65\n命中 100\nPP 20/20\n青草滑梯\n草\n威力 55\n命中 100\nPP 20/20\n大晴天\n火\n威力 --\n命中 --\nPP 5/5",
+        "menuEnabled": "true",
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390
+        }
+      }
+    },
+    {
+      "name": "after-round-390",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "wallet": 0,
+        "tickets": 0,
+        "player": [
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 1,
+            "maxHp": 110,
+            "status": {
+              "id": "poison"
+            },
+            "moves": [
+              {
+                "id": "leaf-storm",
+                "pp": 5,
+                "power": 130
+              },
+              {
+                "id": "knock-off",
+                "pp": 20,
+                "power": 65
+              },
+              {
+                "id": "grassy-glide",
+                "pp": 20,
+                "power": 55
+              },
+              {
+                "id": "sunny-day",
+                "pp": 5,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "name": "magnemite",
+            "hp": 86,
+            "maxHp": 86,
+            "status": null,
+            "moves": [
+              {
+                "id": "magic-coat",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "tackle",
+                "pp": 35,
+                "power": 40
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "confuse-ray",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 37,
+            "name": "vulpix",
+            "hp": 100,
+            "maxHp": 100,
+            "status": null,
+            "moves": [
+              {
+                "id": "roar",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "encore",
+                "pp": 5,
+                "power": null
+              },
+              {
+                "id": "confide",
+                "pp": 20,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 21,
+            "name": "spearow",
+            "hp": 101,
+            "maxHp": 101,
+            "status": {
+              "id": "sleep",
+              "turnsRemaining": 8
+            },
+            "moves": [
+              {
+                "id": "whirlwind",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "pursuit",
+                "pp": 20,
+                "power": 40
+              },
+              {
+                "id": "fury-attack",
+                "pp": 20,
+                "power": 15
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 58,
+            "name": "growlithe",
+            "hp": 116,
+            "maxHp": 116,
+            "status": null,
+            "moves": [
+              {
+                "id": "crunch",
+                "pp": 15,
+                "power": 80
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "will-o-wisp",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "overheat",
+                "pp": 5,
+                "power": 130
+              }
+            ]
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "maxHp": 101,
+            "status": null,
+            "moves": [
+              {
+                "id": "sleep-talk",
+                "pp": 10,
+                "power": null
+              },
+              {
+                "id": "body-slam",
+                "pp": 15,
+                "power": 85
+              },
+              {
+                "id": "mud-shot",
+                "pp": 15,
+                "power": 55
+              },
+              {
+                "id": "endure",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n烈雀\n♀\nLV.50\n一般\n飞行\n睡眠\nHP\n100%\n喇叭芽\n♀\nLV.50\n草\n毒\n中毒\nHP\n0/110\n战斗日志\nFCT-01\n\n喇叭芽 使用了 大晴天！\n\n对手烈雀睡得正香……\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n飞叶风暴\n草\n威力 130\n命中 90\nPP 5/5\n拍落\n恶\n威力 65\n命中 100\nPP 20/20\n青草滑梯\n草\n威力 55\n命中 100\nPP 20/20\n大晴天\n火\n威力 --\n命中 --\nPP 4/5",
+        "menuEnabled": "false",
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390
+        }
+      }
+    },
+    {
+      "name": "after-round-320",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "wallet": 0,
+        "tickets": 0,
+        "player": [
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 1,
+            "maxHp": 110,
+            "status": {
+              "id": "poison"
+            },
+            "moves": [
+              {
+                "id": "leaf-storm",
+                "pp": 5,
+                "power": 130
+              },
+              {
+                "id": "knock-off",
+                "pp": 20,
+                "power": 65
+              },
+              {
+                "id": "grassy-glide",
+                "pp": 20,
+                "power": 55
+              },
+              {
+                "id": "sunny-day",
+                "pp": 5,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "name": "magnemite",
+            "hp": 86,
+            "maxHp": 86,
+            "status": null,
+            "moves": [
+              {
+                "id": "magic-coat",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "tackle",
+                "pp": 35,
+                "power": 40
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "confuse-ray",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 37,
+            "name": "vulpix",
+            "hp": 100,
+            "maxHp": 100,
+            "status": null,
+            "moves": [
+              {
+                "id": "roar",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "encore",
+                "pp": 5,
+                "power": null
+              },
+              {
+                "id": "confide",
+                "pp": 20,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 21,
+            "name": "spearow",
+            "hp": 101,
+            "maxHp": 101,
+            "status": {
+              "id": "sleep",
+              "turnsRemaining": 8
+            },
+            "moves": [
+              {
+                "id": "whirlwind",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "pursuit",
+                "pp": 20,
+                "power": 40
+              },
+              {
+                "id": "fury-attack",
+                "pp": 20,
+                "power": 15
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 58,
+            "name": "growlithe",
+            "hp": 116,
+            "maxHp": 116,
+            "status": null,
+            "moves": [
+              {
+                "id": "crunch",
+                "pp": 15,
+                "power": 80
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "will-o-wisp",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "overheat",
+                "pp": 5,
+                "power": 130
+              }
+            ]
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "maxHp": 101,
+            "status": null,
+            "moves": [
+              {
+                "id": "sleep-talk",
+                "pp": 10,
+                "power": null
+              },
+              {
+                "id": "body-slam",
+                "pp": 15,
+                "power": 85
+              },
+              {
+                "id": "mud-shot",
+                "pp": 15,
+                "power": 55
+              },
+              {
+                "id": "endure",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n烈雀\n♀\nLV.50\n一般\n飞行\n睡眠\nHP\n100%\n喇叭芽\n♀\nLV.50\n草\n毒\n中毒\nHP\n0/110\n战斗日志\nFCT-01\n\n对手烈雀睡得正香……\n\n喇叭芽受到了中毒伤害！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n飞叶风暴\n草\n威力 130\n命中 90\nPP 5/5\n拍落\n恶\n威力 65\n命中 100\nPP 20/20\n青草滑梯\n草\n威力 55\n命中 100\nPP 20/20\n大晴天\n火\n威力 --\n命中 --\nPP 4/5",
+        "menuEnabled": "false",
+        "viewport": {
+          "width": 320,
+          "height": 568,
+          "scrollWidth": 320
+        }
+      }
+    },
+    {
+      "name": "forced-switch-ready-390",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "wallet": 0,
+        "tickets": 0,
+        "player": [
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 0,
+            "maxHp": 110,
+            "status": {
+              "id": "poison"
+            },
+            "moves": [
+              {
+                "id": "leaf-storm",
+                "pp": 5,
+                "power": 130
+              },
+              {
+                "id": "knock-off",
+                "pp": 20,
+                "power": 65
+              },
+              {
+                "id": "grassy-glide",
+                "pp": 20,
+                "power": 55
+              },
+              {
+                "id": "sunny-day",
+                "pp": 5,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "name": "magnemite",
+            "hp": 86,
+            "maxHp": 86,
+            "status": null,
+            "moves": [
+              {
+                "id": "magic-coat",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "tackle",
+                "pp": 35,
+                "power": 40
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "confuse-ray",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 37,
+            "name": "vulpix",
+            "hp": 100,
+            "maxHp": 100,
+            "status": null,
+            "moves": [
+              {
+                "id": "roar",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "encore",
+                "pp": 5,
+                "power": null
+              },
+              {
+                "id": "confide",
+                "pp": 20,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 21,
+            "name": "spearow",
+            "hp": 101,
+            "maxHp": 101,
+            "status": {
+              "id": "sleep",
+              "turnsRemaining": 8
+            },
+            "moves": [
+              {
+                "id": "whirlwind",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "pursuit",
+                "pp": 20,
+                "power": 40
+              },
+              {
+                "id": "fury-attack",
+                "pp": 20,
+                "power": 15
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 58,
+            "name": "growlithe",
+            "hp": 116,
+            "maxHp": 116,
+            "status": null,
+            "moves": [
+              {
+                "id": "crunch",
+                "pp": 15,
+                "power": 80
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "will-o-wisp",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "overheat",
+                "pp": 5,
+                "power": 130
+              }
+            ]
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "maxHp": 101,
+            "status": null,
+            "moves": [
+              {
+                "id": "sleep-talk",
+                "pp": 10,
+                "power": null
+              },
+              {
+                "id": "body-slam",
+                "pp": 15,
+                "power": 85
+              },
+              {
+                "id": "mud-shot",
+                "pp": 15,
+                "power": 55
+              },
+              {
+                "id": "endure",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n烈雀\n♀\nLV.50\n一般\n飞行\n睡眠\nHP\n100%\n喇叭芽\n♀\nLV.50\n草\n毒\n中毒\nHP\n0/110\n战斗日志\nFCT-01\n\n烈雀通过剩饭恢复了体力！\n\n喇叭芽 倒下了！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n请选择一只仍可战斗的宝可梦出战。\n喇叭芽\nLV.50\nHP 0/110\n出战\n详情\n小磁怪\nLV.50\nHP 86/86\n出战\n详情\n六尾\nLV.50\nHP 100/100\n出战\n详情",
+        "menuEnabled": "true",
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390
+        }
+      }
+    },
+    {
+      "name": "reserve-selected-390",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "wallet": 0,
+        "tickets": 0,
+        "player": [
+          {
+            "id": 81,
+            "name": "magnemite",
+            "hp": 86,
+            "maxHp": 86,
+            "status": null,
+            "moves": [
+              {
+                "id": "magic-coat",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "tackle",
+                "pp": 35,
+                "power": 40
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "confuse-ray",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 0,
+            "maxHp": 110,
+            "status": {
+              "id": "poison"
+            },
+            "moves": [
+              {
+                "id": "leaf-storm",
+                "pp": 5,
+                "power": 130
+              },
+              {
+                "id": "knock-off",
+                "pp": 20,
+                "power": 65
+              },
+              {
+                "id": "grassy-glide",
+                "pp": 20,
+                "power": 55
+              },
+              {
+                "id": "sunny-day",
+                "pp": 5,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 37,
+            "name": "vulpix",
+            "hp": 100,
+            "maxHp": 100,
+            "status": null,
+            "moves": [
+              {
+                "id": "roar",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "encore",
+                "pp": 5,
+                "power": null
+              },
+              {
+                "id": "confide",
+                "pp": 20,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 21,
+            "name": "spearow",
+            "hp": 101,
+            "maxHp": 101,
+            "status": {
+              "id": "sleep",
+              "turnsRemaining": 8
+            },
+            "moves": [
+              {
+                "id": "whirlwind",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "pursuit",
+                "pp": 20,
+                "power": 40
+              },
+              {
+                "id": "fury-attack",
+                "pp": 20,
+                "power": 15
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 58,
+            "name": "growlithe",
+            "hp": 116,
+            "maxHp": 116,
+            "status": null,
+            "moves": [
+              {
+                "id": "crunch",
+                "pp": 15,
+                "power": 80
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "will-o-wisp",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "overheat",
+                "pp": 5,
+                "power": 130
+              }
+            ]
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "maxHp": 101,
+            "status": null,
+            "moves": [
+              {
+                "id": "sleep-talk",
+                "pp": 10,
+                "power": null
+              },
+              {
+                "id": "body-slam",
+                "pp": 15,
+                "power": 85
+              },
+              {
+                "id": "mud-shot",
+                "pp": 15,
+                "power": 55
+              },
+              {
+                "id": "endure",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n烈雀\n♀\nLV.50\n一般\n飞行\n睡眠\nHP\n100%\n小磁怪\n◇\nLV.50\n电\n钢\nHP\n86/86\n战斗日志\nFCT-01\n\n喇叭芽 倒下了！\n\n你派出了 小磁怪！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n魔法反射\n超能\n威力 --\n命中 --\nPP 15/15\n撞击\n一般\n威力 40\n命中 100\nPP 35/35\n影子分身\n一般\n威力 --\n命中 --\nPP 15/15\n奇异之光\n幽灵\n威力 --\n命中 100\nPP 10/10",
+        "menuEnabled": "true",
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390
+        }
+      }
+    },
+    {
+      "name": "stable-after-switch-390",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "wallet": 0,
+        "tickets": 0,
+        "player": [
+          {
+            "id": 81,
+            "name": "magnemite",
+            "hp": 86,
+            "maxHp": 86,
+            "status": null,
+            "moves": [
+              {
+                "id": "magic-coat",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "tackle",
+                "pp": 35,
+                "power": 40
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "confuse-ray",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 0,
+            "maxHp": 110,
+            "status": {
+              "id": "poison"
+            },
+            "moves": [
+              {
+                "id": "leaf-storm",
+                "pp": 5,
+                "power": 130
+              },
+              {
+                "id": "knock-off",
+                "pp": 20,
+                "power": 65
+              },
+              {
+                "id": "grassy-glide",
+                "pp": 20,
+                "power": 55
+              },
+              {
+                "id": "sunny-day",
+                "pp": 5,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 37,
+            "name": "vulpix",
+            "hp": 100,
+            "maxHp": 100,
+            "status": null,
+            "moves": [
+              {
+                "id": "roar",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "encore",
+                "pp": 5,
+                "power": null
+              },
+              {
+                "id": "confide",
+                "pp": 20,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 21,
+            "name": "spearow",
+            "hp": 101,
+            "maxHp": 101,
+            "status": {
+              "id": "sleep",
+              "turnsRemaining": 8
+            },
+            "moves": [
+              {
+                "id": "whirlwind",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "pursuit",
+                "pp": 20,
+                "power": 40
+              },
+              {
+                "id": "fury-attack",
+                "pp": 20,
+                "power": 15
+              },
+              {
+                "id": "double-team",
+                "pp": 15,
+                "power": null
+              }
+            ]
+          },
+          {
+            "id": 58,
+            "name": "growlithe",
+            "hp": 116,
+            "maxHp": 116,
+            "status": null,
+            "moves": [
+              {
+                "id": "crunch",
+                "pp": 15,
+                "power": 80
+              },
+              {
+                "id": "captivate",
+                "pp": 20,
+                "power": null
+              },
+              {
+                "id": "will-o-wisp",
+                "pp": 15,
+                "power": null
+              },
+              {
+                "id": "overheat",
+                "pp": 5,
+                "power": 130
+              }
+            ]
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "maxHp": 101,
+            "status": null,
+            "moves": [
+              {
+                "id": "sleep-talk",
+                "pp": 10,
+                "power": null
+              },
+              {
+                "id": "body-slam",
+                "pp": 15,
+                "power": 85
+              },
+              {
+                "id": "mud-shot",
+                "pp": 15,
+                "power": 55
+              },
+              {
+                "id": "endure",
+                "pp": 10,
+                "power": null
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n烈雀\n♀\nLV.50\n一般\n飞行\n睡眠\nHP\n100%\n小磁怪\n◇\nLV.50\n电\n钢\nHP\n86/86\n战斗日志\nFCT-01\n\n喇叭芽 倒下了！\n\n你派出了 小磁怪！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n魔法反射\n超能\n威力 --\n命中 --\nPP 15/15\n撞击\n一般\n威力 40\n命中 100\nPP 35/35\n影子分身\n一般\n威力 --\n命中 --\nPP 15/15\n奇异之光\n幽灵\n威力 --\n命中 100\nPP 10/10",
+        "menuEnabled": "true",
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390
+        }
+      }
+    }
+  ],
+  "errors": [
+    "Error: Failed to generate valid opponent team.\n    at http://127.0.0.162:4300/src/features/game/hooks/useFactoryFlow.ts?t=1790427226660:876:13\n    at async http://127.0.0.162:4300/src/features/game/hooks/useFactoryFlow.ts?t=1790427226660:934:22"
+  ],
+  "httpErrors": [],
+  "console": [],
+  "pickedMove": "sunny-day",
+  "switchButtons": [
+    "出战",
+    "详情",
+    "出战",
+    "详情",
+    "出战",
+    "详情"
+  ]
+}
