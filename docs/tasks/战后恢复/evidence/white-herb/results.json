@@ -1,0 +1,1865 @@
+{
+  "origin": "http://127.0.0.163:4300",
+  "commit": "",
+  "fixture": {
+    "source": "manual move metadata",
+    "move": "overheat",
+    "effect": [
+      {
+        "kind": "stat-stage",
+        "chance": 100,
+        "appliesTo": "user",
+        "isPrimary": true,
+        "stat": "spAtk",
+        "change": -2
+      }
+    ],
+    "lead": "cubone",
+    "enemySleep": true,
+    "originalHeld": "white_herb"
+  },
+  "steps": [
+    {
+      "name": "natural-ready",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 104,
+            "name": "cubone",
+            "hp": 111,
+            "held": "leftovers",
+            "original": "leftovers",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "curse"
+              },
+              {
+                "name": "swagger"
+              },
+              {
+                "name": "fire-punch"
+              },
+              {
+                "name": "false-swipe"
+              }
+            ]
+          },
+          {
+            "id": 52,
+            "name": "meowth",
+            "hp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "u-turn"
+              },
+              {
+                "name": "protect"
+              },
+              {
+                "name": "shadow-claw"
+              },
+              {
+                "name": "thunder"
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 111,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "nature-power"
+              },
+              {
+                "name": "slam"
+              },
+              {
+                "name": "bind"
+              },
+              {
+                "name": "endure"
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "crabhammer"
+              },
+              {
+                "name": "mud-shot"
+              },
+              {
+                "name": "flail"
+              },
+              {
+                "name": "knock-off"
+              }
+            ]
+          },
+          {
+            "id": 109,
+            "name": "koffing",
+            "hp": 101,
+            "held": "poison-barb",
+            "original": "poison-barb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "sludge"
+              },
+              {
+                "name": "smokescreen"
+              },
+              {
+                "name": "torment"
+              },
+              {
+                "name": "haze"
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "name": "kabuto",
+            "hp": 91,
+            "held": "sitrus-berry",
+            "original": "sitrus-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "mega-drain"
+              },
+              {
+                "name": "ancient-power"
+              },
+              {
+                "name": "sand-attack"
+              },
+              {
+                "name": "protect"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n大钳蟹\n♂\nLV.50\n水\nHP\n100%\n卡拉卡拉\n♂\nLV.50\n地面\nHP\n111/111\n战斗日志\nFCT-01\n\n对手 派出了 大钳蟹！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n诅咒\n幽灵\n威力 --\n命中 --\nPP 10/10\n虚张声势\n一般\n威力 --\n命中 85\nPP 15/15\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n点到为止\n一般\n威力 40\n命中 100\nPP 40/40\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "panel": "true"
+      }
+    },
+    {
+      "name": "fixture-ready",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 104,
+            "name": "cubone",
+            "hp": 111,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "swagger"
+              },
+              {
+                "name": "fire-punch"
+              },
+              {
+                "name": "false-swipe"
+              }
+            ]
+          },
+          {
+            "id": 52,
+            "name": "meowth",
+            "hp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "u-turn"
+              },
+              {
+                "name": "protect"
+              },
+              {
+                "name": "shadow-claw"
+              },
+              {
+                "name": "thunder"
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 111,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "nature-power"
+              },
+              {
+                "name": "slam"
+              },
+              {
+                "name": "bind"
+              },
+              {
+                "name": "endure"
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "crabhammer"
+              },
+              {
+                "name": "mud-shot"
+              },
+              {
+                "name": "flail"
+              },
+              {
+                "name": "knock-off"
+              }
+            ]
+          },
+          {
+            "id": 109,
+            "name": "koffing",
+            "hp": 101,
+            "held": "poison-barb",
+            "original": "poison-barb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "sludge"
+              },
+              {
+                "name": "smokescreen"
+              },
+              {
+                "name": "torment"
+              },
+              {
+                "name": "haze"
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "name": "kabuto",
+            "hp": 91,
+            "held": "sitrus-berry",
+            "original": "sitrus-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "mega-drain"
+              },
+              {
+                "name": "ancient-power"
+              },
+              {
+                "name": "sand-attack"
+              },
+              {
+                "name": "protect"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n大钳蟹\n♂\nLV.50\n水\n睡眠\nHP\n100%\n卡拉卡拉\n♂\nLV.50\n地面\nHP\n111/111\n战斗日志\nFCT-01\n\n对手 派出了 大钳蟹！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n过热\n火\n威力 130\n命中 100\nPP 5/5\n虚张声势\n一般\n威力 --\n命中 85\nPP 15/15\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n点到为止\n一般\n威力 40\n命中 100\nPP 40/40\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "panel": "true"
+      }
+    },
+    {
+      "name": "after-real-move",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 104,
+            "name": "cubone",
+            "hp": 111,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "swagger"
+              },
+              {
+                "name": "fire-punch"
+              },
+              {
+                "name": "false-swipe"
+              }
+            ]
+          },
+          {
+            "id": 52,
+            "name": "meowth",
+            "hp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "u-turn"
+              },
+              {
+                "name": "protect"
+              },
+              {
+                "name": "shadow-claw"
+              },
+              {
+                "name": "thunder"
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 111,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "nature-power"
+              },
+              {
+                "name": "slam"
+              },
+              {
+                "name": "bind"
+              },
+              {
+                "name": "endure"
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "crabhammer"
+              },
+              {
+                "name": "mud-shot"
+              },
+              {
+                "name": "flail"
+              },
+              {
+                "name": "knock-off"
+              }
+            ]
+          },
+          {
+            "id": 109,
+            "name": "koffing",
+            "hp": 101,
+            "held": "poison-barb",
+            "original": "poison-barb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "sludge"
+              },
+              {
+                "name": "smokescreen"
+              },
+              {
+                "name": "torment"
+              },
+              {
+                "name": "haze"
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "name": "kabuto",
+            "hp": 91,
+            "held": "sitrus-berry",
+            "original": "sitrus-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "mega-drain"
+              },
+              {
+                "name": "ancient-power"
+              },
+              {
+                "name": "sand-attack"
+              },
+              {
+                "name": "protect"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n大钳蟹\n♂\nLV.50\n水\n睡眠\nHP\n59%\n卡拉卡拉\n♂\nLV.50\n地面\nHP\n111/111\n战斗日志\nFCT-01\n\n卡拉卡拉的特攻降低了！\n\n卡拉卡拉使用白色香草恢复了降低的能力！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n过热\n火\n威力 130\n命中 100\nPP 4/5\n虚张声势\n一般\n威力 --\n命中 85\nPP 15/15\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n点到为止\n一般\n威力 40\n命中 100\nPP 40/40\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "panel": "false"
+      }
+    },
+    {
+      "name": "stable-after-real-move",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 104,
+            "name": "cubone",
+            "hp": 111,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 4
+              },
+              {
+                "name": "swagger"
+              },
+              {
+                "name": "fire-punch"
+              },
+              {
+                "name": "false-swipe"
+              }
+            ]
+          },
+          {
+            "id": 52,
+            "name": "meowth",
+            "hp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "u-turn"
+              },
+              {
+                "name": "protect"
+              },
+              {
+                "name": "shadow-claw"
+              },
+              {
+                "name": "thunder"
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 111,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "nature-power"
+              },
+              {
+                "name": "slam"
+              },
+              {
+                "name": "bind"
+              },
+              {
+                "name": "endure"
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 54,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "crabhammer"
+              },
+              {
+                "name": "mud-shot"
+              },
+              {
+                "name": "flail"
+              },
+              {
+                "name": "knock-off"
+              }
+            ]
+          },
+          {
+            "id": 109,
+            "name": "koffing",
+            "hp": 101,
+            "held": "poison-barb",
+            "original": "poison-barb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "sludge"
+              },
+              {
+                "name": "smokescreen"
+              },
+              {
+                "name": "torment"
+              },
+              {
+                "name": "haze"
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "name": "kabuto",
+            "hp": 91,
+            "held": "sitrus-berry",
+            "original": "sitrus-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "mega-drain"
+              },
+              {
+                "name": "ancient-power"
+              },
+              {
+                "name": "sand-attack"
+              },
+              {
+                "name": "protect"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n大钳蟹\n♂\nLV.50\n水\n睡眠\nHP\n59%\n卡拉卡拉\n♂\nLV.50\n地面\nHP\n111/111\n战斗日志\nFCT-01\n\n卡拉卡拉 造成了 37 点伤害。\n\n对手大钳蟹睡得正香……\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n过热\n火\n威力 130\n命中 100\nPP 4/5\n虚张声势\n一般\n威力 --\n命中 85\nPP 15/15\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n点到为止\n一般\n威力 40\n命中 100\nPP 40/40\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "panel": "true"
+      }
+    },
+    {
+      "name": "result-dev-win",
+      "state": {
+        "schema": 13,
+        "phase": "ROUND_RESULT",
+        "stage": 1,
+        "player": [
+          {
+            "id": 104,
+            "name": "cubone",
+            "hp": 111,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "swagger",
+                "currentPp": 15
+              },
+              {
+                "name": "fire-punch",
+                "currentPp": 15
+              },
+              {
+                "name": "false-swipe",
+                "currentPp": 40
+              }
+            ]
+          },
+          {
+            "id": 52,
+            "name": "meowth",
+            "hp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "u-turn",
+                "currentPp": 20
+              },
+              {
+                "name": "protect",
+                "currentPp": 10
+              },
+              {
+                "name": "shadow-claw",
+                "currentPp": 15
+              },
+              {
+                "name": "thunder",
+                "currentPp": 10
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 111,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "nature-power",
+                "currentPp": 20
+              },
+              {
+                "name": "slam",
+                "currentPp": 20
+              },
+              {
+                "name": "bind",
+                "currentPp": 20
+              },
+              {
+                "name": "endure",
+                "currentPp": 10
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 54,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "crabhammer"
+              },
+              {
+                "name": "mud-shot"
+              },
+              {
+                "name": "flail"
+              },
+              {
+                "name": "knock-off"
+              }
+            ]
+          },
+          {
+            "id": 109,
+            "name": "koffing",
+            "hp": 101,
+            "held": "poison-barb",
+            "original": "poison-barb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "sludge"
+              },
+              {
+                "name": "smokescreen"
+              },
+              {
+                "name": "torment"
+              },
+              {
+                "name": "haze"
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "name": "kabuto",
+            "hp": 91,
+            "held": "sitrus-berry",
+            "original": "sitrus-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "mega-drain"
+              },
+              {
+                "name": "ancient-power"
+              },
+              {
+                "name": "sand-attack"
+              },
+              {
+                "name": "protect"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n本局补给券：1\n对手信息\n敌方 AI 档位: RANDOM\nCHEN / CAMPER\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 1\nC 0\nSP OFF",
+        "viewport": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "result-reload",
+      "state": {
+        "schema": 13,
+        "phase": "ROUND_RESULT",
+        "stage": 1,
+        "player": [
+          {
+            "id": 104,
+            "name": "cubone",
+            "hp": 111,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "swagger",
+                "currentPp": 15
+              },
+              {
+                "name": "fire-punch",
+                "currentPp": 15
+              },
+              {
+                "name": "false-swipe",
+                "currentPp": 40
+              }
+            ]
+          },
+          {
+            "id": 52,
+            "name": "meowth",
+            "hp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "u-turn",
+                "currentPp": 20
+              },
+              {
+                "name": "protect",
+                "currentPp": 10
+              },
+              {
+                "name": "shadow-claw",
+                "currentPp": 15
+              },
+              {
+                "name": "thunder",
+                "currentPp": 10
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 111,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "nature-power",
+                "currentPp": 20
+              },
+              {
+                "name": "slam",
+                "currentPp": 20
+              },
+              {
+                "name": "bind",
+                "currentPp": 20
+              },
+              {
+                "name": "endure",
+                "currentPp": 10
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 54,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "crabhammer"
+              },
+              {
+                "name": "mud-shot"
+              },
+              {
+                "name": "flail"
+              },
+              {
+                "name": "knock-off"
+              }
+            ]
+          },
+          {
+            "id": 109,
+            "name": "koffing",
+            "hp": 101,
+            "held": "poison-barb",
+            "original": "poison-barb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "sludge"
+              },
+              {
+                "name": "smokescreen"
+              },
+              {
+                "name": "torment"
+              },
+              {
+                "name": "haze"
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "name": "kabuto",
+            "hp": 91,
+            "held": "sitrus-berry",
+            "original": "sitrus-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "mega-drain"
+              },
+              {
+                "name": "ancient-power"
+              },
+              {
+                "name": "sand-attack"
+              },
+              {
+                "name": "protect"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n本局补给券：1\n对手信息\n敌方 AI 档位: RANDOM\nCHEN / CAMPER\n前往换怪\nDEV",
+        "viewport": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "swap",
+      "state": {
+        "schema": 13,
+        "phase": "FACTORY_SWAP",
+        "stage": 1,
+        "player": [
+          {
+            "id": 104,
+            "name": "cubone",
+            "hp": 111,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "swagger",
+                "currentPp": 15
+              },
+              {
+                "name": "fire-punch",
+                "currentPp": 15
+              },
+              {
+                "name": "false-swipe",
+                "currentPp": 40
+              }
+            ]
+          },
+          {
+            "id": 52,
+            "name": "meowth",
+            "hp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "u-turn",
+                "currentPp": 20
+              },
+              {
+                "name": "protect",
+                "currentPp": 10
+              },
+              {
+                "name": "shadow-claw",
+                "currentPp": 15
+              },
+              {
+                "name": "thunder",
+                "currentPp": 10
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 111,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "nature-power",
+                "currentPp": 20
+              },
+              {
+                "name": "slam",
+                "currentPp": 20
+              },
+              {
+                "name": "bind",
+                "currentPp": 20
+              },
+              {
+                "name": "endure",
+                "currentPp": 10
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 54,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "crabhammer"
+              },
+              {
+                "name": "mud-shot"
+              },
+              {
+                "name": "flail"
+              },
+              {
+                "name": "knock-off"
+              }
+            ]
+          },
+          {
+            "id": 109,
+            "name": "koffing",
+            "hp": 101,
+            "held": "poison-barb",
+            "original": "poison-barb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "sludge"
+              },
+              {
+                "name": "smokescreen"
+              },
+              {
+                "name": "torment"
+              },
+              {
+                "name": "haze"
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "name": "kabuto",
+            "hp": 91,
+            "held": "sitrus-berry",
+            "original": "sitrus-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "mega-drain"
+              },
+              {
+                "name": "ancient-power"
+              },
+              {
+                "name": "sand-attack"
+              },
+              {
+                "name": "protect"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n本局补给券：1\n对手信息\n敌方 AI 档位: RANDOM\nCHEN / CAMPER\n前往换怪\nDEV",
+        "viewport": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "swap-reload",
+      "state": {
+        "schema": 13,
+        "phase": "FACTORY_SWAP",
+        "stage": 1,
+        "player": [
+          {
+            "id": 104,
+            "name": "cubone",
+            "hp": 111,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "swagger",
+                "currentPp": 15
+              },
+              {
+                "name": "fire-punch",
+                "currentPp": 15
+              },
+              {
+                "name": "false-swipe",
+                "currentPp": 40
+              }
+            ]
+          },
+          {
+            "id": 52,
+            "name": "meowth",
+            "hp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "u-turn",
+                "currentPp": 20
+              },
+              {
+                "name": "protect",
+                "currentPp": 10
+              },
+              {
+                "name": "shadow-claw",
+                "currentPp": 15
+              },
+              {
+                "name": "thunder",
+                "currentPp": 10
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 111,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "nature-power",
+                "currentPp": 20
+              },
+              {
+                "name": "slam",
+                "currentPp": 20
+              },
+              {
+                "name": "bind",
+                "currentPp": 20
+              },
+              {
+                "name": "endure",
+                "currentPp": 10
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 54,
+            "held": "focus-band",
+            "original": "focus-band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "crabhammer"
+              },
+              {
+                "name": "mud-shot"
+              },
+              {
+                "name": "flail"
+              },
+              {
+                "name": "knock-off"
+              }
+            ]
+          },
+          {
+            "id": 109,
+            "name": "koffing",
+            "hp": 101,
+            "held": "poison-barb",
+            "original": "poison-barb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "sludge"
+              },
+              {
+                "name": "smokescreen"
+              },
+              {
+                "name": "torment"
+              },
+              {
+                "name": "haze"
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "name": "kabuto",
+            "hp": 91,
+            "held": "sitrus-berry",
+            "original": "sitrus-berry",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "mega-drain"
+              },
+              {
+                "name": "ancient-power"
+              },
+              {
+                "name": "sand-attack"
+              },
+              {
+                "name": "protect"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n地面\n卡拉卡拉\n我的已选\n一般\n喵喵\n选我方\n草\n毒\n喇叭芽\n选我方\n对手队伍\n待选择\n水\n大钳蟹\n选对手\n毒\n瓦斯弹\n选对手\n岩石\n水\n化石盔\n选对手\n当前选择\n卡拉卡拉\n交换目标\n未选择\n跳过交换\n确认交换\nDEV",
+        "viewport": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "stage2-ready",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 2,
+        "player": [
+          {
+            "id": 104,
+            "name": "cubone",
+            "hp": 111,
+            "held": "white_herb",
+            "original": "white_herb",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "overheat",
+                "currentPp": 5
+              },
+              {
+                "name": "swagger",
+                "currentPp": 15
+              },
+              {
+                "name": "fire-punch",
+                "currentPp": 15
+              },
+              {
+                "name": "false-swipe",
+                "currentPp": 40
+              }
+            ]
+          },
+          {
+            "id": 52,
+            "name": "meowth",
+            "hp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "u-turn",
+                "currentPp": 20
+              },
+              {
+                "name": "protect",
+                "currentPp": 10
+              },
+              {
+                "name": "shadow-claw",
+                "currentPp": 15
+              },
+              {
+                "name": "thunder",
+                "currentPp": 10
+              }
+            ]
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 111,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "nature-power",
+                "currentPp": 20
+              },
+              {
+                "name": "slam",
+                "currentPp": 20
+              },
+              {
+                "name": "bind",
+                "currentPp": 20
+              },
+              {
+                "name": "endure",
+                "currentPp": 10
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 90,
+            "name": "shellder",
+            "hp": 91,
+            "held": "leftovers",
+            "original": "leftovers",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "take-down"
+              },
+              {
+                "name": "shell-smash"
+              },
+              {
+                "name": "swagger"
+              },
+              {
+                "name": "waterfall"
+              }
+            ]
+          },
+          {
+            "id": 32,
+            "name": "nidoran-m",
+            "hp": 107,
+            "held": "choice_band",
+            "original": "choice_band",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "toxic-spikes"
+              },
+              {
+                "name": "focus-energy"
+              },
+              {
+                "name": "take-down"
+              },
+              {
+                "name": "thief"
+              }
+            ]
+          },
+          {
+            "id": 102,
+            "name": "exeggcute",
+            "hp": 121,
+            "held": "scope_lens",
+            "original": "scope_lens",
+            "stages": {
+              "attack": 0,
+              "defense": 0,
+              "spAtk": 0,
+              "spDef": 0,
+              "speed": 0,
+              "accuracy": 0,
+              "evasion": 0
+            },
+            "moves": [
+              {
+                "name": "swords-dance"
+              },
+              {
+                "name": "endure"
+              },
+              {
+                "name": "sleep-powder"
+              },
+              {
+                "name": "trick"
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n2/7\n轮次\n1\n连胜\n大舌贝\n♂\nLV.50\n水\nHP\n100%\n卡拉卡拉\n♂\nLV.50\n地面\nHP\n111/111\n战斗日志\nFCT-01\n\n对手 派出了 大舌贝！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n过热\n火\n威力 130\n命中 100\nPP 5/5\n虚张声势\n一般\n威力 --\n命中 85\nPP 15/15\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n点到为止\n一般\n威力 40\n命中 100\nPP 40/40\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "panel": "true"
+      }
+    }
+  ],
+  "errors": []
+}

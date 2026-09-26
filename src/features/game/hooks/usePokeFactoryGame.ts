@@ -161,6 +161,7 @@ export function usePokeFactoryGame(): GameViewModel {
   const [pendingRewardAction, setPendingRewardAction] = useState<'MOVE' | 'EVOLUTION' | null>(null);
   const [loading, setLoading] = useState(false);
   const [rentalLoadError, setRentalLoadError] = useState<string | null>(null);
+  const [opponentLoadError, setOpponentLoadError] = useState(false);
   const [bootProgress, setBootProgress] = useState(0);
   const [bootStatusText, setBootStatusText] = useState('');
   const [inventory, setInventory] = useState<Item[]>(() => hydrateInventoryFromItemIds(initialBattleResume?.inventoryItemIds ?? []));
@@ -636,6 +637,7 @@ export function usePokeFactoryGame(): GameViewModel {
     getLocalized,
     addMessagesSequentially: battleController.addMessagesSequentially,
     setLoading,
+    setOpponentLoadError,
     setRentalLoadError,
     setFactoryRentals,
     setSelectedRentalIndices,
@@ -1759,6 +1761,7 @@ export function usePokeFactoryGame(): GameViewModel {
     pendingRewardAction,
     loading,
     rentalLoadError,
+    opponentLoadError,
     bootProgress,
     canEnterProject,
     bootStatusText,
