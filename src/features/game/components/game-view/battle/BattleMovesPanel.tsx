@@ -3,6 +3,7 @@ import { Circle, CircleDot, Triangle, X } from 'lucide-react';
 import { TYPE_CHART } from '../../../../../constants';
 import TypeBadge from '../../../../../components/TypeBadge';
 import { TYPE_COLORS } from '../../../../../uiAppConstants';
+import { hasItemBattleEffect } from '../../../data/battle';
 import type { GameViewSectionProps } from '../shared';
 
 const LIGHT_MOVE_TYPES = new Set(['normal', 'electric', 'ground', 'flying', 'ice', 'steel', 'rock']);
@@ -14,6 +15,11 @@ export function BattleMovesPanel({ viewModel }: GameViewSectionProps) {
   const mustChooseReplacement = player?.currentHp <= 0 && playerTeam.some((pokemon, index) => index !== 0 && pokemon.currentHp > 0);
 
   if (!player) return null;
+
+  // 讲究头带锁招：已锁定时除被锁招式外其余按钮禁用（与控制器拦截互为兜底）。
+  const choiceLockedMoveName = hasItemBattleEffect(player.factoryHeldItemId, 'CHOICE_BAND')
+    ? player.factoryChoiceLockedMoveName ?? null
+    : null;
 
   const powerLabel = currentLanguage.startsWith('zh') ? t('power') : 'Pow';
   const accuracyLabel = currentLanguage.startsWith('zh') ? t('accuracy') : 'Acc';
@@ -53,7 +59,8 @@ export function BattleMovesPanel({ viewModel }: GameViewSectionProps) {
             const totalPp = move.maxPp ?? move.pp ?? 0;
             const currentPp = move.currentPp ?? totalPp;
             const isExhausted = totalPp > 0 && currentPp <= 0;
-            const disabled = isExhausted || mustChooseReplacement;
+            const isChoiceLocked = Boolean(choiceLockedMoveName && choiceLockedMoveName !== move.name);
+            const disabled = isExhausted || mustChooseReplacement || isChoiceLocked;
 
             return (
               <button

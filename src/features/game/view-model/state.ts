@@ -90,6 +90,7 @@ export interface GameViewBattleState {
   trainerIntroActive: boolean;
   trainerIntroAwaitingContinue: boolean;
   isMessageProcessing: boolean;
+  roundTransactionActive: boolean;
   specialModeUnlocked: boolean;
   specialBossBattleActive: boolean;
   battleSpecialUsage: BattleSpecialUsageState;

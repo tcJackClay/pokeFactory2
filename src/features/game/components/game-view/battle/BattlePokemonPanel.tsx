@@ -30,7 +30,7 @@ export function BattlePokemonPanel({ viewModel }: GameViewSectionProps) {
           const hpRatio = pokemon.maxHp > 0 ? pokemon.currentHp / pokemon.maxHp : 0;
           const isLead = index === 0;
           const isFainted = pokemon.currentHp <= 0;
-          const canSwitch = pokemon.currentHp > 0 && index !== 0;
+          const canSwitch = pokemon.currentHp > 0 && index !== 0 && (!viewModel.roundTransactionActive || mustChooseReplacement);
 
           return (
             <div

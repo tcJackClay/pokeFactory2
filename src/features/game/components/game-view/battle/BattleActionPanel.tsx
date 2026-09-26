@@ -30,6 +30,7 @@ export function BattleActionPanel({ viewModel }: GameViewSectionProps) {
   ].filter((badge): badge is { key: string; label: string; tone: string } => Boolean(badge));
 
   const commandsEnabled = !isMessageProcessing
+    && (!viewModel.roundTransactionActive || (viewModel.playerTeam[0]?.currentHp ?? 0) <= 0)
     && turn !== 'ENEMY'
     && !viewModel.isTransitioning
     && !viewModel.trainerIntroActive
