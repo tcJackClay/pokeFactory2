@@ -1935,6 +1935,7 @@ export function useBattleController({
       }
       setPlayerTeam(nextPlayerTeam);
       nextEnemyTeam = syncEnemyLead(nextEnemyTeam[0], nextEnemyTeam);
+      updatedActor = actingSide === 'player' ? nextPlayerTeam[0] : nextEnemyTeam[0];
       updatedDefender = defendingSide === 'player' ? nextPlayerTeam[0] : nextEnemyTeam[0];
       if (itemResolutionMessages.length > 0) {
         await addMessagesSequentially(itemResolutionMessages);
