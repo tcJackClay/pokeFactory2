@@ -1378,7 +1378,7 @@ export function useFactoryFlow({
         await addMessagesSequentially([t('enemySentOut').replace('{name}', getLocalized(firstEnemy))]);
       }
 
-      options?.commitBattleStart(encounter);
+      options?.commitBattleStart?.(encounter);
       markTrainerUsedForSet(setNo, trainer.id);
       setIsTransitioning(false);
       setTurn('PLAYER');
