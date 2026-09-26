@@ -9,3 +9,5 @@ export * from './resolveMoveStrikes';
 export * from './resolveProtection';
 export * from './resolveSecondaryEffects';
 export * from './resolveSwitchState';
+export * from './resolveTypeImmunityReaction';
+export * from './resolveMoveType';

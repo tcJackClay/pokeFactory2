@@ -324,6 +324,22 @@ function sanitizeGamePokemon(value: unknown): GamePokemon | null {
     factoryLastUsedMoveName: typeof source.factoryLastUsedMoveName === 'string'
       ? source.factoryLastUsedMoveName
       : null,
+    factoryConsecutiveMoveCount: typeof source.factoryConsecutiveMoveCount === 'number' && Number.isFinite(source.factoryConsecutiveMoveCount)
+      ? Math.max(0, Math.trunc(source.factoryConsecutiveMoveCount))
+      : 0,
+    friendship: typeof source.friendship === 'number' && Number.isFinite(source.friendship)
+      ? Math.max(0, Math.min(255, Math.trunc(source.friendship)))
+      : 70,
+    factoryLastDamageReceived: typeof source.factoryLastDamageReceived === 'number' && Number.isFinite(source.factoryLastDamageReceived)
+      ? Math.max(0, Math.trunc(source.factoryLastDamageReceived))
+      : 0,
+    factoryLastDamageCategory: source.factoryLastDamageCategory === 'physical' || source.factoryLastDamageCategory === 'special'
+      ? source.factoryLastDamageCategory
+      : undefined,
+    factoryDamagedThisTurn: source.factoryDamagedThisTurn === true,
+    factoryStockpileCount: typeof source.factoryStockpileCount === 'number' && Number.isFinite(source.factoryStockpileCount)
+      ? Math.max(0, Math.min(3, Math.trunc(source.factoryStockpileCount)))
+      : 0,
   };
 }
 

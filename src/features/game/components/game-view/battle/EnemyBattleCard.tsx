@@ -26,7 +26,6 @@ export function EnemyBattleCard({
   enemyAnim,
   isCatching,
   getLocalized,
-  stageMode = 'default',
   layout,
   hudSlot,
   spriteSlot,
@@ -34,12 +33,14 @@ export function EnemyBattleCard({
 }: EnemyBattleCardProps) {
   const shouldReduceMotion = useReducedMotion();
   const hpRatio = enemy.maxHp > 0 ? enemy.currentHp / enemy.maxHp : 0;
-  const isPortraitScaled = stageMode === 'portrait-scaled';
   const showSprite = renderLayer !== 'overlay';
   const showHud = renderLayer !== 'canvas';
   const resolvedHudSlot = hudSlot ?? layout.enemyHud;
   const resolvedSpriteSlot = spriteSlot ?? layout.enemySprite;
   const primaryStatus = getPrimaryBattleStatusId(enemy);
+  const hpPercent = Math.max(0, Math.min(100, hpRatio * 100));
+  const genderSymbol = enemy.gender === 'female' ? '♀' : enemy.gender === 'male' ? '♂' : '◇';
+  const genderLabel = enemy.gender === 'female' ? '雌性' : enemy.gender === 'male' ? '雄性' : '无性别';
   const spriteStyle = {
     width: `${resolvedSpriteSlot.width}px`,
     height: `${resolvedSpriteSlot.height ?? resolvedSpriteSlot.width}px`,
@@ -54,56 +55,61 @@ export function EnemyBattleCard({
       {showHud && (
         <div className="pf-battle-enemy">
           <div
-            className={`pf-battle-enemy-hud pf-battle-hud-card ${
-              isPortraitScaled
-                ? 'shrink-0 px-3 py-2.5'
-                : 'shrink-0 p-2.5 sm:px-4 sm:py-3'
-            }`}
+            className="pf-battle-enemy-hud pf-battle-hud-card pf-factory-hud pf-factory-hud--enemy shrink-0"
             style={hudStyle}
             data-side="enemy"
+            data-owner="enemy"
           >
-            <div className="relative z-10">
-              <div className="flex items-start justify-between gap-2">
-                <div className="min-w-0">
-                  <div className={`truncate font-black text-slate-950 ${isPortraitScaled ? 'text-[15px]' : 'text-sm sm:text-[19px]'}`}>
-                    {getLocalized(enemy)}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {primaryStatus && (
-                    <span className="rounded-full bg-slate-900 px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-white">
-                      {AILMENT_ZH[primaryStatus] || primaryStatus}
-                    </span>
-                  )}
-                  <span className="rounded-full border border-red-100 bg-red-50 px-2 py-1 text-[9px] font-black uppercase tracking-[0.12em] text-red-700 sm:text-[10px]">
-                    Lv.{enemy.level}
+            <div className="pf-factory-hud__content">
+              <div className="pf-factory-hud__header">
+                <div className="flex min-w-0 items-center gap-1">
+                  <span className="pf-factory-hud__name truncate">{getLocalized(enemy)}</span>
+                  <span
+                    className={`pf-factory-hud__gender ${enemy.gender === 'female' ? 'is-female' : enemy.gender === 'male' ? 'is-male' : 'is-neutral'}`}
+                    title={genderLabel}
+                    aria-label={genderLabel}
+                  >
+                    {genderSymbol}
                   </span>
                 </div>
+                <span className="pf-factory-hud__level">
+                  Lv.{enemy.level}
+                </span>
               </div>
 
-              <div className="mt-2 flex items-end justify-between gap-3">
-                <div className="flex min-w-0 flex-nowrap gap-1 overflow-hidden">
+              <div className="pf-factory-hud__meta">
+                <div className="pf-factory-hud__types">
                   {enemy.types.map((typeSlot) => (
-                    <TypeBadge key={typeSlot.type.name} type={typeSlot.type.name} size="xs" />
+                    <TypeBadge
+                      key={typeSlot.type.name}
+                      type={typeSlot.type.name}
+                      size="xs"
+                      className="pf-factory-hud__type"
+                    />
                   ))}
                 </div>
-                <div className="shrink-0 text-right text-[9px] font-black uppercase tracking-[0.12em] text-slate-400 sm:text-[10px]">??? / ???</div>
+                {primaryStatus && (
+                  <span className="pf-factory-hud__status">
+                    {AILMENT_ZH[primaryStatus] || primaryStatus}
+                  </span>
+                )}
               </div>
 
-              <div className="mt-2">
-                <div className="h-2 overflow-hidden rounded-full bg-slate-200">
+              <div className="pf-factory-hp-row">
+                <span className="pf-factory-hp-label">HP</span>
+                <div className="pf-factory-hp-track">
                   <motion.div
-                    animate={{ width: `${Math.max(0, Math.min(100, hpRatio * 100))}%` }}
-                    className={`h-full rounded-full ${
+                    animate={{ width: `${hpPercent}%` }}
+                    className={`pf-factory-hp-fill ${
                       hpRatio < 0.2
                         ? 'bg-red-500'
                         : hpRatio < 0.5
                           ? 'bg-amber-500'
                           : 'bg-emerald-500'
-                    }`}
+                      }`}
                   />
                 </div>
+                <span className="pf-factory-hp-percent">{Math.round(hpPercent)}%</span>
               </div>
             </div>
           </div>

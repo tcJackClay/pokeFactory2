@@ -146,7 +146,7 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
       </div>
 
       <div className="relative z-10 mx-auto flex h-full min-h-0 w-full max-w-[1200px] flex-col overflow-hidden px-2 pb-[max(8px,env(safe-area-inset-bottom))] pt-[max(8px,env(safe-area-inset-top))] md:px-4 md:py-4">
-        {showFactoryTopRecord && (
+        {showFactoryTopRecord && gameState !== 'BATTLE' && (
           <div className="px-3 pb-2 pt-1">
             <TopRecordPanel
               currentLanguage={currentLanguage}

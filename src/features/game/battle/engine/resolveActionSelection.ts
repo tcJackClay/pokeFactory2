@@ -1,4 +1,4 @@
-import type { FieldState, GamePokemon, Move } from '../../../../types';
+import type { FieldState, GamePokemon, Move, Weather } from '../../../../types';
 import { getMovePriority } from '../../data/battle';
 import { getEffectiveBattleSpeed } from './resolveDamage';
 
@@ -8,6 +8,7 @@ interface ResolveActionSelectionOptions {
   enemyPokemon: GamePokemon;
   enemyMove: Move;
   fieldState: FieldState[];
+  weather?: Weather;
   playerQuickClawActivated: boolean;
   enemyQuickClawActivated: boolean;
   random?: () => number;
@@ -19,6 +20,7 @@ export function resolveActionSelection({
   enemyPokemon,
   enemyMove,
   fieldState,
+  weather = 'none',
   playerQuickClawActivated,
   enemyQuickClawActivated,
   random = Math.random,
@@ -33,8 +35,12 @@ export function resolveActionSelection({
     return { enemyActsFirst: enemyPriority > playerPriority };
   }
 
-  const playerSpeed = getEffectiveBattleSpeed(playerPokemon);
-  const enemySpeed = getEffectiveBattleSpeed(enemyPokemon);
+  const weatherSuppressed = [playerPokemon, enemyPokemon].some((pokemon) => (
+    ['air-lock', 'cloud-nine'].includes((pokemon.abilities?.[0]?.ability?.name ?? '').trim().toLowerCase().replace(/_/g, '-'))
+  ));
+  const effectiveWeather = weatherSuppressed ? 'none' : weather;
+  const playerSpeed = getEffectiveBattleSpeed(playerPokemon, effectiveWeather, fieldState);
+  const enemySpeed = getEffectiveBattleSpeed(enemyPokemon, effectiveWeather, fieldState);
   const reverseSpeedOrder = fieldState.includes('trick_room');
   if (enemySpeed !== playerSpeed) {
     return { enemyActsFirst: reverseSpeedOrder ? enemySpeed < playerSpeed : enemySpeed > playerSpeed };

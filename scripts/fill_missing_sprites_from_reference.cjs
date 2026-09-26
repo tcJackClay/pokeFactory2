@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PROJECT_ROOT = process.cwd();
-const SPRITES_ROOT = path.resolve(PROJECT_ROOT, 'public', 'pokemon-sprites');
+const SPRITES_ROOT = path.resolve(PROJECT_ROOT, 'storage', 'assets', 'pokemon-sprites');
 const REPORT_PATH = path.join(SPRITES_ROOT, 'report.json');
 const FILL_REPORT_PATH = path.join(SPRITES_ROOT, 'fill-report.json');
 const REF_ROOT = path.resolve(PROJECT_ROOT, 'reference', 'pokeemerald-expansion', 'graphics', 'pokemon');

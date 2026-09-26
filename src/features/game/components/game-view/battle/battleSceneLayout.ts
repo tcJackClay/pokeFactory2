@@ -1,19 +1,20 @@
-export type BattleStageMode = 'default' | 'portrait-scaled';
+export type BattleStageMode = 'fixed';
+
+export type BattleFieldPosition = 'center' | 'left' | 'right';
+export type BattleSlotAnchor = 'center-bottom' | 'right-center';
 
 export type BattleLayoutBox = {
   width: number;
-  height?: number;
+  height: number;
   minHeight?: number;
-  offsetY?: number;
 };
 
-type BattleRowLayout = {
-  width: number;
-  height: number;
-  insetX?: number;
-  top?: number;
-  bottom?: number;
-  centerOffsetY?: number;
+export type BattlePositionedSlot = BattleLayoutBox & {
+  x: number;
+  y: number;
+  anchor: BattleSlotAnchor;
+  fieldPosition: BattleFieldPosition;
+  mini: boolean;
 };
 
 type BattleCatchLayout = {
@@ -22,64 +23,19 @@ type BattleCatchLayout = {
   size: number;
 };
 
-type BattleLayoutPreset = {
-  canvas: {
-    width: number;
-    height: number;
-  };
-  hudInsets: {
-    minX: number;
-    maxX: number;
-    minY: number;
-    maxY: number;
-  };
-  hud: {
-    baseWidth: number;
-    minWidth: number;
-    maxWidth: number;
-    aspectMin: number;
-    aspectMax: number;
-  };
-  playerDock: {
-    triggerStripHeight: number;
-    triggerGap: number;
-  };
-  sprite: {
-    rowWidth: number;
-    minRowHeight: number;
-    physicalHudGap: number;
-    enemySize: {
-      width: number;
-      height: number;
-    };
-    playerSize: {
-      width: number;
-      height: number;
-    };
-    enemyOffsetY: number;
-    playerOffsetY: number;
-  };
-  catch: {
-    baseSize: number;
-    minSize: number;
-    maxSize: number;
-    anchorXRatio: number;
-    anchorYRatio: number;
-  };
+type BattleSideSlots = {
+  playerSpriteSlots: BattlePositionedSlot[];
+  enemySpriteSlots: BattlePositionedSlot[];
+  playerHudSlots: BattlePositionedSlot[];
+  enemyHudSlots: BattlePositionedSlot[];
 };
 
-export interface BattleSceneLayout {
+export interface BattleSceneLayout extends BattleSideSlots {
   canvas: {
     width: number;
     height: number;
   };
-  enemyHudRow: BattleRowLayout;
-  spriteRow: BattleRowLayout;
-  playerHudRow: BattleRowLayout;
-  enemyHudSlots: BattleLayoutBox[];
-  enemySpriteSlots: BattleLayoutBox[];
-  playerHudSlots: BattleLayoutBox[];
-  playerSpriteSlots: BattleLayoutBox[];
+  doubleBattle: BattleSideSlots;
   enemyHud: BattleLayoutBox;
   enemySprite: BattleLayoutBox;
   playerHud: BattleLayoutBox;
@@ -87,275 +43,159 @@ export interface BattleSceneLayout {
   catchEffect: BattleCatchLayout;
 }
 
-const PORTRAIT_PRESET: BattleLayoutPreset = {
-  canvas: {
-    width: 400,
-    height: 292,
+export const BATTLE_LOGICAL_SIZE = {
+  width: 320,
+  height: 180,
+} as const;
+
+/**
+ * PokeRogue beta df2e5635 uses a 320×180 logical field.
+ * Sprite origins are centered on the bottom edge. HUD origins are centered on
+ * their right edge and live in fieldUI, whose origin is the bottom of the field.
+ */
+export const POKEROGUE_BATTLE_COORDINATES = {
+  sprite: {
+    player: { center: { x: 106, y: 148 } },
+    enemy: { center: { x: 236, y: 84 } },
   },
-  hudInsets: {
-    minX: 12,
-    maxX: 16,
-    minY: 10,
-    maxY: 14,
+  fieldOffset: {
+    center: { x: 0, y: 0 },
+    left: { x: -32, y: -8 },
+    right: { x: 32, y: 0 },
   },
   hud: {
-    baseWidth: 176,
-    minWidth: 156,
-    maxWidth: 196,
-    aspectMin: 1.9,
-    aspectMax: 2.08,
-  },
-  playerDock: {
-    triggerStripHeight: 34,
-    triggerGap: 4,
-  },
-  sprite: {
-    rowWidth: 350,
-    minRowHeight: 118,
-    physicalHudGap: 18,
-    enemySize: {
-      width: 88,
-      height: 88,
+    player: {
+      center: { x: 310, y: 108 },
+      left: { x: 310, y: 96 },
+      right: { x: 320, y: 123 },
     },
-    playerSize: {
-      width: 124,
-      height: 124,
+    enemy: {
+      center: { x: 140, y: 39 },
+      left: { x: 140, y: 39 },
+      right: { x: 130, y: 66 },
     },
-    enemyOffsetY: -12,
-    playerOffsetY: 12,
   },
-  catch: {
-    baseSize: 56,
-    minSize: 50,
-    maxSize: 64,
-    anchorXRatio: 0.56,
-    anchorYRatio: 0.08,
-  },
+} as const;
+
+const enemyHud: BattleLayoutBox = {
+  width: 140,
+  height: 40,
+  minHeight: 40,
 };
 
-const LANDSCAPE_PRESET: BattleLayoutPreset = {
-  canvas: {
-    width: 960,
-    height: 420,
-  },
-  hudInsets: {
-    minX: 16,
-    maxX: 22,
-    minY: 12,
-    maxY: 18,
-  },
-  hud: {
-    baseWidth: 312,
-    minWidth: 280,
-    maxWidth: 332,
-    aspectMin: 2.55,
-    aspectMax: 2.85,
-  },
-  playerDock: {
-    triggerStripHeight: 40,
-    triggerGap: 6,
-  },
-  sprite: {
-    rowWidth: 756,
-    minRowHeight: 180,
-    physicalHudGap: 22,
-    enemySize: {
-      width: 164,
-      height: 164,
-    },
-    playerSize: {
-      width: 220,
-      height: 220,
-    },
-    enemyOffsetY: -18,
-    playerOffsetY: 18,
-  },
-  catch: {
-    baseSize: 92,
-    minSize: 84,
-    maxSize: 104,
-    anchorXRatio: 0.58,
-    anchorYRatio: 0.08,
-  },
+const enemyMiniHud: BattleLayoutBox = {
+  width: 140,
+  height: 30,
+  minHeight: 30,
 };
 
-function clamp(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
+const enemySprite: BattleLayoutBox = {
+  width: 72,
+  height: 72,
+};
+
+const playerHud: BattleLayoutBox = {
+  width: 160,
+  height: 52,
+  minHeight: 52,
+};
+
+const playerMiniHud: BattleLayoutBox = {
+  width: 140,
+  height: 32,
+  minHeight: 32,
+};
+
+const playerSprite: BattleLayoutBox = {
+  width: 96,
+  height: 96,
+};
+
+function makeSlot(
+  box: BattleLayoutBox,
+  point: { x: number; y: number },
+  anchor: BattleSlotAnchor,
+  fieldPosition: BattleFieldPosition,
+  mini: boolean,
+): BattlePositionedSlot {
+  return {
+    ...box,
+    ...point,
+    anchor,
+    fieldPosition,
+    mini,
+  };
 }
 
-function lerp(from: number, to: number, progress: number) {
-  return from + (to - from) * progress;
-}
+function makeSpriteSlot(
+  side: 'player' | 'enemy',
+  fieldPosition: BattleFieldPosition,
+): BattlePositionedSlot {
+  const base = POKEROGUE_BATTLE_COORDINATES.sprite[side].center;
+  const offset = POKEROGUE_BATTLE_COORDINATES.fieldOffset[fieldPosition];
 
-function round(value: number) {
-  return Math.round(value);
-}
-
-function buildSlots(slot: BattleLayoutBox, count: number) {
-  return Array.from({ length: count }, () => ({ ...slot }));
-}
-
-function getScaleProgress(sceneScale: number) {
-  return clamp((sceneScale - 0.72) / 0.28, 0, 1);
-}
-
-function getDerivedHudSize(preset: BattleLayoutPreset, sceneScale: number) {
-  const scaleProgress = getScaleProgress(sceneScale);
-  const width = round(
-    clamp(
-      preset.hud.baseWidth * lerp(0.9, 1.04, scaleProgress),
-      preset.hud.minWidth,
-      preset.hud.maxWidth,
-    ),
+  return makeSlot(
+    side === 'player' ? playerSprite : enemySprite,
+    { x: base.x + offset.x, y: base.y + offset.y },
+    'center-bottom',
+    fieldPosition,
+    fieldPosition !== 'center',
   );
-  const aspectRatio = lerp(preset.hud.aspectMin, preset.hud.aspectMax, scaleProgress);
-  const height = round(width / aspectRatio);
+}
+
+function makeHudSlot(
+  side: 'player' | 'enemy',
+  fieldPosition: BattleFieldPosition,
+): BattlePositionedSlot {
+  const point = POKEROGUE_BATTLE_COORDINATES.hud[side][fieldPosition];
+  const box = side === 'player'
+    ? fieldPosition === 'center' ? playerHud : playerMiniHud
+    : fieldPosition === 'center' ? enemyHud : enemyMiniHud;
+
+  return makeSlot(
+    box,
+    point,
+    'right-center',
+    fieldPosition,
+    fieldPosition !== 'center',
+  );
+}
+
+export function getBattleSceneLayout(
+  _stageWidth: number = BATTLE_LOGICAL_SIZE.width,
+  _stageHeight: number = BATTLE_LOGICAL_SIZE.height,
+): BattleSceneLayout {
+  const playerSpriteCenter = makeSpriteSlot('player', 'center');
+  const enemySpriteCenter = makeSpriteSlot('enemy', 'center');
+  const playerHudCenter = makeHudSlot('player', 'center');
+  const enemyHudCenter = makeHudSlot('enemy', 'center');
+  const enemySpriteTop = enemySpriteCenter.y - enemySpriteCenter.height;
+  const enemySpriteLeft = enemySpriteCenter.x - enemySpriteCenter.width / 2;
 
   return {
-    width,
-    height,
-  };
-}
-
-function getDerivedSpriteRow(
-  preset: BattleLayoutPreset,
-  canvasHeight: number,
-  sceneScale: number,
-  hudInsetY: number,
-  enemyHudHeight: number,
-  playerDockHeight: number,
-) {
-  const safeScale = Math.max(sceneScale, 0.6);
-  const logicalHudInsetY = hudInsetY / safeScale;
-  const logicalEnemyHudHeight = enemyHudHeight / safeScale;
-  const logicalPlayerDockHeight = playerDockHeight / safeScale;
-  const logicalHudGap = preset.sprite.physicalHudGap / safeScale;
-
-  let rowTop = logicalHudInsetY + logicalEnemyHudHeight + logicalHudGap;
-  let rowBottom = canvasHeight - logicalHudInsetY - logicalPlayerDockHeight - logicalHudGap;
-  let rowHeight = rowBottom - rowTop;
-
-  if (rowHeight < preset.sprite.minRowHeight) {
-    const shortage = preset.sprite.minRowHeight - rowHeight;
-    rowTop = Math.max(logicalHudInsetY + logicalEnemyHudHeight + logicalHudGap * 0.45, rowTop - shortage * 0.35);
-    rowBottom = Math.min(
-      canvasHeight - logicalHudInsetY - logicalPlayerDockHeight - logicalHudGap * 0.45,
-      rowBottom + shortage * 0.65,
-    );
-    rowHeight = rowBottom - rowTop;
-  }
-
-  rowHeight = Math.max(rowHeight, preset.sprite.minRowHeight);
-  rowTop = clamp(
-    rowTop,
-    logicalHudInsetY + logicalEnemyHudHeight,
-    Math.max(logicalHudInsetY + logicalEnemyHudHeight, canvasHeight - logicalHudInsetY - logicalPlayerDockHeight - rowHeight),
-  );
-
-  return {
-    top: round(rowTop),
-    height: round(rowHeight),
-  };
-}
-
-function getDerivedHudInsets(preset: BattleLayoutPreset, sceneScale: number) {
-  const scaleProgress = getScaleProgress(sceneScale);
-
-  return {
-    x: round(lerp(preset.hudInsets.minX, preset.hudInsets.maxX, scaleProgress)),
-    y: round(lerp(preset.hudInsets.minY, preset.hudInsets.maxY, scaleProgress)),
-  };
-}
-
-export function getBattleSceneLayout(stageWidth: number, stageHeight: number): BattleSceneLayout {
-  const isPortraitStage = stageHeight >= stageWidth;
-  const preset = isPortraitStage ? PORTRAIT_PRESET : LANDSCAPE_PRESET;
-  const safeStageWidth = stageWidth > 0 ? stageWidth : preset.canvas.width;
-  const safeStageHeight = stageHeight > 0 ? stageHeight : preset.canvas.height;
-  const sceneScale = Math.min(
-    safeStageWidth / preset.canvas.width,
-    safeStageHeight / preset.canvas.height,
-    1,
-  );
-  const hudInsets = getDerivedHudInsets(preset, sceneScale);
-  const hudSize = getDerivedHudSize(preset, sceneScale);
-  const playerDockHeight = hudSize.height + preset.playerDock.triggerStripHeight + preset.playerDock.triggerGap;
-  const spriteRow = getDerivedSpriteRow(
-    preset,
-    preset.canvas.height,
-    sceneScale,
-    hudInsets.y,
-    hudSize.height,
-    playerDockHeight,
-  );
-  const spriteRowLeft = (preset.canvas.width - preset.sprite.rowWidth) / 2;
-  const enemySpriteSlot: BattleLayoutBox = {
-    width: preset.sprite.enemySize.width,
-    height: preset.sprite.enemySize.height,
-    offsetY: preset.sprite.enemyOffsetY,
-  };
-  const playerSpriteSlot: BattleLayoutBox = {
-    width: preset.sprite.playerSize.width,
-    height: preset.sprite.playerSize.height,
-    offsetY: preset.sprite.playerOffsetY,
-  };
-  const enemySpriteBottom = spriteRow.top + spriteRow.height + (enemySpriteSlot.offsetY ?? 0);
-  const enemySpriteTop = enemySpriteBottom - preset.sprite.enemySize.height;
-  const enemySpriteLeft = spriteRowLeft + preset.sprite.rowWidth - preset.sprite.enemySize.width;
-  const catchScale = lerp(0.92, 1.05, getScaleProgress(sceneScale));
-  const catchSize = round(
-    clamp(
-      preset.catch.baseSize * catchScale,
-      preset.catch.minSize,
-      preset.catch.maxSize,
-    ),
-  );
-  const catchLeft = round(enemySpriteLeft + preset.sprite.enemySize.width * preset.catch.anchorXRatio);
-  const catchTop = round(enemySpriteTop + preset.sprite.enemySize.height * preset.catch.anchorYRatio);
-  const hudSlot: BattleLayoutBox = {
-    width: hudSize.width,
-    height: hudSize.height,
-    minHeight: hudSize.height,
-  };
-
-  return {
-    canvas: {
-      width: preset.canvas.width,
-      height: preset.canvas.height,
+    canvas: { ...BATTLE_LOGICAL_SIZE },
+    playerSpriteSlots: [playerSpriteCenter],
+    enemySpriteSlots: [enemySpriteCenter],
+    playerHudSlots: [playerHudCenter],
+    enemyHudSlots: [enemyHudCenter],
+    doubleBattle: {
+      playerSpriteSlots: [makeSpriteSlot('player', 'left'), makeSpriteSlot('player', 'right')],
+      enemySpriteSlots: [makeSpriteSlot('enemy', 'left'), makeSpriteSlot('enemy', 'right')],
+      playerHudSlots: [makeHudSlot('player', 'left'), makeHudSlot('player', 'right')],
+      enemyHudSlots: [makeHudSlot('enemy', 'left'), makeHudSlot('enemy', 'right')],
     },
-    enemyHudRow: {
-      width: safeStageWidth,
-      height: hudSize.height,
-      insetX: hudInsets.x,
-      top: hudInsets.y,
-    },
-    spriteRow: {
-      width: preset.sprite.rowWidth,
-      height: spriteRow.height,
-      top: spriteRow.top,
-    },
-    playerHudRow: {
-      width: safeStageWidth,
-      height: playerDockHeight,
-      insetX: hudInsets.x,
-      bottom: hudInsets.y,
-    },
-    enemyHudSlots: buildSlots(hudSlot, 1),
-    enemySpriteSlots: buildSlots(enemySpriteSlot, 1),
-    playerHudSlots: buildSlots(hudSlot, 1),
-    playerSpriteSlots: buildSlots(playerSpriteSlot, 1),
-    enemyHud: { ...hudSlot },
-    enemySprite: { ...enemySpriteSlot },
-    playerHud: { ...hudSlot },
-    playerSprite: { ...playerSpriteSlot },
+    enemyHud: { ...enemyHud },
+    enemySprite: { ...enemySprite },
+    playerHud: { ...playerHud },
+    playerSprite: { ...playerSprite },
     catchEffect: {
-      left: catchLeft,
-      top: catchTop,
-      size: catchSize,
+      left: Math.round(enemySpriteLeft + enemySpriteCenter.width * 0.56),
+      top: Math.round(enemySpriteTop + enemySpriteCenter.height * 0.08),
+      size: 32,
     },
   };
 }
 
-export function getBattleStageMode(isPortraitStage: boolean): BattleStageMode {
-  return isPortraitStage ? 'portrait-scaled' : 'default';
+export function getBattleStageMode(): BattleStageMode {
+  return 'fixed';
 }

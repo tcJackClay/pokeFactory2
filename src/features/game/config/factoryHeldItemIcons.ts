@@ -1,4 +1,4 @@
-const FACTORY_HELD_ITEM_SPRITE_BASE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items';
+const FACTORY_HELD_ITEM_SPRITE_BASE_URL = '/api/pokeapi-sprites/items';
 
 function normalizeHeldItemId(itemId?: string): string {
   return (itemId ?? '').trim().toLowerCase().replace(/-/g, '_');

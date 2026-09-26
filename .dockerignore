@@ -1,0 +1,10 @@
+node_modules
+dist
+.git
+.cache
+var
+coverage
+output
+reference
+*.log
+.env*

@@ -15,14 +15,10 @@ import mapSevii45 from '../../../../assets/maps/region-map-sevii45.png';
 
 const REGION_CARD_BACKGROUNDS = [mapKanto, mapHoenn, mapSevii123, mapSevii45];
 const POKEMON_JOIN_LINES = [
-  (pokemonName: string) => `「${pokemonName}」眼神发亮，已经把你的队伍当成长期饭票了。`,
-  (pokemonName: string) => `「${pokemonName}」看起来很想加入，连站位都替自己挑好了。`,
-  (pokemonName: string) => `「${pokemonName}」嘴上还在矜持，脚已经诚实地迈进了队伍。`,
-  (pokemonName: string) => `「${pokemonName}」认真思考三秒后，决定先跟你混一阵子。`,
-  (pokemonName: string) => `「${pokemonName}」似乎误以为这里包吃包住，火速加入了队伍。`,
-  (pokemonName: string) => `「${pokemonName}」本来还想装高手，结果还是被你顺手拐回来了。`,
-  (pokemonName: string) => `命运、派遣单和一点点嘴硬，把「${pokemonName}」一起塞进了你的队伍。`,
-  (pokemonName: string) => `「${pokemonName}」还没完全想明白，但入队这件事已经木已成舟。`,
+  (pokemonName: string) => `「${pokemonName}」确认了派遣报告，已经准备加入后续行动。`,
+  (pokemonName: string) => `「${pokemonName}」看起来很想加入，连站位都已经挑好了。`,
+  (pokemonName: string) => `「${pokemonName}」认真观察了队伍，最后选择留在你的名册里。`,
+  (pokemonName: string) => `派遣队顺利带回了「${pokemonName}」的同行申请。`,
 ];
 
 function getEventItemIcon(itemId?: string): string {
@@ -81,7 +77,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
       return;
     }
 
-    setPokemonJoinLine(getRandomPokemonJoinLine(eventDispatchPopup.pokemonName));
+    setPokemonJoinLine(eventDispatchPopup.message || getRandomPokemonJoinLine(eventDispatchPopup.pokemonName));
   }, [eventDispatchPopup]);
 
   useEffect(() => {
@@ -125,12 +121,27 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
     return localized?.trim() || snapshot.apiName;
   };
 
-  const pickRecommendedPokemon = (regionId: string) => {
-    const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
-    if (!region) return;
+  const ensureSnapshots = async (pokemonIds: number[]) => {
+    const missingIds = pokemonIds.filter((pokemonId) => !snapshotById[pokemonId]);
+    if (missingIds.length === 0) return snapshotById;
+    setPickerLoading(true);
+    try {
+      const snapshots = await fetchDexSnapshots(missingIds);
+      const merged = { ...snapshotById, ...snapshots };
+      setSnapshotById(merged);
+      return merged;
+    } finally {
+      setPickerLoading(false);
+    }
+  };
 
+  const pickRecommendedPokemon = async (regionId: string) => {
+    const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
+    if (!region || collectionOwnedIds.length === 0) return;
+
+    const snapshots = await ensureSnapshots(collectionOwnedIds);
     const candidates = collectionOwnedIds.filter((pokemonId) => {
-      const snapshot = snapshotById[pokemonId];
+      const snapshot = snapshots[pokemonId];
       if (!snapshot) return false;
       return region.requiredTypes.some((requiredType) => snapshot.types.includes(requiredType));
     });
@@ -206,7 +217,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
 
         {devToolsAvailable && !developerMode && (
           <p className="text-[11px] text-slate-500">
-            开启上方 Mock 模式后，可使用每个地区下方的 Mock 道具/加入/特殊按钮。
+            开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。
           </p>
         )}
 
@@ -227,7 +238,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
               ? `派遣中 ${formatRemain((readyAt ?? now) - now)}`
               : canResolve
                 ? '领取结果'
-                : '派遣';
+                : '开始派遣';
 
             return (
               <div
@@ -296,7 +307,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                       {isZh ? '清除' : 'Clear'}
                     </button>
                     <button
-                      onClick={() => pickRecommendedPokemon(region.id)}
+                      onClick={() => void pickRecommendedPokemon(region.id)}
                       disabled={pickerLoading || collectionOwnedIds.length === 0}
                       className="inline-flex items-center justify-center gap-1 rounded bg-emerald-600 px-2 py-1 text-[10px] font-black text-white disabled:opacity-50"
                     >
@@ -313,6 +324,12 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                 >
                   {buttonLabel}
                 </button>
+
+                {dispatch?.lastResult && (
+                  <p className="mt-1 line-clamp-2 text-[10px] font-semibold text-slate-600">
+                    {dispatch.lastResult}
+                  </p>
+                )}
 
                 {developerMode && (
                   <div className="mt-1 grid grid-cols-3 gap-1">
@@ -356,25 +373,30 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 12, scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              className="w-[min(62vw,220px)] aspect-square rounded-2xl border-4 border-slate-900 bg-white shadow-2xl flex flex-col"
+              className="w-[min(72vw,260px)] rounded-2xl border-4 border-slate-900 bg-white shadow-2xl"
               onClick={(event) => event.stopPropagation()}
             >
               {eventDispatchPopup.kind === 'ITEM' ? (
                 <>
-                  <div className="flex-1 flex items-center justify-center">
+                  <div className="flex aspect-square items-center justify-center">
                     <img
                       src={getEventItemIcon(eventDispatchPopup.itemId)}
                       alt={eventDispatchPopup.itemName}
                       className="h-24 w-24 object-contain drop-shadow-[0_8px_14px_rgba(5,150,105,0.22)] [image-rendering:pixelated]"
                     />
                   </div>
-                  <div className="px-4 pb-4 text-center text-[13px] font-black leading-tight text-emerald-800">
-                    获得道具「{eventDispatchPopup.itemName}」
+                  <div className="px-4 pb-4 text-center">
+                    <p className="text-[13px] font-black leading-tight text-emerald-800">
+                      获得道具「{eventDispatchPopup.itemName}」
+                    </p>
+                    <p className="mt-1 text-[11px] font-semibold leading-snug text-slate-600">
+                      {eventDispatchPopup.message}
+                    </p>
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="flex-1 flex items-center justify-center">
+                  <div className="flex aspect-square items-center justify-center">
                     {eventDispatchPopup.pokemonSprite ? (
                       <img
                         src={eventDispatchPopup.pokemonSprite}
@@ -388,8 +410,13 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                       </div>
                     )}
                   </div>
-                  <div className="px-4 pb-4 text-center text-[13px] font-black leading-tight text-sky-800">
-                    {pokemonJoinLine || `「${eventDispatchPopup.pokemonName}」加入队伍`}
+                  <div className="px-4 pb-4 text-center">
+                    <p className="text-[13px] font-black leading-tight text-sky-800">
+                      {pokemonJoinLine || `「${eventDispatchPopup.pokemonName}」加入名册`}
+                    </p>
+                    <p className="mt-1 text-[11px] font-semibold text-slate-500">
+                      Lv.{eventDispatchPopup.pokemonLevel}
+                    </p>
                   </div>
                 </>
               )}

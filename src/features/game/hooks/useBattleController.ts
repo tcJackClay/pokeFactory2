@@ -23,6 +23,7 @@ import {
   resolveProtectionCollision,
   resolveProtectionMoveUse,
   resolveSecondaryEffectsStep,
+  resolveTypeImmunityReaction,
   clearSwitchingBattleState,
 } from '../battle/engine';
 import {
@@ -709,6 +710,7 @@ export function useBattleController({
       playerTeam: currentPlayerTeam,
       enemyTeam: currentEnemyTeam,
       fieldState,
+      weather,
       getLocalized,
       targetHasActedThisTurn,
       extraFlinchChance,
@@ -724,7 +726,7 @@ export function useBattleController({
     }
 
     return result;
-  }, [addMessagesSequentially, fieldState, getLocalized]);
+  }, [addMessagesSequentially, fieldState, getLocalized, weather]);
 
   const resolvePreTurnStatus = useCallback(async ({
     combatant,
@@ -1390,6 +1392,10 @@ export function useBattleController({
       await addMessagesSequentially([`${getLocalized(currentLead)} cannot switch out during the uproar!`]);
       return;
     }
+    if (currentLead.currentHp > 0 && (hasVolatileStatus(currentLead, 'trapped') || hasVolatileStatus(currentLead, 'ingrain'))) {
+      await addMessagesSequentially([`${getLocalized(currentLead)} cannot switch out!`]);
+      return;
+    }
     const withdrawnLead = clearSwitchingBattleState(currentLead);
 
     const currentLeadFainted = currentLead.currentHp <= 0;
@@ -1567,9 +1573,13 @@ export function useBattleController({
       return;
     }
 
+    const previousMoveName = updatedActor.factoryLastUsedMoveName;
     updatedActor = {
       ...updatedActor,
       factoryLastUsedMoveName: resolvedMove.name,
+      factoryConsecutiveMoveCount: previousMoveName === resolvedMove.name
+        ? (updatedActor.factoryConsecutiveMoveCount ?? 0) + 1
+        : 1,
     };
     if (!isProtectLikeMove(resolvedMove)) {
       updatedActor = clearProtectionChain(updatedActor);
@@ -1833,6 +1843,7 @@ export function useBattleController({
       if (hitResult.blockedByProtect) {
         await addMessagesSequentially([`${getLocalized(updatedDefender)} protected itself!`]);
         if (!hitResult.protectReducedDamage) {
+          updatedActor = { ...updatedActor, factoryConsecutiveMoveCount: 0 };
           const protectionCollisionResult = resolveProtectionCollision(updatedActor, updatedDefender, resolvedMove);
           updatedActor = protectionCollisionResult.attacker;
           syncLeadBySide(actingSide, updatedActor);
@@ -1875,6 +1886,8 @@ export function useBattleController({
 
       if (hitResult.isMiss) {
         if (hitCount === 0) {
+          updatedActor = { ...updatedActor, factoryConsecutiveMoveCount: 0 };
+          syncLeadBySide(actingSide, updatedActor);
           await addMessagesSequentially([`${actorLabel}'s attack missed!`]);
           if (isPlayerActing) {
             setPlayerAnim('idle');
@@ -1890,12 +1903,34 @@ export function useBattleController({
       }
 
       if (hitResult.multiplier === 0) {
+        updatedActor = { ...updatedActor, factoryConsecutiveMoveCount: 0 };
+        syncLeadBySide(actingSide, updatedActor);
+        const immunityReaction = resolveTypeImmunityReaction(resolvedMove, updatedDefender, fieldState, updatedActor);
+        updatedDefender = immunityReaction.defender;
+        syncLeadBySide(defendingSide, updatedDefender);
+        if (immunityReaction.message) {
+          await addMessagesSequentially([
+            immunityReaction.message.replace(updatedDefender.name, getLocalized(updatedDefender)),
+          ]);
+        }
         moveHadNoEffect = true;
         break;
       }
 
       hitCount += 1;
       anyCrit = anyCrit || hitResult.isCrit;
+
+      if ((hitResult.targetHealing ?? 0) > 0) {
+        const targetHealing = hitResult.targetHealing ?? 0;
+        updatedDefender = {
+          ...updatedDefender,
+          currentHp: Math.min(updatedDefender.maxHp, updatedDefender.currentHp + targetHealing),
+        };
+        newDefenderHp = updatedDefender.currentHp;
+        syncLeadBySide(defendingSide, updatedDefender);
+        await addMessagesSequentially([`${getLocalized(updatedDefender)} regained health!`]);
+        break;
+      }
 
       if (hitResult.blockedBySubstitute) {
         const substituteState = getVolatileStatus(updatedDefender, 'substitute');
@@ -1924,7 +1959,8 @@ export function useBattleController({
         continue;
       }
 
-      newDefenderHp = Math.max(0, updatedDefender.currentHp - Math.max(0, hitResult.damage));
+      const defenderHpBeforeHit = updatedDefender.currentHp;
+      newDefenderHp = Math.max(0, defenderHpBeforeHit - Math.max(0, hitResult.damage));
       if (
         newDefenderHp <= 0
         && hitResult.damage > 0
@@ -1940,6 +1976,11 @@ export function useBattleController({
         ...updatedDefender,
         currentHp: newDefenderHp,
         factoryHeldItemId: focusBandTriggered ? undefined : updatedDefender.factoryHeldItemId,
+        factoryLastDamageReceived: (updatedDefender.factoryLastDamageReceived ?? 0) + Math.max(0, defenderHpBeforeHit - newDefenderHp),
+        factoryLastDamageCategory: newDefenderHp < defenderHpBeforeHit
+          ? (resolvedMove.damage_class === 'special' ? 'special' : 'physical')
+          : updatedDefender.factoryLastDamageCategory,
+        factoryDamagedThisTurn: updatedDefender.factoryDamagedThisTurn || newDefenderHp < defenderHpBeforeHit,
       };
       totalDamage += Math.max(0, hitResult.damage);
       syncLeadBySide(defendingSide, updatedDefender);
@@ -1949,6 +1990,26 @@ export function useBattleController({
         allowUserEffects: hitResult.applyUserSecondaryEffects,
         allowTargetEffects: hitResult.applyTargetSecondaryEffects && updatedDefender.currentHp > 0,
       });
+
+      if (hasMoveBattleEffect(resolvedMove, 'SMELLING_SALTS') && getNonVolatileStatusId(updatedDefender) === 'paralysis') {
+        updatedDefender = clearNonVolatileStatus(updatedDefender);
+        syncLeadBySide(defendingSide, updatedDefender);
+        await addMessagesSequentially([`${getLocalized(updatedDefender)} was cured of paralysis!`]);
+      }
+      if (
+        hasMoveBattleEffect(resolvedMove, 'KNOCK_OFF')
+        && updatedDefender.factoryHeldItemId
+        && updatedDefender.currentHp > 0
+        && (
+          updatedDefender.abilities?.[0]?.ability?.name !== 'sticky-hold'
+          || ['mold-breaker', 'teravolt', 'turboblaze'].includes(updatedActor.abilities?.[0]?.ability?.name ?? '')
+        )
+      ) {
+        const knockedOffItem = updatedDefender.factoryHeldItemId;
+        updatedDefender = { ...updatedDefender, factoryHeldItemId: undefined };
+        syncLeadBySide(defendingSide, updatedDefender);
+        await addMessagesSequentially([`${getLocalized(updatedDefender)} lost ${getHeldItemLabel(knockedOffItem)}!`]);
+      }
 
       if (updatedDefender.currentHp <= 0) {
         break;
@@ -1987,11 +2048,18 @@ export function useBattleController({
 
     let actorHpChange = 0;
     const moveDrainPercent = getMoveDrainPercent(resolvedMove);
-    const moveRecoilPercent = getMoveRecoilPercent(resolvedMove);
-    const moveHealingPercent = getMoveHealingPercent(resolvedMove);
+    const moveRecoilPercent = getMoveRecoilPercent(resolvedMove, updatedActor);
+    const weatherSuppressedForHealing = hasPrimaryAbilityEffect(updatedActor, 'WEATHER_SUPPRESSION')
+      || hasPrimaryAbilityEffect(updatedDefender, 'WEATHER_SUPPRESSION');
+    const moveHealingPercent = getMoveHealingPercent(resolvedMove, weatherSuppressedForHealing ? 'none' : weather);
     if (moveDrainPercent !== 0 && totalDamage > 0) actorHpChange += Math.floor(totalDamage * moveDrainPercent / 100);
     if (moveRecoilPercent !== 0 && totalDamage > 0) actorHpChange -= Math.max(1, Math.floor(totalDamage * moveRecoilPercent / 100));
     if (moveHealingPercent !== 0) actorHpChange += Math.floor(updatedActor.maxHp * moveHealingPercent / 100);
+    if (hasMoveBattleEffect(resolvedMove, 'SWALLOW')) {
+      const stockpileCount = Math.max(0, Math.min(3, updatedActor.factoryStockpileCount ?? 0));
+      const healRatio = stockpileCount === 1 ? 0.25 : stockpileCount === 2 ? 0.5 : stockpileCount >= 3 ? 1 : 0;
+      actorHpChange += Math.floor(updatedActor.maxHp * healRatio);
+    }
     const shellBellHealDenominator = getItemDamageBasedHealDenominator(updatedActor.factoryHeldItemId);
     const shellBellRecover = (
       totalDamage > 0
@@ -2006,8 +2074,15 @@ export function useBattleController({
     updatedActor = {
       ...updatedActor,
       currentHp: Math.max(0, Math.min(updatedActor.maxHp, updatedActor.currentHp + actorHpChange)),
+      factoryStockpileCount: hasMoveBattleEffect(resolvedMove, 'SPIT_UP') || hasMoveBattleEffect(resolvedMove, 'SWALLOW')
+        ? 0
+        : updatedActor.factoryStockpileCount,
     };
-    if (hasMoveBattleEffect(resolvedMove, 'SELF_DESTRUCT')) {
+    const attackerAbilityName = (updatedActor.abilities?.[0]?.ability?.name ?? '').trim().toLowerCase().replace(/_/g, '-');
+    const defenderAbilityName = (updatedDefender.abilities?.[0]?.ability?.name ?? '').trim().toLowerCase().replace(/_/g, '-');
+    const selfDestructBlockedByDamp = attackerAbilityName === 'damp'
+      || (defenderAbilityName === 'damp' && !['mold-breaker', 'teravolt', 'turboblaze'].includes(attackerAbilityName));
+    if (hasMoveBattleEffect(resolvedMove, 'SELF_DESTRUCT') && !selfDestructBlockedByDamp) {
       updatedActor = {
         ...updatedActor,
         currentHp: 0,
@@ -2287,10 +2362,11 @@ export function useBattleController({
       enemyPokemon,
       enemyMove,
       fieldState,
+      weather,
       playerQuickClawActivated,
       enemyQuickClawActivated,
     }).enemyActsFirst;
-  }, [fieldState]);
+  }, [fieldState, weather]);
 
   const runEnemyAutoAction = useCallback(async (options?: {
     defenderLead?: GamePokemon;

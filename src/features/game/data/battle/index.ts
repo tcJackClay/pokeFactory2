@@ -1,6 +1,7 @@
 import type {
   AbilityBattleData,
   FieldState,
+  GamePokemon,
   ItemBattleData,
   Move,
   MoveBattleData,
@@ -126,6 +127,9 @@ export function buildMoveBattleDataFromPokeApiMove(data: any): MoveBattleData {
     punchMove,
     bypassProtect,
     ignoreAccuracyCheck,
+    thawsUser: moveOverride.thawsUser ?? false,
+    thawsTarget: moveOverride.thawsTarget
+      ?? (data?.type?.name === 'fire' && data?.damage_class?.name !== 'status'),
     weather: moveOverride.weather,
     fieldState: moveOverride.fieldState,
   };
@@ -271,12 +275,19 @@ export function getMoveDrainPercent(move: Move | null | undefined) {
   return move?.battleData?.drainPercent ?? move?.drain ?? 0;
 }
 
-export function getMoveRecoilPercent(move: Move | null | undefined) {
+export function getMoveRecoilPercent(move: Move | null | undefined, attacker?: GamePokemon | null) {
   if (!move) return 0;
+  const ability = normalizeMoveOrAbilityId(attacker?.abilities?.[0]?.ability?.name);
+  if (ability === 'rock-head' || ability === 'magic-guard') return 0;
   return move.battleData?.recoilPercent ?? Math.abs(Math.min(0, move.drain ?? 0));
 }
 
-export function getMoveHealingPercent(move: Move | null | undefined) {
+export function getMoveHealingPercent(move: Move | null | undefined, weather: Weather = 'none') {
+  if (move?.name === 'synthesis' || move?.name === 'moonlight' || move?.name === 'morning-sun') {
+    if (weather === 'sunny') return 200 / 3;
+    if (weather === 'rainy' || weather === 'sandstorm' || weather === 'hail') return 25;
+    return 50;
+  }
   return move?.battleData?.healingPercent ?? move?.healing ?? 0;
 }
 

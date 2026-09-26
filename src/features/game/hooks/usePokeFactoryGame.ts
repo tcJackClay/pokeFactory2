@@ -17,6 +17,11 @@ import { useFactoryFlow } from './useFactoryFlow';
 import { useRewardFlow } from './useRewardFlow';
 import { clearNonVolatileStatus, clearVolatileStatuses } from '../utils/battleStatus';
 import { addEvToPokemon, addIvToPokemon, type StatKey } from '../utils/pokemonStats';
+import {
+  applyDispatchTrainingToTeam,
+  getStatLabel,
+  rollDispatchOutcome,
+} from '../utils/eventDispatchRewards';
 import { getFactoryTrainerTemplateById, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import type {
   BaseRunSummary,
@@ -59,6 +64,22 @@ const CHALLENGE_ACTIVE_STATES: GameState[] = ['FACTORY_SELECT', 'FACTORY_SWAP', 
 const BOOT_ENTER_THRESHOLD = 80;
 const EMPTY_BATTLE_SPECIAL_USAGE: BattleSpecialUsageState = { MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false };
 const ITEM_BY_ID = Object.fromEntries(ALL_ITEMS.map((item) => [item.id, item] as const));
+const EVENT_GROWTH_ITEM_IDS = ['protein', 'iron', 'calcium', 'zinc_item', 'carbos', 'hp_up'];
+const EVENT_ITEM_LABELS: Record<string, string> = {
+  protein: '攻击增强剂',
+  iron: '防御增强剂',
+  calcium: '特攻增强剂',
+  zinc_item: '特防增强剂',
+  carbos: '速度增强剂',
+  hp_up: 'HP增强剂',
+};
+interface EventBattleContext {
+  regionId: string;
+  selectedPokemonId: number | null;
+  targetPokemonId: number;
+  specialSiteName?: string;
+}
+
 const BOOT_DEX_SNAPSHOT_IDS = [1, 4, 7, 25, 39, 94, 133, 150, 245, 249, 384, 493, 722, 810, 905];
 const BOOT_MOVE_DETAIL_KEYS = [
   'tackle',
@@ -210,6 +231,7 @@ export function usePokeFactoryGame(): GameViewModel {
   });
   const [eventDispatchPopup, setEventDispatchPopup] = useState<EventDispatchPopup | null>(null);
   const [eventBattleActive, setEventBattleActive] = useState(false);
+  const [eventBattleContext, setEventBattleContext] = useState<EventBattleContext | null>(null);
   const [highestStreak, setHighestStreak] = useState(initialSave?.progress.highestStreak ?? 0);
   const [collectionLedger, setCollectionLedger] = useState<CollectionLedger>(() => ({
     seenIds: initialSave?.collection?.seenIds ?? [],
@@ -315,16 +337,80 @@ export function usePokeFactoryGame(): GameViewModel {
     return createEmptyBattleResume();
   }, [buildStableFactoryBattleResume, eventBattleActive, gameState, pendingBattleResumeRestore]);
 
-  const handleSuppressedBattleResolved = useCallback((_result: 'WIN' | 'LOSS') => {
+  const getEventItemLabel = useCallback((item: Item) => EVENT_ITEM_LABELS[item.id] ?? getLocalized(item), [getLocalized]);
+
+  const pickGrowthRewardItem = useCallback(() => {
+    const growthPool = ALL_ITEMS.filter((item) => EVENT_GROWTH_ITEM_IDS.includes(item.id));
+    return growthPool[Math.floor(Math.random() * growthPool.length)] ?? ALL_ITEMS[0];
+  }, []);
+
+  const awardDispatchTraining = useCallback((region: (typeof EVENT_REGIONS)[number], selectedPokemonId: number | null, completedBattleCount = 0) => {
+    const training = applyDispatchTrainingToTeam(playerTeam, selectedPokemonId, region, completedBattleCount);
+    if (training.trained) {
+      setPlayerTeam(training.team);
+      const ivText = training.ivGain > 0 ? `，并获得 ${training.ivGain} 点个体值` : '';
+      return {
+        training,
+        text: `派遣宝可梦获得 ${getStatLabel(training.stat)} +${training.evGain} 努力值${ivText}`,
+      };
+    }
+    return {
+      training,
+      text: '派遣宝可梦不在当前队伍，训练收益已跳过。',
+    };
+  }, [playerTeam]);
+
+  const handleSuppressedBattleResolved = useCallback((result: 'WIN' | 'LOSS') => {
     if (!eventBattleActive) return;
+
+    const context = eventBattleContext;
+    const region = context ? EVENT_REGIONS.find((entry) => entry.id === context.regionId) : null;
+    const targetId = context?.targetPokemonId ?? enemy?.id ?? null;
+    const targetName = enemy ? getLocalized(enemy) : '目标宝可梦';
+    let battleResultText = result === 'WIN' ? `战胜了 ${targetName}` : `未能战胜 ${targetName}`;
+
+    if (region && context && targetId !== null) {
+      const nextBattleCount = (eventSpeciesBattleCounts[String(targetId)] ?? 0) + 1;
+      setEventSpeciesBattleCounts((prev) => ({
+        ...prev,
+        [String(targetId)]: nextBattleCount,
+      }));
+
+      if (result === 'WIN') {
+        const training = awardDispatchTraining(region, context.selectedPokemonId, nextBattleCount);
+        const rewardItem = pickGrowthRewardItem();
+        const rewardName = getEventItemLabel(rewardItem);
+        setInventory((prev) => [...prev, rewardItem]);
+        battleResultText = `${region.name}: ${battleResultText}，获得${rewardName}；${training.text}`;
+        setEventDispatchPopup({
+          kind: 'ITEM',
+          title: `${region.name}战斗派遣完成`,
+          message: `${context.specialSiteName ? `特殊地点「${context.specialSiteName}」调查完成。` : '遭遇战调查完成。'}${training.text}`,
+          itemName: rewardName,
+          itemId: rewardItem.id,
+        });
+      } else {
+        battleResultText = `${region.name}: ${battleResultText}，遭遇记录已更新`;
+      }
+
+      setEventDispatches((prev) => ({
+        ...prev,
+        [region.id]: {
+          ...createDefaultDispatchState(),
+          lastResolvedAt: Date.now(),
+          lastResult: battleResultText,
+        },
+      }));
+    }
+
     setRoundResult(null);
     setLastTokenGain(0);
-      setEnemy(null);
-      setEnemyTeam([]);
-      setCurrentEnemyTrainer(null);
-      setTrainerIntroActive(false);
-      setTrainerIntroAwaitingContinue(false);
-      setBattleLog([]);
+    setEnemy(null);
+    setEnemyTeam([]);
+    setCurrentEnemyTrainer(null);
+    setTrainerIntroActive(false);
+    setTrainerIntroAwaitingContinue(false);
+    setBattleLog([]);
     setTurn('PLAYER');
     setBattleMenuTab('MAIN');
     setWeather('none');
@@ -337,8 +423,17 @@ export function usePokeFactoryGame(): GameViewModel {
     setCatchSuccess(null);
     setGameState('EVENTS');
     setEventBattleActive(false);
-  }, [eventBattleActive]);
-
+    setEventBattleContext(null);
+  }, [
+    awardDispatchTraining,
+    enemy,
+    eventBattleActive,
+    eventBattleContext,
+    eventSpeciesBattleCounts,
+    getEventItemLabel,
+    getLocalized,
+    pickGrowthRewardItem,
+  ]);
   const battleController = useBattleController({
     gameState,
     turn,
@@ -1058,32 +1153,32 @@ export function usePokeFactoryGame(): GameViewModel {
 
   const resolveDispatchRegion = useCallback(async (regionId: string) => {
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
-    if (!region) return 'Dispatch failed';
+    if (!region) return '派遣失败：未知地区';
 
     const selectedPokemonId = eventDispatchPokemonByRegion[regionId];
-    if (!selectedPokemonId) return 'Select a Pokedex-owned Pokemon first';
+    if (!selectedPokemonId) return '请先选择一只已拥有的派遣宝可梦';
 
     const selectedPokemonData = await fetchPokemon(selectedPokemonId);
     const selectedTypes = selectedPokemonData.types.map((slot) => slot.type.name);
     const matched = region.requiredTypes.some((type) => selectedTypes.includes(type));
     if (!matched) {
-      return `${region.name}: Selected Pokemon does not match region type filter`;
+      return `${region.name}: 当前选择的宝可梦属性不匹配地区要求`;
     }
 
-    const roll = Math.random();
-    const outcome: 'item' | 'join' | 'battle' = roll < 0.58 ? 'item' : roll < 0.88 ? 'join' : 'battle';
+    const outcome = rollDispatchOutcome(region.category);
     if (outcome === 'item') {
-      const growthPool = ALL_ITEMS.filter((item) => ['protein', 'iron', 'calcium', 'zinc_item', 'carbos', 'hp_up'].includes(item.id));
-      const rewardItem = growthPool[Math.floor(Math.random() * growthPool.length)] ?? ALL_ITEMS[0];
+      const rewardItem = pickGrowthRewardItem();
+      const rewardName = getEventItemLabel(rewardItem);
+      const training = awardDispatchTraining(region, selectedPokemonId);
       setInventory((prev) => [...prev, rewardItem]);
       setEventDispatchPopup({
         kind: 'ITEM',
         title: `${region.name}派遣完成`,
-        message: '侦察队带回了珍贵补给，已自动放入背包。',
-        itemName: getLocalized(rewardItem),
+        message: `侦察队带回了${rewardName}。${training.text}`,
+        itemName: rewardName,
         itemId: rewardItem.id,
       });
-      return `${region.name}: Gained growth item ${getLocalized(rewardItem)}`;
+      return `${region.name}: 获得${rewardName}；${training.text}`;
     }
 
     const [dexMin, dexMax] = region.dexRange;
@@ -1098,23 +1193,19 @@ export function usePokeFactoryGame(): GameViewModel {
       }
     }
     const initialFormPool = [...new Set(sampledBaseSpecies)];
-    if (initialFormPool.length === 0) {
-      return `${region.name}: No valid base-form species in regional dex`;
-    }
-    const rarePool = RARE_SPECIES_POOL.filter((speciesId) => (
-      speciesId >= dexMin
-      && speciesId <= dexMax
-      && initialFormPool.includes(speciesId)
-    ));
+    const rarePool = RARE_SPECIES_POOL.filter((speciesId) => speciesId >= dexMin && speciesId <= dexMax);
     const useRarePool = region.category === 'rare_hunt' && rarePool.length > 0;
     const commonTargetPool = useRarePool ? rarePool : initialFormPool;
+    if (commonTargetPool.length === 0) {
+      return `${region.name}: 没有可用的地区基础形态目标`;
+    }
 
     if (outcome === 'join') {
       const joinIdentifier = commonTargetPool[Math.floor(Math.random() * commonTargetPool.length)];
-      if (!joinIdentifier) return `${region.name}: Failed to generate target`;
+      if (!joinIdentifier) return `${region.name}: 生成目标失败`;
       const targetPokemon = await getProcessedPokemon(joinIdentifier, Math.max(20, startLevel));
       const ballIndex = inventory.findIndex((item) => item.isBall);
-      if (ballIndex < 0) return `${region.name}: No Pokeball`;
+      if (ballIndex < 0) return `${region.name}: 背包里没有可用的精灵球`;
 
       setInventory((prev) => {
         const next = [...prev];
@@ -1134,30 +1225,40 @@ export function usePokeFactoryGame(): GameViewModel {
         };
       });
 
+      const joinedParty = playerTeam.length < 6;
+      const training = awardDispatchTraining(region, selectedPokemonId);
       setPlayerTeam((prev) => (prev.length < 6 ? [...prev, targetPokemon] : prev));
+      const targetName = getLocalized(targetPokemon);
+      const rosterText = joinedParty ? '已加入当前队伍。' : '队伍已满，已登记到图鉴后备名册。';
       setEventDispatchPopup({
         kind: 'POKEMON',
         title: `${region.name}奇遇成功`,
-        message: '目标宝可梦认可了你的队伍，主动申请加入。',
-        pokemonName: getLocalized(targetPokemon),
+        message: `「${targetName}」认可了你的队伍，${rosterText} ${training.text}`,
+        pokemonName: targetName,
         pokemonSprite: targetPokemon.sprites.front_default ?? '',
         pokemonLevel: targetPokemon.level,
       });
-      return `${region.name}: ${getLocalized(targetPokemon)} joined directly`;
+      return `${region.name}: ${targetName}${joinedParty ? '加入队伍' : '进入图鉴后备名册'}；${training.text}`;
     }
 
     if (!inventory.some((item) => item.isBall)) {
-      return `${region.name}: No Pokeball`;
+      return `${region.name}: 背包里没有可用的精灵球`;
     }
 
     const specialEncounter = pickSpecialSiteEncounter(regionId);
     const battleIdentifier = specialEncounter?.speciesId ?? commonTargetPool[Math.floor(Math.random() * commonTargetPool.length)];
-    if (!battleIdentifier) return `${region.name}: Failed to generate encounter`;
+    if (!battleIdentifier) return `${region.name}: 生成遭遇失败`;
     const battleLevel = Math.max(20, specialEncounter?.site.minLevel ?? startLevel);
     const targetPokemon = await getProcessedPokemon(battleIdentifier, battleLevel);
 
     setCatchSuccess(null);
     setEventBattleActive(true);
+    setEventBattleContext({
+      regionId,
+      selectedPokemonId,
+      targetPokemonId: targetPokemon.id,
+      specialSiteName: specialEncounter?.site.name,
+    });
     setEnemyTeam([targetPokemon]);
     setEnemy(targetPokemon);
     setBattleLog([]);
@@ -1173,14 +1274,16 @@ export function usePokeFactoryGame(): GameViewModel {
     }
     return `${region.name}: 遭遇战斗 ${getLocalized(targetPokemon)}`;
   }, [
+    awardDispatchTraining,
     eventDispatchPokemonByRegion,
+    getEventItemLabel,
     getLocalized,
     inventory,
+    pickGrowthRewardItem,
     pickSpecialSiteEncounter,
-    setEventDispatchPopup,
+    playerTeam.length,
     startLevel,
   ]);
-
   const dispatchEventRegion = useCallback(async (regionId: string) => {
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region) return;

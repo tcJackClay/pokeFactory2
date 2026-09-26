@@ -94,9 +94,9 @@ export function BattleSpecialTriggersNearHp({
             aria-label={button.label}
             onClick={() => void triggerBattleSpecial(button.mode)}
             disabled={!button.enabled || !specialTriggersInteractive}
-            className={`relative overflow-hidden transition-all p-0 border-0 shadow-none ${
+          className={`relative overflow-hidden transition-all p-0 border-0 shadow-none ${
               isDock
-                ? 'h-9 w-9 shrink-0 rounded-[10px] bg-transparent sm:h-10 sm:w-10'
+                ? 'h-5 w-5 shrink-0 rounded-[6px] bg-transparent'
                 : 'h-14 w-14 rounded-[10px] bg-transparent sm:h-16 sm:w-16'
             } ${
               button.enabled && specialTriggersInteractive

@@ -12,7 +12,12 @@ import {
   type DexMoveDetail,
   type DexSnapshot,
 } from '../../../../services/pokedexClient';
-import { getPokemonSpriteUrl } from '../../../../services/pokeApiEndpoint';
+import {
+  getPokemonHomeSpriteUrl,
+  getPokemonOfficialArtworkUrl,
+  getPokemonSpriteUrl,
+  proxyExternalResourceUrl,
+} from '../../../../services/pokeApiEndpoint';
 import type { GameViewSectionProps } from './shared';
 
 interface DexEntry {
@@ -92,14 +97,12 @@ function getDefaultSprite(id: number) {
   return getPokemonSpriteUrl(id);
 }
 
-function getSpriteCandidates(entry: Pick<DexEntry, 'id' | 'sprite' | 'raw'>): string[] {
-  const apiName = String(entry.raw?.name ?? '').trim().toLowerCase();
+function getSpriteCandidates(entry: Pick<DexEntry, 'id' | 'sprite'>): string[] {
   const fallback = [
-    entry.sprite,
+    proxyExternalResourceUrl(entry.sprite),
     getDefaultSprite(entry.id),
-    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${entry.id}.png`,
-    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${entry.id}.png`,
-    apiName ? `https://play.pokemonshowdown.com/sprites/ani/${apiName}.gif` : '',
+    getPokemonHomeSpriteUrl(entry.id),
+    getPokemonOfficialArtworkUrl(entry.id),
   ];
   return [...new Set(fallback.filter((url) => typeof url === 'string' && url.trim().length > 0))];
 }

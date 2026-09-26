@@ -45,7 +45,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
   const readyEventCount = EVENT_REGIONS.reduce((total, region) => {
     const dispatch = eventDispatches[region.id];
     if (!dispatch) return total;
-    const isReady = dispatch.status === 'READY' && dispatch.readyAt !== null && dispatch.readyAt <= Date.now();
+    const isReady = (dispatch.status === 'READY' || dispatch.status === 'RUNNING') && dispatch.readyAt !== null && dispatch.readyAt <= Date.now();
     return total + (isReady ? 1 : 0);
   }, 0);
 
@@ -73,7 +73,6 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     }),
     [hasFactoryRunToResume, isZh, loading],
   );
-
   useEffect(() => {
     if (shouldReduceMotion) {
       setCompanionFrame(0);
@@ -118,9 +117,9 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={screenExit}
       transition={{ duration: shouldReduceMotion ? 0.01 : 0.24, ease: 'easeOut' }}
-      className="pf-scroll-y flex min-h-0 flex-1 flex-col md:overflow-hidden"
+      className="pf-start-screen pf-scroll-y flex min-h-0 flex-1 flex-col md:overflow-hidden"
     >
-      <section className="flex min-h-0 flex-1 flex-col gap-2 md:gap-3">
+      <section className="pf-start-layout flex min-h-0 flex-1 flex-col gap-2 md:gap-3">
         {pendingRunSummary?.visible && (
           <div className="px-3">
             <div className="pf-panel border-emerald-200 bg-emerald-50/90 px-3 py-2.5">
@@ -145,7 +144,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
           </div>
         )}
 
-        <div className="min-h-0 flex-1 px-3">
+        <div className="pf-start-hero-region min-h-0 flex-1 px-3">
           <div className="pf-home-hero relative flex h-full min-h-0 flex-col px-4 py-4 md:px-6 md:py-5">
             <div className="pointer-events-none absolute right-4 top-4 z-10">
               <span className="pf-status-pill text-[11px] font-black">
@@ -158,20 +157,22 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
             </div>
 
             <div className="relative z-10 flex h-full min-h-0 flex-col">
-              <div className="flex flex-1 flex-col items-center justify-center text-center">
-                <h1 className={`font-black text-slate-950 ${isZh ? 'text-[34px]' : 'text-[32px] uppercase tracking-[0.06em]'}`}>
-                  {copy.factoryTitle}
-                </h1>
-                <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-slate-500">
-                  {copy.factoryState}
-                </p>
+              <div className="pf-start-hero-content flex flex-1 flex-col items-center justify-center text-center">
+                <div className="pf-start-copy">
+                  <h1 className={`font-black text-slate-950 ${isZh ? 'text-[34px]' : 'text-[32px] uppercase tracking-[0.06em]'}`}>
+                    {copy.factoryTitle}
+                  </h1>
+                  <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-slate-500">
+                    {copy.factoryState}
+                  </p>
+                </div>
 
                 <motion.button
                   whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
                   whileHover={shouldReduceMotion ? undefined : { scale: 1.02 }}
                   onClick={() => void startOrResumeFactoryFromBase()}
                   disabled={loading}
-                  className="pf-primary-orb relative mt-6 flex h-44 w-44 items-center justify-center rounded-full disabled:opacity-70 md:h-52 md:w-52"
+                  className="pf-start-primary-orb pf-primary-orb relative mt-6 flex h-44 w-44 items-center justify-center rounded-full disabled:opacity-70 md:h-52 md:w-52"
                   aria-label="Enter Battle Factory"
                 >
                   <span className="absolute inset-0 rounded-full bg-white/40" />
@@ -184,7 +185,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
                   </motion.button>
                 </div>
 
-              <div className="pointer-events-none absolute bottom-5 left-4 z-10 md:bottom-6 md:left-6">
+              <div className="pf-start-companion pointer-events-none absolute bottom-5 left-4 z-10 md:bottom-6 md:left-6">
                 <motion.div
                   initial={shouldReduceMotion ? false : { opacity: 0, x: -10, y: 10 }}
                   animate={{ opacity: 1, x: 0, y: 0 }}
@@ -215,7 +216,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
           </div>
         </div>
 
-        <div className="px-3 pb-2">
+        <div className="pf-start-dock-region px-3 pb-2">
           <div className="pf-dock px-2 py-2">
             <div className="grid grid-cols-3 gap-1.5 min-[520px]:grid-cols-5 md:gap-2">
               {navItems.map((item) => {

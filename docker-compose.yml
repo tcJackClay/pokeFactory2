@@ -1,0 +1,18 @@
+services:
+  poke-factory:
+    build: .
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+      WEB_ROOT: /app/dist
+      STORAGE_ROOT: /app/storage
+      STATE_DIR: /app/var
+      ALLOW_UPSTREAM_FETCH: "${ALLOW_UPSTREAM_FETCH:-true}"
+    volumes:
+      - poke-factory-state:/app/var
+    restart: unless-stopped
+
+volumes:
+  poke-factory-state:

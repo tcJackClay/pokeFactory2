@@ -43,10 +43,10 @@ export function BattleMovesPanel({ viewModel }: GameViewSectionProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
       transition={{ duration: shouldReduceMotion ? 0.01 : 0.18, ease: 'easeOut' }}
-      className="flex h-full min-h-0 flex-col p-3 sm:p-4"
+      className="pf-battle-moves-panel flex h-full min-h-0 flex-col p-2 sm:p-3"
     >
       <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-1">
-        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+        <div className="pf-battle-moves-grid grid grid-cols-2 gap-1.5 sm:gap-2">
           {player.selectedMoves.map((move, index) => {
             const isLightType = LIGHT_MOVE_TYPES.has(move.type);
             const EffectivenessIcon = getMoveEffectivenessIcon(move.type);
@@ -61,7 +61,7 @@ export function BattleMovesPanel({ viewModel }: GameViewSectionProps) {
                 type="button"
                 onClick={() => handleAttack(move)}
                 disabled={disabled}
-                className={`group relative flex min-h-[108px] flex-col justify-between overflow-hidden rounded-[18px] border p-2.5 text-left transition-all active:scale-[0.98] sm:min-h-[124px] sm:rounded-[20px] sm:p-3 ${
+                className={`pf-battle-move-button group relative flex min-h-[76px] flex-col justify-between overflow-hidden rounded-[14px] border p-2 text-left transition-all active:scale-[0.98] sm:min-h-[92px] sm:rounded-[16px] sm:p-2.5 ${
                   isLightType
                     ? 'border-slate-200 text-slate-950'
                     : 'border-slate-900/10 text-white'
@@ -74,13 +74,13 @@ export function BattleMovesPanel({ viewModel }: GameViewSectionProps) {
                 <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.22)_0%,transparent_45%,rgba(15,23,42,0.12)_100%)]" />
                 <div className="absolute right-0 top-0 h-full w-16 translate-x-8 skew-x-[-20deg] bg-white/18 transition-transform duration-200 group-hover:translate-x-4" />
 
-                <div className="relative z-10 grid min-h-[66px] grid-cols-[minmax(0,1fr)_28px] items-start gap-1.5 sm:min-h-[78px] sm:grid-cols-[minmax(0,1fr)_34px] sm:gap-2">
-                  <div className="grid min-h-[66px] min-w-0 content-start gap-1.5 pt-[6px] sm:min-h-[78px] sm:gap-2 sm:pt-[11px]">
-                    <div className={`min-h-[32px] line-clamp-2 text-[15px] font-black leading-[1.05] ${isLightType ? 'text-slate-950' : 'text-white'} sm:min-h-[46px] sm:text-[22px]`}>
+                <div className="pf-battle-move-main relative z-10 grid min-h-[34px] grid-cols-[minmax(0,1fr)_22px] items-start gap-1 sm:min-h-[42px] sm:grid-cols-[minmax(0,1fr)_26px]">
+                  <div className="grid min-h-0 min-w-0 content-start gap-1">
+                    <div className={`pf-battle-move-name min-h-[18px] line-clamp-2 text-[12px] font-black leading-[1.05] ${isLightType ? 'text-slate-950' : 'text-white'} sm:min-h-[22px] sm:text-[15px]`}>
                       {getLocalized(move)}
                     </div>
 
-                    <div className="min-h-[18px] sm:min-h-[20px]">
+                    <div className="pf-battle-move-type h-3.5 origin-left scale-75 sm:h-4 sm:scale-90">
                       <TypeBadge
                         type={move.type}
                         size="xs"
@@ -89,30 +89,30 @@ export function BattleMovesPanel({ viewModel }: GameViewSectionProps) {
                     </div>
                   </div>
 
-                  <div className="flex min-h-[66px] items-start justify-end pt-[6px] sm:min-h-[78px] sm:pt-[11px]">
+                  <div className="flex min-h-0 items-start justify-end">
                     {EffectivenessIcon ? (
-                      <span className={`inline-flex h-[28px] w-[28px] items-center justify-center rounded-full border sm:h-[34px] sm:w-[34px] ${
+                      <span className={`inline-flex h-[22px] w-[22px] items-center justify-center rounded-full border sm:h-[26px] sm:w-[26px] ${
                         isLightType
                           ? 'border-slate-900/12 bg-white/40 text-slate-950'
                           : 'border-white/18 bg-black/10 text-white'
                       }`}>
-                        <EffectivenessIcon className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" strokeWidth={2.4} />
+                        <EffectivenessIcon className="h-3 w-3 shrink-0 sm:h-3.5 sm:w-3.5" strokeWidth={2.4} />
                       </span>
                     ) : (
-                      <span className="h-[28px] w-[28px] sm:h-[34px] sm:w-[34px]" aria-hidden="true" />
+                      <span className="h-[22px] w-[22px] sm:h-[26px] sm:w-[26px]" aria-hidden="true" />
                     )}
                   </div>
                 </div>
 
                 <div
-                  className={`relative z-10 mt-auto grid min-h-[38px] content-end text-[11px] font-black ${
+                  className={`pf-battle-move-meta relative z-10 mt-auto grid min-h-[24px] content-end text-[9px] font-black ${
                     isLightType ? 'text-slate-900/80' : 'text-white/84'
-                  } sm:min-h-[46px] sm:text-[12px]`}
+                  } sm:min-h-[28px] sm:text-[10px]`}
                 >
-                  <div className="min-h-[14px] text-[14px] leading-none sm:min-h-[18px] sm:text-[18px]">
+                  <div className="min-h-[10px] text-[10px] leading-none sm:min-h-[12px] sm:text-[12px]">
                     {powerLabel} {move.power || '--'}
                   </div>
-                  <div className="mt-1.5 grid grid-cols-2 items-end gap-x-2 text-[10px] leading-none sm:mt-2 sm:gap-x-4 sm:text-[13px]">
+                  <div className="mt-1 grid grid-cols-2 items-end gap-x-1 text-[8px] leading-none sm:text-[9px]">
                     <span className="whitespace-nowrap text-left">{accuracyLabel} {move.accuracy ?? '--'}</span>
                     <span className="whitespace-nowrap text-right">{ppLabel} {currentPp}/{totalPp || '--'}</span>
                   </div>

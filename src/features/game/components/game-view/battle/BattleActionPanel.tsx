@@ -1,6 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { BattleBagPanel } from './BattleBagPanel';
-import { BattleLogPanel } from './BattleLogPanel';
 import { BattleMainMenu } from './BattleMainMenu';
 import { BattleMovesPanel } from './BattleMovesPanel';
 import { BattlePokemonPanel } from './BattlePokemonPanel';
@@ -28,7 +27,7 @@ export function BattleActionPanel({ viewModel }: GameViewSectionProps) {
       : null,
   ].filter((badge): badge is { key: string; label: string; tone: string } => Boolean(badge));
 
-  const showPlayerConsole = !isMessageProcessing
+  const commandsEnabled = !isMessageProcessing
     && turn !== 'ENEMY'
     && !viewModel.isTransitioning
     && !viewModel.trainerIntroActive
@@ -36,51 +35,47 @@ export function BattleActionPanel({ viewModel }: GameViewSectionProps) {
   const activePanelKey = battleMenuTab === 'MOVES' ? 'MAIN' : battleMenuTab;
 
   return (
-    <div className="pf-battle-action-shell pf-battle-console relative flex min-h-[272px] flex-[1.05] flex-col overflow-hidden sm:min-h-0 sm:flex-[3]">
-      <AnimatePresence mode="wait">
-        {showPlayerConsole ? (
-          <motion.div
-            key="interaction-panel"
-            initial={shouldReduceMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 flex flex-col p-3 sm:p-4"
-          >
-            {stateBadges.length > 0 && (
-              <div className="mb-3 flex flex-wrap gap-2">
-                {stateBadges.map((badge) => (
-                  <span
-                    key={badge.key}
-                    className={`inline-flex min-h-[30px] items-center rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] ${badge.tone}`}
-                  >
-                    {badge.label}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            <BattleMainMenu viewModel={viewModel} />
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activePanelKey}
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
-                transition={{ duration: shouldReduceMotion ? 0.01 : 0.18, ease: 'easeOut' }}
-                className="pf-battle-console-panel mt-3 min-h-0 flex-1 overflow-hidden"
+    <div className="pf-battle-action-shell pf-battle-console relative flex h-full min-h-0 flex-col overflow-hidden">
+      <motion.fieldset
+        key="interaction-panel"
+        initial={shouldReduceMotion ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        disabled={!commandsEnabled}
+        aria-busy={!commandsEnabled}
+        data-enabled={commandsEnabled ? 'true' : 'false'}
+        className="pf-battle-interaction-panel absolute inset-0 flex min-w-0 flex-col border-0 p-3 sm:p-4"
+      >
+        {stateBadges.length > 0 && (
+          <div className="pf-battle-state-badges mb-3 flex flex-wrap gap-2">
+            {stateBadges.map((badge) => (
+              <span
+                key={badge.key}
+                className={`inline-flex min-h-[30px] items-center rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.14em] ${badge.tone}`}
               >
-                {(battleMenuTab === 'MAIN' || battleMenuTab === 'MOVES') && <BattleMovesPanel viewModel={viewModel} />}
-                {battleMenuTab === 'STATUS' && <BattleStatusPanel viewModel={viewModel} />}
-                {battleMenuTab === 'BAG' && <BattleBagPanel viewModel={viewModel} />}
-                {battleMenuTab === 'POKEMON' && <BattlePokemonPanel viewModel={viewModel} />}
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
-        ) : (
-          <BattleLogPanel viewModel={viewModel} />
+                {badge.label}
+              </span>
+            ))}
+          </div>
         )}
-      </AnimatePresence>
+
+        <BattleMainMenu viewModel={viewModel} />
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activePanelKey}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            transition={{ duration: shouldReduceMotion ? 0.01 : 0.18, ease: 'easeOut' }}
+            className="pf-battle-console-panel pf-battle-content-panel mt-3 min-h-0 flex-1 overflow-hidden"
+          >
+            {(battleMenuTab === 'MAIN' || battleMenuTab === 'MOVES') && <BattleMovesPanel viewModel={viewModel} />}
+            {battleMenuTab === 'STATUS' && <BattleStatusPanel viewModel={viewModel} />}
+            {battleMenuTab === 'BAG' && <BattleBagPanel viewModel={viewModel} />}
+            {battleMenuTab === 'POKEMON' && <BattlePokemonPanel viewModel={viewModel} />}
+          </motion.div>
+        </AnimatePresence>
+      </motion.fieldset>
     </div>
   );
 }

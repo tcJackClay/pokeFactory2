@@ -504,6 +504,11 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
     calculatedStats,
     gender,
     teraType,
+    friendship: Number.isFinite(speciesData?.base_happiness) ? speciesData.base_happiness : 70,
+    factoryConsecutiveMoveCount: 0,
+    factoryLastDamageReceived: 0,
+    factoryDamagedThisTurn: false,
+    factoryStockpileCount: 0,
     nonVolatileStatus: undefined,
     volatileStatuses: {},
     statStages: {
@@ -608,6 +613,11 @@ export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceS
     calculatedStats,
     gender,
     teraType,
+    friendship: Number.isFinite(speciesData?.base_happiness) ? speciesData.base_happiness : 70,
+    factoryConsecutiveMoveCount: 0,
+    factoryLastDamageReceived: 0,
+    factoryDamagedThisTurn: false,
+    factoryStockpileCount: 0,
     nonVolatileStatus: undefined,
     volatileStatuses: {},
     statStages: {

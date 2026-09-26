@@ -14,7 +14,7 @@ interface ResolveBeforeMoveChecksOptions {
   getMoveCurrentPp: (move: Move) => number;
   tryConsumeStatusCureBerry: (pokemon: GamePokemon | null | undefined) => { pokemon: GamePokemon | null | undefined; message: string | null };
   tryConsumeMentalHerb: (pokemon: GamePokemon | null | undefined) => { pokemon: GamePokemon | null | undefined; message: string | null };
-  calculateConfusionSelfHitDamage: (pokemon: GamePokemon) => number;
+  calculateConfusionSelfHitDamage: (pokemon: GamePokemon, random?: () => number) => number;
   random?: () => number;
 }
 
@@ -105,12 +105,22 @@ export function resolveBeforeMoveChecks({
   }
 
   if (getNonVolatileStatusId(nextCombatant) === 'freeze') {
-    events.push({ type: 'message', message: `${displayName} is frozen solid...` });
-    if (random() < 0.2) {
+    if (move?.battleData?.thawsUser) {
       syncCombatant(clearNonVolatileStatus(nextCombatant));
-      events.push({ type: 'message', message: `${displayName} thawed out!` });
+      events.push({ type: 'message', message: `${displayName} thawed out by using ${move.name}!` });
     } else {
-      return { canAct: false, combatant: nextCombatant, snapshot: nextSnapshot, events, nextTurn: side === 'enemy' ? 'PLAYER' : 'ENEMY' };
+      const freezeTurnsRemaining = Math.max(0, nextCombatant.nonVolatileStatus?.turnsRemaining ?? 3) - 1;
+      if (random() < 0.25 || freezeTurnsRemaining <= 0) {
+        syncCombatant(clearNonVolatileStatus(nextCombatant));
+        events.push({ type: 'message', message: `${displayName} thawed out!` });
+      } else {
+        syncCombatant(setNonVolatileStatus(nextCombatant, 'freeze', {
+          turnsRemaining: freezeTurnsRemaining,
+          sourceMoveName: nextCombatant.nonVolatileStatus?.sourceMoveName,
+        }));
+        events.push({ type: 'message', message: `${displayName} is frozen solid...` });
+        return { canAct: false, combatant: nextCombatant, snapshot: nextSnapshot, events, nextTurn: side === 'enemy' ? 'PLAYER' : 'ENEMY' };
+      }
     }
   }
 
@@ -161,8 +171,8 @@ export function resolveBeforeMoveChecks({
       }));
       events.push({ type: 'message', message: `${displayName} is confused!` });
 
-      if (random() < 0.5) {
-        const selfHitDamage = Math.min(nextCombatant.currentHp, calculateConfusionSelfHitDamage(nextCombatant));
+      if (random() < (1 / 3)) {
+        const selfHitDamage = Math.min(nextCombatant.currentHp, calculateConfusionSelfHitDamage(nextCombatant, random));
         syncCombatant({
           ...nextCombatant,
           currentHp: Math.max(0, nextCombatant.currentHp - selfHitDamage),
@@ -177,7 +187,7 @@ export function resolveBeforeMoveChecks({
     }
   }
 
-  if (getNonVolatileStatusId(nextCombatant) === 'paralysis' && random() < 0.25) {
+  if (getNonVolatileStatusId(nextCombatant) === 'paralysis' && random() < 0.125) {
     events.push({ type: 'message', message: `${displayName} is paralyzed and cannot move!` });
     return { canAct: false, combatant: nextCombatant, snapshot: nextSnapshot, events, nextTurn: side === 'enemy' ? 'PLAYER' : 'ENEMY' };
   }

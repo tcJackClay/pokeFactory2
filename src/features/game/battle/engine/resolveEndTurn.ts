@@ -20,10 +20,13 @@ interface ResolveEndTurnOptions {
   getMoveCurrentPp: (move: { currentPp?: number; pp?: number }) => number;
   tryActivateSitrusBerry: (pokemon: GamePokemon | null | undefined) => { pokemon: GamePokemon | null | undefined; message: string | null };
   tryActivatePinchStatBerry: (pokemon: GamePokemon | null | undefined) => { pokemon: GamePokemon | null | undefined; message: string | null };
+  random?: () => number;
 }
 
-function isGrounded(pokemon: GamePokemon) {
-  return !pokemon.types.some((typeSlot) => typeSlot.type.name === 'flying');
+function isGrounded(pokemon: GamePokemon, fieldState: BattleSnapshot['fieldState'] = []) {
+  if (fieldState.includes('gravity')) return true;
+  const ability = (pokemon.abilities?.[0]?.ability?.name ?? '').trim().toLowerCase().replace(/_/g, '-');
+  return !pokemon.types.some((typeSlot) => typeSlot.type.name === 'flying') && ability !== 'levitate' && ability !== 'eelevate';
 }
 
 export function resolveEndTurn({
@@ -33,6 +36,7 @@ export function resolveEndTurn({
   getMoveCurrentPp,
   tryActivateSitrusBerry,
   tryActivatePinchStatBerry,
+  random = Math.random,
 }: ResolveEndTurnOptions): EndTurnResolutionResult {
   let nextSnapshot: BattleSnapshot = {
     ...snapshot,
@@ -43,6 +47,9 @@ export function resolveEndTurn({
   };
   let playerLead = nextSnapshot.playerTeam[0];
   let enemyLead = nextSnapshot.enemyTeam[0];
+  const weatherSuppressed = [playerLead, enemyLead].some((pokemon) => (
+    ['air-lock', 'cloud-nine'].includes((pokemon?.abilities?.[0]?.ability?.name ?? '').trim().toLowerCase().replace(/_/g, '-'))
+  ));
   const events: EndTurnResolutionResult['events'] = [];
 
   const syncPlayerLead = (pokemon: GamePokemon) => {
@@ -98,10 +105,95 @@ export function resolveEndTurn({
 
   syncPlayerLead(applyResidual(playerLead, applyStatusResidualDamage));
   syncEnemyLead(applyResidual(enemyLead, applyStatusResidualDamage));
+
+  const resolveStatusCureAbility = (pokemon: GamePokemon) => {
+    const statusId = getNonVolatileStatusId(pokemon);
+    if (!statusId) return pokemon;
+    const abilityName = pokemon?.abilities?.[0]?.ability?.name;
+    const hydrationCures = hasAbilityBattleEffect(abilityName, 'HYDRATION') && nextSnapshot.weather === 'rainy' && !weatherSuppressed;
+    const shedSkinCures = hasAbilityBattleEffect(abilityName, 'SHED_SKIN') && random() < 0.3;
+    if (!hydrationCures && !shedSkinCures) return pokemon;
+    const cured = clearNonVolatileStatus(pokemon);
+    events.push({ type: 'message', message: `${getLocalized(cured)} was cured of its status by its ability!` });
+    return cured;
+  };
+
+  syncPlayerLead(resolveStatusCureAbility(playerLead));
+  syncEnemyLead(resolveStatusCureAbility(enemyLead));
   syncPlayerLead(applyResidual(playerLead, applyNightmareResidualDamage));
   syncPlayerLead(applyResidual(playerLead, applyCurseResidualDamage));
   syncEnemyLead(applyResidual(enemyLead, applyNightmareResidualDamage));
   syncEnemyLead(applyResidual(enemyLead, applyCurseResidualDamage));
+
+  const resolvePersistentVolatileResiduals = (target: GamePokemon, source: GamePokemon) => {
+    let nextTarget = target;
+    let nextSource = source;
+    const targetAbility = (nextTarget.abilities?.[0]?.ability?.name ?? '').trim().toLowerCase().replace(/_/g, '-');
+    const magicGuard = hasAbilityBattleEffect(targetAbility, 'MAGIC_GUARD');
+
+    if (nextTarget.currentHp > 0 && hasVolatileStatus(nextTarget, 'seeded') && !magicGuard) {
+      const damage = Math.min(nextTarget.currentHp, Math.max(1, Math.floor(nextTarget.maxHp / 8)));
+      nextTarget = { ...nextTarget, currentHp: nextTarget.currentHp - damage };
+      if (nextSource.currentHp > 0) {
+        if (targetAbility === 'liquid-ooze') {
+          nextSource = { ...nextSource, currentHp: Math.max(0, nextSource.currentHp - damage) };
+        } else {
+          nextSource = { ...nextSource, currentHp: Math.min(nextSource.maxHp, nextSource.currentHp + damage) };
+        }
+      }
+      events.push({ type: 'message', message: `${getLocalized(nextTarget)}'s health was sapped by Leech Seed!` });
+    }
+
+    const trapped = getVolatileStatus(nextTarget, 'trapped');
+    if (nextTarget.currentHp > 0 && trapped) {
+      const turnsRemaining = Math.max(0, trapped.turnsRemaining ?? 4) - 1;
+      if (turnsRemaining > 0) {
+        nextTarget = setVolatileStatus(nextTarget, 'trapped', {
+          turnsRemaining,
+          sourceMoveName: trapped.sourceMoveName,
+          linkedPokemonId: trapped.linkedPokemonId,
+        });
+        if (!magicGuard) {
+          const damage = Math.min(nextTarget.currentHp, Math.max(1, Math.floor(nextTarget.maxHp / 8)));
+          nextTarget = { ...nextTarget, currentHp: nextTarget.currentHp - damage };
+          events.push({ type: 'message', message: `${getLocalized(nextTarget)} was hurt by ${trapped.sourceMoveName ?? 'the trap'}!` });
+        }
+      } else {
+        nextTarget = clearVolatileStatus(nextTarget, 'trapped');
+      }
+    }
+
+    if (nextTarget.currentHp > 0 && hasVolatileStatus(nextTarget, 'ingrain')) {
+      const heal = Math.max(0, Math.min(Math.max(1, Math.floor(nextTarget.maxHp / 16)), nextTarget.maxHp - nextTarget.currentHp));
+      if (heal > 0) {
+        nextTarget = { ...nextTarget, currentHp: nextTarget.currentHp + heal };
+        events.push({ type: 'message', message: `${getLocalized(nextTarget)} absorbed nutrients with its roots!` });
+      }
+    }
+
+    const perishSong = getVolatileStatus(nextTarget, 'perish-song');
+    if (nextTarget.currentHp > 0 && perishSong) {
+      const counter = Math.max(0, perishSong.counter ?? 3) - 1;
+      if (counter > 0) {
+        nextTarget = setVolatileStatus(nextTarget, 'perish-song', {
+          counter,
+          sourceMoveName: perishSong.sourceMoveName,
+        });
+        events.push({ type: 'message', message: `${getLocalized(nextTarget)}'s perish count fell to ${counter}!` });
+      } else {
+        nextTarget = clearVolatileStatus({ ...nextTarget, currentHp: 0 }, 'perish-song');
+      }
+    }
+
+    return { target: nextTarget, source: nextSource };
+  };
+
+  const playerVolatileResiduals = resolvePersistentVolatileResiduals(playerLead, enemyLead);
+  syncPlayerLead(playerVolatileResiduals.target);
+  syncEnemyLead(playerVolatileResiduals.source);
+  const enemyVolatileResiduals = resolvePersistentVolatileResiduals(enemyLead, playerLead);
+  syncEnemyLead(enemyVolatileResiduals.target);
+  syncPlayerLead(enemyVolatileResiduals.source);
 
   if (hasVolatileStatus(playerLead, 'protect')) syncPlayerLead(clearVolatileStatus(playerLead, 'protect'));
   if (hasVolatileStatus(enemyLead, 'protect')) syncEnemyLead(clearVolatileStatus(enemyLead, 'protect'));
@@ -221,7 +313,7 @@ export function resolveEndTurn({
   syncPlayerLead(resolveUproar(playerLead));
   syncEnemyLead(resolveUproar(enemyLead));
 
-  if (nextSnapshot.weather !== 'none') {
+  if (nextSnapshot.weather !== 'none' && !weatherSuppressed) {
     const playerWeatherResult = applyWeatherChipDamage({ pokemon: playerLead, weather: nextSnapshot.weather, getLocalized });
     playerWeatherResult.messages.forEach((message) => events.push({ type: 'message', message }));
     syncPlayerLead(playerWeatherResult.pokemon);
@@ -232,7 +324,7 @@ export function resolveEndTurn({
   }
 
   const applyGrassyTerrainRecovery = (pokemon: GamePokemon) => {
-    if (!nextSnapshot.fieldState.includes('grassy_terrain') || pokemon.currentHp <= 0 || !isGrounded(pokemon)) {
+    if (!nextSnapshot.fieldState.includes('grassy_terrain') || pokemon.currentHp <= 0 || !isGrounded(pokemon, nextSnapshot.fieldState)) {
       return { pokemon, message: null as string | null };
     }
     const recover = Math.max(1, Math.min(Math.floor(pokemon.maxHp / 16), pokemon.maxHp - pokemon.currentHp));
@@ -332,6 +424,38 @@ export function resolveEndTurn({
     nextSnapshot.fieldState = remainingFieldState;
     nextSnapshot.fieldTurns = nextFieldTurns;
   }
+
+  const lapseTeamStatus = (pokemon: GamePokemon, statusId: 'safeguard' | 'reflect' | 'light-screen') => {
+    const status = getVolatileStatus(pokemon, statusId);
+    if (!status) return pokemon;
+    const turnsRemaining = Math.max(0, status.turnsRemaining ?? 5) - 1;
+    return turnsRemaining > 0
+      ? setVolatileStatus(pokemon, statusId, {
+        turnsRemaining,
+        sourceMoveName: status.sourceMoveName,
+      })
+      : clearVolatileStatus(pokemon, statusId);
+  };
+  const lapseTeamStatuses = (pokemon: GamePokemon) => (
+    lapseTeamStatus(lapseTeamStatus(lapseTeamStatus(pokemon, 'safeguard'), 'reflect'), 'light-screen')
+  );
+  nextSnapshot.playerTeam = nextSnapshot.playerTeam.map(lapseTeamStatuses);
+  nextSnapshot.enemyTeam = nextSnapshot.enemyTeam.map(lapseTeamStatuses);
+  playerLead = nextSnapshot.playerTeam[0];
+  enemyLead = nextSnapshot.enemyTeam[0];
+
+  syncPlayerLead({
+    ...playerLead,
+    factoryLastDamageReceived: 0,
+    factoryLastDamageCategory: undefined,
+    factoryDamagedThisTurn: false,
+  });
+  syncEnemyLead({
+    ...enemyLead,
+    factoryLastDamageReceived: 0,
+    factoryLastDamageCategory: undefined,
+    factoryDamagedThisTurn: false,
+  });
 
   return {
     snapshot: nextSnapshot,

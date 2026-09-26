@@ -1,10 +1,12 @@
-const DEFAULT_POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2';
-const DEFAULT_DEV_POKEAPI_PROXY_BASE_URL = '/api/pokeapi';
-const DEFAULT_POKEAPI_CSV_BASE_URL = 'https://raw.githubusercontent.com/veekun/pokedex/master/pokedex/data/csv';
-const DEFAULT_POKEAPI_SPRITE_BASE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
+const DEFAULT_POKEAPI_BASE_URL = '/api/pokeapi';
+const DEFAULT_POKEAPI_CSV_BASE_URL = '/api/pokedex-csv';
+const DEFAULT_POKEAPI_SPRITE_BASE_URL = '/api/pokeapi-sprites/pokemon';
+const DEFAULT_POKEAPI_HOME_SPRITE_BASE_URL = '/api/pokeapi-sprites/pokemon/other/home';
+const DEFAULT_POKEAPI_ARTWORK_BASE_URL = '/api/pokeapi-sprites/pokemon/other/official-artwork';
 const POKEAPI_PROXY_PATH_PREFIX = '/api/pokeapi/';
 const POKEAPI_RETRY_DELAYS_MS = [0, 250, 750];
 const inFlightPokeApiRequests = new Map<string, Promise<any>>();
+const runtimeEnv: Partial<ImportMetaEnv> = import.meta.env ?? {};
 
 class PokeApiHttpError extends Error {
   status: number;
@@ -26,18 +28,10 @@ function cleanEnvValue(value: string | undefined): string | null {
   return trimmed.length > 0 ? trimTrailingSlash(trimmed) : null;
 }
 
-function isTruthyEnvFlag(value: string | undefined): boolean {
-  if (!value) return false;
-  const normalized = String(value).trim().toLowerCase();
-  return normalized === '1' || normalized === 'true' || normalized === 'yes' || normalized === 'on';
-}
-
-const preferDevProxy = isTruthyEnvFlag(import.meta.env.VITE_POKEAPI_USE_PROXY);
-
-export const POKEAPI_BASE_URL = cleanEnvValue(import.meta.env.VITE_POKEAPI_BASE_URL)
-  ?? (import.meta.env.DEV && preferDevProxy ? DEFAULT_DEV_POKEAPI_PROXY_BASE_URL : DEFAULT_POKEAPI_BASE_URL);
-export const POKEAPI_CSV_BASE_URL = cleanEnvValue(import.meta.env.VITE_POKEAPI_CSV_BASE_URL) ?? DEFAULT_POKEAPI_CSV_BASE_URL;
-export const POKEAPI_SPRITE_BASE_URL = cleanEnvValue(import.meta.env.VITE_POKEAPI_SPRITE_BASE_URL) ?? DEFAULT_POKEAPI_SPRITE_BASE_URL;
+export const POKEAPI_BASE_URL = cleanEnvValue(runtimeEnv.VITE_POKEAPI_BASE_URL)
+  ?? DEFAULT_POKEAPI_BASE_URL;
+export const POKEAPI_CSV_BASE_URL = cleanEnvValue(runtimeEnv.VITE_POKEAPI_CSV_BASE_URL) ?? DEFAULT_POKEAPI_CSV_BASE_URL;
+export const POKEAPI_SPRITE_BASE_URL = cleanEnvValue(runtimeEnv.VITE_POKEAPI_SPRITE_BASE_URL) ?? DEFAULT_POKEAPI_SPRITE_BASE_URL;
 
 function normalizePokeApiPath(path: string): string {
   const raw = String(path || '').trim();
@@ -56,11 +50,6 @@ function normalizePokeApiPath(path: string): string {
 export function buildPokeApiUrl(path: string): string {
   const normalizedPath = normalizePokeApiPath(path);
   return `${POKEAPI_BASE_URL}/${normalizedPath}`;
-}
-
-export function buildOfficialPokeApiUrl(path: string): string {
-  const normalizedPath = normalizePokeApiPath(path);
-  return `${DEFAULT_POKEAPI_BASE_URL}/${normalizedPath}`;
 }
 
 function parsePokeApiPathFromUrl(url: string): string | null {
@@ -100,8 +89,69 @@ export function normalizePokeApiResourceUrl(url: string): string {
   }
 }
 
+export function proxyExternalResourceUrl(url: string): string {
+  const normalizedUrl = String(url || '').trim();
+  if (!normalizedUrl || normalizedUrl.startsWith('/')) return normalizedUrl;
+
+  try {
+    const parsed = new URL(normalizedUrl);
+    const host = parsed.hostname.toLowerCase();
+    const path = parsed.pathname;
+
+    if (host === 'pokeapi.co' || host.endsWith('.pokeapi.co')) {
+      const matchedPath = path.match(/\/api\/v2\/(.+)/i);
+      return matchedPath?.[1] ? buildPokeApiUrl(`${matchedPath[1]}${parsed.search}`) : normalizedUrl;
+    }
+
+    if (host === 'raw.githubusercontent.com') {
+      const pokeApiSprites = path.match(/^\/PokeAPI\/sprites\/master\/sprites\/(.+)/i);
+      if (pokeApiSprites?.[1]) {
+        return `/api/pokeapi-sprites/${pokeApiSprites[1]}${parsed.search}`;
+      }
+
+      const pokedexCsv = path.match(/^\/veekun\/pokedex\/master\/pokedex\/data\/csv\/(.+)/i);
+      if (pokedexCsv?.[1]) {
+        return `/api/pokedex-csv/${pokedexCsv[1]}${parsed.search}`;
+      }
+
+      const pokeApiCry = path.match(/^\/PokeAPI\/cries\/main\/cries\/(.+)/i);
+      if (pokeApiCry?.[1]) {
+        return `/api/pokeapi-cries/${pokeApiCry[1]}${parsed.search}`;
+      }
+    }
+
+    return normalizedUrl;
+  } catch {
+    return normalizedUrl;
+  }
+}
+
+export function proxyExternalResourceUrls<T>(value: T): T {
+  if (typeof value === 'string') {
+    return proxyExternalResourceUrl(value) as T;
+  }
+  if (Array.isArray(value)) {
+    return value.map((entry) => proxyExternalResourceUrls(entry)) as T;
+  }
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .map(([key, entry]) => [key, proxyExternalResourceUrls(entry)]),
+    ) as T;
+  }
+  return value;
+}
+
 export function getPokemonSpriteUrl(id: number): string {
   return `${POKEAPI_SPRITE_BASE_URL}/${id}.png`;
+}
+
+export function getPokemonHomeSpriteUrl(id: number): string {
+  return `${DEFAULT_POKEAPI_HOME_SPRITE_BASE_URL}/${id}.png`;
+}
+
+export function getPokemonOfficialArtworkUrl(id: number): string {
+  return `${DEFAULT_POKEAPI_ARTWORK_BASE_URL}/${id}.png`;
 }
 
 function isRetriablePokeApiError(error: unknown): boolean {
@@ -126,13 +176,11 @@ async function fetchPokeApiJsonFromUrl(url: string): Promise<any> {
     throw new PokeApiHttpError(url, response.status);
   }
 
-  return response.json();
+  return proxyExternalResourceUrls(await response.json());
 }
 
 async function fetchPokeApiJsonWithRetry(normalizedPath: string): Promise<any> {
   const primaryUrl = buildPokeApiUrl(normalizedPath);
-  const fallbackUrl = buildOfficialPokeApiUrl(normalizedPath);
-  const candidateUrls = primaryUrl === fallbackUrl ? [primaryUrl] : [primaryUrl, fallbackUrl];
   let lastError: unknown = new Error(`Failed to fetch ${normalizedPath}`);
 
   for (let attempt = 0; attempt < POKEAPI_RETRY_DELAYS_MS.length; attempt += 1) {
@@ -141,20 +189,13 @@ async function fetchPokeApiJsonWithRetry(normalizedPath: string): Promise<any> {
       await delay(retryDelay);
     }
 
-    for (let index = 0; index < candidateUrls.length; index += 1) {
-      const url = candidateUrls[index];
-      try {
-        return await fetchPokeApiJsonFromUrl(url);
-      } catch (error) {
-        lastError = error;
-        const hasNextUrl = index < candidateUrls.length - 1;
-        if (hasNextUrl) {
-          continue;
-        }
-        const hasNextAttempt = attempt < POKEAPI_RETRY_DELAYS_MS.length - 1;
-        if (!hasNextAttempt || !isRetriablePokeApiError(error)) {
-          throw error;
-        }
+    try {
+      return await fetchPokeApiJsonFromUrl(primaryUrl);
+    } catch (error) {
+      lastError = error;
+      const hasNextAttempt = attempt < POKEAPI_RETRY_DELAYS_MS.length - 1;
+      if (!hasNextAttempt || !isRetriablePokeApiError(error)) {
+        throw error;
       }
     }
   }
@@ -189,5 +230,5 @@ export async function fetchPokeApiJsonByResourceUrl(url: string): Promise<any> {
   if (!response.ok) {
     throw new Error(`Failed to fetch resource: ${response.status}`);
   }
-  return response.json();
+  return proxyExternalResourceUrls(await response.json());
 }

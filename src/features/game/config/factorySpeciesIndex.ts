@@ -12,7 +12,7 @@ export interface FactorySpeciesIndexEntry {
 }
 
 let factorySpeciesIndexPromise: Promise<Map<string, FactorySpeciesIndexEntry>> | null = null;
-const FACTORY_SPECIES_INDEX_URL = `${import.meta.env.BASE_URL}data/factorySpeciesIndex.json`;
+const FACTORY_SPECIES_INDEX_URL = `${import.meta.env.BASE_URL}api/data/factory-species-index`;
 
 async function loadFactorySpeciesIndexMap(): Promise<Map<string, FactorySpeciesIndexEntry>> {
   if (!factorySpeciesIndexPromise) {

@@ -1,17 +1,17 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { GameViewSectionProps } from '../shared';
 import { getFactoryTrainerIntroQuote } from '../../../config/factoryTrainerIntroQuotes';
+import { POKEROGUE_FACTORY_ARENA_PLACEMENT } from './battleArenaAssets';
 
-function getTrainerIntroLine(
+function getTrainerIntroQuote(
   currentLanguage: string,
-  displayName: string,
   facilityClass: string,
   battleInSet: number,
   setNo: number,
   isSpecialBoss: boolean,
   isSetBoss: boolean,
 ) {
-  const quote = getFactoryTrainerIntroQuote({
+  return getFactoryTrainerIntroQuote({
     currentLanguage,
     facilityClass,
     battleInSet,
@@ -19,10 +19,15 @@ function getTrainerIntroLine(
     isSpecialBoss,
     isSetBoss,
   });
+}
 
-  return currentLanguage.startsWith('zh')
-    ? `${displayName}：“${quote}”`
-    : `${displayName}: "${quote}"`;
+function getTrainerDisplayName(trainerName: string) {
+  return trainerName
+    .toLowerCase()
+    .split(/[\s_-]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 }
 
 export function BattleLogPanel({ viewModel }: GameViewSectionProps) {
@@ -43,15 +48,11 @@ export function BattleLogPanel({ viewModel }: GameViewSectionProps) {
   const battleInSet = ((stage - 1) % 7) + 1;
   const setNo = Math.floor((stage - 1) / 7) + 1;
   const isSetBoss = battleInSet === 7;
-  const introLine = (trainerIntroActive || trainerIntroAwaitingContinue) && currentEnemyTrainer
-    ? getTrainerIntroLine(
+  const isZh = currentLanguage.startsWith('zh');
+  const introActive = Boolean((trainerIntroActive || trainerIntroAwaitingContinue) && currentEnemyTrainer);
+  const introQuote = introActive && currentEnemyTrainer
+    ? getTrainerIntroQuote(
       currentLanguage,
-      currentEnemyTrainer.trainerName
-        .toLowerCase()
-        .split(/[\s_-]+/)
-        .filter(Boolean)
-        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(' '),
       currentEnemyTrainer.facilityClass,
       battleInSet,
       setNo,
@@ -59,42 +60,77 @@ export function BattleLogPanel({ viewModel }: GameViewSectionProps) {
       isSetBoss,
     )
     : null;
-  const visibleLine = introLine || (battleLog.length > 0
-    ? (turn === 'ENEMY' && !isMessageProcessing ? t('thinking') : battleLog[battleLog.length - 1])
-    : null);
+  const trainerName = currentEnemyTrainer ? getTrainerDisplayName(currentEnemyTrainer.trainerName) : '';
+  const battleLines = battleLog.slice(-2);
+  const visibleLines = introQuote
+    ? [introQuote]
+    : turn === 'ENEMY' && !isMessageProcessing
+      ? [t('thinking')]
+      : battleLines.length > 0
+        ? battleLines
+        : [isZh ? '等待战斗指令。' : 'Awaiting battle command.'];
+  const panelLabel = introQuote
+    ? `${isZh ? '训练家' : 'TRAINER'} // ${trainerName}`
+    : isZh ? '战斗日志' : 'BATTLE LOG';
+
+  const continueIntro = () => {
+    if (trainerIntroAwaitingContinue) continueTrainerIntro();
+  };
 
   return (
     <motion.div
-      key="battle-log-box"
+      key="battle-message-panel"
       initial={shouldReduceMotion ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={() => {
-        if (trainerIntroAwaitingContinue) {
-          continueTrainerIntro();
+      onClick={continueIntro}
+      onKeyDown={(event) => {
+        if (trainerIntroAwaitingContinue && (event.key === 'Enter' || event.key === ' ')) {
+          event.preventDefault();
+          continueIntro();
         }
       }}
-      className="pf-battle-log absolute inset-0 flex items-center p-4 text-left sm:p-6"
+      role={trainerIntroAwaitingContinue ? 'button' : 'log'}
+      tabIndex={trainerIntroAwaitingContinue ? 0 : undefined}
+      aria-live={trainerIntroAwaitingContinue ? undefined : 'polite'}
+      aria-label={panelLabel}
+      data-dialogue={introQuote ? 'true' : 'false'}
+      data-awaiting-continue={trainerIntroAwaitingContinue ? 'true' : 'false'}
+      className="pf-battle-message-panel"
+      style={{
+        top: `${POKEROGUE_FACTORY_ARENA_PLACEMENT.messagePanel.top}px`,
+        height: `${POKEROGUE_FACTORY_ARENA_PLACEMENT.messagePanel.height}px`,
+      }}
     >
-      <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#2563eb_0%,#0ea5e9_52%,#f97316_100%)]" />
-      <div className="absolute inset-x-0 bottom-0 h-1 bg-[linear-gradient(90deg,#ef4444_0%,#f97316_48%,#2563eb_100%)]" />
-
-      <div className="relative z-10 w-full">
+      <div className="pf-battle-message-frame" aria-hidden="true" />
+      <div className="pf-battle-message-screen">
+        <div className="pf-battle-message-header">
+          <span>{panelLabel}</span>
+          <span className="pf-battle-message-channel">FCT-01</span>
+        </div>
         <AnimatePresence mode="wait">
-          {visibleLine && (
-            <motion.div
-              key={introLine ? `intro-${currentEnemyTrainer?.id ?? 'trainer'}` : battleLog.length}
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
-              className="max-w-[760px]"
-            >
-              <p className="text-lg font-black leading-tight text-white sm:text-[28px]">
-                {visibleLine}
+          <motion.div
+            key={introQuote ? `intro-${currentEnemyTrainer?.id ?? 'trainer'}` : `${battleLog.length}-${turn}-${isMessageProcessing}`}
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
+            className="pf-battle-message-copy"
+          >
+            {visibleLines.map((line, index) => (
+              <p
+                key={`${battleLog.length}-${index}-${line}`}
+                data-latest={index === visibleLines.length - 1 ? 'true' : 'false'}
+              >
+                {line}
               </p>
-            </motion.div>
-          )}
+            ))}
+          </motion.div>
         </AnimatePresence>
+        {trainerIntroAwaitingContinue && (
+          <span className="pf-battle-message-continue">
+            {isZh ? '点击继续' : 'CONTINUE'}
+            <span aria-hidden="true">▼</span>
+          </span>
+        )}
       </div>
     </motion.div>
   );

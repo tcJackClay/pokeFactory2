@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 
-import type { Move } from '../../../../types';
+import type { GamePokemon, Move } from '../../../../types';
 import {
   getItemAccuracyMultiplier,
   buildMoveBattleDataFromPokeApiMove,
@@ -24,6 +24,7 @@ import {
   getMoveCritStage,
   getMoveDrainPercent,
   getMoveHealingPercent,
+  getMoveRecoilPercent,
   getMoveSecondaryEffects,
   getAbilityBattleData,
   getExpectedMoveHitCount,
@@ -83,6 +84,32 @@ test('buildMoveBattleDataFromPokeApiMove derives multi-hit and recoil data', () 
   assert.equal(moveBattleData.maxHits, 5);
   assert.equal(moveBattleData.recoilPercent, 25);
   assert.equal(moveBattleData.makesContact, true);
+});
+
+test('buildMoveBattleDataFromPokeApiMove derives Pokerogue thaw behavior', () => {
+  const flamethrower = buildMoveBattleDataFromPokeApiMove({
+    name: 'flamethrower',
+    type: { name: 'fire' },
+    damage_class: { name: 'special' },
+    priority: 0,
+    target: { name: 'selected-pokemon' },
+    meta: {},
+    flags: [],
+  });
+  const scald = buildMoveBattleDataFromPokeApiMove({
+    name: 'scald',
+    type: { name: 'water' },
+    damage_class: { name: 'special' },
+    priority: 0,
+    target: { name: 'selected-pokemon' },
+    meta: {},
+    flags: [],
+  });
+
+  assert.equal(flamethrower.thawsTarget, true);
+  assert.equal(flamethrower.thawsUser, false);
+  assert.equal(scald.thawsTarget, true);
+  assert.equal(scald.thawsUser, true);
 });
 
 test('ability and item battle lookups normalize ids', () => {
@@ -223,6 +250,33 @@ test('move battle helpers prefer battle metadata over legacy fields', () => {
   assert.equal(getMoveCritStage(move), 3);
   assert.equal(getMoveDrainPercent(move), 75);
   assert.equal(getMoveHealingPercent(move), 100);
+});
+
+test('weather-sensitive healing follows Pokerogue PlantHealAttr ratios', () => {
+  const synthesis = {
+    name: 'synthesis',
+    healing: 50,
+  } as Move;
+
+  assert.equal(getMoveHealingPercent(synthesis, 'none'), 50);
+  assert.equal(getMoveHealingPercent(synthesis, 'sunny'), 200 / 3);
+  assert.equal(getMoveHealingPercent(synthesis, 'rainy'), 25);
+  assert.equal(getMoveHealingPercent(synthesis, 'sandstorm'), 25);
+  assert.equal(getMoveHealingPercent(synthesis, 'hail'), 25);
+});
+
+test('Rock Head and Magic Guard suppress recoil damage', () => {
+  const recoilMove = {
+    name: 'double-edge',
+    drain: -25,
+  } as Move;
+  const withAbility = (abilityName: string) => ({
+    abilities: [{ ability: { name: abilityName, url: '' } }],
+  }) as GamePokemon;
+
+  assert.equal(getMoveRecoilPercent(recoilMove), 25);
+  assert.equal(getMoveRecoilPercent(recoilMove, withAbility('rock-head')), 0);
+  assert.equal(getMoveRecoilPercent(recoilMove, withAbility('magic-guard')), 0);
 });
 
 test('move battle data includes secondary effects and field metadata', () => {

@@ -1,6 +1,7 @@
 export interface Pokemon {
   id: number;
   name: string;
+  weight?: number;
   names?: { name: string; language: { name: string } }[];
   zhName?: string; // Keep for backward compatibility
   sprites: {
@@ -90,6 +91,10 @@ export type MoveBattleFlag =
   | 'mirror'
   | 'sound'
   | 'punch'
+  | 'bite'
+  | 'pulse'
+  | 'slicing'
+  | 'wind'
   | 'powder'
   | 'ballistic'
   | 'bypass-protect'
@@ -131,6 +136,42 @@ export type MoveEffectId =
   | 'LOW_HP_POWER'
   | 'HIGH_HP_POWER'
   | 'FACADE'
+  | 'RANDOM_LEVEL_DAMAGE'
+  | 'WEIGHT_POWER'
+  | 'FRIENDSHIP_POWER'
+  | 'INVERSE_FRIENDSHIP_POWER'
+  | 'MAGNITUDE'
+  | 'ONE_HIT_KO'
+  | 'SHEER_COLD'
+  | 'CONSECUTIVE_POWER'
+  | 'PRESENT'
+  | 'COUNTER_PHYSICAL'
+  | 'COUNTER_SPECIAL'
+  | 'SPIT_UP'
+  | 'SWALLOW'
+  | 'STOCKPILE'
+  | 'REVENGE'
+  | 'SMELLING_SALTS'
+  | 'KNOCK_OFF'
+  | 'SECRET_POWER'
+  | 'SAFEGUARD'
+  | 'REFLECT'
+  | 'LIGHT_SCREEN'
+  | 'BREAK_SCREENS'
+  | 'HP_SPLIT'
+  | 'BELLY_DRUM'
+  | 'FOCUS_ENERGY'
+  | 'FORESIGHT'
+  | 'HAZE'
+  | 'PSYCH_UP'
+  | 'LEECH_SEED'
+  | 'DAMAGING_TRAP'
+  | 'PERISH_SONG'
+  | 'INGRAIN'
+  | 'PARTY_STATUS_CURE'
+  | 'REFRESH'
+  | 'HIDDEN_POWER'
+  | 'TRI_ATTACK'
   | 'SELF_DESTRUCT'
   | (string & {});
 
@@ -156,6 +197,8 @@ export interface MoveBattleData {
   punchMove: boolean;
   bypassProtect: boolean;
   ignoreAccuracyCheck: boolean;
+  thawsUser?: boolean;
+  thawsTarget?: boolean;
   weather?: Weather;
   fieldState?: FieldState;
 }
@@ -263,7 +306,16 @@ export type KnownVolatileStatus =
   | 'yawn'
   | 'uproar'
   | 'protect'
-  | 'substitute';
+  | 'substitute'
+  | 'safeguard'
+  | 'reflect'
+  | 'light_screen'
+  | 'crit_boost'
+  | 'foresight'
+  | 'seeded'
+  | 'trapped'
+  | 'perish_song'
+  | 'ingrain';
 
 export type VolatileStatusId = KnownVolatileStatus | (string & {});
 export type PokemonGender = 'male' | 'female' | 'genderless';
@@ -315,6 +367,12 @@ export interface GamePokemon extends Pokemon {
   factoryPlannedSpecialMode?: 'MEGA' | 'DYNAMAX' | 'TERA' | 'ZMOVE';
   factoryChoiceLockedMoveName?: string | null;
   factoryLastUsedMoveName?: string | null;
+  factoryConsecutiveMoveCount?: number;
+  friendship?: number;
+  factoryLastDamageReceived?: number;
+  factoryLastDamageCategory?: 'physical' | 'special';
+  factoryDamagedThisTurn?: boolean;
+  factoryStockpileCount?: number;
 }
 
 export interface Item {

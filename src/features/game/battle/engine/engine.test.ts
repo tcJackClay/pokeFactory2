@@ -158,6 +158,55 @@ test('resolveBeforeMoveChecks clears stale infatuation links without blocking th
   assert.equal(result.combatant.volatileStatuses?.infatuation, undefined);
 });
 
+test('resolveBeforeMoveChecks lets a frozen user thaw with an eligible move', () => {
+  const frozen = setNonVolatileStatus(createPokemon(1, 'frozen'), 'freeze', { turnsRemaining: 3 });
+  const result = resolveBeforeMoveChecks({
+    snapshot: createSnapshot({ playerTeam: [frozen] }),
+    side: 'player',
+    combatant: frozen,
+    move: createMove({
+      name: 'scald',
+      type: 'water',
+      damage_class: 'special',
+      battleData: {
+        effectId: 'NONE',
+        priority: 0,
+        target: 'selected-pokemon',
+        flags: [],
+        critStage: 0,
+        drainPercent: 0,
+        recoilPercent: 0,
+        healingPercent: 0,
+        strikeMode: 'single',
+        minHits: 1,
+        maxHits: 1,
+        secondaryEffects: [],
+        substituteInteraction: 'blocked',
+        makesContact: false,
+        soundMove: false,
+        powderMove: false,
+        ballisticMove: false,
+        punchMove: false,
+        bypassProtect: false,
+        ignoreAccuracyCheck: false,
+        thawsUser: true,
+      },
+    }),
+    displayName: 'Frozen',
+    hasAbilityEffect: () => false,
+    isMoveUsableWhileAsleep: () => false,
+    getEncoredMove: () => null,
+    getMoveCurrentPp: (move) => move.currentPp ?? move.pp ?? 0,
+    tryConsumeStatusCureBerry: (pokemon) => ({ pokemon, message: null }),
+    tryConsumeMentalHerb: (pokemon) => ({ pokemon, message: null }),
+    calculateConfusionSelfHitDamage: () => 10,
+    random: () => 0.99,
+  });
+
+  assert.equal(result.canAct, true);
+  assert.equal(result.combatant.nonVolatileStatus, undefined);
+});
+
 test('resolveEndTurn applies poison damage before leftovers recovery', () => {
   const poisonedPokemon = createPokemon(1, 'poisoned', {
     currentHp: 80,
@@ -205,6 +254,111 @@ test('resolveEndTurn increments toxic counter at end of turn', () => {
   assert.equal(result.snapshot.playerTeam[0].nonVolatileStatus?.toxicCounter, 3);
 });
 
+test('resolveEndTurn uses Pokerogue poison, toxic, and burn residual formulas', () => {
+  const poisoned = setNonVolatileStatus(createPokemon(1, 'poisoned', { currentHp: 110, maxHp: 110 }), 'poison');
+  const toxic = setNonVolatileStatus(createPokemon(2, 'toxic', { currentHp: 110, maxHp: 110 }), 'bad_poison', { toxicCounter: 3 });
+  const burned = setNonVolatileStatus(createPokemon(3, 'burned', { currentHp: 110, maxHp: 110 }), 'burn');
+  const commonOptions = {
+    getLocalized: (pokemon: GamePokemon) => pokemon.name,
+    formatDynamaxEndMessage: (pokemon: GamePokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (move: { currentPp?: number; pp?: number }) => move.currentPp ?? move.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+  };
+
+  const poisonResult = resolveEndTurn({ ...commonOptions, snapshot: createSnapshot({ playerTeam: [poisoned] }) });
+  const toxicResult = resolveEndTurn({ ...commonOptions, snapshot: createSnapshot({ playerTeam: [toxic] }) });
+  const burnResult = resolveEndTurn({ ...commonOptions, snapshot: createSnapshot({ playerTeam: [burned] }) });
+
+  assert.equal(poisonResult.playerLead.currentHp, 97);
+  assert.equal(toxicResult.playerLead.currentHp, 90);
+  assert.equal(burnResult.playerLead.currentHp, 104);
+});
+
+test('resolveBeforeMoveChecks uses Pokerogue freeze, confusion, and paralysis chances', () => {
+  const baseOptions = {
+    side: 'player' as const,
+    move: createMove(),
+    displayName: 'Status mon',
+    hasAbilityEffect: () => false,
+    isMoveUsableWhileAsleep: () => false,
+    getEncoredMove: () => null,
+    getMoveCurrentPp: (move: Move) => move.currentPp ?? move.pp ?? 0,
+    tryConsumeStatusCureBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    tryConsumeMentalHerb: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    calculateConfusionSelfHitDamage: () => 10,
+  };
+  const frozen = setNonVolatileStatus(createPokemon(1, 'frozen'), 'freeze', { turnsRemaining: 1 });
+  const confused = setVolatileStatus(createPokemon(1, 'confused'), 'confusion', { turnsRemaining: 2 });
+  const paralyzed = setNonVolatileStatus(createPokemon(1, 'paralyzed'), 'paralysis');
+
+  const thawed = resolveBeforeMoveChecks({
+    ...baseOptions,
+    snapshot: createSnapshot({ playerTeam: [frozen] }),
+    combatant: frozen,
+    random: () => 0.99,
+  });
+  const confusionContinues = resolveBeforeMoveChecks({
+    ...baseOptions,
+    snapshot: createSnapshot({ playerTeam: [confused] }),
+    combatant: confused,
+    random: () => 0.4,
+  });
+  const paralysisDoesNotProc = resolveBeforeMoveChecks({
+    ...baseOptions,
+    snapshot: createSnapshot({ playerTeam: [paralyzed] }),
+    combatant: paralyzed,
+    random: () => 0.2,
+  });
+  const paralysisProcs = resolveBeforeMoveChecks({
+    ...baseOptions,
+    snapshot: createSnapshot({ playerTeam: [paralyzed] }),
+    combatant: paralyzed,
+    random: () => 0.1,
+  });
+
+  assert.equal(thawed.canAct, true);
+  assert.equal(thawed.combatant.nonVolatileStatus, undefined);
+  assert.equal(confusionContinues.canAct, true);
+  assert.equal(confusionContinues.combatant.volatileStatuses?.confusion?.turnsRemaining, 1);
+  assert.equal(paralysisDoesNotProc.canAct, true);
+  assert.equal(paralysisProcs.canAct, false);
+});
+
+test('resolveEndTurn applies Pokerogue Hydration and Shed Skin cures after status damage', () => {
+  const hydration = setNonVolatileStatus(createPokemon(1, 'hydration', {
+    currentHp: 100,
+    abilities: [{ ability: { name: 'hydration', url: '' } }],
+  }), 'poison');
+  const shedSkin = setNonVolatileStatus(createPokemon(2, 'shed-skin', {
+    currentHp: 100,
+    abilities: [{ ability: { name: 'shed-skin', url: '' } }],
+  }), 'burn');
+  const commonOptions = {
+    getLocalized: (pokemon: GamePokemon) => pokemon.name,
+    formatDynamaxEndMessage: (pokemon: GamePokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (move: { currentPp?: number; pp?: number }) => move.currentPp ?? move.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+  };
+
+  const hydrationResult = resolveEndTurn({
+    ...commonOptions,
+    snapshot: createSnapshot({ playerTeam: [hydration], weather: 'rainy', weatherTurns: 2 }),
+    random: () => 0.99,
+  });
+  const shedSkinResult = resolveEndTurn({
+    ...commonOptions,
+    snapshot: createSnapshot({ playerTeam: [shedSkin] }),
+    random: () => 0.29,
+  });
+
+  assert.equal(hydrationResult.playerLead.currentHp, 88);
+  assert.equal(hydrationResult.playerLead.nonVolatileStatus, undefined);
+  assert.equal(shedSkinResult.playerLead.currentHp, 94);
+  assert.equal(shedSkinResult.playerLead.nonVolatileStatus, undefined);
+});
+
 test('resolveEndTurn heals grounded battlers on grassy terrain', () => {
   const groundedPokemon = createPokemon(1, 'grounded', {
     currentHp: 80,
@@ -233,6 +387,41 @@ test('resolveEndTurn heals grounded battlers on grassy terrain', () => {
 
   assert.equal(result.snapshot.playerTeam[0].currentHp, 90);
   assert.equal(result.snapshot.enemyTeam[0].currentHp, 80);
+});
+
+test('resolveEndTurn aligns Leech Seed, damaging traps, Ingrain, and Perish Song', () => {
+  let player = createPokemon(1, 'player', { currentHp: 100, maxHp: 160 });
+  player = setVolatileStatus(player, 'seeded', { linkedPokemonId: 2 });
+  player = setVolatileStatus(player, 'trapped', { turnsRemaining: 4, sourceMoveName: 'bind' });
+  player = setVolatileStatus(player, 'ingrain');
+  player = setVolatileStatus(player, 'perish-song', { counter: 3 });
+  const enemy = createPokemon(2, 'enemy', { currentHp: 50, maxHp: 160 });
+  const commonOptions = {
+    getLocalized: (pokemon: GamePokemon) => pokemon.name,
+    formatDynamaxEndMessage: (pokemon: GamePokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (move: Move) => move.currentPp ?? move.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+  };
+
+  const result = resolveEndTurn({
+    ...commonOptions,
+    snapshot: createSnapshot({ playerTeam: [player], enemyTeam: [enemy] }),
+  });
+
+  assert.equal(result.playerLead.currentHp, 70);
+  assert.equal(result.enemyLead.currentHp, 70);
+  assert.equal(result.playerLead.volatileStatuses?.trapped?.turnsRemaining, 3);
+  assert.equal(result.playerLead.volatileStatuses?.perish_song?.counter, 2);
+
+  const perishOne = resolveEndTurn({
+    ...commonOptions,
+    snapshot: createSnapshot({
+      playerTeam: [setVolatileStatus(createPokemon(3, 'perish'), 'perish-song', { counter: 1 })],
+    }),
+  });
+  assert.equal(perishOne.playerLead.currentHp, 0);
+  assert.equal(perishOne.playerLead.volatileStatuses?.perish_song, undefined);
 });
 
 test('resolveEndTurn wakes sleeping battlers during uproar after yawn processing', () => {

@@ -49,14 +49,15 @@ const PREFERRED_VOLATILE_STATUS_ORDER = [
   'substitute',
 ];
 
-const GEN5_SLEEP_TURN_MIN = 2;
-const GEN5_SLEEP_TURN_MAX = 4;
+const POKEROGUE_SLEEP_SHORT_COUNTER = 2;
+const POKEROGUE_SLEEP_LONG_COUNTER = 3;
+const POKEROGUE_FREEZE_TURN_COUNTER = 3;
 const CONFUSION_TURN_MIN = 2;
 const CONFUSION_TURN_MAX = 5;
 
 export function rollSleepTurns(random: () => number = Math.random): number {
   const roll = Math.max(0, Math.min(0.999999999, random()));
-  return GEN5_SLEEP_TURN_MIN + Math.floor(roll * (GEN5_SLEEP_TURN_MAX - GEN5_SLEEP_TURN_MIN + 1));
+  return roll < (1 / 3) ? POKEROGUE_SLEEP_SHORT_COUNTER : POKEROGUE_SLEEP_LONG_COUNTER;
 }
 
 export function rollConfusionTurns(random: () => number = Math.random): number {
@@ -121,7 +122,13 @@ export function setNonVolatileStatus(
     ...pokemon,
     nonVolatileStatus: {
       id: normalized,
-      turnsRemaining: overrides.turnsRemaining ?? existing?.turnsRemaining ?? (normalized === 'sleep' ? rollSleepTurns(random) : undefined),
+      turnsRemaining: overrides.turnsRemaining
+        ?? existing?.turnsRemaining
+        ?? (normalized === 'sleep'
+          ? rollSleepTurns(random)
+          : normalized === 'freeze'
+            ? POKEROGUE_FREEZE_TURN_COUNTER
+            : undefined),
       toxicCounter: overrides.toxicCounter ?? existing?.toxicCounter ?? (normalized === 'bad_poison' ? 1 : undefined),
       sourceMoveName: overrides.sourceMoveName ?? existing?.sourceMoveName,
     },

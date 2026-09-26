@@ -84,7 +84,7 @@ function getBlockedReason(move: Move, attacker: GamePokemon, defender: GamePokem
     return 'substitute';
   }
 
-  if (move.damage_class !== 'status' && getMoveTypeMultiplier(move, defender) === 0) {
+  if (move.damage_class !== 'status' && getMoveTypeMultiplier(move, defender, attacker, fieldState) === 0) {
     return 'type-immune';
   }
 
@@ -214,7 +214,7 @@ export function evaluateAiMove({
     };
   }
 
-  const typeMultiplier = getMoveTypeMultiplier(move, defender);
+  const typeMultiplier = getMoveTypeMultiplier(move, defender, attacker, fieldState);
   const accuracyScale = getAccuracyScale(move);
   const protectScale = getProtectionScale(move, attackerGimmick, defender);
   const substituteHp = getVolatileStatus(defender, 'substitute')?.counter ?? 0;
@@ -261,6 +261,6 @@ export function getBestTypePressureAgainstTarget(attacker: GamePokemon, defender
       fieldState: [],
     });
     if (evaluation.blockedReason) return best;
-    return Math.max(best, getMoveTypeMultiplier(move, defender));
+    return Math.max(best, getMoveTypeMultiplier(move, defender, attacker));
   }, 0);
 }

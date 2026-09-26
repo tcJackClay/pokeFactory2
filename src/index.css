@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 
@@ -16,8 +15,8 @@
 }
 
 :root {
-  --pf-font-ui: 'Inter', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --pf-font-display: 'Inter', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --pf-font-ui: 'Segoe UI Variable', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --pf-font-display: 'Segoe UI Variable', 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 
   --pf-bg-page-top: #f8fafc;
   --pf-bg-page-bottom: #eef2f7;
@@ -192,6 +191,37 @@ textarea:focus-visible {
 
 .pf-battle-screen {
   position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) clamp(236px, 35dvh, 320px);
+  gap: 0.65rem;
+}
+
+.pf-battle-top-region,
+.pf-battle-viewport-region,
+.pf-battle-command-region {
+  min-width: 0;
+  min-height: 0;
+  padding-inline: 0.75rem;
+}
+
+.pf-battle-top-region {
+  padding-top: 0.25rem;
+}
+
+.pf-battle-viewport-region {
+  position: relative;
+  overflow: hidden;
+}
+
+.pf-battle-command-region {
+  overflow: hidden;
+  padding-bottom: 0.5rem;
+}
+
+.pf-battle-stage-shell,
+.pf-battle-action-shell {
+  min-width: 0;
+  min-height: 0;
 }
 
 .pf-battle-viewport {
@@ -222,8 +252,30 @@ textarea:focus-visible {
   pointer-events: none;
 }
 
+.pf-battle-canvas-hud {
+  z-index: 20;
+  pointer-events: auto;
+}
+
 .pf-battle-overlay-ui {
   z-index: 20;
+}
+
+.pf-battle-canvas.pf-arena-stage {
+  border-radius: 14px;
+}
+
+.pf-battle-canvas .pf-battle-hud-card {
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(15, 23, 42, 0.14);
+}
+
+.pf-battle-canvas .pf-battle-hud-card[data-side='player'] {
+  border-left-width: 2px;
+}
+
+.pf-battle-canvas .pf-battle-hud-card[data-side='enemy'] {
+  border-right-width: 2px;
 }
 
 h1,
@@ -418,6 +470,72 @@ button {
   opacity: 0.8;
 }
 
+@media (max-height: 640px) {
+  .pf-start-primary-orb {
+    width: clamp(7.5rem, 24svh, 9rem) !important;
+    height: clamp(7.5rem, 24svh, 9rem) !important;
+    margin-top: 0.75rem !important;
+  }
+
+  .pf-start-primary-orb svg {
+    width: clamp(2.75rem, 8svh, 4rem) !important;
+    height: clamp(2.75rem, 8svh, 4rem) !important;
+  }
+
+  .pf-start-copy h1 {
+    font-size: clamp(1.65rem, 6svh, 2.125rem) !important;
+  }
+
+  .pf-start-companion {
+    transform: scale(0.75);
+    transform-origin: left bottom;
+  }
+
+  .pf-start-dock-region .pf-dock-button {
+    min-height: 64px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 460px) {
+  .pf-start-layout {
+    gap: 0.4rem !important;
+  }
+
+  .pf-start-screen .pf-home-hero {
+    padding: 0.75rem 1.25rem !important;
+  }
+
+  .pf-start-hero-content {
+    flex-direction: row !important;
+    gap: clamp(1.5rem, 8vw, 5rem);
+    padding-inline: clamp(1rem, 7vw, 4rem);
+  }
+
+  .pf-start-primary-orb {
+    width: clamp(5.5rem, 29svh, 7rem) !important;
+    height: clamp(5.5rem, 29svh, 7rem) !important;
+    margin-top: 0 !important;
+    flex: 0 0 auto;
+  }
+
+  .pf-start-copy h1 {
+    font-size: clamp(1.5rem, 7svh, 1.9rem) !important;
+  }
+
+  .pf-start-copy p {
+    margin-top: 0.35rem !important;
+    font-size: 0.7rem;
+  }
+
+  .pf-start-companion {
+    display: none;
+  }
+
+  .pf-start-dock-region .pf-dock-button {
+    min-height: 62px;
+  }
+}
+
 .pf-battle-card {
   position: relative;
   overflow: hidden;
@@ -557,6 +675,50 @@ button {
   pointer-events: none;
 }
 
+.pf-battle-canvas.pf-arena-stage {
+  overflow: hidden;
+  border: 1px solid #aab2b9;
+  border-radius: 6px;
+  background: #70767b;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72),
+    inset 0 -10px 22px rgba(49, 56, 61, 0.22),
+    0 8px 24px rgba(71, 85, 105, 0.24);
+}
+
+.pf-battle-canvas.pf-arena-stage::before {
+  z-index: 1;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 18%, transparent 82%, rgba(28, 35, 40, 0.12)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent 18%, transparent 82%, rgba(30, 38, 44, 0.08));
+  opacity: 0.55;
+}
+
+.pf-pokerogue-factory-bg {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  width: 320px;
+  height: 180px;
+  image-rendering: pixelated;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.pf-pokerogue-arena-base {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  display: block;
+  width: 320px;
+  height: 132px;
+  image-rendering: pixelated;
+  object-fit: fill;
+  pointer-events: none;
+}
+
 .pf-battle-hud-card {
   position: relative;
   overflow: hidden;
@@ -583,6 +745,221 @@ button {
 
 .pf-battle-hud-card[data-side='enemy'] {
   border-right: 5px solid var(--pf-state-danger);
+}
+
+.pf-battle-canvas .pf-factory-hud {
+  overflow: hidden;
+  border: 1px solid #aeb7bf;
+  border-radius: 0;
+  color: #26313a;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f4f6f7 42%, #d8dde1 43%, #edf0f2 100%);
+  box-shadow: none;
+  filter: drop-shadow(0 4px 4px rgba(64, 75, 84, 0.34));
+}
+
+.pf-battle-canvas .pf-factory-hud--enemy {
+  clip-path: polygon(7px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 7px);
+  border-right: 0;
+}
+
+.pf-battle-canvas .pf-factory-hud--player {
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 5px 100%, 0 calc(100% - 5px), 0 12px);
+  border-left: 0;
+}
+
+.pf-battle-canvas .pf-factory-hud::before {
+  z-index: 0;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #7c878f 0 2px, #f9fafb 2px 4px, transparent 4px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0 1px, transparent 1px calc(100% - 2px), rgba(96, 107, 116, 0.32) calc(100% - 2px)),
+    repeating-linear-gradient(90deg, rgba(92, 103, 112, 0.045) 0 1px, transparent 1px 12px);
+}
+
+.pf-battle-canvas .pf-factory-hud::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: 2px;
+  width: 22px;
+  height: 3px;
+  clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
+  background: linear-gradient(180deg, #dfe4e7, #79858e);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}
+
+.pf-factory-hud--enemy {
+  --pf-hud-accent: #934c4c;
+}
+
+.pf-factory-hud--enemy::after {
+  right: 8px;
+}
+
+.pf-factory-hud--player {
+  --pf-hud-accent: #4c6b83;
+}
+
+.pf-factory-hud--player::after {
+  left: 8px;
+}
+
+.pf-factory-hud__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px 8px;
+}
+
+.pf-factory-hud__header,
+.pf-factory-hud__meta,
+.pf-factory-hp-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.pf-factory-hud__header {
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.pf-factory-hud__name {
+  color: #27313a;
+  font-size: 9px;
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.96);
+}
+
+.pf-factory-hud__gender {
+  flex: 0 0 auto;
+  font-size: 8px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.pf-factory-hud__gender.is-female {
+  color: #fb7185;
+}
+
+.pf-factory-hud__gender.is-male {
+  color: #60a5fa;
+}
+
+.pf-factory-hud__gender.is-neutral {
+  color: #7c878f;
+}
+
+.pf-factory-hud__level {
+  flex: 0 0 auto;
+  min-width: 29px;
+  clip-path: polygon(4px 0, 100% 0, 100% 100%, 0 100%, 0 4px);
+  border: 1px solid #3f4a52;
+  background: linear-gradient(180deg, #69747c, #414b53);
+  padding: 2px 4px;
+  color: #ffffff;
+  font-size: 6px;
+  font-weight: 950;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pf-factory-hud__meta {
+  min-height: 8px;
+  justify-content: space-between;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.pf-factory-hud__types {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.pf-factory-hud__type {
+  height: 8px !important;
+  width: 34px !important;
+  gap: 1px !important;
+  border-width: 1px !important;
+  padding: 0 2px !important;
+  font-size: 5px !important;
+  line-height: 1 !important;
+}
+
+.pf-factory-hud__type svg {
+  height: 5px !important;
+  width: 5px !important;
+}
+
+.pf-factory-hud__status {
+  flex: 0 0 auto;
+  clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
+  border: 1px solid #64717a;
+  background: linear-gradient(180deg, #707b83, #48535b);
+  padding: 1px 4px;
+  color: #ffffff;
+  font-size: 5px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.pf-factory-hp-row {
+  gap: 3px;
+}
+
+.pf-factory-hp-label {
+  flex: 0 0 auto;
+  color: #4a555d;
+  font-size: 7px;
+  font-style: italic;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.pf-factory-hp-track {
+  position: relative;
+  flex: 0 0 auto;
+  width: 70px;
+  height: 5px;
+  overflow: hidden;
+  clip-path: polygon(2px 0, 100% 0, calc(100% - 2px) 100%, 0 100%);
+  border: 1px solid #8d989f;
+  background: #c5ccd1;
+  padding: 1px;
+}
+
+.pf-factory-hud--player .pf-factory-hp-track {
+  width: 78px;
+}
+
+.pf-factory-hp-fill {
+  height: 100%;
+  border-radius: 0;
+  box-shadow: 0 0 4px currentColor;
+}
+
+.pf-factory-hp-percent,
+.pf-factory-hp-value {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: #4b565e;
+  font-size: 6px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .pf-battle-console {
@@ -695,8 +1072,18 @@ button {
     font-size: 0.95rem;
   }
 
+  .pf-top-record-chip > div {
+    gap: 0.3rem;
+  }
+
+  .pf-top-record-chip > div > div:first-child {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
   .pf-battle-screen {
     gap: 0.65rem;
+    grid-template-rows: auto minmax(0, 1fr) 236px;
   }
 
   .pf-battle-command-grid {
@@ -724,30 +1111,43 @@ button {
     gap: 0.25rem;
   }
 
-  .pf-battle-action-shell {
-    min-height: 252px;
+  .pf-battle-move-button {
+    min-height: 64px !important;
+    padding: 0.3rem !important;
+  }
+
+  .pf-battle-move-main {
+    min-height: 24px !important;
+  }
+
+  .pf-battle-move-type {
+    display: none;
+  }
+
+  .pf-battle-interaction-panel {
+    padding: 0.5rem !important;
+  }
+
+  .pf-battle-content-panel {
+    margin-top: 0.25rem !important;
   }
 }
 
 @media (orientation: portrait) {
   .pf-battle-screen {
     gap: 0.75rem;
+    grid-template-rows: auto minmax(0, 1fr) clamp(236px, 35svh, 310px);
     overflow: hidden;
-  }
-
-  .pf-battle-stage-shell {
-    flex: 1 1 0%;
-    min-height: 11.5rem;
-  }
-
-  .pf-battle-action-shell {
-    flex: 0 0 clamp(250px, 39svh, 348px);
-    min-height: 0;
-    max-height: clamp(250px, 39svh, 348px);
   }
 
   .pf-battle-action-shell .pf-battle-console-panel {
     min-height: 0;
+  }
+}
+
+@media (min-width: 900px) {
+  .pf-battle-moves-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -775,23 +1175,72 @@ button {
   }
 
   .pf-battle-screen {
-    flex-direction: row;
-    gap: 0.7rem;
+    grid-template-rows: auto minmax(88px, 1fr) clamp(132px, 40svh, 156px);
+    gap: 0.4rem;
     overflow: hidden;
   }
 
-  .pf-battle-stage-shell {
-    min-height: 0 !important;
-    flex: 1.08 1 0%;
+  .pf-battle-top-region {
+    padding-top: 0;
   }
 
-  .pf-battle-action-shell {
-    min-height: 0 !important;
-    flex: 0.92 1 0%;
+  .pf-battle-command-region {
+    padding-bottom: 0.25rem;
   }
 
-  .pf-battle-action-shell .pf-battle-console-panel {
-    min-height: 0;
+  .pf-battle-interaction-panel {
+    padding: 0.4rem !important;
+  }
+
+  .pf-battle-content-panel {
+    margin-top: 0.35rem !important;
+  }
+
+  .pf-battle-state-badges {
+    margin-bottom: 0.25rem !important;
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+    overflow-x: auto;
+  }
+
+  .pf-battle-state-badges > span {
+    min-height: 20px;
+    padding: 0.15rem 0.45rem;
+    font-size: 8px;
+  }
+
+  .pf-battle-moves-panel {
+    padding: 0.3rem !important;
+  }
+
+  .pf-battle-moves-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .pf-battle-move-button {
+    min-height: 64px !important;
+    border-radius: 10px !important;
+    padding: 0.35rem !important;
+  }
+
+  .pf-battle-move-main {
+    min-height: 28px !important;
+    grid-template-columns: minmax(0, 1fr) 18px !important;
+  }
+
+  .pf-battle-move-name {
+    min-height: 16px !important;
+    font-size: 10px !important;
+  }
+
+  .pf-battle-move-type {
+    display: none;
+  }
+
+  .pf-battle-move-meta {
+    min-height: 22px !important;
+    font-size: 8px !important;
   }
 
   .pf-battle-player-dock {
@@ -803,7 +1252,7 @@ button {
   }
 
   .pf-battle-command-button {
-    min-height: 48px;
+    min-height: 36px;
     gap: 0.15rem;
     border-radius: 14px;
     font-size: 9px;
@@ -828,31 +1277,142 @@ button {
   }
 }
 
-.pf-battle-log {
-  position: relative;
-  overflow: hidden;
-  border-radius: 24px;
-  background:
-    radial-gradient(circle at top right, rgba(59, 130, 246, 0.22), transparent 32%),
-    linear-gradient(180deg, #0f172a 0%, #111827 100%);
-  color: white;
+.pf-battle-interaction-panel[data-enabled='false'] {
+  opacity: 0.62;
+  filter: grayscale(0.28) saturate(0.62);
 }
 
-.pf-battle-log::before {
-  content: '';
+.pf-battle-message-panel {
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0.05) 1px,
-      transparent 1px,
-      transparent 100%
-    );
-  background-size: 100% 18px;
-  opacity: 0.36;
+  z-index: 40;
+  left: 0;
+  top: 132px;
+  width: 320px;
+  height: 48px;
+  overflow: hidden;
+  padding: 3px 4px 4px;
+  border: 0;
+  clip-path: polygon(0 5px, 5px 0, 315px 0, 320px 5px, 320px 48px, 0 48px);
+  background:
+    linear-gradient(90deg, #8f989f 0 3px, transparent 3px 317px, #8f989f 317px),
+    linear-gradient(180deg, #fdfefe 0%, #dfe4e7 48%, #aeb7bd 49%, #f4f6f7 100%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -2px 0 #7b858c;
+  color: #f8fafc;
+  font-family: var(--pf-font-display);
+  text-align: left;
+}
+
+.pf-battle-message-panel[data-awaiting-continue='true'] {
+  cursor: pointer;
+}
+
+.pf-battle-message-panel:focus-visible {
+  outline: 1px solid #38bdf8;
+  outline-offset: -2px;
+}
+
+.pf-battle-message-frame {
+  position: absolute;
+  inset: 1px;
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(75, 85, 94, 0.72);
+  background:
+    linear-gradient(90deg, transparent 0 10px, rgba(81, 91, 99, 0.18) 10px 11px, transparent 11px 309px, rgba(81, 91, 99, 0.18) 309px 310px, transparent 310px),
+    repeating-linear-gradient(90deg, transparent 0 20px, rgba(255, 255, 255, 0.28) 20px 21px);
   pointer-events: none;
+}
+
+.pf-battle-message-screen {
+  position: relative;
+  height: 41px;
+  overflow: hidden;
+  border: 1px solid #657079;
+  clip-path: polygon(0 3px, 3px 0, 309px 0, 312px 3px, 312px 38px, 309px 41px, 3px 41px, 0 38px);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.025)),
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 4px),
+    #20262b;
+  box-shadow:
+    inset 0 0 0 1px #0e1215,
+    inset 0 0 10px rgba(0, 0, 0, 0.34);
+}
+
+.pf-battle-message-header {
+  display: flex;
+  height: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1px 6px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.32);
+  color: #a7e8ff;
+  font-size: 5px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.pf-battle-message-channel {
+  color: #94a3b8;
+  letter-spacing: 0.12em;
+}
+
+.pf-battle-message-copy {
+  display: grid;
+  align-content: center;
+  min-height: 29px;
+  padding: 2px 7px 3px;
+}
+
+.pf-battle-message-copy p {
+  overflow: hidden;
+  margin: 0;
+  color: #b6c0c7;
+  font-size: 7px;
+  font-weight: 700;
+  line-height: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pf-battle-message-copy p[data-latest='true'] {
+  color: #f8fafc;
+}
+
+.pf-battle-message-panel[data-dialogue='true'] .pf-battle-message-copy p {
+  color: #fff;
+  font-size: 7.5px;
+  white-space: normal;
+}
+
+.pf-battle-message-continue {
+  position: absolute;
+  right: 7px;
+  bottom: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: #7dd3fc;
+  font-size: 4.5px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  animation: pf-message-continue-pulse 0.8s steps(2, end) infinite;
+}
+
+@keyframes pf-message-continue-pulse {
+  50% {
+    transform: translateY(1px);
+    opacity: 0.62;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-battle-message-continue {
+    animation: none;
+  }
 }
 
 .pf-battle-trigger-dock {

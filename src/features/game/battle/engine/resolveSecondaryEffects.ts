@@ -1,4 +1,4 @@
-import type { FieldState, GamePokemon, Move } from '../../../../types';
+import type { FieldState, GamePokemon, Move, Weather } from '../../../../types';
 import { applyMoveSecondaryEffects } from '../../lib/battleResolution';
 import type { LocalizeFn } from '../../view-model';
 
@@ -8,6 +8,7 @@ interface ResolveSecondaryEffectsOptions {
   playerTeam: GamePokemon[];
   enemyTeam: GamePokemon[];
   fieldState: FieldState[];
+  weather?: Weather;
   getLocalized: LocalizeFn;
   targetHasActedThisTurn?: boolean;
   extraFlinchChance?: number;
@@ -21,6 +22,7 @@ export function resolveSecondaryEffectsStep({
   playerTeam,
   enemyTeam,
   fieldState,
+  weather,
   getLocalized,
   targetHasActedThisTurn,
   extraFlinchChance,
@@ -32,6 +34,7 @@ export function resolveSecondaryEffectsStep({
     actingSide,
     teams: { playerTeam, enemyTeam },
     fieldState,
+    weather,
     getLocalized,
     targetHasActedThisTurn,
     extraFlinchChance,

@@ -1,23 +1,21 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { Sparkles } from 'lucide-react';
-import type { BattleSceneLayout, BattleStageMode } from './battleSceneLayout';
+import type { BattleSceneLayout } from './battleSceneLayout';
 
 interface CatchEffectOverlayProps {
   isCatching: boolean;
   catchSuccess: boolean | null;
-  stageMode?: BattleStageMode;
   layout: BattleSceneLayout;
 }
 
-export function CatchEffectOverlay({ isCatching, catchSuccess, stageMode = 'default', layout }: CatchEffectOverlayProps) {
-  const isPortraitScaled = stageMode === 'portrait-scaled';
+export function CatchEffectOverlay({ isCatching, catchSuccess, layout }: CatchEffectOverlayProps) {
   const catchStyle = {
     left: `${layout.catchEffect.left}px`,
     top: `${layout.catchEffect.top}px`,
   };
   const ballSize = `${layout.catchEffect.size}px`;
-  const innerSize = isPortraitScaled ? 'h-6 w-6' : 'h-8 w-8';
-  const coreSize = isPortraitScaled ? 'h-2 w-2' : 'h-3 w-3';
+  const innerSize = 'h-4 w-4';
+  const coreSize = 'h-1.5 w-1.5';
 
   return (
     <AnimatePresence>
@@ -58,9 +56,7 @@ export function CatchEffectOverlay({ isCatching, catchSuccess, stageMode = 'defa
                   transition={{ duration: 1.5, repeat: Infinity, delay: index * 0.1 }}
                   className="absolute"
                 >
-                  <Sparkles className={`fill-yellow-400 text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,0.8)] ${
-                    isPortraitScaled ? 'h-4 w-4' : 'h-4 w-4 sm:h-5 sm:w-5'
-                  }`} />
+                  <Sparkles className="h-3 w-3 fill-yellow-400 text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]" />
                 </motion.div>
               ))}
             </div>
@@ -74,9 +70,7 @@ export function CatchEffectOverlay({ isCatching, catchSuccess, stageMode = 'defa
                   initial={{ scale: 0, x: 0, y: 0 }}
                   animate={{ scale: [0, 1.5, 0], x: (Math.random() - 0.5) * 200, y: (Math.random() - 0.5) * 200 }}
                   transition={{ duration: 0.8, ease: 'easeOut', delay: index * 0.01 }}
-                  className={`absolute rounded-full border border-white/50 bg-blue-200/40 shadow-sm backdrop-blur-[2px] ${
-                    isPortraitScaled ? 'h-4 w-4' : 'h-4 w-4 sm:h-6 sm:w-6'
-                  }`}
+                  className="absolute h-3 w-3 rounded-full border border-white/50 bg-blue-200/40 shadow-sm backdrop-blur-[2px]"
                 />
               ))}
             </div>

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = process.cwd();
-const OUTPUT_PATH = path.join(ROOT, 'public', 'data', 'factorySpeciesIndex.json');
+const OUTPUT_PATH = path.join(ROOT, 'storage', 'data', 'factorySpeciesIndex.json');
 const MAX_SPECIES_ID = 1025;
 const CONCURRENCY = 4;
 const RETRY_DELAYS_MS = [0, 250, 1000, 2500];

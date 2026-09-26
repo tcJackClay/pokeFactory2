@@ -70,10 +70,11 @@ test('normalizeBattleStatusId maps aliases to canonical ids', () => {
   assert.equal(normalizeBattleStatusId('badly-poisoned'), 'bad_poison');
 });
 
-test('rollSleepTurns follows the Gen 5+ inclusive 2-4 range', () => {
+test('rollSleepTurns follows Pokerogue short-or-long counter distribution', () => {
   assert.equal(rollSleepTurns(() => 0), 2);
-  assert.equal(rollSleepTurns(() => 0.5), 3);
-  assert.equal(rollSleepTurns(() => 0.999999), 4);
+  assert.equal(rollSleepTurns(() => (1 / 3) - 0.000001), 2);
+  assert.equal(rollSleepTurns(() => 1 / 3), 3);
+  assert.equal(rollSleepTurns(() => 0.999999), 3);
 });
 
 test('rollConfusionTurns follows the inclusive 2-5 range used by the reference project', () => {
@@ -82,13 +83,20 @@ test('rollConfusionTurns follows the inclusive 2-5 range used by the reference p
   assert.equal(rollConfusionTurns(() => 0.999999), 5);
 });
 
-test('setNonVolatileStatus assigns default counters for sleep and toxic', () => {
+test('setNonVolatileStatus assigns Pokerogue counters for sleep, freeze, and toxic', () => {
   const sleepingPokemon = setNonVolatileStatus(createPokemon(), 'sleep', {}, () => 0.999999);
+  const frozenPokemon = setNonVolatileStatus(createPokemon(), 'freeze');
   const toxicPokemon = setNonVolatileStatus(createPokemon(), 'toxic');
 
   assert.deepEqual(sleepingPokemon.nonVolatileStatus, {
     id: 'sleep',
-    turnsRemaining: 4,
+    turnsRemaining: 3,
+    toxicCounter: undefined,
+    sourceMoveName: undefined,
+  });
+  assert.deepEqual(frozenPokemon.nonVolatileStatus, {
+    id: 'freeze',
+    turnsRemaining: 3,
     toxicCounter: undefined,
     sourceMoveName: undefined,
   });

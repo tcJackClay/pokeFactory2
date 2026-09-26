@@ -4,7 +4,8 @@ const fs = require('fs');
 const path = require('path');
 
 const BASE_API = 'https://pokeapi.co/api/v2';
-const OUTPUT_ROOT = path.resolve(process.cwd(), 'public', 'pokemon-sprites');
+const ASSET_ROOT = path.resolve(process.cwd(), 'storage', 'assets');
+const OUTPUT_ROOT = path.join(ASSET_ROOT, 'pokemon-sprites');
 const CONCURRENCY = 12;
 const RETRIES = 3;
 const REQUEST_TIMEOUT_MS = 30000;
@@ -147,7 +148,7 @@ async function main() {
           const filename = `${String(id).padStart(4, '0')}-${name}${ext}`;
           const outPath = path.join(OUTPUT_ROOT, sprite.key, filename);
           await downloadFile(sprite.url, outPath);
-          entry.local[sprite.key] = path.relative(path.resolve(process.cwd(), 'public'), outPath).replaceAll('\\', '/');
+          entry.local[sprite.key] = path.relative(ASSET_ROOT, outPath).replaceAll('\\', '/');
         }
 
         report.entries.push(entry);
