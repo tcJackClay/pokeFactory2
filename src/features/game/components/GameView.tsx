@@ -19,6 +19,7 @@ import { StartScreen } from './game-view/StartScreen';
 import { TopRecordPanel } from './game-view/TopRecordPanel';
 import { DeveloperPanel } from './game-view/DeveloperPanel';
 import { APP_PALETTE } from '../../../theme/palette';
+import { TypeBadgeLanguageContext } from '../../../components/TypeBadge';
 import { discardInvalidSave, inspectStoredSave, triggerTextDownload, type SaveInspection } from '../../../services/saveManager';
 
 const CollectionScreen = lazy(async () => import('./game-view/CollectionScreen').then((module) => ({ default: module.CollectionScreen })));
@@ -221,6 +222,7 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
   }
 
   return (
+    <TypeBadgeLanguageContext.Provider value={currentLanguage}>
     <div className="pf-app-shell overflow-hidden select-none" style={viewStyle}>
       <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.12),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(249,115,22,0.08),_transparent_28%)]" />
@@ -253,5 +255,6 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
 
       {(storedSave.kind === 'none' || storedSave.kind === 'valid') && companionSpeciesId !== null && <DeveloperPanel viewModel={viewModel} />}
     </div>
+    </TypeBadgeLanguageContext.Provider>
   );
 }

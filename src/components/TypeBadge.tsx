@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { Sparkles } from 'lucide-react';
-import { TYPE_ZH } from '../constants';
 import { TYPE_COLORS, TYPE_ICONS } from '../uiAppConstants';
+import { getTypeBadgeLabel } from './typeBadgeLabels';
 
 const LIGHT_TYPES = new Set(['normal', 'electric', 'ground', 'flying', 'ice', 'steel', 'rock']);
 
+export const TypeBadgeLanguageContext = createContext('zh-hans');
+
 const TypeBadge: React.FC<{ type: string; size?: 'xs' | 'sm' | 'md' | 'lg'; className?: string }> = ({ type, size = 'sm', className = '' }) => {
+  const currentLanguage = useContext(TypeBadgeLanguageContext);
   const Icon = TYPE_ICONS[type] || Sparkles;
   const color = TYPE_COLORS[type] || '#ccc';
   const isLight = LIGHT_TYPES.has(type);
-  const label = type === 'psychic' ? '超能' : (TYPE_ZH[type] || type);
+  const label = getTypeBadgeLabel(type, currentLanguage);
 
   const sizeClasses = {
     xs: 'w-[52px] justify-center text-[8px] px-1.5 py-0.5 gap-1 shrink-0',
