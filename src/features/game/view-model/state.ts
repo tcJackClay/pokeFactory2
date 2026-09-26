@@ -62,6 +62,7 @@ export interface GameViewRosterState {
 
 export interface GameViewProgressState {
   coins: number;
+  supplyTickets: number;
   streak: number;
   swapCount: number;
   totalRents: number;

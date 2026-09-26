@@ -49,9 +49,11 @@ import {
   commitFactoryGroupSettlement,
   commitFactoryBattleStart,
   createEmptyBattleResume,
+  createEmptyRunSupply,
   createEmptyWallet,
   createSaveData,
   inspectStoredSave,
+  loadSaveData,
   loadPendingFactorySettlement,
   parseSaveDataFromText,
   persistSaveData,
@@ -60,6 +62,7 @@ import {
   type BattleResumeSnapshot,
   type CollectionLedger,
   type FactoryWallet,
+  type FactoryRunSupply,
   type GameSaveData,
 } from '../../../services/saveManager';
 import { createPokemonFormLedgerKey, normalizeStoredFormKeys } from '../utils/formLedger';
@@ -121,8 +124,10 @@ export function usePokeFactoryGame(): GameViewModel {
   });
   const [startStep, setStartStep] = useState(0);
   const walletRef = useRef<FactoryWallet>(initialSave?.wallet ?? createEmptyWallet());
+  const runSupplyRef = useRef<FactoryRunSupply>(initialSave?.runSupply ?? createEmptyRunSupply());
   const currentSaveBuilderRef = useRef<(() => GameSaveData) | null>(null);
   const [coins, setCoins] = useState(walletRef.current.balance);
+  const [supplyTickets, setSupplyTickets] = useState(runSupplyRef.current.tickets);
   const [shopItems, setShopItems] = useState<{ item: Item; price: number }[]>([]);
   const [rewardChoiceMade, setRewardChoiceMade] = useState(false);
   const [rerollCount, setRerollCount] = useState(0);
@@ -470,9 +475,20 @@ export function usePokeFactoryGame(): GameViewModel {
     setCoins(wallet.balance);
   }, []);
 
+  const syncRunSupply = useCallback((supply: FactoryRunSupply) => {
+    runSupplyRef.current = supply;
+    setSupplyTickets(supply.tickets);
+  }, []);
+
   const beginWalletRun = useCallback((devBonus = 0, startingStage = 1) => {
-    syncWallet(beginFactoryWalletRun(getCurrentSaveDraft(), devBonus, startingStage));
-  }, [getCurrentSaveDraft, syncWallet]);
+    const wallet = beginFactoryWalletRun(getCurrentSaveDraft(), devBonus, startingStage);
+    const saved = loadSaveData();
+    if (!saved || saved.wallet.currentRunId !== wallet.currentRunId) {
+      throw new Error('New factory run could not be verified after saving.');
+    }
+    syncWallet(wallet);
+    syncRunSupply(saved.runSupply);
+  }, [getCurrentSaveDraft, syncRunSupply, syncWallet]);
 
   const adjustWallet = useCallback((delta: number) => {
     syncWallet(adjustWalletBalance(getCurrentSaveDraft(), delta));
@@ -492,8 +508,9 @@ export function usePokeFactoryGame(): GameViewModel {
   const settleFactoryBattle = useCallback((runId: string, battleStage: number, result: 'WIN' | 'LOSS', isFrontierBrain: boolean, finalTeams: { playerTeam: GamePokemon[]; enemyTeam: GamePokemon[] }) => {
     const settlement = commitFactoryGroupSettlement(getCurrentSaveDraft(), runId, battleStage, result, isFrontierBrain, finalTeams);
     syncWallet(settlement.wallet);
+    syncRunSupply(settlement.runSupply);
     return settlement;
-  }, [getCurrentSaveDraft, syncWallet]);
+  }, [getCurrentSaveDraft, syncRunSupply, syncWallet]);
 
   const commitNextBattleStart = useCallback((start: Parameters<typeof commitFactoryBattleStart>[1]) => {
     const runId = walletRef.current.currentRunId;
@@ -869,6 +886,7 @@ export function usePokeFactoryGame(): GameViewModel {
 
     return createSaveData({
       wallet: walletRef.current,
+      runSupply: runSupplyRef.current,
       companionSpeciesId,
       totalRents,
       highestStreak,
@@ -1294,6 +1312,7 @@ export function usePokeFactoryGame(): GameViewModel {
     try {
       const wallet = endFactoryWalletRun(buildCurrentSaveData(), runId);
       syncWallet(wallet);
+      syncRunSupply(createEmptyRunSupply());
       factoryResumeActiveRef.current = false;
       battleResumeSnapshotRef.current = null;
       setHasFactoryRunToResume(false);
@@ -1310,7 +1329,7 @@ export function usePokeFactoryGame(): GameViewModel {
       console.error('Failed to end factory run', error);
       return false;
     }
-  }, [buildCurrentSaveData, clearFactoryEncounter, gameState, hasFactoryRunToResume, syncWallet]);
+  }, [buildCurrentSaveData, clearFactoryEncounter, gameState, hasFactoryRunToResume, syncRunSupply, syncWallet]);
   const setEventDispatchPokemon = useCallback((regionId: string, pokemonId: number | null) => {
     if (factoryResumeActiveRef.current) return;
     if (!EVENT_REGIONS.some((region) => region.id === regionId)) return;
@@ -1681,6 +1700,7 @@ export function usePokeFactoryGame(): GameViewModel {
     developerMode,
     startStep,
     coins,
+    supplyTickets,
     rewardChoiceMade,
     rerollCount,
     playerTeam,

@@ -14,6 +14,7 @@ export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
     currentEnemyTrainer,
     currentLanguage,
     coins,
+    supplyTickets,
     lastTokenGain,
     t,
     continueAfterRoundResult,
@@ -58,6 +59,7 @@ export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
               <div className="mt-2 text-lg font-black text-slate-900">{t('setProgress', { current: battleInSet, total: battlesPerSet })}</div>
               <div className="mt-2 text-sm font-semibold text-slate-500">{t('streak', { count: streak })}</div>
               <div className="mt-1 text-sm font-semibold text-slate-500">{t('swapCount', { count: swapCount })}</div>
+              <div className="mt-1 text-sm font-semibold text-slate-700">{isZh ? '本局补给券' : 'Run Supply Tickets'}：{supplyTickets}</div>
             </div>
 
             <div className="pf-result-metric-card text-left">

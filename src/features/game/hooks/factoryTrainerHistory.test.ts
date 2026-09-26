@@ -49,6 +49,7 @@ test('trainer history survives rerenders and refresh, excluding a trainer alread
 
     persistSaveData(createSaveData({
       wallet: createEmptyWallet(),
+      runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 },
       companionSpeciesId: null,
       totalRents: 0,
       highestStreak: 0,

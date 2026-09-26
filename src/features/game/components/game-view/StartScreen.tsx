@@ -40,6 +40,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     openBaseTab,
     setGameState,
     currentLanguage,
+    supplyTickets,
     companionSpeciesId,
   } = viewModel;
 
@@ -179,6 +180,11 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
                   <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-slate-500">
                     {copy.factoryState}
                   </p>
+                  {hasFactoryRunToResume && (
+                    <p className="mt-2 text-sm font-bold text-slate-700">
+                      {isZh ? '本局补给券' : 'Run Supply Tickets'}：{supplyTickets}
+                    </p>
+                  )}
                 </div>
 
                 <motion.button

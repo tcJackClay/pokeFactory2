@@ -8,7 +8,7 @@ import { restoreFactoryParty } from '../features/game/utils/restoreFactoryParty'
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
 const PENDING_SETTLEMENT_KEY = 'pokefactory_pending_settlement_v1';
-const SAVE_SCHEMA_VERSION = 12 as const;
+const SAVE_SCHEMA_VERSION = 13 as const;
 
 export type SaveInspection =
   | { kind: 'none' }
@@ -33,6 +33,16 @@ export interface FactoryWallet {
     amount: number;
     settledAt: string;
   } | null;
+}
+
+export interface FactoryRunSupply {
+  runId: string | null;
+  tickets: number;
+  lastCreditedStage: number;
+}
+
+export function createEmptyRunSupply(): FactoryRunSupply {
+  return { runId: null, tickets: 0, lastCreditedStage: 0 };
 }
 
 export interface PendingFactorySettlement {
@@ -103,6 +113,7 @@ export interface GameSaveData {
   schemaVersion: typeof SAVE_SCHEMA_VERSION;
   updatedAt: string;
   wallet: FactoryWallet;
+  runSupply: FactoryRunSupply;
   progress: {
     totalRents: number;
     highestStreak: number;
@@ -144,6 +155,7 @@ export interface GameSaveData {
 
 interface SaveDraftInput {
   wallet: FactoryWallet;
+  runSupply: FactoryRunSupply;
   companionSpeciesId: CompanionSpeciesId | null;
   totalRents: number;
   highestStreak: number;
@@ -654,11 +666,13 @@ function normalizeSaveData(value: unknown): GameSaveData {
   const schemaVersion = sanitizeSafeNonNegativeInt(source.schemaVersion);
   if (schemaVersion !== SAVE_SCHEMA_VERSION) throw new Error(`旧规则存档不兼容（版本 ${schemaVersion}），请备份后重新开始。`);
   const wallet = sanitizeWallet(source.wallet);
+  const runSupply = source.runSupply as FactoryRunSupply;
 
   return {
     schemaVersion: SAVE_SCHEMA_VERSION,
     updatedAt: new Date().toISOString(),
     wallet,
+    runSupply,
     progress: {
       totalRents: sanitizePositiveInt(progress.totalRents, 0),
       highestStreak: sanitizePositiveInt(progress.highestStreak, 0),
@@ -721,6 +735,15 @@ function hasPreparedFactoryHeldItem(value: unknown): boolean {
 
 function assertCurrentSaveRecoverability(value: unknown): void {
   if (!isRecord(value)) throw new Error('Current save root is invalid.');
+  const wallet = isRecord(value.wallet) ? value.wallet : null;
+  const supply = isRecord(value.runSupply) ? value.runSupply : null;
+  if (!supply || !(supply.runId === null || (typeof supply.runId === 'string' && supply.runId.length > 0 && supply.runId.length <= 160))
+    || !Number.isSafeInteger(supply.tickets) || (supply.tickets as number) < 0
+    || !Number.isSafeInteger(supply.lastCreditedStage) || (supply.lastCreditedStage as number) < 0
+    || (supply.runId === null && (supply.tickets !== 0 || supply.lastCreditedStage !== 0))
+    || (supply.runId !== null && supply.runId !== wallet?.currentRunId)) {
+    throw new Error('Factory run supply is missing or invalid.');
+  }
   const progress = isRecord(value.progress) ? value.progress : null;
   const companionSpeciesId = progress?.companionSpeciesId;
   if (companionSpeciesId !== null && !isCompanionSpeciesId(companionSpeciesId)) {
@@ -755,6 +778,15 @@ function assertCurrentSaveRecoverability(value: unknown): void {
       || (phase === 'BASE' && (resume.roundResult !== 'WIN' || getBattleIndexInSet(resume.stage as number) !== 7))) {
       throw new Error('Battle checkpoint phase and result disagree.');
     }
+    const expectedCreditedStage = phase === 'BATTLE' ? (resume.stage as number) - 1 : resume.stage;
+    if (phase === 'BATTLE' || resume.roundResult === 'WIN') {
+      if (supply.runId !== wallet?.currentRunId || supply.runId === null
+        || supply.lastCreditedStage !== expectedCreditedStage) {
+        throw new Error('Factory run supply disagrees with battle progress.');
+      }
+    } else if (supply.runId !== null) {
+      throw new Error('Ended factory run still has supply tickets.');
+    }
   }
 
   if (factory?.challengePaused === true) {
@@ -784,6 +816,7 @@ export function createSaveData(input: SaveDraftInput): GameSaveData {
     schemaVersion: SAVE_SCHEMA_VERSION,
     updatedAt: new Date().toISOString(),
     wallet: input.wallet,
+    runSupply: input.runSupply,
     progress: {
       companionSpeciesId: input.companionSpeciesId,
       totalRents: input.totalRents,
@@ -861,6 +894,7 @@ export function persistSaveData(saveData: GameSaveData) {
   if (typeof window === 'undefined') return;
   const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
   let wallet = saveData.wallet;
+  let runSupply = saveData.runSupply;
   let battleResume = saveData.factory.battleResume;
   let companionSpeciesId = saveData.progress.companionSpeciesId;
   let persistedSameRun: GameSaveData | null = null;
@@ -868,6 +902,8 @@ export function persistSaveData(saveData: GameSaveData) {
     const inspection = classifySaveText(raw);
     if (inspection.kind !== 'valid') throw new Error('Stored save requires backup or removal before writing.');
     const persisted = inspection.save;
+    if (persisted.wallet.revision > wallet.revision
+      && persisted.wallet.currentRunId !== wallet.currentRunId) return;
     if (persisted.wallet.currentRunId && persisted.wallet.currentRunId === saveData.wallet.currentRunId) {
       persistedSameRun = persisted;
     }
@@ -875,6 +911,19 @@ export function persistSaveData(saveData: GameSaveData) {
       companionSpeciesId = persisted.progress.companionSpeciesId;
     }
     if (persisted.wallet.revision > wallet.revision) wallet = persisted.wallet;
+    if (wallet.currentRunId === persisted.wallet.currentRunId) {
+      const persistedSupply = persisted.runSupply;
+      const terminalLoss = persisted.factory.battleResume.status === 'READY'
+        && persisted.factory.battleResume.phase !== 'BATTLE'
+        && persisted.factory.battleResume.roundResult === 'LOSS';
+      if (terminalLoss || runSupply.runId !== wallet.currentRunId
+        || (persistedSupply.runId === wallet.currentRunId
+          && (persistedSupply.lastCreditedStage > runSupply.lastCreditedStage
+            || (persistedSupply.lastCreditedStage === runSupply.lastCreditedStage
+              && persistedSupply.tickets > runSupply.tickets)))) {
+        runSupply = persistedSupply;
+      }
+    }
     const committed = persisted.factory.battleResume;
     if (committed.status === 'READY' && wallet.currentRunId === persisted.wallet.currentRunId) {
       const phaseRank = { BATTLE: 0, ROUND_RESULT: 1, FACTORY_SWAP: 2, BASE: 2 } as const;
@@ -887,6 +936,7 @@ export function persistSaveData(saveData: GameSaveData) {
       }
     }
   }
+  if (wallet.currentRunId === null) runSupply = createEmptyRunSupply();
   const trainerIdsBySet = new Map<number, Set<string>>();
   for (const entry of [...(persistedSameRun?.factory.trainerIdsBySet ?? []), ...saveData.factory.trainerIdsBySet]) {
     const ids = trainerIdsBySet.get(entry.setNo) ?? new Set<string>();
@@ -898,6 +948,7 @@ export function persistSaveData(saveData: GameSaveData) {
   window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
     ...saveData,
     wallet,
+    runSupply,
     progress: {
       ...saveData.progress,
       companionSpeciesId,
@@ -1028,6 +1079,7 @@ export function beginFactoryWalletRun(draft: GameSaveData, devBonus = 0, startin
   if (!Number.isSafeInteger(startingStage) || startingStage < 1) throw new Error('Invalid starting stage.');
   const freshRunDraft: GameSaveData = {
     ...draft,
+    runSupply: createEmptyRunSupply(),
     factory: {
       ...draft.factory,
       challengeStatus: 0,
@@ -1049,7 +1101,10 @@ export function beginFactoryWalletRun(draft: GameSaveData, devBonus = 0, startin
       settledThrough: getSetNoByStage(startingStage) - 1,
       lastSettlement: null,
     };
-  });
+  }, (save, wallet) => ({
+    ...save,
+    runSupply: { runId: wallet.currentRunId, tickets: 0, lastCreditedStage: startingStage - 1 },
+  }));
   clearPendingFactorySettlement();
   return nextWallet;
 }
@@ -1057,6 +1112,7 @@ export function beginFactoryWalletRun(draft: GameSaveData, devBonus = 0, startin
 export function endFactoryWalletRun(draft: GameSaveData, runId: string): FactoryWallet {
   const endedDraft: GameSaveData = {
     ...draft,
+    runSupply: createEmptyRunSupply(),
     factory: {
       ...draft.factory,
       challengeStatus: 0,
@@ -1097,7 +1153,7 @@ export function commitFactoryGroupSettlement(
   result: 'WIN' | 'LOSS',
   isFrontierBrain: boolean,
   finalTeams?: { playerTeam: GamePokemon[]; enemyTeam: GamePokemon[] },
-): { wallet: FactoryWallet; awarded: boolean; amount: number; nominalBp: number } {
+): { wallet: FactoryWallet; runSupply: FactoryRunSupply; awarded: boolean; amount: number; nominalBp: number } {
   if (!Number.isSafeInteger(stage) || stage < 1) throw new Error('Invalid factory settlement.');
   const setNo = getSetNoByStage(stage);
   const completesSet = result === 'LOSS' || getBattleIndexInSet(stage) === 7;
@@ -1118,6 +1174,7 @@ export function commitFactoryGroupSettlement(
       clearPendingFactorySettlement();
       return {
         wallet: current,
+        runSupply: persisted.runSupply,
         awarded: false,
         amount: committed.lastBpGain,
         nominalBp,
@@ -1135,6 +1192,16 @@ export function commitFactoryGroupSettlement(
     if (sourceResume.status !== 'READY' || sourceResume.stage !== stage || sourceResume.phase !== 'BATTLE') {
       throw new Error('Final factory battle checkpoint is unavailable.');
     }
+    const currentSupply = persisted.runSupply;
+    if (currentSupply.runId !== runId || currentSupply.lastCreditedStage !== stage - 1) {
+      throw new Error('Factory supply credit is out of sequence.');
+    }
+    if (result === 'WIN' && currentSupply.tickets >= Number.MAX_SAFE_INTEGER) {
+      throw new Error('Factory supply ticket overflow.');
+    }
+    const runSupply: FactoryRunSupply = result === 'WIN'
+      ? { runId, tickets: currentSupply.tickets + 1, lastCreditedStage: stage }
+      : createEmptyRunSupply();
     const playerTeam = restoreFactoryParty(finalTeams?.playerTeam ?? sourceResume.playerTeam);
     const enemyTeam = finalTeams?.enemyTeam ?? sourceResume.enemyTeam;
     const amount = completesSet ? Math.min(nominalBp, MAX_FACTORY_BP - current.balance) : 0;
@@ -1163,12 +1230,13 @@ export function commitFactoryGroupSettlement(
       ...baseSave,
       updatedAt: new Date().toISOString(),
       wallet,
+      runSupply,
       factory: { ...baseSave.factory, battleResume: nextResume },
     };
     normalizeSaveDataSafely(nextSave);
     window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
     clearPendingFactorySettlement();
-    return { wallet, awarded: completesSet, amount, nominalBp };
+    return { wallet, runSupply, awarded: completesSet, amount, nominalBp };
   } catch (error) {
     rememberPendingFactorySettlement(pending);
     throw error;
