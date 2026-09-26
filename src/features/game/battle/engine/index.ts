@@ -1,6 +1,7 @@
 export * from './types';
 export * from './resolveActionSelection';
 export * from './resolveTailwind';
+export * from './resolveEntryHazards';
 export * from './resolveAccuracy';
 export * from './resolveBeforeMoveChecks';
 export * from './resolveDamage';

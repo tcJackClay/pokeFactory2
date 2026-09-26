@@ -290,6 +290,18 @@ test('Tailwind loads as a user-side battle effect', () => {
   assert.equal(data.target, 'user');
 });
 
+test('Stealth Rock loads as a dedicated opposing-field effect', () => {
+  const data = buildMoveBattleDataFromPokeApiMove({
+    name: 'stealth-rock',
+    priority: 0,
+    target: { name: 'opponents-field' },
+    meta: { drain: 0, healing: 0, crit_rate: 0, min_hits: null, max_hits: null },
+    flags: [],
+  });
+  assert.equal(data.effectId, 'STEALTH_ROCK');
+  assert.equal(data.target, 'opponents-field');
+});
+
 test('Rock Head and Magic Guard suppress recoil damage', () => {
   const recoilMove = {
     name: 'double-edge',

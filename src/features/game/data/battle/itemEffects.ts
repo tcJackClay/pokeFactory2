@@ -1,6 +1,11 @@
 import type { ItemBattleData } from '../../../../types';
 
 export const ITEM_BATTLE_DATA: Record<string, ItemBattleData> = {
+  heavy_duty_boots: {
+    id: 'heavy_duty_boots',
+    effectId: 'HEAVY_DUTY_BOOTS',
+    hooks: ['entry-hazard-immunity'],
+  },
   bright_powder: {
     id: 'bright_powder',
     effectId: 'BRIGHT_POWDER',

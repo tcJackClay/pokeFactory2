@@ -90,6 +90,7 @@ function createSnapshot(overrides: Partial<BattleSnapshot> = {}): BattleSnapshot
     fieldState: [],
     fieldTurns: {},
     tailwindTurns: { player: 0, enemy: 0 },
+    hazards: { player: { stealthRock: false, toxicSpikesLayers: 0 }, enemy: { stealthRock: false, toxicSpikesLayers: 0 } },
     ...overrides,
   };
 }

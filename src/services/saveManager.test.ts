@@ -205,6 +205,25 @@ test('battle checkpoint retains separate Tailwind timers and rejects damaged pre
   }
 });
 
+test('battle checkpoint retains both hazard sides and rejects malformed present values', () => {
+  const saved = draft('run:hazards');
+  const previous = saved.factory.battleResume;
+  assert.equal(previous.status, 'READY');
+  if (previous.status !== 'READY') return;
+  const hazards = {
+    player: { stealthRock: true, toxicSpikesLayers: 0 },
+    enemy: { stealthRock: false, toxicSpikesLayers: 0 },
+  };
+  const withHazards = (value: unknown) => JSON.stringify({
+    ...saved,
+    factory: { ...saved.factory, battleResume: { ...previous, hazards: value } },
+  });
+  const restored = parseSaveDataFromText(withHazards(hazards)).factory.battleResume;
+  assert.equal(restored.status, 'READY');
+  if (restored.status === 'READY') assert.deepEqual(restored.hazards, hazards);
+  assert.equal(classifySaveText(withHazards({ player: { stealthRock: 'yes' } })).kind, 'corrupt');
+});
+
 test('new save preserves battle snapshots, including postbattle phase', () => {
   const saved = parseSaveDataFromText(JSON.stringify({
     schemaVersion: 13,
@@ -337,7 +356,13 @@ test('battle result keeps spent items; next BATTLE checkpoint returns originals 
     };
     const freshBattle = commitFactoryBattleStart('run:held-atomic', nextBattle);
     assert.equal(freshBattle.status, 'READY');
-    if (freshBattle.status === 'READY') assert.deepEqual(freshBattle.tailwindTurns, { player: 0, enemy: 0 });
+    if (freshBattle.status === 'READY') {
+      assert.deepEqual(freshBattle.tailwindTurns, { player: 0, enemy: 0 });
+      assert.deepEqual(freshBattle.hazards, {
+        player: { stealthRock: false, toxicSpikesLayers: 0 },
+        enemy: { stealthRock: false, toxicSpikesLayers: 0 },
+      });
+    }
     assert.deepEqual(commitFactoryBattleStart('run:held-atomic', nextBattle), loadSaveData()!.factory.battleResume);
     assert.throws(() => commitFactoryBattleStart('run:held-atomic', {
       ...nextBattle,
