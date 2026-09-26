@@ -373,6 +373,7 @@ export function useBattleController({
   ) {
     battleInstanceRef.current = { gameState, factoryRunId, stage, epoch: battleInstanceRef.current.epoch + 1 };
   }
+  const battleEpoch = battleInstanceRef.current.epoch;
   const battleMountedRef = useRef(true);
   useEffect(() => {
     battleMountedRef.current = true;
@@ -2786,9 +2787,9 @@ export function useBattleController({
       return;
     }
     if (settlementError || isMessageProcessing || !enemy || !playerTeam[0]) return;
-    if (!enemyActionGateRef.current.claim()) return;
+    if (!enemyActionGateRef.current.claim(battleEpoch)) return;
     void enemyTurn().catch((error: unknown) => console.error('Enemy action failed', error));
-  }, [enemy, enemyTurn, gameState, isMessageProcessing, playerTeam, settlementError, turn]);
+  }, [battleEpoch, enemy, enemyTurn, gameState, isMessageProcessing, playerTeam, settlementError, turn]);
 
   useEffect(() => {
     const prevTurn = previousTurnRef.current;
