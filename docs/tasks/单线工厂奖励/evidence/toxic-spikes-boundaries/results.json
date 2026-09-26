@@ -1,0 +1,628 @@
+{
+  "sourceOrigin": "http://127.0.0.195:4300",
+  "cases": {
+    "one-layer": {
+      "name": "one-layer",
+      "origin": "http://127.0.0.196:4300",
+      "steps": [
+        {
+          "name": "fixture-ready",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 20
+              },
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": null
+              },
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 巴大蝶！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 20/20\n跃起\n一般\n威力 --\n命中 --\nPP 20/20",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "after-use1",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 2
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 1
+              }
+            },
+            "player": [
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 19
+              },
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": null
+              },
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 巴大蝶 使用了 毒菱！\n\n对手巴大蝶在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 19/20\n跃起\n一般\n威力 --\n命中 --\nPP 20/20",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "after-switch",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 2
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 1
+              }
+            },
+            "player": [
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": "bad_poison"
+              },
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 19
+              },
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n波波\n♀\nLV.50\n一般\n剧毒\nHP\n95/101\n战斗日志\nFCT-01\n\n对手的 巴大蝶 使用了 毒菱！\n\n但是失败了！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n觉醒力量\n一般\n威力 60\n命中 100\nPP 15/15\n啄食\n飞行\n威力 60\n命中 100\nPP 20/20\n吹飞\n一般\n威力 --\n命中 --\nPP 20/20\n起风\n飞行\n威力 40\n命中 100\nPP 35/35",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "after-switch-reload",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 2
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 1
+              }
+            },
+            "player": [
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": "bad_poison"
+              },
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 19
+              },
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n波波\n♀\nLV.50\n一般\n剧毒\nHP\n101/101\n战斗日志\nFCT-01\n\n对手的 巴大蝶 使用了 毒菱！\n\n但是失败了！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n觉醒力量\n一般\n威力 60\n命中 100\nPP 15/15\n啄食\n飞行\n威力 60\n命中 100\nPP 20/20\n吹飞\n一般\n威力 --\n命中 --\nPP 20/20\n起风\n飞行\n威力 40\n命中 100\nPP 35/35",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        }
+      ],
+      "errors": [],
+      "fixture": {
+        "playerIds": [
+          32,
+          16,
+          98
+        ],
+        "enemyIds": [
+          12,
+          35,
+          52
+        ],
+        "injected": "toxic-spikes, splash, normal and flying type, no items/abilities"
+      }
+    },
+    "third-use-flying": {
+      "name": "third-use-flying",
+      "origin": "http://127.0.0.197:4300",
+      "steps": [
+        {
+          "name": "fixture-ready",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 20
+              },
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": null
+              },
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 巴大蝶！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 20/20\n跃起\n一般\n威力 --\n命中 --\nPP 20/20",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "after-use1",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 1
+              }
+            },
+            "player": [
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 19
+              },
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": null
+              },
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n300/300\n战斗日志\nFCT-01\n\n尼多朗在对手一方撒下了毒菱！\n\n对手的 巴大蝶 使用了 跃起！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 19/20\n跃起\n一般\n威力 --\n命中 --\nPP 20/20",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "after-use2",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 2
+              }
+            },
+            "player": [
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 18
+              },
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": null
+              },
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n300/300\n战斗日志\nFCT-01\n\n尼多朗在对手一方撒下了毒菱！\n\n对手的 巴大蝶 使用了 跃起！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 18/20\n跃起\n一般\n威力 --\n命中 --\nPP 20/20",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "third-use-failed-visible",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 2
+              }
+            },
+            "player": [
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 18
+              },
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": null
+              },
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n300/300\n战斗日志\nFCT-01\n\n尼多朗 使用了 毒菱！\n\n但是失败了！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 17/20\n跃起\n一般\n威力 --\n命中 --\nPP 20/20",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "after-use3",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 2
+              }
+            },
+            "player": [
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 17
+              },
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": null
+              },
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n300/300\n战斗日志\nFCT-01\n\n但是失败了！\n\n对手的 巴大蝶 使用了 跃起！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 17/20\n跃起\n一般\n威力 --\n命中 --\nPP 20/20",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "after-switch",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 2
+              }
+            },
+            "player": [
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              },
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": null
+              },
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 17
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n大钳蟹\n♀\nLV.50\n飞行\nHP\n92/92\n战斗日志\nFCT-01\n\n你派出了 大钳蟹！\n\n对手的 巴大蝶 使用了 跃起！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n迷人\n一般\n威力 --\n命中 100\nPP 15/15\n变硬\n一般\n威力 --\n命中 --\nPP 30/30\n泰山压顶\n一般\n威力 85\n命中 100\nPP 15/15\n蟹钳锤\n水\n威力 100\n命中 90\nPP 10/10",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "after-switch-reload",
+          "state": {
+            "schema": 13,
+            "stage": 1,
+            "phase": "BATTLE",
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 2
+              }
+            },
+            "player": [
+              {
+                "id": 98,
+                "hp": 92,
+                "types": [
+                  "flying"
+                ],
+                "status": null
+              },
+              {
+                "id": 16,
+                "hp": 101,
+                "types": [
+                  "normal"
+                ],
+                "status": null
+              },
+              {
+                "id": 32,
+                "hp": 300,
+                "types": [
+                  "poison"
+                ],
+                "status": null,
+                "firstPp": 17
+              }
+            ],
+            "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n大钳蟹\n♀\nLV.50\n飞行\nHP\n92/92\n战斗日志\nFCT-01\n\n你派出了 大钳蟹！\n\n对手的 巴大蝶 使用了 跃起！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n迷人\n一般\n威力 --\n命中 100\nPP 15/15\n变硬\n一般\n威力 --\n命中 --\nPP 30/30\n泰山压顶\n一般\n威力 85\n命中 100\nPP 15/15\n蟹钳锤\n水\n威力 100\n命中 90\nPP 10/10",
+            "width": 390,
+            "scrollWidth": 390
+          }
+        }
+      ],
+      "errors": [],
+      "fixture": {
+        "playerIds": [
+          32,
+          16,
+          98
+        ],
+        "enemyIds": [
+          12,
+          35,
+          52
+        ],
+        "injected": "toxic-spikes, splash, normal and flying type, no items/abilities"
+      }
+    }
+  },
+  "errors": [],
+  "source": {
+    "name": "source",
+    "errors": [],
+    "steps": [
+      {
+        "name": "normal-ready",
+        "state": {
+          "schema": 13,
+          "stage": 1,
+          "phase": "BATTLE",
+          "hazards": {
+            "player": {
+              "stealthRock": false,
+              "toxicSpikesLayers": 0
+            },
+            "enemy": {
+              "stealthRock": false,
+              "toxicSpikesLayers": 0
+            }
+          },
+          "player": [
+            {
+              "id": 32,
+              "hp": 108,
+              "types": [
+                "poison"
+              ],
+              "status": null
+            },
+            {
+              "id": 16,
+              "hp": 101,
+              "types": [
+                "normal",
+                "flying"
+              ],
+              "status": null
+            },
+            {
+              "id": 98,
+              "hp": 92,
+              "types": [
+                "water"
+              ],
+              "status": null
+            }
+          ],
+          "body": "0\nBP\n1/7\n轮次\n0\n连胜\n巴大蝶\n♂\nLV.50\n虫\n飞行\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n108/108\n战斗日志\nFCT-01\n\n对手 派出了 巴大蝶！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n暗影爪\n幽灵\n威力 70\n命中 100\nPP 15/15\n角撞\n一般\n威力 65\n命中 100\nPP 25/25\n睡觉\n超能\n威力 --\n命中 --\nPP 5/5\n挺住\n一般\n威力 --\n命中 --\nPP 10/10",
+          "width": 390,
+          "scrollWidth": 390
+        }
+      }
+    ]
+  }
+}
