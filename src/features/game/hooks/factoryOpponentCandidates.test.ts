@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { choosePoolCandidates, emptyPoolRejectCounts, normalizePoolItemId, type PoolCandidate } from './factoryOpponentCandidates';
+import { choosePoolCandidates, collectBlockedSpecies, emptyPoolRejectCounts, normalizePoolItemId, type PoolCandidate } from './factoryOpponentCandidates';
 
 function candidate(pokemonId: number, source: PoolCandidate['source'], itemId: string, gen = 1): PoolCandidate {
   return { pokemonId, speciesId: pokemonId, source, itemId, gen, quality: 400, stage: 'BASE' };
@@ -110,4 +110,24 @@ test('different forms sharing a species cannot occupy two opponent slots', () =>
   ]);
   assert.deepEqual(result.team.map((member) => member.pokemonId), [100, 301, 302]);
   assert.equal(result.rejected['species-conflict'], 2);
+});
+
+test('player and rental forms block another form of the same species in the opponent pool', () => {
+  const blocked = collectBlockedSpecies([
+    [{ id: 10001, speciesId: 25 }],
+    [{ id: 10002, speciesId: 26 }],
+  ]);
+  assert.deepEqual([...blocked].sort((a, b) => a - b), [25, 26, 10001, 10002]);
+  const rejected = emptyPoolRejectCounts();
+  const result = choosePoolCandidates([
+    { ...candidate(10003, 'global-pool', 'leftovers'), speciesId: 25 },
+    candidate(27, 'global-pool', 'white_herb'),
+  ], {
+    selectedGeneration: 1,
+    pickedSpecies: blocked,
+    pickedItems: new Set<string>(),
+    bannedSpecies: new Set<number>(),
+  }, rejected);
+  assert.deepEqual(result.map((entry) => entry.pokemonId), [27]);
+  assert.equal(rejected['species-conflict'], 1);
 });

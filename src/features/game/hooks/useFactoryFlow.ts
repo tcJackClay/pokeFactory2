@@ -34,7 +34,7 @@ import { createEmptyBattleHazards } from '../battle/engine/resolveEntryHazards';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
 import { prepareFactoryPartyForBattle, restoreFactoryParty } from '../utils/restoreFactoryParty';
 import { restoreFactoryBattlePresentation, type FactoryBattlePresentation } from './factoryBattleRollback';
-import { choosePoolCandidates, emptyPoolRejectCounts, normalizePoolItemId, type PoolCandidate, type PoolSource } from './factoryOpponentCandidates';
+import { choosePoolCandidates, collectBlockedSpecies, emptyPoolRejectCounts, normalizePoolItemId, type PoolCandidate, type PoolSource } from './factoryOpponentCandidates';
 import {
   beginRentalNetworkCapture,
   clearRentalConfirm,
@@ -1177,10 +1177,7 @@ export function useFactoryFlow({
 
     const factoryPool = options?.factoryPool ?? factoryRentals;
     const playerPool = options?.playerPool ?? playerTeam;
-    const blockedSpecies = new Set<number>([
-      ...factoryPool.map((pokemon) => pokemon.id),
-      ...playerPool.map((pokemon) => pokemon.id),
-    ]);
+    const blockedSpecies = collectBlockedSpecies([factoryPool, playerPool]);
 
     const templateQualityBias = qualityBias + trainer.qualityBiasOffset;
     const perSlotUseBetterRange = Array.from(

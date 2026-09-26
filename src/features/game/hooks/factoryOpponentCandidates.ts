@@ -20,6 +20,17 @@ export function normalizePoolItemId(itemId: string): string {
   return itemId.trim().toLowerCase().replace(/-/g, '_');
 }
 
+export function collectBlockedSpecies(pools: readonly (readonly { id: number; speciesId?: number }[])[]): Set<number> {
+  const blocked = new Set<number>();
+  for (const pool of pools) {
+    for (const pokemon of pool) {
+      blocked.add(pokemon.id);
+      blocked.add(pokemon.speciesId ?? pokemon.id);
+    }
+  }
+  return blocked;
+}
+
 export function rejectPoolCandidate(candidate: PoolCandidate, options: {
   selectedGeneration: number;
   pickedSpecies: ReadonlySet<number>;
