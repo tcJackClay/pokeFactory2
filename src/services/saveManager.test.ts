@@ -592,6 +592,7 @@ test('damaged current saves are classified before normalization and their origin
       { ...saved, runSupply: undefined },
       { ...saved, runSupply: { runId: 'run:other', tickets: 20, lastCreditedStage: 20 } },
       { ...saved, runSupply: { runId: 'run:protect', tickets: -1, lastCreditedStage: 20 } },
+      { ...saved, runSupply: { runId: 'run:protect', tickets: 21, lastCreditedStage: 20 } },
       { ...saved, runSupply: { runId: 'run:protect', tickets: 20, lastCreditedStage: 19 } },
       { ...saved, factory: { ...saved.factory, battleResume: { ...ready, stage: 0 } } },
       { ...saved, factory: { ...saved.factory, battleResume: { ...ready, playerTeam: [{}] } } },

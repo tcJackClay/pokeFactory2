@@ -740,6 +740,7 @@ function assertCurrentSaveRecoverability(value: unknown): void {
   if (!supply || !(supply.runId === null || (typeof supply.runId === 'string' && supply.runId.length > 0 && supply.runId.length <= 160))
     || !Number.isSafeInteger(supply.tickets) || (supply.tickets as number) < 0
     || !Number.isSafeInteger(supply.lastCreditedStage) || (supply.lastCreditedStage as number) < 0
+    || (supply.tickets as number) > (supply.lastCreditedStage as number)
     || (supply.runId === null && (supply.tickets !== 0 || supply.lastCreditedStage !== 0))
     || (supply.runId !== null && supply.runId !== wallet?.currentRunId)) {
     throw new Error('Factory run supply is missing or invalid.');
