@@ -1,0 +1,1405 @@
+{
+  "origin": "http://127.0.0.167:4300",
+  "steps": [
+    {
+      "name": "six-rentals",
+      "state": {
+        "schema": 13,
+        "runId": "run:18473828-5d00-4c5b-8d55-c5f3c94b748c",
+        "wallet": 0,
+        "tickets": 0,
+        "body": "0\nBP\n0/7\n轮次\n0\n连胜\n幽灵\n毒\n鬼斯\n岩石\n水\n菊石兽\n毒\n瓦斯弹\n岩石\n水\n化石盔\n超能\n催眠貘\n虫\n草\n派拉斯\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "stage1-ready",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "roundResult": null,
+        "runId": "run:18473828-5d00-4c5b-8d55-c5f3c94b748c",
+        "wallet": 0,
+        "tickets": 0,
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n比比鸟\n♀\nLV.50\n一般\n飞行\nHP\n100%\n鬼斯\n♀\nLV.50\n幽灵\n毒\nHP\n92/92\n战斗日志\nFCT-01\n\n对手 派出了 比比鸟！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n大晴天\n火\n威力 --\n命中 --\nPP 5/5\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n奇异之光\n幽灵\n威力 --\n命中 100\nPP 10/10\n恶梦\n幽灵\n威力 --\n命中 100\nPP 15/15\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "stage1-result-dev-win",
+      "state": {
+        "schema": 13,
+        "phase": "ROUND_RESULT",
+        "stage": 1,
+        "roundResult": "WIN",
+        "runId": "run:18473828-5d00-4c5b-8d55-c5f3c94b748c",
+        "wallet": 0,
+        "tickets": 1,
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n0\nBP\n1/7\n轮次\n0\n连胜\n比比鸟\n♀\nLV.50\n一般\n飞行\nHP\n100%\n鬼斯\n♀\nLV.50\n幽灵\n毒\nHP\n92/92\n战斗日志\nFCT-01\n\n对手 派出了 比比鸟！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n大晴天\n火\n威力 --\n命中 --\nPP 5/5\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n奇异之光\n幽灵\n威力 --\n命中 100\nPP 10/10\n恶梦\n幽灵\n威力 --\n命中 100\nPP 15/15\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 1\nC 0\nSP OFF",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "result-isolated",
+      "state": {
+        "schema": 13,
+        "phase": "ROUND_RESULT",
+        "stage": 1,
+        "roundResult": "WIN",
+        "runId": "run:18473828-5d00-4c5b-8d55-c5f3c94b748c",
+        "wallet": 0,
+        "tickets": 1,
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n本局补给券：1\n对手信息\n敌方 AI 档位: RANDOM\nDANELA / BEAUTY\n前往换怪\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "swap-before-failure",
+      "state": {
+        "schema": 13,
+        "phase": "FACTORY_SWAP",
+        "stage": 1,
+        "roundResult": "WIN",
+        "runId": "run:18473828-5d00-4c5b-8d55-c5f3c94b748c",
+        "wallet": 0,
+        "tickets": 1,
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n幽灵\n毒\n鬼斯\n我的已选\n岩石\n水\n菊石兽\n选我方\n毒\n瓦斯弹\n选我方\n对手队伍\n待选择\n一般\n飞行\n比比鸟\n选对手\n一般\n飞行\n大葱鸭\n选对手\n超能\n凯西\n选对手\n当前选择\n鬼斯\n交换目标\n未选择\n跳过交换\n确认交换\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "failure-alert",
+      "state": {
+        "schema": 13,
+        "phase": "FACTORY_SWAP",
+        "stage": 1,
+        "roundResult": "WIN",
+        "runId": "run:18473828-5d00-4c5b-8d55-c5f3c94b748c",
+        "wallet": 0,
+        "tickets": 1,
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n\n对手队伍暂时无法生成。当前进度已保留，请再次点击继续。\n\n0\nBP\n1/7\n轮次\n1\n连胜\n鬼斯\n♀\nLV.50\n幽灵\n毒\nHP\n92/92\n战斗日志\nFCT-01\n\n等待战斗指令。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n大晴天\n火\n威力 --\n命中 --\nPP 5/5\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n奇异之光\n幽灵\n威力 --\n命中 100\nPP 10/10\n恶梦\n幽灵\n威力 --\n命中 100\nPP 15/15\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "failure-reload",
+      "state": {
+        "schema": 13,
+        "phase": "FACTORY_SWAP",
+        "stage": 1,
+        "roundResult": "WIN",
+        "runId": "run:18473828-5d00-4c5b-8d55-c5f3c94b748c",
+        "wallet": 0,
+        "tickets": 1,
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n幽灵\n毒\n鬼斯\n我的已选\n岩石\n水\n菊石兽\n选我方\n毒\n瓦斯弹\n选我方\n对手队伍\n待选择\n一般\n飞行\n比比鸟\n选对手\n一般\n飞行\n大葱鸭\n选对手\n超能\n凯西\n选对手\n当前选择\n鬼斯\n交换目标\n未选择\n跳过交换\n确认交换\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "stage2-ready-after-retry",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 2,
+        "roundResult": null,
+        "runId": "run:18473828-5d00-4c5b-8d55-c5f3c94b748c",
+        "wallet": 0,
+        "tickets": 1,
+        "body": "0\nBP\n2/7\n轮次\n1\n连胜\n尼多力诺\n♂\nLV.50\n毒\nHP\n100%\n鬼斯\n♀\nLV.50\n幽灵\n毒\nHP\n92/92\n战斗日志\nFCT-01\n\n对手 派出了 尼多力诺！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n大晴天\n火\n威力 --\n命中 --\nPP 5/5\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n奇异之光\n幽灵\n威力 --\n命中 100\nPP 10/10\n恶梦\n幽灵\n威力 --\n命中 100\nPP 15/15\nDEV",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "errors": [
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "warning [FactoryPool:exhausted] {stage: 2, generation: 1, trainer: FRONTIER_TRAINER_PAYTON, attempts: 75, maxAttempts: 75}",
+    "warning [FactoryFlow:prefetchEnemy] {stage: 2, generation: 1, error: Error: Failed to generate valid opponent team: {\"stage\":2,\"generation\":1,\"trainer\":\"FRONTIER_TRAINE…}",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "warning [FactoryPool:exhausted] {stage: 2, generation: 1, trainer: FRONTIER_TRAINER_TYLER, attempts: 75, maxAttempts: 75}",
+    "warning [FactoryFlow:prefetchEnemy] {stage: 2, generation: 1, error: Error: Failed to generate valid opponent team: {\"stage\":2,\"generation\":1,\"trainer\":\"FRONTIER_TRAINE…}",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "error Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "warning [FactoryPool:exhausted] {stage: 2, generation: 1, trainer: FRONTIER_TRAINER_KENNETH, attempts: 75, maxAttempts: 75}",
+    "error Error: Failed to generate valid opponent team: {\"stage\":2,\"generation\":1,\"trainer\":\"FRONTIER_TRAINER_KENNETH\",\"attempts\":75,\"maxAttempts\":75,\"generated\":0,\"sampledBySource\":{\"reference\":2,\"trainer-pool\":0,\"global-pool\":148},\"rejected\":{\"banned\":0,\"species-conflict\":2,\"generation\":0,\"item-conflict\":0,\"evolution-stage\":0,\"quality-band\":60,\"missing-meta\":0,\"details\":60},\"durationMs\":311.9}\n    at http://127.0.0.167:4300/src/features/game/hooks/useFactoryFlow.ts?t=1790430309947:805:13\n    at async http://127.0.0.167:4300/src/features/game/hooks/useFactoryFlow.ts?t=1790430309947:949:18\n    at async http://127.0.0.167:4300/src/features/game/hooks/useFactoryFlow.ts?t=1790430309947:1094:23\n    at async Object.nextFactoryStage (http://127.0.0.167:4300/src/features/game/hooks/useFactoryFlow.ts?t=1790430309947:1412:19)\n    at async http://127.0.0.167:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790430309948:1153:21\n    at async Object.current (http://127.0.0.167:4300/src/features/game/config/classicFlow.ts:16:12)\n    at async http://127.0.0.167:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790430309948:1152:5"
+  ],
+  "requests": [
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/92/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/92/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/26/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/sunny-day/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/fire-punch/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/confuse-ray/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/nightmare/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/138/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/138/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/33/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/75/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/133/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/ancient-power/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/bubble-beam/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/protect/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/constrict/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/109/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/109/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/256/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/1/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/uproar/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/toxic-spikes/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/swallow/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/corrosive-gas/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/140/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/140/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/4/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/ice-beam/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/rock-smash/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/attract/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/meteor-beam/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/96/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/96/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/15/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/108/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/39/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/substitute/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/reflect/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/fling/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/rest/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/46/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/46/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/27/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/87/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/6/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/headbutt/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/double-team/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/endure/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/wide-guard/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/17/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/17/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/51/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/77/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/145/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/rain-dance/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/sand-attack/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/wing-attack/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/83/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/83/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/128/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/feather-dance/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/brutal-swing/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/gust/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/63/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/63/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/28/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/98/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/trick/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/zap-cannon/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/role-play/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/signal-beam/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/17/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/64/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/147/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/79/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/120/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/15/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/60/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/44/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/77/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/61/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/58/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/116/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/88/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/27/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/81/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/118/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/98/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/21/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/86/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/15/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/104/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/98/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/56/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/58/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/43/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/23/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/54/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/148/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/30/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/64/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/44/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/120/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/84/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/88/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/48/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/147/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/132/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/77/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/129/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/5/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/42/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/147/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/53/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/51/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/88/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/148/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/118/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/21/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/98/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/43/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/95/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/47/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/8/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/75/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/39/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/43/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/51/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/81/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/21/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/23/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/30/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/8/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/50/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/105/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/1/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/137/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/77/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/132/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/60/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/1/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/30/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/27/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/90/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/83/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/19/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/79/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/104/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/44/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/83/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/67/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/20/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/27/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/39/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/81/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/41/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/100/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/111/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/120/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/86/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/116/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/47/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/66/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/2/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/118/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/79/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/4/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/111/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/29/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/83/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/108/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/106/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/57/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/100/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/1/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/39/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/42/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/70/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/10/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/137/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/148/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/98/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/57/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/95/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/84/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/75/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/37/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/132/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/116/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/120/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/98/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/58/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/2/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/64/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/23/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/93/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/21/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/8/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/69/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/56/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/75/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/79/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/79/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/4/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/4/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/4/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/15/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/17/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/105/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/116/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/41/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/84/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/17/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/48/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/4/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/98/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/95/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/39/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/25/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/35/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/61/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/48/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/54/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/64/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/148/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/148/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/11/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/33/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/25/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/95/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/13/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/148/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/117/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/30/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/124/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/84/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/10/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/44/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/122/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/14/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/98/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/48/"
+    },
+    {
+      "status": 404,
+      "path": "/api/pokeapi/pokemon/63/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/33/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/33/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/38/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/79/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/55/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/double-kick/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/mud-slap/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/water-pulse/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/flatter/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/15/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/15/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/68/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/97/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/pursuit/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/twineedle/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/endeavor/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/agility/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon/72/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/pokemon-species/72/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/29/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/64/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/ability/44/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/icy-wind/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/take-down/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/double-team/"
+    },
+    {
+      "status": 200,
+      "path": "/api/pokeapi/move/acid-spray/"
+    }
+  ],
+  "injectedFailures": 172
+}
