@@ -143,12 +143,12 @@ test('applyMoveSecondaryEffects keeps user-side drops when the target is behind 
   assert.equal(result.enemyTeam[0].statStages.spAtk, 0);
 });
 
-test('Rogue Leaf Storm and Draco Meteor lower only the attacker after a hit, never on a miss or Protect', () => {
-  for (const name of ['leaf-storm', 'draco-meteor']) {
+test('Rogue Overheat family lowers only the attacker after a hit, never on a miss or Protect', () => {
+  for (const name of ['overheat', 'leaf-storm', 'draco-meteor']) {
     for (const actingSide of ['player', 'enemy'] as const) {
       const move = createMove({
         name,
-        type: name === 'leaf-storm' ? 'grass' : 'dragon',
+        type: name === 'leaf-storm' ? 'grass' : name === 'draco-meteor' ? 'dragon' : 'fire',
         damage_class: 'special',
         power: 130,
         accuracy: 90,
