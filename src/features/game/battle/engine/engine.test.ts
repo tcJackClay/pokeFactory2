@@ -88,9 +88,31 @@ function createSnapshot(overrides: Partial<BattleSnapshot> = {}): BattleSnapshot
     weatherTurns: 0,
     fieldState: [],
     fieldTurns: {},
+    tailwindTurns: { player: 0, enemy: 0 },
     ...overrides,
   };
 }
+
+test('Tailwind counts down both sides independently and survives a switch', () => {
+  const reserve = createPokemon(3, 'reserve');
+  let snapshot = createSnapshot({
+    playerTeam: [createPokemon(1, 'player'), reserve],
+    tailwindTurns: { player: 4, enemy: 2 },
+  });
+  const options = {
+    getLocalized: (pokemon: GamePokemon) => pokemon.name,
+    formatDynamaxEndMessage: (pokemon: GamePokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (move: Move) => move.currentPp ?? move.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+  };
+  for (let turn = 1; turn <= 4; turn += 1) {
+    if (turn === 2) snapshot = { ...snapshot, playerTeam: [snapshot.playerTeam[1], snapshot.playerTeam[0]] };
+    snapshot = resolveEndTurn({ ...options, snapshot }).snapshot;
+    assert.deepEqual(snapshot.tailwindTurns, { player: 4 - turn, enemy: Math.max(0, 2 - turn) });
+    if (turn >= 2) assert.equal(snapshot.playerTeam[0].id, reserve.id);
+  }
+});
 
 test('snow has no chip, survives switching, and expires after five end turns', () => {
   const player = createPokemon(1, 'player');

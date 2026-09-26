@@ -1,4 +1,4 @@
-import type { FieldState, FieldTurns, GamePokemon } from '../types';
+import type { FieldState, FieldTurns, GamePokemon, TailwindTurns } from '../types';
 import { getBattleIndexInSet, getFactoryGroupBp, getSetNoByStage, MAX_FACTORY_BP } from '../features/game/config/factoryRewards';
 import { getFactoryTrainerTemplateById } from '../features/game/config/factoryTrainerTemplates';
 import { isCompanionSpeciesId, type CompanionSpeciesId } from '../features/game/config/companionCandidates';
@@ -83,6 +83,7 @@ export interface BattleResumeSnapshot {
   weatherTurns: number;
   fieldState: FieldState[];
   fieldTurns: FieldTurns;
+  tailwindTurns: TailwindTurns;
   activeBuffs: { atk: boolean; def: boolean };
   enemyBuffs: { atk: boolean; def: boolean };
   factoryRentals: GamePokemon[];
@@ -503,6 +504,13 @@ function sanitizeFieldTurns(value: unknown, activeStates: FieldState[]): FieldTu
   return normalized;
 }
 
+function sanitizeTailwindTurns(value: unknown): TailwindTurns {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return { player: 0, enemy: 0 };
+  const source = value as Record<string, unknown>;
+  const normalize = (raw: unknown) => typeof raw === 'number' && Number.isInteger(raw) && raw >= 0 && raw <= 4 ? raw : 0;
+  return { player: normalize(source.player), enemy: normalize(source.enemy) };
+}
+
 function sanitizeBattleResume(value: unknown): FactoryBattleResume {
   const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
   if (source.status !== 'READY') {
@@ -532,6 +540,7 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
     : 'none';
   const fieldState = sanitizeFieldStateList(source.fieldState);
   const fieldTurns = sanitizeFieldTurns(source.fieldTurns, fieldState);
+  const tailwindTurns = sanitizeTailwindTurns(source.tailwindTurns);
   const stage = sanitizePositiveInt(source.stage, 0);
   const playerTeam = sanitizeGamePokemonArray(source.playerTeam);
   const enemyTeam = sanitizeGamePokemonArray(source.enemyTeam);
@@ -562,6 +571,7 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
     weatherTurns: sanitizePositiveInt(source.weatherTurns, 0),
     fieldState,
     fieldTurns,
+    tailwindTurns,
     activeBuffs: sanitizeAtkDefFlags(source.activeBuffs),
     enemyBuffs: sanitizeAtkDefFlags(source.enemyBuffs),
     factoryRentals: sanitizeGamePokemonArray(source.factoryRentals),
@@ -1352,6 +1362,7 @@ export function commitFactoryBattleStart(runId: string, start: FactoryBattleStar
     weatherTurns: 0,
     fieldState: [],
     fieldTurns: {},
+    tailwindTurns: { player: 0, enemy: 0 },
     activeBuffs: { atk: false, def: false },
     enemyBuffs: { atk: false, def: false },
     playerTeam: start.playerTeam,

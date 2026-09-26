@@ -11,6 +11,7 @@ import {
 import { clearNonVolatileStatus, clearVolatileStatus, getNonVolatileStatusId, getVolatileStatus, hasVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
 import type { LocalizeFn } from '../../view-model';
 import type { BattleSnapshot, EndTurnResolutionResult } from './types';
+import { advanceTailwind } from './resolveTailwind';
 
 const UPROAR_TURNS_GEN5_PLUS = 3;
 
@@ -47,6 +48,7 @@ export function resolveEndTurn({
     enemyTeam: [...snapshot.enemyTeam],
     fieldState: [...snapshot.fieldState],
     fieldTurns: { ...snapshot.fieldTurns },
+    tailwindTurns: { ...snapshot.tailwindTurns },
   };
   let playerLead = nextSnapshot.playerTeam[0];
   let enemyLead = nextSnapshot.enemyTeam[0];
@@ -409,6 +411,8 @@ export function resolveEndTurn({
       nextSnapshot.weatherTurns = nextTurns;
     }
   }
+
+  nextSnapshot.tailwindTurns = advanceTailwind(nextSnapshot.tailwindTurns);
 
   if (nextSnapshot.fieldState.length > 0) {
     const nextFieldTurns = { ...nextSnapshot.fieldTurns };

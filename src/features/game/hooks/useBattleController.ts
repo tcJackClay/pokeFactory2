@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Weather } from '../../../types';
+import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, TailwindTurns, Weather } from '../../../types';
 import { getBattleIndexInSet } from '../config/factoryRewards';
 import type { PendingFactorySettlement } from '../../../services/saveManager';
 import {
@@ -16,6 +16,7 @@ import {
   getBestTypePressureAgainstTarget,
   getEffectiveBattleSpeed,
   resolveActionSelection,
+  resolveTailwindUse,
   resolveBeforeMoveChecks as resolveBeforeMoveChecksStep,
   clearProtectionChain,
   resolveEndTurn,
@@ -94,6 +95,7 @@ interface UseBattleControllerParams {
   weatherTurns: number;
   fieldState: FieldState[];
   fieldTurns: FieldTurns;
+  tailwindTurns: TailwindTurns;
   stage: number;
   streak: number;
   enemyAiTier: FactoryAiTier;
@@ -124,6 +126,7 @@ interface UseBattleControllerParams {
   setWeatherTurns: Dispatch<SetStateAction<number>>;
   setFieldState: Dispatch<SetStateAction<FieldState[]>>;
   setFieldTurns: Dispatch<SetStateAction<FieldTurns>>;
+  setTailwindTurns: Dispatch<SetStateAction<TailwindTurns>>;
   setIsMessageProcessing: Dispatch<SetStateAction<boolean>>;
   setBattleLog: Dispatch<SetStateAction<string[]>>;
   setTurn: Dispatch<SetStateAction<BattleTurn>>;
@@ -299,6 +302,7 @@ export function useBattleController({
   weatherTurns,
   fieldState,
   fieldTurns,
+  tailwindTurns,
   stage,
   streak,
   enemyAiTier,
@@ -326,6 +330,7 @@ export function useBattleController({
   setWeatherTurns,
   setFieldState,
   setFieldTurns,
+  setTailwindTurns,
   setIsMessageProcessing,
   setBattleLog,
   setTurn,
@@ -731,6 +736,7 @@ export function useBattleController({
         weatherTurns,
         fieldState,
         fieldTurns,
+        tailwindTurns,
       },
       side: isEnemy ? 'enemy' : 'player',
       combatant,
@@ -773,6 +779,7 @@ export function useBattleController({
     enemyTeam,
     fieldState,
     fieldTurns,
+    tailwindTurns,
     getEncoredMove,
     getLocalized,
     getMoveCurrentPp,
@@ -1631,6 +1638,21 @@ export function useBattleController({
       return;
     }
 
+    if (hasMoveBattleEffect(resolvedMove, 'TAILWIND')) {
+      const result = resolveTailwindUse(tailwindTurns, actingSide);
+      if (result.succeeded) setTailwindTurns(result.turns);
+      await addMessagesSequentially([
+        result.succeeded
+          ? battleLine(currentLanguage, `${actorLabel}'s team gained a Tailwind!`, `${actorLabel}一方吹起了顺风！`)
+          : battleLine(currentLanguage, `${actorLabel}'s Tailwind failed!`, `${actorLabel}的顺风失败了！`),
+      ]);
+      if (isPlayerActing) setPlayerAnim('idle');
+      else setEnemyAnim('idle');
+      setActiveMoveType(null);
+      setMainBattleTurn(isPlayerActing ? 'ENEMY' : 'PLAYER');
+      return;
+    }
+
     if (hasMoveBattleEffect(resolvedMove, 'REST')) {
       const restBlocked = (
         getNonVolatileStatusId(updatedActor) === 'sleep'
@@ -2256,6 +2278,8 @@ export function useBattleController({
     setPlayerTeam,
     setWeather,
     setWeatherTurns,
+    setTailwindTurns,
+    tailwindTurns,
     syncEnemyLead,
     t,
     isProtectLikeMove,
@@ -2393,11 +2417,12 @@ export function useBattleController({
       enemyPokemon,
       enemyMove,
       fieldState,
+      tailwindTurns,
       weather,
       playerQuickClawActivated,
       enemyQuickClawActivated,
     }).enemyActsFirst;
-  }, [fieldState, weather]);
+  }, [fieldState, tailwindTurns, weather]);
 
   const runEnemyAutoAction = useCallback(async (options?: {
     defenderLead?: GamePokemon;
@@ -2656,6 +2681,7 @@ export function useBattleController({
           weatherTurns,
           fieldState,
           fieldTurns,
+          tailwindTurns,
         },
         getLocalized,
         currentLanguage,
@@ -2702,6 +2728,7 @@ export function useBattleController({
       setWeatherTurns(endTurnResult.snapshot.weatherTurns);
       setFieldState(endTurnResult.snapshot.fieldState);
       setFieldTurns(endTurnResult.snapshot.fieldTurns);
+      setTailwindTurns(endTurnResult.snapshot.tailwindTurns);
     };
 
     void handleRoundEnd();
@@ -2715,6 +2742,7 @@ export function useBattleController({
     enemyTeam,
     fieldState,
     fieldTurns,
+    tailwindTurns,
     gameState,
     getLocalized,
     hasHeldItem,
@@ -2727,6 +2755,7 @@ export function useBattleController({
     setEnemyTeam,
     setFieldState,
     setFieldTurns,
+    setTailwindTurns,
     setPlayerTeam,
     setWeather,
     setWeatherTurns,

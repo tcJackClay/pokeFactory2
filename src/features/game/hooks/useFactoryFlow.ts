@@ -29,7 +29,7 @@ import { withRequestTimeout } from '../../../services/requestTimeout';
 import { FACTORY_BANNED_SPECIES_IDS, isFactoryBannedSpecies } from '../config/factorySpeciesRules';
 import { selectFactoryTrainerTemplate, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools';
-import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, Stats, Weather } from '../../../types';
+import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, Stats, TailwindTurns, Weather } from '../../../types';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
 import { prepareFactoryPartyForBattle, restoreFactoryParty } from '../utils/restoreFactoryParty';
 import { restoreFactoryBattlePresentation, type FactoryBattlePresentation } from './factoryBattleRollback';
@@ -103,6 +103,7 @@ interface UseFactoryFlowParams {
   setWeatherTurns: Dispatch<SetStateAction<number>>;
   setFieldState: Dispatch<SetStateAction<FieldState[]>>;
   setFieldTurns: Dispatch<SetStateAction<FieldTurns>>;
+  setTailwindTurns: Dispatch<SetStateAction<TailwindTurns>>;
   setActiveBuffs: Dispatch<SetStateAction<{ atk: boolean; def: boolean }>>;
   setEnemyBuffs: Dispatch<SetStateAction<{ atk: boolean; def: boolean }>>;
 }
@@ -480,6 +481,7 @@ export function useFactoryFlow({
   setWeatherTurns,
   setFieldState,
   setFieldTurns,
+  setTailwindTurns,
   setActiveBuffs,
   setEnemyBuffs,
 }: UseFactoryFlowParams) {
@@ -594,6 +596,7 @@ export function useFactoryFlow({
     setWeatherTurns(0);
     setFieldState([]);
     setFieldTurns({});
+    setTailwindTurns({ player: 0, enemy: 0 });
     setActiveBuffs({ atk: false, def: false });
     setEnemyBuffs({ atk: false, def: false });
   }, [
@@ -608,6 +611,7 @@ export function useFactoryFlow({
     setEnemyTeam,
     setFieldState,
     setFieldTurns,
+    setTailwindTurns,
     setTrainerIntroActive,
     setTrainerIntroAwaitingContinue,
     setTurn,
@@ -1387,6 +1391,7 @@ export function useFactoryFlow({
       setWeatherTurns(0);
       setFieldState([]);
       setFieldTurns({});
+      setTailwindTurns({ player: 0, enemy: 0 });
       setActiveBuffs({ atk: false, def: false });
       setEnemyBuffs({ atk: false, def: false });
       success = true;
@@ -1417,6 +1422,7 @@ export function useFactoryFlow({
     setEnemyTeam,
     setFieldState,
     setFieldTurns,
+    setTailwindTurns,
     setLoading,
     setNextEnemyPreviewTeam,
     setNextEnemyPreviewTrainer,
@@ -1678,6 +1684,7 @@ export function useFactoryFlow({
         setWeatherTurns,
         setFieldState,
         setFieldTurns,
+        setTailwindTurns,
         setActiveBuffs,
         setEnemyBuffs,
       });
@@ -1687,7 +1694,7 @@ export function useFactoryFlow({
       setGameState(gameState);
     }
     return ready;
-  }, [battlePresentation, commitNextBattleStart, gameState, playerTeam, prefetchEnemy, resetBattlePreview, setActiveBuffs, setBattleLog, setBattleMenuTab, setBattleSpecialUsage, setCurrentEnemyTrainer, setEnemy, setEnemyAiTier, setEnemyBuffs, setEnemySpecialUsage, setEnemyTeam, setFieldState, setFieldTurns, setGameState, setIsTransitioning, setNextEnemyPreviewTeam, setNextEnemyPreviewTrainer, setPlayerTeam, setSpecialBossBattleActive, setStage, setTrainerIntroActive, setTrainerIntroAwaitingContinue, setTurn, setWeather, setWeatherTurns, spawnEnemy, stage, startBattleTransition]);
+  }, [battlePresentation, commitNextBattleStart, gameState, playerTeam, prefetchEnemy, resetBattlePreview, setActiveBuffs, setBattleLog, setBattleMenuTab, setBattleSpecialUsage, setCurrentEnemyTrainer, setEnemy, setEnemyAiTier, setEnemyBuffs, setEnemySpecialUsage, setEnemyTeam, setFieldState, setFieldTurns, setTailwindTurns, setGameState, setIsTransitioning, setNextEnemyPreviewTeam, setNextEnemyPreviewTrainer, setPlayerTeam, setSpecialBossBattleActive, setStage, setTrainerIntroActive, setTrainerIntroAwaitingContinue, setTurn, setWeather, setWeatherTurns, spawnEnemy, stage, startBattleTransition]);
 
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
     const newTeam = swapDefeatedPokemon(playerTeam, enemyTeam, playerIdx, enemyIdx);

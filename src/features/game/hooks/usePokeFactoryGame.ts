@@ -4,7 +4,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, Weather } from '../../../types';
+import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, TailwindTurns, Weather } from '../../../types';
 import { ALL_ITEMS } from '../../../uiAppConstants';
 import { fetchPokemon, getProcessedPokemon, isEvolutionChainBaseSpecies } from '../../../services/pokeApi';
 import { getAiTier } from '../config/factoryBattle';
@@ -190,6 +190,7 @@ export function usePokeFactoryGame(): GameViewModel {
   const [weatherTurns, setWeatherTurns] = useState(initialBattleResume?.weatherTurns ?? 0);
   const [fieldState, setFieldState] = useState<FieldState[]>(initialBattleResume?.fieldState ?? []);
   const [fieldTurns, setFieldTurns] = useState<FieldTurns>(initialBattleResume?.fieldTurns ?? {});
+  const [tailwindTurns, setTailwindTurns] = useState<TailwindTurns>(initialBattleResume?.tailwindTurns ?? { player: 0, enemy: 0 });
   const [evolutionTarget, setEvolutionTarget] = useState<GamePokemon | null>(null);
   const [isEvolving, setIsEvolving] = useState(false);
   const [evolvedPokemon, setEvolvedPokemon] = useState<GamePokemon | null>(null);
@@ -281,6 +282,7 @@ export function usePokeFactoryGame(): GameViewModel {
       weatherTurns,
       fieldState,
       fieldTurns,
+      tailwindTurns,
       activeBuffs,
       enemyBuffs,
       factoryRentals,
@@ -332,6 +334,7 @@ export function usePokeFactoryGame(): GameViewModel {
     weatherTurns,
     fieldState,
     fieldTurns,
+    tailwindTurns,
   ]);
 
   const getPersistableBattleResume = useCallback(() => {
@@ -447,6 +450,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setWeatherTurns(0);
     setFieldState([]);
     setFieldTurns({});
+    setTailwindTurns({ player: 0, enemy: 0 });
     setSpecialBossBattleActive(false);
     setBattleSpecialUsage(EMPTY_BATTLE_SPECIAL_USAGE);
     setEnemySpecialUsage(EMPTY_BATTLE_SPECIAL_USAGE);
@@ -534,6 +538,7 @@ export function usePokeFactoryGame(): GameViewModel {
     weatherTurns,
     fieldState,
     fieldTurns,
+    tailwindTurns,
     stage,
     streak,
     enemyAiTier,
@@ -561,6 +566,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setWeatherTurns,
     setFieldState,
     setFieldTurns,
+    setTailwindTurns,
     setIsMessageProcessing,
     setBattleLog,
     setTurn,
@@ -612,6 +618,7 @@ export function usePokeFactoryGame(): GameViewModel {
       weatherTurns,
       fieldState,
       fieldTurns,
+      tailwindTurns,
       activeBuffs,
       enemyBuffs,
     },
@@ -653,6 +660,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setWeatherTurns,
     setFieldState,
     setFieldTurns,
+    setTailwindTurns,
     setActiveBuffs,
     setEnemyBuffs,
   });
@@ -1202,6 +1210,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setWeatherTurns(0);
     setFieldState([]);
     setFieldTurns({});
+    setTailwindTurns({ player: 0, enemy: 0 });
     setPlayerTeam((prev) => {
       if (prev.length === 0) return prev;
       const lead = prev[0];
@@ -1231,6 +1240,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setWeatherTurns(4);
     setFieldState(['electric_terrain']);
     setFieldTurns({ electric_terrain: 4 });
+    setTailwindTurns({ player: 0, enemy: 0 });
     setPlayerTeam((prev) => {
       if (prev.length === 0) return prev;
       const lead = prev[0];
@@ -1497,6 +1507,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setWeatherTurns(0);
     setFieldState([]);
     setFieldTurns({});
+    setTailwindTurns({ player: 0, enemy: 0 });
     setGameState('BATTLE');
     if (specialEncounter) {
       return `${region.name}: 特殊事件地点 ${specialEncounter.site.name}，遭遇 ${getLocalized(targetPokemon)}`;
@@ -1710,6 +1721,7 @@ export function usePokeFactoryGame(): GameViewModel {
     weatherTurns,
     fieldState,
     fieldTurns,
+    tailwindTurns,
     isTransitioning,
     trainerIntroActive,
     trainerIntroAwaitingContinue,

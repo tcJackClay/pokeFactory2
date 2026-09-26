@@ -7,6 +7,7 @@ import type {
   Item,
   Move,
   Pokemon,
+  TailwindTurns,
   Weather,
 } from '../../../types';
 import type { RegionDispatchState } from '../config/events';
@@ -81,6 +82,7 @@ export interface GameViewBattleState {
   weatherTurns: number;
   fieldState: FieldState[];
   fieldTurns: FieldTurns;
+  tailwindTurns: TailwindTurns;
   isTransitioning: boolean;
   trainerIntroActive: boolean;
   trainerIntroAwaitingContinue: boolean;

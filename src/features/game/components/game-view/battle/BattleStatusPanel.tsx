@@ -59,6 +59,7 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
     weatherTurns,
     fieldState,
     fieldTurns,
+    tailwindTurns,
     currentLanguage,
     getStatName,
   } = viewModel;
@@ -93,6 +94,25 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
       key: `field-${state}`,
       ...FIELD_META[state],
       turns: Math.max(0, fieldTurns[state] ?? 0),
+    });
+  }
+
+  if (tailwindTurns.player > 0) {
+    effectRows.push({
+      key: 'tailwind-player',
+      icon: Wind,
+      label: { zh: '我方顺风', en: 'Your Tailwind' },
+      iconClassName: 'text-sky-500',
+      turns: tailwindTurns.player,
+    });
+  }
+  if (tailwindTurns.enemy > 0) {
+    effectRows.push({
+      key: 'tailwind-enemy',
+      icon: Wind,
+      label: { zh: '对手顺风', en: 'Enemy Tailwind' },
+      iconClassName: 'text-rose-500',
+      turns: tailwindTurns.enemy,
     });
   }
 

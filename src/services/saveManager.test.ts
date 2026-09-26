@@ -83,6 +83,7 @@ function buildLegacyReadyBattleResume(overrides: Record<string, unknown> = {}) {
     weatherTurns: 0,
     fieldState: [],
     fieldTurns: {},
+    tailwindTurns: { player: 0, enemy: 0 },
     activeBuffs: { atk: false, def: false },
     enemyBuffs: { atk: false, def: false },
     factoryRentals: [],
@@ -182,6 +183,23 @@ test('current save accepts snow weather and its remaining turns', () => {
   if (restored.status !== 'READY') return;
   assert.equal(restored.weather, 'snow');
   assert.equal(restored.weatherTurns, 4);
+});
+
+test('battle checkpoint retains separate Tailwind timers and normalizes invalid values', () => {
+  const saved = draft('run:tailwind-save');
+  const previous = saved.factory.battleResume;
+  assert.equal(previous.status, 'READY');
+  if (previous.status !== 'READY') return;
+  const withTurns = (turns: unknown) => parseSaveDataFromText(JSON.stringify({
+    ...saved,
+    factory: { ...saved.factory, battleResume: { ...previous, tailwindTurns: turns } },
+  })).factory.battleResume;
+  const valid = withTurns({ player: 3, enemy: 1 });
+  assert.equal(valid.status, 'READY');
+  if (valid.status === 'READY') assert.deepEqual(valid.tailwindTurns, { player: 3, enemy: 1 });
+  const invalid = withTurns({ player: 999, enemy: -1 });
+  assert.equal(invalid.status, 'READY');
+  if (invalid.status === 'READY') assert.deepEqual(invalid.tailwindTurns, { player: 0, enemy: 0 });
 });
 
 test('new save preserves battle snapshots, including postbattle phase', () => {
@@ -314,7 +332,9 @@ test('battle result keeps spent items; next BATTLE checkpoint returns originals 
       specialBossBattleActive: false,
       swapped: false,
     };
-    commitFactoryBattleStart('run:held-atomic', nextBattle);
+    const freshBattle = commitFactoryBattleStart('run:held-atomic', nextBattle);
+    assert.equal(freshBattle.status, 'READY');
+    if (freshBattle.status === 'READY') assert.deepEqual(freshBattle.tailwindTurns, { player: 0, enemy: 0 });
     assert.deepEqual(commitFactoryBattleStart('run:held-atomic', nextBattle), loadSaveData()!.factory.battleResume);
     assert.throws(() => commitFactoryBattleStart('run:held-atomic', {
       ...nextBattle,

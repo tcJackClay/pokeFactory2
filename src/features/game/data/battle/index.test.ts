@@ -278,6 +278,18 @@ test('Snowscape and Hail map to distinct weather effects', () => {
   assert.equal(battleDataFor('hail').weather, 'hail');
 });
 
+test('Tailwind loads as a user-side battle effect', () => {
+  const data = buildMoveBattleDataFromPokeApiMove({
+    name: 'tailwind',
+    priority: 0,
+    target: { name: 'users-field' },
+    meta: { drain: 0, healing: 0, crit_rate: 0, min_hits: null, max_hits: null },
+    flags: [],
+  });
+  assert.equal(data.effectId, 'TAILWIND');
+  assert.equal(data.target, 'user');
+});
+
 test('Rock Head and Magic Guard suppress recoil damage', () => {
   const recoilMove = {
     name: 'double-edge',

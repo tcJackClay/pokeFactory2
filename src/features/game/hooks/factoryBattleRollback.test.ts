@@ -24,6 +24,7 @@ test('failed next battle restores every prior result-page presentation field', (
     weatherTurns: 3,
     fieldState: ['electric_terrain'],
     fieldTurns: { electric_terrain: 2 },
+    tailwindTurns: { player: 2, enemy: 1 },
     activeBuffs: { atk: true, def: false },
     enemyBuffs: { atk: false, def: true },
   };

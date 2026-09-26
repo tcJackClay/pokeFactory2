@@ -113,6 +113,10 @@ export const MOVE_BATTLE_DATA_OVERRIDES: Partial<Record<string, MoveBattleDataOv
   snowscape: {
     weather: 'snow',
   },
+  tailwind: {
+    effectId: 'TAILWIND',
+    target: 'user',
+  },
   yawn: {
     effectId: 'YAWN',
   },

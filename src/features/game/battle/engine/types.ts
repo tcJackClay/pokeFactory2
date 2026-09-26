@@ -1,4 +1,4 @@
-import type { FieldState, FieldTurns, GamePokemon, Weather } from '../../../../types';
+import type { FieldState, FieldTurns, GamePokemon, TailwindTurns, Weather } from '../../../../types';
 
 export type EngineBattleSide = 'player' | 'enemy';
 export type EngineNextTurn = 'PLAYER' | 'ENEMY' | null;
@@ -10,6 +10,7 @@ export interface BattleSnapshot {
   weatherTurns: number;
   fieldState: FieldState[];
   fieldTurns: FieldTurns;
+  tailwindTurns: TailwindTurns;
 }
 
 export type BattleEvent =
