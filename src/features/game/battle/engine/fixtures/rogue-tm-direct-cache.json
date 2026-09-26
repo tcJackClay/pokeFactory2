@@ -1,0 +1,333 @@
+{
+  "source": "PokeAPI runtime cache; SHA256 verified against metadata",
+  "moves": {
+    "surf": {
+      "cacheBodySha256": "3948029226668020fb84b4228957249164fe1dc1544b0bae0d0566e7a0f57bb6",
+      "data": {
+        "id": 57,
+        "name": "surf",
+        "power": 90,
+        "accuracy": 100,
+        "pp": 15,
+        "priority": 0,
+        "type": {
+          "name": "water"
+        },
+        "damage_class": {
+          "name": "special"
+        },
+        "target": {
+          "name": "all-other-pokemon"
+        },
+        "meta": {
+          "ailment": {
+            "name": "none",
+            "url": "/api/pokeapi/move-ailment/0/"
+          },
+          "ailment_chance": 0,
+          "category": {
+            "name": "damage",
+            "url": "/api/pokeapi/move-category/0/"
+          },
+          "crit_rate": 0,
+          "drain": 0,
+          "flinch_chance": 0,
+          "healing": 0,
+          "max_hits": null,
+          "max_turns": null,
+          "min_hits": null,
+          "min_turns": null,
+          "stat_chance": 0
+        },
+        "stat_changes": []
+      }
+    },
+    "aqua-jet": {
+      "cacheBodySha256": "c7b5f8db9089508acec9e24f6c2731630ba1d5bd69935bfb8ff0bf156bf26ed4",
+      "data": {
+        "id": 453,
+        "name": "aqua-jet",
+        "power": 40,
+        "accuracy": 100,
+        "pp": 20,
+        "priority": 1,
+        "type": {
+          "name": "water"
+        },
+        "damage_class": {
+          "name": "physical"
+        },
+        "target": {
+          "name": "selected-pokemon"
+        },
+        "meta": {
+          "ailment": {
+            "name": "none",
+            "url": "/api/pokeapi/move-ailment/0/"
+          },
+          "category": {
+            "name": "damage",
+            "url": "/api/pokeapi/move-category/0/"
+          },
+          "min_hits": null,
+          "max_hits": null,
+          "min_turns": null,
+          "max_turns": null,
+          "drain": 0,
+          "healing": 0,
+          "crit_rate": 0,
+          "ailment_chance": 0,
+          "flinch_chance": 0,
+          "stat_chance": 0
+        },
+        "stat_changes": []
+      }
+    },
+    "aura-sphere": {
+      "cacheBodySha256": "6c6559d2208e2bb61bb40d8013533a747d6a73780e369d6808caa12505dfe96f",
+      "data": {
+        "id": 396,
+        "name": "aura-sphere",
+        "power": 80,
+        "accuracy": null,
+        "pp": 20,
+        "priority": 0,
+        "type": {
+          "name": "fighting"
+        },
+        "damage_class": {
+          "name": "special"
+        },
+        "target": {
+          "name": "selected-pokemon"
+        },
+        "meta": {
+          "ailment": {
+            "name": "none",
+            "url": "/api/pokeapi/move-ailment/0/"
+          },
+          "category": {
+            "name": "damage",
+            "url": "/api/pokeapi/move-category/0/"
+          },
+          "min_hits": null,
+          "max_hits": null,
+          "min_turns": null,
+          "max_turns": null,
+          "drain": 0,
+          "healing": 0,
+          "crit_rate": 0,
+          "ailment_chance": 0,
+          "flinch_chance": 0,
+          "stat_chance": 0
+        },
+        "stat_changes": []
+      }
+    },
+    "earthquake": {
+      "cacheBodySha256": "3e138217c8b0102d5d62d402a70e9f92fc8887b7b2735427bd0c33e8ddab19c9",
+      "data": {
+        "id": 89,
+        "name": "earthquake",
+        "power": 100,
+        "accuracy": 100,
+        "pp": 10,
+        "priority": 0,
+        "type": {
+          "name": "ground"
+        },
+        "damage_class": {
+          "name": "physical"
+        },
+        "target": {
+          "name": "all-other-pokemon"
+        },
+        "meta": {
+          "ailment": {
+            "name": "none",
+            "url": "/api/pokeapi/move-ailment/0/"
+          },
+          "ailment_chance": 0,
+          "category": {
+            "name": "damage",
+            "url": "/api/pokeapi/move-category/0/"
+          },
+          "crit_rate": 0,
+          "drain": 0,
+          "flinch_chance": 0,
+          "healing": 0,
+          "max_hits": null,
+          "max_turns": null,
+          "min_hits": null,
+          "min_turns": null,
+          "stat_chance": 0
+        },
+        "stat_changes": []
+      }
+    },
+    "aerial-ace": {
+      "cacheBodySha256": "ec23e9a442272e82cca01707887526c1576d42b50c9100fb92f65d427b779b4a",
+      "data": {
+        "id": 332,
+        "name": "aerial-ace",
+        "power": 60,
+        "accuracy": null,
+        "pp": 20,
+        "priority": 0,
+        "type": {
+          "name": "flying"
+        },
+        "damage_class": {
+          "name": "physical"
+        },
+        "target": {
+          "name": "selected-pokemon"
+        },
+        "meta": {
+          "ailment": {
+            "name": "none",
+            "url": "/api/pokeapi/move-ailment/0/"
+          },
+          "ailment_chance": 0,
+          "category": {
+            "name": "damage",
+            "url": "/api/pokeapi/move-category/0/"
+          },
+          "crit_rate": 0,
+          "drain": 0,
+          "flinch_chance": 0,
+          "healing": 0,
+          "max_hits": null,
+          "max_turns": null,
+          "min_hits": null,
+          "min_turns": null,
+          "stat_chance": 0
+        },
+        "stat_changes": []
+      }
+    },
+    "stone-edge": {
+      "cacheBodySha256": "7a83e1ca7ad61e25230046ecd8fe8f08379e3b49cbfc59b44d67a8c879b7f999",
+      "data": {
+        "id": 444,
+        "name": "stone-edge",
+        "power": 100,
+        "accuracy": 80,
+        "pp": 5,
+        "priority": 0,
+        "type": {
+          "name": "rock"
+        },
+        "damage_class": {
+          "name": "physical"
+        },
+        "target": {
+          "name": "selected-pokemon"
+        },
+        "meta": {
+          "ailment": {
+            "name": "none",
+            "url": "/api/pokeapi/move-ailment/0/"
+          },
+          "ailment_chance": 0,
+          "category": {
+            "name": "damage",
+            "url": "/api/pokeapi/move-category/0/"
+          },
+          "crit_rate": 1,
+          "drain": 0,
+          "flinch_chance": 0,
+          "healing": 0,
+          "max_hits": null,
+          "max_turns": null,
+          "min_hits": null,
+          "min_turns": null,
+          "stat_chance": 0
+        },
+        "stat_changes": []
+      }
+    },
+    "shadow-sneak": {
+      "cacheBodySha256": "26ac618f99e3e2cda7ff37eef324a5cdfe08d5f686b7e11a723af98b8dffb32b",
+      "data": {
+        "id": 425,
+        "name": "shadow-sneak",
+        "power": 40,
+        "accuracy": 100,
+        "pp": 30,
+        "priority": 1,
+        "type": {
+          "name": "ghost"
+        },
+        "damage_class": {
+          "name": "physical"
+        },
+        "target": {
+          "name": "selected-pokemon"
+        },
+        "meta": {
+          "ailment": {
+            "name": "none",
+            "url": "/api/pokeapi/move-ailment/0/"
+          },
+          "category": {
+            "name": "damage",
+            "url": "/api/pokeapi/move-category/0/"
+          },
+          "min_hits": null,
+          "max_hits": null,
+          "min_turns": null,
+          "max_turns": null,
+          "drain": 0,
+          "healing": 0,
+          "crit_rate": 0,
+          "ailment_chance": 0,
+          "flinch_chance": 0,
+          "stat_chance": 0
+        },
+        "stat_changes": []
+      }
+    },
+    "dazzling-gleam": {
+      "cacheBodySha256": "ade97e4002b3e6e7f7a8a2fcfdcd632bb74ab2847993d9393ba737c181a4a37b",
+      "data": {
+        "id": 605,
+        "name": "dazzling-gleam",
+        "power": 80,
+        "accuracy": 100,
+        "pp": 10,
+        "priority": 0,
+        "type": {
+          "name": "fairy"
+        },
+        "damage_class": {
+          "name": "special"
+        },
+        "target": {
+          "name": "all-opponents"
+        },
+        "meta": {
+          "ailment": {
+            "name": "none",
+            "url": "/api/pokeapi/move-ailment/0/"
+          },
+          "category": {
+            "name": "damage",
+            "url": "/api/pokeapi/move-category/0/"
+          },
+          "min_hits": null,
+          "max_hits": null,
+          "min_turns": null,
+          "max_turns": null,
+          "drain": 0,
+          "healing": 0,
+          "crit_rate": 0,
+          "ailment_chance": 0,
+          "flinch_chance": 0,
+          "stat_chance": 0
+        },
+        "stat_changes": []
+      }
+    }
+  }
+}
