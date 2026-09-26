@@ -80,6 +80,7 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
     label: { zh: string; en: string };
     iconClassName: string;
     turns: number;
+    showDuration?: boolean;
   }> = [];
 
   if (weather !== 'none') {
@@ -126,6 +127,7 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
         : { zh: '对手场地：隐形岩', en: 'Stealth Rock on enemy side' },
       iconClassName: side === 'player' ? 'text-blue-500' : 'text-red-500',
       turns: 0,
+      showDuration: false,
     });
     if (hazards[side].toxicSpikesLayers > 0) effectRows.push({
       key: `toxic-spikes-${side}`,
@@ -135,6 +137,7 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
         : { zh: `对手场地：毒菱 ${hazards[side].toxicSpikesLayers} 层`, en: `Toxic Spikes on enemy side: ${hazards[side].toxicSpikesLayers} layer(s)` },
       iconClassName: side === 'player' ? 'text-fuchsia-500' : 'text-rose-500',
       turns: 0,
+      showDuration: false,
     });
   }
 
@@ -168,14 +171,16 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50">
                       <Icon className={`h-4 w-4 ${effect.iconClassName}`} strokeWidth={2.2} />
                     </div>
-                    <span className="truncate text-sm font-black text-slate-800">
+                    <span className="min-w-0 text-sm font-black leading-snug text-slate-800 [overflow-wrap:anywhere]">
                       {isZh ? effect.label.zh : effect.label.en}
                     </span>
                   </div>
 
-                  <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-slate-500">
-                    {getTurnLabel(effect.turns, isZh)}
-                  </span>
+                  {effect.showDuration !== false && (
+                    <span className="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-slate-500">
+                      {getTurnLabel(effect.turns, isZh)}
+                    </span>
+                  )}
                 </div>
               </div>
             );
