@@ -1185,6 +1185,36 @@ export interface FactoryBattleStart {
   swapped: boolean;
 }
 
+function factoryBattleMemberFingerprint(pokemon: GamePokemon): string {
+  return JSON.stringify({
+    id: pokemon.id,
+    speciesId: pokemon.speciesId,
+    pokeApiName: pokemon.pokeApiName,
+    formLedgerSlug: pokemon.formLedgerSlug,
+    level: pokemon.level,
+    nature: pokemon.nature,
+    ivs: pokemon.ivs,
+    evs: pokemon.evs,
+    baseStats: pokemon.baseStats,
+    calculatedStats: pokemon.calculatedStats,
+    maxHp: pokemon.maxHp,
+    currentHp: pokemon.currentHp,
+    originalItem: pokemon.factoryOriginalHeldItemId,
+    currentItem: pokemon.factoryHeldItemId ?? null,
+    selectedMoves: pokemon.selectedMoves.map((move) => ({
+      name: move.name,
+      pp: move.pp,
+      maxPp: move.maxPp,
+      currentPp: move.currentPp,
+    })),
+  });
+}
+
+function sameFactoryBattleTeam(left: GamePokemon[], right: GamePokemon[]): boolean {
+  return left.length === right.length
+    && left.every((pokemon, index) => factoryBattleMemberFingerprint(pokemon) === factoryBattleMemberFingerprint(right[index]));
+}
+
 export function commitFactoryBattleStart(runId: string, start: FactoryBattleStart): BattleResumeSnapshot {
   if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
   const inspection = inspectStoredSave();
@@ -1196,8 +1226,8 @@ export function commitFactoryBattleStart(runId: string, start: FactoryBattleStar
   }
   if (checkpoint.stage === start.stage && checkpoint.phase === 'BATTLE') {
     const sameEncounter = checkpoint.currentEnemyTrainerId === start.currentEnemyTrainerId
-      && checkpoint.playerTeam.map((pokemon) => pokemon.id).join(',') === start.playerTeam.map((pokemon) => pokemon.id).join(',')
-      && checkpoint.enemyTeam.map((pokemon) => pokemon.id).join(',') === start.enemyTeam.map((pokemon) => pokemon.id).join(',');
+      && sameFactoryBattleTeam(checkpoint.playerTeam, start.playerTeam)
+      && sameFactoryBattleTeam(checkpoint.enemyTeam, start.enemyTeam);
     if (!sameEncounter) throw new Error('A different next battle is already saved.');
     return checkpoint;
   }

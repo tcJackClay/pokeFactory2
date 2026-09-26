@@ -32,6 +32,7 @@ import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools
 import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, Stats, Weather } from '../../../types';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
 import { prepareFactoryPartyForBattle, restoreFactoryParty } from '../utils/restoreFactoryParty';
+import { restoreFactoryBattlePresentation, type FactoryBattlePresentation } from './factoryBattleRollback';
 import {
   beginRentalNetworkCapture,
   clearRentalConfirm,
@@ -56,6 +57,7 @@ interface UseFactoryFlowParams {
   enemyTeam: GamePokemon[];
   currentEnemyTrainer: FactoryTrainerTemplate | null;
   gameState: GameState;
+  battlePresentation: FactoryBattlePresentation;
   commitNextBattleStart: (start: {
     stage: number;
     playerTeam: GamePokemon[];
@@ -440,6 +442,7 @@ export function useFactoryFlow({
   enemyTeam,
   currentEnemyTrainer,
   gameState,
+  battlePresentation,
   commitNextBattleStart,
   t,
   getLocalized,
@@ -1655,18 +1658,36 @@ export function useFactoryFlow({
       },
     });
     if (!ready) {
-      setEnemyTeam(enemyTeam);
-      setEnemy(enemyTeam[0] ?? null);
-      setCurrentEnemyTrainer(currentEnemyTrainer);
-      setTurn('PLAYER');
-      setBattleMenuTab('MAIN');
+      prefetchRequestTokenRef.current += 1;
+      prefetchedEncounterRef.current = null;
+      enemyPrefetchInFlightRef.current = null;
+      restoreFactoryBattlePresentation(battlePresentation, {
+        setEnemy,
+        setEnemyTeam,
+        setCurrentEnemyTrainer,
+        setNextEnemyPreviewTeam,
+        setNextEnemyPreviewTrainer,
+        setSpecialBossBattleActive,
+        setEnemyAiTier,
+        setBattleSpecialUsage,
+        setEnemySpecialUsage,
+        setBattleLog,
+        setTurn,
+        setBattleMenuTab,
+        setWeather,
+        setWeatherTurns,
+        setFieldState,
+        setFieldTurns,
+        setActiveBuffs,
+        setEnemyBuffs,
+      });
       setTrainerIntroActive(false);
       setTrainerIntroAwaitingContinue(false);
       setIsTransitioning(false);
       setGameState(gameState);
     }
     return ready;
-  }, [commitNextBattleStart, currentEnemyTrainer, enemyTeam, gameState, playerTeam, prefetchEnemy, resetBattlePreview, setBattleMenuTab, setCurrentEnemyTrainer, setEnemy, setEnemyTeam, setGameState, setIsTransitioning, setPlayerTeam, setStage, setTrainerIntroActive, setTrainerIntroAwaitingContinue, setTurn, spawnEnemy, stage, startBattleTransition]);
+  }, [battlePresentation, commitNextBattleStart, gameState, playerTeam, prefetchEnemy, resetBattlePreview, setActiveBuffs, setBattleLog, setBattleMenuTab, setBattleSpecialUsage, setCurrentEnemyTrainer, setEnemy, setEnemyAiTier, setEnemyBuffs, setEnemySpecialUsage, setEnemyTeam, setFieldState, setFieldTurns, setGameState, setIsTransitioning, setNextEnemyPreviewTeam, setNextEnemyPreviewTrainer, setPlayerTeam, setSpecialBossBattleActive, setStage, setTrainerIntroActive, setTrainerIntroAwaitingContinue, setTurn, setWeather, setWeatherTurns, spawnEnemy, stage, startBattleTransition]);
 
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
     const newTeam = swapDefeatedPokemon(playerTeam, enemyTeam, playerIdx, enemyIdx);

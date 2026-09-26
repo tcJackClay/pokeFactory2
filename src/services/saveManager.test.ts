@@ -296,6 +296,21 @@ test('battle result keeps spent items; next BATTLE checkpoint returns originals 
     };
     commitFactoryBattleStart('run:held-atomic', nextBattle);
     assert.deepEqual(commitFactoryBattleStart('run:held-atomic', nextBattle), loadSaveData()!.factory.battleResume);
+    assert.throws(() => commitFactoryBattleStart('run:held-atomic', {
+      ...nextBattle,
+      playerTeam: [{
+        ...nextBattle.playerTeam[0],
+        factoryOriginalHeldItemId: 'white-herb',
+        factoryHeldItemId: 'white-herb',
+      }],
+    }), /different next battle/);
+    assert.throws(() => commitFactoryBattleStart('run:held-atomic', {
+      ...nextBattle,
+      playerTeam: [{
+        ...nextBattle.playerTeam[0],
+        ivs: { ...nextBattle.playerTeam[0].ivs, attack: nextBattle.playerTeam[0].ivs.attack + 1 },
+      }],
+    }), /different next battle/);
     const prepared = loadSaveData()!.factory.battleResume;
     assert.equal(prepared.status, 'READY');
     if (prepared.status === 'READY') {
