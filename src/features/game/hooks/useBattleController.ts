@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { completeEndTurnResolution } from './presentEndTurnResolution';
-import { createEnemyActionGate } from './enemyActionGate';
+import { executeRoundTransaction, roundMatches, startRound } from '../battle/engine/roundTransaction';
+import type { RoundActionResult, RoundTransaction } from '../battle/engine/roundTransaction';
 import type { BattleHazards, BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, TailwindTurns, Weather } from '../../../types';
 import { getBattleIndexInSet } from '../config/factoryRewards';
 import type { PendingFactorySettlement } from '../../../services/saveManager';
@@ -91,6 +92,7 @@ interface UseBattleControllerParams {
   gameState: GameState;
   turn: BattleTurn;
   isMessageProcessing: boolean;
+  setRoundTransactionActive: Dispatch<SetStateAction<boolean>>;
   inventory: Item[];
   playerTeam: GamePokemon[];
   enemy: GamePokemon | null;
@@ -154,6 +156,32 @@ interface UseBattleControllerParams {
   setSpecialBossBattleActive: Dispatch<SetStateAction<boolean>>;
   setBattleSpecialUsage: Dispatch<SetStateAction<BattleSpecialUsageState>>;
   setEnemySpecialUsage: Dispatch<SetStateAction<BattleSpecialUsageState>>;
+}
+
+class StaleRoundError extends Error {}
+
+// 战斗结束的唯一判据：一方队伍全灭。合法失败（换人被拦、道具/极巨化石提示等）不得据此判定结束。
+function isTeamWiped(playerTeam: GamePokemon[], enemyTeam: GamePokemon[]): boolean {
+  return playerTeam.every((pokemon) => pokemon.currentHp <= 0)
+    || enemyTeam.every((pokemon) => pokemon.currentHp <= 0);
+}
+
+// 轮次起点检查点：仅用于轮次事务异常时把状态回滚到本轮开始，保证「绝不把半轮写入稳定存档」。
+interface RoundStartCheckpoint {
+  playerTeam: GamePokemon[];
+  enemyTeam: GamePokemon[];
+  enemy: GamePokemon | null;
+  weather: Weather;
+  weatherTurns: number;
+  fieldState: FieldState[];
+  fieldTurns: FieldTurns;
+  tailwindTurns: TailwindTurns;
+  hazards: BattleHazards;
+  activeBuffs: { atk: boolean; def: boolean };
+  enemyBuffs: { atk: boolean; def: boolean };
+  battleSpecialUsage: BattleSpecialUsageState;
+  enemySpecialUsage: BattleSpecialUsageState;
+  inventory: Item[];
 }
 
 const AI_FLAG_CHECK_BAD_MOVE = 1 << 0;
@@ -300,6 +328,7 @@ export function useBattleController({
   gameState,
   turn,
   isMessageProcessing,
+  setRoundTransactionActive,
   inventory,
   playerTeam,
   enemy,
@@ -330,17 +359,17 @@ export function useBattleController({
   currentLanguage,
   getLocalized,
   setInventory,
-  setPlayerTeam,
-  setEnemy,
-  setEnemyTeam,
+  setPlayerTeam: setPlayerTeamState,
+  setEnemy: setEnemyState,
+  setEnemyTeam: setEnemyTeamState,
   setActiveBuffs,
   setEnemyBuffs,
-  setWeather,
-  setWeatherTurns,
-  setFieldState,
-  setFieldTurns,
-  setTailwindTurns,
-  setHazards,
+  setWeather: setWeatherState,
+  setWeatherTurns: setWeatherTurnsState,
+  setFieldState: setFieldStateState,
+  setFieldTurns: setFieldTurnsState,
+  setTailwindTurns: setTailwindTurnsState,
+  setHazards: setHazardsState,
   setIsMessageProcessing,
   setBattleLog,
   setTurn,
@@ -363,8 +392,10 @@ export function useBattleController({
 }: UseBattleControllerParams) {
   const [settlementError, setSettlementError] = useState(Boolean(pendingSettlement));
   const pendingSettlementRef = useRef<PendingFactorySettlement | null>(pendingSettlement);
-  const previousTurnRef = useRef<BattleTurn | null>(null);
-  const roundEndInFlightRef = useRef<number | null>(null);
+  const roundTransactionRef = useRef<RoundTransaction | null>(null);
+  const nextRoundIdRef = useRef(0);
+  const roundActionLockedRef = useRef(false);
+  const replacementWaitRef = useRef<{ promise: Promise<void>; release: () => void } | null>(null);
   const battleInstanceRef = useRef({ gameState, factoryRunId, stage, epoch: 0 });
   if (
     battleInstanceRef.current.gameState !== gameState
@@ -372,8 +403,20 @@ export function useBattleController({
     || battleInstanceRef.current.stage !== stage
   ) {
     battleInstanceRef.current = { gameState, factoryRunId, stage, epoch: battleInstanceRef.current.epoch + 1 };
+    roundTransactionRef.current = null;
+    roundActionLockedRef.current = false;
+    replacementWaitRef.current?.release();
+    replacementWaitRef.current = null;
   }
   const battleEpoch = battleInstanceRef.current.epoch;
+  // 仅在 battleEpoch 确实变化时清 busy：战斗实例切换/卸载必须解锁旧轮次的 UI，但同一 epoch 内合法的日志播放不能被打断。
+  const previousBattleEpochRef = useRef(battleEpoch);
+  useEffect(() => {
+    if (previousBattleEpochRef.current === battleEpoch) return;
+    previousBattleEpochRef.current = battleEpoch;
+    setRoundTransactionActive(false);
+    setIsMessageProcessing(false);
+  }, [battleEpoch, setIsMessageProcessing, setRoundTransactionActive]);
   const battleMountedRef = useRef(true);
   useEffect(() => {
     battleMountedRef.current = true;
@@ -383,7 +426,7 @@ export function useBattleController({
     };
   }, []);
   const pendingPlayerSwitchRef = useRef(false);
-  const enemyActionGateRef = useRef(createEnemyActionGate());
+  const replacementChoiceInFlightRef = useRef(false);
   const pendingForcedPlayerTurnRef = useRef<BattleTurn | null>(null);
   const hazardsRef = useRef(hazards);
   hazardsRef.current = hazards;
@@ -401,6 +444,53 @@ export function useBattleController({
     enemyTeam,
     enemy,
   };
+  const liveFieldRef = useRef({ weather, weatherTurns, fieldState, fieldTurns, tailwindTurns, hazards });
+  liveFieldRef.current = { weather, weatherTurns, fieldState, fieldTurns, tailwindTurns, hazards };
+  const setPlayerTeam: Dispatch<SetStateAction<GamePokemon[]>> = useCallback((next) => {
+    const team = typeof next === 'function' ? next(liveBattleStateRef.current.playerTeam) : next;
+    liveBattleStateRef.current.playerTeam = team;
+    setPlayerTeamState(team);
+  }, [setPlayerTeamState]);
+  const setEnemyTeam: Dispatch<SetStateAction<GamePokemon[]>> = useCallback((next) => {
+    const team = typeof next === 'function' ? next(liveBattleStateRef.current.enemyTeam) : next;
+    liveBattleStateRef.current.enemyTeam = team;
+    setEnemyTeamState(team);
+  }, [setEnemyTeamState]);
+  const setEnemy: Dispatch<SetStateAction<GamePokemon | null>> = useCallback((next) => {
+    const pokemon = typeof next === 'function' ? next(liveBattleStateRef.current.enemy) : next;
+    liveBattleStateRef.current.enemy = pokemon;
+    setEnemyState(pokemon);
+  }, [setEnemyState]);
+  const setWeather: Dispatch<SetStateAction<Weather>> = useCallback((next) => {
+    const value = typeof next === 'function' ? next(liveFieldRef.current.weather) : next;
+    liveFieldRef.current.weather = value;
+    setWeatherState(value);
+  }, [setWeatherState]);
+  const setWeatherTurns: Dispatch<SetStateAction<number>> = useCallback((next) => {
+    const value = typeof next === 'function' ? next(liveFieldRef.current.weatherTurns) : next;
+    liveFieldRef.current.weatherTurns = value;
+    setWeatherTurnsState(value);
+  }, [setWeatherTurnsState]);
+  const setFieldState: Dispatch<SetStateAction<FieldState>> = useCallback((next) => {
+    const value = typeof next === 'function' ? next(liveFieldRef.current.fieldState) : next;
+    liveFieldRef.current.fieldState = value;
+    setFieldStateState(value);
+  }, [setFieldStateState]);
+  const setFieldTurns: Dispatch<SetStateAction<FieldTurns>> = useCallback((next) => {
+    const value = typeof next === 'function' ? next(liveFieldRef.current.fieldTurns) : next;
+    liveFieldRef.current.fieldTurns = value;
+    setFieldTurnsState(value);
+  }, [setFieldTurnsState]);
+  const setTailwindTurns: Dispatch<SetStateAction<TailwindTurns>> = useCallback((next) => {
+    const value = typeof next === 'function' ? next(liveFieldRef.current.tailwindTurns) : next;
+    liveFieldRef.current.tailwindTurns = value;
+    setTailwindTurnsState(value);
+  }, [setTailwindTurnsState]);
+  const setHazards: Dispatch<SetStateAction<BattleHazards>> = useCallback((next) => {
+    const value = typeof next === 'function' ? next(liveFieldRef.current.hazards) : next;
+    liveFieldRef.current.hazards = value;
+    setHazardsState(value);
+  }, [setHazardsState]);
 
   const normalizeHeldItemId = useCallback((itemId?: string) => {
     return (itemId ?? '').toLowerCase().replace(/-/g, '_');
@@ -623,20 +713,104 @@ export function useBattleController({
   }, [consumeHeldItem, currentLanguage, getHeldItemLabel, getLocalized, getItemMentalStatuses, getStatusLabel, hasHeldItemEffect, normalizeHeldItemId]);
 
   const addMessagesSequentially = useCallback(async (messages: string[]) => {
+    const expectedEpoch = roundTransactionRef.current?.battleEpoch;
     setIsMessageProcessing(true);
-
-    for (const message of messages) {
-      setBattleLog((prev) => [...prev, message]);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      for (const message of messages) {
+        if (expectedEpoch !== undefined && battleInstanceRef.current.epoch !== expectedEpoch) throw new StaleRoundError();
+        setBattleLog((prev) => [...prev, message]);
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+      }
+      if (expectedEpoch !== undefined && battleInstanceRef.current.epoch !== expectedEpoch) throw new StaleRoundError();
+    } finally {
+      if (expectedEpoch === undefined || battleInstanceRef.current.epoch === expectedEpoch) setIsMessageProcessing(false);
     }
-
-    setIsMessageProcessing(false);
   }, [setBattleLog, setIsMessageProcessing]);
 
   const setMainBattleTurn = useCallback((nextTurn: BattleTurn) => {
     setTurn(nextTurn);
     setBattleMenuTab('MAIN');
   }, [setBattleMenuTab, setTurn]);
+
+  const markAwaitingPlayerReplacement = useCallback(() => {
+    if (!roundTransactionRef.current || replacementWaitRef.current) return;
+    let release!: () => void;
+    const promise = new Promise<void>((resolve) => { release = resolve; });
+    replacementWaitRef.current = { promise, release };
+  }, []);
+
+  const releasePlayerReplacement = useCallback(() => {
+    const waiting = replacementWaitRef.current;
+    replacementWaitRef.current = null;
+    waiting?.release();
+  }, []);
+
+  // 战斗状态全部按不可变方式更新（每步创建新数组/对象），故浅拷贝即等价于轮次起点快照。
+  const captureRoundStartCheckpoint = useCallback((): RoundStartCheckpoint => {
+    const live = liveBattleStateRef.current;
+    const field = liveFieldRef.current;
+    return {
+      playerTeam: [...live.playerTeam],
+      enemyTeam: [...live.enemyTeam],
+      enemy: live.enemy,
+      weather: field.weather,
+      weatherTurns: field.weatherTurns,
+      fieldState: [...field.fieldState],
+      fieldTurns: { ...field.fieldTurns },
+      tailwindTurns: { ...field.tailwindTurns },
+      hazards: { player: { ...field.hazards.player }, enemy: { ...field.hazards.enemy } },
+      activeBuffs: { ...activeBuffs },
+      enemyBuffs: { ...enemyBuffs },
+      battleSpecialUsage: { ...battleSpecialUsage },
+      enemySpecialUsage: { ...enemySpecialUsage },
+      inventory: [...inventory],
+    };
+  }, [activeBuffs, battleSpecialUsage, enemyBuffs, enemySpecialUsage, inventory]);
+
+  const restoreRoundStartCheckpoint = useCallback((checkpoint: RoundStartCheckpoint) => {
+    hazardsRef.current = checkpoint.hazards;
+    setPlayerTeam(checkpoint.playerTeam);
+    setEnemyTeam(checkpoint.enemyTeam);
+    setEnemy(checkpoint.enemy);
+    setWeather(checkpoint.weather);
+    setWeatherTurns(checkpoint.weatherTurns);
+    setFieldState(checkpoint.fieldState);
+    setFieldTurns(checkpoint.fieldTurns);
+    setTailwindTurns(checkpoint.tailwindTurns);
+    setHazards(checkpoint.hazards);
+    setActiveBuffs(checkpoint.activeBuffs);
+    setEnemyBuffs(checkpoint.enemyBuffs);
+    setBattleSpecialUsage(checkpoint.battleSpecialUsage);
+    setEnemySpecialUsage(checkpoint.enemySpecialUsage);
+    setInventory(checkpoint.inventory);
+    pendingPlayerSwitchRef.current = false;
+    pendingForcedPlayerTurnRef.current = null;
+    setPlayerAnim('idle');
+    setEnemyAnim('idle');
+    setActiveMoveType(null);
+  }, [setActiveBuffs, setActiveMoveType, setEnemy, setEnemyAnim, setEnemyBuffs, setEnemySpecialUsage, setEnemyTeam, setFieldState, setFieldTurns, setHazards, setInventory, setPlayerAnim, setPlayerTeam, setTailwindTurns, setWeather, setWeatherTurns]);
+
+  // 轮次结束的唯一点账：成功即解锁开放下一轮；异常则回滚到轮次起点并解锁，保证 UI 可恢复且不写入半轮。
+  const finalizeRoundAttempt = useCallback((params: {
+    epoch: number;
+    roundId: number;
+    failed: boolean;
+    checkpoint: RoundStartCheckpoint;
+  }) => {
+    const { epoch, roundId, failed, checkpoint } = params;
+    if (!(battleMountedRef.current && battleInstanceRef.current.epoch === epoch && roundMatches(roundTransactionRef.current, epoch, roundId))) return;
+    const stillSameBattle = battleInstanceRef.current.epoch === epoch && liveBattleStateRef.current.gameState === 'BATTLE';
+    roundTransactionRef.current = null;
+    roundActionLockedRef.current = false;
+    replacementWaitRef.current = null;
+    setRoundTransactionActive(false);
+    if (failed) {
+      setIsMessageProcessing(false);
+      if (stillSameBattle) restoreRoundStartCheckpoint(checkpoint);
+      setBattleLog((prev) => [...prev, battleLine(currentLanguage, 'Battle processing failed. This round was rolled back.', '战斗处理失败，本轮已回滚。')]);
+    }
+    if (stillSameBattle) setMainBattleTurn('PLAYER');
+  }, [currentLanguage, restoreRoundStartCheckpoint, setBattleLog, setIsMessageProcessing, setMainBattleTurn, setRoundTransactionActive]);
 
   const getMoveMaxPp = useCallback((move: Move) => move.maxPp ?? move.pp ?? 0, []);
   const getMoveCurrentPp = useCallback((move: Move) => move.currentPp ?? getMoveMaxPp(move), [getMoveMaxPp]);
@@ -794,10 +968,7 @@ export function useBattleController({
     if (messages.length > 0) {
       await addMessagesSequentially(messages);
     }
-    if (result.nextTurn) {
-      setMainBattleTurn(result.nextTurn);
-    }
-
+    // 该侧无法行动时不再自由改写显示轮次：由调用方返回 SKIPPED，交由轮次事务 onTransition 单点记账。
     return {
       canAct: result.canAct,
       combatant: result.combatant,
@@ -819,7 +990,6 @@ export function useBattleController({
     playerTeam,
     setEnemy,
     setEnemyTeam,
-    setMainBattleTurn,
     setPlayerTeam,
     weather,
     weatherTurns,
@@ -974,11 +1144,11 @@ export function useBattleController({
       if (entry.fainted) {
         continue;
       }
+      // 只有「同时等待玩家补位」时需要显式切回玩家菜单；其余轮次显示由事务 onTransition 记账。
       if (options?.preservePlayerSwitchMenu) setTurn('PLAYER');
-      else setMainBattleTurn('PLAYER');
       return true;
     }
-  }, [addMessagesSequentially, enterBattlefield, getLocalized, reportEntryHazards, setEnemy, setEnemyTeam, setMainBattleTurn, setTurn, t, winBattle]);
+  }, [addMessagesSequentially, enterBattlefield, getLocalized, reportEntryHazards, setEnemy, setEnemyTeam, setTurn, t, winBattle]);
 
   const sendOutNextPlayer = useCallback(async (
     currentPlayerTeam: GamePokemon[],
@@ -991,6 +1161,7 @@ export function useBattleController({
       return false;
     }
 
+    markAwaitingPlayerReplacement();
     pendingForcedPlayerTurnRef.current = options?.nextTurnAfterSwitch ?? 'PLAYER';
     const nextPlayerTeam = [...currentPlayerTeam];
     nextPlayerTeam[0] = clearSwitchingBattleState(nextPlayerTeam[0]);
@@ -998,7 +1169,7 @@ export function useBattleController({
     setTurn('PLAYER');
     setBattleMenuTab('POKEMON');
     return true;
-  }, [clearSwitchingBattleState, loseBattle, setBattleMenuTab, setPlayerTeam, setTurn]);
+  }, [clearSwitchingBattleState, loseBattle, markAwaitingPlayerReplacement, setBattleMenuTab, setPlayerTeam, setTurn]);
 
   const calculateDamage = useCallback((
     move: Move,
@@ -1364,7 +1535,7 @@ export function useBattleController({
       t('youUsed').replace('{name}', getLocalized(consumedItem)),
       t('specialActivated').replace('{mode}', getSpecialLabel(mode)).replace('{name}', getLocalized(boostedLead)),
     ]);
-    setMainBattleTurn('ENEMY');
+    return true;
   }, [
     addMessagesSequentially,
     applySpecialBoost,
@@ -1376,7 +1547,6 @@ export function useBattleController({
     hasMatchingZCrystal,
     playerTeam,
     setBattleSpecialUsage,
-    setMainBattleTurn,
     setPlayerTeam,
     t,
   ]);
@@ -1394,8 +1564,7 @@ export function useBattleController({
     if (item.isBall) {
       if (!allowWildCatch) {
         await addMessagesSequentially([t('cannotCatchFactory')]);
-        setMainBattleTurn('ENEMY');
-        return;
+        return true;
       }
 
       setIsCatching(true);
@@ -1427,9 +1596,8 @@ export function useBattleController({
         setTimeout(() => void winBattle(), 300);
       } else {
         await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(enemy)} broke free!`, `${getLocalized(enemy)}挣脱了！`)]);
-        setMainBattleTurn('ENEMY');
       }
-      return;
+      return true;
     }
 
     const newInventory = [...inventory];
@@ -1443,7 +1611,7 @@ export function useBattleController({
     if (item.id === 'battle_atk') setActiveBuffs((prev) => ({ ...prev, atk: true }));
     if (item.id === 'battle_def') setActiveBuffs((prev) => ({ ...prev, def: true }));
 
-    setMainBattleTurn('ENEMY');
+    return true;
   }, [
     addMessagesSequentially,
     allowWildCatch,
@@ -1455,13 +1623,11 @@ export function useBattleController({
     isMessageProcessing,
     playerTeam,
     setActiveBuffs,
-    setBattleMenuTab,
     setCatchSuccess,
     setInventory,
     setIsCatching,
     setPlayerTeam,
     setShowReplaceUI,
-    setMainBattleTurn,
     t,
     turn,
     winBattle,
@@ -1497,9 +1663,10 @@ export function useBattleController({
         await sendOutNextPlayer(newTeam, { nextTurnAfterSwitch: pendingForcedPlayerTurnRef.current ?? 'PLAYER' });
         return;
       }
-      setMainBattleTurn(pendingForcedPlayerTurnRef.current ?? 'PLAYER');
       pendingForcedPlayerTurnRef.current = null;
-      return;
+      pendingPlayerSwitchRef.current = false;
+      releasePlayerReplacement();
+      return true;
     }
 
     await addMessagesSequentially([
@@ -1509,9 +1676,9 @@ export function useBattleController({
     await reportEntryHazards(entry);
     if (entry.fainted) {
       await sendOutNextPlayer(newTeam, { nextTurnAfterSwitch: 'ENEMY' });
-      return;
+      return true;
     }
-    setMainBattleTurn('ENEMY');
+    return true;
   }, [
     addMessagesSequentially,
     clearSwitchingBattleState,
@@ -1523,8 +1690,8 @@ export function useBattleController({
     isMessageProcessing,
     playerTeam,
     reportEntryHazards,
+    releasePlayerReplacement,
     sendOutNextPlayer,
-    setMainBattleTurn,
     setPlayerTeam,
     t,
     turn,
@@ -1575,6 +1742,13 @@ export function useBattleController({
 
       nextEnemyTeam = syncEnemyLead(pokemon, nextEnemyTeam);
       return nextEnemyTeam;
+    };
+
+    // 本侧行动结束（含早退）时只做动画/招式展示收尾；回合与显示轮次由轮次事务 onTransition 单点记账。
+    const finishActionDisplay = () => {
+      if (isPlayerActing) setPlayerAnim('idle');
+      else setEnemyAnim('idle');
+      setActiveMoveType(null);
     };
 
     if (isPlayerActing) {
@@ -1650,14 +1824,7 @@ export function useBattleController({
       const calledMove = chooseSleepTalkMove(updatedActor);
       if (!calledMove) {
         await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s Sleep Talk failed!`, `${actorLabel}的梦话失败了！`)]);
-        if (isPlayerActing) {
-          setPlayerAnim('idle');
-          setMainBattleTurn('ENEMY');
-        } else {
-          setEnemyAnim('idle');
-          setMainBattleTurn('PLAYER');
-        }
-        setActiveMoveType(null);
+        finishActionDisplay();
         return;
       }
 
@@ -1669,14 +1836,7 @@ export function useBattleController({
     }
     if (hasMoveBattleEffect(resolvedMove, 'SNORE') && getNonVolatileStatusId(updatedActor) !== 'sleep') {
       await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s Snore failed!`, `${actorLabel}的打鼾失败了！`)]);
-      if (isPlayerActing) {
-        setPlayerAnim('idle');
-        setMainBattleTurn('ENEMY');
-      } else {
-        setEnemyAnim('idle');
-        setMainBattleTurn('PLAYER');
-      }
-      setActiveMoveType(null);
+      finishActionDisplay();
       return;
     }
 
@@ -1705,14 +1865,7 @@ export function useBattleController({
           ? battleLine(currentLanguage, `${actorLabel} protected itself!`, `${actorLabel}保护了自己！`)
           : battleLine(currentLanguage, `${actorLabel}'s protection failed!`, `${actorLabel}的守住失败了！`),
       ]);
-      if (isPlayerActing) {
-        setPlayerAnim('idle');
-        setMainBattleTurn('ENEMY');
-      } else {
-        setEnemyAnim('idle');
-        setMainBattleTurn('PLAYER');
-      }
-      setActiveMoveType(null);
+      finishActionDisplay();
       return;
     }
 
@@ -1724,10 +1877,7 @@ export function useBattleController({
           ? battleLine(currentLanguage, `${actorLabel}'s team gained a Tailwind!`, `${actorLabel}一方吹起了顺风！`)
           : battleLine(currentLanguage, `${actorLabel}'s Tailwind failed!`, `${actorLabel}的顺风失败了！`),
       ]);
-      if (isPlayerActing) setPlayerAnim('idle');
-      else setEnemyAnim('idle');
-      setActiveMoveType(null);
-      setMainBattleTurn(isPlayerActing ? 'ENEMY' : 'PLAYER');
+      finishActionDisplay();
       return;
     }
 
@@ -1742,10 +1892,7 @@ export function useBattleController({
           ? battleLine(currentLanguage, `${actorLabel} scattered Stealth Rock around the opposing team!`, `${actorLabel}在对手一方撒下了隐形岩！`)
           : battleLine(currentLanguage, 'But it failed!', '但是失败了！'),
       ]);
-      if (isPlayerActing) setPlayerAnim('idle');
-      else setEnemyAnim('idle');
-      setActiveMoveType(null);
-      setMainBattleTurn(isPlayerActing ? 'ENEMY' : 'PLAYER');
+      finishActionDisplay();
       return;
     }
 
@@ -1760,10 +1907,7 @@ export function useBattleController({
           ? battleLine(currentLanguage, `${actorLabel} scattered Toxic Spikes around the opposing team!`, `${actorLabel}在对手一方撒下了毒菱！`)
           : battleLine(currentLanguage, 'But it failed!', '但是失败了！'),
       ]);
-      if (isPlayerActing) setPlayerAnim('idle');
-      else setEnemyAnim('idle');
-      setActiveMoveType(null);
-      setMainBattleTurn(isPlayerActing ? 'ENEMY' : 'PLAYER');
+      finishActionDisplay();
       return;
     }
 
@@ -1794,14 +1938,7 @@ export function useBattleController({
         await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel} slept and became healthy!`, `${actorLabel}睡着了，并恢复了体力！`)]);
       }
 
-      if (isPlayerActing) {
-        setPlayerAnim('idle');
-        setMainBattleTurn('ENEMY');
-      } else {
-        setEnemyAnim('idle');
-        setMainBattleTurn('PLAYER');
-      }
-      setActiveMoveType(null);
+      finishActionDisplay();
       return;
     }
 
@@ -1824,14 +1961,7 @@ export function useBattleController({
         await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel} put in a substitute!`, `${actorLabel}制造了替身！`)]);
       }
 
-      if (isPlayerActing) {
-        setPlayerAnim('idle');
-        setMainBattleTurn('ENEMY');
-      } else {
-        setEnemyAnim('idle');
-        setMainBattleTurn('PLAYER');
-      }
-      setActiveMoveType(null);
+      finishActionDisplay();
       return;
     }
 
@@ -1856,12 +1986,7 @@ export function useBattleController({
           `${actorLabel}削减了自己的体力，诅咒了${getLocalized(updatedDefender)}！`)]);
       }
 
-      if (isPlayerActing) {
-        setPlayerAnim('idle');
-      } else {
-        setEnemyAnim('idle');
-      }
-      setActiveMoveType(null);
+      finishActionDisplay();
 
       if (updatedActor.currentHp <= 0) {
         await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedActor))]);
@@ -1873,7 +1998,6 @@ export function useBattleController({
         return;
       }
 
-      setMainBattleTurn(isPlayerActing ? 'ENEMY' : 'PLAYER');
       return;
     }
 
@@ -2021,28 +2145,14 @@ export function useBattleController({
             }
             return;
           }
-          if (isPlayerActing) {
-            setPlayerAnim('idle');
-            setMainBattleTurn('ENEMY');
-          } else {
-            setEnemyAnim('idle');
-            setMainBattleTurn('PLAYER');
-          }
-          setActiveMoveType(null);
+          finishActionDisplay();
           return;
         }
       }
 
       if (hitResult.blockedBySubstitute && resolvedMove.damage_class === 'status') {
         await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)}'s substitute blocked the move!`, `${getLocalized(updatedDefender)}的替身挡住了招式！`)]);
-        if (isPlayerActing) {
-          setPlayerAnim('idle');
-          setMainBattleTurn('ENEMY');
-        } else {
-          setEnemyAnim('idle');
-          setMainBattleTurn('PLAYER');
-        }
-        setActiveMoveType(null);
+        finishActionDisplay();
         return;
       }
 
@@ -2051,14 +2161,7 @@ export function useBattleController({
           updatedActor = { ...updatedActor, factoryConsecutiveMoveCount: 0 };
           syncLeadBySide(actingSide, updatedActor);
           await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s attack missed!`, `${actorLabel}的攻击没有命中！`)]);
-          if (isPlayerActing) {
-            setPlayerAnim('idle');
-            setMainBattleTurn('ENEMY');
-          } else {
-            setEnemyAnim('idle');
-            setMainBattleTurn('PLAYER');
-          }
-          setActiveMoveType(null);
+          finishActionDisplay();
           return;
         }
         break;
@@ -2363,8 +2466,6 @@ export function useBattleController({
       }
       return;
     }
-
-    setMainBattleTurn(isPlayerActing ? 'ENEMY' : 'PLAYER');
   }, [
     activeBuffs.atk,
     activeBuffs.def,
@@ -2388,7 +2489,6 @@ export function useBattleController({
     setActiveMoveType,
     setEnemyAnim,
     applyFieldEffect,
-    setMainBattleTurn,
     setPlayerAnim,
     setPlayerTeam,
     setWeather,
@@ -2544,15 +2644,19 @@ export function useBattleController({
     defenderLead?: GamePokemon;
     playerTeamForTurn?: GamePokemon[];
     decisionOverride?: EnemyActionDecision;
+    switchIndexOverride?: number;
+    enemyLeadForTurn?: GamePokemon;
+    enemyTeamForTurn?: GamePokemon[];
+    targetHasActedThisTurn?: boolean;
   }) => {
     const playerLeadForDecision = options?.defenderLead ?? playerTeam[0];
     const playerTeamForTurn = options?.playerTeamForTurn ?? playerTeam;
-    if (!enemy || !playerLeadForDecision || isMessageProcessing) return false;
+    const actingEnemyLead = options?.enemyLeadForTurn ?? enemy;
+    if (!actingEnemyLead || !playerLeadForDecision || isMessageProcessing) return 'SKIPPED' as const;
 
-    const actingEnemyLead = enemy;
-    let enemyTeamForTurn = enemyTeam;
+    let enemyTeamForTurn = options?.enemyTeamForTurn ?? enemyTeam;
     const aiFlags = getAiFlagsForTier(enemyAiTier);
-    const switchIndex = chooseEnemySwitchIndex(actingEnemyLead, playerLeadForDecision, aiFlags);
+    const switchIndex = options?.switchIndexOverride ?? chooseEnemySwitchIndex(actingEnemyLead, playerLeadForDecision, aiFlags);
     if (switchIndex > 0) {
       const switchedTeam = [...enemyTeamForTurn];
       const withdrawn = switchedTeam[0];
@@ -2570,10 +2674,9 @@ export function useBattleController({
       await reportEntryHazards(entry);
       if (entry.fainted) {
         await sendOutNextEnemy(switchedTeam, entry.pokemon.id);
-        return true;
+        return 'ACTED' as const;
       }
-      setMainBattleTurn('PLAYER');
-      return true;
+      return 'ACTED' as const;
     }
 
     const decision = options?.decisionOverride ?? chooseEnemyMove(actingEnemyLead, playerLeadForDecision);
@@ -2583,7 +2686,7 @@ export function useBattleController({
       currentEnemyTeam: enemyTeamForTurn,
       move: decision.selectedMove,
     });
-    if (!preTurnResult.canAct) return true;
+    if (!preTurnResult.canAct) return 'SKIPPED' as const;
 
     let actingEnemy = preTurnResult.combatant;
     enemyTeamForTurn = preTurnResult.enemyTeam ?? enemyTeamForTurn;
@@ -2611,9 +2714,9 @@ export function useBattleController({
       actorTeam: preTurnResult.enemyTeam ?? enemyTeamForTurn,
       defender: playerLeadForDecision,
       defenderTeam: playerTeamForTurn,
-      targetHasActedThisTurn: !options?.defenderLead,
+      targetHasActedThisTurn: options?.targetHasActedThisTurn ?? !options?.defenderLead,
     });
-    return true;
+    return 'ACTED' as const;
   }, [
     addMessagesSequentially,
     applySpecialBoost,
@@ -2636,23 +2739,65 @@ export function useBattleController({
     setEnemySpecialUsage,
     setEnemyTeam,
     sendOutNextEnemy,
-    setMainBattleTurn,
     t,
   ]);
 
-  const enemyTurn = useCallback(async () => {
-    if (!enemy || !playerTeam[0] || turn !== 'ENEMY' || isMessageProcessing) return;
-    await runEnemyAutoAction();
-  }, [
-    enemy,
-    isMessageProcessing,
-    playerTeam,
-    runEnemyAutoAction,
-    turn,
-  ]);
+  const commitRoundEndTurn = useCallback(async (epoch: number): Promise<{ replacement?: Promise<void> }> => {
+    const isCurrentBattle = () => battleMountedRef.current
+      && battleInstanceRef.current.epoch === epoch
+      && liveBattleStateRef.current.gameState === 'BATTLE';
+    if (!isCurrentBattle()) return {};
+    const live = liveBattleStateRef.current;
+    const field = liveFieldRef.current;
+    if (!live.playerTeam[0] || !live.enemyTeam[0]) return {};
+    const endTurnResult = resolveEndTurn({
+      snapshot: {
+        playerTeam: [...live.playerTeam],
+        enemyTeam: [...live.enemyTeam],
+        weather: field.weather,
+        weatherTurns: field.weatherTurns,
+        fieldState: field.fieldState,
+        fieldTurns: field.fieldTurns,
+        tailwindTurns: field.tailwindTurns,
+        hazards: field.hazards,
+      },
+      getLocalized,
+      currentLanguage,
+      formatDynamaxEndMessage: (pokemon) => t('specialDynamaxEnd').replace('{name}', getLocalized(pokemon)),
+      getMoveCurrentPp,
+      tryActivateSitrusBerry,
+      tryActivatePinchStatBerry,
+    });
+    await completeEndTurnResolution({
+      result: endTurnResult,
+      commitSnapshot: (snapshot) => {
+        setPlayerTeam(snapshot.playerTeam);
+        setEnemyTeam(snapshot.enemyTeam);
+        setEnemy(snapshot.enemyTeam[0] ?? null);
+        setWeather(snapshot.weather);
+        setWeatherTurns(snapshot.weatherTurns);
+        setFieldState(snapshot.fieldState);
+        setFieldTurns(snapshot.fieldTurns);
+        setTailwindTurns(snapshot.tailwindTurns);
+        setHazards(snapshot.hazards);
+      },
+      presentMessages: addMessagesSequentially,
+      isCurrentBattle,
+      shouldAnnouncePlayerFaint: () => {
+        if (!pendingPlayerSwitchRef.current) return true;
+        pendingPlayerSwitchRef.current = false;
+        return false;
+      },
+      playerFaintMessage: t('fainted').replace('{name}', getLocalized(endTurnResult.playerLead)),
+      enemyFaintMessage: t('fainted').replace('{name}', getLocalized(endTurnResult.enemyLead)),
+      sendOutNextPlayer,
+      sendOutNextEnemy,
+    });
+    return replacementWaitRef.current ? { replacement: replacementWaitRef.current.promise } : {};
+  }, [addMessagesSequentially, currentLanguage, getLocalized, getMoveCurrentPp, sendOutNextEnemy, sendOutNextPlayer, setEnemy, setEnemyTeam, setFieldState, setFieldTurns, setHazards, setPlayerTeam, setTailwindTurns, setWeather, setWeatherTurns, t, tryActivatePinchStatBerry, tryActivateSitrusBerry]);
 
   const handleAttack = useCallback(async (move: Move) => {
-    if (!enemy || gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing) return;
+    if (!enemy || gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing || roundActionLockedRef.current) return;
 
     const forcedLockedMove = getForcedLockedMove(playerTeam[0]);
     if (forcedLockedMove && move.name !== forcedLockedMove.name) {
@@ -2660,233 +2805,258 @@ export function useBattleController({
       return;
     }
     if (!forcedLockedMove && getMoveCurrentPp(move) <= 0) return;
-
-    const preTurnResult = await resolvePreTurnStatus({
-      combatant: playerTeam[0],
-      isEnemy: false,
-      currentPlayerTeam: playerTeam,
-      move,
-    });
-    if (!preTurnResult.canAct) return;
-
-    const actingPlayerLead = preTurnResult.combatant;
-    const actingPlayerTeam = preTurnResult.playerTeam ?? playerTeam;
-    const playerLockedMoveName = actingPlayerLead.factoryChoiceLockedMoveName;
+    // 讲究头带锁招：已锁定时只能继续使出被锁的招式，其余选择提示并拦截，不进入轮次。
+    const selectingLead = playerTeam[0];
     if (
-      hasHeldItemEffect(actingPlayerLead, 'CHOICE_BAND')
-      && playerLockedMoveName
-      && playerLockedMoveName !== move.name
+      hasHeldItemEffect(selectingLead, 'CHOICE_BAND')
+      && selectingLead.factoryChoiceLockedMoveName
+      && selectingLead.factoryChoiceLockedMoveName !== move.name
     ) {
-      const lockedMove = actingPlayerLead.selectedMoves.find((candidate) => candidate.name === playerLockedMoveName);
-      const lockedMoveLabel = battleMoveName(lockedMove, currentLanguage) || playerLockedMoveName;
+      const lockedMove = selectingLead.selectedMoves.find((candidate) => candidate.name === selectingLead.factoryChoiceLockedMoveName);
+      const lockedMoveLabel = battleMoveName(lockedMove, currentLanguage) || selectingLead.factoryChoiceLockedMoveName;
       await addMessagesSequentially([battleLine(currentLanguage,
-        `${getLocalized(actingPlayerLead)} is locked into ${lockedMoveLabel}!`,
-        `${getLocalized(actingPlayerLead)}只能使出${lockedMoveLabel}！`)]);
+        `${getLocalized(selectingLead)} is locked into ${lockedMoveLabel}!`,
+        `${getLocalized(selectingLead)}只能使出${lockedMoveLabel}！`)]);
       return;
     }
-    const enemyDecision = chooseEnemyMove(enemy, actingPlayerLead);
-    const playerQuickClawActivated = shouldQuickClawActivate(actingPlayerLead);
+    const selectedPlayerId = playerTeam[0].id;
+    const selectedEnemyId = enemy.id;
+    const enemyDecision = chooseEnemyMove(enemy, playerTeam[0]);
+    const enemySwitchIndex = chooseEnemySwitchIndex(enemy, playerTeam[0], enemyDecision.aiFlags);
+    const playerQuickClawActivated = shouldQuickClawActivate(playerTeam[0]);
     const enemyQuickClawActivated = shouldQuickClawActivate(enemy);
-    const enemyActsFirst = shouldEnemyActFirst({
-      playerPokemon: actingPlayerLead,
+    const enemyActsFirst = enemySwitchIndex > 0 || shouldEnemyActFirst({
+      playerPokemon: playerTeam[0],
       playerMove: move,
       enemyPokemon: enemy,
       enemyMove: enemyDecision.selectedMove,
       playerQuickClawActivated,
       enemyQuickClawActivated,
     });
-
-    if (playerQuickClawActivated) {
-      await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(actingPlayerLead)}'s Quick Claw activated!`, `${getLocalized(actingPlayerLead)}的先制之爪生效了！`)]);
-    }
-
-    if (enemyQuickClawActivated) {
-      await addMessagesSequentially([battleLine(currentLanguage, `Enemy ${getLocalized(enemy)}'s Quick Claw activated!`, `对手${getLocalized(enemy)}的先制之爪生效了！`)]);
-    }
-
-    if (enemyActsFirst) {
-      await runEnemyAutoAction({
-        defenderLead: actingPlayerLead,
-        playerTeamForTurn: actingPlayerTeam,
-        decisionOverride: enemyDecision,
-      });
-
-      const liveState = liveBattleStateRef.current;
-      if (liveState.gameState !== 'BATTLE' || liveState.turn !== 'PLAYER') return;
-      const latestPlayerLead = liveState.playerTeam[0];
-      const latestEnemyLead = liveState.enemy;
-      if (!latestPlayerLead || !latestEnemyLead || latestPlayerLead.currentHp <= 0) return;
-      if (getMoveCurrentPp(move) <= 0) return;
-      const latestLockedMoveName = latestPlayerLead.factoryChoiceLockedMoveName;
-      if (
-      hasHeldItemEffect(latestPlayerLead, 'CHOICE_BAND')
-        && latestLockedMoveName
-        && latestLockedMoveName !== move.name
-      ) {
-        const lockedMove = latestPlayerLead.selectedMoves.find((candidate) => candidate.name === latestLockedMoveName);
-        const lockedMoveLabel = battleMoveName(lockedMove, currentLanguage) || latestLockedMoveName;
-        await addMessagesSequentially([battleLine(currentLanguage,
-          `${getLocalized(latestPlayerLead)} is locked into ${lockedMoveLabel}!`,
-          `${getLocalized(latestPlayerLead)}只能使出${lockedMoveLabel}！`)]);
-        return;
+    const epoch = battleInstanceRef.current.epoch;
+    const roundId = ++nextRoundIdRef.current;
+    const selected = startRound(epoch, roundId, enemyActsFirst ? 'enemy' : 'player');
+    roundTransactionRef.current = selected;
+    roundActionLockedRef.current = true;
+    setRoundTransactionActive(true);
+    const checkpoint = captureRoundStartCheckpoint();
+    const isCurrent = () => battleMountedRef.current
+      && roundMatches(roundTransactionRef.current, epoch, roundId)
+      && battleInstanceRef.current.epoch === epoch
+      && liveBattleStateRef.current.gameState === 'BATTLE';
+    let failed = false;
+    try {
+      if (playerQuickClawActivated) {
+        await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(playerTeam[0])}'s Quick Claw activated!`, `${getLocalized(playerTeam[0])}的先制之爪生效了！`)]);
       }
-
-      const postInterceptionResult = await resolvePreTurnStatus({
-        combatant: latestPlayerLead,
-        isEnemy: false,
-        currentPlayerTeam: liveState.playerTeam,
-        move,
+      if (enemyQuickClawActivated && isCurrent()) {
+        await addMessagesSequentially([battleLine(currentLanguage, `Enemy ${getLocalized(enemy)}'s Quick Claw activated!`, `对手${getLocalized(enemy)}的先制之爪生效了！`)]);
+      }
+      if (!isCurrent()) return;
+      const finalRound = await executeRoundTransaction(selected, {
+        isCurrent,
+        onTransition: (next) => {
+          if (!isCurrent()) return;
+          roundTransactionRef.current = next;
+          if (next.phase === 'SECOND_ACTION') setMainBattleTurn(next.firstSide === 'player' ? 'ENEMY' : 'PLAYER');
+        },
+        runAction: async (side): Promise<RoundActionResult> => {
+          const live = liveBattleStateRef.current;
+          const playerLead = live.playerTeam[0];
+          const enemyLead = live.enemyTeam[0];
+          if (!playerLead || !enemyLead || playerLead.currentHp <= 0 || enemyLead.currentHp <= 0) {
+            // 在场者缺失/濒死时本侧跳过；是否结束战斗只由「一方全灭」判定，绝不因单只濒死而终止轮次。
+            return { status: 'SKIPPED', battleEnded: isTeamWiped(live.playerTeam, live.enemyTeam) };
+          }
+          if (side === 'player') {
+            if (playerLead.id !== selectedPlayerId || getMoveCurrentPp(move) <= 0) return { status: 'SKIPPED' };
+            const before = await resolvePreTurnStatus({
+              combatant: playerLead,
+              isEnemy: false,
+              currentPlayerTeam: live.playerTeam,
+              currentEnemyTeam: live.enemyTeam,
+              move,
+            });
+            if (!isCurrent()) return { status: 'SKIPPED' };
+            if (!before.canAct) return { status: 'SKIPPED' };
+            await executeTurn({
+              actingSide: 'player',
+              move,
+              actor: before.combatant,
+              actorTeam: before.playerTeam,
+              defender: liveBattleStateRef.current.enemyTeam[0],
+              defenderTeam: liveBattleStateRef.current.enemyTeam,
+              // 敌方已先手时目标本回合已行动：畏缩失效、挑衅/再来一次 +1 回合。
+              targetHasActedThisTurn: enemyActsFirst,
+            });
+          } else if (enemyLead.id === selectedEnemyId) {
+            const result = await runEnemyAutoAction({
+              defenderLead: playerLead,
+              playerTeamForTurn: live.playerTeam,
+              enemyLeadForTurn: enemyLead,
+              enemyTeamForTurn: live.enemyTeam,
+              decisionOverride: enemyDecision,
+              switchIndexOverride: enemySwitchIndex,
+              targetHasActedThisTurn: !enemyActsFirst,
+            });
+            if (result === 'SKIPPED') return { status: 'SKIPPED' };
+          } else {
+            return { status: 'SKIPPED' };
+          }
+          const latest = liveBattleStateRef.current;
+          if (side === 'enemy' && pendingPlayerSwitchRef.current && latest.playerTeam.some((pokemon) => pokemon.currentHp > 0)) {
+            markAwaitingPlayerReplacement();
+          } else if (side === 'enemy' && pendingPlayerSwitchRef.current && latest.playerTeam.every((pokemon) => pokemon.currentHp <= 0)) {
+            pendingPlayerSwitchRef.current = false;
+            void loseBattle();
+          }
+          const battleEnded = isTeamWiped(latest.playerTeam, latest.enemyTeam);
+          return {
+            status: 'ACTED',
+            battleEnded,
+            replacement: replacementWaitRef.current?.promise,
+          };
+        },
+        runEndTurn: () => commitRoundEndTurn(epoch),
       });
-      if (!postInterceptionResult.canAct) return;
-
-    await executeTurn({
-      actingSide: 'player',
-      move,
-      actor: postInterceptionResult.combatant,
-      actorTeam: postInterceptionResult.playerTeam ?? liveState.playerTeam,
-      defender: latestEnemyLead,
-      defenderTeam: liveState.enemyTeam,
-      targetHasActedThisTurn: true,
-    });
-      return;
+      failed = isCurrent() && finalRound.phase !== 'DONE';
+    } catch (error) {
+      if (!(error instanceof StaleRoundError)) {
+        failed = true;
+        console.error('Battle round failed', error);
+      }
+    } finally {
+      finalizeRoundAttempt({ epoch, roundId, failed, checkpoint });
     }
-
-    await executeTurn({
-      actingSide: 'player',
-      move,
-      actor: actingPlayerLead,
-      actorTeam: actingPlayerTeam,
-      defender: enemy,
-      defenderTeam: enemyTeam,
-      targetHasActedThisTurn: false,
-    });
   }, [
     addMessagesSequentially,
+    captureRoundStartCheckpoint,
     chooseEnemyMove,
+    chooseEnemySwitchIndex,
+    commitRoundEndTurn,
     currentLanguage,
     enemy,
-    enemyTeam,
     executeTurn,
+    finalizeRoundAttempt,
     gameState,
     getLocalized,
     getForcedLockedMove,
     getMoveCurrentPp,
     hasHeldItem,
+    hasHeldItemEffect,
     isMessageProcessing,
+    loseBattle,
+    markAwaitingPlayerReplacement,
     playerTeam,
     resolvePreTurnStatus,
     runEnemyAutoAction,
+    setMainBattleTurn,
     shouldEnemyActFirst,
     shouldQuickClawActivate,
     turn,
   ]);
 
-  useEffect(() => {
-    if (turn !== 'ENEMY' || gameState !== 'BATTLE') {
-      enemyActionGateRef.current.reset();
+  const runSimplePlayerRound = useCallback(async (action: () => Promise<boolean | undefined>) => {
+    if (roundActionLockedRef.current || gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing || !enemy || !playerTeam[0]) return;
+    const enemyDecision = chooseEnemyMove(enemy, playerTeam[0]);
+    const enemySwitchIndex = chooseEnemySwitchIndex(enemy, playerTeam[0], enemyDecision.aiFlags);
+    const selectedEnemyId = enemy.id;
+    const epoch = battleInstanceRef.current.epoch;
+    const roundId = ++nextRoundIdRef.current;
+    const selected = startRound(epoch, roundId, 'player');
+    roundTransactionRef.current = selected;
+    roundActionLockedRef.current = true;
+    setRoundTransactionActive(true);
+    const checkpoint = captureRoundStartCheckpoint();
+    const isCurrent = () => battleMountedRef.current
+      && roundMatches(roundTransactionRef.current, epoch, roundId)
+      && battleInstanceRef.current.epoch === epoch
+      && liveBattleStateRef.current.gameState === 'BATTLE';
+    let failed = false;
+    try {
+      const finalRound = await executeRoundTransaction(selected, {
+        isCurrent,
+        onTransition: (next) => {
+          if (!isCurrent()) return;
+          roundTransactionRef.current = next;
+          if (next.phase === 'SECOND_ACTION') setMainBattleTurn('ENEMY');
+        },
+        runAction: async (side): Promise<RoundActionResult> => {
+          if (side === 'player') {
+            const consumed = await action();
+            if (!isCurrent()) return { status: 'SKIPPED' };
+            if (!consumed) {
+              // 合法失败（换人被大闹/踩影拦截、特殊触发道具提示、极巨化石不匹配等）：本侧记为跳过，绝不据此判定战斗结束。
+              const latestForSkip = liveBattleStateRef.current;
+              return {
+                status: 'SKIPPED',
+                battleEnded: isTeamWiped(latestForSkip.playerTeam, latestForSkip.enemyTeam),
+              };
+            }
+          } else {
+            const live = liveBattleStateRef.current;
+            const enemyLead = live.enemyTeam[0];
+            if (!enemyLead || enemyLead.id !== selectedEnemyId || enemyLead.currentHp <= 0) return { status: 'SKIPPED' };
+            const result = await runEnemyAutoAction({
+              defenderLead: live.playerTeam[0],
+              playerTeamForTurn: live.playerTeam,
+              enemyLeadForTurn: enemyLead,
+              enemyTeamForTurn: live.enemyTeam,
+              decisionOverride: enemyDecision,
+              switchIndexOverride: enemySwitchIndex,
+              // 简单轮次玩家必定先行动：敌方出手时玩家本回合已行动，畏缩失效、挑衅/再来一次 +1 回合。
+              targetHasActedThisTurn: true,
+            });
+            if (result === 'SKIPPED') return { status: 'SKIPPED' };
+          }
+          const latest = liveBattleStateRef.current;
+          return {
+            status: 'ACTED',
+            battleEnded: isTeamWiped(latest.playerTeam, latest.enemyTeam),
+            replacement: replacementWaitRef.current?.promise,
+          };
+        },
+        runEndTurn: () => commitRoundEndTurn(epoch),
+      });
+      failed = isCurrent() && finalRound.phase !== 'DONE';
+    } catch (error) {
+      if (!(error instanceof StaleRoundError)) {
+        failed = true;
+        console.error('Battle round failed', error);
+      }
+    } finally {
+      finalizeRoundAttempt({ epoch, roundId, failed, checkpoint });
+    }
+  }, [captureRoundStartCheckpoint, chooseEnemyMove, chooseEnemySwitchIndex, commitRoundEndTurn, currentLanguage, enemy, finalizeRoundAttempt, gameState, isMessageProcessing, playerTeam, runEnemyAutoAction, setMainBattleTurn, setRoundTransactionActive, turn]);
+
+  const useItemInRound = useCallback(async (item: Item, index: number) => {
+    if (roundActionLockedRef.current) return;
+    if (item.isSpecialTriggerItem) {
+      await useItem(item, index);
       return;
     }
-    if (settlementError || isMessageProcessing || !enemy || !playerTeam[0]) return;
-    if (!enemyActionGateRef.current.claim(battleEpoch)) return;
-    void enemyTurn().catch((error: unknown) => console.error('Enemy action failed', error));
-  }, [battleEpoch, enemy, enemyTurn, gameState, isMessageProcessing, playerTeam, settlementError, turn]);
+    await runSimplePlayerRound(() => useItem(item, index));
+  }, [runSimplePlayerRound, useItem]);
 
-  useEffect(() => {
-    const prevTurn = previousTurnRef.current;
-    previousTurnRef.current = turn;
+  const switchPokemonInRound = useCallback(async (index: number) => {
+    if ((playerTeam[0]?.currentHp ?? 0) <= 0) {
+      if (replacementChoiceInFlightRef.current) return;
+      replacementChoiceInFlightRef.current = true;
+      try {
+        await switchPokemon(index);
+      } finally {
+        replacementChoiceInFlightRef.current = false;
+      }
+      return;
+    }
+    if (roundActionLockedRef.current) return;
+    await runSimplePlayerRound(() => switchPokemon(index));
+  }, [playerTeam, runSimplePlayerRound, switchPokemon]);
 
-    if (gameState !== 'BATTLE' || isMessageProcessing || settlementError) return;
-    if (prevTurn !== 'ENEMY' || turn !== 'PLAYER') return;
-    if (!playerTeam[0] || !enemyTeam[0]) return;
-    const battleEpoch = battleInstanceRef.current.epoch;
-    if (roundEndInFlightRef.current === battleEpoch) return;
-    roundEndInFlightRef.current = battleEpoch;
-    const isCurrentBattle = () => battleMountedRef.current
-      && battleInstanceRef.current.epoch === battleEpoch
-      && liveBattleStateRef.current.gameState === 'BATTLE';
-
-    const handleRoundEnd = async () => {
-      const endTurnResult = resolveEndTurn({
-        snapshot: {
-          playerTeam: [...playerTeam],
-          enemyTeam: [...enemyTeam],
-          weather,
-          weatherTurns,
-          fieldState,
-          fieldTurns,
-          tailwindTurns,
-          hazards: hazardsRef.current,
-        },
-        getLocalized,
-        currentLanguage,
-        formatDynamaxEndMessage: (pokemon) => t('specialDynamaxEnd').replace('{name}', getLocalized(pokemon)),
-        getMoveCurrentPp,
-        tryActivateSitrusBerry,
-        tryActivatePinchStatBerry,
-      });
-
-      await completeEndTurnResolution({
-        result: endTurnResult,
-        commitSnapshot: (snapshot) => {
-          setPlayerTeam(snapshot.playerTeam);
-          setEnemyTeam(snapshot.enemyTeam);
-          setEnemy(snapshot.enemyTeam[0] ?? null);
-          setWeather(snapshot.weather);
-          setWeatherTurns(snapshot.weatherTurns);
-          setFieldState(snapshot.fieldState);
-          setFieldTurns(snapshot.fieldTurns);
-          setTailwindTurns(snapshot.tailwindTurns);
-          setHazards(snapshot.hazards);
-        },
-        presentMessages: addMessagesSequentially,
-        isCurrentBattle,
-        shouldAnnouncePlayerFaint: () => {
-          if (!pendingPlayerSwitchRef.current) return true;
-          pendingPlayerSwitchRef.current = false;
-          return false;
-        },
-        playerFaintMessage: t('fainted').replace('{name}', getLocalized(endTurnResult.playerLead)),
-        enemyFaintMessage: t('fainted').replace('{name}', getLocalized(endTurnResult.enemyLead)),
-        sendOutNextPlayer,
-        sendOutNextEnemy,
-      });
-    };
-
-    void handleRoundEnd()
-      .catch((error: unknown) => console.error('End-turn resolution failed', error))
-      .finally(() => {
-        if (roundEndInFlightRef.current === battleEpoch) roundEndInFlightRef.current = null;
-      });
-  }, [
-    addMessagesSequentially,
-    currentLanguage,
-    enemyTeam,
-    fieldState,
-    fieldTurns,
-    tailwindTurns,
-    gameState,
-    getLocalized,
-    hasHeldItem,
-    isMessageProcessing,
-    playerTeam,
-    settlementError,
-    sendOutNextEnemy,
-    sendOutNextPlayer,
-    setEnemy,
-    setEnemyTeam,
-    setFieldState,
-    setFieldTurns,
-    setTailwindTurns,
-    setHazards,
-    setPlayerTeam,
-    setWeather,
-    setWeatherTurns,
-    t,
-    turn,
-    weather,
-    weatherTurns,
-    tryActivateSitrusBerry,
-  ]);
+  const triggerBattleSpecialInRound = useCallback(async (mode: BattleSpecialMode) => {
+    if (roundActionLockedRef.current) return;
+    await runSimplePlayerRound(() => triggerBattleSpecial(mode));
+  }, [runSimplePlayerRound, triggerBattleSpecial]);
 
   const forfeitChallenge = useCallback(() => {
     if (gameState !== 'BATTLE' || isMessageProcessing) return;
@@ -2902,10 +3072,10 @@ export function useBattleController({
     settlementError,
     retrySettlement,
     addMessagesSequentially,
-    useItem,
-    switchPokemon,
+    useItem: useItemInRound,
+    switchPokemon: switchPokemonInRound,
     handleAttack,
-    triggerBattleSpecial,
+    triggerBattleSpecial: triggerBattleSpecialInRound,
     canUseBattleSpecial,
     canUseBattleSpecialByMode,
     forfeitChallenge,

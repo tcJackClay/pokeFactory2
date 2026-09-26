@@ -141,6 +141,7 @@ export function usePokeFactoryGame(): GameViewModel {
   const [trainerIntroActive, setTrainerIntroActive] = useState(false);
   const [trainerIntroAwaitingContinue, setTrainerIntroAwaitingContinue] = useState(false);
   const [isMessageProcessing, setIsMessageProcessing] = useState(false);
+  const [roundTransactionActive, setRoundTransactionActive] = useState(false);
   const [showReplaceUI, setShowReplaceUI] = useState<GamePokemon | null>(null);
   const [learningPokemonIdx, setLearningPokemonIdx] = useState<number | null>(null);
   const [potentialMoves, setPotentialMoves] = useState<Move[]>([]);
@@ -259,7 +260,7 @@ export function usePokeFactoryGame(): GameViewModel {
 
   const buildStableFactoryBattleResume = useCallback((): BattleResumeSnapshot | null => {
     if (eventBattleActive || gameState !== 'BATTLE') return null;
-    if (turn !== 'PLAYER' || isMessageProcessing || loading || isTransitioning || trainerIntroActive || trainerIntroAwaitingContinue) return null;
+    if (turn !== 'PLAYER' || isMessageProcessing || roundTransactionActive || loading || isTransitioning || trainerIntroActive || trainerIntroAwaitingContinue) return null;
     if (playerAnim !== 'idle' || enemyAnim !== 'idle' || activeMoveType !== null) return null;
     if (isCatching || showReplaceUI !== null) return null;
     if (playerTeam.length === 0 || enemyTeam.length === 0 || !currentEnemyTrainer) return null;
@@ -319,6 +320,7 @@ export function usePokeFactoryGame(): GameViewModel {
     inventory,
     isCatching,
     isMessageProcessing,
+    roundTransactionActive,
     isTransitioning,
     trainerIntroActive,
     trainerIntroAwaitingContinue,
@@ -534,6 +536,7 @@ export function usePokeFactoryGame(): GameViewModel {
     gameState,
     turn,
     isMessageProcessing,
+    setRoundTransactionActive,
     inventory,
     playerTeam,
     enemy,
@@ -1741,6 +1744,7 @@ export function usePokeFactoryGame(): GameViewModel {
     trainerIntroActive,
     trainerIntroAwaitingContinue,
     isMessageProcessing,
+    roundTransactionActive,
     settlementError: battleController.settlementError,
     canUseBattleSpecial: battleController.canUseBattleSpecial,
     canUseBattleSpecialByMode: battleController.canUseBattleSpecialByMode,
