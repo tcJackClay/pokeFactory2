@@ -1,0 +1,114 @@
+{
+  "origin": "http://127.0.0.136:4300/",
+  "steps": [
+    {
+      "name": "settings",
+      "state": {
+        "language": "en",
+        "text": "SETTINGS\nBACK\n\nLanguage\n\n中文\nENGLISH\n\nCurrent Generation\n\nExpanded generation random pool: choose one of nine. Your choice determines the Pokemon in your next new challenge.\n\nKanto\nGeneration 1\n\nSave Data\n\nEXPORT SAVE\nIMPORT SAVE\n\nNotifications\n\nPush notifications and reminder controls are not available in this version yet.\n\nCredits and Sources\n\nVIEW CREDITS\n\nDEV Panel\n\nENABLE\nDISABLE",
+        "typeBadges": []
+      }
+    },
+    {
+      "name": "rental",
+      "state": {
+        "language": "en",
+        "text": "0\nBP\n0/7\nRound\n0\nStreak\n地面\n岩石\nRHYHORN\n毒\n飞行\nZUBAT\n水\nKRABBY\n草\n超能\nEXEGGCUTE\n岩石\n水\nOMANYTE\n一般\nEEVEE\nCHOOSE RENTALS\n0/3\nPENDING\nEmpty\nEmpty\nEmpty\nCONFIRM SELECTION (0/3)",
+        "typeBadges": []
+      }
+    },
+    {
+      "name": "battle-ready",
+      "state": {
+        "language": "en",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 111,
+          "hp": 142
+        },
+        "enemy": {
+          "id": 35,
+          "hp": 131
+        },
+        "text": "0\nBP\n1/7\nRound\n0\nStreak\nClefairy\n♂\nLV.50\n妖精\nHP\n100%\nRhyhorn\n♂\nLV.50\n地面\n岩石\nHP\n142/142\nBATTLE LOG\nFCT-01\n\nOpponent sent out Clefairy!\n\nBATTLE\nSTATUS\nBAG\nPOKEMON\nRUN\nHidden Power\n一般\nPow 60\nAcc 100\nPP 15/15\nIron Tail\n钢\nPow 100\nAcc 75\nPP 15/15\nMud Shot\n地面\nPow 55\nAcc 95\nPP 15/15\nSleep Talk\n一般\nPow --\nAcc --\nPP 10/10",
+        "typeBadges": [
+          "妖精",
+          "妖精",
+          "地面岩石",
+          "地面",
+          "岩石",
+          "一般",
+          "钢",
+          "地面",
+          "一般"
+        ]
+      }
+    },
+    {
+      "name": "after-move",
+      "state": {
+        "language": "en",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 111,
+          "hp": 142
+        },
+        "enemy": {
+          "id": 35,
+          "hp": 125
+        },
+        "text": "0\nBP\n1/7\nRound\n0\nStreak\nClefairy\n♂\nLV.50\n妖精\nHP\n95%\nRhyhorn\n♂\nLV.50\n地面\n岩石\nHP\n142/142\nBATTLE LOG\nFCT-01\n\nRhyhorn restored HP with Leftovers!\n\nClefairy restored HP with Leftovers!\n\nBATTLE\nSTATUS\nBAG\nPOKEMON\nRUN\nHidden Power\n一般\nPow 60\nAcc 100\nPP 14/15\nIron Tail\n钢\nPow 100\nAcc 75\nPP 15/15\nMud Shot\n地面\nPow 55\nAcc 95\nPP 15/15\nSleep Talk\n一般\nPow --\nAcc --\nPP 10/10",
+        "typeBadges": [
+          "妖精",
+          "妖精",
+          "地面岩石",
+          "地面",
+          "岩石",
+          "一般",
+          "钢",
+          "地面",
+          "一般"
+        ]
+      }
+    },
+    {
+      "name": "after-move-landscape",
+      "state": {
+        "language": "en",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 111,
+          "hp": 142
+        },
+        "enemy": {
+          "id": 35,
+          "hp": 125
+        },
+        "text": "0\nBP\n1/7\nRound\n0\nStreak\nClefairy\n♂\nLV.50\n妖精\nHP\n95%\nRhyhorn\n♂\nLV.50\n地面\n岩石\nHP\n142/142\nBATTLE LOG\nFCT-01\n\nRhyhorn restored HP with Leftovers!\n\nClefairy restored HP with Leftovers!\n\nBATTLE\nSTATUS\nBAG\nPOKEMON\nRUN\nHidden Power\nPow 60\nAcc 100\nPP 14/15\nIron Tail\nPow 100\nAcc 75\nPP 15/15\nMud Shot\nPow 55\nAcc 95\nPP 15/15\nSleep Talk\nPow --\nAcc --\nPP 10/10",
+        "typeBadges": [
+          "妖精",
+          "妖精",
+          "地面岩石",
+          "地面",
+          "岩石",
+          "一般",
+          "钢",
+          "地面",
+          "一般"
+        ]
+      }
+    }
+  ],
+  "pageErrors": [],
+  "httpErrors": [],
+  "hmr": [],
+  "moves": [
+    "Hidden Power\n一般\nPow 60\nAcc 100\nPP 15/15",
+    "Iron Tail\n钢\nPow 100\nAcc 75\nPP 15/15",
+    "Mud Shot\n地面\nPow 55\nAcc 95\nPP 15/15",
+    "Sleep Talk\n一般\nPow --\nAcc --\nPP 10/10"
+  ]
+}
