@@ -5,6 +5,8 @@ import type { GamePokemon, Move, Nature, Stats } from '../../../../types';
 import type { BattleSnapshot } from './types';
 import { resolveBeforeMoveChecks } from './resolveBeforeMoveChecks';
 import { resolveEndTurn } from './resolveEndTurn';
+import { resolveActionSelection } from './resolveActionSelection';
+import { nextFieldStates, nextFieldTurns } from './fieldEffectTransition';
 import { setNonVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
 
 const DEFAULT_NATURE: Nature = {
@@ -110,6 +112,64 @@ test('snow has no chip, survives switching, and expires after five end turns', (
     assert.equal(snapshot.playerTeam[0].currentHp, 100);
     assert.equal(snapshot.enemyTeam[0].currentHp, 100);
   }
+});
+
+test('Trick Room toggles off without a timer and restores actual speed order', () => {
+  const slow = createPokemon(1, 'slow', { calculatedStats: { ...DEFAULT_STATS, speed: 40 } });
+  const fast = createPokemon(2, 'fast', { calculatedStats: { ...DEFAULT_STATS, speed: 80 } });
+  const move = createMove();
+  const enemyActsFirst = (fieldState: BattleSnapshot['fieldState']) => resolveActionSelection({
+    playerPokemon: slow, playerMove: move, enemyPokemon: fast, enemyMove: move,
+    fieldState, playerQuickClawActivated: false, enemyQuickClawActivated: false,
+  }).enemyActsFirst;
+  const endTurnOptions = {
+    getLocalized: (pokemon: GamePokemon) => pokemon.name,
+    formatDynamaxEndMessage: (pokemon: GamePokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (knownMove: Move) => knownMove.currentPp ?? knownMove.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+  };
+  assert.equal(enemyActsFirst([]), true);
+  const activeState = nextFieldStates([], 'trick_room');
+  const activeTurns = nextFieldTurns({}, 'trick_room');
+  assert.deepEqual(activeState, ['trick_room']);
+  assert.deepEqual(activeTurns, { trick_room: 5 });
+  assert.equal(enemyActsFirst(activeState), false);
+  const afterOneTurn = resolveEndTurn({
+    ...endTurnOptions,
+    snapshot: createSnapshot({ playerTeam: [slow], enemyTeam: [fast], fieldState: activeState, fieldTurns: activeTurns }),
+  }).snapshot;
+  assert.equal(afterOneTurn.fieldTurns.trick_room, 4);
+  const closedState = nextFieldStates(afterOneTurn.fieldState, 'trick_room');
+  const closedTurns = nextFieldTurns(afterOneTurn.fieldTurns, 'trick_room');
+  assert.deepEqual(closedState, []);
+  assert.deepEqual(closedTurns, {});
+  assert.equal(enemyActsFirst(closedState), true);
+  const afterCloseEndTurn = resolveEndTurn({ ...endTurnOptions, snapshot: { ...afterOneTurn, fieldState: closedState, fieldTurns: closedTurns } }).snapshot;
+  assert.deepEqual(afterCloseEndTurn.fieldState, []);
+  assert.deepEqual(afterCloseEndTurn.fieldTurns, {});
+
+  let natural = createSnapshot({ playerTeam: [slow], enemyTeam: [fast], fieldState: activeState, fieldTurns: activeTurns });
+  for (let turn = 1; turn <= 5; turn += 1) {
+    natural = resolveEndTurn({ ...endTurnOptions, snapshot: natural }).snapshot;
+    assert.equal(natural.fieldTurns.trick_room, turn === 5 ? undefined : 5 - turn);
+    assert.equal(enemyActsFirst(natural.fieldState), turn !== 5 ? false : true);
+  }
+});
+
+test('other rooms toggle off, repeat Gravity and Fairy Lock stay active, and terrain replaces terrain', () => {
+  for (const room of ['magic_room', 'wonder_room'] as const) {
+    assert.deepEqual(nextFieldStates([room], room), []);
+    assert.deepEqual(nextFieldTurns({ [room]: 3 }, room), {});
+  }
+  assert.deepEqual(nextFieldStates(['gravity'], 'gravity'), ['gravity']);
+  assert.deepEqual(nextFieldTurns({ gravity: 2 }, 'gravity'), { gravity: 2 });
+  assert.deepEqual(nextFieldStates(['fairy_lock'], 'fairy_lock'), ['fairy_lock']);
+  assert.deepEqual(nextFieldTurns({ fairy_lock: 1 }, 'fairy_lock'), { fairy_lock: 1 });
+  assert.deepEqual(nextFieldStates(['electric_terrain', 'trick_room'], 'grassy_terrain'), ['trick_room', 'grassy_terrain']);
+  assert.deepEqual(nextFieldTurns({ electric_terrain: 2, trick_room: 4 }, 'grassy_terrain'), { trick_room: 4, grassy_terrain: 5 });
+  assert.deepEqual(nextFieldStates(['grassy_terrain'], 'grassy_terrain'), ['grassy_terrain']);
+  assert.deepEqual(nextFieldTurns({ grassy_terrain: 2 }, 'grassy_terrain'), { grassy_terrain: 5 });
 });
 
 test('resolveBeforeMoveChecks decrements sleep and blocks ordinary move use', () => {

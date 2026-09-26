@@ -27,6 +27,7 @@ import {
   resolveTypeImmunityReaction,
   clearSwitchingBattleState,
 } from '../battle/engine';
+import { nextFieldStates, nextFieldTurns } from '../battle/engine/fieldEffectTransition';
 import {
   getItemDamageBasedHealDenominator,
   getItemFlinchChance,
@@ -165,7 +166,6 @@ const AI_FLAG_SMART_TRAINER =
 const AI_CONSERVE_GIMMICK_CHANCE_PER_MON = 10;
 const AI_GIMMICK_PREDICT_CHANCE = 40;
 const DEFAULT_WEATHER_TURNS = 5;
-const DEFAULT_FIELD_TURNS = 5;
 const UPROAR_TURNS_GEN5_PLUS = 3;
 const SLEEP_TALK_BANNED_MOVE_NAMES = new Set([
   'razor-wind',
@@ -252,18 +252,6 @@ const HELD_ITEM_LABELS: Record<string, string> = {
   leppa_berry: 'Leppa Berry',
 };
 
-const TERRAIN_FIELD_STATES: FieldState[] = ['electric_terrain', 'grassy_terrain', 'misty_terrain', 'psychic_terrain'];
-const FIELD_TURN_BY_STATE: Record<FieldState, number> = {
-  electric_terrain: 5,
-  grassy_terrain: 5,
-  misty_terrain: 5,
-  psychic_terrain: 5,
-  trick_room: 5,
-  magic_room: 5,
-  wonder_room: 5,
-  gravity: 5,
-  fairy_lock: 2,
-};
 
 interface AiMoveEval {
   move: Move;
@@ -640,22 +628,8 @@ export function useBattleController({
   }, [getEncoredMove]);
 
   const applyFieldEffect = useCallback((nextField: FieldState) => {
-    setFieldState((prev) => {
-      const withoutTerrain = TERRAIN_FIELD_STATES.includes(nextField)
-        ? prev.filter((field) => !TERRAIN_FIELD_STATES.includes(field))
-        : [...prev];
-      return withoutTerrain.includes(nextField) ? withoutTerrain : [...withoutTerrain, nextField];
-    });
-    setFieldTurns((prev) => {
-      const nextTurns: FieldTurns = { ...prev };
-      if (TERRAIN_FIELD_STATES.includes(nextField)) {
-        for (const terrain of TERRAIN_FIELD_STATES) {
-          delete nextTurns[terrain];
-        }
-      }
-      nextTurns[nextField] = FIELD_TURN_BY_STATE[nextField] ?? DEFAULT_FIELD_TURNS;
-      return nextTurns;
-    });
+    setFieldState((prev) => nextFieldStates(prev, nextField));
+    setFieldTurns((prev) => nextFieldTurns(prev, nextField));
   }, [setFieldState, setFieldTurns]);
 
   const syncEnemyLead = useCallback((nextEnemy: GamePokemon, currentEnemyTeam: GamePokemon[] = enemyTeam) => {
