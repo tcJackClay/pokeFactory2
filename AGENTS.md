@@ -16,6 +16,14 @@
 | 静态门禁 | `npm run lint`（tsc）· `npm test` · `npm run build` · `go test ./...` |
 | 中文 | 所有中文文档/源码用 **UTF-8** |
 | 禁止 | `git add .`（主工作区有大量未跟踪试玩证据）；未经允许 `pkill`；提交前不做静态门禁 |
+| **推送 dev** | **必须用下方命令**，直接 `git push origin dev` 会挂死（见注） |
+
+> **推送 dev 必须用这条命令**：
+> ```bash
+> GIT_TERMINAL_PROMPT=0 git -c credential.helper= -c credential.helper=store push origin dev
+> ```
+> 本机 PortableGit 系统级 gitconfig 设了 `credential.helper = helper-selector`，它会先做约 **28 秒的交互等待**再回落 store，导致普通 `push` 长时间无输出挂起（看起来像网络问题，实则 `ls-remote`/`curl` 都正常）。
+> 只写 `-c credential.helper=store` **不够**——“`credential.helper` 是多值配置，`-c` 是追加不是替换”；必须先 `-c credential.helper=` 清空继承列表。凭据来自 `~/.git-credentials`。
 
 **产口真相来源（优先级从高到低）**
 1. 用户最新决定
