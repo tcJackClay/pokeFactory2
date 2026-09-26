@@ -1113,16 +1113,18 @@ button {
   }
 
   .pf-battle-move-button {
-    min-height: 64px !important;
+    min-height: 78px !important;
     padding: 0.3rem !important;
   }
 
   .pf-battle-move-main {
-    min-height: 24px !important;
+    min-height: 40px !important;
   }
 
   .pf-battle-move-type {
-    display: none;
+    display: block;
+    height: 18px;
+    transform: none;
   }
 
   .pf-battle-interaction-panel {
@@ -1143,6 +1145,12 @@ button {
 
   .pf-battle-action-shell .pf-battle-console-panel {
     min-height: 0;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 359px) {
+  .pf-battle-screen {
+    grid-template-rows: auto minmax(0, 1fr) 264px;
   }
 }
 
