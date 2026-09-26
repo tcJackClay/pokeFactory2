@@ -38,6 +38,7 @@ function move(name: string): Move {
   assert.ok(entry, `missing verified cache snapshot for ${name}`);
   const data = entry.data;
   assert.match(entry.cacheBodySha256, /^[a-f0-9]{64}$/);
+  assert.equal(data.name, name, `cache snapshot name differs from ${name}`);
   return {
     name: data.name,
     power: data.power,

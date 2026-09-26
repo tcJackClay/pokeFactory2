@@ -7,7 +7,7 @@
 | 07 Surf | `battle_moves.h:992` | `3948029226668020fb84b4228957249164fe1dc1544b0bae0d0566e7a0f57bb6` | 水特殊、单打一次；储水与守住不扣 HP | 未开放 |
 | 08 Aqua Jet | `battle_moves.h:7983` | `c7b5f8db9089508acec9e24f6c2731630ba1d5bd69935bfb8ff0bf156bf26ed4` | 水物理、+1；比高速普通招先行动，同级比速度，更高优先级仍先 | 未开放 |
 | 21 Aura Sphere | `battle_moves.h:7033` | `6c6559d2208e2bb61bb40d8013533a747d6a73780e369d6808caa12505dfe96f` | 格斗特殊、必中；高回避可命中，幽灵免疫、守住阻断 | 未开放 |
-| 25 Earthquake | `battle_moves.h:1559` | `a0e9f92fc8887b7b2735427bd0c33e8ddab19c9` | 地面物理、单打一次；飞行/漂浮免疫、重力解除免疫、青草场地减伤 | 未开放 |
+| 25 Earthquake | `battle_moves.h:1559` | `3e138217c8b0102d5d62d402a70e9f92fc8887b7b2735427bd0c33e8ddab19c9` | 地面物理、单打一次；飞行/漂浮免疫、重力解除免疫、青草场地减伤 | 未开放 |
 | 27 Aerial Ace | `battle_moves.h:5921` | `ec23e9a442272e82cca01707887526c1576d42b50c9100fb92f65d427b779b4a` | 飞行物理、必中；高回避可命中，守住阻断 | 未开放 |
 | 34 Stone Edge | `battle_moves.h:7827` | `7a83e1ca7ad61e25230046ecd8fe8f08379e3b49cbfc59b44d67a8c879b7f999` | 岩物理、80 命中、高暴击；固定随机值下普通招不暴击而它暴击且伤害更高 | 未开放 |
 | 38 Shadow Sneak | `battle_moves.h:7523` | `26ac618f99e3e2cda7ff37eef324a5cdfe08d5f686b7e11a723af98b8dffb32b` | 幽灵物理、+1；同级比速度，普通属性免疫 | 未开放 |
