@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { GamePokemon } from '../../../types';
-import { restoreFactoryParty, restoreFactoryPokemon } from './restoreFactoryParty';
+import { swapDefeatedPokemon } from '../config/classicFlow';
+import { prepareFactoryPartyForBattle, restoreFactoryParty, restoreFactoryPokemon } from './restoreFactoryParty';
 
 function makePokemon(id: number): GamePokemon {
   const stats = { hp: 60, attack: 60, defense: 60, spAtk: 60, spDef: 60, speed: 60 };
@@ -31,6 +32,7 @@ function makePokemon(id: number): GamePokemon {
     nonVolatileStatus: { id: 'bad_poison', toxicCounter: 3 },
     volatileStatuses: { confusion: { id: 'confusion', active: true }, protect_chain: { id: 'protect_chain', active: true, counter: 2 } },
     factoryHeldItemId: 'leftovers',
+    factoryOriginalHeldItemId: 'leftovers',
     factoryChoiceLockedMoveName: 'tackle',
     factoryLastUsedMoveName: 'tackle',
     factoryConsecutiveMoveCount: 2,
@@ -104,4 +106,24 @@ test('restoration is repeatable and does not invent PP when a move has no maximu
   const twice = restoreFactoryPokemon(once);
   assert.deepEqual(twice, once);
   assert.equal(once.selectedMoves[2].currentPp, 3);
+});
+
+test('result restoration preserves consumed items until next battle, including a swapped enemy', () => {
+  const consumed = { ...makePokemon(1), factoryOriginalHeldItemId: 'sitrus-berry', factoryHeldItemId: undefined };
+  const knockedOff = { ...makePokemon(2), factoryOriginalHeldItemId: 'white-herb', factoryHeldItemId: undefined };
+  const noItem = { ...makePokemon(3), factoryOriginalHeldItemId: null, factoryHeldItemId: 'sitrus-berry' };
+  const enemyConsumed = { ...makePokemon(4), factoryOriginalHeldItemId: 'leppa-berry', factoryHeldItemId: undefined };
+  const replaced = { ...makePokemon(5), factoryOriginalHeldItemId: 'pecha-berry', factoryHeldItemId: 'sitrus-berry' };
+
+  const restored = restoreFactoryParty([consumed, knockedOff, noItem, replaced]);
+  assert.deepEqual(restored.map((pokemon) => pokemon.factoryHeldItemId), [undefined, undefined, 'sitrus-berry', 'sitrus-berry']);
+  assert.deepEqual(restoreFactoryParty(restored), restored);
+  assert.equal(consumed.factoryHeldItemId, undefined);
+
+  const swapped = swapDefeatedPokemon(restored, [enemyConsumed], 1, 0);
+  assert.ok(swapped);
+  const nextTeam = prepareFactoryPartyForBattle(swapped);
+  assert.deepEqual(nextTeam.map((pokemon) => pokemon.id), [1, 4, 3, 5]);
+  assert.deepEqual(nextTeam.map((pokemon) => pokemon.factoryHeldItemId), ['sitrus-berry', 'leppa-berry', undefined, 'pecha-berry']);
+  assert.deepEqual(prepareFactoryPartyForBattle(nextTeam), nextTeam);
 });

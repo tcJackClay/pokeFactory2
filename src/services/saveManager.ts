@@ -3,10 +3,12 @@ import { getBattleIndexInSet, getFactoryGroupBp, getSetNoByStage, MAX_FACTORY_BP
 import { getFactoryTrainerTemplateById } from '../features/game/config/factoryTrainerTemplates';
 import { isCompanionSpeciesId, type CompanionSpeciesId } from '../features/game/config/companionCandidates';
 import { hasRecoverableFactoryBaseCheckpoint } from '../features/game/hooks/factoryResumeCheckpoint';
+import { isKnownFactoryHeldItemId } from '../features/game/data/battle';
+import { restoreFactoryParty } from '../features/game/utils/restoreFactoryParty';
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
 const PENDING_SETTLEMENT_KEY = 'pokefactory_pending_settlement_v1';
-const SAVE_SCHEMA_VERSION = 11 as const;
+const SAVE_SCHEMA_VERSION = 12 as const;
 
 export type SaveInspection =
   | { kind: 'none' }
@@ -413,6 +415,8 @@ function sanitizeGamePokemon(value: unknown): GamePokemon | null {
         ? source.types as GamePokemon['baseTypes']
         : [],
     selectedMoves: Array.isArray(source.selectedMoves) ? source.selectedMoves as GamePokemon['selectedMoves'] : [],
+    factoryOriginalHeldItemId: source.factoryOriginalHeldItemId as string | null,
+    factoryHeldItemId: typeof source.factoryHeldItemId === 'string' ? source.factoryHeldItemId : undefined,
     gender: source.gender === 'male' || source.gender === 'female' || source.gender === 'genderless'
       ? source.gender
       : undefined,
@@ -702,6 +706,14 @@ function hasRecoverablePokemonCore(value: unknown): boolean {
     && Array.isArray(value.abilities);
 }
 
+function hasValidFactoryHeldItemState(value: unknown): boolean {
+  if (!isRecord(value) || !Object.prototype.hasOwnProperty.call(value, 'factoryOriginalHeldItemId')) return false;
+  const original = value.factoryOriginalHeldItemId;
+  const current = value.factoryHeldItemId;
+  return (original === null || (typeof original === 'string' && original.length > 0 && isKnownFactoryHeldItemId(original)))
+    && (current === undefined || (typeof current === 'string' && current.length > 0 && isKnownFactoryHeldItemId(current)));
+}
+
 function assertCurrentSaveRecoverability(value: unknown): void {
   if (!isRecord(value)) throw new Error('Current save root is invalid.');
   const progress = isRecord(value.progress) ? value.progress : null;
@@ -721,10 +733,14 @@ function assertCurrentSaveRecoverability(value: unknown): void {
     const validPhase = phase === 'BATTLE' || phase === 'ROUND_RESULT' || phase === 'FACTORY_SWAP' || phase === 'BASE';
     const playerTeam = resume.playerTeam;
     const enemyTeam = resume.enemyTeam;
+    const factoryRentals = resume.factoryRentals;
     if (resume.battleKind !== 'FACTORY' || !Number.isSafeInteger(resume.stage) || (resume.stage as number) < 1
       || !validPhase || !Array.isArray(playerTeam) || playerTeam.length === 0
       || !Array.isArray(enemyTeam) || enemyTeam.length === 0
       || !playerTeam.every(hasRecoverablePokemonCore) || !enemyTeam.every(hasRecoverablePokemonCore)
+      || !Array.isArray(factoryRentals)
+      || !factoryRentals.every(hasRecoverablePokemonCore)
+      || ![...factoryRentals, ...playerTeam, ...enemyTeam].every(hasValidFactoryHeldItemState)
       || typeof resume.currentEnemyTrainerId !== 'string'
       || !getFactoryTrainerTemplateById(resume.currentEnemyTrainerId)) {
       throw new Error('Battle checkpoint has missing or damaged participants.');
@@ -851,11 +867,13 @@ export function persistSaveData(saveData: GameSaveData) {
     }
     if (persisted.wallet.revision > wallet.revision) wallet = persisted.wallet;
     const committed = persisted.factory.battleResume;
-    if (committed.status === 'READY' && committed.phase === 'ROUND_RESULT'
-      && battleResume.status === 'READY' && battleResume.phase === 'BATTLE'
-      && committed.stage === battleResume.stage
-      && wallet.currentRunId === persisted.wallet.currentRunId) {
-      battleResume = committed;
+    if (committed.status === 'READY' && wallet.currentRunId === persisted.wallet.currentRunId) {
+      const phaseRank = { BATTLE: 0, ROUND_RESULT: 1, FACTORY_SWAP: 2, BASE: 2 } as const;
+      if (battleResume.status === 'EMPTY'
+        || (battleResume.status === 'READY' && (committed.stage > battleResume.stage
+          || (committed.stage === battleResume.stage && phaseRank[committed.phase] > phaseRank[battleResume.phase])))) {
+        battleResume = committed;
+      }
     }
   }
   window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
@@ -1044,73 +1062,83 @@ export function commitFactoryGroupSettlement(
   stage: number,
   result: 'WIN' | 'LOSS',
   isFrontierBrain: boolean,
+  finalTeams?: { playerTeam: GamePokemon[]; enemyTeam: GamePokemon[] },
 ): { wallet: FactoryWallet; awarded: boolean; amount: number; nominalBp: number } {
-  if (!Number.isSafeInteger(stage) || stage < 1) {
-    throw new Error('Invalid factory settlement.');
-  }
-  if (result === 'WIN' && getBattleIndexInSet(stage) !== 7) {
-    return { wallet: draft.wallet, awarded: false, amount: 0, nominalBp: 0 };
-  }
+  if (!Number.isSafeInteger(stage) || stage < 1) throw new Error('Invalid factory settlement.');
   const setNo = getSetNoByStage(stage);
-  const nominalBp = getFactoryGroupBp(stage, result, isFrontierBrain);
+  const completesSet = result === 'LOSS' || getBattleIndexInSet(stage) === 7;
+  const nominalBp = completesSet ? getFactoryGroupBp(stage, result, isFrontierBrain) : 0;
   const pending: PendingFactorySettlement = { runId, stage, result, isFrontierBrain };
-  let awarded = false;
-  const validateSettlement = (current: FactoryWallet) => {
+  try {
+    if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+    const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
+    const inspection = raw === null ? null : classifySaveText(raw);
+    if (inspection && inspection.kind !== 'valid') throw new Error('Stored save requires backup or removal before settlement.');
+    const persisted = inspection?.kind === 'valid' ? inspection.save : draft;
+    const current = persisted.wallet.revision >= draft.wallet.revision ? persisted.wallet : draft.wallet;
     if (!runId || current.currentRunId !== runId) throw new Error('Factory run changed before settlement.');
-    if (setNo <= current.settledThrough) {
-      if (current.lastSettlement?.setNo !== setNo || current.lastSettlement.result !== result) throw new Error('Factory group was settled in a different result.');
-      return;
+
+    const committed = persisted.factory.battleResume;
+    if (committed.status === 'READY' && committed.stage === stage && committed.phase !== 'BATTLE') {
+      if (committed.roundResult !== result) throw new Error('Factory battle was committed with a different result.');
+      clearPendingFactorySettlement();
+      return {
+        wallet: current,
+        awarded: false,
+        amount: committed.lastBpGain,
+        nominalBp,
+      };
     }
+    if (committed.status === 'READY' && committed.stage > stage) throw new Error('A newer factory battle is already saved.');
     if (setNo !== current.settledThrough + 1) throw new Error('Factory group is out of sequence.');
-  };
-  const applySettlement = (current: FactoryWallet) => {
-    validateSettlement(current);
-    if (setNo <= current.settledThrough) return current;
-    awarded = true;
-    const amount = Math.min(nominalBp, MAX_FACTORY_BP - current.balance);
-    return {
+
+    const sourceResume = persisted.wallet.revision > draft.wallet.revision
+      && persisted.factory.battleResume.status === 'READY'
+      && persisted.factory.battleResume.stage === stage
+      && persisted.factory.battleResume.phase === 'BATTLE'
+      ? persisted.factory.battleResume
+      : draft.factory.battleResume;
+    if (sourceResume.status !== 'READY' || sourceResume.stage !== stage || sourceResume.phase !== 'BATTLE') {
+      throw new Error('Final factory battle checkpoint is unavailable.');
+    }
+    const playerTeam = restoreFactoryParty(finalTeams?.playerTeam ?? sourceResume.playerTeam);
+    const enemyTeam = finalTeams?.enemyTeam ?? sourceResume.enemyTeam;
+    const amount = completesSet ? Math.min(nominalBp, MAX_FACTORY_BP - current.balance) : 0;
+    const wallet: FactoryWallet = {
       ...current,
       balance: current.balance + amount,
-      brainSymbols: result === 'WIN' && isFrontierBrain ? Math.min(2, current.brainSymbols + 1) : current.brainSymbols,
+      brainSymbols: completesSet && result === 'WIN' && isFrontierBrain ? Math.min(2, current.brainSymbols + 1) : current.brainSymbols,
       revision: nextWalletRevision(current),
-      settledThrough: setNo,
-      lastSettlement: { runId, setNo, stage, result, isFrontierBrain, nominalBp, amount, settledAt: new Date().toISOString() },
+      settledThrough: completesSet ? setNo : current.settledThrough,
+      lastSettlement: completesSet
+        ? { runId, setNo, stage, result, isFrontierBrain, nominalBp, amount, settledAt: new Date().toISOString() }
+        : current.lastSettlement,
     };
-  };
-  const raw = typeof window !== 'undefined' ? window.localStorage.getItem(SAVE_STORAGE_KEY) : null;
-  const persisted = raw !== null ? normalizeSaveDataSafely(JSON.parse(raw) as unknown) : draft;
-  const current = persisted.wallet.revision >= draft.wallet.revision ? persisted.wallet : draft.wallet;
-  validateSettlement(current);
-  let wallet: FactoryWallet;
-  try {
-    wallet = commitWalletChange(draft, applySettlement, (save, nextWallet) => ({
-      ...save,
-      factory: {
-        ...save.factory,
-        battleResume: save.factory.battleResume.status === 'READY'
-          ? {
-              ...save.factory.battleResume,
-              phase: 'ROUND_RESULT',
-              roundResult: result,
-              lastBpGain: nextWallet.lastSettlement?.amount ?? 0,
-              streak: result === 'WIN' ? save.factory.battleResume.streak + 1 : 0,
-            }
-          : save.factory.battleResume,
-      },
-    }));
+    const nextResume: BattleResumeSnapshot = {
+      ...sourceResume,
+      checkpointAt: new Date().toISOString(),
+      phase: 'ROUND_RESULT',
+      roundResult: result,
+      lastBpGain: amount,
+      streak: result === 'WIN' ? sourceResume.streak + 1 : 0,
+      playerTeam,
+      enemyTeam,
+    };
+    const baseSave = persisted.wallet.revision > draft.wallet.revision ? persisted : draft;
+    const nextSave: GameSaveData = {
+      ...baseSave,
+      updatedAt: new Date().toISOString(),
+      wallet,
+      factory: { ...baseSave.factory, battleResume: nextResume },
+    };
+    normalizeSaveDataSafely(nextSave);
+    window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+    clearPendingFactorySettlement();
+    return { wallet, awarded: completesSet, amount, nominalBp };
   } catch (error) {
     rememberPendingFactorySettlement(pending);
     throw error;
   }
-  clearPendingFactorySettlement();
-  return {
-    wallet,
-    awarded,
-    nominalBp,
-    amount: wallet.lastSettlement?.setNo === setNo && wallet.lastSettlement.result === result
-      ? wallet.lastSettlement.amount
-      : 0,
-  };
 }
 
 export function buildSaveExportFilename() {

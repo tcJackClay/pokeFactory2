@@ -31,7 +31,7 @@ import { selectFactoryTrainerTemplate, type FactoryTrainerTemplate } from '../co
 import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools';
 import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, Stats, Weather } from '../../../types';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
-import { restoreFactoryParty } from '../utils/restoreFactoryParty';
+import { prepareFactoryPartyForBattle, restoreFactoryParty } from '../utils/restoreFactoryParty';
 import {
   beginRentalNetworkCapture,
   clearRentalConfirm,
@@ -915,9 +915,9 @@ export function useFactoryFlow({
       const picked = topPool[Math.floor(Math.random() * topPool.length)] ?? ranked[0];
       if (!picked) continue;
 
-      const itemId = picked.itemId;
+      const itemId = picked.itemId.trim();
       if (rentalSignal?.aborted) throw new Error('Rental generation cancelled.');
-      const hasRealItem = itemId.length > 0 && itemId !== 'none';
+      const hasRealItem = itemId.length > 0 && itemId.toLowerCase() !== 'none';
       if (hasRealItem && pickedItems.has(itemId)) continue;
 
       const detailStartedAt = rentalNow();
@@ -933,7 +933,11 @@ export function useFactoryFlow({
         pickedItems.add(itemId);
       }
       selectedSources.push(picked.source);
-      mons.push({ ...candidatePokemon, factoryHeldItemId: itemId });
+      mons.push({
+        ...candidatePokemon,
+        factoryOriginalHeldItemId: hasRealItem ? itemId : null,
+        factoryHeldItemId: hasRealItem ? itemId : undefined,
+      });
       if (rentalSignal) {
         reportRentalPerformance('rental-member', {
           slot: mons.length,
@@ -1611,21 +1615,24 @@ export function useFactoryFlow({
   }, [factoryRentals, resetBattlePreview, selectedRentalIndices, setGameState, setIsTransitioning, setPlayerTeam, spawnEnemy, startBattleTransition]);
 
   const nextFactoryStage = useCallback(async (playerPool?: GamePokemon[]): Promise<boolean> => {
-    healAllPokemon();
+    const previousTeam = playerTeam;
+    const preparedTeam = prepareFactoryPartyForBattle(playerPool ?? playerTeam);
+    setPlayerTeam(preparedTeam);
     setStage((prev) => prev + 1);
     resetBattlePreview();
     const nextStageNo = stage + 1;
     startBattleTransition();
-    const encounterOptions = playerPool ? { playerPool } : undefined;
+    const encounterOptions = { playerPool: preparedTeam };
     void prefetchEnemy(nextStageNo, encounterOptions);
     const ready = await spawnEnemy(nextStageNo, { ...encounterOptions, playTrainerIntro: true });
     if (!ready) {
+      setPlayerTeam(previousTeam);
       setStage(stage);
       setIsTransitioning(false);
       setGameState(playerPool ? 'FACTORY_SWAP' : 'BASE');
     }
     return ready;
-  }, [healAllPokemon, prefetchEnemy, resetBattlePreview, setStage, setGameState, setIsTransitioning, spawnEnemy, stage, startBattleTransition]);
+  }, [playerTeam, prefetchEnemy, resetBattlePreview, setPlayerTeam, setStage, setGameState, setIsTransitioning, spawnEnemy, stage, startBattleTransition]);
 
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
     const newTeam = swapDefeatedPokemon(playerTeam, enemyTeam, playerIdx, enemyIdx);
@@ -1634,7 +1641,7 @@ export function useFactoryFlow({
   }, [enemyTeam, playerTeam]);
 
   const commitSwap = useCallback((newTeam: GamePokemon[]) => {
-    setPlayerTeam(newTeam);
+    setPlayerTeam(prepareFactoryPartyForBattle(newTeam));
     setSwapCount((prev) => prev + 1);
     setTotalRents((prev) => prev + 1);
   }, [setPlayerTeam, setSwapCount, setTotalRents]);

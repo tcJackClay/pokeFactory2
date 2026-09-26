@@ -357,6 +357,7 @@ export interface GamePokemon extends Pokemon {
   gender?: PokemonGender;
   isGym?: boolean;
   factoryHeldItemId?: string;
+  factoryOriginalHeldItemId?: string | null;
   nonVolatileStatus?: NonVolatileStatusState;
   volatileStatuses?: VolatileStatusMap;
   statStages: StatStages;

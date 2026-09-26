@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import type { GamePokemon } from '../types';
+import { prepareFactoryPartyForBattle, restoreFactoryParty } from '../features/game/utils/restoreFactoryParty';
 
 import { FACTORY_SINGLES_BP, getFactoryGroupBp, getFactorySetBp, MAX_FACTORY_BP } from '../features/game/config/factoryRewards';
 import { FACTORY_BRAIN_TRAINER_ID, isFactoryBrainStage } from '../features/game/config/factoryBrain';
@@ -22,6 +24,7 @@ import {
   replaceSaveData,
   readUnsupportedSave,
   discardUnsupportedSave,
+  type BattleResumeSnapshot,
 } from './saveManager';
 
 function withStorage(run: (storage: Map<string, string>, failNextWrite: () => void, session: Map<string, string>) => void) {
@@ -59,7 +62,7 @@ function withStorage(run: (storage: Map<string, string>, failNextWrite: () => vo
 }
 
 function buildLegacyReadyBattleResume(overrides: Record<string, unknown> = {}) {
-  return {
+  const resume = {
     status: 'READY',
     battleKind: 'FACTORY',
     checkpointAt: '2026-04-21T00:00:00.000Z',
@@ -100,7 +103,8 @@ function buildLegacyReadyBattleResume(overrides: Record<string, unknown> = {}) {
       evs: { hp: 0, attack: 0, defense: 0, spAtk: 0, spDef: 0, speed: 0 },
       baseStats: { hp: 35, attack: 55, defense: 40, spAtk: 50, spDef: 50, speed: 90 },
       calculatedStats: { hp: 100, attack: 90, defense: 70, spAtk: 85, spDef: 80, speed: 120 },
-      status: 'sleep',
+      factoryOriginalHeldItemId: null,
+      nonVolatileStatus: { id: 'sleep' },
     }],
     enemyTeam: [{
       id: 133,
@@ -119,6 +123,7 @@ function buildLegacyReadyBattleResume(overrides: Record<string, unknown> = {}) {
       evs: { hp: 0, attack: 0, defense: 0, spAtk: 0, spDef: 0, speed: 0 },
       baseStats: { hp: 55, attack: 55, defense: 50, spAtk: 45, spDef: 65, speed: 55 },
       calculatedStats: { hp: 100, attack: 80, defense: 75, spAtk: 70, spDef: 90, speed: 80 },
+      factoryOriginalHeldItemId: null,
       volatileStatuses: {
         confusion: {
           id: 'confusion',
@@ -134,40 +139,55 @@ function buildLegacyReadyBattleResume(overrides: Record<string, unknown> = {}) {
     roundResult: null,
     lastBpGain: 0,
     ...overrides,
-  };
+  } as unknown as BattleResumeSnapshot;
+  if (resume.phase !== 'BATTLE') resume.playerTeam = restoreFactoryParty(resume.playerTeam as GamePokemon[]);
+  return resume;
 }
 
 function draft(runId = 'run:test', balance = 0, settledThrough = 0, stage = 7) {
   return parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 11,
+    schemaVersion: 12,
     progress: { companionSpeciesId: 25 },
     wallet: { balance, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough },
     factory: { battleResume: buildLegacyReadyBattleResume({ stage, coins: balance }) },
   }));
 }
 
+function atBattle(saved: ReturnType<typeof draft>, stage: number) {
+  const previous = saved.factory.battleResume;
+  if (previous.status !== 'READY') throw new Error('Expected a READY checkpoint.');
+  return {
+    ...saved,
+    factory: {
+      ...saved.factory,
+      battleResume: { ...previous, stage, phase: 'BATTLE' as const, roundResult: null, lastBpGain: 0 },
+    },
+  };
+}
+
 test('new save preserves battle snapshots, including postbattle phase', () => {
   const saved = parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 11,
+    schemaVersion: 12,
     progress: { companionSpeciesId: 25 },
     wallet: { balance: 3, revision: 1, currentRunId: 'run:one', brainSymbols: 0, settledThrough: 1 },
     factory: { battleResume: buildLegacyReadyBattleResume({ stage: 8, phase: 'FACTORY_SWAP', roundResult: 'WIN', lastBpGain: 0 }) },
   }));
-  assert.equal(saved.schemaVersion, 11);
+  assert.equal(saved.schemaVersion, 12);
   assert.equal(saved.wallet.balance, 3);
   assert.equal(saved.factory.battleResume.status, 'READY');
   if (saved.factory.battleResume.status !== 'READY') return;
   assert.equal(saved.factory.battleResume.phase, 'FACTORY_SWAP');
   assert.equal(saved.factory.battleResume.roundResult, 'WIN');
-  assert.equal(saved.factory.battleResume.playerTeam[0].nonVolatileStatus?.id, 'sleep');
+  assert.equal(saved.factory.battleResume.playerTeam[0].nonVolatileStatus, undefined);
 });
 
 test('old saves are rejected by version, without misclassifying v10 as per-battle currency', () => {
-  for (const version of [6, 7, 8, 9]) {
+  for (const version of [6, 7, 8, 9, 10, 11]) {
     assert.equal(classifySaveText(JSON.stringify({ schemaVersion: version })).kind, 'legacy');
     assert.throws(() => parseSaveDataFromText(JSON.stringify({ schemaVersion: version, wallet: { balance: 500 }, factory: { battleResume: buildLegacyReadyBattleResume({ coins: 500 }) } })), /旧规则存档不兼容/);
   }
   assert.equal(classifySaveText(JSON.stringify({ schemaVersion: 10, wallet: { balance: 500 } })).kind, 'legacy');
+  assert.equal(classifySaveText(JSON.stringify({ schemaVersion: 11, wallet: { balance: 500 } })).kind, 'legacy');
   assert.throws(() => parseSaveDataFromText(JSON.stringify({ schemaVersion: 10, wallet: { balance: 500 } })), /旧规则存档不兼容/);
   for (const malformed of ['null', '[]', '{}', '{"schemaVersion":"8"}']) {
     assert.equal(classifySaveText(malformed).kind, 'corrupt');
@@ -181,9 +201,179 @@ test('old saves are rejected by version, without misclassifying v10 as per-battl
   });
 });
 
+test('same-version READY saves require recognizable original items and allow consumed postbattle items', () => {
+  const saved = draft('run:item-schema', 0, 0, 1);
+  const resume = saved.factory.battleResume;
+  if (resume.status !== 'READY') throw new Error('Expected READY checkpoint.');
+  const player = { ...resume.playerTeam[0], factoryOriginalHeldItemId: 'sitrus-berry', factoryHeldItemId: undefined };
+  const battle = { ...saved, factory: { ...saved.factory, battleResume: { ...resume, playerTeam: [player] } } };
+  assert.equal(classifySaveText(JSON.stringify(battle)).kind, 'valid');
+  for (const invalid of [
+    { ...player, factoryOriginalHeldItemId: undefined },
+    { ...player, factoryOriginalHeldItemId: 'forged-item' },
+    { ...player, factoryOriginalHeldItemId: null, factoryHeldItemId: 'forged-item' },
+  ]) {
+    const broken = { ...battle, factory: { ...battle.factory, battleResume: { ...resume, playerTeam: [invalid] } } };
+    assert.equal(classifySaveText(JSON.stringify(broken)).kind, 'corrupt');
+  }
+  const brokenRental = {
+    ...battle,
+    factory: { ...battle.factory, battleResume: { ...resume, factoryRentals: [{ ...player, factoryOriginalHeldItemId: undefined }] } },
+  };
+  assert.equal(classifySaveText(JSON.stringify(brokenRental)).kind, 'corrupt');
+  const rentalWithoutIdentity = {
+    ...battle,
+    factory: { ...battle.factory, battleResume: { ...resume, factoryRentals: [{ factoryOriginalHeldItemId: null }] } },
+  };
+  assert.equal(classifySaveText(JSON.stringify(rentalWithoutIdentity)).kind, 'corrupt');
+  const consumedResult = {
+    ...battle,
+    factory: { ...battle.factory, battleResume: { ...resume, phase: 'ROUND_RESULT', roundResult: 'WIN', playerTeam: [player] } },
+  };
+  assert.equal(classifySaveText(JSON.stringify(consumedResult)).kind, 'valid');
+});
+
+test('battle result keeps spent items; next BATTLE checkpoint returns originals and resists stale saves', () => {
+  withStorage(() => {
+    const base = draft('run:held-atomic', 0, 0, 1);
+    const resume = base.factory.battleResume;
+    if (resume.status !== 'READY') throw new Error('Expected READY checkpoint.');
+    const player = { ...resume.playerTeam[0], factoryOriginalHeldItemId: 'sitrus-berry', factoryHeldItemId: undefined };
+    const enemy = { ...resume.enemyTeam[0], factoryOriginalHeldItemId: 'white-herb', factoryHeldItemId: undefined };
+    const battle = {
+      ...base,
+      factory: { ...base.factory, battleResume: { ...resume, playerTeam: [player], enemyTeam: [enemy], factoryRentals: [player] } },
+    };
+    persistSaveData(battle);
+    const inBattle = loadSaveData()!.factory.battleResume;
+    assert.equal(inBattle.status, 'READY');
+    if (inBattle.status !== 'READY') return;
+    assert.equal(inBattle.playerTeam[0].factoryHeldItemId, undefined);
+    assert.equal(inBattle.playerTeam[0].factoryOriginalHeldItemId, 'sitrus-berry');
+
+    const first = commitFactoryGroupSettlement(battle, 'run:held-atomic', 1, 'WIN', false, { playerTeam: [player], enemyTeam: [enemy] });
+    assert.equal(first.amount, 0);
+    let committed = loadSaveData()!.factory.battleResume;
+    assert.equal(committed.status, 'READY');
+    if (committed.status !== 'READY') return;
+    assert.equal(committed.phase, 'ROUND_RESULT');
+    assert.equal(committed.playerTeam[0].factoryHeldItemId, undefined);
+    assert.equal(committed.enemyTeam[0].factoryHeldItemId, undefined);
+    const duplicate = commitFactoryGroupSettlement(battle, 'run:held-atomic', 1, 'WIN', false, { playerTeam: [player], enemyTeam: [enemy] });
+    assert.equal(duplicate.awarded, false);
+    assert.equal(duplicate.wallet.revision, first.wallet.revision);
+    persistSaveData(battle);
+    committed = loadSaveData()!.factory.battleResume;
+    assert.equal(committed.status, 'READY');
+    if (committed.status !== 'READY') return;
+    assert.equal(committed.playerTeam[0].factoryHeldItemId, undefined);
+
+    const swapCheckpoint = {
+      ...loadSaveData()!,
+      factory: {
+        ...loadSaveData()!.factory,
+        battleResume: { ...committed, phase: 'FACTORY_SWAP' as const },
+      },
+    };
+    persistSaveData(swapCheckpoint);
+    persistSaveData(battle);
+    const swapped = loadSaveData()!.factory.battleResume;
+    assert.equal(swapped.status, 'READY');
+    if (swapped.status === 'READY') {
+      assert.equal(swapped.phase, 'FACTORY_SWAP');
+      assert.equal(swapped.playerTeam[0].factoryHeldItemId, undefined);
+    }
+    if (swapped.status !== 'READY') return;
+    const nextBattle = {
+      ...loadSaveData()!,
+      factory: {
+        ...loadSaveData()!.factory,
+        battleResume: {
+          ...swapped,
+          stage: 2,
+          phase: 'BATTLE' as const,
+          roundResult: null,
+          playerTeam: prepareFactoryPartyForBattle(swapped.playerTeam),
+        },
+      },
+    };
+    persistSaveData(nextBattle);
+    const prepared = loadSaveData()!.factory.battleResume;
+    assert.equal(prepared.status, 'READY');
+    if (prepared.status === 'READY') {
+      assert.equal(prepared.stage, 2);
+      assert.equal(prepared.playerTeam[0].factoryHeldItemId, 'sitrus-berry');
+    }
+    persistSaveData(swapCheckpoint);
+    const afterStaleSwap = loadSaveData()!.factory.battleResume;
+    assert.equal(afterStaleSwap.status, 'READY');
+    if (afterStaleSwap.status === 'READY') assert.equal(afterStaleSwap.stage, 2);
+    assert.equal(parseSaveDataFromText(JSON.stringify(loadSaveData())).factory.battleResume.status, 'READY');
+  });
+});
+
+test('failed atomic result leaves battle consumption intact until retry', () => {
+  withStorage((_storage, failNextWrite) => {
+    const base = draft('run:held-failure', 0, 0, 7);
+    const resume = base.factory.battleResume;
+    if (resume.status !== 'READY') throw new Error('Expected READY checkpoint.');
+    const player = { ...resume.playerTeam[0], factoryOriginalHeldItemId: 'white-herb', factoryHeldItemId: undefined };
+    const battle = { ...base, factory: { ...base.factory, battleResume: { ...resume, playerTeam: [player] } } };
+    persistSaveData(battle);
+    failNextWrite();
+    assert.throws(() => commitFactoryGroupSettlement(battle, 'run:held-failure', 7, 'WIN', false, { playerTeam: [player], enemyTeam: resume.enemyTeam }), /Quota/);
+    const failed = loadSaveData()!.factory.battleResume;
+    assert.equal(failed.status, 'READY');
+    if (failed.status === 'READY') {
+      assert.equal(failed.phase, 'BATTLE');
+      assert.equal(failed.playerTeam[0].factoryHeldItemId, undefined);
+    }
+    assert.ok(loadPendingFactorySettlement());
+    const retry = commitFactoryGroupSettlement(loadSaveData()!, 'run:held-failure', 7, 'WIN', false);
+    assert.equal(retry.amount, 3);
+    const committed = loadSaveData()!.factory.battleResume;
+    assert.equal(committed.status, 'READY');
+    if (committed.status === 'READY') {
+      assert.equal(committed.playerTeam[0].factoryHeldItemId, undefined);
+      const baseCheckpoint = {
+        ...loadSaveData()!,
+        factory: { ...loadSaveData()!.factory, battleResume: { ...committed, phase: 'BASE' as const } },
+      };
+      persistSaveData(baseCheckpoint);
+      persistSaveData(battle);
+      const afterStaleSave = loadSaveData()!.factory.battleResume;
+      assert.equal(afterStaleSave.status, 'READY');
+      if (afterStaleSave.status === 'READY') {
+        assert.equal(afterStaleSave.phase, 'BASE');
+        assert.equal(afterStaleSave.playerTeam[0].factoryHeldItemId, undefined);
+      }
+    }
+  });
+});
+
+test('battle result keeps unrelated data from a newer persisted wallet revision', () => {
+  withStorage(() => {
+    const older = draft('run:newer-fields', 0, 0, 1);
+    persistSaveData(older);
+    const newer = {
+      ...older,
+      settings: { ...older.settings, currentLanguage: 'en' },
+      collection: { ...older.collection, seenIds: [25, 133] },
+    };
+    adjustWalletBalance(newer, 1);
+    const result = commitFactoryGroupSettlement(older, 'run:newer-fields', 1, 'WIN', false);
+    assert.equal(result.wallet.balance, 1);
+    const saved = loadSaveData()!;
+    assert.equal(saved.settings.currentLanguage, 'en');
+    assert.deepEqual(saved.collection.seenIds, [25, 133]);
+    assert.equal(saved.factory.battleResume.status, 'READY');
+    if (saved.factory.battleResume.status === 'READY') assert.equal(saved.factory.battleResume.phase, 'ROUND_RESULT');
+  });
+});
+
 test('companion candidates are fixed and same-version saves require null or one approved ID', () => {
   assert.deepEqual(COMPANION_CANDIDATES.map((candidate) => candidate.id), [25, 133, 175, 447, 744, 921]);
-  const base = { schemaVersion: 11, factory: { battleResume: { status: 'EMPTY' } }, settings: { selectedGens: [9] } };
+  const base = { schemaVersion: 12, factory: { battleResume: { status: 'EMPTY' } }, settings: { selectedGens: [9] } };
   assert.equal(parseSaveDataFromText(JSON.stringify({ ...base, progress: { companionSpeciesId: null } })).progress.companionSpeciesId, null);
   for (const candidate of COMPANION_CANDIDATES) {
     assert.equal(parseSaveDataFromText(JSON.stringify({ ...base, progress: { companionSpeciesId: candidate.id } })).progress.companionSpeciesId, candidate.id);
@@ -208,7 +398,7 @@ test('companion candidates are fixed and same-version saves require null or one 
 test('companion binding writes before use, retries failed writes, and cannot be changed by stale saves', () => {
   withStorage((storage, failNextWrite) => {
     const unbound = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 11,
+      schemaVersion: 12,
       progress: { companionSpeciesId: null },
       settings: { selectedGens: [1] },
       factory: { battleResume: { status: 'EMPTY' } },
@@ -336,7 +526,7 @@ test('generation setting keeps exactly one valid generation and defaults to Kant
     [[2.5], [1]],
     [['3'], [1]],
   ] as const) {
-    const saved = parseSaveDataFromText(JSON.stringify({ schemaVersion: 11, progress: { companionSpeciesId: null }, settings: { selectedGens: raw }, factory: { battleResume: { status: 'EMPTY' } } }));
+    const saved = parseSaveDataFromText(JSON.stringify({ schemaVersion: 12, progress: { companionSpeciesId: null }, settings: { selectedGens: raw }, factory: { battleResume: { status: 'EMPTY' } } }));
     assert.deepEqual(saved.settings.selectedGens, expected);
   }
 });
@@ -366,14 +556,20 @@ test('factory singles table and Brain appearances match the reference', () => {
 
 test('six wins credit zero; seventh win credits once; later sets and Brain bonus remain distinct', () => {
   withStorage(() => {
-    let saved = draft();
+    let saved = draft('run:test', 0, 0, 1);
     persistSaveData(saved);
     for (let stage = 1; stage <= 6; stage += 1) {
+      if (stage > 1) {
+        saved = atBattle(loadSaveData()!, stage);
+        persistSaveData(saved);
+      }
       const result = commitFactoryGroupSettlement(saved, 'run:test', stage, 'WIN', false);
       assert.equal(result.amount, 0);
       assert.equal(result.wallet.balance, 0);
     }
     assert.equal(loadSaveData()?.wallet.balance, 0);
+    saved = atBattle(loadSaveData()!, 7);
+    persistSaveData(saved);
     const first = commitFactoryGroupSettlement(saved, 'run:test', 7, 'WIN', false);
     assert.equal(first.wallet.balance, 3);
     assert.equal(first.amount, 3);
@@ -386,8 +582,12 @@ test('six wins credit zero; seventh win credits once; later sets and Brain bonus
     assert.equal(saved.wallet.balance, 3);
     assert.equal(saved.factory.battleResume.status, 'READY');
     if (saved.factory.battleResume.status === 'READY') assert.equal(saved.factory.battleResume.phase, 'ROUND_RESULT');
+    saved = atBattle(saved, 14);
+    persistSaveData(saved);
     const second = commitFactoryGroupSettlement(saved, 'run:test', 14, 'WIN', false);
     assert.equal(second.wallet.balance, 6);
+    saved = atBattle(loadSaveData()!, 21);
+    persistSaveData(saved);
     const third = commitFactoryGroupSettlement(saved, 'run:test', 21, 'WIN', true);
     assert.equal(third.wallet.balance, 20);
     assert.equal(third.wallet.brainSymbols, 1);
@@ -451,14 +651,16 @@ test('developer jump to the third set starts a fresh run at the correct group ba
     const next = beginFactoryWalletRun(saved, 0, 21);
     assert.equal(next.settledThrough, 2);
     assert.equal(loadSaveData()?.factory.battleResume.status, 'EMPTY');
-    assert.equal(commitFactoryGroupSettlement(loadSaveData()!, next.currentRunId!, 21, 'WIN', true).amount, 14);
+    const nextBattle = atBattle(draft(next.currentRunId!, next.balance, next.settledThrough, 21), 21);
+    persistSaveData(nextBattle);
+    assert.equal(commitFactoryGroupSettlement(nextBattle, next.currentRunId!, 21, 'WIN', true).amount, 14);
   });
 });
 
 test('ending a paused completed set keeps earned BP and clears continuation without another settlement', () => {
   withStorage((_storage, failNextWrite) => {
     const saved = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 11,
+      schemaVersion: 12,
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 14, revision: 4, currentRunId: 'run:pause', brainSymbols: 1, settledThrough: 3 },
       factory: {

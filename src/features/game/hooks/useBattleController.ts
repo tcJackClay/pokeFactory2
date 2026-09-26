@@ -106,7 +106,7 @@ interface UseBattleControllerParams {
   onSuppressBattleResolved: (result: 'WIN' | 'LOSS') => void;
   factoryRunId: string | null;
   pendingSettlement: PendingFactorySettlement | null;
-  settleFactoryBattle: (runId: string, stage: number, result: 'WIN' | 'LOSS', isFrontierBrain: boolean) => {
+  settleFactoryBattle: (runId: string, stage: number, result: 'WIN' | 'LOSS', isFrontierBrain: boolean, finalTeams: { playerTeam: GamePokemon[]; enemyTeam: GamePokemon[] }) => {
     awarded: boolean;
     amount: number;
   };
@@ -828,9 +828,13 @@ export function useBattleController({
         ? retryPending.isFrontierBrain
         : isFrontierBrain;
       let creditedTokens: number;
+      const restoredPlayerTeam = restoreFactoryParty(liveBattleStateRef.current.playerTeam);
       try {
         if (!factoryRunId) throw new Error('Factory run ID is missing.');
-        const settlement = settleFactoryBattle(factoryRunId, stage, result, brainOpponent);
+        const settlement = settleFactoryBattle(factoryRunId, stage, result, brainOpponent, {
+          playerTeam: restoredPlayerTeam,
+          enemyTeam: liveBattleStateRef.current.enemyTeam,
+        });
         creditedTokens = settlement.amount;
         pendingSettlementRef.current = null;
         setSettlementError(false);
@@ -841,7 +845,8 @@ export function useBattleController({
         return;
       }
 
-      setPlayerTeam((previousTeam) => restoreFactoryParty(previousTeam));
+      liveBattleStateRef.current.playerTeam = restoredPlayerTeam;
+      setPlayerTeam(restoredPlayerTeam);
 
       if (result === 'WIN') {
         setStreak(nextStreak);

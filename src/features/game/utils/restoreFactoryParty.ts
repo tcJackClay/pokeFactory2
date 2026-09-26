@@ -43,3 +43,10 @@ export function restoreFactoryPokemon(pokemon: GamePokemon): GamePokemon {
 export function restoreFactoryParty(team: GamePokemon[]): GamePokemon[] {
   return team.map(restoreFactoryPokemon);
 }
+
+export function prepareFactoryPartyForBattle(team: GamePokemon[]): GamePokemon[] {
+  return restoreFactoryParty(team).map((pokemon) => ({
+    ...pokemon,
+    factoryHeldItemId: pokemon.factoryOriginalHeldItemId ?? undefined,
+  }));
+}

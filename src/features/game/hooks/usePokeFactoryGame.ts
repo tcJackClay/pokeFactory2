@@ -488,8 +488,8 @@ export function usePokeFactoryGame(): GameViewModel {
     }
   }, [adjustWallet]);
 
-  const settleFactoryBattle = useCallback((runId: string, battleStage: number, result: 'WIN' | 'LOSS', isFrontierBrain: boolean) => {
-    const settlement = commitFactoryGroupSettlement(getCurrentSaveDraft(), runId, battleStage, result, isFrontierBrain);
+  const settleFactoryBattle = useCallback((runId: string, battleStage: number, result: 'WIN' | 'LOSS', isFrontierBrain: boolean, finalTeams: { playerTeam: GamePokemon[]; enemyTeam: GamePokemon[] }) => {
+    const settlement = commitFactoryGroupSettlement(getCurrentSaveDraft(), runId, battleStage, result, isFrontierBrain, finalTeams);
     syncWallet(settlement.wallet);
     return settlement;
   }, [getCurrentSaveDraft, syncWallet]);

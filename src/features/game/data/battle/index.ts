@@ -161,6 +161,10 @@ export function getItemBattleData(itemId?: string | null): ItemBattleData | unde
   };
 }
 
+export function isKnownFactoryHeldItemId(itemId: string): boolean {
+  return Object.prototype.hasOwnProperty.call(ITEM_BATTLE_DATA, normalizeItemId(itemId));
+}
+
 export function hasItemBattleEffect(itemId: string | null | undefined, effectId: string) {
   return getItemBattleData(itemId)?.effectId === effectId;
 }
