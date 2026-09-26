@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { presentEndTurnResolution } from './presentEndTurnResolution';
+import { completeEndTurnResolution } from './presentEndTurnResolution';
 import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, TailwindTurns, Weather } from '../../../types';
 import { getBattleIndexInSet } from '../config/factoryRewards';
 import type { PendingFactorySettlement } from '../../../services/saveManager';
@@ -355,6 +355,23 @@ export function useBattleController({
   const [settlementError, setSettlementError] = useState(Boolean(pendingSettlement));
   const pendingSettlementRef = useRef<PendingFactorySettlement | null>(pendingSettlement);
   const previousTurnRef = useRef<BattleTurn | null>(null);
+  const roundEndInFlightRef = useRef(false);
+  const battleInstanceRef = useRef({ gameState, factoryRunId, stage, epoch: 0 });
+  if (
+    battleInstanceRef.current.gameState !== gameState
+    || battleInstanceRef.current.factoryRunId !== factoryRunId
+    || battleInstanceRef.current.stage !== stage
+  ) {
+    battleInstanceRef.current = { gameState, factoryRunId, stage, epoch: battleInstanceRef.current.epoch + 1 };
+  }
+  const battleMountedRef = useRef(true);
+  useEffect(() => {
+    battleMountedRef.current = true;
+    return () => {
+      battleMountedRef.current = false;
+      battleInstanceRef.current.epoch += 1;
+    };
+  }, []);
   const pendingPlayerSwitchRef = useRef(false);
   const pendingForcedPlayerTurnRef = useRef<BattleTurn | null>(null);
   const liveBattleStateRef = useRef({
@@ -900,7 +917,11 @@ export function useBattleController({
     if (pending) await resolveBattleResult(pending.result, pending);
   }, [resolveBattleResult]);
 
-  const sendOutNextEnemy = useCallback(async (currentEnemyTeam: GamePokemon[], excludedId: number) => {
+  const sendOutNextEnemy = useCallback(async (
+    currentEnemyTeam: GamePokemon[],
+    excludedId: number,
+    options?: { preservePlayerSwitchMenu?: boolean },
+  ) => {
     const nextEnemyIdx = findNextLivingLeadIndex(currentEnemyTeam, { excludeId: excludedId });
     if (nextEnemyIdx === -1) {
       setTimeout(() => void winBattle(), 500);
@@ -913,9 +934,10 @@ export function useBattleController({
     setEnemyTeam(nextEnemyTeam);
     setEnemy(nextEnemyTeam[0]);
     await addMessagesSequentially([t('enemySentOut').replace('{name}', getLocalized(nextEnemyTeam[0]))]);
-    setMainBattleTurn('PLAYER');
+    if (options?.preservePlayerSwitchMenu) setTurn('PLAYER');
+    else setMainBattleTurn('PLAYER');
     return true;
-  }, [addMessagesSequentially, clearSwitchingBattleState, getLocalized, setEnemy, setEnemyTeam, setMainBattleTurn, t, winBattle]);
+  }, [addMessagesSequentially, clearSwitchingBattleState, getLocalized, setEnemy, setEnemyTeam, setMainBattleTurn, setTurn, t, winBattle]);
 
   const sendOutNextPlayer = useCallback(async (
     currentPlayerTeam: GamePokemon[],
@@ -2670,8 +2692,12 @@ export function useBattleController({
     if (gameState !== 'BATTLE' || isMessageProcessing || settlementError) return;
     if (prevTurn !== 'ENEMY' || turn !== 'PLAYER') return;
     if (!playerTeam[0] || !enemyTeam[0]) return;
-
-    let cancelled = false;
+    if (roundEndInFlightRef.current) return;
+    roundEndInFlightRef.current = true;
+    const battleEpoch = battleInstanceRef.current.epoch;
+    const isCurrentBattle = () => battleMountedRef.current
+      && battleInstanceRef.current.epoch === battleEpoch
+      && liveBattleStateRef.current.gameState === 'BATTLE';
 
     const handleRoundEnd = async () => {
       const endTurnResult = resolveEndTurn({
@@ -2692,45 +2718,35 @@ export function useBattleController({
         tryActivatePinchStatBerry,
       });
 
-      const nextPlayerTeam = endTurnResult.snapshot.playerTeam;
-      const nextEnemyTeam = endTurnResult.snapshot.enemyTeam;
-      const playerLead = endTurnResult.playerLead;
-      const enemyLead = endTurnResult.enemyLead;
-      await presentEndTurnResolution(endTurnResult, (snapshot) => {
-        setPlayerTeam(snapshot.playerTeam);
-        setEnemyTeam(snapshot.enemyTeam);
-        setEnemy(snapshot.enemyTeam[0] ?? null);
-        setWeather(snapshot.weather);
-        setWeatherTurns(snapshot.weatherTurns);
-        setFieldState(snapshot.fieldState);
-        setFieldTurns(snapshot.fieldTurns);
-        setTailwindTurns(snapshot.tailwindTurns);
-      }, addMessagesSequentially);
-      if (cancelled) return;
-
-      if (endTurnResult.playerLeadFainted) {
-        if (pendingPlayerSwitchRef.current) {
+      await completeEndTurnResolution({
+        result: endTurnResult,
+        commitSnapshot: (snapshot) => {
+          setPlayerTeam(snapshot.playerTeam);
+          setEnemyTeam(snapshot.enemyTeam);
+          setEnemy(snapshot.enemyTeam[0] ?? null);
+          setWeather(snapshot.weather);
+          setWeatherTurns(snapshot.weatherTurns);
+          setFieldState(snapshot.fieldState);
+          setFieldTurns(snapshot.fieldTurns);
+          setTailwindTurns(snapshot.tailwindTurns);
+        },
+        presentMessages: addMessagesSequentially,
+        isCurrentBattle,
+        shouldAnnouncePlayerFaint: () => {
+          if (!pendingPlayerSwitchRef.current) return true;
           pendingPlayerSwitchRef.current = false;
-        } else {
-          await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(playerLead))]);
-          if (cancelled) return;
-        }
-        await sendOutNextPlayer(nextPlayerTeam);
-      }
-
-      if (endTurnResult.enemyLeadFainted) {
-        await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(enemyLead))]);
-        if (cancelled) return;
-        await sendOutNextEnemy(nextEnemyTeam, enemyLead.id);
-      }
-
+          return false;
+        },
+        playerFaintMessage: t('fainted').replace('{name}', getLocalized(endTurnResult.playerLead)),
+        enemyFaintMessage: t('fainted').replace('{name}', getLocalized(endTurnResult.enemyLead)),
+        sendOutNextPlayer,
+        sendOutNextEnemy,
+      });
     };
 
-    void handleRoundEnd();
-
-    return () => {
-      cancelled = true;
-    };
+    void handleRoundEnd()
+      .catch((error: unknown) => console.error('End-turn resolution failed', error))
+      .finally(() => { roundEndInFlightRef.current = false; });
   }, [
     addMessagesSequentially,
     currentLanguage,

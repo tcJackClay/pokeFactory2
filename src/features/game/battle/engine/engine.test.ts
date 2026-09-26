@@ -7,7 +7,7 @@ import { resolveBeforeMoveChecks } from './resolveBeforeMoveChecks';
 import { resolveEndTurn } from './resolveEndTurn';
 import { resolveActionSelection } from './resolveActionSelection';
 import { isRepeatFieldFailure, nextFieldStates, nextFieldTurns } from './fieldEffectTransition';
-import { presentEndTurnResolution } from '../../hooks/presentEndTurnResolution';
+import { completeEndTurnResolution, presentEndTurnResolution } from '../../hooks/presentEndTurnResolution';
 import { setNonVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
 
 const DEFAULT_NATURE: Nature = {
@@ -155,6 +155,115 @@ test('end-turn timers are committed with damaged teams before message playback c
   assert.ok(committed);
   assert.equal(committed.weatherTurns, 1);
   assert.deepEqual(committed.tailwindTurns, { player: 1, enemy: 0 });
+});
+
+test('async residual messages still announce fainting and offer the reserve after effect dependency cleanup', async () => {
+  const poisoned = setNonVolatileStatus(createPokemon(1, 'poisoned', { currentHp: 1 }), 'poison');
+  const reserve = createPokemon(3, 'reserve');
+  const result = resolveEndTurn({
+    snapshot: createSnapshot({ playerTeam: [poisoned, reserve] }),
+    getLocalized: (pokemon) => pokemon.name,
+    formatDynamaxEndMessage: (pokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (move) => move.currentPp ?? move.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon) => ({ pokemon, message: null }),
+  });
+  assert.equal(result.playerLeadFainted, true);
+  let release!: () => void;
+  const messageGate = new Promise<void>((resolve) => { release = resolve; });
+  const sequence: string[] = [];
+  let effectCleanedUp = false;
+  const completion = completeEndTurnResolution({
+    result,
+    commitSnapshot: (snapshot) => {
+      sequence.push('commit');
+      assert.equal(snapshot.playerTeam[0].currentHp, 0);
+    },
+    presentMessages: async (messages) => {
+      sequence.push(messages[0]);
+      if (sequence.length === 2) await messageGate;
+    },
+    isCurrentBattle: () => true,
+    shouldAnnouncePlayerFaint: () => true,
+    playerFaintMessage: 'poisoned fainted',
+    enemyFaintMessage: 'enemy fainted',
+    sendOutNextPlayer: async (team) => {
+      assert.equal(effectCleanedUp, true);
+      assert.equal(team[1].id, reserve.id);
+      sequence.push('reserve offered');
+      return true;
+    },
+    sendOutNextEnemy: async () => { throw new Error('Enemy did not faint.'); },
+  });
+  effectCleanedUp = true;
+  assert.equal(sequence.length, 2, 'residual message must be awaiting playback');
+  release();
+  await completion;
+  assert.equal(sequence[0], 'commit');
+  assert.match(sequence[1], /poison/i);
+  assert.deepEqual(sequence.slice(2), ['poisoned fainted', 'reserve offered']);
+});
+
+test('both residual faint branches run once in order, while a real battle exit stops them', async () => {
+  const makeResult = () => resolveEndTurn({
+    snapshot: createSnapshot({
+      playerTeam: [setNonVolatileStatus(createPokemon(1, 'player', { currentHp: 1 }), 'poison'), createPokemon(3, 'player-reserve')],
+      enemyTeam: [setNonVolatileStatus(createPokemon(2, 'enemy', { currentHp: 1 }), 'poison'), createPokemon(4, 'enemy-reserve')],
+    }),
+    getLocalized: (pokemon) => pokemon.name,
+    formatDynamaxEndMessage: (pokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (move) => move.currentPp ?? move.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon) => ({ pokemon, message: null }),
+  });
+  const result = makeResult();
+  assert.equal(result.playerLeadFainted, true);
+  assert.equal(result.enemyLeadFainted, true);
+  const sequence: string[] = [];
+  const options = {
+    result,
+    commitSnapshot: () => { sequence.push('commit'); },
+    presentMessages: async (messages: string[]) => { sequence.push(messages.join('|')); },
+    isCurrentBattle: () => true,
+    shouldAnnouncePlayerFaint: () => true,
+    playerFaintMessage: 'player fainted',
+    enemyFaintMessage: 'enemy fainted',
+    sendOutNextPlayer: async () => { sequence.push('player reserve'); return true; },
+    sendOutNextEnemy: async (_team, _id, options) => {
+      assert.equal(options?.preservePlayerSwitchMenu, true);
+      sequence.push('enemy reserve');
+      return true;
+    },
+  };
+  await completeEndTurnResolution(options);
+  assert.deepEqual(sequence.slice(2), ['player fainted', 'player reserve', 'enemy fainted', 'enemy reserve']);
+
+  let active = true;
+  let release!: () => void;
+  const messageGate = new Promise<void>((resolve) => { release = resolve; });
+  const departed: string[] = [];
+  const stopped = completeEndTurnResolution({
+    ...options,
+    commitSnapshot: () => { departed.push('commit'); },
+    presentMessages: async () => { departed.push('residual'); await messageGate; },
+    isCurrentBattle: () => active,
+    sendOutNextPlayer: async () => { departed.push('wrong switch'); return true; },
+    sendOutNextEnemy: async () => { departed.push('wrong switch'); return true; },
+  });
+  active = false;
+  release();
+  await stopped;
+  assert.deepEqual(departed, ['commit', 'residual']);
+
+  const noReserve: string[] = [];
+  await completeEndTurnResolution({
+    ...options,
+    commitSnapshot: () => { noReserve.push('commit'); },
+    presentMessages: async (messages) => { noReserve.push(messages.join('|')); },
+    sendOutNextPlayer: async () => { noReserve.push('loss scheduled'); return false; },
+    sendOutNextEnemy: async () => { noReserve.push('wrong win'); return false; },
+  });
+  assert.deepEqual(noReserve.slice(2), ['player fainted', 'loss scheduled']);
 });
 
 test('snow has no chip, survives switching, and expires after five end turns', () => {
