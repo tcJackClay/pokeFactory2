@@ -12,12 +12,10 @@ const RESET_STAT_STAGES: StatStages = {
 };
 
 export function restoreFactoryPokemon(pokemon: GamePokemon): GamePokemon {
-  const originalForm = pokemon.specialBoostActive
-    ? recalculatePokemonStats({
-        ...pokemon,
-        types: pokemon.baseTypes ?? pokemon.types,
-      }, false)
-    : pokemon;
+  const originalForm = recalculatePokemonStats({
+    ...pokemon,
+    types: pokemon.baseTypes ?? pokemon.types,
+  }, false);
 
   return {
     ...originalForm,

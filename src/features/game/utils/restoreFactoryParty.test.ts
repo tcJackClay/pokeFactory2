@@ -5,6 +5,7 @@ import { restoreFactoryParty, restoreFactoryPokemon } from './restoreFactoryPart
 
 function makePokemon(id: number): GamePokemon {
   const stats = { hp: 60, attack: 60, defense: 60, spAtk: 60, spDef: 60, speed: 60 };
+  const calculatedStats = { hp: 125, attack: 70, defense: 70, spAtk: 70, spDef: 70, speed: 70 };
   return {
     id,
     name: `pokemon-${id}`,
@@ -15,7 +16,7 @@ function makePokemon(id: number): GamePokemon {
     abilities: [],
     moves: [],
     currentHp: 0,
-    maxHp: 100,
+    maxHp: 125,
     selectedMoves: [
       { name: 'tackle', power: 40, accuracy: 100, type: 'normal', damage_class: 'physical', pp: 35, maxPp: 40, currentPp: 1 },
       { name: 'growl', power: null, accuracy: 100, type: 'normal', damage_class: 'status', pp: 40, currentPp: 0 },
@@ -25,7 +26,7 @@ function makePokemon(id: number): GamePokemon {
     ivs: { hp: 10, attack: 10, defense: 10, spAtk: 10, spDef: 10, speed: 10 },
     evs: { hp: 0, attack: 0, defense: 0, spAtk: 0, spDef: 0, speed: 0 },
     baseStats: stats,
-    calculatedStats: stats,
+    calculatedStats,
     statStages: { attack: 2, defense: -1, spAtk: 0, spDef: 0, speed: 1, accuracy: -2, evasion: 0 },
     nonVolatileStatus: { id: 'bad_poison', toxicCounter: 3 },
     volatileStatuses: { confusion: { id: 'confusion', active: true }, protect_chain: { id: 'protect_chain', active: true, counter: 2 } },
@@ -43,7 +44,7 @@ function makePokemon(id: number): GamePokemon {
 test('postbattle restoration heals fainted party members, PP, statuses and temporary state', () => {
   const team = [makePokemon(1), { ...makePokemon(2), currentHp: 33 }];
   const restored = restoreFactoryParty(team);
-  assert.deepEqual(restored.map((pokemon) => pokemon.currentHp), [100, 100]);
+  assert.deepEqual(restored.map((pokemon) => pokemon.currentHp), [125, 125]);
   assert.deepEqual(restored[0].selectedMoves.map((move) => move.currentPp), [40, 40]);
   assert.equal(restored[0].nonVolatileStatus, undefined);
   assert.deepEqual(restored[0].volatileStatuses, {});
@@ -74,6 +75,21 @@ test('postbattle restoration reverts temporary transformation stats and type', (
   assert.equal(restored.specialBoostActive, false);
   assert.equal(restored.specialBoostMode, undefined);
   assert.equal(restored.dynamaxTurnsLeft, undefined);
+});
+
+test('postbattle restoration corrects rounded stats after Dynamax expires naturally', () => {
+  const expiredDynamax = {
+    ...makePokemon(5),
+    maxHp: 124,
+    calculatedStats: { hp: 124, attack: 69, defense: 69, spAtk: 69, spDef: 69, speed: 69 },
+    specialBoostActive: false,
+    specialBoostMode: undefined,
+    dynamaxTurnsLeft: undefined,
+  };
+  const restored = restoreFactoryPokemon(expiredDynamax);
+  assert.equal(restored.maxHp, 125);
+  assert.equal(restored.currentHp, 125);
+  assert.equal(restored.calculatedStats.attack, 70);
 });
 
 test('restoration is repeatable and does not invent PP when a move has no maximum', () => {
