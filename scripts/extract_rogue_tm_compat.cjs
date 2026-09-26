@@ -7,7 +7,10 @@ const { execFileSync } = require('node:child_process');
 
 const SOURCE_SHA = 'a6adfcf18d7eaf99c2803e4b0bc04eca7af2f014';
 const SYMBOL = /^(?:MOVE|SPECIES)_[A-Z0-9_]+$/;
-const EXPECTED = { tm: 50, profiles: 1156, aliases: 1519, pairs: 14645 };
+const EXPECTED = {
+  tm: 50, profiles: 1156, aliases: 1519, pairs: 14645,
+  sourceDigestSha256: '353a1226dae0a7601cef5a3613572d35d0cf9a780299426a9cadc6a36e21bb9e',
+};
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -89,8 +92,10 @@ function extract(sourceRoot) {
   const pairCount = Object.values(species).reduce((count, row) => count + row.tms.length, 0);
   assert(bySpecies.size === EXPECTED.aliases, `Expected ${EXPECTED.aliases} aliases, found ${bySpecies.size}`);
   assert(pairCount === EXPECTED.pairs, `Expected ${EXPECTED.pairs} pairs, found ${pairCount}`);
+  const digestSha256 = sourceDigest.digest('hex');
+  assert(digestSha256 === EXPECTED.sourceDigestSha256, `Pinned Rogue source content differs: ${digestSha256}`);
   const matrix = {
-    source: { repository: 'Pokabbie/pokeemerald-rogue', commit: SOURCE_SHA, branch: 'expansion', profileMode: 'ordinary', digestSha256: sourceDigest.digest('hex') },
+    source: { repository: 'Pokabbie/pokeemerald-rogue', commit: SOURCE_SHA, branch: 'expansion', profileMode: 'ordinary', generatorVersion: 1, digestSha256 },
     counts: { tms: tms.length, profiles: files.length, aliases: bySpecies.size, pairs: pairCount },
     tms,
     species,
