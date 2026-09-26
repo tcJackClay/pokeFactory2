@@ -1,0 +1,90 @@
+[
+  {
+    "scenario": "bottomReach",
+    "origin": "127.0.0.97",
+    "viewport": "320x568",
+    "pressed": "true",
+    "rect": {
+      "x": 164,
+      "y": 280,
+      "width": 136,
+      "height": 150
+    },
+    "save": {
+      "version": 11,
+      "companion": 921,
+      "generation": [
+        1
+      ],
+      "status": "EMPTY"
+    },
+    "errors": [],
+    "httpErrors": [],
+    "hmr": []
+  },
+  {
+    "scenario": "bottomReach",
+    "origin": "127.0.0.98",
+    "viewport": "844x390",
+    "pressed": "true",
+    "rect": {
+      "x": 558,
+      "y": 78,
+      "width": 248,
+      "height": 166
+    },
+    "save": {
+      "version": 11,
+      "companion": 921,
+      "generation": [
+        1
+      ],
+      "status": "EMPTY"
+    },
+    "errors": [],
+    "httpErrors": [],
+    "hmr": []
+  },
+  {
+    "scenario": "export",
+    "origin": "127.0.0.100",
+    "save": {
+      "version": 11,
+      "companion": 133,
+      "generation": [
+        1
+      ],
+      "status": "EMPTY"
+    },
+    "file": "pokefactory-save-20260926-1652.json",
+    "exportVersion": 11,
+    "exportCompanion": 133,
+    "errors": [],
+    "httpErrors": [],
+    "hmr": []
+  },
+  {
+    "scenario": "import",
+    "origin": "127.0.0.101",
+    "before": {
+      "version": 11,
+      "companion": 25,
+      "generation": [
+        1
+      ],
+      "status": "EMPTY"
+    },
+    "after": {
+      "version": 11,
+      "companion": 133,
+      "generation": [
+        1
+      ],
+      "status": "EMPTY"
+    },
+    "text": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：伊布\n商店\n培育\n图鉴\n事件\n设置",
+    "errors": [],
+    "httpErrors": [],
+    "hmr": []
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "origin": "127.0.0.102",
+    "generation": 1,
+    "companion": 921,
+    "errors": [],
+    "httpErrors": [],
+    "hmr": [],
+    "candidates": [
+      "皮卡丘点按选择",
+      "伊布点按选择",
+      "波克比点按选择",
+      "利欧路点按选择",
+      "岩狗狗点按选择",
+      "布拨点按选择"
+    ],
+    "beforeChallenge": {
+      "companion": 921,
+      "selectedGens": [
+        1
+      ]
+    },
+    "rentalCardCount": 6,
+    "rentalNames": [
+      "喵喵",
+      "嘟嘟",
+      "伊布",
+      "独角犀牛",
+      "派拉斯",
+      "尼多朗"
+    ],
+    "ready": {
+      "companion": 921,
+      "selectedGens": [
+        1
+      ],
+      "status": "READY",
+      "phase": "BATTLE",
+      "rentalIds": [
+        52,
+        84,
+        133,
+        111,
+        46,
+        32
+      ],
+      "playerIds": [
+        52,
+        84,
+        133
+      ],
+      "enemyIds": [
+        96,
+        102,
+        2
+      ]
+    },
+    "rentalGenerations": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "enemyGenerations": [
+      1,
+      1,
+      1
+    ]
+  },
+  {
+    "origin": "127.0.0.103",
+    "generation": 9,
+    "companion": 25,
+    "errors": [],
+    "httpErrors": [],
+    "hmr": [],
+    "candidates": [
+      "皮卡丘点按选择",
+      "伊布点按选择",
+      "波克比点按选择",
+      "利欧路点按选择",
+      "岩狗狗点按选择",
+      "布拨点按选择"
+    ],
+    "beforeChallenge": {
+      "companion": 25,
+      "selectedGens": [
+        9
+      ]
+    },
+    "rentalCardCount": 6,
+    "rentalNames": [
+      "爱吃豚",
+      "盐石宝",
+      "一对鼠",
+      "怒鹦哥",
+      "新叶喵",
+      "索财灵"
+    ],
+    "ready": {
+      "companion": 25,
+      "selectedGens": [
+        9
+      ],
+      "status": "READY",
+      "phase": "BATTLE",
+      "rentalIds": [
+        915,
+        932,
+        924,
+        931,
+        906,
+        999
+      ],
+      "playerIds": [
+        915,
+        932,
+        924
+      ],
+      "enemyIds": [
+        948,
+        10262,
+        944
+      ]
+    },
+    "rentalGenerations": [
+      9,
+      9,
+      9,
+      9,
+      9,
+      9
+    ],
+    "enemyGenerations": [
+      9,
+      9,
+      9
+    ]
+  }
+]

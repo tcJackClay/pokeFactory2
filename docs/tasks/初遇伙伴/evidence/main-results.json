@@ -1,0 +1,657 @@
+[
+  {
+    "id": 25,
+    "name": "皮卡丘",
+    "origin": "127.0.0.91",
+    "viewport": "390x844",
+    "initialNames": [
+      "皮卡丘点按选择",
+      "伊布点按选择",
+      "波克比点按选择",
+      "利欧路点按选择",
+      "岩狗狗点按选择",
+      "布拨点按选择"
+    ],
+    "initial": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "initialImages": [
+      {
+        "alt": "皮卡丘",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/25.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "伊布",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/133.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "波克比",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/175.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "利欧路",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/447.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "岩狗狗",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/744.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "布拨",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/921.png",
+        "complete": true,
+        "width": 475
+      }
+    ],
+    "layout": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "bodyScrollWidth": 390
+    },
+    "beforeConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 25,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterReload": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 25,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "baseImages": [
+      {
+        "alt": "",
+        "src": "/src/assets/menu/pikachu-anim-front.png",
+        "complete": true,
+        "width": 64
+      }
+    ],
+    "baseText": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：皮卡丘\n商店\n培育\n图鉴\n事件\n设置",
+    "errors": [],
+    "httpErrors": [],
+    "hmr": []
+  },
+  {
+    "id": 133,
+    "name": "伊布",
+    "origin": "127.0.0.92",
+    "viewport": "320x568",
+    "initialNames": [
+      "皮卡丘点按选择",
+      "伊布点按选择",
+      "波克比点按选择",
+      "利欧路点按选择",
+      "岩狗狗点按选择",
+      "布拨点按选择"
+    ],
+    "initial": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "initialImages": [
+      {
+        "alt": "皮卡丘",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/25.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "伊布",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/133.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "波克比",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/175.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "利欧路",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/447.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "岩狗狗",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/744.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "布拨",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/921.png",
+        "complete": true,
+        "width": 475
+      }
+    ],
+    "layout": {
+      "innerWidth": 320,
+      "scrollWidth": 320,
+      "clientWidth": 320,
+      "bodyScrollWidth": 320
+    },
+    "beforeConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 133,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterReload": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 133,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "baseImages": [],
+    "baseText": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：伊布\n商店\n培育\n图鉴\n事件\n设置",
+    "errors": [],
+    "httpErrors": [],
+    "hmr": []
+  },
+  {
+    "id": 175,
+    "name": "波克比",
+    "origin": "127.0.0.93",
+    "viewport": "844x390",
+    "initialNames": [
+      "皮卡丘点按选择",
+      "伊布点按选择",
+      "波克比点按选择",
+      "利欧路点按选择",
+      "岩狗狗点按选择",
+      "布拨点按选择"
+    ],
+    "initial": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "initialImages": [
+      {
+        "alt": "皮卡丘",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/25.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "伊布",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/133.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "波克比",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/175.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "利欧路",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/447.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "岩狗狗",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/744.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "布拨",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/921.png",
+        "complete": true,
+        "width": 475
+      }
+    ],
+    "layout": {
+      "innerWidth": 844,
+      "scrollWidth": 844,
+      "clientWidth": 844,
+      "bodyScrollWidth": 844
+    },
+    "beforeConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 175,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterReload": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 175,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "baseImages": [],
+    "baseText": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：波克比\n商店\n培育\n图鉴\n事件\n设置",
+    "errors": [],
+    "httpErrors": [],
+    "hmr": []
+  },
+  {
+    "id": 447,
+    "name": "利欧路",
+    "origin": "127.0.0.94",
+    "viewport": "390x844",
+    "initialNames": [
+      "皮卡丘点按选择",
+      "伊布点按选择",
+      "波克比点按选择",
+      "利欧路点按选择",
+      "岩狗狗点按选择",
+      "布拨点按选择"
+    ],
+    "initial": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "initialImages": [
+      {
+        "alt": "皮卡丘",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/25.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "伊布",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/133.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "波克比",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/175.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "利欧路",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/447.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "岩狗狗",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/744.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "布拨",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/921.png",
+        "complete": true,
+        "width": 475
+      }
+    ],
+    "layout": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "bodyScrollWidth": 390
+    },
+    "selectChanges": [
+      {
+        "name": "皮卡丘",
+        "pressed": [
+          "true",
+          "false",
+          "false",
+          "false",
+          "false",
+          "false"
+        ],
+        "save": {
+          "schemaVersion": 11,
+          "companionSpeciesId": null,
+          "selectedGens": [
+            1
+          ],
+          "battleStatus": "EMPTY"
+        }
+      },
+      {
+        "name": "伊布",
+        "pressed": [
+          "false",
+          "true",
+          "false",
+          "false",
+          "false",
+          "false"
+        ],
+        "save": {
+          "schemaVersion": 11,
+          "companionSpeciesId": null,
+          "selectedGens": [
+            1
+          ],
+          "battleStatus": "EMPTY"
+        }
+      },
+      {
+        "name": "波克比",
+        "pressed": [
+          "false",
+          "false",
+          "true",
+          "false",
+          "false",
+          "false"
+        ],
+        "save": {
+          "schemaVersion": 11,
+          "companionSpeciesId": null,
+          "selectedGens": [
+            1
+          ],
+          "battleStatus": "EMPTY"
+        }
+      },
+      {
+        "name": "利欧路",
+        "pressed": [
+          "false",
+          "false",
+          "false",
+          "true",
+          "false",
+          "false"
+        ],
+        "save": {
+          "schemaVersion": 11,
+          "companionSpeciesId": null,
+          "selectedGens": [
+            1
+          ],
+          "battleStatus": "EMPTY"
+        }
+      }
+    ],
+    "beforeConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 447,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterReload": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 447,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "baseImages": [],
+    "baseText": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：利欧路\n商店\n培育\n图鉴\n事件\n设置",
+    "errors": [],
+    "httpErrors": [],
+    "hmr": []
+  },
+  {
+    "id": 744,
+    "name": "岩狗狗",
+    "origin": "127.0.0.95",
+    "viewport": "390x844",
+    "initialNames": [
+      "皮卡丘点按选择",
+      "伊布点按选择",
+      "波克比点按选择",
+      "利欧路点按选择",
+      "岩狗狗点按选择",
+      "布拨点按选择"
+    ],
+    "initial": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "initialImages": [
+      {
+        "alt": "皮卡丘",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/25.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "伊布",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/133.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "波克比",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/175.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "利欧路",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/447.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "岩狗狗",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/744.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "布拨",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/921.png",
+        "complete": true,
+        "width": 475
+      }
+    ],
+    "layout": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "bodyScrollWidth": 390
+    },
+    "beforeConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 744,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterReload": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 744,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "baseImages": [],
+    "baseText": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：岩狗狗\n商店\n培育\n图鉴\n事件\n设置",
+    "errors": [],
+    "httpErrors": [],
+    "hmr": []
+  },
+  {
+    "id": 921,
+    "name": "布拨",
+    "origin": "127.0.0.96",
+    "viewport": "390x844",
+    "initialNames": [
+      "皮卡丘点按选择",
+      "伊布点按选择",
+      "波克比点按选择",
+      "利欧路点按选择",
+      "岩狗狗点按选择",
+      "布拨点按选择"
+    ],
+    "initial": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "initialImages": [
+      {
+        "alt": "皮卡丘",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/25.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "伊布",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/133.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "波克比",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/175.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "利欧路",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/447.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "岩狗狗",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/744.png",
+        "complete": true,
+        "width": 475
+      },
+      {
+        "alt": "布拨",
+        "src": "/api/pokeapi-sprites/pokemon/other/official-artwork/921.png",
+        "complete": true,
+        "width": 475
+      }
+    ],
+    "layout": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "bodyScrollWidth": 390
+    },
+    "beforeConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": null,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterConfirm": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 921,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "afterReload": {
+      "schemaVersion": 11,
+      "companionSpeciesId": 921,
+      "selectedGens": [
+        1
+      ],
+      "battleStatus": "EMPTY"
+    },
+    "baseImages": [],
+    "baseText": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：布拨\n商店\n培育\n图鉴\n事件\n设置",
+    "errors": [],
+    "httpErrors": [],
+    "hmr": []
+  }
+]

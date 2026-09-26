@@ -1,0 +1,68 @@
+[
+  {
+    "scenario": "writeFailure",
+    "origin": "127.0.0.104",
+    "before": null,
+    "afterFailure": null,
+    "selectedStill": "true",
+    "failureText": "保存失败，选择尚未绑定。请重试。",
+    "afterRetry": 744,
+    "pageErrors": [],
+    "httpErrors": [],
+    "consoleErrors": [
+      "Companion selection could not be saved Error: Injected one save write failure\n    at Storage.setItem (eval at evaluate (:311:30), <anonymous>:1:208)\n    at persistSaveData (http://127.0.0.104:4300/src/services/saveManager.ts?t=1790412292596:543:23)\n    at bindCompanionToSave (http://127.0.0.104:4300/src/services/saveManager.ts?t=1790412292596:566:3)\n    at http://127.0.0.104:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790412292596:818:7\n    at onClick (http://127.0.0.104:4300/src/features/game/components/game-view/CompanionSelectScreen.tsx:118:45)\n    at executeDispatch (http://127.0.0.104:4300/node_modules/.vite/deps/react-dom_client.js?v=355bed97:13620:11)\n    at runWithFiberInDEV (http://127.0.0.104:4300/node_modules/.vite/deps/react-dom_client.js?v=355bed97:995:72)\n    at processDispatchQueue (http://127.0.0.104:4300/node_modules/.vite/deps/react-dom_client.js?v=355bed97:13656:37)\n    at http://127.0.0.104:4300/node_modules/.vite/deps/react-dom_client.js?v=355bed97:14069:11\n    at batchedUpdates$1 (http://127.0.0.104:4300/node_modules/.vite/deps/react-dom_client.js?v=355bed97:2624:42)"
+    ]
+  },
+  {
+    "scenario": "old_v10",
+    "origin": "127.0.0.105",
+    "heading": "旧版本存档不兼容 / Older save is incompatible",
+    "rawPreserved": true,
+    "downloadExact": true,
+    "saveLength": 1689,
+    "pageErrors": [],
+    "httpErrors": [],
+    "consoleErrors": [
+      "Save on page exit failed Error: Stored save requires backup or removal before writing.\n    at persistSaveData (http://127.0.0.105:4300/src/services/saveManager.ts?t=1790412292596:532:44)\n    at persistCurrentState (http://127.0.0.105:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790412292596:795:9)"
+    ]
+  },
+  {
+    "scenario": "v11_missing",
+    "origin": "127.0.0.106",
+    "heading": "存档无法读取 / Save cannot be read",
+    "rawPreserved": true,
+    "downloadExact": true,
+    "saveLength": 1689,
+    "pageErrors": [],
+    "httpErrors": [],
+    "consoleErrors": [
+      "Save on page exit failed Error: Stored save requires backup or removal before writing.\n    at persistSaveData (http://127.0.0.106:4300/src/services/saveManager.ts?t=1790412292596:532:44)\n    at persistCurrentState (http://127.0.0.106:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790412292596:795:9)"
+    ]
+  },
+  {
+    "scenario": "v11_invalid",
+    "origin": "127.0.0.107",
+    "heading": "存档无法读取 / Save cannot be read",
+    "rawPreserved": true,
+    "downloadExact": true,
+    "saveLength": 1714,
+    "pageErrors": [],
+    "httpErrors": [],
+    "consoleErrors": [
+      "Save on page exit failed Error: Stored save requires backup or removal before writing.\n    at persistSaveData (http://127.0.0.107:4300/src/services/saveManager.ts?t=1790412292596:532:44)\n    at persistCurrentState (http://127.0.0.107:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790412292596:795:9)"
+    ]
+  },
+  {
+    "scenario": "v11_wrong_type",
+    "origin": "127.0.0.108",
+    "heading": "存档无法读取 / Save cannot be read",
+    "rawPreserved": true,
+    "downloadExact": true,
+    "saveLength": 1715,
+    "pageErrors": [],
+    "httpErrors": [],
+    "consoleErrors": [
+      "Save on page exit failed Error: Stored save requires backup or removal before writing.\n    at persistSaveData (http://127.0.0.108:4300/src/services/saveManager.ts?t=1790412292596:532:44)\n    at persistCurrentState (http://127.0.0.108:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790412292596:795:9)"
+    ]
+  }
+]
