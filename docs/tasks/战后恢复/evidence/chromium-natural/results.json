@@ -1,0 +1,570 @@
+{
+  "commit": "fe4e891",
+  "origin": "127.0.0.158",
+  "steps": [
+    {
+      "name": "rentals-390",
+      "state": {
+        "schema": 13,
+        "body": "0\nBP\n0/7\n轮次\n0\n连胜\n龙\n迷你龙\n毒\n飞行\n超音蝠\n岩石\n地面\n小拳石\n格斗\n腕力\n虫\n毒\n毛球\n草\n毒\n妙蛙种子\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)\nDEV",
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390
+        }
+      }
+    },
+    {
+      "name": "stage1-ready-390",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 66,
+            "name": "machop",
+            "hp": 132,
+            "maxHp": 132,
+            "held": "white_herb",
+            "original": "white_herb",
+            "moves": [
+              {
+                "id": "rock-slide",
+                "pp": 10
+              },
+              {
+                "id": "snore",
+                "pp": 15
+              },
+              {
+                "id": "mimic",
+                "pp": 10
+              },
+              {
+                "id": "karate-chop",
+                "pp": 25
+              }
+            ]
+          },
+          {
+            "id": 147,
+            "name": "dratini",
+            "hp": 101,
+            "maxHp": 101,
+            "held": "leftovers",
+            "original": "leftovers",
+            "moves": [
+              {
+                "id": "dragon-dance",
+                "pp": 20
+              },
+              {
+                "id": "swift",
+                "pp": 20
+              },
+              {
+                "id": "headbutt",
+                "pp": 15
+              },
+              {
+                "id": "iron-tail",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 41,
+            "name": "zubat",
+            "hp": 101,
+            "maxHp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "moves": [
+              {
+                "id": "heat-wave",
+                "pp": 10
+              },
+              {
+                "id": "substitute",
+                "pp": 10
+              },
+              {
+                "id": "confuse-ray",
+                "pp": 10
+              },
+              {
+                "id": "double-team",
+                "pp": 15
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "maxHp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "moves": [
+              {
+                "id": "bubble-beam",
+                "pp": 20
+              },
+              {
+                "id": "minimize",
+                "pp": 10
+              },
+              {
+                "id": "swift",
+                "pp": 20
+              },
+              {
+                "id": "light-screen",
+                "pp": 30
+              }
+            ]
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "hp": 101,
+            "maxHp": 101,
+            "held": "pecha-berry",
+            "original": "pecha-berry",
+            "moves": [
+              {
+                "id": "bubble-beam",
+                "pp": 20
+              },
+              {
+                "id": "acid",
+                "pp": 30
+              },
+              {
+                "id": "barrier",
+                "pp": 20
+              },
+              {
+                "id": "wrap",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91,
+            "held": "focus-band",
+            "original": "focus-band",
+            "moves": [
+              {
+                "id": "crabhammer",
+                "pp": 10
+              },
+              {
+                "id": "mud-shot",
+                "pp": 15
+              },
+              {
+                "id": "flail",
+                "pp": 15
+              },
+              {
+                "id": "knock-off",
+                "pp": 20
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n海星星\n◇\nLV.50\n水\nHP\n100%\n腕力\n♂\nLV.50\n格斗\nHP\n132/132\n战斗日志\nFCT-01\n\n对手 派出了 海星星！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n岩崩\n岩石\n威力 75\n命中 90\nPP 10/10\n打鼾\n一般\n威力 50\n命中 100\nPP 15/15\n模仿\n一般\n威力 --\n命中 --\nPP 10/10\n空手劈\n格斗\n威力 50\n命中 100\nPP 25/25\nDEV",
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390
+        }
+      }
+    },
+    {
+      "name": "stage1-ready-320",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 66,
+            "name": "machop",
+            "hp": 132,
+            "maxHp": 132,
+            "held": "white_herb",
+            "original": "white_herb",
+            "moves": [
+              {
+                "id": "rock-slide",
+                "pp": 10
+              },
+              {
+                "id": "snore",
+                "pp": 15
+              },
+              {
+                "id": "mimic",
+                "pp": 10
+              },
+              {
+                "id": "karate-chop",
+                "pp": 25
+              }
+            ]
+          },
+          {
+            "id": 147,
+            "name": "dratini",
+            "hp": 101,
+            "maxHp": 101,
+            "held": "leftovers",
+            "original": "leftovers",
+            "moves": [
+              {
+                "id": "dragon-dance",
+                "pp": 20
+              },
+              {
+                "id": "swift",
+                "pp": 20
+              },
+              {
+                "id": "headbutt",
+                "pp": 15
+              },
+              {
+                "id": "iron-tail",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 41,
+            "name": "zubat",
+            "hp": 101,
+            "maxHp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "moves": [
+              {
+                "id": "heat-wave",
+                "pp": 10
+              },
+              {
+                "id": "substitute",
+                "pp": 10
+              },
+              {
+                "id": "confuse-ray",
+                "pp": 10
+              },
+              {
+                "id": "double-team",
+                "pp": 15
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "maxHp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "moves": [
+              {
+                "id": "bubble-beam",
+                "pp": 20
+              },
+              {
+                "id": "minimize",
+                "pp": 10
+              },
+              {
+                "id": "swift",
+                "pp": 20
+              },
+              {
+                "id": "light-screen",
+                "pp": 30
+              }
+            ]
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "hp": 101,
+            "maxHp": 101,
+            "held": "pecha-berry",
+            "original": "pecha-berry",
+            "moves": [
+              {
+                "id": "bubble-beam",
+                "pp": 20
+              },
+              {
+                "id": "acid",
+                "pp": 30
+              },
+              {
+                "id": "barrier",
+                "pp": 20
+              },
+              {
+                "id": "wrap",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91,
+            "held": "focus-band",
+            "original": "focus-band",
+            "moves": [
+              {
+                "id": "crabhammer",
+                "pp": 10
+              },
+              {
+                "id": "mud-shot",
+                "pp": 15
+              },
+              {
+                "id": "flail",
+                "pp": 15
+              },
+              {
+                "id": "knock-off",
+                "pp": 20
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n海星星\n◇\nLV.50\n水\nHP\n100%\n腕力\n♂\nLV.50\n格斗\nHP\n132/132\n战斗日志\nFCT-01\n\n对手 派出了 海星星！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n岩崩\n威力 75\n命中 90\nPP 10/10\n打鼾\n威力 50\n命中 100\nPP 15/15\n模仿\n威力 --\n命中 --\nPP 10/10\n空手劈\n威力 50\n命中 100\nPP 25/25\nDEV",
+        "viewport": {
+          "width": 320,
+          "height": 568,
+          "scrollWidth": 320
+        }
+      }
+    },
+    {
+      "name": "after-one-real-move",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "player": [
+          {
+            "id": 66,
+            "name": "machop",
+            "hp": 132,
+            "maxHp": 132,
+            "held": "white_herb",
+            "original": "white_herb",
+            "moves": [
+              {
+                "id": "rock-slide",
+                "pp": 10
+              },
+              {
+                "id": "snore",
+                "pp": 15
+              },
+              {
+                "id": "mimic",
+                "pp": 10
+              },
+              {
+                "id": "karate-chop",
+                "pp": 25
+              }
+            ]
+          },
+          {
+            "id": 147,
+            "name": "dratini",
+            "hp": 101,
+            "maxHp": 101,
+            "held": "leftovers",
+            "original": "leftovers",
+            "moves": [
+              {
+                "id": "dragon-dance",
+                "pp": 20
+              },
+              {
+                "id": "swift",
+                "pp": 20
+              },
+              {
+                "id": "headbutt",
+                "pp": 15
+              },
+              {
+                "id": "iron-tail",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 41,
+            "name": "zubat",
+            "hp": 101,
+            "maxHp": 101,
+            "held": "choice_band",
+            "original": "choice_band",
+            "moves": [
+              {
+                "id": "heat-wave",
+                "pp": 10
+              },
+              {
+                "id": "substitute",
+                "pp": 10
+              },
+              {
+                "id": "confuse-ray",
+                "pp": 10
+              },
+              {
+                "id": "double-team",
+                "pp": 15
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 120,
+            "name": "staryu",
+            "hp": 91,
+            "maxHp": 91,
+            "held": "shell-bell",
+            "original": "shell-bell",
+            "moves": [
+              {
+                "id": "bubble-beam",
+                "pp": 20
+              },
+              {
+                "id": "minimize",
+                "pp": 10
+              },
+              {
+                "id": "swift",
+                "pp": 20
+              },
+              {
+                "id": "light-screen",
+                "pp": 30
+              }
+            ]
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "hp": 101,
+            "maxHp": 101,
+            "held": "pecha-berry",
+            "original": "pecha-berry",
+            "moves": [
+              {
+                "id": "bubble-beam",
+                "pp": 20
+              },
+              {
+                "id": "acid",
+                "pp": 30
+              },
+              {
+                "id": "barrier",
+                "pp": 20
+              },
+              {
+                "id": "wrap",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 98,
+            "name": "krabby",
+            "hp": 91,
+            "maxHp": 91,
+            "held": "focus-band",
+            "original": "focus-band",
+            "moves": [
+              {
+                "id": "crabhammer",
+                "pp": 10
+              },
+              {
+                "id": "mud-shot",
+                "pp": 15
+              },
+              {
+                "id": "flail",
+                "pp": 15
+              },
+              {
+                "id": "knock-off",
+                "pp": 20
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n海星星\n◇\nLV.50\n水\nHP\n100%\n腕力\n♂\nLV.50\n格斗\nHP\n132/132\n战斗日志\nFCT-01\n\n海星星一方架起了光墙！\n\n腕力 使用了 岩崩！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n岩崩\n岩石\n威力 75\n命中 90\nPP 10/10\n打鼾\n一般\n威力 50\n命中 100\nPP 15/15\n模仿\n一般\n威力 --\n命中 --\nPP 10/10\n空手劈\n格斗\n威力 50\n命中 100\nPP 25/25\nDEV",
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "apiErrors": [],
+  "mode": "Playwright Chromium mobile simulation",
+  "consumableTarget": {
+    "id": 66,
+    "name": "machop",
+    "hp": 132,
+    "maxHp": 132,
+    "held": "white_herb",
+    "original": "white_herb",
+    "moves": [
+      {
+        "id": "rock-slide",
+        "pp": 10
+      },
+      {
+        "id": "snore",
+        "pp": 15
+      },
+      {
+        "id": "mimic",
+        "pp": 10
+      },
+      {
+        "id": "karate-chop",
+        "pp": 25
+      }
+    ]
+  },
+  "triggerMove": null
+}
