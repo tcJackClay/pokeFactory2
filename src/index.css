@@ -1239,13 +1239,13 @@ button {
   }
 
   .pf-battle-move-button {
-    min-height: 64px !important;
+    min-height: 78px !important;
     border-radius: 10px !important;
     padding: 0.35rem !important;
   }
 
   .pf-battle-move-main {
-    min-height: 28px !important;
+    min-height: 40px !important;
     grid-template-columns: minmax(0, 1fr) 18px !important;
   }
 
@@ -1255,7 +1255,9 @@ button {
   }
 
   .pf-battle-move-type {
-    display: none;
+    display: block;
+    height: 18px;
+    transform: none;
   }
 
   .pf-battle-move-meta {
