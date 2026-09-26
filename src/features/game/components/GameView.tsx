@@ -116,6 +116,7 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
     streak,
     hasFactoryRunToResume,
     companionSpeciesId,
+    opponentLoadError,
   } = viewModel;
   const shouldReduceMotion = useReducedMotion();
   const [storedSave] = useState(inspectStoredSave);
@@ -244,6 +245,14 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
               battleIndexOverride={battleIndexOverride}
             />
           </div>
+        )}
+
+        {opponentLoadError && ['FACTORY_SELECT', 'FACTORY_SWAP', 'ROUND_RESULT', 'REWARD', 'BASE'].includes(gameState) && (
+          <p role="alert" className="mx-2 mb-2 rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-900">
+            {currentLanguage.startsWith('zh')
+              ? '对手队伍暂时无法生成。当前进度已保留，请再次点击继续。'
+              : 'The opponent team could not be prepared. Your progress is saved; tap Continue to retry.'}
+          </p>
         )}
 
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden">

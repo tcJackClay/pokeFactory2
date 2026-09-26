@@ -40,6 +40,7 @@ export interface GameViewFlowState {
   pendingRewardAction: RewardAction;
   loading: boolean;
   rentalLoadError: string | null;
+  opponentLoadError: boolean;
   bootProgress: number;
   canEnterProject: boolean;
   bootStatusText: string;
