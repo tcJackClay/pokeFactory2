@@ -1,0 +1,105 @@
+{
+  "origin": "http://127.0.0.60:4300",
+  "errors": [],
+  "httpErrors": [],
+  "steps": [
+    {
+      "name": "390x844",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "battleMenuTab": "MAIN",
+        "playerLead": {
+          "id": 50,
+          "name": "diglett",
+          "hp": 71,
+          "maxHp": 71
+        },
+        "enemyLead": {
+          "id": 98,
+          "name": "krabby",
+          "hp": 91,
+          "maxHp": 91
+        },
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n大钳蟹\n♀\nLV.50\n水\nHP\n100%\n地鼠\n♂\nLV.50\n地面\nHP\n71/71\n战斗日志\nFCT-01\n\n对手 派出了 大钳蟹！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n猛撞\n一般\n威力 90\n命中 85\nPP 20/20\n睡觉\n超能\n威力 --\n命中 --\nPP 5/5\n泥巴炸弹\n地面\n威力 65\n命中 85\nPP 10/10\n地狱突刺\n恶\n威力 80\n命中 100\nPP 15/15",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "844x390",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "battleMenuTab": "MAIN",
+        "playerLead": {
+          "id": 50,
+          "name": "diglett",
+          "hp": 71,
+          "maxHp": 71
+        },
+        "enemyLead": {
+          "id": 98,
+          "name": "krabby",
+          "hp": 91,
+          "maxHp": 91
+        },
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n大钳蟹\n♀\nLV.50\n水\nHP\n100%\n地鼠\n♂\nLV.50\n地面\nHP\n71/71\n战斗日志\nFCT-01\n\n对手 派出了 大钳蟹！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n猛撞\n一般\n威力 90\n命中 85\nPP 20/20\n睡觉\n超能\n威力 --\n命中 --\nPP 5/5\n泥巴炸弹\n地面\n威力 65\n命中 85\nPP 10/10\n地狱突刺\n恶\n威力 80\n命中 100\nPP 15/15",
+        "viewport": [
+          844,
+          390
+        ],
+        "scrollWidth": 844
+      }
+    },
+    {
+      "name": "320x568",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "battleMenuTab": "MAIN",
+        "playerLead": {
+          "id": 50,
+          "name": "diglett",
+          "hp": 71,
+          "maxHp": 71
+        },
+        "enemyLead": {
+          "id": 98,
+          "name": "krabby",
+          "hp": 91,
+          "maxHp": 91
+        },
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n大钳蟹\n♀\nLV.50\n水\nHP\n100%\n地鼠\n♂\nLV.50\n地面\nHP\n71/71\n战斗日志\nFCT-01\n\n对手 派出了 大钳蟹！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n猛撞\n一般\n威力 90\n命中 85\nPP 20/20\n睡觉\n超能\n威力 --\n命中 --\nPP 5/5\n泥巴炸弹\n地面\n威力 65\n命中 85\nPP 10/10\n地狱突刺\n恶\n威力 80\n命中 100\nPP 15/15",
+        "viewport": [
+          320,
+          568
+        ],
+        "scrollWidth": 320
+      }
+    }
+  ],
+  "baseSaveBytes": 3662602,
+  "fixture": {
+    "playerIds": [
+      50,
+      66,
+      4
+    ],
+    "enemyIds": [
+      98,
+      61,
+      140
+    ],
+    "stage": 1
+  }
+}

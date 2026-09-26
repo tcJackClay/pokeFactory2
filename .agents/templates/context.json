@@ -1,0 +1,19 @@
+{
+  "_comment": "architect 拥有。列出下游各角色应读的文件。all 段注入给 programmer/auditor/player 全部；各角色段额外补充。",
+  "inject_config": {
+    "all": [
+      { "file": "docs/tasks/<task>/prd.md", "reason": "产品契约" },
+      { "file": "docs/tasks/<task>/plan.md", "reason": "技术方案" }
+    ],
+    "programmer": [
+      { "file": "docs/公开版规则定稿.md", "reason": "现行规则，改行为前对齐" }
+    ],
+    "auditor": [
+      { "file": "docs/公开版需求矩阵.md", "reason": "验收条件与证据等级口径" }
+    ],
+    "player": [
+      { "file": "docs/tasks/单线工厂奖励/run-toxic-spikes-browser.mjs", "reason": "既有隔离 Playwright 脚本范式" },
+      { "file": "docs/手机端试玩验收记录.md", "reason": "视口矩阵与记录格式" }
+    ]
+  }
+}

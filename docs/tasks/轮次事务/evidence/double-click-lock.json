@@ -1,0 +1,90 @@
+{
+  "task": "double-click-lock",
+  "note": "两次爆点合计 13 次真实 click 事件，只产生 1 轮；门闩为同步，不依赖异步 UI busy",
+  "origin": "http://127.0.0.66:4300",
+  "failure": null,
+  "runs": [
+    {
+      "kind": "sync-burst-8",
+      "burst": {
+        "dispatched": 8,
+        "enabledAtBurst": "true"
+      },
+      "before": {
+        "logLen": 0,
+        "playerPp": [
+          "tackle:20",
+          "splash:20"
+        ],
+        "enemyPp": [
+          "tackle:20",
+          "scratch:20",
+          "pound:20",
+          "headbutt:20"
+        ],
+        "playerHp": 300
+      }
+    },
+    {
+      "kind": "sync-burst-8-result",
+      "logDelta": 4,
+      "newLog": [
+        "对手的 大钳蟹 使用了 头锤！",
+        "对手的 大钳蟹 造成了 13 点伤害。",
+        "地鼠 使用了 撞击！",
+        "地鼠 造成了 16 点伤害。"
+      ],
+      "enemyActionLines": 1,
+      "playerActionLines": 1,
+      "after": {
+        "playerPp": [
+          "tackle:19",
+          "splash:20"
+        ],
+        "enemyPp": [
+          "tackle:20",
+          "scratch:20",
+          "pound:20",
+          "headbutt:19"
+        ],
+        "playerHp": 287
+      }
+    },
+    {
+      "kind": "spaced-burst-5-result",
+      "spaced": {
+        "fired": 5,
+        "stamps": [
+          11650,
+          11765,
+          11863,
+          11875,
+          11910
+        ],
+        "enabledNow": "false"
+      },
+      "logDelta": 4,
+      "newLog": [
+        "对手的 大钳蟹 使用了 头锤！",
+        "对手的 大钳蟹 造成了 16 点伤害。",
+        "地鼠 使用了 撞击！",
+        "地鼠 造成了 14 点伤害。"
+      ],
+      "enemyActionLines": 1,
+      "playerActionLines": 1,
+      "after": {
+        "playerPp": [
+          "tackle:18",
+          "splash:20"
+        ],
+        "enemyPp": [
+          "tackle:20",
+          "scratch:20",
+          "pound:20",
+          "headbutt:18"
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

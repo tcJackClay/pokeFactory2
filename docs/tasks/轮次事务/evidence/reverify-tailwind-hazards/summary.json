@@ -1,0 +1,131 @@
+{
+  "task": "reverify-tailwind-hazards",
+  "note": "旧样本（修复前取得）作废，本样本为 codex/round-transaction 未提交改动上的新样本",
+  "tailwind": {
+    "orders": [
+      [
+        "ENEMY",
+        "PLAYER"
+      ],
+      [
+        "PLAYER",
+        "ENEMY"
+      ],
+      [
+        "PLAYER",
+        "ENEMY"
+      ],
+      [
+        "PLAYER",
+        "ENEMY"
+      ]
+    ],
+    "tailwindPlayer": [
+      "0->3",
+      "3->2",
+      "2->1",
+      "1->0"
+    ],
+    "perRoundActions": [
+      {
+        "enemy": 1,
+        "player": 1
+      },
+      {
+        "enemy": 1,
+        "player": 1
+      },
+      {
+        "enemy": 1,
+        "player": 1
+      },
+      {
+        "enemy": 1,
+        "player": 1
+      }
+    ]
+  },
+  "toxicSpikes": [
+    {
+      "round": 1,
+      "layers": "0->1",
+      "enemyActions": 1,
+      "playerActions": 1,
+      "enemyLayLines": 2,
+      "enemyPp": [
+        "toxic-spikes:19"
+      ],
+      "log": [
+        "对手的 大钳蟹 使用了 毒菱！",
+        "对手大钳蟹在对手一方撒下了毒菱！",
+        "地鼠 使用了 跃起！"
+      ]
+    },
+    {
+      "round": 2,
+      "layers": "1->2",
+      "enemyActions": 1,
+      "playerActions": 1,
+      "enemyLayLines": 2,
+      "enemyPp": [
+        "toxic-spikes:18"
+      ],
+      "log": [
+        "对手的 大钳蟹 使用了 毒菱！",
+        "对手大钳蟹在对手一方撒下了毒菱！",
+        "地鼠 使用了 跃起！"
+      ]
+    },
+    {
+      "round": 3,
+      "layers": "2->2",
+      "enemyActions": 1,
+      "playerActions": 1,
+      "enemyLayLines": 1,
+      "enemyPp": [
+        "toxic-spikes:17"
+      ],
+      "log": [
+        "对手的 大钳蟹 使用了 毒菱！",
+        "但是失败了！",
+        "地鼠 使用了 跃起！"
+      ]
+    }
+  ],
+  "stealthRockChain": {
+    "log": [
+      "你收回了 地鼠！",
+      "你派出了 腕力！",
+      "腕力受到了隐形岩的伤害！",
+      "腕力 倒下了！",
+      "你派出了 小火龙！",
+      "小火龙受到了隐形岩的伤害！",
+      "小火龙 倒下了！",
+      "你派出了 地鼠！",
+      "地鼠受到了隐形岩的伤害！",
+      "对手的 大钳蟹 使用了 撞击！",
+      "对手的 大钳蟹 造成了 13 点伤害。"
+    ],
+    "enemyActions": 1,
+    "playerActions": 0,
+    "stealthRockLines": 3,
+    "faintLines": 2,
+    "finalPlayer": [
+      {
+        "id": 50,
+        "hp": 250,
+        "maxHp": 300
+      },
+      {
+        "id": 4,
+        "hp": 0,
+        "maxHp": 102
+      },
+      {
+        "id": 66,
+        "hp": 0,
+        "maxHp": 132
+      }
+    ]
+  }
+}

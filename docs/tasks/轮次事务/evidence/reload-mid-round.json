@@ -1,0 +1,62 @@
+{
+  "task": "reload-mid-round",
+  "note": "事务进行中 reload；刷新前 localStorage 稳定检查点仍为回合前状态；刷新后恢复到完整回合（PP/HP/日志与回合前一致，命令区重新可用）",
+  "origin": "http://127.0.0.67:4300",
+  "failure": null,
+  "observations": {
+    "midRound": {
+      "panelEnabled": "false",
+      "domPlayerHp": "300/300",
+      "domLines": [
+        "对手的 大钳蟹 使用了 拍击！"
+      ],
+      "stableLogLen": 0,
+      "stablePlayerPp": [
+        "tackle:20",
+        "splash:20"
+      ],
+      "stablePlayerHp": 300
+    },
+    "preRound": {
+      "logLen": 0,
+      "playerPp": [
+        "tackle:20",
+        "splash:20"
+      ],
+      "enemyPp": [
+        "tackle:20",
+        "scratch:20",
+        "pound:20",
+        "headbutt:20"
+      ],
+      "playerHp": 300,
+      "enemyHp": 300,
+      "turn": "PLAYER",
+      "panelEnabled": "true"
+    },
+    "postReload": {
+      "logLen": 0,
+      "playerPp": [
+        "tackle:20",
+        "splash:20"
+      ],
+      "enemyPp": [
+        "tackle:20",
+        "scratch:20",
+        "pound:20",
+        "headbutt:20"
+      ],
+      "playerHp": 300,
+      "enemyHp": 300,
+      "turn": "PLAYER",
+      "panelEnabled": "true"
+    },
+    "verdict": {
+      "ppRestored": true,
+      "hpRestored": true,
+      "logRestored": true,
+      "enemyHpRestored": true
+    }
+  },
+  "errors": []
+}

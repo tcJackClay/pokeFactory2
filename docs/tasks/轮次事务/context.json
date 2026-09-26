@@ -1,0 +1,37 @@
+{
+  "_comment": "architect 拥有。列出下游各角色应读的文件。all 段注入给 programmer/auditor/player 全部；各角色段额外补充。",
+  "inject_config": {
+    "all": [
+      { "file": "docs/tasks/轮次事务/prd.md", "reason": "产品契约：轮次语义、终态与边界情况" },
+      { "file": "docs/tasks/轮次事务/plan.md", "reason": "技术方案：事务数据结构、状态契约、验证计划、当前实现进度与收尾清单" },
+      { "file": "docs/tasks/单线工厂奖励/round-transaction-plan.md", "reason": "前序技术计划与其已核实的失效链（ENEMY→PLAYER→ENEMY 二动、回合末提前结算）" },
+      { "file": "docs/tasks/单线工厂奖励/toxic-spikes-boundaries-runtime.md", "reason": "实测失效样本：敌方一次行动重复铺层；旧样本修复前取得须作废" }
+    ],
+    "programmer": [
+      { "file": "docs/公开版规则定稿.md", "reason": "现行规则与证据口径，改行为前对齐" },
+      { "file": "src/features/game/hooks/useBattleController.ts", "reason": "主改动面：handleAttack、runEnemyAutoAction、commitRoundEndTurn、runSimplePlayerRound、补位等待" },
+      { "file": "src/features/game/battle/engine/roundTransaction.ts", "reason": "本轮新增轮次事务状态机（阶段迁移纯函数 + 驱动循环）" },
+      { "file": "src/features/game/battle/engine/roundTransaction.test.ts", "reason": "既有状态转移测试，收尾时补齐 END_TURN 补位/幂等/非法相位用例" },
+      { "file": "src/features/game/hooks/presentEndTurnResolution.ts", "reason": "回合末提交与濒死续接的既有实现，继承不改" },
+      { "file": "src/features/game/battle/engine/resolveEndTurn.ts", "reason": "天气/残余伤害/计时结算纯逻辑，事务只负责恰好调用一次" },
+      { "file": "src/features/game/battle/engine/resolveActionSelection.ts", "reason": "先后手与先制之爪顺序判定，顺序只在轮次开始决定一次" },
+      { "file": "src/features/game/hooks/usePokeFactoryGame.ts", "reason": "roundTransactionActive 接线与稳定回合快照守卫 buildStableFactoryBattleResume" },
+      { "file": "src/features/game/view-model/state.ts", "reason": "GameViewBattleState.roundTransactionActive 字段定义" },
+      { "file": "src/features/game/hooks/enemyActionGate.ts", "reason": "已无引用的死代码，收尾清单第 5 项需裁定删除或说明" }
+    ],
+    "auditor": [
+      { "file": "docs/公开版需求矩阵.md", "reason": "验收条件与证据等级口径（静态/模拟实玩/受控注入不可互替）" },
+      { "file": "AGENTS.md", "reason": "静态门禁命令与证据纪律" },
+      { "file": "docs/tasks/单线工厂奖励/snow-tailwind-browser-runtime.md", "reason": "顺风/雪景旧样本：敌方先手双动与回合末竞态修复后须复测" },
+      { "file": "docs/tasks/单线工厂奖励/stealth-rock-runtime.md", "reason": "隐形岩连续入场倒下旧样本：修复后须重验" }
+    ],
+    "player": [
+      { "file": "docs/tasks/单线工厂奖励/run-toxic-spikes-boundaries-browser.mjs", "reason": "既有隔离 Playwright 脚本范式，重验毒菱一次真实施放与飞行免疫" },
+      { "file": "docs/tasks/单线工厂奖励/run-stealth-rock-browser.mjs", "reason": "隐形岩/入场陷阱连续补位脚本范式" },
+      { "file": "docs/tasks/单线工厂奖励/run-endturn-faint-browser.mjs", "reason": "回合末濒死续接脚本范式，重验回合末恰好结算一次" },
+      { "file": "docs/tasks/单线工厂奖励/run-snow-tailwind-browser.mjs", "reason": "顺风/雪景计时脚本范式，重验回合末计时恰好递减一次" },
+      { "file": "docs/手机端试玩验收记录.md", "reason": "视口矩阵（390×844 / 844×390）与记录格式" },
+      { "file": "docs/tasks/单线工厂奖励/toxic-spikes-boundaries-runtime.md", "reason": "旧失效样本；修复前的截图/状态不得升级为通过" }
+    ]
+  }
+}

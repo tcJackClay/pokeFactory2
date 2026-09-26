@@ -1,0 +1,380 @@
+{
+  "task": "endturn-timers-once",
+  "note": "敌方先手回合（含戏法空间先手）：天气/中毒/烧伤/顺风/戏法空间计时只在回合末 -1；玩家行动前未递减",
+  "cases": {
+    "enemy-first-timers": {
+      "fixture": {
+        "variant": "enemy-first-timers",
+        "playerSpeed": 1,
+        "enemySpeed": 500,
+        "weather": "sandstorm",
+        "weatherTurns": 5,
+        "tailwindTurns": {
+          "player": 4,
+          "enemy": 4
+        },
+        "fieldState": [],
+        "fieldTurns": {},
+        "playerStatus": {
+          "id": "poison"
+        }
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "timersBefore": {
+            "weatherTurns": 5,
+            "tailwindTurns": {
+              "player": 4,
+              "enemy": 4
+            },
+            "fieldTurns": {}
+          },
+          "timersAfter": {
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 3
+            },
+            "fieldTurns": {}
+          },
+          "playerHp": [
+            300,
+            229
+          ],
+          "enemyHp": [
+            300,
+            274
+          ],
+          "settleLines": [
+            "地鼠受到了中毒伤害！",
+            "地鼠受到了沙暴的伤害！",
+            "大钳蟹受到了沙暴的伤害！"
+          ],
+          "settlementPosition": "after-both-actions"
+        },
+        {
+          "round": 2,
+          "timersBefore": {
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 3
+            },
+            "fieldTurns": {}
+          },
+          "timersAfter": {
+            "weatherTurns": 3,
+            "tailwindTurns": {
+              "player": 2,
+              "enemy": 2
+            },
+            "fieldTurns": {}
+          },
+          "playerHp": [
+            229,
+            159
+          ],
+          "enemyHp": [
+            274,
+            248
+          ],
+          "settleLines": [
+            "地鼠受到了中毒伤害！",
+            "地鼠受到了沙暴的伤害！",
+            "大钳蟹受到了沙暴的伤害！"
+          ],
+          "settlementPosition": "after-both-actions"
+        },
+        {
+          "round": 3,
+          "timersBefore": {
+            "weatherTurns": 3,
+            "tailwindTurns": {
+              "player": 2,
+              "enemy": 2
+            },
+            "fieldTurns": {}
+          },
+          "timersAfter": {
+            "weatherTurns": 2,
+            "tailwindTurns": {
+              "player": 1,
+              "enemy": 1
+            },
+            "fieldTurns": {}
+          },
+          "playerHp": [
+            159,
+            90
+          ],
+          "enemyHp": [
+            248,
+            222
+          ],
+          "settleLines": [
+            "地鼠受到了中毒伤害！",
+            "地鼠受到了沙暴的伤害！",
+            "大钳蟹受到了沙暴的伤害！"
+          ],
+          "settlementPosition": "after-both-actions"
+        }
+      ],
+      "midRoundDomTrace": [
+        {
+          "t": 3979,
+          "php": "300/300",
+          "ehp": null,
+          "lines": [
+            "等待战斗指令。"
+          ]
+        },
+        {
+          "t": 4584,
+          "php": "300/300",
+          "ehp": null,
+          "lines": [
+            "对手的 大钳蟹 使用了 抓！"
+          ]
+        },
+        {
+          "t": 6017,
+          "php": "284/300",
+          "ehp": null,
+          "lines": [
+            "对手的 大钳蟹 使用了 抓！",
+            "对手的 大钳蟹 造成了 16 点伤害。"
+          ]
+        },
+        {
+          "t": 7457,
+          "php": "284/300",
+          "ehp": null,
+          "lines": [
+            "对手的 大钳蟹 造成了 16 点伤害。",
+            "地鼠 使用了 撞击！"
+          ]
+        },
+        {
+          "t": 9016,
+          "php": "284/300",
+          "ehp": null,
+          "lines": [
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 8 点伤害。"
+          ]
+        },
+        {
+          "t": 10583,
+          "php": "229/300",
+          "ehp": null,
+          "lines": [
+            "地鼠 造成了 8 点伤害。",
+            "地鼠受到了中毒伤害！"
+          ]
+        },
+        {
+          "t": 12017,
+          "php": "229/300",
+          "ehp": null,
+          "lines": [
+            "地鼠受到了中毒伤害！",
+            "地鼠受到了沙暴的伤害！"
+          ]
+        },
+        {
+          "t": 13582,
+          "php": "229/300",
+          "ehp": null,
+          "lines": [
+            "地鼠受到了沙暴的伤害！",
+            "大钳蟹受到了沙暴的伤害！"
+          ]
+        }
+      ]
+    },
+    "trickroom-enemy-first": {
+      "fixture": {
+        "variant": "trickroom-enemy-first",
+        "playerSpeed": 500,
+        "enemySpeed": 1,
+        "weather": "none",
+        "weatherTurns": 0,
+        "tailwindTurns": {
+          "player": 0,
+          "enemy": 0
+        },
+        "fieldState": [
+          "trick_room"
+        ],
+        "fieldTurns": {
+          "trick_room": 5
+        },
+        "playerStatus": {
+          "id": "burn"
+        }
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "timersBefore": {
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 5
+            }
+          },
+          "timersAfter": {
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 4
+            }
+          },
+          "playerHp": [
+            300,
+            267
+          ],
+          "enemyHp": [
+            300,
+            296
+          ],
+          "settleLines": [
+            "地鼠受到了灼伤伤害！"
+          ],
+          "settlementPosition": "after-both-actions"
+        },
+        {
+          "round": 2,
+          "timersBefore": {
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 4
+            }
+          },
+          "timersAfter": {
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 3
+            }
+          },
+          "playerHp": [
+            267,
+            236
+          ],
+          "enemyHp": [
+            296,
+            292
+          ],
+          "settleLines": [
+            "地鼠受到了灼伤伤害！"
+          ],
+          "settlementPosition": "after-both-actions"
+        },
+        {
+          "round": 3,
+          "timersBefore": {
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 3
+            }
+          },
+          "timersAfter": {
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 2
+            }
+          },
+          "playerHp": [
+            236,
+            203
+          ],
+          "enemyHp": [
+            292,
+            288
+          ],
+          "settleLines": [
+            "地鼠受到了灼伤伤害！"
+          ],
+          "settlementPosition": "after-both-actions"
+        }
+      ],
+      "midRoundDomTrace": [
+        {
+          "t": 3570,
+          "php": "300/300",
+          "ehp": null,
+          "lines": [
+            "等待战斗指令。"
+          ]
+        },
+        {
+          "t": 4175,
+          "php": "300/300",
+          "ehp": null,
+          "lines": [
+            "对手的 大钳蟹 使用了 撞击！"
+          ]
+        },
+        {
+          "t": 5609,
+          "php": "285/300",
+          "ehp": null,
+          "lines": [
+            "对手的 大钳蟹 使用了 撞击！",
+            "对手的 大钳蟹 造成了 15 点伤害。"
+          ]
+        },
+        {
+          "t": 7055,
+          "php": "285/300",
+          "ehp": null,
+          "lines": [
+            "对手的 大钳蟹 造成了 15 点伤害。",
+            "地鼠 使用了 撞击！"
+          ]
+        },
+        {
+          "t": 8608,
+          "php": "285/300",
+          "ehp": null,
+          "lines": [
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 4 点伤害。"
+          ]
+        },
+        {
+          "t": 10058,
+          "php": "267/300",
+          "ehp": null,
+          "lines": [
+            "地鼠 造成了 4 点伤害。",
+            "地鼠受到了灼伤伤害！"
+          ]
+        }
+      ]
+    }
+  }
+}

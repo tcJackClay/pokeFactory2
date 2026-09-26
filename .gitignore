@@ -18,3 +18,4 @@ tmp_pokeapi_tree.json
 !.env.example
 reference/pokeemerald-expansion/
 docs/tasks/**/evidence/*-storage*.json
+docs/tasks/**/evidence/base-save.json

@@ -1,0 +1,6954 @@
+{
+  "task": "enemy-first",
+  "baseOrigin": "127.0.0.60",
+  "cases": {
+    "enemy-first-timers": {
+      "name": "enemy-first-timers",
+      "origin": "http://127.0.0.61:4300",
+      "steps": [
+        {
+          "name": "fixture-ready-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "turn": "PLAYER",
+            "weather": "sandstorm",
+            "weatherTurns": 5,
+            "tailwindTurns": {
+              "player": 4,
+              "enemy": 4
+            },
+            "fieldState": [],
+            "fieldTurns": {},
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 50,
+                "hp": 300,
+                "maxHp": 300,
+                "status": "poison",
+                "pp": [
+                  "tackle:20",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "status": null,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "status": null,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 300,
+                "maxHp": 300,
+                "status": null,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "status": null,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "status": null,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "logLen": 0,
+            "logTail": [],
+            "domPlayerHp": "300/300",
+            "domEnemyHp": null,
+            "domPp": [
+              "撞击一般威力 40命中 100PP 20/20",
+              "跃起一般威力 --命中 --PP 20/20"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "fixture-ready-844x390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "turn": "PLAYER",
+            "weather": "sandstorm",
+            "weatherTurns": 5,
+            "tailwindTurns": {
+              "player": 4,
+              "enemy": 4
+            },
+            "fieldState": [],
+            "fieldTurns": {},
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 50,
+                "hp": 300,
+                "maxHp": 300,
+                "status": "poison",
+                "pp": [
+                  "tackle:20",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "status": null,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "status": null,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 300,
+                "maxHp": 300,
+                "status": null,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "status": null,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "status": null,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "logLen": 0,
+            "logTail": [],
+            "domPlayerHp": "300/300",
+            "domEnemyHp": null,
+            "domPp": [
+              "撞击一般威力 40命中 100PP 20/20",
+              "跃起一般威力 --命中 --PP 20/20"
+            ],
+            "viewport": [
+              844,
+              390
+            ],
+            "scrollWidth": 844
+          }
+        },
+        {
+          "name": "round1-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "turn": "PLAYER",
+            "weather": "sandstorm",
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 3
+            },
+            "fieldState": [],
+            "fieldTurns": {},
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 50,
+                "hp": 229,
+                "maxHp": 300,
+                "status": "poison",
+                "pp": [
+                  "tackle:19",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "status": null,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "status": null,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 274,
+                "maxHp": 300,
+                "status": null,
+                "pp": [
+                  "tackle:20",
+                  "scratch:19",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "status": null,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "status": null,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "logLen": 7,
+            "logTail": [
+              "对手的 大钳蟹 使用了 抓！",
+              "对手的 大钳蟹 造成了 16 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 8 点伤害。",
+              "地鼠受到了中毒伤害！",
+              "地鼠受到了沙暴的伤害！",
+              "大钳蟹受到了沙暴的伤害！"
+            ],
+            "domPlayerHp": "229/300",
+            "domEnemyHp": null,
+            "domPp": [
+              "撞击一般威力 40命中 100PP 19/20",
+              "跃起一般威力 --命中 --PP 20/20"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "round2-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "turn": "PLAYER",
+            "weather": "sandstorm",
+            "weatherTurns": 3,
+            "tailwindTurns": {
+              "player": 2,
+              "enemy": 2
+            },
+            "fieldState": [],
+            "fieldTurns": {},
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 50,
+                "hp": 159,
+                "maxHp": 300,
+                "status": "poison",
+                "pp": [
+                  "tackle:18",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "status": null,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "status": null,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 248,
+                "maxHp": 300,
+                "status": null,
+                "pp": [
+                  "tackle:20",
+                  "scratch:19",
+                  "pound:20",
+                  "headbutt:19"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "status": null,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "status": null,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "logLen": 14,
+            "logTail": [
+              "对手的 大钳蟹 使用了 抓！",
+              "对手的 大钳蟹 造成了 16 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 8 点伤害。",
+              "地鼠受到了中毒伤害！",
+              "地鼠受到了沙暴的伤害！",
+              "大钳蟹受到了沙暴的伤害！",
+              "对手的 大钳蟹 使用了 头锤！",
+              "对手的 大钳蟹 造成了 15 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 8 点伤害。",
+              "地鼠受到了中毒伤害！",
+              "地鼠受到了沙暴的伤害！",
+              "大钳蟹受到了沙暴的伤害！"
+            ],
+            "domPlayerHp": "159/300",
+            "domEnemyHp": null,
+            "domPp": [
+              "撞击一般威力 40命中 100PP 18/20",
+              "跃起一般威力 --命中 --PP 20/20"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "round3-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "turn": "PLAYER",
+            "weather": "sandstorm",
+            "weatherTurns": 2,
+            "tailwindTurns": {
+              "player": 1,
+              "enemy": 1
+            },
+            "fieldState": [],
+            "fieldTurns": {},
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 50,
+                "hp": 90,
+                "maxHp": 300,
+                "status": "poison",
+                "pp": [
+                  "tackle:17",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "status": null,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "status": null,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 222,
+                "maxHp": 300,
+                "status": null,
+                "pp": [
+                  "tackle:20",
+                  "scratch:18",
+                  "pound:20",
+                  "headbutt:19"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "status": null,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "status": null,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "logLen": 21,
+            "logTail": [
+              "对手的 大钳蟹 使用了 头锤！",
+              "对手的 大钳蟹 造成了 15 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 8 点伤害。",
+              "地鼠受到了中毒伤害！",
+              "地鼠受到了沙暴的伤害！",
+              "大钳蟹受到了沙暴的伤害！",
+              "对手的 大钳蟹 使用了 抓！",
+              "对手的 大钳蟹 造成了 14 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 8 点伤害。",
+              "地鼠受到了中毒伤害！",
+              "地鼠受到了沙暴的伤害！",
+              "大钳蟹受到了沙暴的伤害！"
+            ],
+            "domPlayerHp": "90/300",
+            "domEnemyHp": null,
+            "domPp": [
+              "撞击一般威力 40命中 100PP 17/20",
+              "跃起一般威力 --命中 --PP 20/20"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        }
+      ],
+      "errors": [],
+      "rounds": [
+        {
+          "round": 1,
+          "logDelta": 7,
+          "newLogLines": [
+            "对手的 大钳蟹 使用了 抓！",
+            "对手的 大钳蟹 造成了 16 点伤害。",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 8 点伤害。",
+            "地鼠受到了中毒伤害！",
+            "地鼠受到了沙暴的伤害！",
+            "大钳蟹受到了沙暴的伤害！"
+          ],
+          "before": {
+            "playerHp": 300,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:20",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:20",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 5,
+            "tailwindTurns": {
+              "player": 4,
+              "enemy": 4
+            },
+            "fieldTurns": {}
+          },
+          "after": {
+            "playerHp": 229,
+            "enemyHp": 274,
+            "playerPp": [
+              "tackle:19",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:19",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 3
+            },
+            "fieldTurns": {}
+          },
+          "traceSummary": [
+            {
+              "t": 3979,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ]
+            },
+            {
+              "t": 4584,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ]
+            },
+            {
+              "t": 6017,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ]
+            },
+            {
+              "t": 7457,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ]
+            },
+            {
+              "t": 9016,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ]
+            },
+            {
+              "t": 10583,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ]
+            },
+            {
+              "t": 12017,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ]
+            },
+            {
+              "t": 13582,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ]
+            }
+          ],
+          "trace": [
+            {
+              "t": 3979,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 4233,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4337,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4461,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4584,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4699,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4816,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4945,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5066,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5180,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5299,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5430,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5539,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5715,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5783,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5896,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6017,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6145,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6266,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6380,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6499,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6631,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6739,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6866,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6982,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7100,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7248,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7348,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 16 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7457,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7583,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7699,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7830,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7939,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8065,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8184,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8299,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8428,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8536,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8719,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8783,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8898,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 16 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9016,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9147,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9266,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9378,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9499,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9617,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9750,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9860,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9982,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10099,
+              "php": "284/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10224,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10339,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10462,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10583,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10699,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10816,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10944,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11065,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11179,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11300,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11416,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11549,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11719,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11781,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11896,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12017,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12146,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12266,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12381,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12499,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12616,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12739,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12866,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12983,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13099,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13217,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13346,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13465,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13582,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13699,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13816,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13939,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14062,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14182,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14299,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14431,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14539,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14729,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 14795,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 14899,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 15018,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 15142,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 15265,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 15376,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            }
+          ],
+          "poisonOrWeatherLines": [
+            "地鼠受到了中毒伤害！"
+          ]
+        },
+        {
+          "round": 2,
+          "logDelta": 7,
+          "newLogLines": [
+            "对手的 大钳蟹 使用了 头锤！",
+            "对手的 大钳蟹 造成了 15 点伤害。",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 8 点伤害。",
+            "地鼠受到了中毒伤害！",
+            "地鼠受到了沙暴的伤害！",
+            "大钳蟹受到了沙暴的伤害！"
+          ],
+          "before": {
+            "playerHp": 229,
+            "enemyHp": 274,
+            "playerPp": [
+              "tackle:19",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:19",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 3
+            },
+            "fieldTurns": {}
+          },
+          "after": {
+            "playerHp": 159,
+            "enemyHp": 248,
+            "playerPp": [
+              "tackle:18",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:19",
+              "pound:20",
+              "headbutt:19"
+            ],
+            "weatherTurns": 3,
+            "tailwindTurns": {
+              "player": 2,
+              "enemy": 2
+            },
+            "fieldTurns": {}
+          },
+          "traceSummary": [
+            {
+              "t": 15983,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ]
+            },
+            {
+              "t": 16588,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ]
+            },
+            {
+              "t": 18032,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ]
+            },
+            {
+              "t": 19467,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ]
+            },
+            {
+              "t": 21032,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ]
+            },
+            {
+              "t": 22583,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ]
+            },
+            {
+              "t": 24034,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ]
+            },
+            {
+              "t": 25583,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ]
+            }
+          ],
+          "trace": [
+            {
+              "t": 15983,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 16216,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16248,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16349,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16465,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16588,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16713,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16823,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16949,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17065,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17196,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17306,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17433,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17549,
+              "php": "229/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17689,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17787,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17913,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 头锤！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18032,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18147,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18266,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18394,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18514,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18628,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18748,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18866,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18984,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19107,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19222,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19349,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 头锤！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19467,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19583,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19716,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19823,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19948,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 20065,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 20183,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 20305,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 20429,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 20549,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 20718,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 20784,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 20910,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21032,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21144,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21265,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21395,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21504,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21629,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21748,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21864,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21982,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22107,
+              "php": "214/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22222,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22348,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22466,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22583,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22712,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22832,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22945,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23065,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23195,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23315,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23427,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23549,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23715,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23782,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23910,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24034,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24149,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24263,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24387,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24511,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24632,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24744,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24865,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24993,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25115,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25237,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25348,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25465,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25583,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25707,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25832,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25944,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26065,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26195,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26304,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26428,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26548,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26733,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 26796,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 26911,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 27032,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 27143,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 27266,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 27394,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            }
+          ],
+          "poisonOrWeatherLines": [
+            "地鼠受到了中毒伤害！",
+            "地鼠受到了中毒伤害！"
+          ]
+        },
+        {
+          "round": 3,
+          "logDelta": 7,
+          "newLogLines": [
+            "对手的 大钳蟹 使用了 抓！",
+            "对手的 大钳蟹 造成了 14 点伤害。",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 8 点伤害。",
+            "地鼠受到了中毒伤害！",
+            "地鼠受到了沙暴的伤害！",
+            "大钳蟹受到了沙暴的伤害！"
+          ],
+          "before": {
+            "playerHp": 159,
+            "enemyHp": 248,
+            "playerPp": [
+              "tackle:18",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:19",
+              "pound:20",
+              "headbutt:19"
+            ],
+            "weatherTurns": 3,
+            "tailwindTurns": {
+              "player": 2,
+              "enemy": 2
+            },
+            "fieldTurns": {}
+          },
+          "after": {
+            "playerHp": 90,
+            "enemyHp": 222,
+            "playerPp": [
+              "tackle:17",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:18",
+              "pound:20",
+              "headbutt:19"
+            ],
+            "weatherTurns": 2,
+            "tailwindTurns": {
+              "player": 1,
+              "enemy": 1
+            },
+            "fieldTurns": {}
+          },
+          "traceSummary": [
+            {
+              "t": 27998,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ]
+            },
+            {
+              "t": 28482,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ]
+            },
+            {
+              "t": 30038,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ]
+            },
+            {
+              "t": 31483,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ]
+            },
+            {
+              "t": 33041,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ]
+            },
+            {
+              "t": 34483,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ]
+            },
+            {
+              "t": 36039,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ]
+            },
+            {
+              "t": 37482,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ]
+            }
+          ],
+          "trace": [
+            {
+              "t": 27998,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 28197,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28248,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28360,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28482,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28598,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28732,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28841,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28965,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 29082,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 29198,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 29324,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 29449,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 29566,
+              "php": "159/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 29678,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 29799,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 29930,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "大钳蟹受到了沙暴的伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 30038,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 30165,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 30281,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 30398,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 30517,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 30641,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 30765,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 30881,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 30998,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 31182,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 31247,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 31360,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 14 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 31483,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 31598,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 31733,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 31841,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 31965,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 32082,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 32198,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 32323,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 32448,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 32558,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 32693,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 32798,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 32932,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 14 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 33041,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 33165,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 33282,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 33398,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 33524,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 33648,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 33765,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 33880,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 33998,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 34125,
+              "php": "145/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 34237,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 34367,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 8 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 34483,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 34598,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 34732,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 34840,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 34965,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 35081,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 35198,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 35324,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 35448,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 35565,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 35715,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 35799,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 35931,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 8 点伤害。",
+                "地鼠受到了中毒伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 36039,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 36163,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 36282,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 36398,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 36520,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 36645,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 36765,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 36881,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 36998,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 37127,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 37239,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 37361,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了中毒伤害！",
+                "地鼠受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 37482,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 37599,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 37720,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 37845,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 37964,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 38081,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 38198,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 38325,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 38448,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 38566,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 38721,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 38798,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 38932,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 39039,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 39163,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 39281,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 39398,
+              "php": "90/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了沙暴的伤害！",
+                "大钳蟹受到了沙暴的伤害！"
+              ],
+              "enabled": "true"
+            }
+          ],
+          "poisonOrWeatherLines": [
+            "地鼠受到了中毒伤害！",
+            "地鼠受到了中毒伤害！"
+          ]
+        }
+      ],
+      "fixture": {
+        "variant": "enemy-first-timers",
+        "playerSpeed": 1,
+        "enemySpeed": 500,
+        "weather": "sandstorm",
+        "weatherTurns": 5,
+        "tailwindTurns": {
+          "player": 4,
+          "enemy": 4
+        },
+        "fieldState": [],
+        "fieldTurns": {},
+        "playerStatus": {
+          "id": "poison"
+        }
+      }
+    },
+    "trickroom-enemy-first": {
+      "name": "trickroom-enemy-first",
+      "origin": "http://127.0.0.62:4300",
+      "steps": [
+        {
+          "name": "fixture-ready-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "turn": "PLAYER",
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldState": [
+              "trick_room"
+            ],
+            "fieldTurns": {
+              "trick_room": 5
+            },
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 50,
+                "hp": 300,
+                "maxHp": 300,
+                "status": "burn",
+                "pp": [
+                  "tackle:20",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "status": null,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "status": null,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 300,
+                "maxHp": 300,
+                "status": null,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "status": null,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "status": null,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "logLen": 0,
+            "logTail": [],
+            "domPlayerHp": "300/300",
+            "domEnemyHp": null,
+            "domPp": [
+              "撞击一般威力 40命中 100PP 20/20",
+              "跃起一般威力 --命中 --PP 20/20"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "fixture-ready-844x390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "turn": "PLAYER",
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldState": [
+              "trick_room"
+            ],
+            "fieldTurns": {
+              "trick_room": 5
+            },
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 50,
+                "hp": 300,
+                "maxHp": 300,
+                "status": "burn",
+                "pp": [
+                  "tackle:20",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "status": null,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "status": null,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 300,
+                "maxHp": 300,
+                "status": null,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "status": null,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "status": null,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "logLen": 0,
+            "logTail": [],
+            "domPlayerHp": "300/300",
+            "domEnemyHp": null,
+            "domPp": [
+              "撞击一般威力 40命中 100PP 20/20",
+              "跃起一般威力 --命中 --PP 20/20"
+            ],
+            "viewport": [
+              844,
+              390
+            ],
+            "scrollWidth": 844
+          }
+        },
+        {
+          "name": "round1-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "turn": "PLAYER",
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldState": [
+              "trick_room"
+            ],
+            "fieldTurns": {
+              "trick_room": 4
+            },
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 50,
+                "hp": 267,
+                "maxHp": 300,
+                "status": "burn",
+                "pp": [
+                  "tackle:19",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "status": null,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "status": null,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 296,
+                "maxHp": 300,
+                "status": null,
+                "pp": [
+                  "tackle:19",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "status": null,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "status": null,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "logLen": 5,
+            "logTail": [
+              "对手的 大钳蟹 使用了 撞击！",
+              "对手的 大钳蟹 造成了 15 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 4 点伤害。",
+              "地鼠受到了灼伤伤害！"
+            ],
+            "domPlayerHp": "267/300",
+            "domEnemyHp": null,
+            "domPp": [
+              "撞击一般威力 40命中 100PP 19/20",
+              "跃起一般威力 --命中 --PP 20/20"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "round2-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "turn": "PLAYER",
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldState": [
+              "trick_room"
+            ],
+            "fieldTurns": {
+              "trick_room": 3
+            },
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 50,
+                "hp": 236,
+                "maxHp": 300,
+                "status": "burn",
+                "pp": [
+                  "tackle:18",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "status": null,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "status": null,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 292,
+                "maxHp": 300,
+                "status": null,
+                "pp": [
+                  "tackle:19",
+                  "scratch:19",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "status": null,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "status": null,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "logLen": 10,
+            "logTail": [
+              "对手的 大钳蟹 使用了 撞击！",
+              "对手的 大钳蟹 造成了 15 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 4 点伤害。",
+              "地鼠受到了灼伤伤害！",
+              "对手的 大钳蟹 使用了 抓！",
+              "对手的 大钳蟹 造成了 13 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 4 点伤害。",
+              "地鼠受到了灼伤伤害！"
+            ],
+            "domPlayerHp": "236/300",
+            "domEnemyHp": null,
+            "domPp": [
+              "撞击一般威力 40命中 100PP 18/20",
+              "跃起一般威力 --命中 --PP 20/20"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "round3-390",
+          "state": {
+            "phase": "BATTLE",
+            "stage": 1,
+            "turn": "PLAYER",
+            "weather": "none",
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldState": [
+              "trick_room"
+            ],
+            "fieldTurns": {
+              "trick_room": 2
+            },
+            "hazards": {
+              "player": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              },
+              "enemy": {
+                "stealthRock": false,
+                "toxicSpikesLayers": 0
+              }
+            },
+            "player": [
+              {
+                "id": 50,
+                "hp": 203,
+                "maxHp": 300,
+                "status": "burn",
+                "pp": [
+                  "tackle:17",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "status": null,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "status": null,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 288,
+                "maxHp": 300,
+                "status": null,
+                "pp": [
+                  "tackle:19",
+                  "scratch:18",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "status": null,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "status": null,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "logLen": 15,
+            "logTail": [
+              "对手的 大钳蟹 造成了 15 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 4 点伤害。",
+              "地鼠受到了灼伤伤害！",
+              "对手的 大钳蟹 使用了 抓！",
+              "对手的 大钳蟹 造成了 13 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 4 点伤害。",
+              "地鼠受到了灼伤伤害！",
+              "对手的 大钳蟹 使用了 抓！",
+              "对手的 大钳蟹 造成了 15 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 4 点伤害。",
+              "地鼠受到了灼伤伤害！"
+            ],
+            "domPlayerHp": "203/300",
+            "domEnemyHp": null,
+            "domPp": [
+              "撞击一般威力 40命中 100PP 17/20",
+              "跃起一般威力 --命中 --PP 20/20"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        }
+      ],
+      "errors": [],
+      "rounds": [
+        {
+          "round": 1,
+          "logDelta": 5,
+          "newLogLines": [
+            "对手的 大钳蟹 使用了 撞击！",
+            "对手的 大钳蟹 造成了 15 点伤害。",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 4 点伤害。",
+            "地鼠受到了灼伤伤害！"
+          ],
+          "before": {
+            "playerHp": 300,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:20",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:20",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 5
+            }
+          },
+          "after": {
+            "playerHp": 267,
+            "enemyHp": 296,
+            "playerPp": [
+              "tackle:19",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:19",
+              "scratch:20",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 4
+            }
+          },
+          "traceSummary": [
+            {
+              "t": 3570,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ]
+            },
+            {
+              "t": 4175,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ]
+            },
+            {
+              "t": 5609,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ]
+            },
+            {
+              "t": 7055,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ]
+            },
+            {
+              "t": 8608,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ]
+            },
+            {
+              "t": 10058,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ]
+            }
+          ],
+          "trace": [
+            {
+              "t": 3570,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 3791,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 3825,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 3931,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4055,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "等待战斗指令。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4175,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4291,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4408,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4534,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4659,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4775,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 4892,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5009,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5142,
+              "php": "300/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5271,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5372,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5492,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5609,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5729,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5853,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 5975,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6088,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6214,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6338,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6459,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6572,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6691,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6820,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 6931,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 撞击！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7055,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7175,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7293,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7410,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7538,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7659,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7771,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 7892,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8020,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8129,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8271,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8373,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8492,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8608,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8742,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8851,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 8975,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9091,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9209,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9332,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9457,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9575,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9691,
+              "php": "285/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9846,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 9938,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10058,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10170,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10293,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10408,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10541,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10654,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10776,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 10891,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11008,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11136,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 11285,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 11370,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 11492,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 11609,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 11742,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 11853,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            }
+          ],
+          "poisonOrWeatherLines": []
+        },
+        {
+          "round": 2,
+          "logDelta": 5,
+          "newLogLines": [
+            "对手的 大钳蟹 使用了 抓！",
+            "对手的 大钳蟹 造成了 13 点伤害。",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 4 点伤害。",
+            "地鼠受到了灼伤伤害！"
+          ],
+          "before": {
+            "playerHp": 267,
+            "enemyHp": 296,
+            "playerPp": [
+              "tackle:19",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:19",
+              "scratch:20",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 4
+            }
+          },
+          "after": {
+            "playerHp": 236,
+            "enemyHp": 292,
+            "playerPp": [
+              "tackle:18",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:19",
+              "scratch:19",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 3
+            }
+          },
+          "traceSummary": [
+            {
+              "t": 12496,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ]
+            },
+            {
+              "t": 13102,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ]
+            },
+            {
+              "t": 14537,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ]
+            },
+            {
+              "t": 15986,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ]
+            },
+            {
+              "t": 17542,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ]
+            },
+            {
+              "t": 18976,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ]
+            }
+          ],
+          "trace": [
+            {
+              "t": 12496,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 12702,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12736,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12859,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 12976,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13102,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13226,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13339,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13459,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13576,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13697,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13820,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 13942,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14059,
+              "php": "267/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14192,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14304,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14426,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14537,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14658,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14786,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 14910,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 15018,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 15142,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 15258,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 15376,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 15500,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 15696,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 15759,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 15859,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 13 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 15986,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16108,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16220,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16342,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16458,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16578,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16702,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16826,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 16936,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17059,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17200,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17309,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17419,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 13 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17542,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17659,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17791,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 17900,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18025,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18143,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18259,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18383,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18507,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18617,
+              "php": "254/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18744,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18858,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 18976,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19099,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19225,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19342,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19456,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19579,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19704,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19826,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 19938,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 20058,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 20210,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 20308,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 20420,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 20542,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 20657,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 20777,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            }
+          ],
+          "poisonOrWeatherLines": []
+        },
+        {
+          "round": 3,
+          "logDelta": 5,
+          "newLogLines": [
+            "对手的 大钳蟹 使用了 抓！",
+            "对手的 大钳蟹 造成了 15 点伤害。",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 4 点伤害。",
+            "地鼠受到了灼伤伤害！"
+          ],
+          "before": {
+            "playerHp": 236,
+            "enemyHp": 292,
+            "playerPp": [
+              "tackle:18",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:19",
+              "scratch:19",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 3
+            }
+          },
+          "after": {
+            "playerHp": 203,
+            "enemyHp": 288,
+            "playerPp": [
+              "tackle:17",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:19",
+              "scratch:18",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 2
+            }
+          },
+          "traceSummary": [
+            {
+              "t": 21476,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ]
+            },
+            {
+              "t": 22080,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ]
+            },
+            {
+              "t": 23525,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ]
+            },
+            {
+              "t": 24958,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ]
+            },
+            {
+              "t": 26525,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ]
+            },
+            {
+              "t": 28086,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ]
+            }
+          ],
+          "trace": [
+            {
+              "t": 21476,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 21689,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21717,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21841,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 21956,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22080,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22204,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22325,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22439,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22559,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22688,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22796,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 22921,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23041,
+              "php": "236/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23197,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23276,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23401,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠受到了灼伤伤害！",
+                "对手的 大钳蟹 使用了 抓！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23525,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23642,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23759,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 23884,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24007,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24116,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24241,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24357,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24489,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24609,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24716,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24842,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 使用了 抓！",
+                "对手的 大钳蟹 造成了 15 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 24958,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25076,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25202,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25325,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25442,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25558,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25683,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25808,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 25919,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26042,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26202,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26277,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26404,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "对手的 大钳蟹 造成了 15 点伤害。",
+                "地鼠 使用了 撞击！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26525,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26637,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26757,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 26887,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 27007,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 27118,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 27241,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 27358,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 27477,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 27602,
+              "php": "221/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 27722,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 27836,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 27958,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 使用了 撞击！",
+                "地鼠 造成了 4 点伤害。"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28086,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28196,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28319,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28442,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28557,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28690,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28800,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 28924,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 29042,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "false"
+            },
+            {
+              "t": 29199,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 29284,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 29408,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 29517,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 29642,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            },
+            {
+              "t": 29757,
+              "php": "203/300",
+              "ehp": null,
+              "lines": [
+                "地鼠 造成了 4 点伤害。",
+                "地鼠受到了灼伤伤害！"
+              ],
+              "enabled": "true"
+            }
+          ],
+          "poisonOrWeatherLines": []
+        }
+      ],
+      "fixture": {
+        "variant": "trickroom-enemy-first",
+        "playerSpeed": 500,
+        "enemySpeed": 1,
+        "weather": "none",
+        "weatherTurns": 0,
+        "tailwindTurns": {
+          "player": 0,
+          "enemy": 0
+        },
+        "fieldState": [
+          "trick_room"
+        ],
+        "fieldTurns": {
+          "trick_room": 5
+        },
+        "playerStatus": {
+          "id": "burn"
+        }
+      }
+    }
+  },
+  "errors": []
+}

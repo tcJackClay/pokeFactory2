@@ -1,0 +1,646 @@
+{
+  "task": "round-one-action-per-side",
+  "note": "每回合双方各行动一次（或早退记为已行动/跳过）；PP 每轮每侧 -1；回合末结算一次；回合结束后命令区恢复 enabled=true",
+  "cases": {
+    "enemy-first-timers": {
+      "fixture": {
+        "variant": "enemy-first-timers",
+        "playerSpeed": 1,
+        "enemySpeed": 500,
+        "weather": "sandstorm",
+        "weatherTurns": 5,
+        "tailwindTurns": {
+          "player": 4,
+          "enemy": 4
+        },
+        "fieldState": [],
+        "fieldTurns": {},
+        "playerStatus": {
+          "id": "poison"
+        }
+      },
+      "failure": null,
+      "rounds": [
+        {
+          "round": 1,
+          "logDelta": 7,
+          "order": [
+            "ENEMY",
+            "PLAYER"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 300,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:20",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:20",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 5,
+            "tailwindTurns": {
+              "player": 4,
+              "enemy": 4
+            },
+            "fieldTurns": {}
+          },
+          "after": {
+            "playerHp": 229,
+            "enemyHp": 274,
+            "playerPp": [
+              "tackle:19",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:19",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 3
+            },
+            "fieldTurns": {}
+          }
+        },
+        {
+          "round": 2,
+          "logDelta": 7,
+          "order": [
+            "ENEMY",
+            "PLAYER"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 229,
+            "enemyHp": 274,
+            "playerPp": [
+              "tackle:19",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:19",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 4,
+            "tailwindTurns": {
+              "player": 3,
+              "enemy": 3
+            },
+            "fieldTurns": {}
+          },
+          "after": {
+            "playerHp": 159,
+            "enemyHp": 248,
+            "playerPp": [
+              "tackle:18",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:19",
+              "pound:20",
+              "headbutt:19"
+            ],
+            "weatherTurns": 3,
+            "tailwindTurns": {
+              "player": 2,
+              "enemy": 2
+            },
+            "fieldTurns": {}
+          }
+        },
+        {
+          "round": 3,
+          "logDelta": 7,
+          "order": [
+            "ENEMY",
+            "PLAYER"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 159,
+            "enemyHp": 248,
+            "playerPp": [
+              "tackle:18",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:19",
+              "pound:20",
+              "headbutt:19"
+            ],
+            "weatherTurns": 3,
+            "tailwindTurns": {
+              "player": 2,
+              "enemy": 2
+            },
+            "fieldTurns": {}
+          },
+          "after": {
+            "playerHp": 90,
+            "enemyHp": 222,
+            "playerPp": [
+              "tackle:17",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:18",
+              "pound:20",
+              "headbutt:19"
+            ],
+            "weatherTurns": 2,
+            "tailwindTurns": {
+              "player": 1,
+              "enemy": 1
+            },
+            "fieldTurns": {}
+          }
+        }
+      ]
+    },
+    "trickroom-enemy-first": {
+      "fixture": {
+        "variant": "trickroom-enemy-first",
+        "playerSpeed": 500,
+        "enemySpeed": 1,
+        "weather": "none",
+        "weatherTurns": 0,
+        "tailwindTurns": {
+          "player": 0,
+          "enemy": 0
+        },
+        "fieldState": [
+          "trick_room"
+        ],
+        "fieldTurns": {
+          "trick_room": 5
+        },
+        "playerStatus": {
+          "id": "burn"
+        }
+      },
+      "failure": null,
+      "rounds": [
+        {
+          "round": 1,
+          "logDelta": 5,
+          "order": [
+            "ENEMY",
+            "PLAYER"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 300,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:20",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:20",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 5
+            }
+          },
+          "after": {
+            "playerHp": 267,
+            "enemyHp": 296,
+            "playerPp": [
+              "tackle:19",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:19",
+              "scratch:20",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 4
+            }
+          }
+        },
+        {
+          "round": 2,
+          "logDelta": 5,
+          "order": [
+            "ENEMY",
+            "PLAYER"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 267,
+            "enemyHp": 296,
+            "playerPp": [
+              "tackle:19",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:19",
+              "scratch:20",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 4
+            }
+          },
+          "after": {
+            "playerHp": 236,
+            "enemyHp": 292,
+            "playerPp": [
+              "tackle:18",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:19",
+              "scratch:19",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 3
+            }
+          }
+        },
+        {
+          "round": 3,
+          "logDelta": 5,
+          "order": [
+            "ENEMY",
+            "PLAYER"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 236,
+            "enemyHp": 292,
+            "playerPp": [
+              "tackle:18",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:19",
+              "scratch:19",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 3
+            }
+          },
+          "after": {
+            "playerHp": 203,
+            "enemyHp": 288,
+            "playerPp": [
+              "tackle:17",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:19",
+              "scratch:18",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "fieldTurns": {
+              "trick_room": 2
+            }
+          }
+        }
+      ]
+    },
+    "enemy-miss": {
+      "fixture": {
+        "variant": "enemy-miss",
+        "playerSpeed": 1,
+        "enemySpeed": 500,
+        "playerMove": [
+          "tackle"
+        ],
+        "enemyMove": [
+          "tackle"
+        ],
+        "playerTypes": [
+          "normal"
+        ],
+        "enemyTypes": [
+          "normal"
+        ]
+      },
+      "failure": null,
+      "rounds": [
+        {
+          "round": 1,
+          "logDelta": 4,
+          "order": [
+            "ENEMY",
+            "PLAYER"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 300,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:20"
+            ],
+            "enemyPp": [
+              "tackle:20"
+            ]
+          },
+          "after": {
+            "playerHp": 300,
+            "enemyHp": 284,
+            "playerPp": [
+              "tackle:19"
+            ],
+            "enemyPp": [
+              "tackle:19"
+            ]
+          },
+          "log": [
+            "对手的 大钳蟹 使用了 撞击！",
+            "对手大钳蟹的攻击没有命中！",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 16 点伤害。"
+          ]
+        },
+        {
+          "round": 2,
+          "logDelta": 4,
+          "order": [
+            "ENEMY",
+            "PLAYER"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 300,
+            "enemyHp": 284,
+            "playerPp": [
+              "tackle:19"
+            ],
+            "enemyPp": [
+              "tackle:19"
+            ]
+          },
+          "after": {
+            "playerHp": 300,
+            "enemyHp": 270,
+            "playerPp": [
+              "tackle:18"
+            ],
+            "enemyPp": [
+              "tackle:18"
+            ]
+          },
+          "log": [
+            "对手的 大钳蟹 使用了 撞击！",
+            "对手大钳蟹的攻击没有命中！",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 14 点伤害。"
+          ]
+        }
+      ]
+    },
+    "player-immune": {
+      "fixture": {
+        "variant": "player-immune",
+        "playerSpeed": 500,
+        "enemySpeed": 1,
+        "playerMove": [
+          "tackle"
+        ],
+        "enemyMove": [
+          "tackle"
+        ],
+        "playerTypes": [
+          "normal"
+        ],
+        "enemyTypes": [
+          "ghost"
+        ]
+      },
+      "failure": null,
+      "rounds": [
+        {
+          "round": 1,
+          "logDelta": 4,
+          "order": [
+            "PLAYER",
+            "ENEMY"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 300,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:20"
+            ],
+            "enemyPp": [
+              "tackle:20"
+            ]
+          },
+          "after": {
+            "playerHp": 290,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:19"
+            ],
+            "enemyPp": [
+              "tackle:19"
+            ]
+          },
+          "log": [
+            "地鼠 使用了 撞击！",
+            "似乎没有效果...",
+            "对手的 大钳蟹 使用了 撞击！",
+            "对手的 大钳蟹 造成了 10 点伤害。"
+          ]
+        },
+        {
+          "round": 2,
+          "logDelta": 4,
+          "order": [
+            "PLAYER",
+            "ENEMY"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 290,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:19"
+            ],
+            "enemyPp": [
+              "tackle:19"
+            ]
+          },
+          "after": {
+            "playerHp": 280,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:18"
+            ],
+            "enemyPp": [
+              "tackle:18"
+            ]
+          },
+          "log": [
+            "地鼠 使用了 撞击！",
+            "似乎没有效果...",
+            "对手的 大钳蟹 使用了 撞击！",
+            "对手的 大钳蟹 造成了 10 点伤害。"
+          ]
+        }
+      ]
+    },
+    "enemy-protect": {
+      "fixture": {
+        "variant": "enemy-protect",
+        "playerSpeed": 1,
+        "enemySpeed": 500,
+        "playerMove": [
+          "tackle"
+        ],
+        "enemyMove": [
+          "protect"
+        ],
+        "playerTypes": [
+          "normal"
+        ],
+        "enemyTypes": [
+          "normal"
+        ]
+      },
+      "failure": null,
+      "rounds": [
+        {
+          "round": 1,
+          "logDelta": 4,
+          "order": [
+            "ENEMY",
+            "PLAYER"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 300,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:20"
+            ],
+            "enemyPp": [
+              "protect:20"
+            ]
+          },
+          "after": {
+            "playerHp": 300,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:19"
+            ],
+            "enemyPp": [
+              "protect:19"
+            ]
+          },
+          "log": [
+            "对手的 大钳蟹 使用了 守住！",
+            "对手大钳蟹保护了自己！",
+            "地鼠 使用了 撞击！",
+            "大钳蟹保护了自己！"
+          ]
+        },
+        {
+          "round": 2,
+          "logDelta": 4,
+          "order": [
+            "ENEMY",
+            "PLAYER"
+          ],
+          "enemyActions": 1,
+          "playerActions": 1,
+          "before": {
+            "playerHp": 300,
+            "enemyHp": 300,
+            "playerPp": [
+              "tackle:19"
+            ],
+            "enemyPp": [
+              "protect:19"
+            ]
+          },
+          "after": {
+            "playerHp": 300,
+            "enemyHp": 284,
+            "playerPp": [
+              "tackle:18"
+            ],
+            "enemyPp": [
+              "protect:18"
+            ]
+          },
+          "log": [
+            "对手的 大钳蟹 使用了 守住！",
+            "对手大钳蟹的守住失败了！",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 16 点伤害。"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,824 @@
+{
+  "task": "input-reload",
+  "cases": {
+    "double-click": {
+      "name": "double-click",
+      "origin": "http://127.0.0.66:4300",
+      "steps": [
+        {
+          "name": "ready-390",
+          "state": {
+            "phase": "BATTLE",
+            "turn": "PLAYER",
+            "logLen": 0,
+            "logTail": [],
+            "player": [
+              {
+                "id": 50,
+                "hp": 300,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 300,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "panelEnabled": "true",
+            "domPlayerHp": "300/300",
+            "domLines": [
+              "等待战斗指令。"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "after-burst-390",
+          "state": {
+            "phase": "BATTLE",
+            "turn": "PLAYER",
+            "logLen": 4,
+            "logTail": [
+              "对手的 大钳蟹 使用了 头锤！",
+              "对手的 大钳蟹 造成了 13 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 16 点伤害。"
+            ],
+            "player": [
+              {
+                "id": 50,
+                "hp": 287,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:19",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 284,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:19"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "panelEnabled": "true",
+            "domPlayerHp": "287/300",
+            "domLines": [
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 16 点伤害。"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "ready2-390",
+          "state": {
+            "phase": "BATTLE",
+            "turn": "PLAYER",
+            "logLen": 4,
+            "logTail": [
+              "对手的 大钳蟹 使用了 头锤！",
+              "对手的 大钳蟹 造成了 13 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 16 点伤害。"
+            ],
+            "player": [
+              {
+                "id": 50,
+                "hp": 287,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:19",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 284,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:19"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "panelEnabled": "true",
+            "domPlayerHp": "287/300",
+            "domLines": [
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 16 点伤害。"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "after-spaced-burst-390",
+          "state": {
+            "phase": "BATTLE",
+            "turn": "PLAYER",
+            "logLen": 8,
+            "logTail": [
+              "对手的 大钳蟹 使用了 头锤！",
+              "对手的 大钳蟹 造成了 13 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 16 点伤害。",
+              "对手的 大钳蟹 使用了 头锤！",
+              "对手的 大钳蟹 造成了 16 点伤害。",
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 14 点伤害。"
+            ],
+            "player": [
+              {
+                "id": 50,
+                "hp": 271,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:18",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 270,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:18"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "panelEnabled": "true",
+            "domPlayerHp": "271/300",
+            "domLines": [
+              "地鼠 使用了 撞击！",
+              "地鼠 造成了 14 点伤害。"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        }
+      ],
+      "errors": [],
+      "runs": [
+        {
+          "kind": "sync-burst-8",
+          "burst": {
+            "dispatched": 8,
+            "enabledAtBurst": "true"
+          },
+          "before": {
+            "logLen": 0,
+            "playerPp": [
+              "tackle:20",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:20",
+              "pound:20",
+              "headbutt:20"
+            ],
+            "playerHp": 300
+          }
+        },
+        {
+          "kind": "sync-burst-8-result",
+          "logDelta": 4,
+          "newLog": [
+            "对手的 大钳蟹 使用了 头锤！",
+            "对手的 大钳蟹 造成了 13 点伤害。",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 16 点伤害。"
+          ],
+          "enemyActionLines": 1,
+          "playerActionLines": 1,
+          "after": {
+            "playerPp": [
+              "tackle:19",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:20",
+              "pound:20",
+              "headbutt:19"
+            ],
+            "playerHp": 287
+          }
+        },
+        {
+          "kind": "spaced-burst-5-result",
+          "spaced": {
+            "fired": 5,
+            "stamps": [
+              11650,
+              11765,
+              11863,
+              11875,
+              11910
+            ],
+            "enabledNow": "false"
+          },
+          "logDelta": 4,
+          "newLog": [
+            "对手的 大钳蟹 使用了 头锤！",
+            "对手的 大钳蟹 造成了 16 点伤害。",
+            "地鼠 使用了 撞击！",
+            "地鼠 造成了 14 点伤害。"
+          ],
+          "enemyActionLines": 1,
+          "playerActionLines": 1,
+          "after": {
+            "playerPp": [
+              "tackle:18",
+              "splash:20"
+            ],
+            "enemyPp": [
+              "tackle:20",
+              "scratch:20",
+              "pound:20",
+              "headbutt:18"
+            ]
+          }
+        }
+      ]
+    },
+    "reload-mid-round": {
+      "name": "reload-mid-round",
+      "origin": "http://127.0.0.67:4300",
+      "steps": [
+        {
+          "name": "pre-round-390",
+          "state": {
+            "phase": "BATTLE",
+            "turn": "PLAYER",
+            "logLen": 0,
+            "logTail": [],
+            "player": [
+              {
+                "id": 50,
+                "hp": 300,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 300,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "panelEnabled": "true",
+            "domPlayerHp": "300/300",
+            "domLines": [
+              "等待战斗指令。"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "mid-round-before-reload-390",
+          "state": {
+            "phase": "BATTLE",
+            "turn": "PLAYER",
+            "logLen": 0,
+            "logTail": [],
+            "player": [
+              {
+                "id": 50,
+                "hp": 300,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 300,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "panelEnabled": "false",
+            "domPlayerHp": "300/300",
+            "domLines": [
+              "对手的 大钳蟹 使用了 拍击！"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        },
+        {
+          "name": "post-reload-390",
+          "state": {
+            "phase": "BATTLE",
+            "turn": "PLAYER",
+            "logLen": 0,
+            "logTail": [],
+            "player": [
+              {
+                "id": 50,
+                "hp": 300,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "splash:20"
+                ]
+              },
+              {
+                "id": 66,
+                "hp": 132,
+                "maxHp": 132,
+                "pp": [
+                  "headbutt:15",
+                  "incinerate:15",
+                  "metronome:10",
+                  "snore:15"
+                ]
+              },
+              {
+                "id": 4,
+                "hp": 102,
+                "maxHp": 102,
+                "pp": [
+                  "focus-punch:20",
+                  "sleep-talk:10",
+                  "growl:40",
+                  "swords-dance:20"
+                ]
+              }
+            ],
+            "enemy": [
+              {
+                "id": 98,
+                "hp": 300,
+                "maxHp": 300,
+                "pp": [
+                  "tackle:20",
+                  "scratch:20",
+                  "pound:20",
+                  "headbutt:20"
+                ]
+              },
+              {
+                "id": 61,
+                "hp": 126,
+                "maxHp": 126,
+                "pp": [
+                  "water-pulse:20",
+                  "double-slap:10",
+                  "icy-wind:15",
+                  "rain-dance:5"
+                ]
+              },
+              {
+                "id": 140,
+                "hp": 91,
+                "maxHp": 91,
+                "pp": [
+                  "mega-drain:15",
+                  "ancient-power:5",
+                  "sand-attack:15",
+                  "protect:10"
+                ]
+              }
+            ],
+            "weatherTurns": 0,
+            "tailwindTurns": {
+              "player": 0,
+              "enemy": 0
+            },
+            "panelEnabled": "true",
+            "domPlayerHp": "300/300",
+            "domLines": [
+              "等待战斗指令。"
+            ],
+            "viewport": [
+              390,
+              844
+            ],
+            "scrollWidth": 390
+          }
+        }
+      ],
+      "errors": [],
+      "observations": {
+        "midRound": {
+          "panelEnabled": "false",
+          "domPlayerHp": "300/300",
+          "domLines": [
+            "对手的 大钳蟹 使用了 拍击！"
+          ],
+          "stableLogLen": 0,
+          "stablePlayerPp": [
+            "tackle:20",
+            "splash:20"
+          ],
+          "stablePlayerHp": 300
+        },
+        "preRound": {
+          "logLen": 0,
+          "playerPp": [
+            "tackle:20",
+            "splash:20"
+          ],
+          "enemyPp": [
+            "tackle:20",
+            "scratch:20",
+            "pound:20",
+            "headbutt:20"
+          ],
+          "playerHp": 300,
+          "enemyHp": 300,
+          "turn": "PLAYER",
+          "panelEnabled": "true"
+        },
+        "postReload": {
+          "logLen": 0,
+          "playerPp": [
+            "tackle:20",
+            "splash:20"
+          ],
+          "enemyPp": [
+            "tackle:20",
+            "scratch:20",
+            "pound:20",
+            "headbutt:20"
+          ],
+          "playerHp": 300,
+          "enemyHp": 300,
+          "turn": "PLAYER",
+          "panelEnabled": "true"
+        },
+        "verdict": {
+          "ppRestored": true,
+          "hpRestored": true,
+          "logRestored": true,
+          "enemyHpRestored": true
+        }
+      }
+    }
+  },
+  "errors": []
+}

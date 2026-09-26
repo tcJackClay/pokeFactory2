@@ -1,0 +1,164 @@
+{
+  "task": "turn-order-matrix",
+  "note": "顺序只在轮次开始决定一次；先制之爪/同速未覆盖（见 log.md 未验证项）",
+  "cases": {
+    "enemy-first-no-tailwind": {
+      "fixture": {
+        "variant": "enemy-first-timers",
+        "playerSpeed": 1,
+        "enemySpeed": 500,
+        "weather": "sandstorm",
+        "weatherTurns": 5,
+        "tailwindTurns": {
+          "player": 4,
+          "enemy": 4
+        },
+        "fieldState": [],
+        "fieldTurns": {},
+        "playerStatus": {
+          "id": "poison"
+        }
+      },
+      "orders": [
+        [
+          "ENEMY",
+          "PLAYER"
+        ],
+        [
+          "ENEMY",
+          "PLAYER"
+        ],
+        [
+          "ENEMY",
+          "PLAYER"
+        ]
+      ]
+    },
+    "enemy-first-trickroom": {
+      "fixture": {
+        "variant": "trickroom-enemy-first",
+        "playerSpeed": 500,
+        "enemySpeed": 1,
+        "weather": "none",
+        "weatherTurns": 0,
+        "tailwindTurns": {
+          "player": 0,
+          "enemy": 0
+        },
+        "fieldState": [
+          "trick_room"
+        ],
+        "fieldTurns": {
+          "trick_room": 5
+        },
+        "playerStatus": {
+          "id": "burn"
+        }
+      },
+      "orders": [
+        [
+          "ENEMY",
+          "PLAYER"
+        ],
+        [
+          "ENEMY",
+          "PLAYER"
+        ],
+        [
+          "ENEMY",
+          "PLAYER"
+        ]
+      ]
+    },
+    "player-first-immunity": {
+      "fixture": {
+        "variant": "player-immune",
+        "playerSpeed": 500,
+        "enemySpeed": 1,
+        "playerMove": [
+          "tackle"
+        ],
+        "enemyMove": [
+          "tackle"
+        ],
+        "playerTypes": [
+          "normal"
+        ],
+        "enemyTypes": [
+          "ghost"
+        ]
+      },
+      "orders": [
+        [
+          "PLAYER",
+          "ENEMY"
+        ],
+        [
+          "PLAYER",
+          "ENEMY"
+        ]
+      ]
+    },
+    "tailwind-changes-order": {
+      "fixture": {
+        "playerSpeed": 60,
+        "enemySpeed": 100,
+        "tailwindPlayerInitial": 0
+      },
+      "orders": [
+        [
+          "ENEMY",
+          "PLAYER"
+        ],
+        [
+          "PLAYER",
+          "ENEMY"
+        ],
+        [
+          "PLAYER",
+          "ENEMY"
+        ],
+        [
+          "PLAYER",
+          "ENEMY"
+        ]
+      ],
+      "tailwindBefore": [
+        {
+          "player": 0,
+          "enemy": 0
+        },
+        {
+          "player": 3,
+          "enemy": 0
+        },
+        {
+          "player": 2,
+          "enemy": 0
+        },
+        {
+          "player": 1,
+          "enemy": 0
+        }
+      ],
+      "tailwindAfter": [
+        {
+          "player": 3,
+          "enemy": 0
+        },
+        {
+          "player": 2,
+          "enemy": 0
+        },
+        {
+          "player": 1,
+          "enemy": 0
+        },
+        {
+          "player": 0,
+          "enemy": 0
+        }
+      ]
+    }
+  }
+}
