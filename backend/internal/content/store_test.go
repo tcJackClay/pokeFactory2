@@ -183,6 +183,51 @@ func TestFactoryHTTPFailurePreservesExistingPointer(t *testing.T) {
 	}
 }
 
+func TestPublishVersionNeverMergesIntoExistingDirectory(t *testing.T) {
+	root := t.TempDir()
+	staging := filepath.Join(root, "candidate.tmp")
+	final := filepath.Join(root, "candidate")
+	if err := os.Mkdir(staging, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Mkdir(final, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(staging, "new.body"), []byte("new"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(final, "existing.body"), []byte("existing"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := publishVersionDirectory(staging, final); err == nil {
+		t.Fatal("published into an existing version")
+	}
+	if body, err := os.ReadFile(filepath.Join(final, "existing.body")); err != nil || string(body) != "existing" {
+		t.Fatalf("existing version changed: %q %v", body, err)
+	}
+	if _, err := os.Stat(filepath.Join(final, "new.body")); !os.IsNotExist(err) {
+		t.Fatalf("new object merged into existing version: %v", err)
+	}
+}
+
+func TestPublishVersionRejectsConcurrentReservation(t *testing.T) {
+	root := t.TempDir()
+	staging := filepath.Join(root, "candidate.tmp")
+	final := filepath.Join(root, "candidate")
+	if err := os.Mkdir(staging, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(final+".publish.lock", nil, 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := publishVersionDirectory(staging, final); err == nil {
+		t.Fatal("published despite another process holding the version")
+	}
+	if _, err := os.Stat(staging); err != nil {
+		t.Fatalf("staging directory changed: %v", err)
+	}
+}
+
 func TestVersionSyncActivatesImmutableManifest(t *testing.T) {
 	upstream := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
 		responseWriter.Header().Set("Content-Type", "application/json")

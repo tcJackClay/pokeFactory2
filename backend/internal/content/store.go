@@ -209,43 +209,25 @@ func renameWithRetry(oldPath, newPath string) error {
 	return lastErr
 }
 
-func copyDirectory(sourceRoot, targetRoot string) error {
-	if err := os.MkdirAll(targetRoot, 0o755); err != nil {
+func publishVersionDirectory(stagingRoot, finalRoot string) error {
+	lockPath := finalRoot + ".publish.lock"
+	lock, err := os.OpenFile(lockPath, os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0o600)
+	if err != nil {
+		return fmt.Errorf("cannot reserve version for publish: %w", err)
+	}
+	if err := lock.Close(); err != nil {
+		_ = os.Remove(lockPath)
 		return err
 	}
-	return filepath.WalkDir(sourceRoot, func(sourcePath string, entry os.DirEntry, walkErr error) error {
-		if walkErr != nil {
-			return walkErr
-		}
-		relativePath, err := filepath.Rel(sourceRoot, sourcePath)
-		if err != nil || relativePath == "." {
-			return err
-		}
-		targetPath := filepath.Join(targetRoot, relativePath)
-		if entry.IsDir() {
-			return os.MkdirAll(targetPath, 0o755)
-		}
-		if entry.Type()&os.ModeSymlink != 0 {
-			return fmt.Errorf("refusing to copy symlink: %s", sourcePath)
-		}
-		data, err := os.ReadFile(sourcePath)
-		if err != nil {
-			return err
-		}
-		return os.WriteFile(targetPath, data, 0o644)
-	})
-}
-
-func publishVersionDirectory(stagingRoot, finalRoot string) error {
-	renameErr := renameWithRetry(stagingRoot, finalRoot)
-	if renameErr == nil {
-		return nil
+	defer os.Remove(lockPath)
+	if _, err := os.Stat(finalRoot); err == nil {
+		return fmt.Errorf("version already exists: %s", finalRoot)
+	} else if !os.IsNotExist(err) {
+		return err
 	}
-	if err := copyDirectory(stagingRoot, finalRoot); err != nil {
-		_ = os.RemoveAll(finalRoot)
-		return errors.Join(renameErr, err)
-	}
-	return nil
+	// Both paths share a parent filesystem. A failed rename must never fall back
+	// to copying into (or deleting) a version another process may have created.
+	return renameWithRetry(stagingRoot, finalRoot)
 }
 
 func (s *Store) activeManifest() (*Manifest, string, error) {

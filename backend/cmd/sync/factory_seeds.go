@@ -5,9 +5,78 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 )
+
+func canonicalStatePath(value string) (string, error) {
+	absolute, err := filepath.Abs(value)
+	if err != nil {
+		return "", err
+	}
+	current := filepath.Clean(absolute)
+	var suffix []string
+	for {
+		resolved, err := filepath.EvalSymlinks(current)
+		if err == nil {
+			for i := len(suffix) - 1; i >= 0; i-- {
+				resolved = filepath.Join(resolved, suffix[i])
+			}
+			return filepath.Clean(resolved), nil
+		}
+		if !os.IsNotExist(err) {
+			return "", err
+		}
+		parent := filepath.Dir(current)
+		if parent == current {
+			return "", fmt.Errorf("cannot resolve state path %q", value)
+		}
+		suffix = append(suffix, filepath.Base(current))
+		current = parent
+	}
+}
+
+func validateFactoryStateRoot(value string) error {
+	target, err := canonicalStatePath(value)
+	if err != nil {
+		return err
+	}
+	workingDirectory, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	for directory := workingDirectory; ; directory = filepath.Dir(directory) {
+		if directory == workingDirectory || isFactoryRepositoryRoot(directory) {
+			shared, err := canonicalStatePath(filepath.Join(directory, "var"))
+			if err != nil {
+				return err
+			}
+			if statePathWithin(shared, target) {
+				return fmt.Errorf("factory sync requires an isolated -state outside the shared var directory: %s", value)
+			}
+		}
+		if filepath.Dir(directory) == directory {
+			break
+		}
+	}
+	return nil
+}
+
+func isFactoryRepositoryRoot(directory string) bool {
+	_, manifestErr := os.Stat(filepath.Join(directory, "backend", "config", "sync-manifest.json"))
+	_, indexErr := os.Stat(filepath.Join(directory, "storage", "data", "factorySpeciesIndex.json"))
+	return manifestErr == nil && indexErr == nil
+}
+
+func statePathWithin(shared, target string) bool {
+	if runtime.GOOS == "windows" {
+		shared = strings.ToLower(shared)
+		target = strings.ToLower(target)
+	}
+	relative, err := filepath.Rel(shared, target)
+	return err == nil && (relative == "." || (relative != ".." && !strings.HasPrefix(relative, ".."+string(filepath.Separator))))
+}
 
 type factoryIndexEntry struct {
 	Identifier string `json:"identifier"`

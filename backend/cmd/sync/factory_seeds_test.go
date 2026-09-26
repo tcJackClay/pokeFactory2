@@ -1,9 +1,41 @@
 package main
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 )
+
+func TestValidateFactoryStateRootRejectsSharedPathAliases(t *testing.T) {
+	for _, value := range []string{"var", "." + string(filepath.Separator) + "var", filepath.Join("var", "sample")} {
+		if err := validateFactoryStateRoot(value); err == nil {
+			t.Fatalf("accepted shared state path %q", value)
+		}
+	}
+	shared, err := filepath.Abs("var")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := validateFactoryStateRoot(shared); err == nil {
+		t.Fatalf("accepted absolute shared state path %q", shared)
+	}
+	repositoryShared, err := filepath.Abs(filepath.Join("..", "..", "..", "var"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := validateFactoryStateRoot(repositoryShared); err == nil {
+		t.Fatalf("accepted repository shared state path %q", repositoryShared)
+	}
+	if err := validateFactoryStateRoot(t.TempDir()); err != nil {
+		t.Fatalf("rejected isolated state: %v", err)
+	}
+	alias := filepath.Join(t.TempDir(), "shared-alias")
+	if err := os.Symlink(repositoryShared, alias); err == nil {
+		if err := validateFactoryStateRoot(alias); err == nil {
+			t.Fatalf("accepted shared state symlink %q", alias)
+		}
+	}
+}
 
 func TestFactorySeedsCoverCurrentIndexAndReferenceSets(t *testing.T) {
 	root := filepath.Join("..", "..", "..")

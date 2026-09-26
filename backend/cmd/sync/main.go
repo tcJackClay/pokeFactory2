@@ -52,12 +52,12 @@ func uniqueSorted(values []string) []string {
 
 func main() {
 	defaultVersion := time.Now().UTC().Format("20060102T150405Z")
-	version := flag.String("version", defaultVersion, "要创建并激活的内容版本")
+	version := flag.String("version", defaultVersion, "要创建的内容版本；-factory 仅准备，常规模式激活")
 	stateRoot := flag.String("state", "var", "版本与运行缓存目录")
 	manifestPath := flag.String("manifest", "backend/config/sync-manifest.json", "基础同步清单")
 	factoryIndexPath := flag.String("factory-index", "storage/data/factorySpeciesIndex.json", "工厂物种索引")
 	full := flag.Bool("full", false, "同步工厂物种并递归同步其招式、特性、形态和进化链")
-	factory := flag.Bool("factory", false, "同步 Classic 工厂所需的有限 PokeAPI JSON 闭包")
+	factory := flag.Bool("factory", false, "仅在隔离 state 准备 Classic 工厂有限闭包；不激活版本")
 	factorySample := flag.String("factory-sample", "", "只准备一个索引中的 pokemon 标识符；不激活版本或同步基础清单/CSV")
 	referenceDirectory := flag.String("factory-reference-sets", "src/features/game/config/factoryReferenceSets/chunks", "工厂参考 set 分片目录")
 	specialFormsPath := flag.String("factory-special-forms", "src/features/game/config/specialForms.ts", "允许直接抽取形态清单")
@@ -76,10 +76,12 @@ func main() {
 	if *factorySample != "" {
 		*factory = true
 	}
-	if *factorySample != "" {
-		if *stateRoot == "var" {
-			log.Fatal("-factory-sample requires an explicit isolated -state path")
+	if *factory {
+		if err := validateFactoryStateRoot(*stateRoot); err != nil {
+			log.Fatal(err)
 		}
+	}
+	if *factorySample != "" {
 		var index []factoryIndexEntry
 		if err := readJSON(*factoryIndexPath, &index); err != nil {
 			log.Fatal(err)
@@ -164,6 +166,11 @@ func main() {
 	pokeAPIStore := content.NewStore("pokeapi", strings.TrimRight(*pokeAPIBase, "/"), *stateRoot, true, true, client)
 	csvStore := content.NewStore("pokedex-csv", "https://raw.githubusercontent.com/veekun/pokedex/master/pokedex/data/csv", *stateRoot, true, false, client)
 	ctx := context.Background()
+	if *factory && *maxDuration > 0 {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, *maxDuration)
+		defer cancel()
+	}
 
 	log.Printf("syncing PokeAPI version=%s seeds=%d full=%t factory=%t sample=%q", *version, len(configured.PokeAPI), *full, *factory, *factorySample)
 	pokeManifest, err := pokeAPIStore.PrepareVersion(ctx, content.SyncOptions{
@@ -188,15 +195,32 @@ func main() {
 		log.Printf("sample prepared, not activated: version=%s entries=%d", *version, len(pokeManifest.Entries))
 		return
 	}
+	if *factory && len(pokeManifest.Entries)+len(configured.CSV) > *maxEntries {
+		log.Fatalf("factory entry limit exceeded including CSV: %d > %d", len(pokeManifest.Entries)+len(configured.CSV), *maxEntries)
+	}
+	csvOptions := content.SyncOptions{Version: *version, Keys: configured.CSV, Workers: *workers}
+	if *factory {
+		var usedBytes int64
+		for _, entry := range pokeManifest.Entries {
+			usedBytes += entry.Size
+		}
+		if len(configured.CSV) > 0 {
+			remaining := *maxBytes - usedBytes
+			if remaining <= 0 {
+				log.Fatalf("factory byte limit exhausted before CSV: %d / %d", usedBytes, *maxBytes)
+			}
+			csvOptions.MaxBytes = remaining
+		}
+	}
 
 	log.Printf("syncing CSV version=%s entries=%d", *version, len(configured.CSV))
-	csvManifest, err := csvStore.PrepareVersion(ctx, content.SyncOptions{
-		Version: *version,
-		Keys:    configured.CSV,
-		Workers: *workers,
-	})
+	csvManifest, err := csvStore.PrepareVersion(ctx, csvOptions)
 	if err != nil {
 		log.Fatal(err)
+	}
+	if *factory {
+		log.Printf("factory version prepared, not activated: version=%s pokeapi=%d csv=%d", *version, len(pokeManifest.Entries), len(csvManifest.Entries))
+		return
 	}
 	if err := content.ActivateRelease(*stateRoot, *version); err != nil {
 		log.Fatal(err)
