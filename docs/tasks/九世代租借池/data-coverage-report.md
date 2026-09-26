@@ -18,7 +18,7 @@
 
 候选数按当前索引 1076 条剔除工厂规则明确禁用的未知图腾本体 1 条，为 1075 条；其中同物种的不同形态保留为不同 `pokemon` 候选，`species` 键去重。固定参考 set 共 771 条，已剔除同一禁用物种。参考招式数量是每代去重后的**已知下界**，不是随机招式全集；第 4–9 代无此参考 set，不代表不需要招式 JSON。
 
-全部可能随机选中的招式、特性、形态和进化链必须从固定版本中的候选 `pokemon`、`pokemon-species` JSON 继续推导。当前这些对象全缺，故这些类别的完整分母仍未知。JSON 报告中的 `move.expected` 仅包含本地固定参考招式，`ability`、`pokemon-form`、`evolution-chain` 的 0 表示**尚无法推导**，不表示覆盖完整。脚本识别同步器写入的 `/api/pokeapi/...` 本地 URL，并校验 manifest 对象路径、字节数、SHA256 和 JSON 可解析性。
+全部可能随机选中的招式、特性、形态和进化链必须从固定版本中的候选 `pokemon`、`pokemon-species` JSON 继续推导。当前这些对象全缺，故这些类别的完整分母仍未知。JSON 报告中的 `move.expected` 仅包含本地固定参考招式，`ability`、`pokemon-form`、`evolution-chain` 的 0 表示**尚无法推导**，不表示覆盖完整。脚本识别同步器写入的 `/api/pokeapi/...` 本地 URL，并校验 manifest 对象路径、字节数、SHA256、JSON 可解析性及宝可梦/物种正文的依赖字段；宝可梦正文实际指向的物种 URL 也计入缺键核查。
 
 图像路径按 `storage/assets/pokemon-sprites/report.json` 的 `local` 字段和磁盘文件核对。第 6 代 6 只、第 9 代 135 只候选没有原始背面图路径；JSON 报告逐只列出 ID 与缺失路径。服务端可把缺失背面图请求回退到前面图，但该回退不计为背面图素材覆盖，也不构成实际战斗画面验收。
 

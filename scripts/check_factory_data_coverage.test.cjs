@@ -55,6 +55,7 @@ test('active VERSION discovers candidate dependencies and rejects damaged object
       entries[key] = { key, file, sha256, size: data.length };
     }
     object('pokemon/25', {
+      species: { url: '/api/pokeapi/pokemon-species/25/' },
       moves: [{ move: { url: '/api/pokeapi/move/thunderbolt/' } }],
       abilities: [{ ability: { url: '/api/pokeapi/ability/static/' } }],
       forms: [{ url: '/api/pokeapi/pokemon-form/pikachu/' }],
@@ -74,6 +75,36 @@ test('active VERSION discovers candidate dependencies and rejects damaged object
     assert.deepEqual(json['pokemon-form'].missing, ['pokemon-form/pikachu']);
     assert.deepEqual(json['evolution-chain'].missing, ['evolution-chain/10']);
     assert.ok(result.problems.includes('invalid VERSION object: move/thunderbolt'));
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+});
+
+test('a frozen pokemon must expose dependency links, including its actual species URL', () => {
+  const root = fixture();
+  try {
+    const version = 'test-v2';
+    const entries = {};
+    function object(key, body) {
+      const data = Buffer.from(JSON.stringify(body));
+      const sha256 = crypto.createHash('sha256').update(data).digest('hex');
+      const file = `objects/${sha256}.body`;
+      write(root, `var/pokeapi/versions/${version}/${file}`, data);
+      entries[key] = { key, file, sha256, size: data.length };
+    }
+    object('pokemon/25', { species: { url: '/api/pokeapi/pokemon-species/133/' }, moves: [], abilities: [], forms: [] });
+    object('pokemon-species/25', { evolution_chain: null });
+    write(root, 'var/current.json', { version });
+    write(root, `var/pokeapi/versions/${version}/manifest.json`, { version, entries });
+    const mismatched = audit(root);
+    assert.deepEqual(mismatched.generations[0].json['pokemon-species'].missing, ['pokemon-species/133']);
+
+    object('pokemon/25', { species: { url: '/api/pokeapi/pokemon-species/25/' }, abilities: [], forms: [] });
+    write(root, `var/pokeapi/versions/${version}/manifest.json`, { version, entries });
+    const damaged = audit(root);
+    assert.deepEqual(damaged.generations[0].json.pokemon.missing, ['pokemon/25']);
+    assert.ok(damaged.problems.includes('invalid VERSION dependency shape: pokemon/25'));
+
+    write(root, `var/pokeapi/versions/${version}/manifest.json`, { version, entries: [] });
+    assert.equal(audit(root).version.status, 'invalid');
   } finally { fs.rmSync(root, { recursive: true, force: true }); }
 });
 

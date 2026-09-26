@@ -28,6 +28,22 @@ function addUrl(set, value, prefix) {
   if (key?.startsWith(`${prefix}/`)) set.add(key);
 }
 
+function hasDependencyShape(key, value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  if (key.startsWith('pokemon/')) {
+    return resourceKey(value.species?.url)?.startsWith('pokemon-species/')
+      && [['moves', 'move'], ['abilities', 'ability'], ['forms', null]].every(([field, link]) =>
+        Array.isArray(value[field]) && value[field].every((entry) =>
+          resourceKey(link ? entry?.[link]?.url : entry?.url)?.startsWith(`${link ?? 'pokemon-form'}/`)));
+  }
+  if (key.startsWith('pokemon-species/')) {
+    return Object.hasOwn(value, 'evolution_chain')
+      && (value.evolution_chain === null
+        || resourceKey(value.evolution_chain?.url)?.startsWith('evolution-chain/'));
+  }
+  return true;
+}
+
 function referenceSets(root) {
   const directory = path.join(root, 'src/features/game/config/factoryReferenceSets/chunks');
   const result = [];
@@ -59,7 +75,7 @@ function inspectVersion(root) {
   try { manifest = readJson(path.join(versionRoot, 'manifest.json')); } catch (error) {
     return { status: 'invalid', version: pointer.version, entries: {}, versionRoot, problems: [`manifest: ${error.message}`] };
   }
-  if (manifest?.version !== pointer.version || !manifest.entries || typeof manifest.entries !== 'object') {
+  if (manifest?.version !== pointer.version || !manifest.entries || typeof manifest.entries !== 'object' || Array.isArray(manifest.entries)) {
     problems.push('manifest version/entries mismatch');
   }
   return { status: problems.length ? 'invalid' : 'active', version: pointer.version, entries: manifest.entries ?? {}, versionRoot, problems };
@@ -98,6 +114,11 @@ function audit(root) {
       frozenCache.set(key, null);
       return null;
     }
+    if (!hasDependencyShape(key, value)) {
+      problems.push(`invalid VERSION dependency shape: ${key}`);
+      frozenCache.set(key, null);
+      return null;
+    }
     frozenCache.set(key, value);
     return value;
   }
@@ -115,6 +136,7 @@ function audit(root) {
       if (!pokemon) {
         unresolved.push(pokemonKey);
       } else {
+        addUrl(keys['pokemon-species'], pokemon.species, 'pokemon-species');
         for (const move of pokemon.moves ?? []) addUrl(keys.move, move.move, 'move');
         for (const ability of pokemon.abilities ?? []) addUrl(keys.ability, ability.ability, 'ability');
         for (const form of pokemon.forms ?? []) addUrl(keys['pokemon-form'], form, 'pokemon-form');
