@@ -4,6 +4,8 @@ import assert from 'node:assert/strict';
 import type { GamePokemon, Move, MoveBattleData, Nature, Stats } from '../../../types';
 import { applyMoveSecondaryEffects, applyStatusResidualDamage, applyWeatherChipDamage } from './battleResolution';
 import { setNonVolatileStatus, setVolatileStatus } from '../utils/battleStatus';
+import { buildMoveBattleDataFromPokeApiMove } from '../data/battle';
+import { calculateDamage } from '../battle/engine/resolveDamage';
 
 const DEFAULT_NATURE: Nature = {
   name: 'hardy',
@@ -139,6 +141,77 @@ test('applyMoveSecondaryEffects keeps user-side drops when the target is behind 
 
   assert.equal(result.playerTeam[0].statStages.spAtk, -2);
   assert.equal(result.enemyTeam[0].statStages.spAtk, 0);
+});
+
+test('Rogue Leaf Storm and Draco Meteor lower only the attacker after a hit, never on a miss or Protect', () => {
+  for (const name of ['leaf-storm', 'draco-meteor']) {
+    for (const actingSide of ['player', 'enemy'] as const) {
+      const move = createMove({
+        name,
+        type: name === 'leaf-storm' ? 'grass' : 'dragon',
+        damage_class: 'special',
+        power: 130,
+        accuracy: 90,
+        battleData: buildMoveBattleDataFromPokeApiMove({
+          name,
+          priority: 0,
+          target: { name: 'selected-pokemon' },
+          damage_class: { name: 'special' },
+          meta: { stat_chance: 100 },
+          stat_changes: [{ change: -2, stat: { name: 'special-attack' } }],
+          flags: [{ name: 'protect' }],
+        }),
+      });
+      const attacker = createPokemon(1, 'attacker');
+      const defender = createPokemon(2, 'defender');
+      const resolve = (target: GamePokemon, accuracyRoll: number) => {
+        const hit = calculateDamage({
+          move, attacker, defender: target, weather: 'none', atkBuff: false, defBuff: false,
+          random: () => accuracyRoll,
+        });
+        const afterDamage = { ...target, currentHp: Math.max(0, target.currentHp - hit.damage) };
+        const teams = actingSide === 'player'
+          ? { playerTeam: [attacker], enemyTeam: [afterDamage] }
+          : { playerTeam: [afterDamage], enemyTeam: [attacker] };
+        const effects = applyMoveSecondaryEffects({
+          move, actingSide, teams, getLocalized: (pokemon) => pokemon.name,
+          allowUserEffects: hit.applyUserSecondaryEffects,
+          allowTargetEffects: hit.applyTargetSecondaryEffects,
+          random: () => 0,
+        });
+        return {
+          hit,
+          actor: actingSide === 'player' ? effects.playerTeam[0] : effects.enemyTeam[0],
+          target: actingSide === 'player' ? effects.enemyTeam[0] : effects.playerTeam[0],
+        };
+      };
+
+      const landed = resolve(defender, 0);
+      assert.ok(landed.hit.damage > 0, `${name} should damage on hit`);
+      assert.equal(landed.actor.statStages.spAtk, -2);
+      assert.equal(landed.target.statStages.spAtk, 0);
+      assert.ok(landed.target.currentHp < defender.currentHp);
+
+      const missed = resolve(defender, 0.99);
+      assert.equal(missed.hit.isMiss, true);
+      assert.equal(missed.actor.statStages.spAtk, 0);
+      assert.equal(missed.target.statStages.spAtk, 0);
+      assert.equal(missed.target.currentHp, defender.currentHp);
+
+      const protectedTarget = setVolatileStatus(defender, 'protect');
+      const blocked = resolve(protectedTarget, 0);
+      assert.equal(blocked.hit.blockedByProtect, true);
+      assert.equal(blocked.actor.statStages.spAtk, 0);
+      assert.equal(blocked.target.statStages.spAtk, 0);
+      assert.equal(blocked.target.currentHp, defender.currentHp);
+
+      const substituted = resolve(setVolatileStatus(defender, 'substitute', { counter: 25 }), 0);
+      assert.equal(substituted.hit.blockedBySubstitute, true);
+      assert.equal(substituted.actor.statStages.spAtk, -2);
+      assert.equal(substituted.target.statStages.spAtk, 0);
+      assert.equal(substituted.target.currentHp, defender.currentHp);
+    }
+  }
 });
 
 test('secondary confusion and stat changes use one selected language', () => {

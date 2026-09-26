@@ -400,6 +400,32 @@ test('move battle data normalizes stat chances and self-targeting overrides', ()
   }]);
 });
 
+test('Rogue TM10 and TM43 convert the PokeAPI stat change to a guaranteed user drop', () => {
+  for (const name of ['leaf-storm', 'draco-meteor']) {
+    const data = buildMoveBattleDataFromPokeApiMove({
+      name,
+      priority: 0,
+      target: { name: 'selected-pokemon' },
+      damage_class: { name: 'special' },
+      meta: { stat_chance: 100 },
+      stat_changes: [{ change: -2, stat: { name: 'special-attack' } }],
+      flags: [{ name: 'protect' }],
+    });
+    assert.deepEqual(data.secondaryEffects, [{
+      kind: 'stat-stage',
+      chance: 100,
+      group: `${name}-drop`,
+      appliesTo: 'user',
+      isPrimary: true,
+      requiresHit: true,
+      blockedBySubstitute: false,
+      stat: 'spAtk',
+      change: -2,
+    }]);
+    assert.equal(data.bypassProtect, false);
+  }
+});
+
 test('every held item in factory reference chunks has an explicit battle metadata entry', () => {
   const chunksDir = path.resolve(process.cwd(), 'src/features/game/config/factoryReferenceSets/chunks');
   const chunkFiles = readdirSync(chunksDir).filter((file) => file.endsWith('.ts'));

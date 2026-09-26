@@ -64,6 +64,16 @@ export const MOVE_BATTLE_DATA_OVERRIDES: Partial<Record<string, MoveBattleDataOv
       { kind: 'stat-stage', chance: 100, group: 'overheat-drop', appliesTo: 'user', isPrimary: true, requiresHit: true, blockedBySubstitute: false, stat: 'spAtk', change: -2 },
     ],
   },
+  'leaf-storm': {
+    secondaryEffects: [
+      { kind: 'stat-stage', chance: 100, group: 'leaf-storm-drop', appliesTo: 'user', isPrimary: true, requiresHit: true, blockedBySubstitute: false, stat: 'spAtk', change: -2 },
+    ],
+  },
+  'draco-meteor': {
+    secondaryEffects: [
+      { kind: 'stat-stage', chance: 100, group: 'draco-meteor-drop', appliesTo: 'user', isPrimary: true, requiresHit: true, blockedBySubstitute: false, stat: 'spAtk', change: -2 },
+    ],
+  },
   superpower: {
     secondaryEffects: [
       { kind: 'stat-stage', chance: 100, group: 'superpower-drop', appliesTo: 'user', isPrimary: true, requiresHit: true, blockedBySubstitute: false, stat: 'attack', change: -1 },
