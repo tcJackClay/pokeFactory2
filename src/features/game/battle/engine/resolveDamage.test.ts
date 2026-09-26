@@ -132,6 +132,7 @@ function verifiedVariableTMMove(name: 'return' | 'facade'): Move {
   assert.ok(entry);
   assert.match(entry.cacheBodySha256, /^[a-f0-9]{64}$/);
   const data = entry.data;
+  assert.equal(data.name, name);
   return {
     name: data.name, power: data.power, accuracy: data.accuracy, pp: data.pp, currentPp: data.pp,
     type: data.type.name, damage_class: data.damage_class.name,
