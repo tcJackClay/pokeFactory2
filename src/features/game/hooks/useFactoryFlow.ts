@@ -995,6 +995,7 @@ export function useFactoryFlow({
       const candidatePokemon = isBoss ? applyBossBuildEnhancement(fixedIvPokemon, FACTORY_BATTLE_CONFIG.boss.minIv) : fixedIvPokemon;
 
       pickedSpecies.add(picked.pokemonId);
+      pickedSpecies.add(picked.speciesId);
       if (hasRealItem) {
         pickedItems.add(normalizePoolItemId(itemId));
       }

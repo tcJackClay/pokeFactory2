@@ -24,6 +24,7 @@ function buildWithSources(sources: (slot: number, attempt: number) => [PoolCandi
       const selected = viable[0]; // Controlled selection: first viable candidate.
       team.push(selected);
       pickedSpecies.add(selected.speciesId);
+      pickedSpecies.add(selected.pokemonId);
       pickedItems.add(normalizePoolItemId(selected.itemId));
       break;
     }
@@ -99,4 +100,14 @@ test('equipment aliases, evolution stage and quality band are rejected before se
   assert.equal(rejected['item-conflict'], 1);
   assert.equal(rejected['evolution-stage'], 1);
   assert.equal(rejected['quality-band'], 1);
+});
+
+test('different forms sharing a species cannot occupy two opponent slots', () => {
+  const result = buildWithSources((slot) => [
+    [{ ...candidate(100 + slot, 'reference', 'leftovers'), speciesId: 25 }],
+    [],
+    [candidate(300 + slot, 'global-pool', ['scope_lens', 'white_herb', 'quick_claw'][slot])],
+  ]);
+  assert.deepEqual(result.team.map((member) => member.pokemonId), [100, 301, 302]);
+  assert.equal(result.rejected['species-conflict'], 2);
 });
