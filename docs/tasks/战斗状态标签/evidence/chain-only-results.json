@@ -1,0 +1,13 @@
+{
+  "source": "real Protect battle snapshot from .116",
+  "origin": "127.0.0.133",
+  "turns": [
+    {
+      "chain": 2,
+      "protected": false,
+      "hud": null,
+      "body": "0\nBP\n1/7\n轮次\n0\n连胜\n怒鹦哥\n♀\nLV.50\n一般\n飞行\nHP\n100%\n凉脊龙\n♀\nLV.50\n龙\n冰\nHP\n126/126\n战斗日志\nFCT-01\n\n对手怒鹦哥的攻击没有命中！\n\n凉脊龙通过剩饭恢复了体力！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n冰冻牙\n冰\n威力 65\n命中 95\nPP 15/15\n剑舞\n一般\n威力 --\n命中 --\nPP 20/20\n太晶爆发\n一般\n威力 80\n命中 100\nPP 10/10\n守住\n一般\n威力 --\n命中 --\nPP 8/10"
+    }
+  ],
+  "pageErrors": []
+}

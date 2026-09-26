@@ -1,0 +1,80 @@
+[
+  {
+    "kind": "uproar",
+    "origin": "127.0.0.130",
+    "pageErrors": [],
+    "httpErrors": [],
+    "screens": [
+      {
+        "viewport": "390x844",
+        "language": "en",
+        "playerId": 955,
+        "playerVolatiles": [
+          "uproar"
+        ],
+        "enemyVolatiles": [
+          "substitute"
+        ],
+        "hudPlayer": "Uproar",
+        "hudEnemy": "Substitute",
+        "body": "\nFlittle\n♀\nLV.50\n超能\nUproar\nHP\n92/92\nBATTLE LOG\nFCT-01\n\n对手的 怒鹦哥 使用了 替身！\n\n对手怒鹦哥制造了替身！\n\nBATTLE\nSTATUS\nBAG\nPOKEMON\nRUN\nSandstorm\n岩石\nPow --\nAcc --\nPP 10/10\nUproar\n一般\nPow 90\nAcc 100\nPP 9/10\nFacade\n一般\nPow 70\nAcc 100\nPP 20/20\nPounce\n虫\nPow 50\nAcc 100\nPP 20/20",
+        "scrollWidth": 390,
+        "innerWidth": 390
+      },
+      {
+        "viewport": "844x390",
+        "language": "en",
+        "playerId": 955,
+        "playerVolatiles": [
+          "uproar"
+        ],
+        "enemyVolatiles": [
+          "substitute"
+        ],
+        "hudPlayer": "Uproar",
+        "hudEnemy": "Substitute",
+        "body": "tute\nHP\n42%\nFlittle\n♀\nLV.50\n超能\nUproar\nHP\n92/92\nBATTLE LOG\nFCT-01\n\n对手的 怒鹦哥 使用了 替身！\n\n对手怒鹦哥制造了替身！\n\nBATTLE\nSTATUS\nBAG\nPOKEMON\nRUN\nSandstorm\nPow --\nAcc --\nPP 10/10\nUproar\nPow 90\nAcc 100\nPP 9/10\nFacade\nPow 70\nAcc 100\nPP 20/20\nPounce\nPow 50\nAcc 100\nPP 20/20",
+        "scrollWidth": 844,
+        "innerWidth": 844
+      }
+    ]
+  },
+  {
+    "kind": "protect_chain",
+    "origin": "127.0.0.131",
+    "pageErrors": [],
+    "httpErrors": [],
+    "screens": [
+      {
+        "viewport": "390x844",
+        "language": "en",
+        "playerId": 996,
+        "playerVolatiles": [
+          "protect_chain",
+          "protect"
+        ],
+        "enemyVolatiles": [],
+        "hudPlayer": "Protected",
+        "hudEnemy": null,
+        "body": "V.50\n龙\n冰\nProtected\nHP\n126/126\nBATTLE LOG\nFCT-01\n\n对手的 怒鹦哥 使用了 暴风！\n\n凉脊龙保护了自己！\n\nBATTLE\nSTATUS\nBAG\nPOKEMON\nRUN\nIce Fang\n冰\nPow 65\nAcc 95\nPP 15/15\nSwords Dance\n一般\nPow --\nAcc --\nPP 20/20\nTera Blast\n一般\nPow 80\nAcc 100\nPP 10/10\nProtect\n一般\nPow --\nAcc --\nPP 9/10",
+        "scrollWidth": 390,
+        "innerWidth": 390
+      },
+      {
+        "viewport": "844x390",
+        "language": "en",
+        "playerId": 996,
+        "playerVolatiles": [
+          "protect_chain",
+          "protect"
+        ],
+        "enemyVolatiles": [],
+        "hudPlayer": "Protected",
+        "hudEnemy": null,
+        "body": "rigibax\n♀\nLV.50\n龙\n冰\nProtected\nHP\n126/126\nBATTLE LOG\nFCT-01\n\n对手的 怒鹦哥 使用了 暴风！\n\n凉脊龙保护了自己！\n\nBATTLE\nSTATUS\nBAG\nPOKEMON\nRUN\nIce Fang\nPow 65\nAcc 95\nPP 15/15\nSwords Dance\nPow --\nAcc --\nPP 20/20\nTera Blast\nPow 80\nAcc 100\nPP 10/10\nProtect\nPow --\nAcc --\nPP 9/10",
+        "scrollWidth": 844,
+        "innerWidth": 844
+      }
+    ]
+  }
+]

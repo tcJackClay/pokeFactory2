@@ -1,0 +1,22 @@
+{
+  "origin": "127.0.0.134",
+  "rows": [
+    {
+      "viewport": "390x844",
+      "language": "en",
+      "hudPlayer": null,
+      "bodyHasRawProtectChain": false,
+      "width": 390,
+      "scrollWidth": 390
+    },
+    {
+      "viewport": "844x390",
+      "language": "en",
+      "hudPlayer": null,
+      "bodyHasRawProtectChain": false,
+      "width": 844,
+      "scrollWidth": 844
+    }
+  ],
+  "pageErrors": []
+}

@@ -1,0 +1,944 @@
+{
+  "commit": "969cdbe",
+  "attempts": [
+    {
+      "origin": "127.0.0.116",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "凉脊龙",
+          "uproar": false,
+          "protect": true
+        },
+        {
+          "index": 1,
+          "name": "爱吃豚",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 2,
+          "name": "新叶喵",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 3,
+          "name": "虫滚泥",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 4,
+          "name": "纳噬草",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 5,
+          "name": "光蚪仔",
+          "uproar": false,
+          "protect": false
+        }
+      ],
+      "pageErrors": [],
+      "httpErrors": [],
+      "hmr": [],
+      "picked": [
+        0,
+        1,
+        2
+      ],
+      "ready": {
+        "companion": 133,
+        "language": "zh-hans",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 996,
+          "hp": 126,
+          "volatiles": {},
+          "moves": [
+            "ice-fang",
+            "swords-dance",
+            "tera-blast",
+            "protect"
+          ]
+        },
+        "enemy": {
+          "id": 10262,
+          "hp": 143,
+          "volatiles": {}
+        },
+        "hud": {
+          "player": null,
+          "enemy": null
+        }
+      },
+      "team": [
+        {
+          "id": 996,
+          "moves": [
+            "ice-fang",
+            "swords-dance",
+            "tera-blast",
+            "protect"
+          ]
+        },
+        {
+          "id": 915,
+          "moves": [
+            "swallow",
+            "spit-up",
+            "rain-dance",
+            "dig"
+          ]
+        },
+        {
+          "id": 906,
+          "moves": [
+            "copycat",
+            "grassy-terrain",
+            "scratch",
+            "slash"
+          ]
+        }
+      ],
+      "uproarIndex": -1,
+      "protectIndex": 0
+    },
+    {
+      "origin": "127.0.0.117",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "虫滚泥",
+          "uproar": false,
+          "protect": true
+        },
+        {
+          "index": 1,
+          "name": "走鲸",
+          "uproar": false,
+          "protect": true
+        },
+        {
+          "index": 2,
+          "name": "斯魔茶",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 3,
+          "name": "噗隆隆",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 4,
+          "name": "润水鸭",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 5,
+          "name": "索财灵",
+          "uproar": false,
+          "protect": false
+        }
+      ],
+      "pageErrors": [],
+      "httpErrors": [],
+      "hmr": [],
+      "picked": [
+        0,
+        1,
+        2
+      ],
+      "ready": {
+        "companion": 133,
+        "language": "zh-hans",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 953,
+          "hp": 102,
+          "volatiles": {},
+          "moves": [
+            "dig",
+            "defense-curl",
+            "protect",
+            "bug-bite"
+          ]
+        },
+        "enemy": {
+          "id": 958,
+          "hp": 126,
+          "volatiles": {}
+        },
+        "hud": {
+          "player": null,
+          "enemy": null
+        }
+      },
+      "team": [
+        {
+          "id": 953,
+          "moves": [
+            "dig",
+            "defense-curl",
+            "protect",
+            "bug-bite"
+          ]
+        },
+        {
+          "id": 974,
+          "moves": [
+            "protect",
+            "liquidation",
+            "double-edge",
+            "play-rough"
+          ]
+        },
+        {
+          "id": 1012,
+          "moves": [
+            "scald",
+            "poltergeist",
+            "phantom-force",
+            "giga-drain"
+          ]
+        }
+      ],
+      "uproarIndex": -1,
+      "protectIndex": 0
+    },
+    {
+      "origin": "127.0.0.118",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "一对鼠",
+          "uproar": false,
+          "protect": true
+        },
+        {
+          "index": 1,
+          "name": "光蚪仔",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 2,
+          "name": "润水鸭",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 3,
+          "name": "纳噬草",
+          "uproar": false,
+          "protect": true
+        },
+        {
+          "index": 4,
+          "name": "晶光芽",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 5,
+          "name": "狗仔包",
+          "uproar": false,
+          "protect": false
+        }
+      ],
+      "pageErrors": [],
+      "httpErrors": [],
+      "hmr": [],
+      "picked": [
+        0,
+        3,
+        1
+      ],
+      "ready": {
+        "companion": 133,
+        "language": "zh-hans",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 924,
+          "hp": 111,
+          "volatiles": {},
+          "moves": [
+            "fake-tears",
+            "shadow-claw",
+            "baby-doll-eyes",
+            "protect"
+          ]
+        },
+        "enemy": {
+          "id": 942,
+          "hp": 121,
+          "volatiles": {}
+        },
+        "hud": {
+          "player": null,
+          "enemy": null
+        }
+      },
+      "team": [
+        {
+          "id": 924,
+          "moves": [
+            "fake-tears",
+            "shadow-claw",
+            "baby-doll-eyes",
+            "protect"
+          ]
+        },
+        {
+          "id": 946,
+          "moves": [
+            "protect",
+            "leech-seed",
+            "grassy-glide",
+            "seed-bomb"
+          ]
+        },
+        {
+          "id": 938,
+          "moves": [
+            "acid-spray",
+            "sucker-punch",
+            "tackle",
+            "parabolic-charge"
+          ]
+        }
+      ],
+      "uproarIndex": -1,
+      "protectIndex": 0
+    },
+    {
+      "origin": "127.0.0.119",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "索财灵",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 1,
+          "name": "海地鼠",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 2,
+          "name": "波普海豚",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 3,
+          "name": "晶光芽",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 4,
+          "name": "原野水母",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 5,
+          "name": "狗仔包",
+          "uproar": false,
+          "protect": false
+        }
+      ],
+      "pageErrors": [],
+      "httpErrors": [],
+      "hmr": [],
+      "picked": [
+        0,
+        1,
+        2
+      ],
+      "ready": {
+        "companion": 133,
+        "language": "zh-hans",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 999,
+          "hp": 107,
+          "volatiles": {},
+          "moves": [
+            "night-shade",
+            "confuse-ray",
+            "take-down",
+            "tera-blast"
+          ]
+        },
+        "enemy": {
+          "id": 922,
+          "hp": 121,
+          "volatiles": {}
+        },
+        "hud": {
+          "player": null,
+          "enemy": null
+        }
+      },
+      "team": [
+        {
+          "id": 999,
+          "moves": [
+            "night-shade",
+            "confuse-ray",
+            "take-down",
+            "tera-blast"
+          ]
+        },
+        {
+          "id": 960,
+          "moves": [
+            "helping-hand",
+            "foul-play",
+            "slam",
+            "sandstorm"
+          ]
+        },
+        {
+          "id": 963,
+          "moves": [
+            "dive",
+            "body-slam",
+            "rest",
+            "mist"
+          ]
+        }
+      ],
+      "uproarIndex": -1,
+      "protectIndex": -1
+    },
+    {
+      "origin": "127.0.0.120",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "润水鸭",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 1,
+          "name": "凉脊龙",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 2,
+          "name": "滋汁鼹",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 3,
+          "name": "新叶喵",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 4,
+          "name": "偶叫獒",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 5,
+          "name": "小锻匠",
+          "uproar": false,
+          "protect": false
+        }
+      ],
+      "pageErrors": [],
+      "httpErrors": [],
+      "hmr": [],
+      "picked": [
+        0,
+        1,
+        2
+      ],
+      "ready": {
+        "companion": 133,
+        "language": "zh-hans",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 912,
+          "hp": 115,
+          "volatiles": {},
+          "moves": [
+            "rest",
+            "brave-bird",
+            "chilling-water",
+            "pound"
+          ]
+        },
+        "enemy": {
+          "id": 980,
+          "hp": 191,
+          "volatiles": {}
+        },
+        "hud": {
+          "player": null,
+          "enemy": null
+        }
+      },
+      "team": [
+        {
+          "id": 912,
+          "moves": [
+            "rest",
+            "brave-bird",
+            "chilling-water",
+            "pound"
+          ]
+        },
+        {
+          "id": 996,
+          "moves": [
+            "dragon-tail",
+            "focus-energy",
+            "aqua-tail",
+            "blizzard"
+          ]
+        },
+        {
+          "id": 944,
+          "moves": [
+            "parting-shot",
+            "foul-play",
+            "taunt",
+            "copycat"
+          ]
+        }
+      ],
+      "uproarIndex": -1,
+      "protectIndex": -1
+    },
+    {
+      "origin": "127.0.0.121",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "凉脊龙",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 1,
+          "name": "呆火鳄",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 2,
+          "name": "热辣娃",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 3,
+          "name": "新叶喵",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 4,
+          "name": "晶光芽",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 5,
+          "name": "迷你芙",
+          "uproar": false,
+          "protect": true
+        }
+      ],
+      "pageErrors": [],
+      "httpErrors": [],
+      "hmr": [],
+      "picked": [
+        5,
+        0,
+        1
+      ],
+      "ready": {
+        "companion": 133,
+        "language": "zh-hans",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 928,
+          "hp": 102,
+          "volatiles": {},
+          "moves": [
+            "protect",
+            "leech-seed",
+            "flail",
+            "seed-bomb"
+          ]
+        },
+        "enemy": {
+          "id": 932,
+          "hp": 116,
+          "volatiles": {}
+        },
+        "hud": {
+          "player": null,
+          "enemy": null
+        }
+      },
+      "team": [
+        {
+          "id": 928,
+          "moves": [
+            "protect",
+            "leech-seed",
+            "flail",
+            "seed-bomb"
+          ]
+        },
+        {
+          "id": 996,
+          "moves": [
+            "endure",
+            "facade",
+            "body-slam",
+            "crunch"
+          ]
+        },
+        {
+          "id": 909,
+          "moves": [
+            "thunder-fang",
+            "will-o-wisp",
+            "flame-charge",
+            "flamethrower"
+          ]
+        }
+      ],
+      "uproarIndex": -1,
+      "protectIndex": 0
+    },
+    {
+      "origin": "127.0.0.122",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "怒鹦哥",
+          "uproar": false,
+          "protect": true
+        },
+        {
+          "index": 1,
+          "name": "新叶喵",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 2,
+          "name": "热辣娃",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 3,
+          "name": "一对鼠",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 4,
+          "name": "电海燕",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 5,
+          "name": "噗隆隆",
+          "uproar": false,
+          "protect": false
+        }
+      ],
+      "pageErrors": [],
+      "httpErrors": [],
+      "hmr": [],
+      "picked": [
+        0,
+        1,
+        2
+      ],
+      "ready": {
+        "companion": 133,
+        "language": "zh-hans",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 931,
+          "hp": 144,
+          "volatiles": {},
+          "moves": [
+            "double-edge",
+            "tailwind",
+            "protect",
+            "feather-dance"
+          ]
+        },
+        "enemy": {
+          "id": 980,
+          "hp": 191,
+          "volatiles": {}
+        },
+        "hud": {
+          "player": null,
+          "enemy": null
+        }
+      },
+      "team": [
+        {
+          "id": 931,
+          "moves": [
+            "double-edge",
+            "tailwind",
+            "protect",
+            "feather-dance"
+          ]
+        },
+        {
+          "id": 906,
+          "moves": [
+            "swift",
+            "solar-beam",
+            "magical-leaf",
+            "sucker-punch"
+          ]
+        },
+        {
+          "id": 951,
+          "moves": [
+            "leaf-storm",
+            "magical-leaf",
+            "substitute",
+            "sandstorm"
+          ]
+        }
+      ],
+      "uproarIndex": -1,
+      "protectIndex": 0
+    },
+    {
+      "origin": "127.0.0.123",
+      "candidates": [
+        {
+          "index": 0,
+          "name": "一对鼠",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 1,
+          "name": "飘飘雏",
+          "uproar": true,
+          "protect": false
+        },
+        {
+          "index": 2,
+          "name": "偶叫獒",
+          "uproar": false,
+          "protect": true
+        },
+        {
+          "index": 3,
+          "name": "墓仔狗",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 4,
+          "name": "滋汁鼹",
+          "uproar": false,
+          "protect": false
+        },
+        {
+          "index": 5,
+          "name": "炭小侍",
+          "uproar": false,
+          "protect": false
+        }
+      ],
+      "pageErrors": [],
+      "httpErrors": [],
+      "hmr": [],
+      "picked": [
+        1,
+        2,
+        0
+      ],
+      "ready": {
+        "companion": 133,
+        "language": "zh-hans",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 955,
+          "hp": 92,
+          "volatiles": {},
+          "moves": [
+            "sandstorm",
+            "uproar",
+            "facade",
+            "pounce"
+          ]
+        },
+        "enemy": {
+          "id": 10260,
+          "hp": 143,
+          "volatiles": {}
+        },
+        "hud": {
+          "player": null,
+          "enemy": null
+        }
+      },
+      "team": [
+        {
+          "id": 955,
+          "moves": [
+            "sandstorm",
+            "uproar",
+            "facade",
+            "pounce"
+          ]
+        },
+        {
+          "id": 942,
+          "moves": [
+            "protect",
+            "body-slam",
+            "roar",
+            "taunt"
+          ]
+        },
+        {
+          "id": 924,
+          "moves": [
+            "agility",
+            "beat-up",
+            "taunt",
+            "double-hit"
+          ]
+        }
+      ],
+      "uproarIndex": 0,
+      "protectIndex": 1
+    }
+  ],
+  "captures": [
+    {
+      "kind": "protect_chain",
+      "origin": "127.0.0.116",
+      "status": {
+        "companion": 133,
+        "language": "zh-hans",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 996,
+          "hp": 126,
+          "volatiles": {
+            "protect_chain": {
+              "id": "protect_chain",
+              "active": true,
+              "counter": 1
+            },
+            "protect": {
+              "id": "protect",
+              "active": true,
+              "turnsRemaining": 1,
+              "sourceMoveName": "protect"
+            }
+          },
+          "moves": [
+            "ice-fang",
+            "swords-dance",
+            "tera-blast",
+            "protect"
+          ]
+        },
+        "enemy": {
+          "id": 10262,
+          "hp": 143,
+          "volatiles": {}
+        },
+        "hud": {
+          "player": null,
+          "enemy": null
+        }
+      },
+      "body": "0\nBP\n1/7\n轮次\n0\n连胜\n怒鹦哥\n♀\nLV.50\n一般\n飞行\nHP\n100%\n凉脊龙\n♀\nLV.50\n龙\n冰\nHP\n126/126\n战斗日志\nFCT-01\n\n凉脊龙通过剩饭恢复了体力！\n\n怒鹦哥通过剩饭恢复了体力！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n冰冻牙\n威力 65\n命中 95\nPP 15/15\n剑舞\n威力 --\n命中 --\nPP 20/20\n太晶爆发\n威力 80\n命中 100\nPP 10/10\n守住\n威力 --\n命中 --\nPP 9/10"
+    },
+    {
+      "kind": "uproar",
+      "origin": "127.0.0.123",
+      "status": {
+        "companion": 133,
+        "language": "zh-hans",
+        "phase": "BATTLE",
+        "turn": "PLAYER",
+        "player": {
+          "id": 955,
+          "hp": 92,
+          "volatiles": {
+            "uproar": {
+              "id": "uproar",
+              "active": true,
+              "turnsRemaining": 3,
+              "linkedMoveName": "uproar"
+            }
+          },
+          "moves": [
+            "sandstorm",
+            "uproar",
+            "facade",
+            "pounce"
+          ]
+        },
+        "enemy": {
+          "id": 10260,
+          "hp": 60,
+          "volatiles": {
+            "substitute": {
+              "id": "substitute",
+              "active": true,
+              "counter": 35,
+              "sourceMoveName": "substitute"
+            }
+          }
+        },
+        "hud": {
+          "player": "大闹",
+          "enemy": "替身"
+        }
+      },
+      "body": "0\nBP\n1/7\n轮次\n0\n连胜\n怒鹦哥\n♂\nLV.50\n一般\n飞行\n替身\nHP\n48%\n飘飘雏\n♀\nLV.50\n超能\n大闹\nHP\n92/92\n战斗日志\nFCT-01\n\n飘飘雏仍在大声吵闹！\n\n怒鹦哥通过剩饭恢复了体力！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n沙暴\n威力 --\n命中 --\nPP 10/10\n吵闹\n威力 90\n命中 100\nPP 9/10\n硬撑\n威力 70\n命中 100\nPP 20/20\n虫扑\n威力 50\n命中 100\nPP 20/20"
+    }
+  ],
+  "errors": []
+}
