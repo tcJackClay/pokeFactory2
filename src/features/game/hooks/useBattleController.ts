@@ -19,6 +19,7 @@ import {
   resolveActionSelection,
   resolveTailwindUse,
   resolveStealthRockUse,
+  resolveToxicSpikesUse,
   resolveEntryHazards,
   resolveBeforeMoveChecks as resolveBeforeMoveChecksStep,
   clearProtectionChain,
@@ -928,16 +929,22 @@ export function useBattleController({
   }, [resolveBattleResult]);
 
   const enterBattlefield = useCallback((pokemon: GamePokemon, side: 'player' | 'enemy') => {
-    return resolveEntryHazards(clearSwitchingBattleState(pokemon), side, hazardsRef.current);
-  }, []);
+    const result = resolveEntryHazards(clearSwitchingBattleState(pokemon), side, hazardsRef.current, fieldState, weather);
+    if (result.hazards !== hazardsRef.current) {
+      hazardsRef.current = result.hazards;
+      setHazards(result.hazards);
+    }
+    return result;
+  }, [fieldState, setHazards, weather]);
 
   const reportEntryHazards = useCallback(async (result: ReturnType<typeof resolveEntryHazards>) => {
-    if (result.damage <= 0) return;
-    await addMessagesSequentially([battleLine(currentLanguage,
-      `${getLocalized(result.pokemon)} was hurt by Stealth Rock!`,
-      `${getLocalized(result.pokemon)}受到了隐形岩的伤害！`)]);
-    if (result.fainted) {
-      await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(result.pokemon))]);
+    for (const event of result.events) {
+      const name = getLocalized(result.pokemon);
+      if (event === 'stealth-rock') await addMessagesSequentially([battleLine(currentLanguage, `${name} was hurt by Stealth Rock!`, `${name}受到了隐形岩的伤害！`)]);
+      if (event === 'fainted') await addMessagesSequentially([t('fainted').replace('{name}', name)]);
+      if (event === 'toxic-spikes-absorbed') await addMessagesSequentially([battleLine(currentLanguage, `${name} absorbed the Toxic Spikes!`, `${name}吸收了毒菱！`)]);
+      if (event === 'poison') await addMessagesSequentially([battleLine(currentLanguage, `${name} was poisoned by Toxic Spikes!`, `${name}被毒菱施加了中毒！`)]);
+      if (event === 'bad-poison') await addMessagesSequentially([battleLine(currentLanguage, `${name} was badly poisoned by Toxic Spikes!`, `${name}被毒菱施加了剧毒！`)]);
     }
   }, [addMessagesSequentially, currentLanguage, getLocalized, t]);
 
@@ -1730,6 +1737,24 @@ export function useBattleController({
       await addMessagesSequentially([
         result.succeeded
           ? battleLine(currentLanguage, `${actorLabel} scattered Stealth Rock around the opposing team!`, `${actorLabel}在对手一方撒下了隐形岩！`)
+          : battleLine(currentLanguage, 'But it failed!', '但是失败了！'),
+      ]);
+      if (isPlayerActing) setPlayerAnim('idle');
+      else setEnemyAnim('idle');
+      setActiveMoveType(null);
+      setMainBattleTurn(isPlayerActing ? 'ENEMY' : 'PLAYER');
+      return;
+    }
+
+    if (hasMoveBattleEffect(resolvedMove, 'TOXIC_SPIKES')) {
+      const result = resolveToxicSpikesUse(hazardsRef.current, actingSide);
+      if (result.succeeded) {
+        hazardsRef.current = result.hazards;
+        setHazards(result.hazards);
+      }
+      await addMessagesSequentially([
+        result.succeeded
+          ? battleLine(currentLanguage, `${actorLabel} scattered Toxic Spikes around the opposing team!`, `${actorLabel}在对手一方撒下了毒菱！`)
           : battleLine(currentLanguage, 'But it failed!', '但是失败了！'),
       ]);
       if (isPlayerActing) setPlayerAnim('idle');

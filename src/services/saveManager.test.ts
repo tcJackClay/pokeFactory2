@@ -230,8 +230,8 @@ test('battle checkpoint retains both hazard sides and rejects malformed present 
   assert.equal(previous.status, 'READY');
   if (previous.status !== 'READY') return;
   const hazards = {
-    player: { stealthRock: true, toxicSpikesLayers: 0 },
-    enemy: { stealthRock: false, toxicSpikesLayers: 0 },
+    player: { stealthRock: true, toxicSpikesLayers: 2 },
+    enemy: { stealthRock: false, toxicSpikesLayers: 1 },
   };
   const withHazards = (value: unknown) => JSON.stringify({
     ...saved,
@@ -240,7 +240,24 @@ test('battle checkpoint retains both hazard sides and rejects malformed present 
   const restored = parseSaveDataFromText(withHazards(hazards)).factory.battleResume;
   assert.equal(restored.status, 'READY');
   if (restored.status === 'READY') assert.deepEqual(restored.hazards, hazards);
+  const poisoned = parseSaveDataFromText(JSON.stringify({
+    ...saved,
+    factory: { ...saved.factory, battleResume: {
+      ...previous,
+      hazards,
+      playerTeam: [{ ...previous.playerTeam[0], nonVolatileStatus: { id: 'bad_poison', toxicCounter: 1 } }, ...previous.playerTeam.slice(1)],
+    } },
+  })).factory.battleResume;
+  assert.equal(poisoned.status, 'READY');
+  if (poisoned.status === 'READY') {
+    assert.equal(poisoned.hazards.player.toxicSpikesLayers, 2);
+    assert.equal(poisoned.playerTeam[0].nonVolatileStatus?.id, 'bad_poison');
+    assert.equal(poisoned.playerTeam[0].nonVolatileStatus?.toxicCounter, 1);
+  }
   assert.equal(classifySaveText(withHazards({ player: { stealthRock: 'yes' } })).kind, 'corrupt');
+  for (const layers of [-1, 3, 1.5]) {
+    assert.equal(classifySaveText(withHazards({ ...hazards, player: { ...hazards.player, toxicSpikesLayers: layers } })).kind, 'corrupt');
+  }
 });
 
 test('new save preserves battle snapshots, including postbattle phase', () => {

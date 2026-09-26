@@ -121,6 +121,10 @@ export const MOVE_BATTLE_DATA_OVERRIDES: Partial<Record<string, MoveBattleDataOv
     effectId: 'STEALTH_ROCK',
     target: 'opponents-field',
   },
+  'toxic-spikes': {
+    effectId: 'TOXIC_SPIKES',
+    target: 'opponents-field',
+  },
   yawn: {
     effectId: 'YAWN',
   },

@@ -118,14 +118,22 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
   }
 
   for (const side of ['player', 'enemy'] as const) {
-    if (!hazards[side].stealthRock) continue;
-    effectRows.push({
+    if (hazards[side].stealthRock) effectRows.push({
       key: `stealth-rock-${side}`,
       icon: Triangle,
       label: side === 'player'
         ? { zh: '我方场地：隐形岩', en: 'Stealth Rock on your side' }
         : { zh: '对手场地：隐形岩', en: 'Stealth Rock on enemy side' },
       iconClassName: side === 'player' ? 'text-blue-500' : 'text-red-500',
+      turns: 0,
+    });
+    if (hazards[side].toxicSpikesLayers > 0) effectRows.push({
+      key: `toxic-spikes-${side}`,
+      icon: Triangle,
+      label: side === 'player'
+        ? { zh: `我方场地：毒菱 ${hazards[side].toxicSpikesLayers} 层`, en: `Toxic Spikes on your side: ${hazards[side].toxicSpikesLayers} layer(s)` }
+        : { zh: `对手场地：毒菱 ${hazards[side].toxicSpikesLayers} 层`, en: `Toxic Spikes on enemy side: ${hazards[side].toxicSpikesLayers} layer(s)` },
+      iconClassName: side === 'player' ? 'text-fuchsia-500' : 'text-rose-500',
       turns: 0,
     });
   }

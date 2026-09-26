@@ -63,6 +63,12 @@ test('buildMoveBattleDataFromPokeApiMove merges pokeapi flags and local override
   assert.deepEqual(moveBattleData.flags, ['protect', 'mirror', 'sound']);
 });
 
+test('Toxic Spikes move data targets the opposing field', () => {
+  const data = buildMoveBattleDataFromPokeApiMove({ name: 'toxic-spikes', target: { name: 'opponents-field' }, meta: {} });
+  assert.equal(data.effectId, 'TOXIC_SPIKES');
+  assert.equal(data.target, 'opponents-field');
+});
+
 test('buildMoveBattleDataFromPokeApiMove derives multi-hit and recoil data', () => {
   const moveBattleData = buildMoveBattleDataFromPokeApiMove({
     name: 'double-slap',
