@@ -1,0 +1,77 @@
+{
+  "before": {
+    "stage": 21,
+    "phase": "BASE",
+    "trainer": "TRAINER_NOLAND",
+    "enemy": [
+      991,
+      985,
+      950
+    ],
+    "balance": 20,
+    "revision": 4,
+    "settledThrough": 3,
+    "brainSymbols": 1,
+    "history": [
+      {
+        "setNo": 3,
+        "trainerIds": [
+          "FRONTIER_TRAINER_ARNOLD",
+          "FRONTIER_TRAINER_ELENA",
+          "FRONTIER_TRAINER_GARETT",
+          "FRONTIER_TRAINER_JAMAL",
+          "FRONTIER_TRAINER_MARV",
+          "FRONTIER_TRAINER_STANLY",
+          "TRAINER_NOLAND"
+        ]
+      }
+    ],
+    "paused": true
+  },
+  "stage22Ready": {
+    "stage": 22,
+    "phase": "BATTLE",
+    "trainer": "FRONTIER_TRAINER_ISIAH",
+    "enemy": [
+      1002,
+      978,
+      910
+    ],
+    "balance": 20,
+    "revision": 4,
+    "settledThrough": 3,
+    "brainSymbols": 1,
+    "history": [
+      {
+        "setNo": 4,
+        "trainerIds": [
+          "FRONTIER_TRAINER_ISIAH"
+        ]
+      }
+    ],
+    "paused": false
+  },
+  "stage22Reload": {
+    "stage": 22,
+    "phase": "BATTLE",
+    "trainer": "FRONTIER_TRAINER_ISIAH",
+    "enemy": [
+      1002,
+      978,
+      910
+    ],
+    "balance": 20,
+    "revision": 4,
+    "settledThrough": 3,
+    "brainSymbols": 1,
+    "history": [
+      {
+        "setNo": 4,
+        "trainerIds": [
+          "FRONTIER_TRAINER_ISIAH"
+        ]
+      }
+    ],
+    "paused": false
+  }
+}

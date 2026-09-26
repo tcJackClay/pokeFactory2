@@ -1,0 +1,2464 @@
+{
+  "origin": "http://127.0.0.43:4300/",
+  "stages": [
+    {
+      "stage": 1,
+      "ready": {
+        "trainer": "FRONTIER_TRAINER_LIZBETH",
+        "enemy": [
+          942,
+          907,
+          997
+        ]
+      },
+      "mode": "real move then DEV Win",
+      "result": {
+        "balance": 0,
+        "settledThrough": 0
+      }
+    },
+    {
+      "stage": 2,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 2,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_JILL",
+        "enemy": [
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          },
+          {
+            "id": 948,
+            "name": "toedscool",
+            "species": "toedscool"
+          },
+          {
+            "id": 958,
+            "name": "tinkatuff",
+            "species": "tinkatuff"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 布土拨！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 2,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_JILL",
+        "enemy": [
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          },
+          {
+            "id": 948,
+            "name": "toedscool",
+            "species": "toedscool"
+          },
+          {
+            "id": 958,
+            "name": "tinkatuff",
+            "species": "tinkatuff"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 布土拨！"
+        ]
+      }
+    },
+    {
+      "stage": 3,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 3,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_GRAYSON",
+        "enemy": [
+          {
+            "id": 999,
+            "name": "gimmighoul",
+            "species": "gimmighoul"
+          },
+          {
+            "id": 980,
+            "name": "clodsire",
+            "species": "clodsire"
+          },
+          {
+            "id": 921,
+            "name": "pawmi",
+            "species": "pawmi"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_GRAYSON",
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 索财灵！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 3,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_GRAYSON",
+        "enemy": [
+          {
+            "id": 999,
+            "name": "gimmighoul",
+            "species": "gimmighoul"
+          },
+          {
+            "id": 980,
+            "name": "clodsire",
+            "species": "clodsire"
+          },
+          {
+            "id": 921,
+            "name": "pawmi",
+            "species": "pawmi"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_GRAYSON",
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 索财灵！"
+        ]
+      }
+    },
+    {
+      "stage": 4,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 4,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_PAYTON",
+        "enemy": [
+          {
+            "id": 996,
+            "name": "frigibax",
+            "species": "frigibax"
+          },
+          {
+            "id": 10263,
+            "name": "gimmighoul-roaming",
+            "species": "gimmighoul"
+          },
+          {
+            "id": 965,
+            "name": "varoom",
+            "species": "varoom"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_GRAYSON",
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH",
+              "FRONTIER_TRAINER_PAYTON"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 凉脊龙！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 4,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_PAYTON",
+        "enemy": [
+          {
+            "id": 996,
+            "name": "frigibax",
+            "species": "frigibax"
+          },
+          {
+            "id": 10263,
+            "name": "gimmighoul-roaming",
+            "species": "gimmighoul"
+          },
+          {
+            "id": 965,
+            "name": "varoom",
+            "species": "varoom"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_GRAYSON",
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH",
+              "FRONTIER_TRAINER_PAYTON"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 凉脊龙！"
+        ]
+      }
+    },
+    {
+      "stage": 5,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 5,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_PAMELA",
+        "enemy": [
+          {
+            "id": 1012,
+            "name": "poltchageist",
+            "species": "poltchageist"
+          },
+          {
+            "id": 907,
+            "name": "floragato",
+            "species": "floragato"
+          },
+          {
+            "id": 931,
+            "name": "squawkabilly-green-plumage",
+            "species": "squawkabilly"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_GRAYSON",
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PAYTON"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 斯魔茶！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 5,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_PAMELA",
+        "enemy": [
+          {
+            "id": 1012,
+            "name": "poltchageist",
+            "species": "poltchageist"
+          },
+          {
+            "id": 907,
+            "name": "floragato",
+            "species": "floragato"
+          },
+          {
+            "id": 931,
+            "name": "squawkabilly-green-plumage",
+            "species": "squawkabilly"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_GRAYSON",
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PAYTON"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 斯魔茶！"
+        ]
+      }
+    },
+    {
+      "stage": 6,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 6,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_BRODY",
+        "enemy": [
+          {
+            "id": 958,
+            "name": "tinkatuff",
+            "species": "tinkatuff"
+          },
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          },
+          {
+            "id": 910,
+            "name": "crocalor",
+            "species": "crocalor"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_BRODY",
+              "FRONTIER_TRAINER_GRAYSON",
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PAYTON"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 巧锻匠！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 6,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_BRODY",
+        "enemy": [
+          {
+            "id": 958,
+            "name": "tinkatuff",
+            "species": "tinkatuff"
+          },
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          },
+          {
+            "id": 910,
+            "name": "crocalor",
+            "species": "crocalor"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_BRODY",
+              "FRONTIER_TRAINER_GRAYSON",
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PAYTON"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 巧锻匠！"
+        ]
+      }
+    },
+    {
+      "stage": 7,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 7,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_MAXWELL",
+        "enemy": [
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          },
+          {
+            "id": 943,
+            "name": "mabosstiff",
+            "species": "mabosstiff"
+          },
+          {
+            "id": 10261,
+            "name": "squawkabilly-yellow-plumage",
+            "species": "squawkabilly"
+          }
+        ],
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "brainSymbols": 0,
+        "lastSettlement": null,
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_BRODY",
+              "FRONTIER_TRAINER_GRAYSON",
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH",
+              "FRONTIER_TRAINER_MAXWELL",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PAYTON"
+            ]
+          }
+        ],
+        "log": [
+          "道馆馆主 派出了 布土拨！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 7,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_MAXWELL",
+        "enemy": [
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          },
+          {
+            "id": 943,
+            "name": "mabosstiff",
+            "species": "mabosstiff"
+          },
+          {
+            "id": 10261,
+            "name": "squawkabilly-yellow-plumage",
+            "species": "squawkabilly"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 1,
+            "trainerIds": [
+              "FRONTIER_TRAINER_BRODY",
+              "FRONTIER_TRAINER_GRAYSON",
+              "FRONTIER_TRAINER_JILL",
+              "FRONTIER_TRAINER_LIZBETH",
+              "FRONTIER_TRAINER_MAXWELL",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PAYTON"
+            ]
+          }
+        ],
+        "log": [
+          "道馆馆主 派出了 布土拨！"
+        ]
+      }
+    },
+    {
+      "stage": 8,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 8,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_PEGGY",
+        "enemy": [
+          {
+            "id": 997,
+            "name": "arctibax",
+            "species": "arctibax"
+          },
+          {
+            "id": 948,
+            "name": "toedscool",
+            "species": "toedscool"
+          },
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_PEGGY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 冻脊龙！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "real move then DEV Win",
+      "afterRealMove": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 8,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_PEGGY",
+        "enemy": [
+          {
+            "id": 997,
+            "name": "arctibax",
+            "species": "arctibax"
+          },
+          {
+            "id": 948,
+            "name": "toedscool",
+            "species": "toedscool"
+          },
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_PEGGY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 冻脊龙！"
+        ]
+      },
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 8,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_PEGGY",
+        "enemy": [
+          {
+            "id": 997,
+            "name": "arctibax",
+            "species": "arctibax"
+          },
+          {
+            "id": 948,
+            "name": "toedscool",
+            "species": "toedscool"
+          },
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_PEGGY"
+            ]
+          }
+        ],
+        "log": [
+          "呆火鳄的攻击降低了！",
+          "呆火鳄的特攻降低了！",
+          "对手的 冻脊龙 造成了 33 点伤害。",
+          "呆火鳄通过剩饭恢复了体力！"
+        ]
+      }
+    },
+    {
+      "stage": 9,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 9,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_PAMELA",
+        "enemy": [
+          {
+            "id": 913,
+            "name": "quaxwell",
+            "species": "quaxwell"
+          },
+          {
+            "id": 950,
+            "name": "klawf",
+            "species": "klawf"
+          },
+          {
+            "id": 10260,
+            "name": "squawkabilly-blue-plumage",
+            "species": "squawkabilly"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 涌跃鸭！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 9,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_PAMELA",
+        "enemy": [
+          {
+            "id": 913,
+            "name": "quaxwell",
+            "species": "quaxwell"
+          },
+          {
+            "id": 950,
+            "name": "klawf",
+            "species": "klawf"
+          },
+          {
+            "id": 10260,
+            "name": "squawkabilly-blue-plumage",
+            "species": "squawkabilly"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 涌跃鸭！"
+        ]
+      }
+    },
+    {
+      "stage": 10,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 10,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_KIPP",
+        "enemy": [
+          {
+            "id": 932,
+            "name": "nacli",
+            "species": "nacli"
+          },
+          {
+            "id": 1024,
+            "name": "terapagos",
+            "species": "terapagos"
+          },
+          {
+            "id": 928,
+            "name": "smoliv",
+            "species": "smoliv"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_KIPP",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 盐石宝！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 10,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_KIPP",
+        "enemy": [
+          {
+            "id": 932,
+            "name": "nacli",
+            "species": "nacli"
+          },
+          {
+            "id": 1024,
+            "name": "terapagos",
+            "species": "terapagos"
+          },
+          {
+            "id": 928,
+            "name": "smoliv",
+            "species": "smoliv"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_KIPP",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 盐石宝！"
+        ]
+      }
+    },
+    {
+      "stage": 11,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 11,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_RAYNA",
+        "enemy": [
+          {
+            "id": 938,
+            "name": "tadbulb",
+            "species": "tadbulb"
+          },
+          {
+            "id": 996,
+            "name": "frigibax",
+            "species": "frigibax"
+          },
+          {
+            "id": 10257,
+            "name": "maushold-family-of-three",
+            "species": "maushold"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_KIPP",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY",
+              "FRONTIER_TRAINER_RAYNA"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 光蚪仔！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 11,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_RAYNA",
+        "enemy": [
+          {
+            "id": 938,
+            "name": "tadbulb",
+            "species": "tadbulb"
+          },
+          {
+            "id": 996,
+            "name": "frigibax",
+            "species": "frigibax"
+          },
+          {
+            "id": 10257,
+            "name": "maushold-family-of-three",
+            "species": "maushold"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_KIPP",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY",
+              "FRONTIER_TRAINER_RAYNA"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 光蚪仔！"
+        ]
+      }
+    },
+    {
+      "stage": 12,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 12,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_SELPHY",
+        "enemy": [
+          {
+            "id": 920,
+            "name": "lokix",
+            "species": "lokix"
+          },
+          {
+            "id": 10262,
+            "name": "squawkabilly-white-plumage",
+            "species": "squawkabilly"
+          },
+          {
+            "id": 944,
+            "name": "shroodle",
+            "species": "shroodle"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_KIPP",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY",
+              "FRONTIER_TRAINER_RAYNA",
+              "FRONTIER_TRAINER_SELPHY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 烈腿蝗！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 12,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_SELPHY",
+        "enemy": [
+          {
+            "id": 920,
+            "name": "lokix",
+            "species": "lokix"
+          },
+          {
+            "id": 10262,
+            "name": "squawkabilly-white-plumage",
+            "species": "squawkabilly"
+          },
+          {
+            "id": 944,
+            "name": "shroodle",
+            "species": "shroodle"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_KIPP",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY",
+              "FRONTIER_TRAINER_RAYNA",
+              "FRONTIER_TRAINER_SELPHY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 烈腿蝗！"
+        ]
+      }
+    },
+    {
+      "stage": 13,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 13,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_RICH",
+        "enemy": [
+          {
+            "id": 907,
+            "name": "floragato",
+            "species": "floragato"
+          },
+          {
+            "id": 10262,
+            "name": "squawkabilly-white-plumage",
+            "species": "squawkabilly"
+          },
+          {
+            "id": 951,
+            "name": "capsakid",
+            "species": "capsakid"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_KIPP",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY",
+              "FRONTIER_TRAINER_RAYNA",
+              "FRONTIER_TRAINER_RICH",
+              "FRONTIER_TRAINER_SELPHY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 蒂蕾喵！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 13,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_RICH",
+        "enemy": [
+          {
+            "id": 907,
+            "name": "floragato",
+            "species": "floragato"
+          },
+          {
+            "id": 10262,
+            "name": "squawkabilly-white-plumage",
+            "species": "squawkabilly"
+          },
+          {
+            "id": 951,
+            "name": "capsakid",
+            "species": "capsakid"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_KIPP",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY",
+              "FRONTIER_TRAINER_RAYNA",
+              "FRONTIER_TRAINER_RICH",
+              "FRONTIER_TRAINER_SELPHY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 蒂蕾喵！"
+        ]
+      }
+    },
+    {
+      "stage": 14,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 14,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_ARMANDO",
+        "enemy": [
+          {
+            "id": 10257,
+            "name": "maushold-family-of-three",
+            "species": "maushold"
+          },
+          {
+            "id": 961,
+            "name": "wugtrio",
+            "species": "wugtrio"
+          },
+          {
+            "id": 1014,
+            "name": "okidogi",
+            "species": "okidogi"
+          }
+        ],
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T07:58:50.052Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARMANDO",
+              "FRONTIER_TRAINER_KIPP",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY",
+              "FRONTIER_TRAINER_RAYNA",
+              "FRONTIER_TRAINER_RICH",
+              "FRONTIER_TRAINER_SELPHY"
+            ]
+          }
+        ],
+        "log": [
+          "道馆馆主 派出了 一家鼠！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 14,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_ARMANDO",
+        "enemy": [
+          {
+            "id": 10257,
+            "name": "maushold-family-of-three",
+            "species": "maushold"
+          },
+          {
+            "id": 961,
+            "name": "wugtrio",
+            "species": "wugtrio"
+          },
+          {
+            "id": 1014,
+            "name": "okidogi",
+            "species": "okidogi"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 2,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARMANDO",
+              "FRONTIER_TRAINER_KIPP",
+              "FRONTIER_TRAINER_PAMELA",
+              "FRONTIER_TRAINER_PEGGY",
+              "FRONTIER_TRAINER_RAYNA",
+              "FRONTIER_TRAINER_RICH",
+              "FRONTIER_TRAINER_SELPHY"
+            ]
+          }
+        ],
+        "log": [
+          "道馆馆主 派出了 一家鼠！"
+        ]
+      }
+    },
+    {
+      "stage": 15,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 15,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_ELENA",
+        "enemy": [
+          {
+            "id": 958,
+            "name": "tinkatuff",
+            "species": "tinkatuff"
+          },
+          {
+            "id": 1011,
+            "name": "dipplin",
+            "species": "dipplin"
+          },
+          {
+            "id": 973,
+            "name": "flamigo",
+            "species": "flamigo"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ELENA"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 巧锻匠！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "real move then DEV Win",
+      "afterRealMove": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 15,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_ELENA",
+        "enemy": [
+          {
+            "id": 958,
+            "name": "tinkatuff",
+            "species": "tinkatuff"
+          },
+          {
+            "id": 1011,
+            "name": "dipplin",
+            "species": "dipplin"
+          },
+          {
+            "id": 973,
+            "name": "flamigo",
+            "species": "flamigo"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ELENA"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 巧锻匠！"
+        ]
+      },
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 15,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_ELENA",
+        "enemy": [
+          {
+            "id": 958,
+            "name": "tinkatuff",
+            "species": "tinkatuff"
+          },
+          {
+            "id": 1011,
+            "name": "dipplin",
+            "species": "dipplin"
+          },
+          {
+            "id": 973,
+            "name": "flamigo",
+            "species": "flamigo"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ELENA"
+            ]
+          }
+        ],
+        "log": [
+          "对手的 巧锻匠 使用了 嬉闹！",
+          "这一击收效甚微...",
+          "对手的 巧锻匠 造成了 29 点伤害。",
+          "呆火鳄通过剩饭恢复了体力！"
+        ]
+      }
+    },
+    {
+      "stage": 16,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 16,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_GARETT",
+        "enemy": [
+          {
+            "id": 910,
+            "name": "crocalor",
+            "species": "crocalor"
+          },
+          {
+            "id": 997,
+            "name": "arctibax",
+            "species": "arctibax"
+          },
+          {
+            "id": 913,
+            "name": "quaxwell",
+            "species": "quaxwell"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 炙烫鳄！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 16,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_GARETT",
+        "enemy": [
+          {
+            "id": 910,
+            "name": "crocalor",
+            "species": "crocalor"
+          },
+          {
+            "id": 997,
+            "name": "arctibax",
+            "species": "arctibax"
+          },
+          {
+            "id": 913,
+            "name": "quaxwell",
+            "species": "quaxwell"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 炙烫鳄！"
+        ]
+      }
+    },
+    {
+      "stage": 17,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 17,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_ARNOLD",
+        "enemy": [
+          {
+            "id": 1000,
+            "name": "gholdengo",
+            "species": "gholdengo"
+          },
+          {
+            "id": 967,
+            "name": "cyclizar",
+            "species": "cyclizar"
+          },
+          {
+            "id": 933,
+            "name": "naclstack",
+            "species": "naclstack"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARNOLD",
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 赛富豪！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 17,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_ARNOLD",
+        "enemy": [
+          {
+            "id": 1000,
+            "name": "gholdengo",
+            "species": "gholdengo"
+          },
+          {
+            "id": 967,
+            "name": "cyclizar",
+            "species": "cyclizar"
+          },
+          {
+            "id": 933,
+            "name": "naclstack",
+            "species": "naclstack"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARNOLD",
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 赛富豪！"
+        ]
+      }
+    },
+    {
+      "stage": 18,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 18,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_JAMAL",
+        "enemy": [
+          {
+            "id": 933,
+            "name": "naclstack",
+            "species": "naclstack"
+          },
+          {
+            "id": 948,
+            "name": "toedscool",
+            "species": "toedscool"
+          },
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARNOLD",
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT",
+              "FRONTIER_TRAINER_JAMAL"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 盐石垒！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 18,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_JAMAL",
+        "enemy": [
+          {
+            "id": 933,
+            "name": "naclstack",
+            "species": "naclstack"
+          },
+          {
+            "id": 948,
+            "name": "toedscool",
+            "species": "toedscool"
+          },
+          {
+            "id": 922,
+            "name": "pawmo",
+            "species": "pawmo"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARNOLD",
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT",
+              "FRONTIER_TRAINER_JAMAL"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 盐石垒！"
+        ]
+      }
+    },
+    {
+      "stage": 19,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 19,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_STANLY",
+        "enemy": [
+          {
+            "id": 962,
+            "name": "bombirdier",
+            "species": "bombirdier"
+          },
+          {
+            "id": 10259,
+            "name": "tatsugiri-stretchy",
+            "species": "tatsugiri"
+          },
+          {
+            "id": 973,
+            "name": "flamigo",
+            "species": "flamigo"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARNOLD",
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT",
+              "FRONTIER_TRAINER_JAMAL",
+              "FRONTIER_TRAINER_STANLY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 下石鸟！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 19,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_STANLY",
+        "enemy": [
+          {
+            "id": 962,
+            "name": "bombirdier",
+            "species": "bombirdier"
+          },
+          {
+            "id": 10259,
+            "name": "tatsugiri-stretchy",
+            "species": "tatsugiri"
+          },
+          {
+            "id": 973,
+            "name": "flamigo",
+            "species": "flamigo"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARNOLD",
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT",
+              "FRONTIER_TRAINER_JAMAL",
+              "FRONTIER_TRAINER_STANLY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 下石鸟！"
+        ]
+      }
+    },
+    {
+      "stage": 20,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 20,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_MARV",
+        "enemy": [
+          {
+            "id": 973,
+            "name": "flamigo",
+            "species": "flamigo"
+          },
+          {
+            "id": 972,
+            "name": "houndstone",
+            "species": "houndstone"
+          },
+          {
+            "id": 965,
+            "name": "varoom",
+            "species": "varoom"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARNOLD",
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT",
+              "FRONTIER_TRAINER_JAMAL",
+              "FRONTIER_TRAINER_MARV",
+              "FRONTIER_TRAINER_STANLY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 纏红鹤！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 20,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "FRONTIER_TRAINER_MARV",
+        "enemy": [
+          {
+            "id": 973,
+            "name": "flamigo",
+            "species": "flamigo"
+          },
+          {
+            "id": 972,
+            "name": "houndstone",
+            "species": "houndstone"
+          },
+          {
+            "id": 965,
+            "name": "varoom",
+            "species": "varoom"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARNOLD",
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT",
+              "FRONTIER_TRAINER_JAMAL",
+              "FRONTIER_TRAINER_MARV",
+              "FRONTIER_TRAINER_STANLY"
+            ]
+          }
+        ],
+        "log": [
+          "对手 派出了 纏红鹤！"
+        ]
+      }
+    },
+    {
+      "stage": 21,
+      "ready": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 21,
+        "phase": "BATTLE",
+        "status": "READY",
+        "trainer": "TRAINER_NOLAND",
+        "enemy": [
+          {
+            "id": 991,
+            "name": "iron-bundle",
+            "species": "iron-bundle"
+          },
+          {
+            "id": 985,
+            "name": "scream-tail",
+            "species": "scream-tail"
+          },
+          {
+            "id": 950,
+            "name": "klawf",
+            "species": "klawf"
+          }
+        ],
+        "balance": 6,
+        "revision": 3,
+        "settledThrough": 2,
+        "brainSymbols": 0,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 2,
+          "stage": 14,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T08:01:12.754Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARNOLD",
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT",
+              "FRONTIER_TRAINER_JAMAL",
+              "FRONTIER_TRAINER_MARV",
+              "FRONTIER_TRAINER_STANLY",
+              "TRAINER_NOLAND"
+            ]
+          }
+        ],
+        "log": [
+          "Frontier Brain Noland challenges you!",
+          "道馆馆主 派出了 铁包袱！"
+        ],
+        "enemyGenerations": [
+          9,
+          9,
+          9
+        ]
+      },
+      "mode": "DEV Win",
+      "result": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+        "stage": 21,
+        "phase": "ROUND_RESULT",
+        "status": "READY",
+        "trainer": "TRAINER_NOLAND",
+        "enemy": [
+          {
+            "id": 991,
+            "name": "iron-bundle",
+            "species": "iron-bundle"
+          },
+          {
+            "id": 985,
+            "name": "scream-tail",
+            "species": "scream-tail"
+          },
+          {
+            "id": 950,
+            "name": "klawf",
+            "species": "klawf"
+          }
+        ],
+        "balance": 20,
+        "revision": 4,
+        "settledThrough": 3,
+        "brainSymbols": 1,
+        "lastSettlement": {
+          "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+          "setNo": 3,
+          "stage": 21,
+          "result": "WIN",
+          "isFrontierBrain": true,
+          "nominalBp": 14,
+          "amount": 14,
+          "settledAt": "2026-09-26T08:04:10.741Z"
+        },
+        "history": [
+          {
+            "setNo": 3,
+            "trainerIds": [
+              "FRONTIER_TRAINER_ARNOLD",
+              "FRONTIER_TRAINER_ELENA",
+              "FRONTIER_TRAINER_GARETT",
+              "FRONTIER_TRAINER_JAMAL",
+              "FRONTIER_TRAINER_MARV",
+              "FRONTIER_TRAINER_STANLY",
+              "TRAINER_NOLAND"
+            ]
+          }
+        ],
+        "log": [
+          "Frontier Brain Noland challenges you!",
+          "道馆馆主 派出了 铁包袱！"
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "httpErrors": []
+}

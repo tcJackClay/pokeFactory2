@@ -1,0 +1,854 @@
+{
+  "selectedGens": [
+    9
+  ],
+  "rows": [
+    {
+      "stage": 1,
+      "setNo": 1,
+      "trainerId": "FRONTIER_TRAINER_LIZBETH",
+      "enemyTeam": [
+        {
+          "pokemonId": 942,
+          "name": "maschiff",
+          "speciesId": 942,
+          "generation": 9
+        },
+        {
+          "pokemonId": 907,
+          "name": "floragato",
+          "speciesId": 907,
+          "generation": 9
+        },
+        {
+          "pokemonId": 997,
+          "name": "arctibax",
+          "speciesId": 997,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 0,
+      "settledThrough": 0,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 1,
+          "trainerIds": [
+            "FRONTIER_TRAINER_LIZBETH"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "setNo": 1,
+      "trainerId": "FRONTIER_TRAINER_JILL",
+      "enemyTeam": [
+        {
+          "pokemonId": 922,
+          "name": "pawmo",
+          "speciesId": 922,
+          "generation": 9
+        },
+        {
+          "pokemonId": 948,
+          "name": "toedscool",
+          "speciesId": 948,
+          "generation": 9
+        },
+        {
+          "pokemonId": 958,
+          "name": "tinkatuff",
+          "speciesId": 958,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 0,
+      "settledThrough": 0,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 1,
+          "trainerIds": [
+            "FRONTIER_TRAINER_JILL",
+            "FRONTIER_TRAINER_LIZBETH"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "setNo": 1,
+      "trainerId": "FRONTIER_TRAINER_GRAYSON",
+      "enemyTeam": [
+        {
+          "pokemonId": 999,
+          "name": "gimmighoul",
+          "speciesId": 999,
+          "generation": 9
+        },
+        {
+          "pokemonId": 980,
+          "name": "clodsire",
+          "speciesId": 980,
+          "generation": 9
+        },
+        {
+          "pokemonId": 921,
+          "name": "pawmi",
+          "speciesId": 921,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 0,
+      "settledThrough": 0,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 1,
+          "trainerIds": [
+            "FRONTIER_TRAINER_GRAYSON",
+            "FRONTIER_TRAINER_JILL",
+            "FRONTIER_TRAINER_LIZBETH"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 4,
+      "setNo": 1,
+      "trainerId": "FRONTIER_TRAINER_PAYTON",
+      "enemyTeam": [
+        {
+          "pokemonId": 996,
+          "name": "frigibax",
+          "speciesId": 996,
+          "generation": 9
+        },
+        {
+          "pokemonId": 10263,
+          "name": "gimmighoul-roaming",
+          "speciesId": 999,
+          "generation": 9
+        },
+        {
+          "pokemonId": 965,
+          "name": "varoom",
+          "speciesId": 965,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 0,
+      "settledThrough": 0,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 1,
+          "trainerIds": [
+            "FRONTIER_TRAINER_GRAYSON",
+            "FRONTIER_TRAINER_JILL",
+            "FRONTIER_TRAINER_LIZBETH",
+            "FRONTIER_TRAINER_PAYTON"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 5,
+      "setNo": 1,
+      "trainerId": "FRONTIER_TRAINER_PAMELA",
+      "enemyTeam": [
+        {
+          "pokemonId": 1012,
+          "name": "poltchageist",
+          "speciesId": 1012,
+          "generation": 9
+        },
+        {
+          "pokemonId": 907,
+          "name": "floragato",
+          "speciesId": 907,
+          "generation": 9
+        },
+        {
+          "pokemonId": 931,
+          "name": "squawkabilly-green-plumage",
+          "speciesId": 931,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 0,
+      "settledThrough": 0,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 1,
+          "trainerIds": [
+            "FRONTIER_TRAINER_GRAYSON",
+            "FRONTIER_TRAINER_JILL",
+            "FRONTIER_TRAINER_LIZBETH",
+            "FRONTIER_TRAINER_PAMELA",
+            "FRONTIER_TRAINER_PAYTON"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 6,
+      "setNo": 1,
+      "trainerId": "FRONTIER_TRAINER_BRODY",
+      "enemyTeam": [
+        {
+          "pokemonId": 958,
+          "name": "tinkatuff",
+          "speciesId": 958,
+          "generation": 9
+        },
+        {
+          "pokemonId": 922,
+          "name": "pawmo",
+          "speciesId": 922,
+          "generation": 9
+        },
+        {
+          "pokemonId": 910,
+          "name": "crocalor",
+          "speciesId": 910,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 0,
+      "settledThrough": 0,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 1,
+          "trainerIds": [
+            "FRONTIER_TRAINER_BRODY",
+            "FRONTIER_TRAINER_GRAYSON",
+            "FRONTIER_TRAINER_JILL",
+            "FRONTIER_TRAINER_LIZBETH",
+            "FRONTIER_TRAINER_PAMELA",
+            "FRONTIER_TRAINER_PAYTON"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 7,
+      "setNo": 1,
+      "trainerId": "FRONTIER_TRAINER_MAXWELL",
+      "enemyTeam": [
+        {
+          "pokemonId": 922,
+          "name": "pawmo",
+          "speciesId": 922,
+          "generation": 9
+        },
+        {
+          "pokemonId": 943,
+          "name": "mabosstiff",
+          "speciesId": 943,
+          "generation": 9
+        },
+        {
+          "pokemonId": 10261,
+          "name": "squawkabilly-yellow-plumage",
+          "speciesId": 931,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 3,
+      "settledThrough": 1,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 1,
+          "trainerIds": [
+            "FRONTIER_TRAINER_BRODY",
+            "FRONTIER_TRAINER_GRAYSON",
+            "FRONTIER_TRAINER_JILL",
+            "FRONTIER_TRAINER_LIZBETH",
+            "FRONTIER_TRAINER_MAXWELL",
+            "FRONTIER_TRAINER_PAMELA",
+            "FRONTIER_TRAINER_PAYTON"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 8,
+      "setNo": 2,
+      "trainerId": "FRONTIER_TRAINER_PEGGY",
+      "enemyTeam": [
+        {
+          "pokemonId": 997,
+          "name": "arctibax",
+          "speciesId": 997,
+          "generation": 9
+        },
+        {
+          "pokemonId": 948,
+          "name": "toedscool",
+          "speciesId": 948,
+          "generation": 9
+        },
+        {
+          "pokemonId": 922,
+          "name": "pawmo",
+          "speciesId": 922,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 3,
+      "settledThrough": 1,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 2,
+          "trainerIds": [
+            "FRONTIER_TRAINER_PEGGY"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "setNo": 2,
+      "trainerId": "FRONTIER_TRAINER_PAMELA",
+      "enemyTeam": [
+        {
+          "pokemonId": 913,
+          "name": "quaxwell",
+          "speciesId": 913,
+          "generation": 9
+        },
+        {
+          "pokemonId": 950,
+          "name": "klawf",
+          "speciesId": 950,
+          "generation": 9
+        },
+        {
+          "pokemonId": 10260,
+          "name": "squawkabilly-blue-plumage",
+          "speciesId": 931,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 3,
+      "settledThrough": 1,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 2,
+          "trainerIds": [
+            "FRONTIER_TRAINER_PAMELA",
+            "FRONTIER_TRAINER_PEGGY"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 10,
+      "setNo": 2,
+      "trainerId": "FRONTIER_TRAINER_KIPP",
+      "enemyTeam": [
+        {
+          "pokemonId": 932,
+          "name": "nacli",
+          "speciesId": 932,
+          "generation": 9
+        },
+        {
+          "pokemonId": 1024,
+          "name": "terapagos",
+          "speciesId": 1024,
+          "generation": 9
+        },
+        {
+          "pokemonId": 928,
+          "name": "smoliv",
+          "speciesId": 928,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 3,
+      "settledThrough": 1,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 2,
+          "trainerIds": [
+            "FRONTIER_TRAINER_KIPP",
+            "FRONTIER_TRAINER_PAMELA",
+            "FRONTIER_TRAINER_PEGGY"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 11,
+      "setNo": 2,
+      "trainerId": "FRONTIER_TRAINER_RAYNA",
+      "enemyTeam": [
+        {
+          "pokemonId": 938,
+          "name": "tadbulb",
+          "speciesId": 938,
+          "generation": 9
+        },
+        {
+          "pokemonId": 996,
+          "name": "frigibax",
+          "speciesId": 996,
+          "generation": 9
+        },
+        {
+          "pokemonId": 10257,
+          "name": "maushold-family-of-three",
+          "speciesId": 925,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 3,
+      "settledThrough": 1,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 2,
+          "trainerIds": [
+            "FRONTIER_TRAINER_KIPP",
+            "FRONTIER_TRAINER_PAMELA",
+            "FRONTIER_TRAINER_PEGGY",
+            "FRONTIER_TRAINER_RAYNA"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 12,
+      "setNo": 2,
+      "trainerId": "FRONTIER_TRAINER_SELPHY",
+      "enemyTeam": [
+        {
+          "pokemonId": 920,
+          "name": "lokix",
+          "speciesId": 920,
+          "generation": 9
+        },
+        {
+          "pokemonId": 10262,
+          "name": "squawkabilly-white-plumage",
+          "speciesId": 931,
+          "generation": 9
+        },
+        {
+          "pokemonId": 944,
+          "name": "shroodle",
+          "speciesId": 944,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 3,
+      "settledThrough": 1,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 2,
+          "trainerIds": [
+            "FRONTIER_TRAINER_KIPP",
+            "FRONTIER_TRAINER_PAMELA",
+            "FRONTIER_TRAINER_PEGGY",
+            "FRONTIER_TRAINER_RAYNA",
+            "FRONTIER_TRAINER_SELPHY"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 13,
+      "setNo": 2,
+      "trainerId": "FRONTIER_TRAINER_RICH",
+      "enemyTeam": [
+        {
+          "pokemonId": 907,
+          "name": "floragato",
+          "speciesId": 907,
+          "generation": 9
+        },
+        {
+          "pokemonId": 10262,
+          "name": "squawkabilly-white-plumage",
+          "speciesId": 931,
+          "generation": 9
+        },
+        {
+          "pokemonId": 951,
+          "name": "capsakid",
+          "speciesId": 951,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 3,
+      "settledThrough": 1,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 2,
+          "trainerIds": [
+            "FRONTIER_TRAINER_KIPP",
+            "FRONTIER_TRAINER_PAMELA",
+            "FRONTIER_TRAINER_PEGGY",
+            "FRONTIER_TRAINER_RAYNA",
+            "FRONTIER_TRAINER_RICH",
+            "FRONTIER_TRAINER_SELPHY"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 14,
+      "setNo": 2,
+      "trainerId": "FRONTIER_TRAINER_ARMANDO",
+      "enemyTeam": [
+        {
+          "pokemonId": 10257,
+          "name": "maushold-family-of-three",
+          "speciesId": 925,
+          "generation": 9
+        },
+        {
+          "pokemonId": 961,
+          "name": "wugtrio",
+          "speciesId": 961,
+          "generation": 9
+        },
+        {
+          "pokemonId": 1014,
+          "name": "okidogi",
+          "speciesId": 1014,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 6,
+      "settledThrough": 2,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 2,
+          "trainerIds": [
+            "FRONTIER_TRAINER_ARMANDO",
+            "FRONTIER_TRAINER_KIPP",
+            "FRONTIER_TRAINER_PAMELA",
+            "FRONTIER_TRAINER_PEGGY",
+            "FRONTIER_TRAINER_RAYNA",
+            "FRONTIER_TRAINER_RICH",
+            "FRONTIER_TRAINER_SELPHY"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 15,
+      "setNo": 3,
+      "trainerId": "FRONTIER_TRAINER_ELENA",
+      "enemyTeam": [
+        {
+          "pokemonId": 958,
+          "name": "tinkatuff",
+          "speciesId": 958,
+          "generation": 9
+        },
+        {
+          "pokemonId": 1011,
+          "name": "dipplin",
+          "speciesId": 1011,
+          "generation": 9
+        },
+        {
+          "pokemonId": 973,
+          "name": "flamigo",
+          "speciesId": 973,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 6,
+      "settledThrough": 2,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 3,
+          "trainerIds": [
+            "FRONTIER_TRAINER_ELENA"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 16,
+      "setNo": 3,
+      "trainerId": "FRONTIER_TRAINER_GARETT",
+      "enemyTeam": [
+        {
+          "pokemonId": 910,
+          "name": "crocalor",
+          "speciesId": 910,
+          "generation": 9
+        },
+        {
+          "pokemonId": 997,
+          "name": "arctibax",
+          "speciesId": 997,
+          "generation": 9
+        },
+        {
+          "pokemonId": 913,
+          "name": "quaxwell",
+          "speciesId": 913,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 6,
+      "settledThrough": 2,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 3,
+          "trainerIds": [
+            "FRONTIER_TRAINER_ELENA",
+            "FRONTIER_TRAINER_GARETT"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 17,
+      "setNo": 3,
+      "trainerId": "FRONTIER_TRAINER_ARNOLD",
+      "enemyTeam": [
+        {
+          "pokemonId": 1000,
+          "name": "gholdengo",
+          "speciesId": 1000,
+          "generation": 9
+        },
+        {
+          "pokemonId": 967,
+          "name": "cyclizar",
+          "speciesId": 967,
+          "generation": 9
+        },
+        {
+          "pokemonId": 933,
+          "name": "naclstack",
+          "speciesId": 933,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 6,
+      "settledThrough": 2,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 3,
+          "trainerIds": [
+            "FRONTIER_TRAINER_ARNOLD",
+            "FRONTIER_TRAINER_ELENA",
+            "FRONTIER_TRAINER_GARETT"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 18,
+      "setNo": 3,
+      "trainerId": "FRONTIER_TRAINER_JAMAL",
+      "enemyTeam": [
+        {
+          "pokemonId": 933,
+          "name": "naclstack",
+          "speciesId": 933,
+          "generation": 9
+        },
+        {
+          "pokemonId": 948,
+          "name": "toedscool",
+          "speciesId": 948,
+          "generation": 9
+        },
+        {
+          "pokemonId": 922,
+          "name": "pawmo",
+          "speciesId": 922,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 6,
+      "settledThrough": 2,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 3,
+          "trainerIds": [
+            "FRONTIER_TRAINER_ARNOLD",
+            "FRONTIER_TRAINER_ELENA",
+            "FRONTIER_TRAINER_GARETT",
+            "FRONTIER_TRAINER_JAMAL"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 19,
+      "setNo": 3,
+      "trainerId": "FRONTIER_TRAINER_STANLY",
+      "enemyTeam": [
+        {
+          "pokemonId": 962,
+          "name": "bombirdier",
+          "speciesId": 962,
+          "generation": 9
+        },
+        {
+          "pokemonId": 10259,
+          "name": "tatsugiri-stretchy",
+          "speciesId": 978,
+          "generation": 9
+        },
+        {
+          "pokemonId": 973,
+          "name": "flamigo",
+          "speciesId": 973,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 6,
+      "settledThrough": 2,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 3,
+          "trainerIds": [
+            "FRONTIER_TRAINER_ARNOLD",
+            "FRONTIER_TRAINER_ELENA",
+            "FRONTIER_TRAINER_GARETT",
+            "FRONTIER_TRAINER_JAMAL",
+            "FRONTIER_TRAINER_STANLY"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 20,
+      "setNo": 3,
+      "trainerId": "FRONTIER_TRAINER_MARV",
+      "enemyTeam": [
+        {
+          "pokemonId": 973,
+          "name": "flamigo",
+          "speciesId": 973,
+          "generation": 9
+        },
+        {
+          "pokemonId": 972,
+          "name": "houndstone",
+          "speciesId": 972,
+          "generation": 9
+        },
+        {
+          "pokemonId": 965,
+          "name": "varoom",
+          "speciesId": 965,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 6,
+      "settledThrough": 2,
+      "brainSymbols": 0,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 3,
+          "trainerIds": [
+            "FRONTIER_TRAINER_ARNOLD",
+            "FRONTIER_TRAINER_ELENA",
+            "FRONTIER_TRAINER_GARETT",
+            "FRONTIER_TRAINER_JAMAL",
+            "FRONTIER_TRAINER_MARV",
+            "FRONTIER_TRAINER_STANLY"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 21,
+      "setNo": 3,
+      "trainerId": "TRAINER_NOLAND",
+      "enemyTeam": [
+        {
+          "pokemonId": 991,
+          "name": "iron-bundle",
+          "speciesId": 991,
+          "generation": 9
+        },
+        {
+          "pokemonId": 985,
+          "name": "scream-tail",
+          "speciesId": 985,
+          "generation": 9
+        },
+        {
+          "pokemonId": 950,
+          "name": "klawf",
+          "speciesId": 950,
+          "generation": 9
+        }
+      ],
+      "walletBalance": 20,
+      "settledThrough": 3,
+      "brainSymbols": 1,
+      "result": "WIN",
+      "trainerHistory": [
+        {
+          "setNo": 3,
+          "trainerIds": [
+            "FRONTIER_TRAINER_ARNOLD",
+            "FRONTIER_TRAINER_ELENA",
+            "FRONTIER_TRAINER_GARETT",
+            "FRONTIER_TRAINER_JAMAL",
+            "FRONTIER_TRAINER_MARV",
+            "FRONTIER_TRAINER_STANLY",
+            "TRAINER_NOLAND"
+          ]
+        }
+      ]
+    }
+  ],
+  "allEnemyPokemonGeneration9": true,
+  "uniqueTrainerPerSet": {
+    "1": true,
+    "2": true,
+    "3": true
+  },
+  "unknownPokemonIds": []
+}

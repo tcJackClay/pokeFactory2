@@ -1,0 +1,60 @@
+{
+  "before": {
+    "stage": 22,
+    "phase": "BATTLE",
+    "result": null,
+    "balance": 20,
+    "revision": 4,
+    "settledThrough": 3,
+    "brainSymbols": 1,
+    "lastSettlement": {
+      "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+      "setNo": 3,
+      "stage": 21,
+      "result": "WIN",
+      "isFrontierBrain": true,
+      "nominalBp": 14,
+      "amount": 14,
+      "settledAt": "2026-09-26T08:04:10.741Z"
+    }
+  },
+  "loss": {
+    "stage": 22,
+    "phase": "ROUND_RESULT",
+    "result": "LOSS",
+    "balance": 20,
+    "revision": 5,
+    "settledThrough": 4,
+    "brainSymbols": 1,
+    "lastSettlement": {
+      "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+      "setNo": 4,
+      "stage": 22,
+      "result": "LOSS",
+      "isFrontierBrain": false,
+      "nominalBp": 0,
+      "amount": 0,
+      "settledAt": "2026-09-26T08:06:53.954Z"
+    }
+  },
+  "resultBody": "20\nBP\n1/7\n轮次\n0\n连胜\n20\nBP\n1/7\n轮次\n21\n连胜\n古剑豹\n◇\nLV.50\n恶\n冰\nHP\n100%\n呆火鳄\n♂\nLV.50\n火\nHP\n128/128\n战斗日志\nFCT-01\n\n对手 派出了 古剑豹！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n大晴天\n火\n威力 --\n命中 --\nPP 2/5\n瞪眼\n一般\n威力 --\n命中 100\nPP 30/30\n偷懒\n一般\n威力 --\n命中 --\nPP 5/5\n火焰牙\n火\n威力 65\n命中 95\nPP 15/15\nDEV",
+  "reload": {
+    "stage": 22,
+    "phase": "ROUND_RESULT",
+    "result": "LOSS",
+    "balance": 20,
+    "revision": 5,
+    "settledThrough": 4,
+    "brainSymbols": 1,
+    "lastSettlement": {
+      "runId": "run:82a30f60-d451-4560-af4a-102fb0c350e7",
+      "setNo": 4,
+      "stage": 22,
+      "result": "LOSS",
+      "isFrontierBrain": false,
+      "nominalBp": 0,
+      "amount": 0,
+      "settledAt": "2026-09-26T08:06:53.954Z"
+    }
+  }
+}
