@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { completeEndTurnResolution } from './presentEndTurnResolution';
-import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, TailwindTurns, Weather } from '../../../types';
+import type { BattleHazards, BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, TailwindTurns, Weather } from '../../../types';
 import { getBattleIndexInSet } from '../config/factoryRewards';
 import type { PendingFactorySettlement } from '../../../services/saveManager';
 import {
@@ -18,6 +18,8 @@ import {
   getEffectiveBattleSpeed,
   resolveActionSelection,
   resolveTailwindUse,
+  resolveStealthRockUse,
+  resolveEntryHazards,
   resolveBeforeMoveChecks as resolveBeforeMoveChecksStep,
   clearProtectionChain,
   resolveEndTurn,
@@ -58,6 +60,7 @@ import {
 } from '../data/battle';
 import {
   findNextLivingLeadIndex,
+  findNextLivingReserveIndex,
 } from '../lib/battleResolution';
 import { battleAilmentName, battleHeldItemName, battleItemMessage, battleLine, battleMoveName, battleStatName, isChineseBattleLog } from '../battle/battleLogText';
 import { restoreFactoryParty } from '../utils/restoreFactoryParty';
@@ -97,6 +100,7 @@ interface UseBattleControllerParams {
   fieldState: FieldState[];
   fieldTurns: FieldTurns;
   tailwindTurns: TailwindTurns;
+  hazards: BattleHazards;
   stage: number;
   streak: number;
   enemyAiTier: FactoryAiTier;
@@ -128,6 +132,7 @@ interface UseBattleControllerParams {
   setFieldState: Dispatch<SetStateAction<FieldState[]>>;
   setFieldTurns: Dispatch<SetStateAction<FieldTurns>>;
   setTailwindTurns: Dispatch<SetStateAction<TailwindTurns>>;
+  setHazards: Dispatch<SetStateAction<BattleHazards>>;
   setIsMessageProcessing: Dispatch<SetStateAction<boolean>>;
   setBattleLog: Dispatch<SetStateAction<string[]>>;
   setTurn: Dispatch<SetStateAction<BattleTurn>>;
@@ -304,6 +309,7 @@ export function useBattleController({
   fieldState,
   fieldTurns,
   tailwindTurns,
+  hazards,
   stage,
   streak,
   enemyAiTier,
@@ -332,6 +338,7 @@ export function useBattleController({
   setFieldState,
   setFieldTurns,
   setTailwindTurns,
+  setHazards,
   setIsMessageProcessing,
   setBattleLog,
   setTurn,
@@ -374,6 +381,8 @@ export function useBattleController({
   }, []);
   const pendingPlayerSwitchRef = useRef(false);
   const pendingForcedPlayerTurnRef = useRef<BattleTurn | null>(null);
+  const hazardsRef = useRef(hazards);
+  hazardsRef.current = hazards;
   const liveBattleStateRef = useRef({
     gameState,
     turn,
@@ -755,6 +764,7 @@ export function useBattleController({
         fieldState,
         fieldTurns,
         tailwindTurns,
+        hazards: hazardsRef.current,
       },
       side: isEnemy ? 'enemy' : 'player',
       combatant,
@@ -917,27 +927,48 @@ export function useBattleController({
     if (pending) await resolveBattleResult(pending.result, pending);
   }, [resolveBattleResult]);
 
+  const enterBattlefield = useCallback((pokemon: GamePokemon, side: 'player' | 'enemy') => {
+    return resolveEntryHazards(clearSwitchingBattleState(pokemon), side, hazardsRef.current);
+  }, []);
+
+  const reportEntryHazards = useCallback(async (result: ReturnType<typeof resolveEntryHazards>) => {
+    if (result.damage <= 0) return;
+    await addMessagesSequentially([battleLine(currentLanguage,
+      `${getLocalized(result.pokemon)} was hurt by Stealth Rock!`,
+      `${getLocalized(result.pokemon)}受到了隐形岩的伤害！`)]);
+    if (result.fainted) {
+      await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(result.pokemon))]);
+    }
+  }, [addMessagesSequentially, currentLanguage, getLocalized, t]);
+
   const sendOutNextEnemy = useCallback(async (
     currentEnemyTeam: GamePokemon[],
-    excludedId: number,
+    _faintedId: number,
     options?: { preservePlayerSwitchMenu?: boolean },
   ) => {
-    const nextEnemyIdx = findNextLivingLeadIndex(currentEnemyTeam, { excludeId: excludedId });
-    if (nextEnemyIdx === -1) {
-      setTimeout(() => void winBattle(), 500);
-      return false;
-    }
-
     const nextEnemyTeam = [...currentEnemyTeam];
-    [nextEnemyTeam[0], nextEnemyTeam[nextEnemyIdx]] = [nextEnemyTeam[nextEnemyIdx], nextEnemyTeam[0]];
-    nextEnemyTeam[0] = clearSwitchingBattleState(nextEnemyTeam[0]);
-    setEnemyTeam(nextEnemyTeam);
-    setEnemy(nextEnemyTeam[0]);
-    await addMessagesSequentially([t('enemySentOut').replace('{name}', getLocalized(nextEnemyTeam[0]))]);
-    if (options?.preservePlayerSwitchMenu) setTurn('PLAYER');
-    else setMainBattleTurn('PLAYER');
-    return true;
-  }, [addMessagesSequentially, clearSwitchingBattleState, getLocalized, setEnemy, setEnemyTeam, setMainBattleTurn, setTurn, t, winBattle]);
+    while (true) {
+      const nextEnemyIdx = findNextLivingReserveIndex(nextEnemyTeam);
+      if (nextEnemyIdx === -1) {
+        setTimeout(() => void winBattle(), 500);
+        return false;
+      }
+
+      [nextEnemyTeam[0], nextEnemyTeam[nextEnemyIdx]] = [nextEnemyTeam[nextEnemyIdx], nextEnemyTeam[0]];
+      const entry = enterBattlefield(nextEnemyTeam[0], 'enemy');
+      nextEnemyTeam[0] = entry.pokemon;
+      setEnemyTeam([...nextEnemyTeam]);
+      setEnemy(entry.pokemon);
+      await addMessagesSequentially([t('enemySentOut').replace('{name}', getLocalized(entry.pokemon))]);
+      await reportEntryHazards(entry);
+      if (entry.fainted) {
+        continue;
+      }
+      if (options?.preservePlayerSwitchMenu) setTurn('PLAYER');
+      else setMainBattleTurn('PLAYER');
+      return true;
+    }
+  }, [addMessagesSequentially, enterBattlefield, getLocalized, reportEntryHazards, setEnemy, setEnemyTeam, setMainBattleTurn, setTurn, t, winBattle]);
 
   const sendOutNextPlayer = useCallback(async (
     currentPlayerTeam: GamePokemon[],
@@ -1433,7 +1464,7 @@ export function useBattleController({
     const currentLead = newTeam[0];
     const incomingPokemon = newTeam[index];
     if (!currentLead || !incomingPokemon || incomingPokemon.currentHp <= 0) return;
-    if (getForcedLockedMove(currentLead)) {
+    if (currentLead.currentHp > 0 && getForcedLockedMove(currentLead)) {
       await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(currentLead)} cannot switch out during the uproar!`, `${getLocalized(currentLead)}正在大闹，无法替换！`)]);
       return;
     }
@@ -1444,12 +1475,18 @@ export function useBattleController({
     const withdrawnLead = clearSwitchingBattleState(currentLead);
 
     const currentLeadFainted = currentLead.currentHp <= 0;
-    newTeam[0] = clearSwitchingBattleState(newTeam[index]);
+    const entry = enterBattlefield(newTeam[index], 'player');
+    newTeam[0] = entry.pokemon;
     newTeam[index] = withdrawnLead;
 
     setPlayerTeam(newTeam);
     if (currentLeadFainted) {
       await addMessagesSequentially([t('playerSentOut').replace('{name}', getLocalized(newTeam[0]))]);
+      await reportEntryHazards(entry);
+      if (entry.fainted) {
+        await sendOutNextPlayer(newTeam, { nextTurnAfterSwitch: pendingForcedPlayerTurnRef.current ?? 'PLAYER' });
+        return;
+      }
       setMainBattleTurn(pendingForcedPlayerTurnRef.current ?? 'PLAYER');
       pendingForcedPlayerTurnRef.current = null;
       return;
@@ -1459,16 +1496,24 @@ export function useBattleController({
       t('withdrew').replace('{name}', getLocalized(currentLead)),
       t('playerSentOut').replace('{name}', getLocalized(newTeam[0])),
     ]);
+    await reportEntryHazards(entry);
+    if (entry.fainted) {
+      await sendOutNextPlayer(newTeam, { nextTurnAfterSwitch: 'ENEMY' });
+      return;
+    }
     setMainBattleTurn('ENEMY');
   }, [
     addMessagesSequentially,
     clearSwitchingBattleState,
     currentLanguage,
+    enterBattlefield,
     gameState,
     getForcedLockedMove,
     getLocalized,
     isMessageProcessing,
     playerTeam,
+    reportEntryHazards,
+    sendOutNextPlayer,
     setMainBattleTurn,
     setPlayerTeam,
     t,
@@ -1668,6 +1713,24 @@ export function useBattleController({
         result.succeeded
           ? battleLine(currentLanguage, `${actorLabel}'s team gained a Tailwind!`, `${actorLabel}一方吹起了顺风！`)
           : battleLine(currentLanguage, `${actorLabel}'s Tailwind failed!`, `${actorLabel}的顺风失败了！`),
+      ]);
+      if (isPlayerActing) setPlayerAnim('idle');
+      else setEnemyAnim('idle');
+      setActiveMoveType(null);
+      setMainBattleTurn(isPlayerActing ? 'ENEMY' : 'PLAYER');
+      return;
+    }
+
+    if (hasMoveBattleEffect(resolvedMove, 'STEALTH_ROCK')) {
+      const result = resolveStealthRockUse(hazardsRef.current, actingSide);
+      if (result.succeeded) {
+        hazardsRef.current = result.hazards;
+        setHazards(result.hazards);
+      }
+      await addMessagesSequentially([
+        result.succeeded
+          ? battleLine(currentLanguage, `${actorLabel} scattered Stealth Rock around the opposing team!`, `${actorLabel}在对手一方撒下了隐形岩！`)
+          : battleLine(currentLanguage, 'But it failed!', '但是失败了！'),
       ]);
       if (isPlayerActing) setPlayerAnim('idle');
       else setEnemyAnim('idle');
@@ -2302,6 +2365,7 @@ export function useBattleController({
     setWeather,
     setWeatherTurns,
     setTailwindTurns,
+    setHazards,
     tailwindTurns,
     syncEnemyLead,
     t,
@@ -2466,13 +2530,19 @@ export function useBattleController({
       const clearedWithdrawn = clearSwitchingBattleState(withdrawn);
       switchedTeam[0] = clearedWithdrawn;
       [switchedTeam[0], switchedTeam[switchIndex]] = [switchedTeam[switchIndex], switchedTeam[0]];
-      switchedTeam[0] = clearSwitchingBattleState(switchedTeam[0]);
+      const entry = enterBattlefield(switchedTeam[0], 'enemy');
+      switchedTeam[0] = entry.pokemon;
       setEnemyTeam(switchedTeam);
       setEnemy(switchedTeam[0]);
       await addMessagesSequentially([
         t('withdrew').replace('{name}', getLocalized(withdrawn)),
         t('enemySentOut').replace('{name}', getLocalized(switchedTeam[0])),
       ]);
+      await reportEntryHazards(entry);
+      if (entry.fainted) {
+        await sendOutNextEnemy(switchedTeam, entry.pokemon.id);
+        return true;
+      }
       setMainBattleTurn('PLAYER');
       return true;
     }
@@ -2524,16 +2594,19 @@ export function useBattleController({
     enemy,
     enemyAiTier,
     enemyTeam,
+    enterBattlefield,
     executeTurn,
     getAiFlagsForTier,
     getLocalized,
     getSpecialLabel,
     isMessageProcessing,
     playerTeam,
+    reportEntryHazards,
     resolvePreTurnStatus,
     setEnemy,
     setEnemySpecialUsage,
     setEnemyTeam,
+    sendOutNextEnemy,
     setMainBattleTurn,
     t,
   ]);
@@ -2709,6 +2782,7 @@ export function useBattleController({
           fieldState,
           fieldTurns,
           tailwindTurns,
+          hazards: hazardsRef.current,
         },
         getLocalized,
         currentLanguage,
@@ -2729,6 +2803,7 @@ export function useBattleController({
           setFieldState(snapshot.fieldState);
           setFieldTurns(snapshot.fieldTurns);
           setTailwindTurns(snapshot.tailwindTurns);
+          setHazards(snapshot.hazards);
         },
         presentMessages: addMessagesSequentially,
         isCurrentBattle,
@@ -2769,6 +2844,7 @@ export function useBattleController({
     setFieldState,
     setFieldTurns,
     setTailwindTurns,
+    setHazards,
     setPlayerTeam,
     setWeather,
     setWeatherTurns,

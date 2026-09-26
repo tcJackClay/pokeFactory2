@@ -1,4 +1,4 @@
-import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, TailwindTurns, Weather } from '../../../types';
+import type { BattleHazards, BattleMenuTab, FieldState, FieldTurns, GamePokemon, TailwindTurns, Weather } from '../../../types';
 import type { FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier } from '../view-model';
 
@@ -20,6 +20,7 @@ export interface FactoryBattlePresentation {
   fieldState: FieldState[];
   fieldTurns: FieldTurns;
   tailwindTurns: TailwindTurns;
+  hazards: BattleHazards;
   activeBuffs: { atk: boolean; def: boolean };
   enemyBuffs: { atk: boolean; def: boolean };
 }
@@ -49,6 +50,7 @@ export function restoreFactoryBattlePresentation(
   setters.setFieldState(snapshot.fieldState);
   setters.setFieldTurns(snapshot.fieldTurns);
   setters.setTailwindTurns(snapshot.tailwindTurns);
+  setters.setHazards(snapshot.hazards);
   setters.setActiveBuffs(snapshot.activeBuffs);
   setters.setEnemyBuffs(snapshot.enemyBuffs);
 }

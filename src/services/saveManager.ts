@@ -1,10 +1,11 @@
-import type { FieldState, FieldTurns, GamePokemon, TailwindTurns } from '../types';
+import type { BattleHazards, FieldState, FieldTurns, GamePokemon, TailwindTurns } from '../types';
 import { getBattleIndexInSet, getFactoryGroupBp, getSetNoByStage, MAX_FACTORY_BP } from '../features/game/config/factoryRewards';
 import { getFactoryTrainerTemplateById } from '../features/game/config/factoryTrainerTemplates';
 import { isCompanionSpeciesId, type CompanionSpeciesId } from '../features/game/config/companionCandidates';
 import { hasRecoverableFactoryBaseCheckpoint } from '../features/game/hooks/factoryResumeCheckpoint';
 import { isKnownFactoryHeldItemId } from '../features/game/data/battle';
 import { restoreFactoryParty } from '../features/game/utils/restoreFactoryParty';
+import { createEmptyBattleHazards } from '../features/game/battle/engine/resolveEntryHazards';
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
 const PENDING_SETTLEMENT_KEY = 'pokefactory_pending_settlement_v1';
@@ -84,6 +85,7 @@ export interface BattleResumeSnapshot {
   fieldState: FieldState[];
   fieldTurns: FieldTurns;
   tailwindTurns: TailwindTurns;
+  hazards: BattleHazards;
   activeBuffs: { atk: boolean; def: boolean };
   enemyBuffs: { atk: boolean; def: boolean };
   factoryRentals: GamePokemon[];
@@ -518,6 +520,27 @@ function hasValidTailwindTurns(value: unknown): boolean {
     && (turns[side] as number) >= 0 && (turns[side] as number) <= 4);
 }
 
+function hasValidBattleHazards(value: unknown): boolean {
+  if (!isRecord(value)) return false;
+  return ['player', 'enemy'].every((side) => {
+    const entry = value[side];
+    return isRecord(entry)
+      && typeof entry.stealthRock === 'boolean'
+      && Number.isInteger(entry.toxicSpikesLayers)
+      && (entry.toxicSpikesLayers as number) >= 0
+      && (entry.toxicSpikesLayers as number) <= 2;
+  });
+}
+
+function sanitizeBattleHazards(value: unknown): BattleHazards {
+  if (!hasValidBattleHazards(value)) return createEmptyBattleHazards();
+  const source = value as Record<string, Record<string, unknown>>;
+  return {
+    player: { stealthRock: source.player.stealthRock as boolean, toxicSpikesLayers: source.player.toxicSpikesLayers as 0 | 1 | 2 },
+    enemy: { stealthRock: source.enemy.stealthRock as boolean, toxicSpikesLayers: source.enemy.toxicSpikesLayers as 0 | 1 | 2 },
+  };
+}
+
 function sanitizeBattleResume(value: unknown): FactoryBattleResume {
   const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
   if (source.status !== 'READY') {
@@ -548,6 +571,7 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
   const fieldState = sanitizeFieldStateList(source.fieldState);
   const fieldTurns = sanitizeFieldTurns(source.fieldTurns, fieldState);
   const tailwindTurns = sanitizeTailwindTurns(source.tailwindTurns);
+  const hazards = sanitizeBattleHazards(source.hazards);
   const stage = sanitizePositiveInt(source.stage, 0);
   const playerTeam = sanitizeGamePokemonArray(source.playerTeam);
   const enemyTeam = sanitizeGamePokemonArray(source.enemyTeam);
@@ -579,6 +603,7 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
     fieldState,
     fieldTurns,
     tailwindTurns,
+    hazards,
     activeBuffs: sanitizeAtkDefFlags(source.activeBuffs),
     enemyBuffs: sanitizeAtkDefFlags(source.enemyBuffs),
     factoryRentals: sanitizeGamePokemonArray(source.factoryRentals),
@@ -775,6 +800,9 @@ function assertCurrentSaveRecoverability(value: unknown): void {
   }
 
   if (resume.status === 'READY') {
+    if (resume.hazards !== undefined && !hasValidBattleHazards(resume.hazards)) {
+      throw new Error('Battle checkpoint has invalid entry hazards.');
+    }
     if (resume.tailwindTurns !== undefined && !hasValidTailwindTurns(resume.tailwindTurns)) {
       throw new Error('Battle checkpoint has invalid Tailwind timers.');
     }
@@ -1373,6 +1401,7 @@ export function commitFactoryBattleStart(runId: string, start: FactoryBattleStar
     fieldState: [],
     fieldTurns: {},
     tailwindTurns: { player: 0, enemy: 0 },
+    hazards: createEmptyBattleHazards(),
     activeBuffs: { atk: false, def: false },
     enemyBuffs: { atk: false, def: false },
     playerTeam: start.playerTeam,

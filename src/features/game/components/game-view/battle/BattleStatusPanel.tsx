@@ -60,6 +60,7 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
     fieldState,
     fieldTurns,
     tailwindTurns,
+    hazards,
     currentLanguage,
     getStatName,
   } = viewModel;
@@ -113,6 +114,19 @@ export function BattleStatusPanel({ viewModel }: GameViewSectionProps) {
       label: { zh: '对手顺风', en: 'Enemy Tailwind' },
       iconClassName: 'text-rose-500',
       turns: tailwindTurns.enemy,
+    });
+  }
+
+  for (const side of ['player', 'enemy'] as const) {
+    if (!hazards[side].stealthRock) continue;
+    effectRows.push({
+      key: `stealth-rock-${side}`,
+      icon: Triangle,
+      label: side === 'player'
+        ? { zh: '我方场地：隐形岩', en: 'Stealth Rock on your side' }
+        : { zh: '对手场地：隐形岩', en: 'Stealth Rock on enemy side' },
+      iconClassName: side === 'player' ? 'text-blue-500' : 'text-red-500',
+      turns: 0,
     });
   }
 

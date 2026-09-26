@@ -4,7 +4,8 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, TailwindTurns, Weather } from '../../../types';
+import type { BattleHazards, BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, TailwindTurns, Weather } from '../../../types';
+import { createEmptyBattleHazards } from '../battle/engine/resolveEntryHazards';
 import { ALL_ITEMS } from '../../../uiAppConstants';
 import { fetchPokemon, getProcessedPokemon, isEvolutionChainBaseSpecies } from '../../../services/pokeApi';
 import { getAiTier } from '../config/factoryBattle';
@@ -192,6 +193,7 @@ export function usePokeFactoryGame(): GameViewModel {
   const [fieldState, setFieldState] = useState<FieldState[]>(initialBattleResume?.fieldState ?? []);
   const [fieldTurns, setFieldTurns] = useState<FieldTurns>(initialBattleResume?.fieldTurns ?? {});
   const [tailwindTurns, setTailwindTurns] = useState<TailwindTurns>(initialBattleResume?.tailwindTurns ?? { player: 0, enemy: 0 });
+  const [hazards, setHazards] = useState<BattleHazards>(initialBattleResume?.hazards ?? createEmptyBattleHazards());
   const [evolutionTarget, setEvolutionTarget] = useState<GamePokemon | null>(null);
   const [isEvolving, setIsEvolving] = useState(false);
   const [evolvedPokemon, setEvolvedPokemon] = useState<GamePokemon | null>(null);
@@ -284,6 +286,7 @@ export function usePokeFactoryGame(): GameViewModel {
       fieldState,
       fieldTurns,
       tailwindTurns,
+      hazards,
       activeBuffs,
       enemyBuffs,
       factoryRentals,
@@ -336,6 +339,7 @@ export function usePokeFactoryGame(): GameViewModel {
     fieldState,
     fieldTurns,
     tailwindTurns,
+    hazards,
   ]);
 
   const getPersistableBattleResume = useCallback(() => {
@@ -452,6 +456,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setFieldState([]);
     setFieldTurns({});
     setTailwindTurns({ player: 0, enemy: 0 });
+    setHazards(createEmptyBattleHazards());
     setSpecialBossBattleActive(false);
     setBattleSpecialUsage(EMPTY_BATTLE_SPECIAL_USAGE);
     setEnemySpecialUsage(EMPTY_BATTLE_SPECIAL_USAGE);
@@ -540,6 +545,7 @@ export function usePokeFactoryGame(): GameViewModel {
     fieldState,
     fieldTurns,
     tailwindTurns,
+    hazards,
     stage,
     streak,
     enemyAiTier,
@@ -568,6 +574,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setFieldState,
     setFieldTurns,
     setTailwindTurns,
+    setHazards,
     setIsMessageProcessing,
     setBattleLog,
     setTurn,
@@ -620,6 +627,7 @@ export function usePokeFactoryGame(): GameViewModel {
       fieldState,
       fieldTurns,
       tailwindTurns,
+      hazards,
       activeBuffs,
       enemyBuffs,
     },
@@ -663,6 +671,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setFieldState,
     setFieldTurns,
     setTailwindTurns,
+    setHazards,
     setActiveBuffs,
     setEnemyBuffs,
   });
@@ -1213,6 +1222,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setFieldState([]);
     setFieldTurns({});
     setTailwindTurns({ player: 0, enemy: 0 });
+    setHazards(createEmptyBattleHazards());
     setPlayerTeam((prev) => {
       if (prev.length === 0) return prev;
       const lead = prev[0];
@@ -1243,6 +1253,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setFieldState(['electric_terrain']);
     setFieldTurns({ electric_terrain: 4 });
     setTailwindTurns({ player: 0, enemy: 0 });
+    setHazards(createEmptyBattleHazards());
     setPlayerTeam((prev) => {
       if (prev.length === 0) return prev;
       const lead = prev[0];
@@ -1510,6 +1521,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setFieldState([]);
     setFieldTurns({});
     setTailwindTurns({ player: 0, enemy: 0 });
+    setHazards(createEmptyBattleHazards());
     setGameState('BATTLE');
     if (specialEncounter) {
       return `${region.name}: 特殊事件地点 ${specialEncounter.site.name}，遭遇 ${getLocalized(targetPokemon)}`;
@@ -1724,6 +1736,7 @@ export function usePokeFactoryGame(): GameViewModel {
     fieldState,
     fieldTurns,
     tailwindTurns,
+    hazards,
     isTransitioning,
     trainerIntroActive,
     trainerIntroAwaitingContinue,

@@ -1,5 +1,6 @@
 import type {
   BattleMenuTab,
+  BattleHazards,
   FieldState,
   FieldTurns,
   GamePokemon,
@@ -84,6 +85,7 @@ export interface GameViewBattleState {
   fieldState: FieldState[];
   fieldTurns: FieldTurns;
   tailwindTurns: TailwindTurns;
+  hazards: BattleHazards;
   isTransitioning: boolean;
   trainerIntroActive: boolean;
   trainerIntroAwaitingContinue: boolean;

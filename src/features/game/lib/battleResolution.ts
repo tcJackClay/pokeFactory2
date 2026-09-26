@@ -180,6 +180,10 @@ export function findNextLivingLeadIndex(team: GamePokemon[], options?: { exclude
   return team.findIndex((pokemon) => pokemon.currentHp > 0 && (options?.excludeId === undefined || pokemon.id !== options.excludeId));
 }
 
+export function findNextLivingReserveIndex(team: GamePokemon[]) {
+  return team.findIndex((pokemon, index) => index > 0 && pokemon.currentHp > 0);
+}
+
 export function applyWeatherChipDamage({
   pokemon,
   weather,

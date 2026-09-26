@@ -402,6 +402,8 @@ export type FieldState =
   | 'fairy_lock';
 export type FieldTurns = Partial<Record<FieldState, number>>;
 export type TailwindTurns = { player: number; enemy: number };
+export type BattleSideHazards = { stealthRock: boolean; toxicSpikesLayers: 0 | 1 | 2 };
+export type BattleHazards = { player: BattleSideHazards; enemy: BattleSideHazards };
 
 export type GameState = 'BOOT' | 'COMPANION_SELECT' | 'START' | 'MENU' | 'BASE' | 'BATTLE' | 'REWARD' | 'LEARN_MOVE' | 'POKEMON_INFO' | 'GAMEOVER' | 'STARTER_SELECT' | 'EVOLUTION' | 'FACTORY_SELECT' | 'FACTORY_SWAP' | 'ROUND_RESULT' | 'COLLECTION' | 'EVENTS' | 'SETTINGS' | 'CREDITS';
 export type BattleMenuTab = 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG' | 'STATUS';
