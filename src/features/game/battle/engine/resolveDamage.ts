@@ -154,7 +154,7 @@ function getAdjustedStage(stage: number, { isCrit, forAttacker }: { isCrit: bool
   return stage;
 }
 
-function getEffectiveOffenseAndDefense(move: Move, attacker: GamePokemon, defender: GamePokemon, isCrit: boolean, weather = 'none') {
+function getEffectiveOffenseAndDefense(move: Move, attacker: GamePokemon, defender: GamePokemon, isCrit: boolean, weather: Weather = 'none') {
   const attackerAbility = getPrimaryAbilityName(attacker);
   const defenderAbility = ignoresDefenderAbility(attacker) ? '' : getPrimaryAbilityName(defender);
   const attackerHasStatus = Boolean(getNonVolatileStatusId(attacker)) || attackerAbility === 'comatose';
@@ -189,6 +189,7 @@ function getEffectiveOffenseAndDefense(move: Move, attacker: GamePokemon, defend
       * (attackerAbility === 'guts' && attackerHasStatus ? 1.5 : 1))),
     defense: Math.max(1, Math.floor(defender.calculatedStats.defense
       * getStatStageModifier(defenseStage)
+      * (weather === 'snow' && hasType(getCurrentTypeSlots(defender), 'ice') ? 1.5 : 1)
       * (defenderAbility === 'fur-coat' ? 2 : 1)
       * (defenderAbility === 'marvel-scale' && defenderHasStatus ? 1.5 : 1))),
   };
@@ -383,7 +384,7 @@ function getResolvedMoveBasePower(
   if ((move.name === 'earthquake' || move.name === 'magnitude') && getVolatileStatus(defender, 'underground')) basePower *= 2;
   if ((move.name === 'stomp' || move.name === 'body-slam') && getVolatileStatus(defender, 'minimized')) basePower *= 2;
   if ((move.name === 'surf' || move.name === 'whirlpool') && getVolatileStatus(defender, 'underwater')) basePower *= 2;
-  if (move.name === 'solar-beam' && (weather === 'rainy' || weather === 'sandstorm' || weather === 'hail')) {
+  if (move.name === 'solar-beam' && (weather === 'rainy' || weather === 'sandstorm' || weather === 'hail' || weather === 'snow')) {
     basePower *= 0.5;
   }
   return getAbilityAdjustedBasePower(move, attacker, basePower);
@@ -436,7 +437,7 @@ export function getEffectiveBattleSpeed(
   if (ability === 'swift-swim' && weather === 'rainy') abilityMultiplier *= 2;
   if (ability === 'chlorophyll' && weather === 'sunny') abilityMultiplier *= 2;
   if (ability === 'sand-rush' && weather === 'sandstorm') abilityMultiplier *= 2;
-  if (ability === 'slush-rush' && weather === 'hail') abilityMultiplier *= 2;
+  if (ability === 'slush-rush' && (weather === 'hail' || weather === 'snow')) abilityMultiplier *= 2;
   if (ability === 'surge-surfer' && fieldState.includes('electric_terrain')) abilityMultiplier *= 2;
   const paralysisMultiplier = statusId === 'paralysis' ? 0.5 : 1;
   return Math.max(1, Math.floor(

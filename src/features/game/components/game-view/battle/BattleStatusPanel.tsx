@@ -32,6 +32,7 @@ const WEATHER_META: Record<Weather, { icon: LucideIcon; label: { zh: string; en:
   rainy: { icon: CloudRain, label: { zh: '下雨', en: 'Rain' }, iconClassName: 'text-sky-500' },
   sandstorm: { icon: Wind, label: { zh: '沙暴', en: 'Sandstorm' }, iconClassName: 'text-amber-700' },
   hail: { icon: Snowflake, label: { zh: '冰雹', en: 'Hail' }, iconClassName: 'text-cyan-500' },
+  snow: { icon: Snowflake, label: { zh: '下雪', en: 'Snow' }, iconClassName: 'text-sky-400' },
 };
 
 const FIELD_META: Record<FieldState, { icon: LucideIcon; label: { zh: string; en: string }; iconClassName: string }> = {

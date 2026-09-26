@@ -196,7 +196,7 @@ export function applyWeatherChipDamage({
 
   const healForWeather = (
     (weather === 'rainy' && (ability === 'dry-skin' || ability === 'rain-dish'))
-    || (weather === 'hail' && ability === 'ice-body')
+    || ((weather === 'hail' || weather === 'snow') && ability === 'ice-body')
   );
   if (healForWeather) {
     const denominator = ability === 'dry-skin' ? 8 : 16;

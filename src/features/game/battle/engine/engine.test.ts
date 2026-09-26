@@ -90,6 +90,28 @@ function createSnapshot(overrides: Partial<BattleSnapshot> = {}): BattleSnapshot
   };
 }
 
+test('snow has no chip, survives switching, and expires after five end turns', () => {
+  const player = createPokemon(1, 'player');
+  const reserve = createPokemon(3, 'reserve');
+  const options = {
+    getLocalized: (pokemon: GamePokemon) => pokemon.name,
+    formatDynamaxEndMessage: (pokemon: GamePokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (move: Move) => move.currentPp ?? move.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+  };
+  let snapshot = createSnapshot({ playerTeam: [player, reserve], weather: 'snow', weatherTurns: 5 });
+  for (let turn = 1; turn <= 5; turn += 1) {
+    if (turn === 2) snapshot = { ...snapshot, playerTeam: [snapshot.playerTeam[1], snapshot.playerTeam[0]] };
+    const result = resolveEndTurn({ ...options, snapshot });
+    snapshot = result.snapshot;
+    assert.equal(snapshot.weather, turn === 5 ? 'none' : 'snow');
+    assert.equal(snapshot.weatherTurns, 5 - turn);
+    assert.equal(snapshot.playerTeam[0].currentHp, 100);
+    assert.equal(snapshot.enemyTeam[0].currentHp, 100);
+  }
+});
+
 test('resolveBeforeMoveChecks decrements sleep and blocks ordinary move use', () => {
   const sleepingPokemon = createPokemon(1, 'sleeper', {
     nonVolatileStatus: {

@@ -168,6 +168,22 @@ function atBattle(saved: ReturnType<typeof draft>, stage: number) {
   };
 }
 
+test('current save accepts snow weather and its remaining turns', () => {
+  const saved = draft('run:snow-save');
+  const previous = saved.factory.battleResume;
+  assert.equal(previous.status, 'READY');
+  if (previous.status !== 'READY') return;
+  const snowSave = {
+    ...saved,
+    factory: { ...saved.factory, battleResume: { ...previous, weather: 'snow', weatherTurns: 4 } },
+  };
+  const restored = parseSaveDataFromText(JSON.stringify(snowSave)).factory.battleResume;
+  assert.equal(restored.status, 'READY');
+  if (restored.status !== 'READY') return;
+  assert.equal(restored.weather, 'snow');
+  assert.equal(restored.weatherTurns, 4);
+});
+
 test('new save preserves battle snapshots, including postbattle phase', () => {
   const saved = parseSaveDataFromText(JSON.stringify({
     schemaVersion: 13,

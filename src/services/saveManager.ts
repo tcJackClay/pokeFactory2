@@ -79,7 +79,7 @@ export interface BattleResumeSnapshot {
   enemySpecialUsage: BattleResumeSpecialUsageState;
   turn: 'PLAYER' | 'ENEMY';
   battleMenuTab: 'MAIN' | 'MOVES' | 'POKEMON' | 'BAG' | 'STATUS';
-  weather: 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail';
+  weather: 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail' | 'snow';
   weatherTurns: number;
   fieldState: FieldState[];
   fieldTurns: FieldTurns;
@@ -527,6 +527,7 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
     || source.weather === 'rainy'
     || source.weather === 'sandstorm'
     || source.weather === 'hail'
+    || source.weather === 'snow'
     ? source.weather
     : 'none';
   const fieldState = sanitizeFieldStateList(source.fieldState);

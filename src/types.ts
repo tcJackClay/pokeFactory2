@@ -389,7 +389,7 @@ export interface Item {
   catchRate?: number;
 }
 
-export type Weather = 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail';
+export type Weather = 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail' | 'snow';
 export type FieldState =
   | 'electric_terrain'
   | 'grassy_terrain'

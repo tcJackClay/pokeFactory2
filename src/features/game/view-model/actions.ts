@@ -45,7 +45,7 @@ export interface GameViewActions {
   devOpenRewardScreen: () => void;
   devOpenStatusPanel: () => void;
   devApplyStatusPanelPreset: () => void;
-  devSetWeather: (weather: 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail', turns?: number) => void;
+  devSetWeather: (weather: 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail' | 'snow', turns?: number) => void;
   devToggleFieldEffect: (field: 'electric_terrain' | 'grassy_terrain' | 'misty_terrain' | 'psychic_terrain' | 'trick_room' | 'magic_room' | 'wonder_room' | 'gravity' | 'fairy_lock', turns?: number) => void;
   devAdjustLeadStatStage: (stat: 'attack' | 'defense' | 'spAtk', delta: number) => void;
   devClearBattleStatuses: () => void;

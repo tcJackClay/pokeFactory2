@@ -31,7 +31,7 @@ export function getResolvedMoveAccuracy(move: Move, attacker: GamePokemon, defen
     move.name === 'toxic'
     && attacker.types.some((typeSlot) => typeSlot.type.name === 'poison')
   ) return null;
-  if (move.name === 'blizzard' && weather === 'hail') return null;
+  if (move.name === 'blizzard' && (weather === 'hail' || weather === 'snow')) return null;
   if (move.name === 'thunder') {
     if (weather === 'rainy') return null;
     if (weather === 'sunny') moveAccuracy = 50;
@@ -57,7 +57,7 @@ export function getResolvedMoveAccuracy(move: Move, attacker: GamePokemon, defen
   const tangledFeetMultiplier = defenderAbility === 'tangled-feet' && hasVolatileStatus(defender, 'confusion') ? 0.5 : 1;
   const weatherEvasionMultiplier = (
     (defenderAbility === 'sand-veil' && weather === 'sandstorm')
-    || (defenderAbility === 'snow-cloak' && weather === 'hail')
+    || (defenderAbility === 'snow-cloak' && (weather === 'hail' || weather === 'snow'))
   ) ? 0.8 : 1;
   return moveAccuracy
     * stageModifier

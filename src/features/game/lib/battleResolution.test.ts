@@ -824,4 +824,12 @@ test('weather residuals apply Pokerogue immunity, healing, and ability chip', ()
   assert.equal(applyWeatherChipDamage({ pokemon: sandVeil, weather: 'sandstorm', getLocalized: localize }).pokemon.currentHp, 100);
   assert.equal(applyWeatherChipDamage({ pokemon: rainDish, weather: 'rainy', getLocalized: localize }).pokemon.currentHp, 56);
   assert.equal(applyWeatherChipDamage({ pokemon: solarPower, weather: 'sunny', getLocalized: localize }).pokemon.currentHp, 88);
+  const ordinary = createPokemon(4, 'ordinary');
+  const iceBody = createPokemon(5, 'ice-body', {
+    currentHp: 50,
+    abilities: [{ ability: { name: 'ice-body', url: '' } }],
+  });
+  assert.equal(applyWeatherChipDamage({ pokemon: ordinary, weather: 'snow', getLocalized: localize }).pokemon.currentHp, 100);
+  assert.equal(applyWeatherChipDamage({ pokemon: ordinary, weather: 'hail', getLocalized: localize }).pokemon.currentHp, 94);
+  assert.equal(applyWeatherChipDamage({ pokemon: iceBody, weather: 'snow', getLocalized: localize }).pokemon.currentHp, 56);
 });

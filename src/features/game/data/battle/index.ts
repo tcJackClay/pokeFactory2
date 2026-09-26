@@ -289,7 +289,7 @@ export function getMoveRecoilPercent(move: Move | null | undefined, attacker?: G
 export function getMoveHealingPercent(move: Move | null | undefined, weather: Weather = 'none') {
   if (move?.name === 'synthesis' || move?.name === 'moonlight' || move?.name === 'morning-sun') {
     if (weather === 'sunny') return 200 / 3;
-    if (weather === 'rainy' || weather === 'sandstorm' || weather === 'hail') return 25;
+    if (weather === 'rainy' || weather === 'sandstorm' || weather === 'hail' || weather === 'snow') return 25;
     return 50;
   }
   return move?.battleData?.healingPercent ?? move?.healing ?? 0;

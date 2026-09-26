@@ -263,6 +263,19 @@ test('weather-sensitive healing follows Pokerogue PlantHealAttr ratios', () => {
   assert.equal(getMoveHealingPercent(synthesis, 'rainy'), 25);
   assert.equal(getMoveHealingPercent(synthesis, 'sandstorm'), 25);
   assert.equal(getMoveHealingPercent(synthesis, 'hail'), 25);
+  assert.equal(getMoveHealingPercent(synthesis, 'snow'), 25);
+});
+
+test('Snowscape and Hail map to distinct weather effects', () => {
+  const battleDataFor = (name: string) => buildMoveBattleDataFromPokeApiMove({
+    name,
+    priority: 0,
+    target: { name: 'entire-field' },
+    meta: { drain: 0, healing: 0, crit_rate: 0, min_hits: null, max_hits: null },
+    flags: [],
+  });
+  assert.equal(battleDataFor('snowscape').weather, 'snow');
+  assert.equal(battleDataFor('hail').weather, 'hail');
 });
 
 test('Rock Head and Magic Guard suppress recoil damage', () => {

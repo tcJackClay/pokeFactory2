@@ -242,7 +242,41 @@ test('accuracy applies Pokerogue weather and Minimize move overrides', () => {
   assert.equal(getResolvedMoveAccuracy(createMove({ name: 'thunder', accuracy: 70 }), attacker, defender, 'rainy'), null);
   assert.equal(getResolvedMoveAccuracy(createMove({ name: 'thunder', accuracy: 70 }), attacker, defender, 'sunny'), 50);
   assert.equal(getResolvedMoveAccuracy(createMove({ name: 'blizzard', accuracy: 70 }), attacker, defender, 'hail'), null);
+  assert.equal(getResolvedMoveAccuracy(createMove({ name: 'blizzard', accuracy: 70 }), attacker, defender, 'snow'), null);
   assert.equal(getResolvedMoveAccuracy(createMove({ name: 'stomp', accuracy: 100 }), attacker, minimized), null);
+});
+
+test('snow boosts Ice physical defense only, while hail retains its old damage calculation', () => {
+  const attacker = createPokemon(1, ['normal']);
+  const ice = createPokemon(2, ['ice']);
+  const normal = createPokemon(3, ['normal']);
+  const damage = (defender: GamePokemon, damageClass: 'physical' | 'special', weather: 'none' | 'hail' | 'snow') => calculateDamage({
+    move: createMove({ damage_class: damageClass }),
+    attacker,
+    defender,
+    weather,
+    atkBuff: false,
+    defBuff: false,
+    skipAccuracyCheck: true,
+    random: createRandomSequence([0.99, 0.999999]),
+  }).damage;
+
+  assert.ok(damage(ice, 'physical', 'snow') < damage(ice, 'physical', 'none'));
+  assert.equal(damage(ice, 'physical', 'hail'), damage(ice, 'physical', 'none'));
+  assert.equal(damage(ice, 'special', 'snow'), damage(ice, 'special', 'none'));
+  assert.equal(damage(normal, 'physical', 'snow'), damage(normal, 'physical', 'none'));
+});
+
+test('snow supports Blizzard, Snow Cloak and Slush Rush', () => {
+  const attacker = createPokemon(1, ['normal']);
+  const snowCloak = createPokemon(2, ['ice'], { abilities: [{ ability: { name: 'snow-cloak', url: '' } }] });
+  const slushRush = createPokemon(3, ['ice'], { abilities: [{ ability: { name: 'slush-rush', url: '' } }] });
+  const blizzard = createMove({ name: 'blizzard', accuracy: 70 });
+
+  assert.equal(getResolvedMoveAccuracy(blizzard, attacker, snowCloak, 'snow'), null);
+  assert.equal(getResolvedMoveAccuracy(createMove({ accuracy: 100 }), attacker, snowCloak, 'snow'), 80);
+  assert.equal(getEffectiveBattleSpeed(slushRush, 'snow'), 200);
+  assert.equal(getEffectiveBattleSpeed(slushRush, 'hail'), 200);
 });
 
 test('calculateDamage applies terrain power and misty dragon reduction', () => {
@@ -707,7 +741,7 @@ test('Solar Beam follows Pokerogue adverse-weather power and weather suppression
   });
   const defender = createPokemon(2, ['normal']);
   const move = createMove({ name: 'solar-beam', type: 'grass', power: 120, damage_class: 'special' });
-  const calculate = (selectedAttacker: GamePokemon, weather: 'none' | 'rainy') => calculateDamage({
+  const calculate = (selectedAttacker: GamePokemon, weather: 'none' | 'rainy' | 'snow') => calculateDamage({
     move,
     attacker: selectedAttacker,
     defender,
@@ -720,6 +754,7 @@ test('Solar Beam follows Pokerogue adverse-weather power and weather suppression
 
   assert.equal(calculate(attacker, 'none'), 82);
   assert.equal(calculate(attacker, 'rainy'), 42);
+  assert.equal(calculate(attacker, 'snow'), 42);
   assert.equal(calculate(airLockAttacker, 'rainy'), 82);
 });
 
