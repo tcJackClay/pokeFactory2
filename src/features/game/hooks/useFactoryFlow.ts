@@ -31,6 +31,7 @@ import { selectFactoryTrainerTemplate, type FactoryTrainerTemplate } from '../co
 import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools';
 import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, Stats, Weather } from '../../../types';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
+import { restoreFactoryParty } from '../utils/restoreFactoryParty';
 import {
   beginRentalNetworkCapture,
   clearRentalConfirm,
@@ -641,7 +642,7 @@ export function useFactoryFlow({
   }, []);
 
   const healAllPokemon = useCallback(() => {
-    setPlayerTeam((prev) => prev.map((pokemon) => ({ ...pokemon, currentHp: pokemon.maxHp })));
+    setPlayerTeam((prev) => restoreFactoryParty(prev));
   }, [setPlayerTeam]);
 
   const startBattleTransition = useCallback(() => {
@@ -1629,7 +1630,7 @@ export function useFactoryFlow({
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
     const newTeam = swapDefeatedPokemon(playerTeam, enemyTeam, playerIdx, enemyIdx);
     if (!newTeam) return null;
-    return newTeam.map((pokemon) => ({ ...pokemon, currentHp: pokemon.maxHp }));
+    return restoreFactoryParty(newTeam);
   }, [enemyTeam, playerTeam]);
 
   const commitSwap = useCallback((newTeam: GamePokemon[]) => {

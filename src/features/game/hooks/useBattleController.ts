@@ -57,6 +57,7 @@ import {
   findNextLivingLeadIndex,
 } from '../lib/battleResolution';
 import { battleAilmentName, battleHeldItemName, battleItemMessage, battleLine, battleMoveName, battleStatName, isChineseBattleLog } from '../battle/battleLogText';
+import { restoreFactoryParty } from '../utils/restoreFactoryParty';
 import {
   clearNonVolatileStatus,
   clearVolatileStatus,
@@ -840,6 +841,8 @@ export function useBattleController({
         return;
       }
 
+      setPlayerTeam((previousTeam) => restoreFactoryParty(previousTeam));
+
       if (result === 'WIN') {
         setStreak(nextStreak);
       } else {
@@ -886,6 +889,7 @@ export function useBattleController({
     setSpecialBossBattleActive,
     setSpecialModeUnlocked,
     setRoundResult,
+    setPlayerTeam,
     setStreak,
     suppressFactoryBattleResult,
     specialBossBattleActive,
