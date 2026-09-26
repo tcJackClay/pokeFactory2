@@ -685,6 +685,64 @@ test('factory singles table and Brain appearances match the reference', () => {
   assert.equal(getFactoryTrainerTemplateById(FACTORY_BRAIN_TRAINER_ID)?.trainerName, 'NOLAND');
 });
 
+test('wallet adjustment keeps a newer result and its run tickets', () => {
+  withStorage(() => {
+    const stale = draft('run:wallet-ticket', 0, 0, 1);
+    persistSaveData(stale);
+    commitFactoryGroupSettlement(stale, 'run:wallet-ticket', 1, 'WIN', false);
+
+    const adjusted = adjustWalletBalance(stale, 5);
+    assert.equal(adjusted.balance, 5);
+    const saved = loadSaveData()!;
+    assert.deepEqual(saved.runSupply, { runId: 'run:wallet-ticket', tickets: 1, lastCreditedStage: 1 });
+    assert.equal(saved.factory.battleResume.status, 'READY');
+    if (saved.factory.battleResume.status === 'READY') {
+      assert.equal(saved.factory.battleResume.phase, 'ROUND_RESULT');
+      assert.equal(saved.factory.battleResume.stage, 1);
+    }
+  });
+});
+
+test('wallet adjustment from an old run cannot overwrite a new run', () => {
+  withStorage(() => {
+    const stale = draft('run:old-wallet', 0, 0, 1);
+    persistSaveData(stale);
+    const next = beginFactoryWalletRun(stale);
+    const before = loadSaveData()!;
+    assert.equal(before.wallet.currentRunId, next.currentRunId);
+
+    assert.throws(() => adjustWalletBalance(stale, 5), /Factory run changed/);
+    assert.deepEqual(loadSaveData(), before);
+  });
+});
+
+test('wallet adjustment preserves a paused base checkpoint and seven tickets', () => {
+  withStorage(() => {
+    const stale = draft('run:paused-wallet', 0, 0, 7);
+    persistSaveData(stale);
+    commitFactoryGroupSettlement(stale, 'run:paused-wallet', 7, 'WIN', false);
+    const result = loadSaveData()!;
+    const checkpoint = result.factory.battleResume;
+    assert.equal(checkpoint.status, 'READY');
+    if (checkpoint.status !== 'READY') return;
+    persistSaveData({
+      ...result,
+      factory: {
+        ...result.factory,
+        challengePaused: true,
+        battleResume: { ...checkpoint, phase: 'BASE' },
+      },
+    });
+
+    adjustWalletBalance(stale, 5);
+    const saved = loadSaveData()!;
+    assert.equal(saved.runSupply.tickets, 7);
+    assert.equal(saved.factory.challengePaused, true);
+    assert.equal(saved.factory.battleResume.status, 'READY');
+    if (saved.factory.battleResume.status === 'READY') assert.equal(saved.factory.battleResume.phase, 'BASE');
+  });
+});
+
 test('each win credits one run ticket once, including across a seven-battle set', () => {
   withStorage(() => {
     let saved = draft('run:supply', 0, 0, 1);

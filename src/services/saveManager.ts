@@ -1140,11 +1140,31 @@ export function endFactoryWalletRun(draft: GameSaveData, runId: string): Factory
 
 export function adjustWalletBalance(draft: GameSaveData, delta: number): FactoryWallet {
   if (!Number.isSafeInteger(delta)) throw new Error('Invalid wallet adjustment.');
-  return commitWalletChange(draft, (wallet) => {
-    const balance = wallet.balance + delta;
-    if (!Number.isSafeInteger(balance) || balance < 0 || balance > MAX_FACTORY_BP) throw new Error('Insufficient or invalid wallet balance.');
-    return { ...wallet, balance, revision: nextWalletRevision(wallet) };
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
+  const inspection = raw === null ? null : classifySaveText(raw);
+  if (inspection && inspection.kind !== 'valid') throw new Error('Stored save requires backup or removal before wallet changes.');
+  const persisted = inspection?.kind === 'valid' ? inspection.save : null;
+  if (persisted && persisted.wallet.currentRunId !== draft.wallet.currentRunId) {
+    throw new Error('Factory run changed before wallet adjustment.');
+  }
+  const current = persisted?.wallet ?? draft.wallet;
+  const balance = current.balance + delta;
+  if (!Number.isSafeInteger(balance) || balance < 0 || balance > MAX_FACTORY_BP) {
+    throw new Error('Insufficient or invalid wallet balance.');
+  }
+  const wallet = { ...current, balance, revision: nextWalletRevision(current) };
+  persistSaveData({
+    ...draft,
+    wallet,
+    runSupply: persisted?.runSupply ?? draft.runSupply,
+    factory: persisted?.factory ?? draft.factory,
   });
+  const confirmed = loadSaveData();
+  if (!confirmed || confirmed.wallet.currentRunId !== wallet.currentRunId || confirmed.wallet.revision !== wallet.revision) {
+    throw new Error('Wallet adjustment could not be verified after saving.');
+  }
+  return confirmed.wallet;
 }
 
 export function commitFactoryGroupSettlement(
