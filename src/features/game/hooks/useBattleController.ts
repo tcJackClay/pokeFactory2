@@ -60,6 +60,7 @@ import {
 } from '../data/battle';
 import {
   findNextLivingLeadIndex,
+  findNextLivingReserveIndex,
 } from '../lib/battleResolution';
 import { battleAilmentName, battleHeldItemName, battleItemMessage, battleLine, battleMoveName, battleStatName, isChineseBattleLog } from '../battle/battleLogText';
 import { restoreFactoryParty } from '../utils/restoreFactoryParty';
@@ -942,13 +943,12 @@ export function useBattleController({
 
   const sendOutNextEnemy = useCallback(async (
     currentEnemyTeam: GamePokemon[],
-    excludedId: number,
+    _faintedId: number,
     options?: { preservePlayerSwitchMenu?: boolean },
   ) => {
     const nextEnemyTeam = [...currentEnemyTeam];
-    let skippedId: number | undefined = excludedId;
     while (true) {
-      const nextEnemyIdx = findNextLivingLeadIndex(nextEnemyTeam, { excludeId: skippedId });
+      const nextEnemyIdx = findNextLivingReserveIndex(nextEnemyTeam);
       if (nextEnemyIdx === -1) {
         setTimeout(() => void winBattle(), 500);
         return false;
@@ -962,7 +962,6 @@ export function useBattleController({
       await addMessagesSequentially([t('enemySentOut').replace('{name}', getLocalized(entry.pokemon))]);
       await reportEntryHazards(entry);
       if (entry.fainted) {
-        skippedId = undefined;
         continue;
       }
       if (options?.preservePlayerSwitchMenu) setTurn('PLAYER');
