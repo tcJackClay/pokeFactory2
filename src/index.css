@@ -1613,6 +1613,12 @@ button {
   text-align: left;
 }
 
+.pf-generation-option.pf-generation-card {
+  min-height: 76px;
+  align-items: center;
+  padding: 0.5rem;
+}
+
 .pf-generation-option[data-active='true'] {
   border-color: rgba(37, 99, 235, 0.44);
   background: rgba(239, 246, 255, 0.98);

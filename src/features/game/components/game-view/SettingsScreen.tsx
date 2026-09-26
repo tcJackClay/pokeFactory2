@@ -164,8 +164,8 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
               className="pf-generation-option mt-3 w-full cursor-pointer disabled:cursor-not-allowed"
             >
               <span className="min-w-0 text-left">
-                <span className="block text-xs font-black">{isZh ? activeGenerationData.name : `Generation ${activeGeneration}`}</span>
-                <span className="block text-[11px] font-semibold opacity-75">{isZh ? activeGenerationData.region : ENGLISH_REGIONS[activeGenerationIndex]}</span>
+                <span className="block text-base font-black">{isZh ? activeGenerationData.region : ENGLISH_REGIONS[activeGenerationIndex]}</span>
+                <span className="block text-[11px] font-semibold opacity-75">{isZh ? activeGenerationData.name : `Generation ${activeGeneration}`}</span>
               </span>
               <ChevronUp className="h-4 w-4 shrink-0 rotate-180" aria-hidden="true" />
             </button>
@@ -332,11 +332,11 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
               </button>
             </div>
             <div role="radiogroup" aria-label={isZh ? '出场世代' : 'Generation'} className="min-h-0 overflow-y-auto overscroll-contain px-3 py-2 custom-scrollbar">
-              <div className="space-y-2">
+              <div className="grid grid-cols-3 gap-2">
                 {GENERATIONS.map((generation, index) => {
                   const selected = activeGeneration === generation.id;
                   return (
-                    <label key={generation.id} data-active={selected ? 'true' : 'false'} className="pf-generation-option w-full cursor-pointer focus-within:outline-2 focus-within:outline-blue-600">
+                    <label key={generation.id} data-active={selected ? 'true' : 'false'} className="pf-generation-option pf-generation-card w-full cursor-pointer focus-within:outline-2 focus-within:outline-blue-600">
                       <input
                         ref={selected ? selectedGenerationRef : undefined}
                         type="radio"
@@ -344,13 +344,16 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
                         value={generation.id}
                         checked={selected}
                         onChange={() => selectGeneration(generation.id)}
+                        aria-label={isZh ? `${generation.region}，${generation.name}` : `${ENGLISH_REGIONS[index]}, Generation ${generation.id}`}
                         className="sr-only"
                       />
-                      <span className="min-w-0 text-left">
-                        <span className="block text-sm font-black">{isZh ? generation.name : `Generation ${generation.id}`}</span>
-                        <span className="block text-xs font-semibold opacity-75">{isZh ? generation.region : ENGLISH_REGIONS[index]}</span>
+                      <span className="min-w-0 w-full text-left">
+                        <span className="block text-base font-black leading-tight">{isZh ? generation.region : ENGLISH_REGIONS[index]}</span>
+                        <span className="mt-1 flex w-full items-center justify-between gap-1 text-[10px] font-semibold leading-tight opacity-75">
+                          <span className="min-w-0 truncate">{isZh ? generation.name : `Gen ${generation.id}`}</span>
+                          <Check className={`h-3.5 w-3.5 shrink-0 ${selected ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true" />
+                        </span>
                       </span>
-                      <Check className={`h-5 w-5 shrink-0 ${selected ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true" />
                     </label>
                   );
                 })}

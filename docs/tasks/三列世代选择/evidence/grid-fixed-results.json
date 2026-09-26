@@ -1,0 +1,815 @@
+{
+  "320x568": {
+    "zhEntry": "关都\n第一世代",
+    "zh": {
+      "entries": [
+        "关都\n第一世代",
+        "城都\n第二世代",
+        "丰缘\n第三世代",
+        "神奥\n第四世代",
+        "合众\n第五世代",
+        "卡洛斯\n第六世代",
+        "阿罗拉\n第七世代",
+        "伽勒尔\n第八世代",
+        "帕底亚\n第九世代"
+      ],
+      "rects": [
+        {
+          "x": 13,
+          "y": 315,
+          "width": 92.65625,
+          "height": 76,
+          "top": 315,
+          "right": 105.65625,
+          "bottom": 391,
+          "left": 13
+        },
+        {
+          "x": 113.65625,
+          "y": 315,
+          "width": 92.671875,
+          "height": 76,
+          "top": 315,
+          "right": 206.328125,
+          "bottom": 391,
+          "left": 113.65625
+        },
+        {
+          "x": 214.328125,
+          "y": 315,
+          "width": 92.65625,
+          "height": 76,
+          "top": 315,
+          "right": 306.984375,
+          "bottom": 391,
+          "left": 214.328125
+        },
+        {
+          "x": 13,
+          "y": 399,
+          "width": 92.65625,
+          "height": 76,
+          "top": 399,
+          "right": 105.65625,
+          "bottom": 475,
+          "left": 13
+        },
+        {
+          "x": 113.65625,
+          "y": 399,
+          "width": 92.671875,
+          "height": 76,
+          "top": 399,
+          "right": 206.328125,
+          "bottom": 475,
+          "left": 113.65625
+        },
+        {
+          "x": 214.328125,
+          "y": 399,
+          "width": 92.65625,
+          "height": 76,
+          "top": 399,
+          "right": 306.984375,
+          "bottom": 475,
+          "left": 214.328125
+        },
+        {
+          "x": 13,
+          "y": 483,
+          "width": 92.65625,
+          "height": 76,
+          "top": 483,
+          "right": 105.65625,
+          "bottom": 559,
+          "left": 13
+        },
+        {
+          "x": 113.65625,
+          "y": 483,
+          "width": 92.671875,
+          "height": 76,
+          "top": 483,
+          "right": 206.328125,
+          "bottom": 559,
+          "left": 113.65625
+        },
+        {
+          "x": 214.328125,
+          "y": 483,
+          "width": 92.65625,
+          "height": 76,
+          "top": 483,
+          "right": 306.984375,
+          "bottom": 559,
+          "left": 214.328125
+        }
+      ],
+      "overflow": []
+    },
+    "enEntry": "Kanto\nGeneration 1",
+    "en": {
+      "entries": [
+        "Kanto\nGen 1",
+        "Johto\nGen 2",
+        "Hoenn\nGen 3",
+        "Sinnoh\nGen 4",
+        "Unova\nGen 5",
+        "Kalos\nGen 6",
+        "Alola\nGen 7",
+        "Galar\nGen 8",
+        "Paldea\nGen 9"
+      ],
+      "rects": [
+        {
+          "x": 13,
+          "y": 315,
+          "width": 92.65625,
+          "height": 76,
+          "top": 315,
+          "right": 105.65625,
+          "bottom": 391,
+          "left": 13
+        },
+        {
+          "x": 113.65625,
+          "y": 315,
+          "width": 92.671875,
+          "height": 76,
+          "top": 315,
+          "right": 206.328125,
+          "bottom": 391,
+          "left": 113.65625
+        },
+        {
+          "x": 214.328125,
+          "y": 315,
+          "width": 92.65625,
+          "height": 76,
+          "top": 315,
+          "right": 306.984375,
+          "bottom": 391,
+          "left": 214.328125
+        },
+        {
+          "x": 13,
+          "y": 399,
+          "width": 92.65625,
+          "height": 76,
+          "top": 399,
+          "right": 105.65625,
+          "bottom": 475,
+          "left": 13
+        },
+        {
+          "x": 113.65625,
+          "y": 399,
+          "width": 92.671875,
+          "height": 76,
+          "top": 399,
+          "right": 206.328125,
+          "bottom": 475,
+          "left": 113.65625
+        },
+        {
+          "x": 214.328125,
+          "y": 399,
+          "width": 92.65625,
+          "height": 76,
+          "top": 399,
+          "right": 306.984375,
+          "bottom": 475,
+          "left": 214.328125
+        },
+        {
+          "x": 13,
+          "y": 483,
+          "width": 92.65625,
+          "height": 76,
+          "top": 483,
+          "right": 105.65625,
+          "bottom": 559,
+          "left": 13
+        },
+        {
+          "x": 113.65625,
+          "y": 483,
+          "width": 92.671875,
+          "height": 76,
+          "top": 483,
+          "right": 206.328125,
+          "bottom": 559,
+          "left": 113.65625
+        },
+        {
+          "x": 214.328125,
+          "y": 483,
+          "width": 92.65625,
+          "height": 76,
+          "top": 483,
+          "right": 306.984375,
+          "bottom": 559,
+          "left": 214.328125
+        }
+      ],
+      "overflow": [],
+      "aria": [
+        {
+          "value": "1",
+          "label": "Kanto, Generation 1"
+        },
+        {
+          "value": "2",
+          "label": "Johto, Generation 2"
+        },
+        {
+          "value": "3",
+          "label": "Hoenn, Generation 3"
+        },
+        {
+          "value": "4",
+          "label": "Sinnoh, Generation 4"
+        },
+        {
+          "value": "5",
+          "label": "Unova, Generation 5"
+        },
+        {
+          "value": "6",
+          "label": "Kalos, Generation 6"
+        },
+        {
+          "value": "7",
+          "label": "Alola, Generation 7"
+        },
+        {
+          "value": "8",
+          "label": "Galar, Generation 8"
+        },
+        {
+          "value": "9",
+          "label": "Paldea, Generation 9"
+        }
+      ],
+      "horizontalOverflow": false
+    },
+    "choice": 9,
+    "selected": {
+      "closed": true,
+      "entry": "Paldea\nGeneration 9",
+      "save": [
+        9
+      ]
+    },
+    "reloaded": {
+      "entry": "Paldea\nGeneration 9",
+      "save": [
+        9
+      ]
+    },
+    "errors": [],
+    "httpErrors": []
+  },
+  "390x844": {
+    "zhEntry": "关都\n第一世代",
+    "zh": {
+      "entries": [
+        "关都\n第一世代",
+        "城都\n第二世代",
+        "丰缘\n第三世代",
+        "神奥\n第四世代",
+        "合众\n第五世代",
+        "卡洛斯\n第六世代",
+        "阿罗拉\n第七世代",
+        "伽勒尔\n第八世代",
+        "帕底亚\n第九世代"
+      ],
+      "rects": [
+        {
+          "x": 13,
+          "y": 591,
+          "width": 116,
+          "height": 76,
+          "top": 591,
+          "right": 129,
+          "bottom": 667,
+          "left": 13
+        },
+        {
+          "x": 137,
+          "y": 591,
+          "width": 116,
+          "height": 76,
+          "top": 591,
+          "right": 253,
+          "bottom": 667,
+          "left": 137
+        },
+        {
+          "x": 261,
+          "y": 591,
+          "width": 116,
+          "height": 76,
+          "top": 591,
+          "right": 377,
+          "bottom": 667,
+          "left": 261
+        },
+        {
+          "x": 13,
+          "y": 675,
+          "width": 116,
+          "height": 76,
+          "top": 675,
+          "right": 129,
+          "bottom": 751,
+          "left": 13
+        },
+        {
+          "x": 137,
+          "y": 675,
+          "width": 116,
+          "height": 76,
+          "top": 675,
+          "right": 253,
+          "bottom": 751,
+          "left": 137
+        },
+        {
+          "x": 261,
+          "y": 675,
+          "width": 116,
+          "height": 76,
+          "top": 675,
+          "right": 377,
+          "bottom": 751,
+          "left": 261
+        },
+        {
+          "x": 13,
+          "y": 759,
+          "width": 116,
+          "height": 76,
+          "top": 759,
+          "right": 129,
+          "bottom": 835,
+          "left": 13
+        },
+        {
+          "x": 137,
+          "y": 759,
+          "width": 116,
+          "height": 76,
+          "top": 759,
+          "right": 253,
+          "bottom": 835,
+          "left": 137
+        },
+        {
+          "x": 261,
+          "y": 759,
+          "width": 116,
+          "height": 76,
+          "top": 759,
+          "right": 377,
+          "bottom": 835,
+          "left": 261
+        }
+      ],
+      "overflow": []
+    },
+    "enEntry": "Kanto\nGeneration 1",
+    "en": {
+      "entries": [
+        "Kanto\nGen 1",
+        "Johto\nGen 2",
+        "Hoenn\nGen 3",
+        "Sinnoh\nGen 4",
+        "Unova\nGen 5",
+        "Kalos\nGen 6",
+        "Alola\nGen 7",
+        "Galar\nGen 8",
+        "Paldea\nGen 9"
+      ],
+      "rects": [
+        {
+          "x": 13,
+          "y": 591,
+          "width": 116,
+          "height": 76,
+          "top": 591,
+          "right": 129,
+          "bottom": 667,
+          "left": 13
+        },
+        {
+          "x": 137,
+          "y": 591,
+          "width": 116,
+          "height": 76,
+          "top": 591,
+          "right": 253,
+          "bottom": 667,
+          "left": 137
+        },
+        {
+          "x": 261,
+          "y": 591,
+          "width": 116,
+          "height": 76,
+          "top": 591,
+          "right": 377,
+          "bottom": 667,
+          "left": 261
+        },
+        {
+          "x": 13,
+          "y": 675,
+          "width": 116,
+          "height": 76,
+          "top": 675,
+          "right": 129,
+          "bottom": 751,
+          "left": 13
+        },
+        {
+          "x": 137,
+          "y": 675,
+          "width": 116,
+          "height": 76,
+          "top": 675,
+          "right": 253,
+          "bottom": 751,
+          "left": 137
+        },
+        {
+          "x": 261,
+          "y": 675,
+          "width": 116,
+          "height": 76,
+          "top": 675,
+          "right": 377,
+          "bottom": 751,
+          "left": 261
+        },
+        {
+          "x": 13,
+          "y": 759,
+          "width": 116,
+          "height": 76,
+          "top": 759,
+          "right": 129,
+          "bottom": 835,
+          "left": 13
+        },
+        {
+          "x": 137,
+          "y": 759,
+          "width": 116,
+          "height": 76,
+          "top": 759,
+          "right": 253,
+          "bottom": 835,
+          "left": 137
+        },
+        {
+          "x": 261,
+          "y": 759,
+          "width": 116,
+          "height": 76,
+          "top": 759,
+          "right": 377,
+          "bottom": 835,
+          "left": 261
+        }
+      ],
+      "overflow": [],
+      "aria": [
+        {
+          "value": "1",
+          "label": "Kanto, Generation 1"
+        },
+        {
+          "value": "2",
+          "label": "Johto, Generation 2"
+        },
+        {
+          "value": "3",
+          "label": "Hoenn, Generation 3"
+        },
+        {
+          "value": "4",
+          "label": "Sinnoh, Generation 4"
+        },
+        {
+          "value": "5",
+          "label": "Unova, Generation 5"
+        },
+        {
+          "value": "6",
+          "label": "Kalos, Generation 6"
+        },
+        {
+          "value": "7",
+          "label": "Alola, Generation 7"
+        },
+        {
+          "value": "8",
+          "label": "Galar, Generation 8"
+        },
+        {
+          "value": "9",
+          "label": "Paldea, Generation 9"
+        }
+      ],
+      "horizontalOverflow": false
+    },
+    "choice": 4,
+    "selected": {
+      "closed": true,
+      "entry": "Sinnoh\nGeneration 4",
+      "save": [
+        4
+      ]
+    },
+    "reloaded": {
+      "entry": "Sinnoh\nGeneration 4",
+      "save": [
+        4
+      ]
+    },
+    "errors": [],
+    "httpErrors": []
+  },
+  "844x390": {
+    "zhEntry": "关都\n第一世代",
+    "zh": {
+      "entries": [
+        "关都\n第一世代",
+        "城都\n第二世代",
+        "丰缘\n第三世代",
+        "神奥\n第四世代",
+        "合众\n第五世代",
+        "卡洛斯\n第六世代",
+        "阿罗拉\n第七世代",
+        "伽勒尔\n第八世代",
+        "帕底亚\n第九世代"
+      ],
+      "rects": [
+        {
+          "x": 175,
+          "y": 137,
+          "width": 159.328125,
+          "height": 76,
+          "top": 137,
+          "right": 334.328125,
+          "bottom": 213,
+          "left": 175
+        },
+        {
+          "x": 342.328125,
+          "y": 137,
+          "width": 159.328125,
+          "height": 76,
+          "top": 137,
+          "right": 501.65625,
+          "bottom": 213,
+          "left": 342.328125
+        },
+        {
+          "x": 509.65625,
+          "y": 137,
+          "width": 159.328125,
+          "height": 76,
+          "top": 137,
+          "right": 668.984375,
+          "bottom": 213,
+          "left": 509.65625
+        },
+        {
+          "x": 175,
+          "y": 221,
+          "width": 159.328125,
+          "height": 76,
+          "top": 221,
+          "right": 334.328125,
+          "bottom": 297,
+          "left": 175
+        },
+        {
+          "x": 342.328125,
+          "y": 221,
+          "width": 159.328125,
+          "height": 76,
+          "top": 221,
+          "right": 501.65625,
+          "bottom": 297,
+          "left": 342.328125
+        },
+        {
+          "x": 509.65625,
+          "y": 221,
+          "width": 159.328125,
+          "height": 76,
+          "top": 221,
+          "right": 668.984375,
+          "bottom": 297,
+          "left": 509.65625
+        },
+        {
+          "x": 175,
+          "y": 305,
+          "width": 159.328125,
+          "height": 76,
+          "top": 305,
+          "right": 334.328125,
+          "bottom": 381,
+          "left": 175
+        },
+        {
+          "x": 342.328125,
+          "y": 305,
+          "width": 159.328125,
+          "height": 76,
+          "top": 305,
+          "right": 501.65625,
+          "bottom": 381,
+          "left": 342.328125
+        },
+        {
+          "x": 509.65625,
+          "y": 305,
+          "width": 159.328125,
+          "height": 76,
+          "top": 305,
+          "right": 668.984375,
+          "bottom": 381,
+          "left": 509.65625
+        }
+      ],
+      "overflow": []
+    },
+    "enEntry": "Kanto\nGeneration 1",
+    "en": {
+      "entries": [
+        "Kanto\nGen 1",
+        "Johto\nGen 2",
+        "Hoenn\nGen 3",
+        "Sinnoh\nGen 4",
+        "Unova\nGen 5",
+        "Kalos\nGen 6",
+        "Alola\nGen 7",
+        "Galar\nGen 8",
+        "Paldea\nGen 9"
+      ],
+      "rects": [
+        {
+          "x": 175,
+          "y": 137,
+          "width": 159.328125,
+          "height": 76,
+          "top": 137,
+          "right": 334.328125,
+          "bottom": 213,
+          "left": 175
+        },
+        {
+          "x": 342.328125,
+          "y": 137,
+          "width": 159.328125,
+          "height": 76,
+          "top": 137,
+          "right": 501.65625,
+          "bottom": 213,
+          "left": 342.328125
+        },
+        {
+          "x": 509.65625,
+          "y": 137,
+          "width": 159.328125,
+          "height": 76,
+          "top": 137,
+          "right": 668.984375,
+          "bottom": 213,
+          "left": 509.65625
+        },
+        {
+          "x": 175,
+          "y": 221,
+          "width": 159.328125,
+          "height": 76,
+          "top": 221,
+          "right": 334.328125,
+          "bottom": 297,
+          "left": 175
+        },
+        {
+          "x": 342.328125,
+          "y": 221,
+          "width": 159.328125,
+          "height": 76,
+          "top": 221,
+          "right": 501.65625,
+          "bottom": 297,
+          "left": 342.328125
+        },
+        {
+          "x": 509.65625,
+          "y": 221,
+          "width": 159.328125,
+          "height": 76,
+          "top": 221,
+          "right": 668.984375,
+          "bottom": 297,
+          "left": 509.65625
+        },
+        {
+          "x": 175,
+          "y": 305,
+          "width": 159.328125,
+          "height": 76,
+          "top": 305,
+          "right": 334.328125,
+          "bottom": 381,
+          "left": 175
+        },
+        {
+          "x": 342.328125,
+          "y": 305,
+          "width": 159.328125,
+          "height": 76,
+          "top": 305,
+          "right": 501.65625,
+          "bottom": 381,
+          "left": 342.328125
+        },
+        {
+          "x": 509.65625,
+          "y": 305,
+          "width": 159.328125,
+          "height": 76,
+          "top": 305,
+          "right": 668.984375,
+          "bottom": 381,
+          "left": 509.65625
+        }
+      ],
+      "overflow": [],
+      "aria": [
+        {
+          "value": "1",
+          "label": "Kanto, Generation 1"
+        },
+        {
+          "value": "2",
+          "label": "Johto, Generation 2"
+        },
+        {
+          "value": "3",
+          "label": "Hoenn, Generation 3"
+        },
+        {
+          "value": "4",
+          "label": "Sinnoh, Generation 4"
+        },
+        {
+          "value": "5",
+          "label": "Unova, Generation 5"
+        },
+        {
+          "value": "6",
+          "label": "Kalos, Generation 6"
+        },
+        {
+          "value": "7",
+          "label": "Alola, Generation 7"
+        },
+        {
+          "value": "8",
+          "label": "Galar, Generation 8"
+        },
+        {
+          "value": "9",
+          "label": "Paldea, Generation 9"
+        }
+      ],
+      "horizontalOverflow": false
+    },
+    "choice": 7,
+    "selected": {
+      "closed": true,
+      "entry": "Alola\nGeneration 7",
+      "save": [
+        7
+      ]
+    },
+    "reloaded": {
+      "entry": "Alola\nGeneration 7",
+      "save": [
+        7
+      ]
+    },
+    "errors": [],
+    "httpErrors": []
+  }
+}

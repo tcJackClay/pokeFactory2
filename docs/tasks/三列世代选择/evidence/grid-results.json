@@ -1,0 +1,2171 @@
+{
+  "320x568": {
+    "zhEntry": "关都\n第一世代",
+    "zh": {
+      "entries": [
+        "关都\n第一世代",
+        "城都\n第二世代",
+        "丰缘\n第三世代",
+        "神奥\n第四世代",
+        "合众\n第五世代",
+        "卡洛斯\n第六世代",
+        "阿罗拉\n第七世代",
+        "伽勒尔\n第八世代",
+        "帕底亚\n第九世代"
+      ],
+      "dialog": {
+        "x": 0,
+        "y": 237,
+        "width": 320,
+        "height": 331
+      },
+      "scroll": {
+        "top": 0,
+        "sh": 260,
+        "ch": 260,
+        "sw": 318,
+        "cw": 318
+      },
+      "cards": [
+        {
+          "rect": {
+            "x": 13,
+            "y": 315,
+            "width": 92.65625,
+            "height": 76,
+            "top": 315,
+            "right": 105.65625,
+            "bottom": 391,
+            "left": 13
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "关都第一世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "关都",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第一世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第一世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 113.65625,
+            "y": 315,
+            "width": 92.671875,
+            "height": 76,
+            "top": 315,
+            "right": 206.328125,
+            "bottom": 391,
+            "left": 113.65625
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "城都第二世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "城都",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第二世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第二世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 214.328125,
+            "y": 315,
+            "width": 92.65625,
+            "height": 76,
+            "top": 315,
+            "right": 306.984375,
+            "bottom": 391,
+            "left": 214.328125
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "丰缘第三世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "丰缘",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第三世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第三世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 13,
+            "y": 399,
+            "width": 92.65625,
+            "height": 76,
+            "top": 399,
+            "right": 105.65625,
+            "bottom": 475,
+            "left": 13
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "神奥第四世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "神奥",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第四世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第四世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 113.65625,
+            "y": 399,
+            "width": 92.671875,
+            "height": 76,
+            "top": 399,
+            "right": 206.328125,
+            "bottom": 475,
+            "left": 113.65625
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "合众第五世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "合众",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第五世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第五世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 214.328125,
+            "y": 399,
+            "width": 92.65625,
+            "height": 76,
+            "top": 399,
+            "right": 306.984375,
+            "bottom": 475,
+            "left": 214.328125
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "卡洛斯第六世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "卡洛斯",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第六世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第六世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 13,
+            "y": 483,
+            "width": 92.65625,
+            "height": 76,
+            "top": 483,
+            "right": 105.65625,
+            "bottom": 559,
+            "left": 13
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "阿罗拉第七世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "阿罗拉",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第七世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第七世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 113.65625,
+            "y": 483,
+            "width": 92.671875,
+            "height": 76,
+            "top": 483,
+            "right": 206.328125,
+            "bottom": 559,
+            "left": 113.65625
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "伽勒尔第八世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "伽勒尔",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第八世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第八世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 214.328125,
+            "y": 483,
+            "width": 92.65625,
+            "height": 76,
+            "top": 483,
+            "right": 306.984375,
+            "bottom": 559,
+            "left": 214.328125
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "帕底亚第九世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "帕底亚",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第九世代",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "第九世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        }
+      ]
+    },
+    "selected": {
+      "closed": true,
+      "entry": "帕底亚\n第九世代",
+      "gens": [
+        9
+      ]
+    },
+    "reload": {
+      "entry": "帕底亚\n第九世代",
+      "gens": [
+        9
+      ]
+    },
+    "enEntry": "Paldea\nGeneration 9",
+    "en": {
+      "entries": [
+        "Kanto\nGeneration 1",
+        "Johto\nGeneration 2",
+        "Hoenn\nGeneration 3",
+        "Sinnoh\nGeneration 4",
+        "Unova\nGeneration 5",
+        "Kalos\nGeneration 6",
+        "Alola\nGeneration 7",
+        "Galar\nGeneration 8",
+        "Paldea\nGeneration 9"
+      ],
+      "dialog": {
+        "x": 0,
+        "y": 237,
+        "width": 320,
+        "height": 331
+      },
+      "scroll": {
+        "top": 0,
+        "sh": 260,
+        "ch": 260,
+        "sw": 318,
+        "cw": 318
+      },
+      "cards": [
+        {
+          "rect": {
+            "x": 13,
+            "y": 315,
+            "width": 92.65625,
+            "height": 76,
+            "top": 315,
+            "right": 105.65625,
+            "bottom": 391,
+            "left": 13
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "KantoGeneration 1",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Kanto",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 1",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 1",
+              "scrollWidth": 57,
+              "clientWidth": 57
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 113.65625,
+            "y": 315,
+            "width": 92.671875,
+            "height": 76,
+            "top": 315,
+            "right": 206.328125,
+            "bottom": 391,
+            "left": 113.65625
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "JohtoGeneration 2",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Johto",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 2",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 2",
+              "scrollWidth": 59,
+              "clientWidth": 57
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 214.328125,
+            "y": 315,
+            "width": 92.65625,
+            "height": 76,
+            "top": 315,
+            "right": 306.984375,
+            "bottom": 391,
+            "left": 214.328125
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "HoennGeneration 3",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Hoenn",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 3",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 3",
+              "scrollWidth": 59,
+              "clientWidth": 57
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 13,
+            "y": 399,
+            "width": 92.65625,
+            "height": 76,
+            "top": 399,
+            "right": 105.65625,
+            "bottom": 475,
+            "left": 13
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "SinnohGeneration 4",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Sinnoh",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 4",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 4",
+              "scrollWidth": 59,
+              "clientWidth": 57
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 113.65625,
+            "y": 399,
+            "width": 92.671875,
+            "height": 76,
+            "top": 399,
+            "right": 206.328125,
+            "bottom": 475,
+            "left": 113.65625
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "UnovaGeneration 5",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Unova",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 5",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 5",
+              "scrollWidth": 59,
+              "clientWidth": 57
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 214.328125,
+            "y": 399,
+            "width": 92.65625,
+            "height": 76,
+            "top": 399,
+            "right": 306.984375,
+            "bottom": 475,
+            "left": 214.328125
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "KalosGeneration 6",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Kalos",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 6",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 6",
+              "scrollWidth": 59,
+              "clientWidth": 57
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 13,
+            "y": 483,
+            "width": 92.65625,
+            "height": 76,
+            "top": 483,
+            "right": 105.65625,
+            "bottom": 559,
+            "left": 13
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "AlolaGeneration 7",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Alola",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 7",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 7",
+              "scrollWidth": 59,
+              "clientWidth": 57
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 113.65625,
+            "y": 483,
+            "width": 92.671875,
+            "height": 76,
+            "top": 483,
+            "right": 206.328125,
+            "bottom": 559,
+            "left": 113.65625
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "GalarGeneration 8",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Galar",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 8",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 8",
+              "scrollWidth": 59,
+              "clientWidth": 57
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 214.328125,
+            "y": 483,
+            "width": 92.65625,
+            "height": 76,
+            "top": 483,
+            "right": 306.984375,
+            "bottom": 559,
+            "left": 214.328125
+          },
+          "scrollWidth": 91,
+          "clientWidth": 91,
+          "overflow": [
+            {
+              "text": "PaldeaGeneration 9",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Paldea",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 9",
+              "scrollWidth": 75,
+              "clientWidth": 75
+            },
+            {
+              "text": "Generation 9",
+              "scrollWidth": 59,
+              "clientWidth": 57
+            }
+          ]
+        }
+      ]
+    },
+    "errors": [],
+    "httpErrors": []
+  },
+  "390x844": {
+    "zhEntry": "关都\n第一世代",
+    "zh": {
+      "entries": [
+        "关都\n第一世代",
+        "城都\n第二世代",
+        "丰缘\n第三世代",
+        "神奥\n第四世代",
+        "合众\n第五世代",
+        "卡洛斯\n第六世代",
+        "阿罗拉\n第七世代",
+        "伽勒尔\n第八世代",
+        "帕底亚\n第九世代"
+      ],
+      "dialog": {
+        "x": 0,
+        "y": 513,
+        "width": 390,
+        "height": 331
+      },
+      "scroll": {
+        "top": 0,
+        "sh": 260,
+        "ch": 260,
+        "sw": 388,
+        "cw": 388
+      },
+      "cards": [
+        {
+          "rect": {
+            "x": 13,
+            "y": 591,
+            "width": 116,
+            "height": 76,
+            "top": 591,
+            "right": 129,
+            "bottom": 667,
+            "left": 13
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "关都第一世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "关都",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第一世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第一世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 137,
+            "y": 591,
+            "width": 116,
+            "height": 76,
+            "top": 591,
+            "right": 253,
+            "bottom": 667,
+            "left": 137
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "城都第二世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "城都",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第二世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第二世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 261,
+            "y": 591,
+            "width": 116,
+            "height": 76,
+            "top": 591,
+            "right": 377,
+            "bottom": 667,
+            "left": 261
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "丰缘第三世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "丰缘",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第三世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第三世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 13,
+            "y": 675,
+            "width": 116,
+            "height": 76,
+            "top": 675,
+            "right": 129,
+            "bottom": 751,
+            "left": 13
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "神奥第四世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "神奥",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第四世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第四世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 137,
+            "y": 675,
+            "width": 116,
+            "height": 76,
+            "top": 675,
+            "right": 253,
+            "bottom": 751,
+            "left": 137
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "合众第五世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "合众",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第五世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第五世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 261,
+            "y": 675,
+            "width": 116,
+            "height": 76,
+            "top": 675,
+            "right": 377,
+            "bottom": 751,
+            "left": 261
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "卡洛斯第六世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "卡洛斯",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第六世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第六世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 13,
+            "y": 759,
+            "width": 116,
+            "height": 76,
+            "top": 759,
+            "right": 129,
+            "bottom": 835,
+            "left": 13
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "阿罗拉第七世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "阿罗拉",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第七世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第七世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 137,
+            "y": 759,
+            "width": 116,
+            "height": 76,
+            "top": 759,
+            "right": 253,
+            "bottom": 835,
+            "left": 137
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "伽勒尔第八世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "伽勒尔",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第八世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第八世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 261,
+            "y": 759,
+            "width": 116,
+            "height": 76,
+            "top": 759,
+            "right": 377,
+            "bottom": 835,
+            "left": 261
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "帕底亚第九世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "帕底亚",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第九世代",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "第九世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        }
+      ]
+    },
+    "selected": {
+      "closed": true,
+      "entry": "帕底亚\n第九世代",
+      "gens": [
+        9
+      ]
+    },
+    "reload": {
+      "entry": "帕底亚\n第九世代",
+      "gens": [
+        9
+      ]
+    },
+    "enEntry": "Paldea\nGeneration 9",
+    "en": {
+      "entries": [
+        "Kanto\nGeneration 1",
+        "Johto\nGeneration 2",
+        "Hoenn\nGeneration 3",
+        "Sinnoh\nGeneration 4",
+        "Unova\nGeneration 5",
+        "Kalos\nGeneration 6",
+        "Alola\nGeneration 7",
+        "Galar\nGeneration 8",
+        "Paldea\nGeneration 9"
+      ],
+      "dialog": {
+        "x": 0,
+        "y": 513,
+        "width": 390,
+        "height": 331
+      },
+      "scroll": {
+        "top": 0,
+        "sh": 260,
+        "ch": 260,
+        "sw": 388,
+        "cw": 388
+      },
+      "cards": [
+        {
+          "rect": {
+            "x": 13,
+            "y": 591,
+            "width": 116,
+            "height": 76,
+            "top": 591,
+            "right": 129,
+            "bottom": 667,
+            "left": 13
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "KantoGeneration 1",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Kanto",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 1",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 1",
+              "scrollWidth": 57,
+              "clientWidth": 57
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 137,
+            "y": 591,
+            "width": 116,
+            "height": 76,
+            "top": 591,
+            "right": 253,
+            "bottom": 667,
+            "left": 137
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "JohtoGeneration 2",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Johto",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 2",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 2",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 261,
+            "y": 591,
+            "width": 116,
+            "height": 76,
+            "top": 591,
+            "right": 377,
+            "bottom": 667,
+            "left": 261
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "HoennGeneration 3",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Hoenn",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 3",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 3",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 13,
+            "y": 675,
+            "width": 116,
+            "height": 76,
+            "top": 675,
+            "right": 129,
+            "bottom": 751,
+            "left": 13
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "SinnohGeneration 4",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Sinnoh",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 4",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 4",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 137,
+            "y": 675,
+            "width": 116,
+            "height": 76,
+            "top": 675,
+            "right": 253,
+            "bottom": 751,
+            "left": 137
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "UnovaGeneration 5",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Unova",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 5",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 5",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 261,
+            "y": 675,
+            "width": 116,
+            "height": 76,
+            "top": 675,
+            "right": 377,
+            "bottom": 751,
+            "left": 261
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "KalosGeneration 6",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Kalos",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 6",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 6",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 13,
+            "y": 759,
+            "width": 116,
+            "height": 76,
+            "top": 759,
+            "right": 129,
+            "bottom": 835,
+            "left": 13
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "AlolaGeneration 7",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Alola",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 7",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 7",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 137,
+            "y": 759,
+            "width": 116,
+            "height": 76,
+            "top": 759,
+            "right": 253,
+            "bottom": 835,
+            "left": 137
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "GalarGeneration 8",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Galar",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 8",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 8",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 261,
+            "y": 759,
+            "width": 116,
+            "height": 76,
+            "top": 759,
+            "right": 377,
+            "bottom": 835,
+            "left": 261
+          },
+          "scrollWidth": 114,
+          "clientWidth": 114,
+          "overflow": [
+            {
+              "text": "PaldeaGeneration 9",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Paldea",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 9",
+              "scrollWidth": 98,
+              "clientWidth": 98
+            },
+            {
+              "text": "Generation 9",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        }
+      ]
+    },
+    "errors": [],
+    "httpErrors": []
+  },
+  "844x390": {
+    "zhEntry": "关都\n第一世代",
+    "zh": {
+      "entries": [
+        "关都\n第一世代",
+        "城都\n第二世代",
+        "丰缘\n第三世代",
+        "神奥\n第四世代",
+        "合众\n第五世代",
+        "卡洛斯\n第六世代",
+        "阿罗拉\n第七世代",
+        "伽勒尔\n第八世代",
+        "帕底亚\n第九世代"
+      ],
+      "dialog": {
+        "x": 162,
+        "y": 59,
+        "width": 520,
+        "height": 331
+      },
+      "scroll": {
+        "top": 0,
+        "sh": 260,
+        "ch": 260,
+        "sw": 518,
+        "cw": 518
+      },
+      "cards": [
+        {
+          "rect": {
+            "x": 175,
+            "y": 137,
+            "width": 159.328125,
+            "height": 76,
+            "top": 137,
+            "right": 334.328125,
+            "bottom": 213,
+            "left": 175
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "关都第一世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "关都",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第一世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第一世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 342.328125,
+            "y": 137,
+            "width": 159.328125,
+            "height": 76,
+            "top": 137,
+            "right": 501.65625,
+            "bottom": 213,
+            "left": 342.328125
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "城都第二世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "城都",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第二世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第二世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 509.65625,
+            "y": 137,
+            "width": 159.328125,
+            "height": 76,
+            "top": 137,
+            "right": 668.984375,
+            "bottom": 213,
+            "left": 509.65625
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "丰缘第三世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "丰缘",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第三世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第三世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 175,
+            "y": 221,
+            "width": 159.328125,
+            "height": 76,
+            "top": 221,
+            "right": 334.328125,
+            "bottom": 297,
+            "left": 175
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "神奥第四世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "神奥",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第四世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第四世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 342.328125,
+            "y": 221,
+            "width": 159.328125,
+            "height": 76,
+            "top": 221,
+            "right": 501.65625,
+            "bottom": 297,
+            "left": 342.328125
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "合众第五世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "合众",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第五世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第五世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 509.65625,
+            "y": 221,
+            "width": 159.328125,
+            "height": 76,
+            "top": 221,
+            "right": 668.984375,
+            "bottom": 297,
+            "left": 509.65625
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "卡洛斯第六世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "卡洛斯",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第六世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第六世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 175,
+            "y": 305,
+            "width": 159.328125,
+            "height": 76,
+            "top": 305,
+            "right": 334.328125,
+            "bottom": 381,
+            "left": 175
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "阿罗拉第七世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "阿罗拉",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第七世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第七世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 342.328125,
+            "y": 305,
+            "width": 159.328125,
+            "height": 76,
+            "top": 305,
+            "right": 501.65625,
+            "bottom": 381,
+            "left": 342.328125
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "伽勒尔第八世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "伽勒尔",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第八世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第八世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 509.65625,
+            "y": 305,
+            "width": 159.328125,
+            "height": 76,
+            "top": 305,
+            "right": 668.984375,
+            "bottom": 381,
+            "left": 509.65625
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "帕底亚第九世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "帕底亚",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第九世代",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "第九世代",
+              "scrollWidth": 40,
+              "clientWidth": 40
+            }
+          ]
+        }
+      ]
+    },
+    "selected": {
+      "closed": true,
+      "entry": "帕底亚\n第九世代",
+      "gens": [
+        9
+      ]
+    },
+    "reload": {
+      "entry": "帕底亚\n第九世代",
+      "gens": [
+        9
+      ]
+    },
+    "enEntry": "Paldea\nGeneration 9",
+    "en": {
+      "entries": [
+        "Kanto\nGeneration 1",
+        "Johto\nGeneration 2",
+        "Hoenn\nGeneration 3",
+        "Sinnoh\nGeneration 4",
+        "Unova\nGeneration 5",
+        "Kalos\nGeneration 6",
+        "Alola\nGeneration 7",
+        "Galar\nGeneration 8",
+        "Paldea\nGeneration 9"
+      ],
+      "dialog": {
+        "x": 162,
+        "y": 59,
+        "width": 520,
+        "height": 331
+      },
+      "scroll": {
+        "top": 0,
+        "sh": 260,
+        "ch": 260,
+        "sw": 518,
+        "cw": 518
+      },
+      "cards": [
+        {
+          "rect": {
+            "x": 175,
+            "y": 137,
+            "width": 159.328125,
+            "height": 76,
+            "top": 137,
+            "right": 334.328125,
+            "bottom": 213,
+            "left": 175
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "KantoGeneration 1",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Kanto",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 1",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 1",
+              "scrollWidth": 57,
+              "clientWidth": 57
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 342.328125,
+            "y": 137,
+            "width": 159.328125,
+            "height": 76,
+            "top": 137,
+            "right": 501.65625,
+            "bottom": 213,
+            "left": 342.328125
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "JohtoGeneration 2",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Johto",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 2",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 2",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 509.65625,
+            "y": 137,
+            "width": 159.328125,
+            "height": 76,
+            "top": 137,
+            "right": 668.984375,
+            "bottom": 213,
+            "left": 509.65625
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "HoennGeneration 3",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Hoenn",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 3",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 3",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 175,
+            "y": 221,
+            "width": 159.328125,
+            "height": 76,
+            "top": 221,
+            "right": 334.328125,
+            "bottom": 297,
+            "left": 175
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "SinnohGeneration 4",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Sinnoh",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 4",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 4",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 342.328125,
+            "y": 221,
+            "width": 159.328125,
+            "height": 76,
+            "top": 221,
+            "right": 501.65625,
+            "bottom": 297,
+            "left": 342.328125
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "UnovaGeneration 5",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Unova",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 5",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 5",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 509.65625,
+            "y": 221,
+            "width": 159.328125,
+            "height": 76,
+            "top": 221,
+            "right": 668.984375,
+            "bottom": 297,
+            "left": 509.65625
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "KalosGeneration 6",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Kalos",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 6",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 6",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 175,
+            "y": 305,
+            "width": 159.328125,
+            "height": 76,
+            "top": 305,
+            "right": 334.328125,
+            "bottom": 381,
+            "left": 175
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "AlolaGeneration 7",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Alola",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 7",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 7",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 342.328125,
+            "y": 305,
+            "width": 159.328125,
+            "height": 76,
+            "top": 305,
+            "right": 501.65625,
+            "bottom": 381,
+            "left": 342.328125
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "GalarGeneration 8",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Galar",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 8",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 8",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        },
+        {
+          "rect": {
+            "x": 509.65625,
+            "y": 305,
+            "width": 159.328125,
+            "height": 76,
+            "top": 305,
+            "right": 668.984375,
+            "bottom": 381,
+            "left": 509.65625
+          },
+          "scrollWidth": 157,
+          "clientWidth": 157,
+          "overflow": [
+            {
+              "text": "PaldeaGeneration 9",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Paldea",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 9",
+              "scrollWidth": 141,
+              "clientWidth": 141
+            },
+            {
+              "text": "Generation 9",
+              "scrollWidth": 59,
+              "clientWidth": 59
+            }
+          ]
+        }
+      ]
+    },
+    "errors": [],
+    "httpErrors": []
+  }
+}
