@@ -1,0 +1,217 @@
+{
+  "sixSec": 10.72,
+  "immediate": {
+    "elapsed": 10.72,
+    "images": [
+      {
+        "alt": "bunnelby",
+        "src": "/api/pokeapi-sprites/pokemon/659.png",
+        "complete": false,
+        "naturalWidth": 0,
+        "naturalHeight": 0
+      },
+      {
+        "alt": "skrelp",
+        "src": "/api/pokeapi-sprites/pokemon/690.png",
+        "complete": false,
+        "naturalWidth": 0,
+        "naturalHeight": 0
+      },
+      {
+        "alt": "honedge",
+        "src": "/api/pokeapi-sprites/pokemon/679.png",
+        "complete": false,
+        "naturalWidth": 0,
+        "naturalHeight": 0
+      },
+      {
+        "alt": "spritzee",
+        "src": "/api/pokeapi-sprites/pokemon/682.png",
+        "complete": false,
+        "naturalWidth": 0,
+        "naturalHeight": 0
+      },
+      {
+        "alt": "goomy",
+        "src": "/api/pokeapi-sprites/pokemon/704.png",
+        "complete": false,
+        "naturalWidth": 0,
+        "naturalHeight": 0
+      },
+      {
+        "alt": "swirlix",
+        "src": "/api/pokeapi-sprites/pokemon/684.png",
+        "complete": false,
+        "naturalWidth": 0,
+        "naturalHeight": 0
+      }
+    ]
+  },
+  "plus2": {
+    "elapsed": 13.52,
+    "images": [
+      {
+        "alt": "bunnelby",
+        "src": "/api/pokeapi-sprites/pokemon/659.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "skrelp",
+        "src": "/api/pokeapi-sprites/pokemon/690.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "honedge",
+        "src": "/api/pokeapi-sprites/pokemon/679.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "spritzee",
+        "src": "/api/pokeapi-sprites/pokemon/682.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "goomy",
+        "src": "/api/pokeapi-sprites/pokemon/704.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "swirlix",
+        "src": "/api/pokeapi-sprites/pokemon/684.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      }
+    ]
+  },
+  "plus5": {
+    "elapsed": 16.88,
+    "images": [
+      {
+        "alt": "bunnelby",
+        "src": "/api/pokeapi-sprites/pokemon/659.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "skrelp",
+        "src": "/api/pokeapi-sprites/pokemon/690.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "honedge",
+        "src": "/api/pokeapi-sprites/pokemon/679.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "spritzee",
+        "src": "/api/pokeapi-sprites/pokemon/682.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "goomy",
+        "src": "/api/pokeapi-sprites/pokemon/704.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "swirlix",
+        "src": "/api/pokeapi-sprites/pokemon/684.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      }
+    ]
+  },
+  "plus10": {
+    "elapsed": 22.21,
+    "images": [
+      {
+        "alt": "bunnelby",
+        "src": "/api/pokeapi-sprites/pokemon/659.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "skrelp",
+        "src": "/api/pokeapi-sprites/pokemon/690.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "honedge",
+        "src": "/api/pokeapi-sprites/pokemon/679.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "spritzee",
+        "src": "/api/pokeapi-sprites/pokemon/682.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "goomy",
+        "src": "/api/pokeapi-sprites/pokemon/704.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      },
+      {
+        "alt": "swirlix",
+        "src": "/api/pokeapi-sprites/pokemon/684.png",
+        "complete": true,
+        "naturalWidth": 96,
+        "naturalHeight": 96
+      }
+    ]
+  },
+  "spriteResponses": [
+    {
+      "url": "http://127.0.0.89:4300/api/pokeapi-sprites/pokemon/690.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.89:4300/api/pokeapi-sprites/pokemon/659.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.89:4300/api/pokeapi-sprites/pokemon/682.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.89:4300/api/pokeapi-sprites/pokemon/704.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.89:4300/api/pokeapi-sprites/pokemon/679.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.89:4300/api/pokeapi-sprites/pokemon/684.png",
+      "status": 200
+    }
+  ]
+}

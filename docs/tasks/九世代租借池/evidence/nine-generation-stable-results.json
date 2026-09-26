@@ -1,0 +1,570 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "mobile": true,
+    "touch": true
+  },
+  "gitHeadStart": "16213d7",
+  "rows": [
+    {
+      "generation": 1,
+      "origin": "http://127.0.0.80:4300/",
+      "hmr": [],
+      "errors": [],
+      "httpErrors": [],
+      "selectedBefore": [
+        1
+      ],
+      "secondsToSixCards": 3.98,
+      "cardCount": 6,
+      "cardNames": [
+        "小火龙",
+        "鬼斯",
+        "大葱鸭",
+        "蛋蛋",
+        "玛瑙水母",
+        "妙蛙种子"
+      ],
+      "emptyCardNames": [],
+      "cardImagesBlank": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "secondsToBattleReady": 13.34,
+      "selectedAtReady": [
+        1
+      ],
+      "rentalIds": [
+        4,
+        92,
+        83,
+        102,
+        72,
+        1
+      ],
+      "rentalGens": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "enemyIds": [
+        137,
+        69,
+        64
+      ],
+      "enemyGens": [
+        1,
+        1,
+        1
+      ],
+      "trainerId": "FRONTIER_TRAINER_KAITLYN",
+      "saveVersion": 10,
+      "pass": true
+    },
+    {
+      "generation": 2,
+      "origin": "http://127.0.0.81:4300/",
+      "hmr": [],
+      "errors": [],
+      "httpErrors": [],
+      "selectedBefore": [
+        2
+      ],
+      "secondsToSixCards": 16.05,
+      "cardCount": 6,
+      "cardNames": [
+        "波克比",
+        "芭瓢虫",
+        "咩利羊",
+        "毽子草",
+        "小山猪",
+        "榛果球"
+      ],
+      "emptyCardNames": [],
+      "cardImagesBlank": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "secondsToBattleReady": 24.34,
+      "selectedAtReady": [
+        2
+      ],
+      "rentalIds": [
+        175,
+        165,
+        179,
+        187,
+        220,
+        204
+      ],
+      "rentalGens": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "enemyIds": [
+        238,
+        170,
+        153
+      ],
+      "enemyGens": [
+        2,
+        2,
+        2
+      ],
+      "trainerId": "FRONTIER_TRAINER_RAFAEL",
+      "saveVersion": 10,
+      "pass": true
+    },
+    {
+      "generation": 3,
+      "origin": "http://127.0.0.82:4300/",
+      "hmr": [],
+      "errors": [],
+      "httpErrors": [],
+      "selectedBefore": [
+        3
+      ],
+      "secondsToSixCards": 11.36,
+      "cardCount": 6,
+      "cardNames": [
+        "木守宫",
+        "橡实果",
+        "跳跳猪",
+        "利牙鱼",
+        "傲骨燕",
+        "蛇纹熊"
+      ],
+      "emptyCardNames": [],
+      "cardImagesBlank": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "secondsToBattleReady": 21.34,
+      "selectedAtReady": [
+        3
+      ],
+      "rentalIds": [
+        252,
+        273,
+        325,
+        318,
+        276,
+        263
+      ],
+      "rentalGens": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "enemyIds": [
+        261,
+        264,
+        293
+      ],
+      "enemyGens": [
+        3,
+        3,
+        3
+      ],
+      "trainerId": "FRONTIER_TRAINER_OLIVER",
+      "saveVersion": 10,
+      "pass": true
+    },
+    {
+      "generation": 4,
+      "origin": "http://127.0.0.83:4300/",
+      "hmr": [],
+      "errors": [],
+      "httpErrors": [],
+      "selectedBefore": [
+        4
+      ],
+      "secondsToSixCards": 9.23,
+      "cardCount": 6,
+      "cardNames": [
+        "聒噪鸟",
+        "沙河马",
+        "波加曼",
+        "樱花宝",
+        "钳尾蝎",
+        "结草儿"
+      ],
+      "emptyCardNames": [],
+      "cardImagesBlank": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "secondsToBattleReady": 16.76,
+      "selectedAtReady": [
+        4
+      ],
+      "rentalIds": [
+        441,
+        449,
+        393,
+        420,
+        451,
+        412
+      ],
+      "rentalGens": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "enemyIds": [
+        399,
+        414,
+        427
+      ],
+      "enemyGens": [
+        4,
+        4,
+        4
+      ],
+      "trainerId": "FRONTIER_TRAINER_KELLY",
+      "saveVersion": 10,
+      "pass": true
+    },
+    {
+      "generation": 5,
+      "origin": "http://127.0.0.84:4300/",
+      "hmr": [],
+      "errors": [],
+      "httpErrors": [],
+      "selectedBefore": [
+        5
+      ],
+      "secondsToSixCards": 15.09,
+      "cardCount": 6,
+      "cardNames": [
+        "斑斑马",
+        "齿轮儿",
+        "哭哭面具",
+        "喷嚏熊",
+        "牙牙",
+        "豆豆鸽"
+      ],
+      "emptyCardNames": [],
+      "cardImagesBlank": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "secondsToBattleReady": 25.4,
+      "selectedAtReady": [
+        5
+      ],
+      "rentalIds": [
+        522,
+        599,
+        562,
+        613,
+        610,
+        519
+      ],
+      "rentalGens": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "enemyIds": [
+        541,
+        633,
+        616
+      ],
+      "enemyGens": [
+        5,
+        5,
+        5
+      ],
+      "trainerId": "FRONTIER_TRAINER_KIPP",
+      "saveVersion": 10,
+      "pass": true
+    },
+    {
+      "generation": 6,
+      "origin": "http://127.0.0.85:4300/",
+      "hmr": [],
+      "errors": [],
+      "httpErrors": [],
+      "selectedBefore": [
+        6
+      ],
+      "secondsToSixCards": 20.22,
+      "cardCount": 6,
+      "cardNames": [
+        "粉香香",
+        "哈力栗",
+        "铁臂枪虾",
+        "花蓓蓓",
+        "顽皮熊猫",
+        "冰雪龙"
+      ],
+      "emptyCardNames": [],
+      "cardImagesBlank": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "secondsToBattleReady": 28.59,
+      "selectedAtReady": [
+        6
+      ],
+      "rentalIds": [
+        682,
+        650,
+        692,
+        669,
+        674,
+        698
+      ],
+      "rentalGens": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "enemyIds": [
+        10029,
+        708,
+        712
+      ],
+      "enemyGens": [
+        6,
+        6,
+        6
+      ],
+      "trainerId": "FRONTIER_TRAINER_DOMINIC",
+      "saveVersion": 10,
+      "pass": true
+    },
+    {
+      "generation": 7,
+      "origin": "http://127.0.0.86:4300/",
+      "hmr": [],
+      "errors": [],
+      "httpErrors": [],
+      "selectedBefore": [
+        7
+      ],
+      "secondsToSixCards": 13.98,
+      "cardCount": 6,
+      "cardNames": [
+        "胆小虫",
+        "猫鼬少",
+        "沙丘娃",
+        "童偶熊",
+        "睡睡菇",
+        "夜盗火蜥"
+      ],
+      "emptyCardNames": [],
+      "cardImagesBlank": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "secondsToBattleReady": 25.04,
+      "selectedAtReady": [
+        7
+      ],
+      "rentalIds": [
+        767,
+        734,
+        769,
+        759,
+        755,
+        757
+      ],
+      "rentalGens": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "enemyIds": [
+        726,
+        771,
+        735
+      ],
+      "enemyGens": [
+        7,
+        7,
+        7
+      ],
+      "trainerId": "FRONTIER_TRAINER_KIPP",
+      "saveVersion": 10,
+      "pass": true
+    },
+    {
+      "generation": 8,
+      "origin": "http://127.0.0.87:4300/",
+      "hmr": [],
+      "errors": [],
+      "httpErrors": [],
+      "selectedBefore": [
+        8
+      ],
+      "secondsToSixCards": 11.42,
+      "cardCount": 6,
+      "cardNames": [
+        "咬咬龟",
+        "小仙奶",
+        "多龙梅西亚",
+        "刺梭鱼",
+        "毛辫羊",
+        "啃果虫"
+      ],
+      "emptyCardNames": [],
+      "cardImagesBlank": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "secondsToBattleReady": 19.3,
+      "selectedAtReady": [
+        8
+      ],
+      "rentalIds": [
+        833,
+        868,
+        885,
+        846,
+        831,
+        840
+      ],
+      "rentalGens": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "enemyIds": [
+        854,
+        827,
+        811
+      ],
+      "enemyGens": [
+        8,
+        8,
+        8
+      ],
+      "trainerId": "FRONTIER_TRAINER_GRAHAM",
+      "saveVersion": 10,
+      "pass": true
+    },
+    {
+      "generation": 9,
+      "origin": "http://127.0.0.88:4300/",
+      "hmr": [],
+      "errors": [],
+      "httpErrors": [],
+      "selectedBefore": [
+        9
+      ],
+      "secondsToSixCards": 9.77,
+      "cardCount": 6,
+      "cardNames": [
+        "噗隆隆",
+        "波普海豚",
+        "迷你芙",
+        "润水鸭",
+        "布拨",
+        "盐石宝"
+      ],
+      "emptyCardNames": [],
+      "cardImagesBlank": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "secondsToBattleReady": 16.02,
+      "selectedAtReady": [
+        9
+      ],
+      "rentalIds": [
+        965,
+        963,
+        928,
+        912,
+        921,
+        932
+      ],
+      "rentalGens": [
+        9,
+        9,
+        9,
+        9,
+        9,
+        9
+      ],
+      "enemyIds": [
+        946,
+        926,
+        999
+      ],
+      "enemyGens": [
+        9,
+        9,
+        9
+      ],
+      "trainerId": "FRONTIER_TRAINER_RAMON",
+      "saveVersion": 10,
+      "pass": true
+    }
+  ],
+  "gitHeadEnd": "63cc454"
+}
