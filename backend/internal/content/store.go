@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -17,6 +18,7 @@ import (
 	"sort"
 	"strings"
 	"sync"
+	"syscall"
 	"time"
 )
 
@@ -210,6 +212,22 @@ func renameWithRetry(oldPath, newPath string) error {
 }
 
 func publishVersionDirectory(stagingRoot, finalRoot string) error {
+	return publishVersionDirectoryContext(context.Background(), stagingRoot, finalRoot)
+}
+
+func publishVersionDirectoryContext(ctx context.Context, stagingRoot, finalRoot string) error {
+	return publishVersionDirectoryWithMover(ctx, stagingRoot, finalRoot, moveDirectoryNoReplace, 30*time.Second)
+}
+
+func publishVersionDirectoryWithMover(ctx context.Context, stagingRoot, finalRoot string, move func(string, string) error, maxWait time.Duration) error {
+	stagingRoot, err := filepath.Abs(stagingRoot)
+	if err != nil {
+		return err
+	}
+	finalRoot, err = filepath.Abs(finalRoot)
+	if err != nil {
+		return err
+	}
 	lockPath := finalRoot + ".publish.lock"
 	lock, err := os.OpenFile(lockPath, os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0o600)
 	if err != nil {
@@ -225,9 +243,79 @@ func publishVersionDirectory(stagingRoot, finalRoot string) error {
 	} else if !os.IsNotExist(err) {
 		return err
 	}
-	// Both paths share a parent filesystem. A failed rename must never fall back
-	// to copying into (or deleting) a version another process may have created.
-	return renameWithRetry(stagingRoot, finalRoot)
+	// Both paths share a parent filesystem. Keep the lock for all retries.
+	started := time.Now()
+	for attempt := 1; ; attempt++ {
+		if err := ctx.Err(); err != nil {
+			return fmt.Errorf("publish cancelled: %w", err)
+		}
+		if err := move(stagingRoot, finalRoot); err == nil {
+			return nil
+		} else {
+			var errno syscall.Errno
+			code := "unknown"
+			if errors.As(err, &errno) {
+				code = fmt.Sprintf("%d", uint32(errno))
+			}
+			elapsed := time.Since(started)
+			log.Printf("publish attempt=%d elapsed=%s code=%s source=%s [%s] target=%s [%s] lock=%s [%s] err=%v",
+				attempt, elapsed.Round(time.Millisecond), code, stagingRoot, pathState(stagingRoot), finalRoot, pathState(finalRoot), lockPath, pathState(lockPath), err)
+			if _, statErr := os.Lstat(finalRoot); statErr == nil {
+				return fmt.Errorf("publish target appeared; refusing overwrite: %s", finalRoot)
+			} else if !os.IsNotExist(statErr) {
+				return fmt.Errorf("cannot inspect publish target: %w", statErr)
+			}
+			if !isRetryableDirectoryMove(err) || elapsed >= maxWait {
+				return fmt.Errorf("publish failed after %d attempts and %s: %w", attempt, elapsed.Round(time.Millisecond), err)
+			}
+			pause := time.Duration(attempt) * 100 * time.Millisecond
+			if pause > 2*time.Second {
+				pause = 2 * time.Second
+			}
+			if remaining := maxWait - elapsed; pause > remaining {
+				pause = remaining
+			}
+			timer := time.NewTimer(pause)
+			select {
+			case <-timer.C:
+			case <-ctx.Done():
+				timer.Stop()
+				return fmt.Errorf("publish cancelled: %w", ctx.Err())
+			}
+		}
+	}
+}
+
+func pathState(value string) string {
+	info, err := os.Lstat(value)
+	if err != nil {
+		return err.Error()
+	}
+	return fmt.Sprintf("mode=%s size=%d", info.Mode(), info.Size())
+}
+
+func cleanupTaskStaging(versionRoot, stagingRoot, version string) error {
+	versionsRoot, err := filepath.Abs(filepath.Join(versionRoot, "versions"))
+	if err != nil {
+		return err
+	}
+	stagingRoot, err = filepath.Abs(stagingRoot)
+	if err != nil {
+		return err
+	}
+	base := filepath.Base(stagingRoot)
+	if filepath.Dir(stagingRoot) != versionsRoot || !strings.HasPrefix(base, version+".") || !strings.HasSuffix(base, ".tmp") {
+		return fmt.Errorf("refusing to remove unexpected staging path: %s", stagingRoot)
+	}
+	return os.RemoveAll(stagingRoot)
+}
+
+func isRetryableDirectoryMove(err error) bool {
+	var errno syscall.Errno
+	if !errors.As(err, &errno) {
+		return false
+	}
+	return errno == 5 || errno == 32 || errno == 33 // Windows AccessDenied, SharingViolation, LockViolation.
 }
 
 func (s *Store) activeManifest() (*Manifest, string, error) {
@@ -573,7 +661,14 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 	if err := os.MkdirAll(filepath.Join(temporaryRoot, "objects"), 0o755); err != nil {
 		return nil, err
 	}
-	defer os.RemoveAll(temporaryRoot)
+	cleanupStaging := true
+	defer func() {
+		if cleanupStaging {
+			if err := cleanupTaskStaging(root, temporaryRoot, options.Version); err != nil {
+				log.Printf("cannot clean failed staging %s: %v", temporaryRoot, err)
+			}
+		}
+	}()
 
 	manifest := &Manifest{
 		Version:   options.Version,
@@ -697,8 +792,13 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 	if err := os.MkdirAll(filepath.Dir(finalRoot), 0o755); err != nil {
 		return nil, err
 	}
-	if err := publishVersionDirectory(temporaryRoot, finalRoot); err != nil {
-		return nil, err
+	if err := publishVersionDirectoryContext(ctx, temporaryRoot, finalRoot); err != nil {
+		cleanupStaging = false
+		stagingAbsolute, pathErr := filepath.Abs(temporaryRoot)
+		if pathErr != nil {
+			stagingAbsolute = temporaryRoot
+		}
+		return nil, fmt.Errorf("version %s not activated; publish failed, staging preserved at %s (objects=%d manifestBytes=%d): %w", options.Version, stagingAbsolute, len(manifest.Entries), len(manifestData), err)
 	}
 	if activate {
 		if err := ctx.Err(); err != nil {

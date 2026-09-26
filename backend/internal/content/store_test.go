@@ -1,6 +1,7 @@
 package content
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"testing"
 	"time"
 )
@@ -225,6 +227,110 @@ func TestPublishVersionRejectsConcurrentReservation(t *testing.T) {
 	}
 	if _, err := os.Stat(staging); err != nil {
 		t.Fatalf("staging directory changed: %v", err)
+	}
+}
+
+func TestPublishRefusesEmptyAndLateTargets(t *testing.T) {
+	for _, late := range []bool{false, true} {
+		root := t.TempDir()
+		staging := filepath.Join(root, "candidate.1.tmp")
+		final := filepath.Join(root, "candidate")
+		if err := os.Mkdir(staging, 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if !late {
+			if err := os.Mkdir(final, 0o755); err != nil {
+				t.Fatal(err)
+			}
+		}
+		calls := 0
+		mover := func(_, _ string) error {
+			calls++
+			if late {
+				if err := os.Mkdir(final, 0o755); err != nil {
+					return err
+				}
+			}
+			return syscall.Errno(5)
+		}
+		if err := publishVersionDirectoryWithMover(context.Background(), staging, final, mover, 30*time.Second); err == nil {
+			t.Fatal("accepted an existing target")
+		}
+		if late && calls != 1 {
+			t.Fatalf("retried after target appeared: %d", calls)
+		}
+		if _, err := os.Stat(staging); err != nil {
+			t.Fatalf("staging changed: %v", err)
+		}
+		if _, err := os.Stat(final); err != nil {
+			t.Fatalf("target changed: %v", err)
+		}
+	}
+}
+
+func TestPublishLargeLocalDirectory(t *testing.T) {
+	root := t.TempDir()
+	staging := filepath.Join(root, "large.123.tmp")
+	final := filepath.Join(root, "large")
+	objects := filepath.Join(staging, "objects")
+	if err := os.MkdirAll(objects, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	body := bytes.Repeat([]byte("x"), 34<<10)
+	for id := 0; id < 746; id++ {
+		if err := os.WriteFile(filepath.Join(objects, fmt.Sprintf("%04d.body", id)), body, 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err := os.WriteFile(filepath.Join(staging, "manifest.json"), []byte(`{"version":"large"}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := publishVersionDirectory(staging, final); err != nil {
+		t.Fatal(err)
+	}
+	entries, err := os.ReadDir(filepath.Join(final, "objects"))
+	if err != nil || len(entries) != 746 {
+		t.Fatalf("large publish has %d objects: %v", len(entries), err)
+	}
+	if _, err := os.Stat(staging); !os.IsNotExist(err) {
+		t.Fatalf("staging remained after publish: %v", err)
+	}
+}
+
+func TestPublishFailurePreservesCompleteStaging(t *testing.T) {
+	state := t.TempDir()
+	final := filepath.Join(state, "pokeapi", "versions", "candidate")
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		if err := os.MkdirAll(final, 0o755); err != nil {
+			t.Error(err)
+		}
+		if err := os.WriteFile(filepath.Join(final, "owner.txt"), []byte("other"), 0o644); err != nil {
+			t.Error(err)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"name":"fixture"}`))
+	}))
+	defer server.Close()
+	store := NewStore("pokeapi", server.URL, state, true, true, server.Client())
+	_, err := store.PrepareVersion(context.Background(), SyncOptions{Version: "candidate", Keys: []string{"pokemon/25"}})
+	if err == nil || !strings.Contains(err.Error(), "staging preserved at") || !strings.Contains(err.Error(), "not activated") {
+		t.Fatalf("missing actionable publish error: %v", err)
+	}
+	matches, globErr := filepath.Glob(filepath.Join(state, "pokeapi", "versions", "candidate.*.tmp"))
+	if globErr != nil || len(matches) != 1 {
+		t.Fatalf("expected one retained staging directory: %v %v", matches, globErr)
+	}
+	if !strings.Contains(err.Error(), matches[0]) {
+		t.Fatalf("publish error omitted absolute staging path: %v", err)
+	}
+	if _, err := os.Stat(filepath.Join(matches[0], "manifest.json")); err != nil {
+		t.Fatalf("retained staging lacks manifest: %v", err)
+	}
+	if body, err := os.ReadFile(filepath.Join(final, "owner.txt")); err != nil || string(body) != "other" {
+		t.Fatalf("existing target changed: %q %v", body, err)
+	}
+	if _, err := os.Stat(filepath.Join(state, "current.json")); !os.IsNotExist(err) {
+		t.Fatal("publish failure activated version")
 	}
 }
 
