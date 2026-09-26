@@ -60,6 +60,7 @@ func main() {
 	factory := flag.Bool("factory", false, "仅在隔离 state 准备 Classic 工厂有限闭包；不激活版本")
 	factorySample := flag.String("factory-sample", "", "只准备一个索引中的 pokemon 标识符；不激活版本或同步基础清单/CSV")
 	factoryGenerationRaw := flag.String("factory-generation", "", "仅在隔离 state 准备第 1–9 世代工厂闭包；不激活版本或同步基础清单/CSV")
+	factoryTMManifestPath := flag.String("factory-tm-manifest", "backend/config/rogue-tm-moves.json", "固定 Rogue TM50 招式种子清单；工厂正式准备模式使用")
 	referenceDirectory := flag.String("factory-reference-sets", "src/features/game/config/factoryReferenceSets/chunks", "工厂参考 set 分片目录")
 	specialFormsPath := flag.String("factory-special-forms", "src/features/game/config/specialForms.ts", "允许直接抽取形态清单")
 	workers := flag.Int("workers", 6, "并发请求数")
@@ -141,6 +142,16 @@ func main() {
 		}
 		configured.PokeAPI = append(configured.PokeAPI, factoryKeys...)
 	}
+	var factoryTMKeys []string
+	var factoryTMSource *content.SeedProvenance
+	if *factory && *factorySample == "" {
+		factoryTMKeys, factoryTMSource, err = loadFactoryTMSeeds(*factoryTMManifestPath)
+		if err != nil {
+			log.Fatal(err)
+		}
+		configured.PokeAPI = appendFactoryTMSeeds(configured.PokeAPI, factoryTMKeys)
+		log.Printf("pinned factory TMs=%d source=%s inputDigest=%s mappingDigest=%s", len(factoryTMKeys), factoryTMSource.Commit, factoryTMSource.InputDigestSHA256, factoryTMSource.MappingDigestSHA256)
+	}
 	configured.PokeAPI = uniqueSorted(configured.PokeAPI)
 	configured.CSV = uniqueSorted(configured.CSV)
 	if *maxEntries == 0 {
@@ -202,6 +213,9 @@ func main() {
 		MaxEntries:     *maxEntries,
 		MaxBytes:       *maxBytes,
 		MaxDuration:    *maxDuration,
+		RequiredKeys:   factoryTMKeys,
+		ValidateObject: factoryTMValidator(factoryTMKeys),
+		SeedProvenance: factoryTMSource,
 		Progress: func(progress content.SyncProgress) {
 			if progress.Completed == 1 || progress.Completed%25 == 0 || progress.Completed == progress.Queued {
 				log.Printf("progress queued=%d completed=%d bytes=%d elapsed=%s parent=%s types=%v", progress.Queued, progress.Completed, progress.Bytes, progress.Elapsed.Round(time.Second), progress.Parent, progress.Types)

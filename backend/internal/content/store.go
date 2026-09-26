@@ -43,10 +43,18 @@ type Entry struct {
 }
 
 type Manifest struct {
-	Version   string           `json:"version"`
-	CreatedAt time.Time        `json:"createdAt"`
-	Source    string           `json:"source"`
-	Entries   map[string]Entry `json:"entries"`
+	Version        string           `json:"version"`
+	CreatedAt      time.Time        `json:"createdAt"`
+	Source         string           `json:"source"`
+	SeedProvenance *SeedProvenance  `json:"seedProvenance,omitempty"`
+	Entries        map[string]Entry `json:"entries"`
+}
+
+type SeedProvenance struct {
+	Repository          string `json:"repository"`
+	Commit              string `json:"commit"`
+	InputDigestSHA256   string `json:"inputDigestSha256"`
+	MappingDigestSHA256 string `json:"mappingDigestSha256"`
 }
 
 type ActivePointer struct {
@@ -70,6 +78,9 @@ type SyncOptions struct {
 	MaxBytes       int64
 	MaxDuration    time.Duration
 	Progress       func(SyncProgress)
+	RequiredKeys   []string
+	ValidateObject func(key string, body []byte) error
+	SeedProvenance *SeedProvenance
 }
 
 type SyncProgress struct {
@@ -677,6 +688,11 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 	if len(seen) > options.MaxEntries {
 		return nil, fmt.Errorf("sync exceeded max entries at seeds: %d > %d", len(seen), options.MaxEntries)
 	}
+	for _, key := range options.RequiredKeys {
+		if _, exists := seen[key]; !exists {
+			return nil, fmt.Errorf("required sync seed missing: %s", key)
+		}
+	}
 
 	root := s.namespaceRoot()
 	finalRoot := filepath.Join(root, "versions", options.Version)
@@ -697,10 +713,11 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 	}()
 
 	manifest := &Manifest{
-		Version:   options.Version,
-		CreatedAt: time.Now().UTC(),
-		Source:    s.baseURL,
-		Entries:   make(map[string]Entry),
+		Version:        options.Version,
+		CreatedAt:      time.Now().UTC(),
+		Source:         s.baseURL,
+		SeedProvenance: options.SeedProvenance,
+		Entries:        make(map[string]Entry),
 	}
 	var totalBytes int64
 	typeCounts := make(map[string]int)
@@ -741,6 +758,11 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 			}
 			if err := ctx.Err(); err != nil {
 				return nil, fmt.Errorf("sync %s deadline/cancellation: %w", result.key, err)
+			}
+			if options.ValidateObject != nil {
+				if err := options.ValidateObject(result.key, result.response.Body); err != nil {
+					return nil, fmt.Errorf("sync %s invalid content: %w", result.key, err)
+				}
 			}
 			if options.MaxBytes > 0 && totalBytes+int64(len(result.response.Body)) > options.MaxBytes {
 				return nil, fmt.Errorf("sync %s exceeded max bytes: %d > %d", result.key, totalBytes+int64(len(result.response.Body)), options.MaxBytes)
@@ -806,6 +828,11 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 	}
 	if len(manifest.Entries) > options.MaxEntries {
 		return nil, fmt.Errorf("sync manifest exceeded max entries: %d > %d", len(manifest.Entries), options.MaxEntries)
+	}
+	for _, key := range options.RequiredKeys {
+		if _, exists := manifest.Entries[key]; !exists {
+			return nil, fmt.Errorf("required sync content missing: %s", key)
+		}
 	}
 
 	manifestData, err := json.MarshalIndent(manifest, "", "  ")

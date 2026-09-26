@@ -1,0 +1,210 @@
+{
+  "source": {
+    "repository": "Pokabbie/pokeemerald-rogue",
+    "commit": "a6adfcf18d7eaf99c2803e4b0bc04eca7af2f014",
+    "inputDigestSha256": "353a1226dae0a7601cef5a3613572d35d0cf9a780299426a9cadc6a36e21bb9e",
+    "mappingDigestSha256": "20d76b0c244a45edd20ee5d789c64ce467a2efe2278e2e4c193037368f8953dc"
+  },
+  "tms": [
+    {
+      "tm": "TM01",
+      "key": "move/return"
+    },
+    {
+      "tm": "TM02",
+      "key": "move/double-team"
+    },
+    {
+      "tm": "TM03",
+      "key": "move/facade"
+    },
+    {
+      "tm": "TM04",
+      "key": "move/overheat"
+    },
+    {
+      "tm": "TM05",
+      "key": "move/flare-blitz"
+    },
+    {
+      "tm": "TM06",
+      "key": "move/sunny-day"
+    },
+    {
+      "tm": "TM07",
+      "key": "move/surf"
+    },
+    {
+      "tm": "TM08",
+      "key": "move/aqua-jet"
+    },
+    {
+      "tm": "TM09",
+      "key": "move/rain-dance"
+    },
+    {
+      "tm": "TM10",
+      "key": "move/leaf-storm"
+    },
+    {
+      "tm": "TM11",
+      "key": "move/solar-blade"
+    },
+    {
+      "tm": "TM12",
+      "key": "move/grassy-terrain"
+    },
+    {
+      "tm": "TM13",
+      "key": "move/thunder-wave"
+    },
+    {
+      "tm": "TM14",
+      "key": "move/thunder"
+    },
+    {
+      "tm": "TM15",
+      "key": "move/volt-switch"
+    },
+    {
+      "tm": "TM16",
+      "key": "move/ice-beam"
+    },
+    {
+      "tm": "TM17",
+      "key": "move/freeze-dry"
+    },
+    {
+      "tm": "TM18",
+      "key": "move/snowscape"
+    },
+    {
+      "tm": "TM19",
+      "key": "move/brick-break"
+    },
+    {
+      "tm": "TM20",
+      "key": "move/bulk-up"
+    },
+    {
+      "tm": "TM21",
+      "key": "move/aura-sphere"
+    },
+    {
+      "tm": "TM22",
+      "key": "move/sludge-bomb"
+    },
+    {
+      "tm": "TM23",
+      "key": "move/cross-poison"
+    },
+    {
+      "tm": "TM24",
+      "key": "move/toxic-spikes"
+    },
+    {
+      "tm": "TM25",
+      "key": "move/earthquake"
+    },
+    {
+      "tm": "TM26",
+      "key": "move/earth-power"
+    },
+    {
+      "tm": "TM27",
+      "key": "move/aerial-ace"
+    },
+    {
+      "tm": "TM28",
+      "key": "move/tailwind"
+    },
+    {
+      "tm": "TM29",
+      "key": "move/psychic"
+    },
+    {
+      "tm": "TM30",
+      "key": "move/calm-mind"
+    },
+    {
+      "tm": "TM31",
+      "key": "move/trick-room"
+    },
+    {
+      "tm": "TM32",
+      "key": "move/u-turn"
+    },
+    {
+      "tm": "TM33",
+      "key": "move/quiver-dance"
+    },
+    {
+      "tm": "TM34",
+      "key": "move/stone-edge"
+    },
+    {
+      "tm": "TM35",
+      "key": "move/stealth-rock"
+    },
+    {
+      "tm": "TM36",
+      "key": "move/sandstorm"
+    },
+    {
+      "tm": "TM37",
+      "key": "move/shadow-ball"
+    },
+    {
+      "tm": "TM38",
+      "key": "move/shadow-sneak"
+    },
+    {
+      "tm": "TM39",
+      "key": "move/confuse-ray"
+    },
+    {
+      "tm": "TM40",
+      "key": "move/dark-pulse"
+    },
+    {
+      "tm": "TM41",
+      "key": "move/nasty-plot"
+    },
+    {
+      "tm": "TM42",
+      "key": "move/dragon-dance"
+    },
+    {
+      "tm": "TM43",
+      "key": "move/draco-meteor"
+    },
+    {
+      "tm": "TM44",
+      "key": "move/outrage"
+    },
+    {
+      "tm": "TM45",
+      "key": "move/iron-head"
+    },
+    {
+      "tm": "TM46",
+      "key": "move/iron-defense"
+    },
+    {
+      "tm": "TM47",
+      "key": "move/flash-cannon"
+    },
+    {
+      "tm": "TM48",
+      "key": "move/dazzling-gleam"
+    },
+    {
+      "tm": "TM49",
+      "key": "move/play-rough"
+    },
+    {
+      "tm": "TM50",
+      "key": "move/misty-terrain"
+    }
+  ]
+}
