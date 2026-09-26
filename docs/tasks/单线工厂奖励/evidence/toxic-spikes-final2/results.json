@@ -1,0 +1,1075 @@
+{
+  "sourceOrigin": "http://127.0.0.187:4300",
+  "testOrigin": "http://127.0.0.188:4300",
+  "fixture": {
+    "player": [
+      118,
+      74,
+      60
+    ],
+    "enemy": [
+      133,
+      111,
+      95
+    ]
+  },
+  "steps": [
+    {
+      "name": "natural-ready",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 106,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "rock",
+              "ground"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "water"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 116,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "ground",
+              "rock"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "rock",
+              "ground"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n伊布\n♂\nLV.50\n一般\nHP\n100%\n角金鱼\n♂\nLV.50\n水\nHP\n106/106\n战斗日志\nFCT-01\n\n对手 派出了 伊布！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n弹跳\n飞行\n威力 85\n命中 85\nPP 5/5\n连斩\n虫\n威力 40\n命中 95\nPP 20/20\n修长之角\n钢\n威力 70\n命中 --\nPP 10/10\n高速星星\n一般\n威力 60\n命中 --\nPP 20/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "fixture-ready-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n伊布\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 伊布！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "fixture-ready-844",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n伊布\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 伊布！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          844,
+          390
+        ],
+        "scrollWidth": 844
+      }
+    },
+    {
+      "name": "both-layer1-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 1
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 1
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n伊布\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 伊布 使用了 毒菱！\n\n对手伊布在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "both-layer1-status-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 1
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 1
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n伊布\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 伊布 使用了 毒菱！\n\n对手伊布在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "both-layer2-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n伊布\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 伊布 使用了 毒菱！\n\n对手伊布在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 18/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "both-layer2-status-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n伊布\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 伊布 使用了 毒菱！\n\n对手伊布在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 18/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "both-layer2-status-844",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n伊布\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 伊布 使用了 毒菱！\n\n对手伊布在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n我方场地：毒菱 2 层\n持续中\n对手场地：毒菱 2 层\n持续中",
+        "viewport": [
+          844,
+          390
+        ],
+        "scrollWidth": 844
+      }
+    },
+    {
+      "name": "both-layer2-reload",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n伊布\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 伊布 使用了 毒菱！\n\n对手伊布在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 18/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "enemy-next-poison",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n独角犀牛\n♀\nLV.50\n一般\n剧毒\nHP\n100%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n伊布 倒下了！\n\n对手 派出了 独角犀牛！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 18/20\n撞击\n一般\n威力 80\n命中 100\nPP 19/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "player-next-poison",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 101,
+            "types": [
+              "normal"
+            ],
+            "status": "bad_poison"
+          },
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 141,
+            "types": [
+              "normal"
+            ],
+            "status": "bad_poison"
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 0,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n独角犀牛\n♀\nLV.50\n一般\n剧毒\nHP\n94%\n小拳石\n♀\nLV.50\n一般\n剧毒\nHP\n95/101\n战斗日志\nFCT-01\n\n小拳石被毒菱施加了剧毒！\n\n对手的 独角犀牛 使用了 跃起！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n泥巴射击\n地面\n威力 55\n命中 95\nPP 15/15\n地球上投\n格斗\n威力 --\n命中 100\nPP 20/20\n喷射火焰\n火\n威力 90\n命中 100\nPP 15/15\n地裂\n地面\n威力 --\n命中 30\nPP 5/5",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "player-poison-absorb",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          },
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 95,
+            "types": [
+              "normal"
+            ],
+            "status": "bad_poison"
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 133,
+            "types": [
+              "normal"
+            ],
+            "status": "bad_poison"
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 0,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n独角犀牛\n♀\nLV.50\n一般\n剧毒\nHP\n82%\n蚊香蝌蚪\n♂\nLV.50\n毒\nHP\n101/101\n战斗日志\nFCT-01\n\n蚊香蝌蚪吸收了毒菱！\n\n对手的 独角犀牛 使用了 跃起！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n暴风雪\n冰\n威力 110\n命中 70\nPP 5/5\n玩水\n水\n威力 --\n命中 --\nPP 15/15\n挖洞\n地面\n威力 80\n命中 100\nPP 10/10\n泥巴炸弹\n地面\n威力 65\n命中 85\nPP 10/10",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "absorb-reload",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 60,
+            "name": "poliwag",
+            "hp": 101,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          },
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 74,
+            "name": "geodude",
+            "hp": 95,
+            "types": [
+              "normal"
+            ],
+            "status": "bad_poison"
+          }
+        ],
+        "enemy": [
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "hp": 133,
+            "types": [
+              "normal"
+            ],
+            "status": "bad_poison"
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "hp": 0,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 95,
+            "name": "onix",
+            "hp": 96,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n独角犀牛\n♀\nLV.50\n一般\n剧毒\nHP\n94%\n蚊香蝌蚪\n♂\nLV.50\n毒\nHP\n101/101\n战斗日志\nFCT-01\n\n蚊香蝌蚪吸收了毒菱！\n\n对手的 独角犀牛 使用了 跃起！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n暴风雪\n冰\n威力 110\n命中 70\nPP 5/5\n玩水\n水\n威力 --\n命中 --\nPP 15/15\n挖洞\n地面\n威力 80\n命中 100\nPP 10/10\n泥巴炸弹\n地面\n威力 65\n命中 85\nPP 10/10",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "errors": []
+}

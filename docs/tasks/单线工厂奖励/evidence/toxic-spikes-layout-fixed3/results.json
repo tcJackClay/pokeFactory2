@@ -1,0 +1,817 @@
+{
+  "sourceOrigin": "http://127.0.0.193:4300",
+  "testOrigin": "http://127.0.0.194:4300",
+  "fixture": {
+    "player": [
+      118,
+      69,
+      43
+    ],
+    "enemy": [
+      64,
+      75,
+      77
+    ]
+  },
+  "steps": [
+    {
+      "name": "natural-ready",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 105,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 112,
+            "types": [
+              "grass",
+              "poison"
+            ],
+            "status": null
+          },
+          {
+            "id": 43,
+            "name": "oddish",
+            "hp": 106,
+            "types": [
+              "grass",
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 64,
+            "name": "kadabra",
+            "hp": 101,
+            "types": [
+              "psychic"
+            ],
+            "status": null
+          },
+          {
+            "id": 75,
+            "name": "graveler",
+            "hp": 116,
+            "types": [
+              "rock",
+              "ground"
+            ],
+            "status": null
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 111,
+            "types": [
+              "fire"
+            ],
+            "status": null
+          }
+        ],
+        "labels": [],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n超能\nHP\n100%\n角金鱼\n♂\nLV.50\n水\nHP\n105/105\n战斗日志\nFCT-01\n\n对手 派出了 勇基拉！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n睡觉\n超能\n威力 --\n命中 --\nPP 5/5\n忍耐\n一般\n威力 --\n命中 --\nPP 10/10\n火箭头锤\n一般\n威力 130\n命中 100\nPP 10/10\n影子分身\n一般\n威力 --\n命中 --\nPP 15/15",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "fixture-ready-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 112,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 43,
+            "name": "oddish",
+            "hp": 106,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 64,
+            "name": "kadabra",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 75,
+            "name": "graveler",
+            "hp": 116,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 111,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "labels": [],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 勇基拉！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "fixture-ready-844",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 0
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 112,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 43,
+            "name": "oddish",
+            "hp": 106,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 64,
+            "name": "kadabra",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 75,
+            "name": "graveler",
+            "hp": 116,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 111,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "labels": [],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手 派出了 勇基拉！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 20/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          844,
+          390
+        ],
+        "scrollWidth": 844
+      }
+    },
+    {
+      "name": "both-layer1-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 1
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 1
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 112,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 43,
+            "name": "oddish",
+            "hp": 106,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 64,
+            "name": "kadabra",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 75,
+            "name": "graveler",
+            "hp": 116,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 111,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "labels": [],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 勇基拉 使用了 毒菱！\n\n对手勇基拉在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 19/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "both-layer1-status-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 1
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 1
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 112,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 43,
+            "name": "oddish",
+            "hp": 106,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 64,
+            "name": "kadabra",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 75,
+            "name": "graveler",
+            "hp": 116,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 111,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "labels": [
+          {
+            "text": "我方场地：毒菱 1 层",
+            "clientWidth": 127,
+            "scrollWidth": 127,
+            "clientHeight": 19,
+            "scrollHeight": 19,
+            "whiteSpace": "normal",
+            "overflow": "visible"
+          },
+          {
+            "text": "对手场地：毒菱 1 层",
+            "clientWidth": 127,
+            "scrollWidth": 127,
+            "clientHeight": 19,
+            "scrollHeight": 19,
+            "whiteSpace": "normal",
+            "overflow": "visible"
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 勇基拉 使用了 毒菱！\n\n对手勇基拉在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n我方场地：毒菱 1 层\n对手场地：毒菱 1 层",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "both-layer2-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 112,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 43,
+            "name": "oddish",
+            "hp": 106,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 64,
+            "name": "kadabra",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 75,
+            "name": "graveler",
+            "hp": 116,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 111,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "labels": [],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 勇基拉 使用了 毒菱！\n\n对手勇基拉在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 18/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "both-layer2-status-390",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 112,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 43,
+            "name": "oddish",
+            "hp": 106,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 64,
+            "name": "kadabra",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 75,
+            "name": "graveler",
+            "hp": 116,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 111,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "labels": [
+          {
+            "text": "我方场地：毒菱 2 层",
+            "clientWidth": 128,
+            "scrollWidth": 128,
+            "clientHeight": 19,
+            "scrollHeight": 19,
+            "whiteSpace": "normal",
+            "overflow": "visible"
+          },
+          {
+            "text": "对手场地：毒菱 2 层",
+            "clientWidth": 128,
+            "scrollWidth": 128,
+            "clientHeight": 19,
+            "scrollHeight": 19,
+            "whiteSpace": "normal",
+            "overflow": "visible"
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 勇基拉 使用了 毒菱！\n\n对手勇基拉在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n我方场地：毒菱 2 层\n对手场地：毒菱 2 层",
+        "viewport": [
+          390,
+          844
+        ],
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "both-layer2-status-844",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 112,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 43,
+            "name": "oddish",
+            "hp": 106,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 64,
+            "name": "kadabra",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 75,
+            "name": "graveler",
+            "hp": 116,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 111,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "labels": [
+          {
+            "text": "我方场地：毒菱 2 层",
+            "clientWidth": 128,
+            "scrollWidth": 128,
+            "clientHeight": 19,
+            "scrollHeight": 19,
+            "whiteSpace": "normal",
+            "overflow": "visible"
+          },
+          {
+            "text": "对手场地：毒菱 2 层",
+            "clientWidth": 128,
+            "scrollWidth": 128,
+            "clientHeight": 19,
+            "scrollHeight": 19,
+            "whiteSpace": "normal",
+            "overflow": "visible"
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 勇基拉 使用了 毒菱！\n\n对手勇基拉在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n我方场地：毒菱 2 层\n对手场地：毒菱 2 层",
+        "viewport": [
+          844,
+          390
+        ],
+        "scrollWidth": 844
+      }
+    },
+    {
+      "name": "both-layer2-battle-844",
+      "state": {
+        "phase": "BATTLE",
+        "stage": 1,
+        "hazards": {
+          "player": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          },
+          "enemy": {
+            "stealthRock": false,
+            "toxicSpikesLayers": 2
+          }
+        },
+        "player": [
+          {
+            "id": 118,
+            "name": "goldeen",
+            "hp": 300,
+            "types": [
+              "water"
+            ],
+            "status": null
+          },
+          {
+            "id": 69,
+            "name": "bellsprout",
+            "hp": 112,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 43,
+            "name": "oddish",
+            "hp": 106,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "enemy": [
+          {
+            "id": 64,
+            "name": "kadabra",
+            "hp": 1,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 75,
+            "name": "graveler",
+            "hp": 116,
+            "types": [
+              "normal"
+            ],
+            "status": null
+          },
+          {
+            "id": 77,
+            "name": "ponyta",
+            "hp": 111,
+            "types": [
+              "poison"
+            ],
+            "status": null
+          }
+        ],
+        "labels": [],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n一般\nHP\n1%\n角金鱼\n♂\nLV.50\n水\nHP\n300/300\n战斗日志\nFCT-01\n\n对手的 勇基拉 使用了 毒菱！\n\n对手勇基拉在对手一方撒下了毒菱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n毒菱\n毒\n威力 --\n命中 --\nPP 18/20\n撞击\n一般\n威力 80\n命中 100\nPP 20/20",
+        "viewport": [
+          844,
+          390
+        ],
+        "scrollWidth": 844
+      }
+    }
+  ],
+  "errors": []
+}
