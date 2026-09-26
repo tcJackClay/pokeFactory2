@@ -1,9 +1,9 @@
 import { motion, useReducedMotion } from 'motion/react';
 import TypeBadge from '../../../../../components/TypeBadge';
-import { AILMENT_ZH } from '../../../../../uiAppConstants';
 import type { GamePokemon } from '../../../../../types';
 import type { BattleAnimation, LocalizeFn } from '../../../view-model';
 import { getPrimaryBattleStatusId } from '../../../utils/battleStatus';
+import { getBattleStatusLabel } from '../../../utils/battleStatusLabels';
 import type { GameViewSectionProps } from '../shared';
 import { BattleSpecialTriggersNearHp } from './BattleSpecialTriggersNearHp';
 import type { BattleLayoutBox, BattleSceneLayout, BattleStageMode } from './battleSceneLayout';
@@ -123,7 +123,7 @@ export function PlayerBattleCard({
                   </div>
                   {primaryStatus && (
                     <span className="pf-factory-hud__status">
-                      {AILMENT_ZH[primaryStatus] || primaryStatus}
+                      {getBattleStatusLabel(primaryStatus, viewModel.currentLanguage)}
                     </span>
                   )}
                 </div>

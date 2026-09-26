@@ -181,6 +181,7 @@ export function BattleFieldPanel({ viewModel }: GameViewSectionProps) {
                       enemyAnim={enemyAnim}
                       isCatching={isCatching}
                       getLocalized={getLocalized}
+                      currentLanguage={viewModel.currentLanguage}
                       stageMode={stageMode}
                       layout={sceneLayout}
                       spriteSlot={slot}
@@ -215,6 +216,7 @@ export function BattleFieldPanel({ viewModel }: GameViewSectionProps) {
                       enemyAnim={enemyAnim}
                       isCatching={isCatching}
                       getLocalized={getLocalized}
+                      currentLanguage={viewModel.currentLanguage}
                       stageMode={stageMode}
                       layout={sceneLayout}
                       hudSlot={slot}

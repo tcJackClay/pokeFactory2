@@ -124,6 +124,12 @@ test('volatile statuses can be added, prioritized for display, and cleared indep
   assert.equal(getPrimaryBattleStatusId(clearedPokemon), 'torment');
 });
 
+test('internal protect streak counter is not displayed as a battle status', () => {
+  const chainOnly = setVolatileStatus(createPokemon(), 'protect_chain', { counter: 2 });
+  assert.equal(getPrimaryBattleStatusId(chainOnly), undefined);
+  assert.equal(getPrimaryBattleStatusId(setVolatileStatus(chainOnly, 'uproar')), 'uproar');
+});
+
 test('non-volatile status takes precedence over volatile status and can be cleared cleanly', () => {
   const pokemon = setNonVolatileStatus(
     setVolatileStatus(createPokemon(), 'confusion'),

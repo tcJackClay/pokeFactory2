@@ -217,8 +217,9 @@ export function getPrimaryBattleStatusId(pokemon: GamePokemon | null | undefined
     }
   }
 
-  const firstActive = Object.values(pokemon.volatileStatuses).find((entry) => entry?.active);
-  return firstActive?.id;
+  const firstActive = Object.entries(pokemon.volatileStatuses)
+    .find(([statusId, entry]) => statusId !== 'protect_chain' && entry?.active);
+  return firstActive?.[1].id;
 }
 
 export function hasAnyBattleStatus(pokemon: GamePokemon | null | undefined): boolean {

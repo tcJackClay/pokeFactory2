@@ -1,9 +1,9 @@
 import { motion, useReducedMotion } from 'motion/react';
 import TypeBadge from '../../../../../components/TypeBadge';
-import { AILMENT_ZH } from '../../../../../uiAppConstants';
 import type { GamePokemon } from '../../../../../types';
 import type { FactoryTrainerTemplate } from '../../../config/factoryTrainerTemplates';
 import { getPrimaryBattleStatusId } from '../../../utils/battleStatus';
+import { getBattleStatusLabel } from '../../../utils/battleStatusLabels';
 import type { BattleAnimation, LocalizeFn } from '../../../view-model';
 import type { BattleLayoutBox, BattleSceneLayout, BattleStageMode } from './battleSceneLayout';
 
@@ -13,6 +13,7 @@ interface EnemyBattleCardProps {
   enemyAnim: BattleAnimation;
   isCatching: boolean;
   getLocalized: LocalizeFn;
+  currentLanguage: string;
   stageMode?: BattleStageMode;
   layout: BattleSceneLayout;
   hudSlot?: BattleLayoutBox;
@@ -26,6 +27,7 @@ export function EnemyBattleCard({
   enemyAnim,
   isCatching,
   getLocalized,
+  currentLanguage,
   layout,
   hudSlot,
   spriteSlot,
@@ -90,7 +92,7 @@ export function EnemyBattleCard({
                 </div>
                 {primaryStatus && (
                   <span className="pf-factory-hud__status">
-                    {AILMENT_ZH[primaryStatus] || primaryStatus}
+                    {getBattleStatusLabel(primaryStatus, currentLanguage)}
                   </span>
                 )}
               </div>
