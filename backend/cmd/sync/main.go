@@ -59,6 +59,7 @@ func main() {
 	full := flag.Bool("full", false, "同步工厂物种并递归同步其招式、特性、形态和进化链")
 	factory := flag.Bool("factory", false, "仅在隔离 state 准备 Classic 工厂有限闭包；不激活版本")
 	factorySample := flag.String("factory-sample", "", "只准备一个索引中的 pokemon 标识符；不激活版本或同步基础清单/CSV")
+	factoryGenerationRaw := flag.String("factory-generation", "", "仅在隔离 state 准备第 1–9 世代工厂闭包；不激活版本或同步基础清单/CSV")
 	referenceDirectory := flag.String("factory-reference-sets", "src/features/game/config/factoryReferenceSets/chunks", "工厂参考 set 分片目录")
 	specialFormsPath := flag.String("factory-special-forms", "src/features/game/config/specialForms.ts", "允许直接抽取形态清单")
 	workers := flag.Int("workers", 6, "并发请求数")
@@ -67,13 +68,20 @@ func main() {
 	maxDuration := flag.Duration("max-duration", 0, "同步总期限；0 使用范围默认值")
 	pokeAPIBase := flag.String("pokeapi-base-url", "https://pokeapi.co/api/v2", "PokeAPI 来源根地址")
 	flag.Parse()
-	if *full && (*factory || *factorySample != "") {
-		log.Fatal("-full and -factory/-factory-sample are mutually exclusive")
+	generation, err := parseFactoryGeneration(*factoryGenerationRaw)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if *full && (*factory || *factorySample != "" || generation != 0) {
+		log.Fatal("-full and factory modes are mutually exclusive")
+	}
+	if *factorySample != "" && generation != 0 {
+		log.Fatal("-factory-sample and -factory-generation are mutually exclusive")
 	}
 	if *maxEntries < 0 || *maxBytes < 0 || *maxDuration < 0 {
 		log.Fatal("sync limits must be nonnegative")
 	}
-	if *factorySample != "" {
+	if *factorySample != "" || generation != 0 {
 		*factory = true
 	}
 	if *factory {
@@ -120,6 +128,12 @@ func main() {
 	}
 	if *factorySample != "" {
 		configured.PokeAPI = []string{"pokemon/" + *factorySample}
+	} else if generation != 0 {
+		factoryKeys, err := factorySeedsForGeneration(*factoryIndexPath, *referenceDirectory, *specialFormsPath, generation)
+		if err != nil {
+			log.Fatal(err)
+		}
+		configured.PokeAPI = factoryKeys
 	} else if *factory {
 		factoryKeys, err := factorySeeds(*factoryIndexPath, *referenceDirectory, *specialFormsPath)
 		if err != nil {
@@ -133,6 +147,8 @@ func main() {
 		switch {
 		case *factorySample != "":
 			*maxEntries = 200
+		case generation != 0:
+			*maxEntries = 3000
 		case *factory:
 			*maxEntries = 6000
 		default:
@@ -143,6 +159,8 @@ func main() {
 		switch {
 		case *factorySample != "":
 			*maxBytes = 100 << 20
+		case generation != 0:
+			*maxBytes = 512 << 20
 		case *factory:
 			*maxBytes = 1 << 30
 		}
@@ -151,14 +169,16 @@ func main() {
 		switch {
 		case *factorySample != "":
 			*maxDuration = 2 * time.Minute
+		case generation != 0:
+			*maxDuration = 30 * time.Minute
 		case *factory:
 			*maxDuration = 90 * time.Minute
 		}
 	}
-	if *factorySample != "" && *workers == 6 {
+	if (*factorySample != "" || generation != 0) && *workers == 6 {
 		*workers = 2
 	}
-	if *factory && *factorySample == "" && *workers == 6 {
+	if *factory && *factorySample == "" && generation == 0 && *workers == 6 {
 		*workers = 4
 	}
 
@@ -172,7 +192,7 @@ func main() {
 		defer cancel()
 	}
 
-	log.Printf("syncing PokeAPI version=%s seeds=%d full=%t factory=%t sample=%q", *version, len(configured.PokeAPI), *full, *factory, *factorySample)
+	log.Printf("syncing PokeAPI version=%s seeds=%d full=%t factory=%t sample=%q generation=%d", *version, len(configured.PokeAPI), *full, *factory, *factorySample, generation)
 	pokeManifest, err := pokeAPIStore.PrepareVersion(ctx, content.SyncOptions{
 		Version:        *version,
 		Keys:           configured.PokeAPI,
@@ -191,8 +211,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if *factorySample != "" {
-		log.Printf("sample prepared, not activated: version=%s entries=%d", *version, len(pokeManifest.Entries))
+	if *factorySample != "" || generation != 0 {
+		log.Printf("factory subset prepared, not activated: version=%s generation=%d entries=%d", *version, generation, len(pokeManifest.Entries))
 		return
 	}
 	if *factory && len(pokeManifest.Entries)+len(configured.CSV) > *maxEntries {

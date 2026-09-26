@@ -89,6 +89,24 @@ var quotedMovePattern = regexp.MustCompile(`'([^']+)'`)
 var specialFormPattern = regexp.MustCompile(`pokeApiName: '([^']+)', gen: (\d+), requirement: '(DIRECT|HOLD_ITEM)'`)
 
 func factorySeeds(indexPath, referenceDirectory, specialFormsPath string) ([]string, error) {
+	return factorySeedsForGeneration(indexPath, referenceDirectory, specialFormsPath, 0)
+}
+
+func parseFactoryGeneration(value string) (int, error) {
+	if value == "" {
+		return 0, nil
+	}
+	generation, err := strconv.Atoi(value)
+	if err != nil || generation < 1 || generation > 9 {
+		return 0, fmt.Errorf("-factory-generation must be an integer from 1 to 9: %q", value)
+	}
+	return generation, nil
+}
+
+func factorySeedsForGeneration(indexPath, referenceDirectory, specialFormsPath string, generation int) ([]string, error) {
+	if generation < 0 || generation > 9 {
+		return nil, fmt.Errorf("invalid factory generation %d", generation)
+	}
 	var index []factoryIndexEntry
 	if err := readJSON(indexPath, &index); err != nil {
 		return nil, err
@@ -108,7 +126,7 @@ func factorySeeds(indexPath, referenceDirectory, specialFormsPath string) ([]str
 		}
 		byIdentifier[entry.Identifier] = entry
 		bySpecies[entry.SpeciesID] = struct{}{}
-		if entry.SpeciesID != 201 {
+		if entry.SpeciesID != 201 && (generation == 0 || entry.Gen == generation) {
 			keys = append(keys, "pokemon/"+entry.Identifier)
 		}
 	}
@@ -156,11 +174,15 @@ func factorySeeds(indexPath, referenceDirectory, specialFormsPath string) ([]str
 		for _, match := range referenceSetPattern.FindAllStringSubmatch(string(source), -1) {
 			setCount++
 			id, _ := strconv.Atoi(match[1])
+			setGeneration, _ := strconv.Atoi(match[2])
 			if id == 201 {
 				continue
 			}
 			if _, ok := bySpecies[id]; !ok {
 				return nil, fmt.Errorf("reference set species %d absent from factory index", id)
+			}
+			if generation != 0 && setGeneration != generation {
+				continue
 			}
 			keys = append(keys, "pokemon/"+strconv.Itoa(id))
 			moves := quotedMovePattern.FindAllStringSubmatch(match[3], -1)
