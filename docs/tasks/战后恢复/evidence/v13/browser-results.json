@@ -1,0 +1,701 @@
+{
+  "origin": "127.0.0.155",
+  "commit": "706444c",
+  "steps": [
+    {
+      "name": "rental-v12",
+      "state": {
+        "schema": 13,
+        "status": "EMPTY",
+        "wallet": 0,
+        "supply": {
+          "runId": "run:62f6475b-ae6a-425d-94e5-339ab96d3fab",
+          "tickets": 0,
+          "lastCreditedStage": 0
+        },
+        "text": "0\nBP\n0/7\n轮次\n0\n连胜\n超能\n凯西\n毒\n飞行\n超音蝠\n格斗\n猴怪\n一般\n小拉达\n一般\n飞行\n波波\n电\n霹雳电球\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)\nDEV"
+      }
+    },
+    {
+      "name": "stage1-ready",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "status": "READY",
+        "stage": 1,
+        "result": null,
+        "wallet": 0,
+        "supply": {
+          "runId": "run:62f6475b-ae6a-425d-94e5-339ab96d3fab",
+          "tickets": 0,
+          "lastCreditedStage": 0
+        },
+        "player": [
+          {
+            "id": 63,
+            "hp": 86,
+            "maxHp": 86,
+            "volatileStatuses": {},
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "sunny-day",
+                "pp": 5
+              },
+              {
+                "name": "fire-punch",
+                "pp": 15
+              },
+              {
+                "name": "thunder-punch",
+                "pp": 15
+              },
+              {
+                "name": "protect",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 41,
+            "hp": 102,
+            "maxHp": 102,
+            "volatileStatuses": {},
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "hidden-power",
+                "pp": 15
+              },
+              {
+                "name": "thief",
+                "pp": 25
+              },
+              {
+                "name": "mimic",
+                "pp": 10
+              },
+              {
+                "name": "sunny-day",
+                "pp": 5
+              }
+            ]
+          },
+          {
+            "id": 56,
+            "hp": 102,
+            "maxHp": 102,
+            "volatileStatuses": {},
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "retaliate",
+                "pp": 5
+              },
+              {
+                "name": "karate-chop",
+                "pp": 25
+              },
+              {
+                "name": "dynamic-punch",
+                "pp": 5
+              },
+              {
+                "name": "submission",
+                "pp": 20
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 30,
+            "hp": 131,
+            "maxHp": 131,
+            "volatileStatuses": {},
+            "held": "focus-band",
+            "originalHeld": "focus-band",
+            "moves": [
+              {
+                "name": "double-kick",
+                "pp": 30
+              },
+              {
+                "name": "bite",
+                "pp": 25
+              },
+              {
+                "name": "aerial-ace",
+                "pp": 20
+              },
+              {
+                "name": "flatter",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "hp": 91,
+            "maxHp": 91,
+            "volatileStatuses": {},
+            "held": "sitrus-berry",
+            "originalHeld": "sitrus-berry",
+            "moves": [
+              {
+                "name": "mega-drain",
+                "pp": 15
+              },
+              {
+                "name": "ancient-power",
+                "pp": 5
+              },
+              {
+                "name": "sand-attack",
+                "pp": 15
+              },
+              {
+                "name": "protect",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 120,
+            "hp": 91,
+            "maxHp": 91,
+            "volatileStatuses": {},
+            "held": "shell-bell",
+            "originalHeld": "shell-bell",
+            "moves": [
+              {
+                "name": "bubble-beam",
+                "pp": 20
+              },
+              {
+                "name": "minimize",
+                "pp": 10
+              },
+              {
+                "name": "swift",
+                "pp": 20
+              },
+              {
+                "name": "light-screen",
+                "pp": 30
+              }
+            ]
+          }
+        ],
+        "rentals": [
+          {
+            "id": 63,
+            "hp": 86,
+            "maxHp": 86,
+            "volatileStatuses": {},
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "sunny-day",
+                "pp": 5
+              },
+              {
+                "name": "fire-punch",
+                "pp": 15
+              },
+              {
+                "name": "thunder-punch",
+                "pp": 15
+              },
+              {
+                "name": "protect",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 41,
+            "hp": 102,
+            "maxHp": 102,
+            "volatileStatuses": {},
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "hidden-power",
+                "pp": 15
+              },
+              {
+                "name": "thief",
+                "pp": 25
+              },
+              {
+                "name": "mimic",
+                "pp": 10
+              },
+              {
+                "name": "sunny-day",
+                "pp": 5
+              }
+            ]
+          },
+          {
+            "id": 56,
+            "hp": 102,
+            "maxHp": 102,
+            "volatileStatuses": {},
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "retaliate",
+                "pp": 5
+              },
+              {
+                "name": "karate-chop",
+                "pp": 25
+              },
+              {
+                "name": "dynamic-punch",
+                "pp": 5
+              },
+              {
+                "name": "submission",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 19,
+            "hp": 91,
+            "maxHp": 91,
+            "volatileStatuses": {},
+            "held": "white_herb",
+            "originalHeld": "white_herb",
+            "moves": [
+              {
+                "name": "super-fang",
+                "pp": 10
+              },
+              {
+                "name": "counter",
+                "pp": 20
+              },
+              {
+                "name": "skull-bash",
+                "pp": 10
+              },
+              {
+                "name": "attract",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 16,
+            "hp": 102,
+            "maxHp": 102,
+            "volatileStatuses": {},
+            "held": "quick_claw",
+            "originalHeld": "quick_claw",
+            "moves": [
+              {
+                "name": "ominous-wind",
+                "pp": 5
+              },
+              {
+                "name": "sleep-talk",
+                "pp": 10
+              },
+              {
+                "name": "facade",
+                "pp": 20
+              },
+              {
+                "name": "tailwind",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 100,
+            "hp": 101,
+            "maxHp": 101,
+            "volatileStatuses": {},
+            "held": "bright_powder",
+            "originalHeld": "bright_powder",
+            "moves": [
+              {
+                "name": "gyro-ball",
+                "pp": 5
+              },
+              {
+                "name": "flash",
+                "pp": 20
+              },
+              {
+                "name": "headbutt",
+                "pp": 15
+              },
+              {
+                "name": "double-edge",
+                "pp": 15
+              }
+            ]
+          }
+        ],
+        "text": "0\nBP\n1/7\n轮次\n0\n连胜\n尼多娜\n♀\nLV.50\n毒\nHP\n100%\n凯西\n♂\nLV.50\n超能\nHP\n86/86\n战斗日志\nFCT-01\n\n对手 派出了 尼多娜！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n大晴天\n火\n威力 --\n命中 --\nPP 5/5\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n雷电拳\n电\n威力 75\n命中 100\nPP 15/15\n守住\n一般\n威力 --\n命中 --\nPP 10/10\nDEV"
+      }
+    },
+    {
+      "name": "stage1-after-move",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "status": "READY",
+        "stage": 1,
+        "result": null,
+        "wallet": 0,
+        "supply": {
+          "runId": "run:62f6475b-ae6a-425d-94e5-339ab96d3fab",
+          "tickets": 0,
+          "lastCreditedStage": 0
+        },
+        "player": [
+          {
+            "id": 63,
+            "hp": 86,
+            "maxHp": 86,
+            "volatileStatuses": {},
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "sunny-day",
+                "pp": 5
+              },
+              {
+                "name": "fire-punch",
+                "pp": 15
+              },
+              {
+                "name": "thunder-punch",
+                "pp": 15
+              },
+              {
+                "name": "protect",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 41,
+            "hp": 102,
+            "maxHp": 102,
+            "volatileStatuses": {},
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "hidden-power",
+                "pp": 15
+              },
+              {
+                "name": "thief",
+                "pp": 25
+              },
+              {
+                "name": "mimic",
+                "pp": 10
+              },
+              {
+                "name": "sunny-day",
+                "pp": 5
+              }
+            ]
+          },
+          {
+            "id": 56,
+            "hp": 102,
+            "maxHp": 102,
+            "volatileStatuses": {},
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "retaliate",
+                "pp": 5
+              },
+              {
+                "name": "karate-chop",
+                "pp": 25
+              },
+              {
+                "name": "dynamic-punch",
+                "pp": 5
+              },
+              {
+                "name": "submission",
+                "pp": 20
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 30,
+            "hp": 131,
+            "maxHp": 131,
+            "volatileStatuses": {},
+            "held": "focus-band",
+            "originalHeld": "focus-band",
+            "moves": [
+              {
+                "name": "double-kick",
+                "pp": 30
+              },
+              {
+                "name": "bite",
+                "pp": 25
+              },
+              {
+                "name": "aerial-ace",
+                "pp": 20
+              },
+              {
+                "name": "flatter",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "hp": 91,
+            "maxHp": 91,
+            "volatileStatuses": {},
+            "held": "sitrus-berry",
+            "originalHeld": "sitrus-berry",
+            "moves": [
+              {
+                "name": "mega-drain",
+                "pp": 15
+              },
+              {
+                "name": "ancient-power",
+                "pp": 5
+              },
+              {
+                "name": "sand-attack",
+                "pp": 15
+              },
+              {
+                "name": "protect",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 120,
+            "hp": 91,
+            "maxHp": 91,
+            "volatileStatuses": {},
+            "held": "shell-bell",
+            "originalHeld": "shell-bell",
+            "moves": [
+              {
+                "name": "bubble-beam",
+                "pp": 20
+              },
+              {
+                "name": "minimize",
+                "pp": 10
+              },
+              {
+                "name": "swift",
+                "pp": 20
+              },
+              {
+                "name": "light-screen",
+                "pp": 30
+              }
+            ]
+          }
+        ],
+        "rentals": [
+          {
+            "id": 63,
+            "hp": 86,
+            "maxHp": 86,
+            "volatileStatuses": {},
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "sunny-day",
+                "pp": 5
+              },
+              {
+                "name": "fire-punch",
+                "pp": 15
+              },
+              {
+                "name": "thunder-punch",
+                "pp": 15
+              },
+              {
+                "name": "protect",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 41,
+            "hp": 102,
+            "maxHp": 102,
+            "volatileStatuses": {},
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "hidden-power",
+                "pp": 15
+              },
+              {
+                "name": "thief",
+                "pp": 25
+              },
+              {
+                "name": "mimic",
+                "pp": 10
+              },
+              {
+                "name": "sunny-day",
+                "pp": 5
+              }
+            ]
+          },
+          {
+            "id": 56,
+            "hp": 102,
+            "maxHp": 102,
+            "volatileStatuses": {},
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "retaliate",
+                "pp": 5
+              },
+              {
+                "name": "karate-chop",
+                "pp": 25
+              },
+              {
+                "name": "dynamic-punch",
+                "pp": 5
+              },
+              {
+                "name": "submission",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 19,
+            "hp": 91,
+            "maxHp": 91,
+            "volatileStatuses": {},
+            "held": "white_herb",
+            "originalHeld": "white_herb",
+            "moves": [
+              {
+                "name": "super-fang",
+                "pp": 10
+              },
+              {
+                "name": "counter",
+                "pp": 20
+              },
+              {
+                "name": "skull-bash",
+                "pp": 10
+              },
+              {
+                "name": "attract",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 16,
+            "hp": 102,
+            "maxHp": 102,
+            "volatileStatuses": {},
+            "held": "quick_claw",
+            "originalHeld": "quick_claw",
+            "moves": [
+              {
+                "name": "ominous-wind",
+                "pp": 5
+              },
+              {
+                "name": "sleep-talk",
+                "pp": 10
+              },
+              {
+                "name": "facade",
+                "pp": 20
+              },
+              {
+                "name": "tailwind",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 100,
+            "hp": 101,
+            "maxHp": 101,
+            "volatileStatuses": {},
+            "held": "bright_powder",
+            "originalHeld": "bright_powder",
+            "moves": [
+              {
+                "name": "gyro-ball",
+                "pp": 5
+              },
+              {
+                "name": "flash",
+                "pp": 20
+              },
+              {
+                "name": "headbutt",
+                "pp": 15
+              },
+              {
+                "name": "double-edge",
+                "pp": 15
+              }
+            ]
+          }
+        ],
+        "text": "0\nBP\n1/7\n轮次\n0\n连胜\n尼多娜\n♀\nLV.50\n毒\nHP\n100%\n凯西\n♂\nLV.50\n超能\nHP\n86/86\n战斗日志\nFCT-01\n\n凯西 使用了 大晴天！\n\n对手的 尼多娜 使用了 吹捧！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n大晴天\n火\n威力 --\n命中 --\nPP 4/5\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n雷电拳\n电\n威力 75\n命中 100\nPP 15/15\n守住\n一般\n威力 --\n命中 --\nPP 10/10\nDEV"
+      }
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "httpErrors": [],
+  "picked": [
+    0,
+    1,
+    2
+  ],
+  "chosenMove": "sunny-day",
+  "failure": "TimeoutError: page.waitForFunction: Timeout 30000ms exceeded.",
+  "lastText": "0\nBP\n1/7\n轮次\n0\n连胜\n尼多娜\n♀\nLV.50\n毒\nHP\n100%\n凯西\n♂\nLV.50\n超能\n混乱\nHP\n86/86\n战斗日志\nFCT-01\n\n凯西陷入了混乱状态！\n\n凯西通过剩饭恢复了体力！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n大晴天\n火\n威力 --\n命中 --\nPP 4/5\n火焰拳\n火\n威力 75\n命中 100\nPP 15/15\n雷电拳\n电\n威力 75\n命中 100\nPP 15/15\n守住\n一般\n威力 --\n命中 --\nPP 10/10\nHIDE\nDEVELOPER\nBATTLE\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nsunny 5\nOPEN\nCLEAR\n\nF: none\n\nS 1\nC 0\nSP OFF"
+}

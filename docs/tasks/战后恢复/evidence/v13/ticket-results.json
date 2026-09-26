@@ -1,0 +1,564 @@
+{
+  "origin": "127.0.0.157",
+  "steps": [
+    {
+      "name": "stage1-ready",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 1,
+        "roundResult": null,
+        "wallet": 0,
+        "runSupply": {
+          "runId": "run:6e62b23a-c7cd-42d8-a16f-517ef5926871",
+          "tickets": 0,
+          "lastCreditedStage": 0
+        },
+        "player": [
+          {
+            "id": 111,
+            "hp": 140,
+            "maxHp": 140,
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "blizzard",
+                "pp": 5
+              },
+              {
+                "name": "rock-climb",
+                "pp": 20
+              },
+              {
+                "name": "giga-impact",
+                "pp": 5
+              },
+              {
+                "name": "drill-run",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "hp": 151,
+            "maxHp": 151,
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "cut",
+                "pp": 30
+              },
+              {
+                "name": "shock-wave",
+                "pp": 20
+              },
+              {
+                "name": "dragon-tail",
+                "pp": 10
+              },
+              {
+                "name": "secret-power",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "hp": 87,
+            "maxHp": 87,
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "swift",
+                "pp": 20
+              },
+              {
+                "name": "tackle",
+                "pp": 35
+              },
+              {
+                "name": "headbutt",
+                "pp": 15
+              },
+              {
+                "name": "thunder-shock",
+                "pp": 30
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n超能\nHP\n100%\n独角犀牛\n♀\nLV.50\n地面\n岩石\nHP\n140/140\n战斗日志\nFCT-01\n\n对手 派出了 勇基拉！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n暴风雪\n冰\n威力 110\n命中 70\nPP 5/5\n攀岩\n一般\n威力 90\n命中 85\nPP 20/20\n终极冲击\n一般\n威力 150\n命中 90\nPP 5/5\n直冲钻\n地面\n威力 80\n命中 95\nPP 10/10\nDEV"
+      }
+    },
+    {
+      "name": "result",
+      "state": {
+        "schema": 13,
+        "phase": "ROUND_RESULT",
+        "stage": 1,
+        "roundResult": "WIN",
+        "wallet": 0,
+        "runSupply": {
+          "runId": "run:6e62b23a-c7cd-42d8-a16f-517ef5926871",
+          "tickets": 1,
+          "lastCreditedStage": 1
+        },
+        "player": [
+          {
+            "id": 111,
+            "hp": 140,
+            "maxHp": 140,
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "blizzard",
+                "pp": 5
+              },
+              {
+                "name": "rock-climb",
+                "pp": 20
+              },
+              {
+                "name": "giga-impact",
+                "pp": 5
+              },
+              {
+                "name": "drill-run",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "hp": 151,
+            "maxHp": 151,
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "cut",
+                "pp": 30
+              },
+              {
+                "name": "shock-wave",
+                "pp": 20
+              },
+              {
+                "name": "dragon-tail",
+                "pp": 10
+              },
+              {
+                "name": "secret-power",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "hp": 87,
+            "maxHp": 87,
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "swift",
+                "pp": 20
+              },
+              {
+                "name": "tackle",
+                "pp": 35
+              },
+              {
+                "name": "headbutt",
+                "pp": 15
+              },
+              {
+                "name": "thunder-shock",
+                "pp": 30
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n0\nBP\n1/7\n轮次\n0\n连胜\n勇基拉\n♂\nLV.50\n超能\nHP\n100%\n独角犀牛\n♀\nLV.50\n地面\n岩石\nHP\n140/140\n战斗日志\nFCT-01\n\n对手 派出了 勇基拉！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n暴风雪\n冰\n威力 110\n命中 70\nPP 5/5\n攀岩\n一般\n威力 90\n命中 85\nPP 20/20\n终极冲击\n一般\n威力 150\n命中 90\nPP 5/5\n直冲钻\n地面\n威力 80\n命中 95\nPP 10/10\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 1\nC 0\nSP OFF"
+      }
+    },
+    {
+      "name": "result-reload",
+      "state": {
+        "schema": 13,
+        "phase": "ROUND_RESULT",
+        "stage": 1,
+        "roundResult": "WIN",
+        "wallet": 0,
+        "runSupply": {
+          "runId": "run:6e62b23a-c7cd-42d8-a16f-517ef5926871",
+          "tickets": 1,
+          "lastCreditedStage": 1
+        },
+        "player": [
+          {
+            "id": 111,
+            "hp": 140,
+            "maxHp": 140,
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "blizzard",
+                "pp": 5
+              },
+              {
+                "name": "rock-climb",
+                "pp": 20
+              },
+              {
+                "name": "giga-impact",
+                "pp": 5
+              },
+              {
+                "name": "drill-run",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "hp": 151,
+            "maxHp": 151,
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "cut",
+                "pp": 30
+              },
+              {
+                "name": "shock-wave",
+                "pp": 20
+              },
+              {
+                "name": "dragon-tail",
+                "pp": 10
+              },
+              {
+                "name": "secret-power",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "hp": 87,
+            "maxHp": 87,
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "swift",
+                "pp": 20
+              },
+              {
+                "name": "tackle",
+                "pp": 35
+              },
+              {
+                "name": "headbutt",
+                "pp": 15
+              },
+              {
+                "name": "thunder-shock",
+                "pp": 30
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n本局补给券：1\n对手信息\n敌方 AI 档位: RANDOM\nTYLER / PKMN_RANGER_M\n前往换怪\nDEV"
+      }
+    },
+    {
+      "name": "swap",
+      "state": {
+        "schema": 13,
+        "phase": "FACTORY_SWAP",
+        "stage": 1,
+        "roundResult": "WIN",
+        "wallet": 0,
+        "runSupply": {
+          "runId": "run:6e62b23a-c7cd-42d8-a16f-517ef5926871",
+          "tickets": 1,
+          "lastCreditedStage": 1
+        },
+        "player": [
+          {
+            "id": 111,
+            "hp": 140,
+            "maxHp": 140,
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "blizzard",
+                "pp": 5
+              },
+              {
+                "name": "rock-climb",
+                "pp": 20
+              },
+              {
+                "name": "giga-impact",
+                "pp": 5
+              },
+              {
+                "name": "drill-run",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "hp": 151,
+            "maxHp": 151,
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "cut",
+                "pp": 30
+              },
+              {
+                "name": "shock-wave",
+                "pp": 20
+              },
+              {
+                "name": "dragon-tail",
+                "pp": 10
+              },
+              {
+                "name": "secret-power",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "hp": 87,
+            "maxHp": 87,
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "swift",
+                "pp": 20
+              },
+              {
+                "name": "tackle",
+                "pp": 35
+              },
+              {
+                "name": "headbutt",
+                "pp": 15
+              },
+              {
+                "name": "thunder-shock",
+                "pp": 30
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n本局补给券：1\n对手信息\n敌方 AI 档位: RANDOM\nTYLER / PKMN_RANGER_M\n前往换怪\nDEV"
+      }
+    },
+    {
+      "name": "swap-reload",
+      "state": {
+        "schema": 13,
+        "phase": "FACTORY_SWAP",
+        "stage": 1,
+        "roundResult": "WIN",
+        "wallet": 0,
+        "runSupply": {
+          "runId": "run:6e62b23a-c7cd-42d8-a16f-517ef5926871",
+          "tickets": 1,
+          "lastCreditedStage": 1
+        },
+        "player": [
+          {
+            "id": 111,
+            "hp": 140,
+            "maxHp": 140,
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "blizzard",
+                "pp": 5
+              },
+              {
+                "name": "rock-climb",
+                "pp": 20
+              },
+              {
+                "name": "giga-impact",
+                "pp": 5
+              },
+              {
+                "name": "drill-run",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "hp": 151,
+            "maxHp": 151,
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "cut",
+                "pp": 30
+              },
+              {
+                "name": "shock-wave",
+                "pp": 20
+              },
+              {
+                "name": "dragon-tail",
+                "pp": 10
+              },
+              {
+                "name": "secret-power",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "hp": 87,
+            "maxHp": 87,
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "swift",
+                "pp": 20
+              },
+              {
+                "name": "tackle",
+                "pp": 35
+              },
+              {
+                "name": "headbutt",
+                "pp": 15
+              },
+              {
+                "name": "thunder-shock",
+                "pp": 30
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n1/7\n轮次\n1\n连胜\n\nLoading...\n\n100%\n\n精灵球擦亮完毕，对战灯光就绪。\n\nDEV"
+      }
+    },
+    {
+      "name": "stage2-ready",
+      "state": {
+        "schema": 13,
+        "phase": "BATTLE",
+        "stage": 2,
+        "roundResult": null,
+        "wallet": 0,
+        "runSupply": {
+          "runId": "run:6e62b23a-c7cd-42d8-a16f-517ef5926871",
+          "tickets": 1,
+          "lastCreditedStage": 1
+        },
+        "player": [
+          {
+            "id": 111,
+            "hp": 140,
+            "maxHp": 140,
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "blizzard",
+                "pp": 5
+              },
+              {
+                "name": "rock-climb",
+                "pp": 20
+              },
+              {
+                "name": "giga-impact",
+                "pp": 5
+              },
+              {
+                "name": "drill-run",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 108,
+            "hp": 151,
+            "maxHp": 151,
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "cut",
+                "pp": 30
+              },
+              {
+                "name": "shock-wave",
+                "pp": 20
+              },
+              {
+                "name": "dragon-tail",
+                "pp": 10
+              },
+              {
+                "name": "secret-power",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 81,
+            "hp": 87,
+            "maxHp": 87,
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "swift",
+                "pp": 20
+              },
+              {
+                "name": "tackle",
+                "pp": 35
+              },
+              {
+                "name": "headbutt",
+                "pp": 15
+              },
+              {
+                "name": "thunder-shock",
+                "pp": 30
+              }
+            ]
+          }
+        ],
+        "body": "0\nBP\n2/7\n轮次\n1\n连胜\n妙蛙草\n♂\nLV.50\n草\n毒\nHP\n100%\n独角犀牛\n♀\nLV.50\n地面\n岩石\nHP\n140/140\n战斗日志\nFCT-01\n\n对手 派出了 妙蛙草！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n暴风雪\n冰\n威力 110\n命中 70\nPP 5/5\n攀岩\n一般\n威力 90\n命中 85\nPP 20/20\n终极冲击\n一般\n威力 150\n命中 90\nPP 5/5\n直冲钻\n地面\n威力 80\n命中 95\nPP 10/10\nDEV"
+      }
+    }
+  ],
+  "errors": []
+}

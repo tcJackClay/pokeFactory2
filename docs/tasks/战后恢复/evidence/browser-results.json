@@ -1,0 +1,686 @@
+{
+  "origin": "127.0.0.151",
+  "commit": "ef55156",
+  "steps": [
+    {
+      "name": "rental-v12",
+      "state": {
+        "schema": 12,
+        "status": "EMPTY",
+        "wallet": 0,
+        "text": "0\nBP\n0/7\n轮次\n0\n连胜\n水\n角金鱼\n地面\n岩石\n独角犀牛\n岩石\n水\n化石盔\n龙\n迷你龙\n毒\n尼多兰\n水\n小海狮\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)\nDEV"
+      }
+    },
+    {
+      "name": "stage1-ready",
+      "state": {
+        "schema": 12,
+        "phase": "BATTLE",
+        "status": "READY",
+        "stage": 1,
+        "result": null,
+        "wallet": 0,
+        "player": [
+          {
+            "id": 118,
+            "hp": 105,
+            "maxHp": 105,
+            "volatileStatuses": {},
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "ice-beam",
+                "pp": 10
+              },
+              {
+                "name": "frustration",
+                "pp": 20
+              },
+              {
+                "name": "scale-shot",
+                "pp": 20
+              },
+              {
+                "name": "fury-cutter",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 111,
+            "hp": 141,
+            "maxHp": 141,
+            "volatileStatuses": {},
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "rototiller",
+                "pp": 10
+              },
+              {
+                "name": "strength",
+                "pp": 15
+              },
+              {
+                "name": "blizzard",
+                "pp": 5
+              },
+              {
+                "name": "roar",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "hp": 90,
+            "maxHp": 90,
+            "volatileStatuses": {},
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "sandstorm",
+                "pp": 10
+              },
+              {
+                "name": "natural-gift",
+                "pp": 15
+              },
+              {
+                "name": "whirlpool",
+                "pp": 15
+              },
+              {
+                "name": "blizzard",
+                "pp": 5
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 95,
+            "hp": 96,
+            "maxHp": 96,
+            "volatileStatuses": {},
+            "held": "sitrus-berry",
+            "originalHeld": "sitrus-berry",
+            "moves": [
+              {
+                "name": "rock-slide",
+                "pp": 10
+              },
+              {
+                "name": "bind",
+                "pp": 20
+              },
+              {
+                "name": "dragon-breath",
+                "pp": 20
+              },
+              {
+                "name": "sandstorm",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 17,
+            "hp": 124,
+            "maxHp": 124,
+            "volatileStatuses": {},
+            "held": "white-herb",
+            "originalHeld": "white-herb",
+            "moves": [
+              {
+                "name": "aerial-ace",
+                "pp": 20
+              },
+              {
+                "name": "quick-attack",
+                "pp": 30
+              },
+              {
+                "name": "feather-dance",
+                "pp": 15
+              },
+              {
+                "name": "sand-attack",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 83,
+            "hp": 113,
+            "maxHp": 113,
+            "volatileStatuses": {},
+            "held": "leek",
+            "originalHeld": "leek",
+            "moves": [
+              {
+                "name": "slash",
+                "pp": 20
+              },
+              {
+                "name": "knock-off",
+                "pp": 20
+              },
+              {
+                "name": "swords-dance",
+                "pp": 20
+              },
+              {
+                "name": "agility",
+                "pp": 30
+              }
+            ]
+          }
+        ],
+        "rentals": [
+          {
+            "id": 118,
+            "hp": 105,
+            "maxHp": 105,
+            "volatileStatuses": {},
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "ice-beam",
+                "pp": 10
+              },
+              {
+                "name": "frustration",
+                "pp": 20
+              },
+              {
+                "name": "scale-shot",
+                "pp": 20
+              },
+              {
+                "name": "fury-cutter",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 111,
+            "hp": 141,
+            "maxHp": 141,
+            "volatileStatuses": {},
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "rototiller",
+                "pp": 10
+              },
+              {
+                "name": "strength",
+                "pp": 15
+              },
+              {
+                "name": "blizzard",
+                "pp": 5
+              },
+              {
+                "name": "roar",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "hp": 90,
+            "maxHp": 90,
+            "volatileStatuses": {},
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "sandstorm",
+                "pp": 10
+              },
+              {
+                "name": "natural-gift",
+                "pp": 15
+              },
+              {
+                "name": "whirlpool",
+                "pp": 15
+              },
+              {
+                "name": "blizzard",
+                "pp": 5
+              }
+            ]
+          },
+          {
+            "id": 147,
+            "hp": 101,
+            "maxHp": 101,
+            "volatileStatuses": {},
+            "held": "white_herb",
+            "originalHeld": "white_herb",
+            "moves": [
+              {
+                "name": "light-screen",
+                "pp": 30
+              },
+              {
+                "name": "icy-wind",
+                "pp": 15
+              },
+              {
+                "name": "bubble-beam",
+                "pp": 20
+              },
+              {
+                "name": "mimic",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 29,
+            "hp": 116,
+            "maxHp": 116,
+            "volatileStatuses": {},
+            "held": "quick_claw",
+            "originalHeld": "quick_claw",
+            "moves": [
+              {
+                "name": "crunch",
+                "pp": 15
+              },
+              {
+                "name": "endure",
+                "pp": 10
+              },
+              {
+                "name": "secret-power",
+                "pp": 20
+              },
+              {
+                "name": "scratch",
+                "pp": 35
+              }
+            ]
+          },
+          {
+            "id": 86,
+            "hp": 125,
+            "maxHp": 125,
+            "volatileStatuses": {},
+            "held": "bright_powder",
+            "originalHeld": "bright_powder",
+            "moves": [
+              {
+                "name": "pay-day",
+                "pp": 20
+              },
+              {
+                "name": "bide",
+                "pp": 10
+              },
+              {
+                "name": "avalanche",
+                "pp": 10
+              },
+              {
+                "name": "facade",
+                "pp": 20
+              }
+            ]
+          }
+        ],
+        "text": "0\nBP\n1/7\n轮次\n0\n连胜\n大岩蛇\n♂\nLV.50\n岩石\n地面\nHP\n100%\n角金鱼\n♂\nLV.50\n水\nHP\n105/105\n战斗日志\nFCT-01\n\n对手 派出了 大岩蛇！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n冰冻光束\n冰\n威力 90\n命中 100\nPP 10/10\n迁怒\n一般\n威力 --\n命中 100\nPP 20/20\n鳞射\n龙\n威力 25\n命中 90\nPP 20/20\n连斩\n虫\n威力 40\n命中 95\nPP 20/20\nDEV"
+      }
+    },
+    {
+      "name": "stage1-after-move",
+      "state": {
+        "schema": 12,
+        "phase": "BATTLE",
+        "status": "READY",
+        "stage": 1,
+        "result": null,
+        "wallet": 0,
+        "player": [
+          {
+            "id": 118,
+            "hp": 105,
+            "maxHp": 105,
+            "volatileStatuses": {},
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "ice-beam",
+                "pp": 10
+              },
+              {
+                "name": "frustration",
+                "pp": 20
+              },
+              {
+                "name": "scale-shot",
+                "pp": 20
+              },
+              {
+                "name": "fury-cutter",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 111,
+            "hp": 141,
+            "maxHp": 141,
+            "volatileStatuses": {},
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "rototiller",
+                "pp": 10
+              },
+              {
+                "name": "strength",
+                "pp": 15
+              },
+              {
+                "name": "blizzard",
+                "pp": 5
+              },
+              {
+                "name": "roar",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "hp": 90,
+            "maxHp": 90,
+            "volatileStatuses": {},
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "sandstorm",
+                "pp": 10
+              },
+              {
+                "name": "natural-gift",
+                "pp": 15
+              },
+              {
+                "name": "whirlpool",
+                "pp": 15
+              },
+              {
+                "name": "blizzard",
+                "pp": 5
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 95,
+            "hp": 96,
+            "maxHp": 96,
+            "volatileStatuses": {},
+            "held": "sitrus-berry",
+            "originalHeld": "sitrus-berry",
+            "moves": [
+              {
+                "name": "rock-slide",
+                "pp": 10
+              },
+              {
+                "name": "bind",
+                "pp": 20
+              },
+              {
+                "name": "dragon-breath",
+                "pp": 20
+              },
+              {
+                "name": "sandstorm",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 17,
+            "hp": 124,
+            "maxHp": 124,
+            "volatileStatuses": {},
+            "held": "white-herb",
+            "originalHeld": "white-herb",
+            "moves": [
+              {
+                "name": "aerial-ace",
+                "pp": 20
+              },
+              {
+                "name": "quick-attack",
+                "pp": 30
+              },
+              {
+                "name": "feather-dance",
+                "pp": 15
+              },
+              {
+                "name": "sand-attack",
+                "pp": 15
+              }
+            ]
+          },
+          {
+            "id": 83,
+            "hp": 113,
+            "maxHp": 113,
+            "volatileStatuses": {},
+            "held": "leek",
+            "originalHeld": "leek",
+            "moves": [
+              {
+                "name": "slash",
+                "pp": 20
+              },
+              {
+                "name": "knock-off",
+                "pp": 20
+              },
+              {
+                "name": "swords-dance",
+                "pp": 20
+              },
+              {
+                "name": "agility",
+                "pp": 30
+              }
+            ]
+          }
+        ],
+        "rentals": [
+          {
+            "id": 118,
+            "hp": 105,
+            "maxHp": 105,
+            "volatileStatuses": {},
+            "held": "leftovers",
+            "originalHeld": "leftovers",
+            "moves": [
+              {
+                "name": "ice-beam",
+                "pp": 10
+              },
+              {
+                "name": "frustration",
+                "pp": 20
+              },
+              {
+                "name": "scale-shot",
+                "pp": 20
+              },
+              {
+                "name": "fury-cutter",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 111,
+            "hp": 141,
+            "maxHp": 141,
+            "volatileStatuses": {},
+            "held": "choice_band",
+            "originalHeld": "choice_band",
+            "moves": [
+              {
+                "name": "rototiller",
+                "pp": 10
+              },
+              {
+                "name": "strength",
+                "pp": 15
+              },
+              {
+                "name": "blizzard",
+                "pp": 5
+              },
+              {
+                "name": "roar",
+                "pp": 20
+              }
+            ]
+          },
+          {
+            "id": 140,
+            "hp": 90,
+            "maxHp": 90,
+            "volatileStatuses": {},
+            "held": "scope_lens",
+            "originalHeld": "scope_lens",
+            "moves": [
+              {
+                "name": "sandstorm",
+                "pp": 10
+              },
+              {
+                "name": "natural-gift",
+                "pp": 15
+              },
+              {
+                "name": "whirlpool",
+                "pp": 15
+              },
+              {
+                "name": "blizzard",
+                "pp": 5
+              }
+            ]
+          },
+          {
+            "id": 147,
+            "hp": 101,
+            "maxHp": 101,
+            "volatileStatuses": {},
+            "held": "white_herb",
+            "originalHeld": "white_herb",
+            "moves": [
+              {
+                "name": "light-screen",
+                "pp": 30
+              },
+              {
+                "name": "icy-wind",
+                "pp": 15
+              },
+              {
+                "name": "bubble-beam",
+                "pp": 20
+              },
+              {
+                "name": "mimic",
+                "pp": 10
+              }
+            ]
+          },
+          {
+            "id": 29,
+            "hp": 116,
+            "maxHp": 116,
+            "volatileStatuses": {},
+            "held": "quick_claw",
+            "originalHeld": "quick_claw",
+            "moves": [
+              {
+                "name": "crunch",
+                "pp": 15
+              },
+              {
+                "name": "endure",
+                "pp": 10
+              },
+              {
+                "name": "secret-power",
+                "pp": 20
+              },
+              {
+                "name": "scratch",
+                "pp": 35
+              }
+            ]
+          },
+          {
+            "id": 86,
+            "hp": 125,
+            "maxHp": 125,
+            "volatileStatuses": {},
+            "held": "bright_powder",
+            "originalHeld": "bright_powder",
+            "moves": [
+              {
+                "name": "pay-day",
+                "pp": 20
+              },
+              {
+                "name": "bide",
+                "pp": 10
+              },
+              {
+                "name": "avalanche",
+                "pp": 10
+              },
+              {
+                "name": "facade",
+                "pp": 20
+              }
+            ]
+          }
+        ],
+        "text": "0\nBP\n1/7\n轮次\n0\n连胜\n大岩蛇\n♂\nLV.50\n岩石\n地面\nHP\n100%\n角金鱼\n♂\nLV.50\n水\nHP\n105/105\n战斗日志\nFCT-01\n\n对手的 大岩蛇 使用了 沙暴！\n\n角金鱼 使用了 冰冻光束！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n冰冻光束\n冰\n威力 90\n命中 100\nPP 10/10\n迁怒\n一般\n威力 --\n命中 100\nPP 20/20\n鳞射\n龙\n威力 25\n命中 90\nPP 20/20\n连斩\n虫\n威力 40\n命中 95\nPP 20/20\nDEV"
+      }
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "httpErrors": [],
+  "picked": [
+    0,
+    1,
+    2
+  ],
+  "chosenMove": "ice-beam",
+  "failure": "TimeoutError: page.waitForFunction: Timeout 30000ms exceeded.",
+  "lastText": "0\nBP\n1/7\n轮次\n0\n连胜\n大岩蛇\n♂\nLV.50\n岩石\n地面\nHP\n56%\n角金鱼\n♂\nLV.50\n水\nHP\n67/105\n战斗日志\nFCT-01\n\n角金鱼受到了沙暴的伤害！\n\n角金鱼通过剩饭恢复了体力！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n冰冻光束\n冰\n威力 90\n命中 100\nPP 9/10\n迁怒\n一般\n威力 --\n命中 100\nPP 20/20\n鳞射\n龙\n威力 25\n命中 90\nPP 20/20\n连斩\n虫\n威力 40\n命中 95\nPP 20/20\nHIDE\nDEVELOPER\nBATTLE\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nsandstorm 5\nOPEN\nCLEAR\n\nF: none\n\nS 1\nC 0\nSP OFF"
+}

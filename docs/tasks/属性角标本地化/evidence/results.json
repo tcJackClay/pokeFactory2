@@ -1,0 +1,1725 @@
+{
+  "commit": "ef55156",
+  "samples": [
+    {
+      "language": "en",
+      "host": 148,
+      "origin": "http://127.0.0.148:4300/",
+      "steps": [
+        {
+          "name": "after-confirm",
+          "language": "en",
+          "enemyTypes": [],
+          "playerTypes": [
+            "Water"
+          ],
+          "moveTypes": [
+            "Normal",
+            "Flying",
+            "Bug",
+            "Normal"
+          ],
+          "moveNames": [
+            "DisableNormalPow --Acc 100PP 20/20",
+            "PeckFlyingPow 35Acc 100PP 35/35",
+            "MegahornBugPow 120Acc 85PP 10/10",
+            "ProtectNormalPow --Acc --PP 10/10"
+          ],
+          "bodyTail": "0\nBP\n1/7\nRound\n0\nStreak\nSeel\n♀\nLV.50\nWATER\nHP\n127/127\nBATTLE LOG\nFCT-01\n\nAwaiting battle command.\n\nBATTLE\nSTATUS\nBAG\nPOKEMON\nRUN\nDisable\nNORMAL\nPow --\nAcc 100\nPP 20/20\nPeck\nFLYING\nPow 35\nAcc 100\nPP 35/35\nMegahorn\nBUG\nPow 120\nAcc 85\nPP 10/10\nProtect\nNORMAL\nPow --\nAcc --\nPP 10/10"
+        },
+        {
+          "name": "390x844",
+          "language": "en",
+          "phase": "BATTLE",
+          "enemyTypes": [
+            "Dragon"
+          ],
+          "playerTypes": [
+            "Water"
+          ],
+          "moveTypes": [
+            "Normal",
+            "Flying",
+            "Bug",
+            "Normal"
+          ],
+          "moveNames": [
+            "DisableNormalPow --Acc 100PP 20/20",
+            "PeckFlyingPow 35Acc 100PP 35/35",
+            "MegahornBugPow 120Acc 85PP 10/10",
+            "ProtectNormalPow --Acc --PP 10/10"
+          ],
+          "bodyTail": "0\nBP\n1/7\nRound\n0\nStreak\nDragonair\n♂\nLV.50\nDRAGON\nHP\n100%\nSeel\n♀\nLV.50\nWATER\nHP\n127/127\nBATTLE LOG\nFCT-01\n\nOpponent sent out Dragonair!\n\nBATTLE\nSTATUS\nBAG\nPOKEMON\nRUN\nDisable\nNORMAL\nPow --\nAcc 100\nPP 20/20\nPeck\nFLYING\nPow 35\nAcc 100\nPP 35/35\nMegahorn\nBUG\nPow 120\nAcc 85\nPP 10/10\nProtect\nNORMAL\nPow --\nAcc --\nPP 10/10"
+        },
+        {
+          "name": "844x390",
+          "language": "en",
+          "phase": "BATTLE",
+          "enemyTypes": [
+            "Dragon"
+          ],
+          "playerTypes": [
+            "Water"
+          ],
+          "moveTypes": [
+            "Normal",
+            "Flying",
+            "Bug",
+            "Normal"
+          ],
+          "moveNames": [
+            "DisableNormalPow --Acc 100PP 20/20",
+            "PeckFlyingPow 35Acc 100PP 35/35",
+            "MegahornBugPow 120Acc 85PP 10/10",
+            "ProtectNormalPow --Acc --PP 10/10"
+          ],
+          "bodyTail": "0\nBP\n1/7\nRound\n0\nStreak\nDragonair\n♂\nLV.50\nDRAGON\nHP\n100%\nSeel\n♀\nLV.50\nWATER\nHP\n127/127\nBATTLE LOG\nFCT-01\n\nOpponent sent out Dragonair!\n\nBATTLE\nSTATUS\nBAG\nPOKEMON\nRUN\nDisable\nPow --\nAcc 100\nPP 20/20\nPeck\nPow 35\nAcc 100\nPP 35/35\nMegahorn\nPow 120\nAcc 85\nPP 10/10\nProtect\nPow --\nAcc --\nPP 10/10"
+        }
+      ],
+      "pageErrors": [],
+      "httpErrors": [],
+      "hmr": [],
+      "console": [
+        {
+          "type": "debug",
+          "text": "[vite] connecting..."
+        },
+        {
+          "type": "debug",
+          "text": "[vite] connected."
+        },
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-prefetch-start {generation: 1}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] boot-prefetch-start {}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: index, store: UNKNOWN, status: 200, durationMs: 18.2, contentLengthHeaderBytes: 103088}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] species-index {durationMs: 34.7, ready: true}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:buildFactoryPool:start] {count: 6, level: 50, selectionMode: GLOBAL_RANDOM, trainerLabel: undefined, trainerReferenceSetCount: 0}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 163.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 254.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 309.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 478.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 278.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 273.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 290.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 416.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 439.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 1, attempts: 2, durationMs: 1983.7, detailsMs: 1982.8, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 316.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 5.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 6.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 6.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 6.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 161.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 162.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 167.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 205.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 2, attempts: 6, durationMs: 616.9, detailsMs: 616.6, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 165.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 59.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 6.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 7.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 10.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 15.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 17.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 18.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 26.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 3, attempts: 1, durationMs: 358.6, detailsMs: 358.6, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 8.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 19.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 8.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 14.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 6.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 208.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 210.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 230, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 231.1, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 4, attempts: 2, durationMs: 357.6, detailsMs: 357.5, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] start-clicked {}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 387.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 256.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 318.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 399.1, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 402.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 403.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 5, attempts: 2, durationMs: 1119.1, detailsMs: 1118.9, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 303.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 5.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 8.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 13.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 14.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 14.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 196.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 6, attempts: 2, durationMs: 556.6, detailsMs: 556.4, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:buildFactoryPool:done] {count: 6, generated: 6, level: 50, selectionMode: GLOBAL_RANDOM, trainerLabel: undefined}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-prefetch-end {generation: 1, durationMs: 5035.9, ready: true}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:startGame:rentals-ready] {rentals: Array(6)}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:prefetchEnemy:request] {stage: 1, key: 1|50|0|0|1|86,140,74,109,92,138|, factoryPool: Array(6), playerPool: Array(0)}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] enemy-prefetch-start {stage: 1, generation: 1}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] six-cards-actionable {fromStartMs: 1500.5}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:generateEnemyEncounter:trainer] {stage: 1, setNo: 1, battleInSet: 1, challengeNum: 0, trainerId: FRONTIER_TRAINER_DAMIAN}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:buildFactoryPool:start] {count: 3, level: 50, selectionMode: TRAINER_POOL_FIRST, trainerLabel: FRONTIER_TRAINER_DAMIAN, trainerReferenceSetCount: 8}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: UPSTREAM, status: 200, durationMs: 1157.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] confirm-clicked {}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:spawnEnemy:start] {stage: 1, contextKey: 1|50|0|0|1|86,140,74,109,92,138|}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: UPSTREAM, status: 200, durationMs: 468.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 238.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 69, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 15.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 208.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 292.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 390.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 318.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 209, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 93.1, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 107.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 6.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 7.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 5.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 129.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 271.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 155.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 35.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 123.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 99.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:buildFactoryPool:done] {count: 3, generated: 3, level: 50, selectionMode: TRAINER_POOL_FIRST, trainerLabel: FRONTIER_TRAINER_DAMIAN}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:generateEnemyEncounter:result] {stage: 1, trainerId: FRONTIER_TRAINER_DAMIAN, speciesIds: Array(3), aiTier: RANDOM, isBoss: false}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:prefetchEnemy:stored] {stage: 1, key: 1|50|0|0|1|86,140,74,109,92,138|, trainerId: FRONTIER_TRAINER_DAMIAN, speciesIds: Array(3)}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] enemy-prefetch-end {stage: 1, generation: 1, durationMs: 4941.6, ready: true}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] enemy-consumed {source: awaited-prefetch}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:spawnEnemy:resolved] {stage: 1, contextKey: 1|50|0|0|1|86,140,74,109,92,138|, usedPrefetch: true, trainerId: FRONTIER_TRAINER_DAMIAN, speciesIds: Array(3)}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:spawnEnemy:trainer-intro] {stage: 1, trainerId: FRONTIER_TRAINER_DAMIAN, durationMs: 900}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] trainer-intro-end {durationMs: 1724.2}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:spawnEnemy:done] {stage: 1, success: true}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] first-command-actionable {fromConfirmMs: 6808.6}"
+        }
+      ],
+      "api": [
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/data/factory-species-index"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon/86/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon-species/86/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/47/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/other/official-artwork/25.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/other/official-artwork/175.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/other/official-artwork/133.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/other/official-artwork/921.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/other/official-artwork/447.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/93/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/115/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/disable/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/peck/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/protect/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/megahorn/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon/140/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon-species/140/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/33/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/4/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/133/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/brine/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/frustration/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/rock-tomb/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/leech-life/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon/74/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon-species/74/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/69/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/5/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/8/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/sleep-talk/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/mega-punch/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/flamethrower/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/harden/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon/109/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon-species/109/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/26/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/256/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/1/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/body-slam/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/scary-face/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/toxic-spikes/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/infestation/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon/92/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon-species/92/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/headbutt/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/captivate/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/ally-switch/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/trick/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon/138/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon-species/138/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/75/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/double-team/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/wring-out/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/scald/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/withdraw/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/109.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/74.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/140.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/86.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/138.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/92.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon/148/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/back/86.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon-species/148/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/61/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/63/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/thunder/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/horn-drill/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/wrap/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/waterfall/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon/64/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon-species/64/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/28/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/39/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/ability/98/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/signal-beam/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/attract/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/charge-beam/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/telekinesis/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon/147/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/pokemon-species/147/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/haze/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/dragon-breath/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi/move/snore/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/back/86.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.148:4300/api/pokeapi-sprites/pokemon/148.png"
+        }
+      ],
+      "failedRequests": []
+    },
+    {
+      "language": "zh-hans",
+      "host": 149,
+      "origin": "http://127.0.0.149:4300/",
+      "steps": [
+        {
+          "name": "after-confirm",
+          "language": "zh-hans",
+          "enemyTypes": [],
+          "playerTypes": [
+            "一般"
+          ],
+          "moveTypes": [
+            "恶",
+            "一般",
+            "一般",
+            "一般"
+          ],
+          "moveNames": [
+            "小偷恶威力 60命中 100PP 25/25",
+            "报恩一般威力 --命中 100PP 20/20",
+            "超音波一般威力 --命中 55PP 20/20",
+            "怪力一般威力 80命中 100PP 15/15"
+          ],
+          "bodyTail": "0\nBP\n1/7\n轮次\n0\n连胜\n大舌头\n♂\nLV.50\n一般\nHP\n152/152\n战斗日志\nFCT-01\n\n等待战斗指令。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n小偷\n恶\n威力 60\n命中 100\nPP 25/25\n报恩\n一般\n威力 --\n命中 100\nPP 20/20\n超音波\n一般\n威力 --\n命中 55\nPP 20/20\n怪力\n一般\n威力 80\n命中 100\nPP 15/15"
+        },
+        {
+          "name": "390x844",
+          "language": "zh-hans",
+          "phase": "BATTLE",
+          "enemyTypes": [
+            "毒"
+          ],
+          "playerTypes": [
+            "一般"
+          ],
+          "moveTypes": [
+            "恶",
+            "一般",
+            "一般",
+            "一般"
+          ],
+          "moveNames": [
+            "小偷恶威力 60命中 100PP 25/25",
+            "报恩一般威力 --命中 100PP 20/20",
+            "超音波一般威力 --命中 55PP 20/20",
+            "怪力一般威力 80命中 100PP 15/15"
+          ],
+          "bodyTail": "0\nBP\n1/7\n轮次\n0\n连胜\n尼多力诺\n♂\nLV.50\n毒\nHP\n100%\n大舌头\n♂\nLV.50\n一般\nHP\n152/152\n战斗日志\nFCT-01\n\n对手 派出了 尼多力诺！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n小偷\n恶\n威力 60\n命中 100\nPP 25/25\n报恩\n一般\n威力 --\n命中 100\nPP 20/20\n超音波\n一般\n威力 --\n命中 55\nPP 20/20\n怪力\n一般\n威力 80\n命中 100\nPP 15/15"
+        }
+      ],
+      "pageErrors": [],
+      "httpErrors": [],
+      "hmr": [],
+      "console": [
+        {
+          "type": "debug",
+          "text": "[vite] connecting..."
+        },
+        {
+          "type": "debug",
+          "text": "[vite] connected."
+        },
+        {
+          "type": "info",
+          "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-prefetch-start {generation: 1}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] boot-prefetch-start {}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: index, store: UNKNOWN, status: 200, durationMs: 21.1, contentLengthHeaderBytes: 103088}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] species-index {durationMs: 44.3, ready: true}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:buildFactoryPool:start] {count: 6, level: 50, selectionMode: GLOBAL_RANDOM, trainerLabel: undefined, trainerReferenceSetCount: 0}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 9.1, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 8.1, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 5.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 5.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 46.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 49.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 143.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 217.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 1, attempts: 2, durationMs: 367.4, detailsMs: 366.1, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 342.1, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 274.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 230.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 82, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 7.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 15.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 20.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 20.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 21.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 2, attempts: 1, durationMs: 1054.7, detailsMs: 1054.4, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 192.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 352.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 267.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 132.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 8.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 36.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 134, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 207.1, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 238.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 3, attempts: 1, durationMs: 1293.3, detailsMs: 1293.3, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 146.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 136.1, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 19.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 11, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 7.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 15.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 16.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 17.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] start-clicked {}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: UPSTREAM, status: 200, durationMs: 514.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 4, attempts: 4, durationMs: 919.8, detailsMs: 919.6, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 386, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 8.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 8.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 17.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 28.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 29.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 29.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 5, attempts: 1, durationMs: 533.1, detailsMs: 532.9, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 10.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 11.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 18.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 9.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 11.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 15.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 264.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 293.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-member {slot: 6, attempts: 1, durationMs: 456.5, detailsMs: 456.4, source: global-pool}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:buildFactoryPool:done] {count: 6, generated: 6, level: 50, selectionMode: GLOBAL_RANDOM, trainerLabel: undefined}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] rental-prefetch-end {generation: 1, durationMs: 4679.2, ready: true}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:startGame:rentals-ready] {rentals: Array(6)}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:prefetchEnemy:request] {stage: 1, key: 1|50|0|0|1|108,29,116,137,4,63|, factoryPool: Array(6), playerPool: Array(0)}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] enemy-prefetch-start {stage: 1, generation: 1}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:generateEnemyEncounter:trainer] {stage: 1, setNo: 1, battleInSet: 1, challengeNum: 0, trainerId: FRONTIER_TRAINER_ADRIAN}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:buildFactoryPool:start] {count: 3, level: 50, selectionMode: TRAINER_POOL_FIRST, trainerLabel: FRONTIER_TRAINER_ADRIAN, trainerReferenceSetCount: 0}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] six-cards-actionable {fromStartMs: 1306.8}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: UPSTREAM, status: 200, durationMs: 965.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] confirm-clicked {}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:spawnEnemy:start] {stage: 1, contextKey: 1|50|0|0|1|108,29,116,137,4,63|}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: UPSTREAM, status: 200, durationMs: 1051.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 364.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 219.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 9.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 17.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: UPSTREAM, status: 200, durationMs: 523.8, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: UPSTREAM, status: 200, durationMs: 429.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 193.1, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 51.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 5.6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 6.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 6, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 8.5, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon, store: RUNTIME, status: 200, durationMs: 6.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: pokemon-species, store: RUNTIME, status: 200, durationMs: 7.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 5.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 6.2, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: ability, store: RUNTIME, status: 200, durationMs: 5.7, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 5.3, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 116.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 254.4, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] content-response-in-capture-window {kind: move, store: RUNTIME, status: 200, durationMs: 521.9, contentLengthHeaderBytes: null}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:buildFactoryPool:done] {count: 3, generated: 3, level: 50, selectionMode: TRAINER_POOL_FIRST, trainerLabel: FRONTIER_TRAINER_ADRIAN}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:generateEnemyEncounter:result] {stage: 1, trainerId: FRONTIER_TRAINER_ADRIAN, speciesIds: Array(3), aiTier: RANDOM, isBoss: false}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:prefetchEnemy:stored] {stage: 1, key: 1|50|0|0|1|108,29,116,137,4,63|, trainerId: FRONTIER_TRAINER_ADRIAN, speciesIds: Array(3)}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] enemy-prefetch-end {stage: 1, generation: 1, durationMs: 5277.4, ready: true}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] enemy-consumed {source: awaited-prefetch}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:spawnEnemy:resolved] {stage: 1, contextKey: 1|50|0|0|1|108,29,116,137,4,63|, usedPrefetch: true, trainerId: FRONTIER_TRAINER_ADRIAN, speciesIds: Array(3)}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:spawnEnemy:trainer-intro] {stage: 1, trainerId: FRONTIER_TRAINER_ADRIAN, durationMs: 900}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] trainer-intro-end {durationMs: 1587.1}"
+        },
+        {
+          "type": "info",
+          "text": "[FactoryFlow:spawnEnemy:done] {stage: 1, success: true}"
+        },
+        {
+          "type": "info",
+          "text": "[rental-perf] first-command-actionable {fromConfirmMs: 6976.1}"
+        }
+      ],
+      "api": [
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/data/factory-species-index"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon/108/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon-species/108/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/20/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/12/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/13/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/return/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/thief/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/strength/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/supersonic/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon/29/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon-species/29/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/other/official-artwork/25.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/other/official-artwork/133.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/other/official-artwork/175.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/other/official-artwork/447.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/other/official-artwork/921.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/38/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/79/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/55/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/aerial-ace/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/disable/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/captivate/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/double-kick/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon/116/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon-species/116/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/33/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/97/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/6/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/take-down/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/secret-power/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/mimic/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/smokescreen/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon/137/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon-species/137/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/36/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/88/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/148/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/psybeam/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/protect/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/flash/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/nightmare/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon/4/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon-species/4/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/66/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/94/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/rock-tomb/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/fire-pledge/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/submission/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/natural-gift/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon/63/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon-species/63/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/28/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/39/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/98/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/round/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/psych-up/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/recycle/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/108.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/137.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/4.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/116.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/29.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon/33/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/63.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/back/108.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon-species/33/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/skull-bash/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/sucker-punch/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/headbutt/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/tackle/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon/105/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon-species/105/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/69/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/31/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/4/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/double-team/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/swagger/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/icy-wind/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon/50/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/pokemon-species/50/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/8/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/71/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/ability/159/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/double-edge/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/foul-play/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/earthquake/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi/move/rock-smash/"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/back/108.png"
+        },
+        {
+          "status": 200,
+          "url": "http://127.0.0.149:4300/api/pokeapi-sprites/pokemon/33.png"
+        }
+      ],
+      "failedRequests": []
+    }
+  ]
+}
