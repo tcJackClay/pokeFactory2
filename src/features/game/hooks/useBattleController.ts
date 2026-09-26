@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
+import { presentEndTurnResolution } from './presentEndTurnResolution';
 import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, TailwindTurns, Weather } from '../../../types';
 import { getBattleIndexInSet } from '../config/factoryRewards';
 import type { PendingFactorySettlement } from '../../../services/saveManager';
@@ -2695,17 +2696,16 @@ export function useBattleController({
       const nextEnemyTeam = endTurnResult.snapshot.enemyTeam;
       const playerLead = endTurnResult.playerLead;
       const enemyLead = endTurnResult.enemyLead;
-      const endTurnMessages = endTurnResult.events
-        .filter((event) => event.type === 'message')
-        .map((event) => event.message);
-
-      setPlayerTeam(nextPlayerTeam);
-      setEnemyTeam(nextEnemyTeam);
-      setEnemy(nextEnemyTeam[0] ?? null);
-
-      if (endTurnMessages.length > 0) {
-        await addMessagesSequentially(endTurnMessages);
-      }
+      await presentEndTurnResolution(endTurnResult, (snapshot) => {
+        setPlayerTeam(snapshot.playerTeam);
+        setEnemyTeam(snapshot.enemyTeam);
+        setEnemy(snapshot.enemyTeam[0] ?? null);
+        setWeather(snapshot.weather);
+        setWeatherTurns(snapshot.weatherTurns);
+        setFieldState(snapshot.fieldState);
+        setFieldTurns(snapshot.fieldTurns);
+        setTailwindTurns(snapshot.tailwindTurns);
+      }, addMessagesSequentially);
       if (cancelled) return;
 
       if (endTurnResult.playerLeadFainted) {
@@ -2724,11 +2724,6 @@ export function useBattleController({
         await sendOutNextEnemy(nextEnemyTeam, enemyLead.id);
       }
 
-      setWeather(endTurnResult.snapshot.weather);
-      setWeatherTurns(endTurnResult.snapshot.weatherTurns);
-      setFieldState(endTurnResult.snapshot.fieldState);
-      setFieldTurns(endTurnResult.snapshot.fieldTurns);
-      setTailwindTurns(endTurnResult.snapshot.tailwindTurns);
     };
 
     void handleRoundEnd();

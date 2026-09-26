@@ -7,6 +7,7 @@ import { resolveBeforeMoveChecks } from './resolveBeforeMoveChecks';
 import { resolveEndTurn } from './resolveEndTurn';
 import { resolveActionSelection } from './resolveActionSelection';
 import { isRepeatFieldFailure, nextFieldStates, nextFieldTurns } from './fieldEffectTransition';
+import { presentEndTurnResolution } from '../../hooks/presentEndTurnResolution';
 import { setNonVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
 
 const DEFAULT_NATURE: Nature = {
@@ -112,6 +113,48 @@ test('Tailwind counts down both sides independently and survives a switch', () =
     assert.deepEqual(snapshot.tailwindTurns, { player: 4 - turn, enemy: Math.max(0, 2 - turn) });
     if (turn >= 2) assert.equal(snapshot.playerTeam[0].id, reserve.id);
   }
+});
+
+test('end-turn timers are committed with damaged teams before message playback can cancel the effect', async () => {
+  const poisoned = setNonVolatileStatus(createPokemon(1, 'poisoned'), 'poison');
+  const result = resolveEndTurn({
+    snapshot: createSnapshot({
+      playerTeam: [poisoned],
+      weather: 'hail',
+      weatherTurns: 2,
+      fieldState: ['trick_room'],
+      fieldTurns: { trick_room: 2 },
+      tailwindTurns: { player: 2, enemy: 1 },
+    }),
+    getLocalized: (pokemon) => pokemon.name,
+    formatDynamaxEndMessage: (pokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (move) => move.currentPp ?? move.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon) => ({ pokemon, message: null }),
+  });
+
+  let committed: BattleSnapshot | null = null;
+  let cancelled = false;
+  let messagesPresented = 0;
+  await presentEndTurnResolution(result, (snapshot) => {
+    committed = snapshot;
+  }, async (messages) => {
+    messagesPresented = messages.length;
+    // React cleans up the old effect after the team update; the message await
+    // is the point where the old effect observes cancellation.
+    cancelled = true;
+    assert.ok(committed, 'all end-turn state must exist before message playback');
+    assert.ok(committed.playerTeam[0].currentHp < poisoned.currentHp);
+    assert.equal(committed.weatherTurns, 1);
+    assert.equal(committed.fieldTurns.trick_room, 1);
+    assert.deepEqual(committed.tailwindTurns, { player: 1, enemy: 0 });
+  });
+
+  assert.ok(messagesPresented > 0, 'residual damage must produce an awaited battle message');
+  assert.equal(cancelled, true);
+  assert.ok(committed);
+  assert.equal(committed.weatherTurns, 1);
+  assert.deepEqual(committed.tailwindTurns, { player: 1, enemy: 0 });
 });
 
 test('snow has no chip, survives switching, and expires after five end turns', () => {

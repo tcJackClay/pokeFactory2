@@ -185,7 +185,7 @@ test('current save accepts snow weather and its remaining turns', () => {
   assert.equal(restored.weatherTurns, 4);
 });
 
-test('battle checkpoint retains separate Tailwind timers and normalizes invalid values', () => {
+test('battle checkpoint retains separate Tailwind timers and rejects damaged present values', () => {
   const saved = draft('run:tailwind-save');
   const previous = saved.factory.battleResume;
   assert.equal(previous.status, 'READY');
@@ -197,9 +197,12 @@ test('battle checkpoint retains separate Tailwind timers and normalizes invalid 
   const valid = withTurns({ player: 3, enemy: 1 });
   assert.equal(valid.status, 'READY');
   if (valid.status === 'READY') assert.deepEqual(valid.tailwindTurns, { player: 3, enemy: 1 });
-  const invalid = withTurns({ player: 999, enemy: -1 });
-  assert.equal(invalid.status, 'READY');
-  if (invalid.status === 'READY') assert.deepEqual(invalid.tailwindTurns, { player: 0, enemy: 0 });
+  const legacyMissing = withTurns(undefined);
+  assert.equal(legacyMissing.status, 'READY');
+  if (legacyMissing.status === 'READY') assert.deepEqual(legacyMissing.tailwindTurns, { player: 0, enemy: 0 });
+  for (const invalid of [{ player: 999, enemy: -1 }, { player: 2 }, { player: '2', enemy: 1 }]) {
+    assert.throws(() => withTurns(invalid), /导入文件损坏/);
+  }
 });
 
 test('new save preserves battle snapshots, including postbattle phase', () => {

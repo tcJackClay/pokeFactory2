@@ -511,6 +511,13 @@ function sanitizeTailwindTurns(value: unknown): TailwindTurns {
   return { player: normalize(source.player), enemy: normalize(source.enemy) };
 }
 
+function hasValidTailwindTurns(value: unknown): boolean {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const turns = value as Record<string, unknown>;
+  return ['player', 'enemy'].every((side) => Number.isInteger(turns[side])
+    && (turns[side] as number) >= 0 && (turns[side] as number) <= 4);
+}
+
 function sanitizeBattleResume(value: unknown): FactoryBattleResume {
   const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
   if (source.status !== 'READY') {
@@ -768,6 +775,9 @@ function assertCurrentSaveRecoverability(value: unknown): void {
   }
 
   if (resume.status === 'READY') {
+    if (resume.tailwindTurns !== undefined && !hasValidTailwindTurns(resume.tailwindTurns)) {
+      throw new Error('Battle checkpoint has invalid Tailwind timers.');
+    }
     if (companionSpeciesId === null) throw new Error('Challenge exists before companion selection.');
     const phase = resume.phase;
     const validPhase = phase === 'BATTLE' || phase === 'ROUND_RESULT' || phase === 'FACTORY_SWAP' || phase === 'BASE';
