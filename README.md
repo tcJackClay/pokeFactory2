@@ -1,6 +1,6 @@
 # PokeFactory
 
-本地开发：先运行 `go run ./backend/cmd/server`，再运行 `npm run dev`。
+本地开发（PowerShell）：先运行 `$env:PORT='3001'; go run ./backend/cmd/server`，再在另一个终端运行 `npm run dev`。前端默认将 `/api` 转发到 3001 端口。
 
 生产部署：`docker compose up -d --build`
 
