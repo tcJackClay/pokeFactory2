@@ -880,7 +880,9 @@ export function persistSaveData(saveData: GameSaveData) {
       const phaseRank = { BATTLE: 0, ROUND_RESULT: 1, FACTORY_SWAP: 2, BASE: 2 } as const;
       if (battleResume.status === 'EMPTY'
         || (battleResume.status === 'READY' && (committed.stage > battleResume.stage
-          || (committed.stage === battleResume.stage && phaseRank[committed.phase] > phaseRank[battleResume.phase])))) {
+          || (committed.stage === battleResume.stage && phaseRank[committed.phase] > phaseRank[battleResume.phase])
+          || (committed.stage === battleResume.stage && committed.phase === 'BATTLE' && battleResume.phase === 'BATTLE'
+            && (committed.swapCount > battleResume.swapCount || committed.totalRents > battleResume.totalRents))))) {
         battleResume = committed;
       }
     }

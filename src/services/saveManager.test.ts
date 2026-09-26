@@ -382,6 +382,25 @@ test('completed set starts the next battle with the swapped member original item
     assert.equal(after.factory.battleResume.swapCount, before.swapCount + 1);
     assert.equal(after.factory.battleResume.totalRents, before.totalRents + 1);
     persistSaveData({
+      ...after,
+      factory: {
+        ...after.factory,
+        battleResume: {
+          ...after.factory.battleResume,
+          swapCount: before.swapCount,
+          totalRents: before.totalRents,
+          playerTeam: before.playerTeam,
+        },
+      },
+    });
+    const afterSameStageStaleSave = loadSaveData()!.factory.battleResume;
+    assert.equal(afterSameStageStaleSave.status, 'READY');
+    if (afterSameStageStaleSave.status !== 'READY') return;
+    assert.equal(afterSameStageStaleSave.swapCount, before.swapCount + 1);
+    assert.equal(afterSameStageStaleSave.totalRents, before.totalRents + 1);
+    assert.equal(afterSameStageStaleSave.playerTeam[0].id, enemy.id);
+    assert.equal(afterSameStageStaleSave.playerTeam[0].factoryHeldItemId, 'white-herb');
+    persistSaveData({
       ...battle,
       wallet: after.wallet,
       factory: { ...battle.factory, battleResume: before },
