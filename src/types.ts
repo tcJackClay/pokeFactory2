@@ -383,7 +383,6 @@ export interface Item {
   description: string;
   zhDescription: string;
   effect: (pokemon: GamePokemon) => GamePokemon;
-  isBattleItem?: boolean;
   isBall?: boolean;
   isSpecialTriggerItem?: boolean;
   catchRate?: number;

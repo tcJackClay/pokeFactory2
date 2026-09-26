@@ -1608,9 +1608,6 @@ export function useBattleController({
     updatedTeam[0] = item.effect(updatedTeam[0]);
     setPlayerTeam(updatedTeam);
 
-    if (item.id === 'battle_atk') setActiveBuffs((prev) => ({ ...prev, atk: true }));
-    if (item.id === 'battle_def') setActiveBuffs((prev) => ({ ...prev, def: true }));
-
     return true;
   }, [
     addMessagesSequentially,

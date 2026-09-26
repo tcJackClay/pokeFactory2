@@ -1139,7 +1139,6 @@ export function usePokeFactoryGame(): GameViewModel {
   const devOpenRewardScreen = useCallback(() => {
     const fallbackItem = ALL_ITEMS[0];
     const potionItem = ALL_ITEMS.find((item) => item.id === 'potion') ?? fallbackItem;
-    const battleItem = ALL_ITEMS.find((item) => item.isBattleItem) ?? fallbackItem;
     const permitItem = ALL_ITEMS.find((item) => item.id === 'team_capacity_permit') ?? fallbackItem;
     const rewardChoiceCount = getFactoryRewardChoiceCount();
     const samplePokemon = playerTeam[0] ?? factoryRentals[0];
@@ -1151,9 +1150,9 @@ export function usePokeFactoryGame(): GameViewModel {
       { type: 'ITEM', data: potionItem },
       samplePokemon ? { type: 'POKEMON', data: samplePokemon } : { type: 'ITEM', data: potionItem },
       tmReward,
-      playerTeam.length > 0 ? { type: 'EVOLUTION', data: { eligibleIndexes: [0] } } : { type: 'ITEM', data: battleItem },
+      playerTeam.length > 0 ? { type: 'EVOLUTION', data: { eligibleIndexes: [0] } } : { type: 'ITEM', data: potionItem },
       { type: 'ITEM', data: permitItem },
-      { type: 'ITEM', data: battleItem },
+      { type: 'ITEM', data: potionItem },
     ];
     const nextRewards = rewardCandidates.slice(0, rewardChoiceCount);
     while (nextRewards.length < rewardChoiceCount) {

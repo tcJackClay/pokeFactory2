@@ -218,24 +218,6 @@ export const ALL_ITEMS: Item[] = [
     effect: (p) => ({ ...p, currentHp: p.maxHp })
   },
   {
-    id: 'battle_atk',
-    name: 'X Attack',
-    zhName: '力量强化',
-    description: 'Next attack deals 50% more damage',
-    zhDescription: '下一次攻击伤害提升50%',
-    isBattleItem: true,
-    effect: (p) => p
-  },
-  {
-    id: 'battle_def',
-    name: 'X Defense',
-    zhName: '防御强化',
-    description: 'Reduce incoming damage by 30% for one turn',
-    zhDescription: '本回合受到的伤害降低30%',
-    isBattleItem: true,
-    effect: (p) => p
-  },
-  {
     id: 'team_capacity_permit',
     name: 'Team Expansion Permit',
     zhName: '缁勯槦鎵╁璁稿彲',

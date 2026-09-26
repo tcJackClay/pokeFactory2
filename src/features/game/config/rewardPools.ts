@@ -13,8 +13,6 @@ export const FREE_REWARD_TYPE_WEIGHTS: Record<FreeRewardType, number> = {
 const FREE_REWARD_ITEM_IDS = [
   'potion',
   'heal',
-  'battle_atk',
-  'battle_def',
   'special_mega_stone',
   'special_dmax_band',
   'special_tera_orb',
