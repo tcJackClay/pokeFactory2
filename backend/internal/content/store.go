@@ -30,12 +30,13 @@ var (
 const runtimeCacheSchema = "v2"
 
 type Entry struct {
-	Key         string    `json:"key"`
-	File        string    `json:"file"`
-	SHA256      string    `json:"sha256"`
-	ContentType string    `json:"contentType"`
-	Size        int64     `json:"size"`
-	FetchedAt   time.Time `json:"fetchedAt"`
+	Key            string    `json:"key"`
+	File           string    `json:"file"`
+	SHA256         string    `json:"sha256"`
+	ContentType    string    `json:"contentType"`
+	Size           int64     `json:"size"`
+	FetchedAt      time.Time `json:"fetchedAt"`
+	DiscoveredFrom string    `json:"discoveredFrom,omitempty"`
 }
 
 type Manifest struct {
@@ -57,11 +58,24 @@ type Response struct {
 }
 
 type SyncOptions struct {
-	Version    string
-	Keys       []string
-	CrawlLinks bool
-	Workers    int
-	MaxEntries int
+	Version        string
+	Keys           []string
+	CrawlLinks     bool
+	FactoryClosure bool
+	Workers        int
+	MaxEntries     int
+	MaxBytes       int64
+	MaxDuration    time.Duration
+	Progress       func(SyncProgress)
+}
+
+type SyncProgress struct {
+	Queued    int
+	Completed int
+	Bytes     int64
+	Elapsed   time.Duration
+	Types     map[string]int
+	Parent    string
 }
 
 type upstreamError struct {
@@ -337,9 +351,12 @@ func (s *Store) fetchUpstream(ctx context.Context, key string) (Response, error)
 		return Response{}, err
 	}
 	defer response.Body.Close()
-	body, err := io.ReadAll(io.LimitReader(response.Body, 64<<20))
+	body, err := io.ReadAll(io.LimitReader(response.Body, (64<<20)+1))
 	if err != nil {
 		return Response{}, err
+	}
+	if len(body) > 64<<20 {
+		return Response{}, fmt.Errorf("response exceeds 64 MiB: %s", key)
 	}
 	contentType := response.Header.Get("Content-Type")
 	if contentType == "" {
@@ -436,6 +453,75 @@ func extractPokeAPIKeys(body []byte) []string {
 	return result
 }
 
+// Factory links are a one-hop dependency list from pokemon objects only.
+// Subresources contain reverse relations that are not used by factory generation.
+func extractFactoryKeys(parent string, body []byte) ([]string, error) {
+	if !strings.HasPrefix(parent, "pokemon/") || strings.Contains(parent, "?") {
+		return nil, nil
+	}
+	var value struct {
+		Species struct {
+			URL string `json:"url"`
+		} `json:"species"`
+		Abilities []struct {
+			Ability struct {
+				URL string `json:"url"`
+			} `json:"ability"`
+		} `json:"abilities"`
+		Moves []struct {
+			Move struct {
+				URL string `json:"url"`
+			} `json:"move"`
+		} `json:"moves"`
+	}
+	if err := json.Unmarshal(body, &value); err != nil {
+		return nil, fmt.Errorf("factory %s invalid JSON: %w", parent, err)
+	}
+	if value.Species.URL == "" || len(value.Abilities) == 0 || len(value.Moves) == 0 {
+		return nil, fmt.Errorf("factory %s missing species, abilities or moves", parent)
+	}
+	result := make(map[string]struct{})
+	add := func(rawURL, kind string) error {
+		var resource string
+		switch {
+		case strings.HasPrefix(rawURL, pokeAPIURLPrefix):
+			resource = strings.TrimPrefix(rawURL, pokeAPIURLPrefix)
+		case strings.HasPrefix(rawURL, "http://pokeapi.co/api/v2/"):
+			resource = strings.TrimPrefix(rawURL, "http://pokeapi.co/api/v2/")
+		case strings.HasPrefix(rawURL, "/api/pokeapi/"):
+			resource = strings.TrimPrefix(rawURL, "/api/pokeapi/")
+		default:
+			return fmt.Errorf("factory %s invalid %s URL: %q", parent, kind, rawURL)
+		}
+		resource = strings.Trim(resource, "/")
+		key, err := NormalizeKey(resource, "")
+		if err != nil || !strings.HasPrefix(key, kind+"/") || strings.Contains(key, "?") || strings.Count(key, "/") != 1 {
+			return fmt.Errorf("factory %s invalid %s URL: %q", parent, kind, rawURL)
+		}
+		result[key] = struct{}{}
+		return nil
+	}
+	if err := add(value.Species.URL, "pokemon-species"); err != nil {
+		return nil, err
+	}
+	for _, item := range value.Abilities {
+		if err := add(item.Ability.URL, "ability"); err != nil {
+			return nil, err
+		}
+	}
+	for _, item := range value.Moves {
+		if err := add(item.Move.URL, "move"); err != nil {
+			return nil, err
+		}
+	}
+	keys := make([]string, 0, len(result))
+	for key := range result {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	return keys, nil
+}
+
 func isCrawlableKey(key string) bool {
 	for _, prefix := range []string{"pokemon/", "pokemon-species/", "pokemon-form/", "move/", "ability/", "evolution-chain/"} {
 		if strings.HasPrefix(key, prefix) {
@@ -461,8 +547,21 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 	if options.MaxEntries <= 0 {
 		options.MaxEntries = 20_000
 	}
+	if options.FactoryClosure && options.CrawlLinks {
+		return nil, errors.New("factory closure and generic crawl are mutually exclusive")
+	}
+	if options.MaxBytes < 0 || options.MaxDuration < 0 {
+		return nil, errors.New("negative sync limit")
+	}
+	started := time.Now()
+	if options.MaxDuration > 0 {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, options.MaxDuration)
+		defer cancel()
+	}
 
 	seen := make(map[string]struct{})
+	parentOf := make(map[string]string)
 	pending := make([]string, 0, len(options.Keys))
 	for _, rawKey := range options.Keys {
 		parsed, err := url.Parse(rawKey)
@@ -475,8 +574,12 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 		}
 		if _, exists := seen[key]; !exists {
 			seen[key] = struct{}{}
+			parentOf[key] = "seed"
 			pending = append(pending, key)
 		}
+	}
+	if len(seen) > options.MaxEntries {
+		return nil, fmt.Errorf("sync exceeded max entries at seeds: %d > %d", len(seen), options.MaxEntries)
 	}
 
 	root := s.namespaceRoot()
@@ -496,8 +599,13 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 		Source:    s.baseURL,
 		Entries:   make(map[string]Entry),
 	}
+	var totalBytes int64
+	typeCounts := make(map[string]int)
 
 	for len(pending) > 0 {
+		if err := ctx.Err(); err != nil {
+			return nil, fmt.Errorf("sync deadline/cancellation: %w", err)
+		}
 		batchSize := options.Workers
 		if len(pending) < batchSize {
 			batchSize = len(pending)
@@ -517,23 +625,39 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 		wait.Wait()
 		close(results)
 
+		ordered := make([]syncResult, 0, len(batch))
 		for result := range results {
+			ordered = append(ordered, result)
+		}
+		if options.FactoryClosure {
+			sort.Slice(ordered, func(i, j int) bool { return ordered[i].key < ordered[j].key })
+		}
+		for _, result := range ordered {
 			if result.err != nil {
 				return nil, fmt.Errorf("sync %s: %w", result.key, result.err)
 			}
+			if err := ctx.Err(); err != nil {
+				return nil, fmt.Errorf("sync %s deadline/cancellation: %w", result.key, err)
+			}
+			if options.MaxBytes > 0 && totalBytes+int64(len(result.response.Body)) > options.MaxBytes {
+				return nil, fmt.Errorf("sync %s exceeded max bytes: %d > %d", result.key, totalBytes+int64(len(result.response.Body)), options.MaxBytes)
+			}
+			totalBytes += int64(len(result.response.Body))
 			bodyHash := hashBytes(result.response.Body)
 			relativeFile := filepath.ToSlash(filepath.Join("objects", bodyHash+".body"))
 			if err := os.WriteFile(filepath.Join(temporaryRoot, filepath.FromSlash(relativeFile)), result.response.Body, 0o644); err != nil {
 				return nil, err
 			}
 			manifest.Entries[result.key] = Entry{
-				Key:         result.key,
-				File:        relativeFile,
-				SHA256:      bodyHash,
-				ContentType: result.response.ContentType,
-				Size:        int64(len(result.response.Body)),
-				FetchedAt:   result.response.FetchedAt,
+				Key:            result.key,
+				File:           relativeFile,
+				SHA256:         bodyHash,
+				ContentType:    result.response.ContentType,
+				Size:           int64(len(result.response.Body)),
+				FetchedAt:      result.response.FetchedAt,
+				DiscoveredFrom: parentOf[result.key],
 			}
+			typeCounts[strings.SplitN(result.key, "/", 2)[0]]++
 
 			if options.CrawlLinks && !strings.HasPrefix(result.key, "type/") && !strings.Contains(result.key, "?") {
 				for _, discovered := range extractPokeAPIKeys(result.response.Body) {
@@ -544,10 +668,41 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 						return nil, fmt.Errorf("sync exceeded max entries: %d", options.MaxEntries)
 					}
 					seen[discovered] = struct{}{}
+					parentOf[discovered] = result.key
 					pending = append(pending, discovered)
 				}
 			}
+			if options.FactoryClosure {
+				discoveredKeys, err := extractFactoryKeys(result.key, result.response.Body)
+				if err != nil {
+					return nil, err
+				}
+				for _, discovered := range discoveredKeys {
+					if _, exists := seen[discovered]; exists {
+						continue
+					}
+					if len(seen) >= options.MaxEntries {
+						return nil, fmt.Errorf("sync %s exceeded max entries: %d", result.key, options.MaxEntries)
+					}
+					seen[discovered] = struct{}{}
+					parentOf[discovered] = result.key
+					pending = append(pending, discovered)
+				}
+			}
+			if options.Progress != nil {
+				counts := make(map[string]int, len(typeCounts))
+				for kind, count := range typeCounts {
+					counts[kind] = count
+				}
+				options.Progress(SyncProgress{Queued: len(seen), Completed: len(manifest.Entries), Bytes: totalBytes, Elapsed: time.Since(started), Types: counts, Parent: parentOf[result.key]})
+			}
 		}
+	}
+	if err := ctx.Err(); err != nil {
+		return nil, fmt.Errorf("sync deadline/cancellation before publish: %w", err)
+	}
+	if len(manifest.Entries) > options.MaxEntries {
+		return nil, fmt.Errorf("sync manifest exceeded max entries: %d > %d", len(manifest.Entries), options.MaxEntries)
 	}
 
 	manifestData, err := json.MarshalIndent(manifest, "", "  ")
@@ -564,6 +719,9 @@ func (s *Store) syncVersion(ctx context.Context, options SyncOptions, activate b
 		return nil, err
 	}
 	if activate {
+		if err := ctx.Err(); err != nil {
+			return nil, fmt.Errorf("sync deadline/cancellation before activation: %w", err)
+		}
 		pointerData, err := json.MarshalIndent(ActivePointer{Version: options.Version, UpdatedAt: time.Now().UTC()}, "", "  ")
 		if err != nil {
 			return nil, err

@@ -10,6 +10,7 @@ import (
 	"os"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"pokefactory/backend/internal/content"
@@ -56,9 +57,44 @@ func main() {
 	manifestPath := flag.String("manifest", "backend/config/sync-manifest.json", "基础同步清单")
 	factoryIndexPath := flag.String("factory-index", "storage/data/factorySpeciesIndex.json", "工厂物种索引")
 	full := flag.Bool("full", false, "同步工厂物种并递归同步其招式、特性、形态和进化链")
+	factory := flag.Bool("factory", false, "同步 Classic 工厂所需的有限 PokeAPI JSON 闭包")
+	factorySample := flag.String("factory-sample", "", "只准备一个索引中的 pokemon 标识符；不激活版本或同步基础清单/CSV")
+	referenceDirectory := flag.String("factory-reference-sets", "src/features/game/config/factoryReferenceSets/chunks", "工厂参考 set 分片目录")
+	specialFormsPath := flag.String("factory-special-forms", "src/features/game/config/specialForms.ts", "允许直接抽取形态清单")
 	workers := flag.Int("workers", 6, "并发请求数")
-	maxEntries := flag.Int("max-entries", 20000, "递归同步的最大条目数")
+	maxEntries := flag.Int("max-entries", 0, "同步的最大条目数；0 使用范围默认值")
+	maxBytes := flag.Int64("max-bytes", 0, "同步对象的最大累计字节数；0 使用范围默认值")
+	maxDuration := flag.Duration("max-duration", 0, "同步总期限；0 使用范围默认值")
+	pokeAPIBase := flag.String("pokeapi-base-url", "https://pokeapi.co/api/v2", "PokeAPI 来源根地址")
 	flag.Parse()
+	if *full && (*factory || *factorySample != "") {
+		log.Fatal("-full and -factory/-factory-sample are mutually exclusive")
+	}
+	if *maxEntries < 0 || *maxBytes < 0 || *maxDuration < 0 {
+		log.Fatal("sync limits must be nonnegative")
+	}
+	if *factorySample != "" {
+		*factory = true
+	}
+	if *factorySample != "" {
+		if *stateRoot == "var" {
+			log.Fatal("-factory-sample requires an explicit isolated -state path")
+		}
+		var index []factoryIndexEntry
+		if err := readJSON(*factoryIndexPath, &index); err != nil {
+			log.Fatal(err)
+		}
+		found := false
+		for _, entry := range index {
+			if entry.Identifier == *factorySample && entry.SpeciesID != 201 {
+				found = true
+				break
+			}
+		}
+		if !found {
+			log.Fatalf("factory sample %q is absent or banned", *factorySample)
+		}
+	}
 
 	var configured syncManifest
 	if err := readJSON(*manifestPath, &configured); err != nil {
@@ -80,24 +116,77 @@ func main() {
 			)
 		}
 	}
+	if *factorySample != "" {
+		configured.PokeAPI = []string{"pokemon/" + *factorySample}
+	} else if *factory {
+		factoryKeys, err := factorySeeds(*factoryIndexPath, *referenceDirectory, *specialFormsPath)
+		if err != nil {
+			log.Fatal(err)
+		}
+		configured.PokeAPI = append(configured.PokeAPI, factoryKeys...)
+	}
 	configured.PokeAPI = uniqueSorted(configured.PokeAPI)
 	configured.CSV = uniqueSorted(configured.CSV)
+	if *maxEntries == 0 {
+		switch {
+		case *factorySample != "":
+			*maxEntries = 200
+		case *factory:
+			*maxEntries = 6000
+		default:
+			*maxEntries = 20000
+		}
+	}
+	if *maxBytes == 0 {
+		switch {
+		case *factorySample != "":
+			*maxBytes = 100 << 20
+		case *factory:
+			*maxBytes = 1 << 30
+		}
+	}
+	if *maxDuration == 0 {
+		switch {
+		case *factorySample != "":
+			*maxDuration = 2 * time.Minute
+		case *factory:
+			*maxDuration = 90 * time.Minute
+		}
+	}
+	if *factorySample != "" && *workers == 6 {
+		*workers = 2
+	}
+	if *factory && *factorySample == "" && *workers == 6 {
+		*workers = 4
+	}
 
 	client := &http.Client{Timeout: 30 * time.Second}
-	pokeAPIStore := content.NewStore("pokeapi", "https://pokeapi.co/api/v2", *stateRoot, true, true, client)
+	pokeAPIStore := content.NewStore("pokeapi", strings.TrimRight(*pokeAPIBase, "/"), *stateRoot, true, true, client)
 	csvStore := content.NewStore("pokedex-csv", "https://raw.githubusercontent.com/veekun/pokedex/master/pokedex/data/csv", *stateRoot, true, false, client)
 	ctx := context.Background()
 
-	log.Printf("syncing PokeAPI version=%s seeds=%d full=%t", *version, len(configured.PokeAPI), *full)
+	log.Printf("syncing PokeAPI version=%s seeds=%d full=%t factory=%t sample=%q", *version, len(configured.PokeAPI), *full, *factory, *factorySample)
 	pokeManifest, err := pokeAPIStore.PrepareVersion(ctx, content.SyncOptions{
-		Version:    *version,
-		Keys:       configured.PokeAPI,
-		CrawlLinks: *full,
-		Workers:    *workers,
-		MaxEntries: *maxEntries,
+		Version:        *version,
+		Keys:           configured.PokeAPI,
+		CrawlLinks:     *full,
+		FactoryClosure: *factory,
+		Workers:        *workers,
+		MaxEntries:     *maxEntries,
+		MaxBytes:       *maxBytes,
+		MaxDuration:    *maxDuration,
+		Progress: func(progress content.SyncProgress) {
+			if progress.Completed == 1 || progress.Completed%25 == 0 || progress.Completed == progress.Queued {
+				log.Printf("progress queued=%d completed=%d bytes=%d elapsed=%s parent=%s types=%v", progress.Queued, progress.Completed, progress.Bytes, progress.Elapsed.Round(time.Second), progress.Parent, progress.Types)
+			}
+		},
 	})
 	if err != nil {
 		log.Fatal(err)
+	}
+	if *factorySample != "" {
+		log.Printf("sample prepared, not activated: version=%s entries=%d", *version, len(pokeManifest.Entries))
+		return
 	}
 
 	log.Printf("syncing CSV version=%s entries=%d", *version, len(configured.CSV))
