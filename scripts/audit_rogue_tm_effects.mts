@@ -9,7 +9,7 @@ import extractor from './extract_rogue_tm_compat.cjs';
 import { buildMoveBattleDataFromPokeApiMove } from '../src/features/game/data/battle/index.ts';
 import { MOVE_BATTLE_DATA_OVERRIDES } from '../src/features/game/data/battle/moveEffectTable.ts';
 
-const { parseTmTable } = extractor;
+const { assertResearchOutputPath } = extractor;
 const scriptRoot = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptRoot, '..');
 const PINNED_SHA = 'a6adfcf18d7eaf99c2803e4b0bc04eca7af2f014';
@@ -90,7 +90,7 @@ export function classifyMove(tm: string, moveSymbol: string, cached?: { raw: any
 function main(args: string[]) {
   const sourceRoot = option(args, '--source');
   const cacheRoot = option(args, '--cache');
-  const outputRoot = option(args, '--output');
+  const outputRoot = assertResearchOutputPath(option(args, '--output'), projectRoot);
   // Source revision and content digest are validated by the extraction routine.
   const { matrix } = extractor.extract(sourceRoot);
   if (matrix.source.commit !== PINNED_SHA) throw new Error('Unexpected source SHA');

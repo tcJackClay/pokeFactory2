@@ -10,6 +10,8 @@ const SYMBOL = /^(?:MOVE|SPECIES)_[A-Z0-9_]+$/;
 const EXPECTED = {
   tm: 50, profiles: 1156, aliases: 1519, pairs: 14645,
   sourceDigestSha256: '353a1226dae0a7601cef5a3613572d35d0cf9a780299426a9cadc6a36e21bb9e',
+  pokedexSha256: '60f3d9117944dd7aff4b0dd8354c4ca08a5790a6cf1afc3290d8c380081d36c8',
+  speciesSha256: 'f3119662bdedb2c0a5e83383f8bb9156c687aa272757210c7e16003a8754575a',
 };
 const FORM_EXCEPTIONS = Object.freeze({
   'wormadam-sandy': 'SPECIES_WORMADAM_SANDY_CLOAK',
@@ -26,6 +28,26 @@ const FORM_EXCEPTIONS = Object.freeze({
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
+}
+
+function assertResearchOutputPath(candidate, projectRoot = path.resolve(__dirname, '..')) {
+  const outputBase = path.join(projectRoot, 'output');
+  const outputRoot = path.resolve(candidate);
+  const relative = path.relative(outputBase, outputRoot);
+  assert(relative !== '..' && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative), 'Research output must stay in ignored project output/.');
+  let current = outputBase;
+  for (const part of ['', ...relative.split(path.sep).filter(Boolean)]) {
+    if (part) current = path.join(current, part);
+    if (fs.existsSync(current)) assert(!fs.lstatSync(current).isSymbolicLink(), `Research output path contains a symlink: ${current}`);
+  }
+  return outputRoot;
+}
+
+function readPinnedMappingFile(sourceRoot, relativePath, expectedSha256) {
+  const contents = fs.readFileSync(path.join(sourceRoot, relativePath));
+  const digest = crypto.createHash('sha256').update(contents).digest('hex');
+  assert(digest === expectedSha256, `Pinned Rogue mapping source differs: ${relativePath}`);
+  return contents.toString('utf8');
 }
 
 function parseTmTable(source) {
@@ -146,9 +168,9 @@ function resolveSpeciesAlias(symbol, definitions) {
   }
 }
 
-function mapFactorySpecies(matrix, index, sourceRoot, evidence = {}) {
-  const nationalDex = evidence.nationalDex ?? parseNationalDex(fs.readFileSync(path.join(sourceRoot, 'include/constants/pokedex.h'), 'utf8'));
-  const { definitions, conflicts: definitionConflicts } = evidence.speciesDefines ?? parseSpeciesDefines(fs.readFileSync(path.join(sourceRoot, 'include/constants/species.h'), 'utf8'));
+function mapFactorySpecies(matrix, index, sourceRoot) {
+  const nationalDex = parseNationalDex(readPinnedMappingFile(sourceRoot, 'include/constants/pokedex.h', EXPECTED.pokedexSha256));
+  const { definitions, conflicts: definitionConflicts } = parseSpeciesDefines(readPinnedMappingFile(sourceRoot, 'include/constants/species.h', EXPECTED.speciesSha256));
   const aliasesByResolvedSymbol = new Map();
   for (const sourceAlias of Object.keys(matrix.species)) {
     const resolved = resolveSpeciesAlias(sourceAlias, definitions);
@@ -178,7 +200,8 @@ function mapFactorySpecies(matrix, index, sourceRoot, evidence = {}) {
         conflicts.push({ identifier: row.identifier, reason: 'Form pokemonId or base speciesId invalid' });
         continue;
       }
-      if (!requestedSymbol.startsWith(`SPECIES_${nationalDex[row.speciesId - 1]}`)) {
+      const baseSymbol = `SPECIES_${nationalDex[row.speciesId - 1]}`;
+      if (!requestedSymbol.startsWith(`${baseSymbol}_`) && !(method === 'explicit-form-exception' && requestedSymbol === baseSymbol)) {
         conflicts.push({ identifier: row.identifier, reason: 'Form symbol disagrees with National Dex base speciesId', requestedSymbol });
         continue;
       }
@@ -247,7 +270,7 @@ function main(argv) {
   const outputArg = argv.indexOf('--output');
   assert(sourceArg >= 0 && argv[sourceArg + 1], 'Pass --source <pinned Rogue checkout>.');
   const sourceRoot = path.resolve(argv[sourceArg + 1]);
-  const outputRoot = path.resolve(outputArg >= 0 ? argv[outputArg + 1] : path.join(__dirname, '../output/rogue-tm-extract'));
+  const outputRoot = assertResearchOutputPath(outputArg >= 0 ? argv[outputArg + 1] : path.join(__dirname, '../output/rogue-tm-extract'));
   assert(fs.existsSync(sourceRoot), `Source checkout missing: ${sourceRoot}. Pass --source <path>.`);
   const { matrix, anomalies } = extract(sourceRoot);
   const gaps = buildMappingGaps(matrix, path.resolve(__dirname, '..'), sourceRoot);
@@ -259,4 +282,4 @@ function main(argv) {
 }
 
 if (require.main === module) main(process.argv.slice(2));
-module.exports = { parseTmTable, parseProfile, parseNationalDex, parseSpeciesDefines, resolveSpeciesAlias, mapFactorySpecies, extract, buildMappingGaps };
+module.exports = { parseTmTable, parseProfile, parseNationalDex, parseSpeciesDefines, resolveSpeciesAlias, mapFactorySpecies, assertResearchOutputPath, readPinnedMappingFile, extract, buildMappingGaps };

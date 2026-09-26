@@ -2,7 +2,14 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const fs = require('node:fs');
-const { parseTmTable, parseProfile, extract, parseNationalDex, mapFactorySpecies } = require('./extract_rogue_tm_compat.cjs');
+const { parseTmTable, parseProfile, extract, parseNationalDex, mapFactorySpecies, assertResearchOutputPath, readPinnedMappingFile } = require('./extract_rogue_tm_compat.cjs');
+
+test('research output is restricted to the ignored output tree', () => {
+  const root = path.resolve(__dirname, '..');
+  assert.equal(assertResearchOutputPath(path.join(root, 'output', 'tm-audit')), path.join(root, 'output', 'tm-audit'));
+  assert.throws(() => assertResearchOutputPath(path.join(root, 'docs', 'tm-audit')), /ignored project output/);
+  assert.throws(() => assertResearchOutputPath(path.join(root, 'output-elsewhere')), /ignored project output/);
+});
 
 function table(moves = Array.from({ length: 50 }, (_, index) => `MOVE_TEST_${index + 1}`)) {
   const assignments = moves.map((move, index) => `  [ITEM_TM${String(index + 1).padStart(2, '0')} - ITEM_TM01] = ${move},`).join('\n');
@@ -47,6 +54,7 @@ test('pinned Rogue dex and all ten form exceptions map every factory identity', 
   skip: !process.env.ROGUE_TM_SOURCE && 'Set ROGUE_TM_SOURCE to the pinned checkout for integration validation',
 }, () => {
   const sourceRoot = path.resolve(process.env.ROGUE_TM_SOURCE);
+  assert.throws(() => readPinnedMappingFile(sourceRoot, 'include/constants/pokedex.h', 'incorrect digest'), /Pinned Rogue mapping source differs/);
   const projectRoot = path.resolve(__dirname, '..');
   const { matrix } = extract(sourceRoot);
   const index = JSON.parse(fs.readFileSync(path.join(projectRoot, 'storage/data/factorySpeciesIndex.json'), 'utf8'));
