@@ -1,0 +1,137 @@
+{
+  "base": {
+    "balance": 3,
+    "stage": 7,
+    "streak": 7,
+    "status": "READY",
+    "phase": "BASE",
+    "challengePaused": true,
+    "trainerIdsBySet": [],
+    "team": [
+      915,
+      940,
+      946
+    ]
+  },
+  "dex": {
+    "state": {
+      "balance": 3,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengePaused": true,
+      "trainerIdsBySet": [],
+      "team": [
+        915,
+        940,
+        946
+      ]
+    },
+    "body": "3\nBP\n7/7\n轮次\n7\n连胜\nLoading Collection...\nDEV"
+  },
+  "afterDexReload": {
+    "state": {
+      "balance": 3,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengePaused": true,
+      "trainerIdsBySet": [],
+      "team": [
+        915,
+        940,
+        946
+      ]
+    },
+    "body": "3\nBP\n7/7\n轮次\n7\n连胜\n继续中\n对战工厂\n\n继续当前挑战\n\n继续挑战\n结束当前连胜\n商店\n培育\n图鉴\n事件\n设置\nDEV"
+  },
+  "events": {
+    "state": {
+      "balance": 3,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengePaused": true,
+      "trainerIdsBySet": [],
+      "team": [
+        915,
+        940,
+        946
+      ]
+    },
+    "body": "3\nBP\n7/7\n轮次\n7\n连胜\n事件派遣\nMock模式: 开\n返回主页\n\n当前连胜可继续。请先回基地继续或结束挑战，再派遣或领取事件结果。\n\n关都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n城都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n丰缘\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n神奥\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n合众\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n卡洛斯\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n阿罗拉\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n伽勒尔\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n帕底亚\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\nDEV",
+    "buttons": [
+      "Mock模式: 开",
+      "返回主页",
+      "选择",
+      "清除",
+      "推荐",
+      "开始派遣",
+      "Mock道具",
+      "Mock加入",
+      "Mock特殊",
+      "选择",
+      "清除",
+      "推荐",
+      "开始派遣",
+      "Mock道具",
+      "Mock加入",
+      "Mock特殊",
+      "选择",
+      "清除",
+      "推荐",
+      "开始派遣",
+      "Mock道具",
+      "Mock加入",
+      "Mock特殊",
+      "选择",
+      "清除",
+      "推荐",
+      "开始派遣",
+      "Mock道具",
+      "Mock加入",
+      "Mock特殊",
+      "选择",
+      "清除",
+      "推荐",
+      "开始派遣",
+      "Mock道具",
+      "Mock加入",
+      "Mock特殊",
+      "选择",
+      "清除",
+      "推荐",
+      "开始派遣",
+      "Mock道具",
+      "Mock加入",
+      "Mock特殊",
+      "选择",
+      "清除",
+      "推荐",
+      "开始派遣",
+      "Mock道具",
+      "Mock加入"
+    ]
+  },
+  "afterEventsReload": {
+    "state": {
+      "balance": 3,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengePaused": true,
+      "trainerIdsBySet": [],
+      "team": [
+        915,
+        940,
+        946
+      ]
+    },
+    "body": "3\nBP\n7/7\n轮次\n7\n连胜\n继续中\n对战工厂\n\n继续当前挑战\n\n继续挑战\n结束当前连胜\n商店\n培育\n图鉴\n事件\n设置\nDEV"
+  },
+  "errors": []
+}

@@ -1,0 +1,45 @@
+{
+  "forced503": {
+    "elapsedSeconds": 2.13,
+    "body": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n重试载入\n\n租借资料加载失败或超时，请检查连接后重试。\n\n商店\n培育\n图鉴\n事件\n设置",
+    "cards": 0,
+    "buttons": [
+      "重试载入",
+      "商店",
+      "培育",
+      "图鉴",
+      "事件",
+      "设置"
+    ],
+    "save": {
+      "status": "EMPTY",
+      "balance": 0,
+      "challengeStatus": 0
+    }
+  },
+  "retry": {
+    "elapsedSeconds": 11.94,
+    "body": "0\nBP\n0/7\n轮次\n0\n连胜\n草\n毒\n妙蛙种子\n电\n霹雳电球\n一般\n百变怪\n水\n墨海马\n一般\n伊布\n草\n毒\n喇叭芽\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)",
+    "cards": 6,
+    "save": {
+      "status": "EMPTY",
+      "balance": 0,
+      "challengeStatus": 1
+    }
+  },
+  "http503Count": 140,
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+  ]
+}

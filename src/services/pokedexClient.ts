@@ -244,14 +244,7 @@ async function loadMoveNameFallbackMap(): Promise<Record<string, { zh?: string; 
         const language = langIdToIdentifier.get(languageId);
         if (!identifier || !language) continue;
 
-        const current = fallback[identifier] ?? {};
-        if ((language === 'zh-hans' || language === 'zh-hant') && !current.zh) {
-          current.zh = moveName;
-        }
-        if (language === 'en' && !current.en) {
-          current.en = moveName;
-        }
-        fallback[identifier] = current;
+        fallback[identifier] = mergeDexMoveNameFallback(fallback[identifier] ?? {}, language, moveName);
       }
 
       return fallback;
@@ -262,6 +255,24 @@ async function loadMoveNameFallbackMap(): Promise<Record<string, { zh?: string; 
   }
 
   return moveNameFallbackMapPromise;
+}
+
+export function mergeDexMoveNameFallback(
+  current: { zh?: string; en?: string },
+  language: string,
+  moveName: string,
+): { zh?: string; en?: string } {
+  if (language === 'zh-hans') return { ...current, zh: moveName };
+  if (language === 'zh-hant' && !current.zh) return { ...current, zh: moveName };
+  if (language === 'en' && !current.en) return { ...current, en: moveName };
+  return current;
+}
+
+export async function fetchDexMoveNameFallbacks(moveNames: string[]): Promise<Record<string, { zh?: string; en?: string }>> {
+  const names = [...new Set(moveNames.map((name) => String(name || '').trim().toLowerCase()).filter(Boolean))];
+  if (names.length === 0) return {};
+  const fallbackMap = await loadMoveNameFallbackMap();
+  return Object.fromEntries(names.flatMap((name) => fallbackMap[name] ? [[name, fallbackMap[name]]] : []));
 }
 
 function parseIdFromUrl(url: string): number | null {

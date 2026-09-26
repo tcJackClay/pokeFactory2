@@ -1,0 +1,249 @@
+{
+  "before": {
+    "wallet": {
+      "balance": 3,
+      "revision": 3,
+      "currentRunId": "run:b9ea5c0b-205b-47c4-bf9d-87b8f9048927",
+      "brainSymbols": 0,
+      "settledThrough": 1,
+      "lastSettlement": {
+        "runId": "run:b9ea5c0b-205b-47c4-bf9d-87b8f9048927",
+        "setNo": 1,
+        "stage": 7,
+        "result": "WIN",
+        "isFrontierBrain": false,
+        "nominalBp": 3,
+        "amount": 3,
+        "settledAt": "2026-09-26T05:38:46.365Z"
+      }
+    },
+    "stage": 7,
+    "streak": 7,
+    "status": "READY",
+    "phase": "BASE",
+    "collectionCount": 3,
+    "eventKeys": [
+      "speciesBattleCounts",
+      "dispatchPokemonByRegion",
+      "dispatches"
+    ],
+    "events": {
+      "speciesBattleCounts": {},
+      "dispatchPokemonByRegion": {
+        "kanto": null,
+        "johto": null,
+        "hoenn": null,
+        "sinnoh": null,
+        "unova": null,
+        "kalos": null,
+        "alola": null,
+        "galar": null,
+        "paldea": null
+      },
+      "dispatches": {
+        "kanto": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "johto": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "hoenn": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "sinnoh": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "unova": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "kalos": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "alola": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "galar": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "paldea": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        }
+      }
+    }
+  },
+  "body": "3\nBP\n7/7\n轮次\n7\n连胜\n事件派遣\nMock模式: 开\n返回主页\n\n当前连胜可继续。请先回基地继续或结束挑战，再派遣或领取事件结果。\n\n关都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n城都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n丰缘\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n",
+  "controls": {
+    "选择": {
+      "disabled": true,
+      "text": "选择"
+    },
+    "清除": {
+      "disabled": true,
+      "text": "清除"
+    },
+    "推荐": {
+      "disabled": true,
+      "text": "推荐"
+    },
+    "开始派遣": {
+      "disabled": true,
+      "text": "开始派遣"
+    },
+    "Mock道具": {
+      "disabled": true,
+      "text": "Mock道具"
+    },
+    "Mock加入": {
+      "disabled": true,
+      "text": "Mock加入"
+    },
+    "Mock特殊": {
+      "disabled": true,
+      "text": "Mock特殊"
+    }
+  },
+  "after": {
+    "wallet": {
+      "balance": 3,
+      "revision": 3,
+      "currentRunId": "run:b9ea5c0b-205b-47c4-bf9d-87b8f9048927",
+      "brainSymbols": 0,
+      "settledThrough": 1,
+      "lastSettlement": {
+        "runId": "run:b9ea5c0b-205b-47c4-bf9d-87b8f9048927",
+        "setNo": 1,
+        "stage": 7,
+        "result": "WIN",
+        "isFrontierBrain": false,
+        "nominalBp": 3,
+        "amount": 3,
+        "settledAt": "2026-09-26T05:38:46.365Z"
+      }
+    },
+    "stage": 7,
+    "streak": 7,
+    "status": "READY",
+    "phase": "BASE",
+    "collectionCount": 3,
+    "eventKeys": [
+      "speciesBattleCounts",
+      "dispatchPokemonByRegion",
+      "dispatches"
+    ],
+    "events": {
+      "speciesBattleCounts": {},
+      "dispatchPokemonByRegion": {
+        "kanto": null,
+        "johto": null,
+        "hoenn": null,
+        "sinnoh": null,
+        "unova": null,
+        "kalos": null,
+        "alola": null,
+        "galar": null,
+        "paldea": null
+      },
+      "dispatches": {
+        "kanto": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "johto": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "hoenn": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "sinnoh": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "unova": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "kalos": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "alola": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "galar": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "paldea": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        }
+      }
+    }
+  }
+}

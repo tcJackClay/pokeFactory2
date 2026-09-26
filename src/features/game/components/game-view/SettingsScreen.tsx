@@ -1,13 +1,22 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowLeft, Bell, Download, FileJson, Globe, SlidersHorizontal, Upload } from 'lucide-react';
+import { ArrowLeft, Bell, Check, ChevronUp, Download, FileJson, Globe, Layers, ScrollText, SlidersHorizontal, Upload, X } from 'lucide-react';
+import { GENERATIONS } from '../../../../constants';
 import type { GameViewSectionProps } from './shared';
+
+const ENGLISH_REGIONS = ['Kanto', 'Johto', 'Hoenn', 'Sinnoh', 'Unova', 'Kalos', 'Alola', 'Galar', 'Paldea'];
+const GENERATION_IDS = GENERATIONS.map((generation) => generation.id);
 
 export function SettingsScreen({ viewModel }: GameViewSectionProps) {
   const {
     currentLanguage,
     setCurrentLanguage,
+    selectedGens,
+    setSelectedGens,
+    hasFactoryRunToResume,
     enterBase,
+    setGameState,
     devToolsAvailable,
     developerMode,
     toggleDeveloperMode,
@@ -18,7 +27,61 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
   const shouldReduceMotion = useReducedMotion();
   const isZh = currentLanguage.startsWith('zh');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const generationTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const generationDialogRef = useRef<HTMLDivElement | null>(null);
+  const selectedGenerationRef = useRef<HTMLInputElement | null>(null);
   const [importStatus, setImportStatus] = useState<{ ok: boolean; message: string } | null>(null);
+  const [generationPickerOpen, setGenerationPickerOpen] = useState(false);
+  const activeGeneration = selectedGens.length === 1 && GENERATION_IDS.includes(selectedGens[0])
+    ? selectedGens[0]
+    : GENERATION_IDS[0];
+  const activeGenerationIndex = GENERATIONS.findIndex((generation) => generation.id === activeGeneration);
+  const activeGenerationData = GENERATIONS[activeGenerationIndex];
+
+  useEffect(() => {
+    if (!generationPickerOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    selectedGenerationRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setGenerationPickerOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable: HTMLElement[] = generationDialogRef.current
+        ? Array.from(generationDialogRef.current.querySelectorAll<HTMLElement>('button:not([disabled]), input[type="radio"]:checked'))
+        : [];
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (!first || !last) return;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      generationTriggerRef.current?.focus();
+    };
+  }, [generationPickerOpen]);
+
+  useEffect(() => {
+    if (hasFactoryRunToResume) setGenerationPickerOpen(false);
+  }, [hasFactoryRunToResume]);
+
+  const selectGeneration = (id: number) => {
+    if (hasFactoryRunToResume) return;
+    setSelectedGens([id]);
+    setGenerationPickerOpen(false);
+  };
 
   return (
     <motion.div
@@ -71,6 +134,41 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
                 English
               </button>
             </div>
+          </div>
+
+          <div className="pf-settings-card" data-settings-section="generations">
+            <div className="flex items-center gap-2">
+              <Layers className="h-4 w-4 text-violet-600" />
+              <p className="text-sm font-black text-slate-900">{isZh ? '当前世代' : 'Current Generation'}</p>
+            </div>
+            <p className="mt-2 text-xs leading-5 text-slate-600">
+              {isZh
+                ? '扩展世代随机池：九选一。所选世代决定下一次新挑战中随机出现的宝可梦。'
+                : 'Expanded generation random pool: choose one of nine. Your choice determines the Pokemon in your next new challenge.'}
+            </p>
+            {hasFactoryRunToResume && (
+              <p className="mt-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold leading-5 text-amber-800" role="status">
+                {isZh
+                  ? '当前挑战仍可继续。请先完成或结束该挑战，再修改世代；设置仅对下一次新挑战生效。'
+                  : 'A challenge can still be resumed. Finish or end it before changing generations; the setting applies to the next new challenge.'}
+              </p>
+            )}
+            <button
+              ref={generationTriggerRef}
+              type="button"
+              disabled={hasFactoryRunToResume}
+              aria-haspopup="dialog"
+              aria-expanded={generationPickerOpen}
+              aria-controls="generation-picker-dialog"
+              onClick={() => setGenerationPickerOpen(true)}
+              className="pf-generation-option mt-3 w-full cursor-pointer disabled:cursor-not-allowed"
+            >
+              <span className="min-w-0 text-left">
+                <span className="block text-xs font-black">{isZh ? activeGenerationData.name : `Generation ${activeGeneration}`}</span>
+                <span className="block text-[11px] font-semibold opacity-75">{isZh ? activeGenerationData.region : ENGLISH_REGIONS[activeGenerationIndex]}</span>
+              </span>
+              <ChevronUp className="h-4 w-4 shrink-0 rotate-180" aria-hidden="true" />
+            </button>
           </div>
 
           <div className="pf-settings-card">
@@ -150,6 +248,20 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
             </div>
           </div>
 
+          <div className="pf-settings-card">
+            <div className="flex items-center gap-2">
+              <ScrollText className="h-4 w-4 text-indigo-600" />
+              <p className="text-sm font-black text-slate-900">{isZh ? '版权与素材来源' : 'Credits and Sources'}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setGameState('CREDITS')}
+              className="pf-action-button mt-3 w-full"
+            >
+              {isZh ? '查看版权说明' : 'View Credits'}
+            </button>
+          </div>
+
           {devToolsAvailable && (
             <div className="pf-settings-card">
               <div className="flex items-center gap-2">
@@ -193,6 +305,61 @@ export function SettingsScreen({ viewModel }: GameViewSectionProps) {
           )}
         </div>
       </div>
+      {generationPickerOpen && createPortal(
+        <div className="fixed inset-0 z-[200] flex items-end justify-center">
+          <div className="absolute inset-0 bg-slate-950/60" aria-hidden="true" onClick={() => setGenerationPickerOpen(false)} />
+          <div
+            id="generation-picker-dialog"
+            ref={generationDialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="generation-picker-title"
+            className="relative flex max-h-[calc(100dvh-0.75rem)] w-full max-w-[520px] flex-col overflow-hidden rounded-t-[24px] border border-slate-200 bg-white shadow-2xl sm:rounded-[24px]"
+            style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+          >
+            <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-200 px-4 py-3">
+              <div>
+                <h2 id="generation-picker-title" className="text-base font-black text-slate-950">{isZh ? '选择世代' : 'Choose Generation'}</h2>
+                <p className="text-xs text-slate-500">{isZh ? '九个世代中选择一个' : 'Select one of nine generations'}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setGenerationPickerOpen(false)}
+                aria-label={isZh ? '关闭世代选择' : 'Close generation picker'}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 focus-visible:outline-2 focus-visible:outline-blue-600"
+              >
+                <X className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
+            <div role="radiogroup" aria-label={isZh ? '出场世代' : 'Generation'} className="min-h-0 overflow-y-auto overscroll-contain px-3 py-2 custom-scrollbar">
+              <div className="space-y-2">
+                {GENERATIONS.map((generation, index) => {
+                  const selected = activeGeneration === generation.id;
+                  return (
+                    <label key={generation.id} data-active={selected ? 'true' : 'false'} className="pf-generation-option w-full cursor-pointer focus-within:outline-2 focus-within:outline-blue-600">
+                      <input
+                        ref={selected ? selectedGenerationRef : undefined}
+                        type="radio"
+                        name="factory-generation"
+                        value={generation.id}
+                        checked={selected}
+                        onChange={() => selectGeneration(generation.id)}
+                        className="sr-only"
+                      />
+                      <span className="min-w-0 text-left">
+                        <span className="block text-sm font-black">{isZh ? generation.name : `Generation ${generation.id}`}</span>
+                        <span className="block text-xs font-semibold opacity-75">{isZh ? generation.region : ENGLISH_REGIONS[index]}</span>
+                      </span>
+                      <Check className={`h-5 w-5 shrink-0 ${selected ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true" />
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body,
+      )}
     </motion.div>
   );
 }

@@ -10,6 +10,7 @@ interface ResolveSecondaryEffectsOptions {
   fieldState: FieldState[];
   weather?: Weather;
   getLocalized: LocalizeFn;
+  currentLanguage?: string;
   targetHasActedThisTurn?: boolean;
   extraFlinchChance?: number;
   allowUserEffects?: boolean;
@@ -24,6 +25,7 @@ export function resolveSecondaryEffectsStep({
   fieldState,
   weather,
   getLocalized,
+  currentLanguage,
   targetHasActedThisTurn,
   extraFlinchChance,
   allowUserEffects,
@@ -36,6 +38,7 @@ export function resolveSecondaryEffectsStep({
     fieldState,
     weather,
     getLocalized,
+    currentLanguage,
     targetHasActedThisTurn,
     extraFlinchChance,
     allowUserEffects,

@@ -1,0 +1,251 @@
+{
+  "320x568": {
+    "initial": {
+      "triggerText": "第一世代\n关都",
+      "buttonCount": 1,
+      "selectedGens": [
+        1
+      ],
+      "triggerBounds": {
+        "x": 37,
+        "y": 312.99224853515625,
+        "width": 242,
+        "height": 56
+      }
+    },
+    "opened": {
+      "radioCount": 9,
+      "labels": [
+        "第一世代\n关都",
+        "第二世代\n城都",
+        "第三世代\n丰缘",
+        "第四世代\n神奥",
+        "第五世代\n合众",
+        "第六世代\n卡洛斯",
+        "第七世代\n阿罗拉",
+        "第八世代\n伽勒尔",
+        "第九世代\n帕底亚"
+      ],
+      "dialogBounds": {
+        "x": 0,
+        "y": 12,
+        "width": 320,
+        "height": 556
+      },
+      "fieldset": {
+        "clientHeight": 485,
+        "scrollHeight": 584,
+        "scrollTop": 0
+      },
+      "lastBounds": {
+        "x": 13,
+        "y": 602,
+        "width": 294,
+        "height": 56
+      },
+      "bodyOverflow": "hidden"
+    },
+    "scrolled": {
+      "clientHeight": 485,
+      "scrollHeight": 584,
+      "scrollTop": 0
+    },
+    "selected": {
+      "closed": true,
+      "triggerText": "第九世代\n帕底亚",
+      "saveGens": [
+        9
+      ]
+    },
+    "afterReload": {
+      "triggerText": "第九世代\n帕底亚",
+      "saveGens": [
+        9
+      ]
+    },
+    "escape": {
+      "closed": true,
+      "focusedTrigger": true
+    },
+    "backdrop": {
+      "closed": true
+    },
+    "english": {
+      "triggerText": "Generation 9\nPaldea",
+      "heading": "Current Generation",
+      "saveGens": [
+        9
+      ],
+      "dialogTitle": "Choose Generation",
+      "row9": "Generation 9\nPaldea"
+    },
+    "errors": [],
+    "httpErrors": []
+  },
+  "390x844": {
+    "initial": {
+      "triggerText": "第一世代\n关都",
+      "buttonCount": 1,
+      "selectedGens": [
+        1
+      ],
+      "triggerBounds": {
+        "x": 37,
+        "y": 307.9859924316406,
+        "width": 312,
+        "height": 56
+      }
+    },
+    "opened": {
+      "radioCount": 9,
+      "labels": [
+        "第一世代\n关都",
+        "第二世代\n城都",
+        "第三世代\n丰缘",
+        "第四世代\n神奥",
+        "第五世代\n合众",
+        "第六世代\n卡洛斯",
+        "第七世代\n阿罗拉",
+        "第八世代\n伽勒尔",
+        "第九世代\n帕底亚"
+      ],
+      "dialogBounds": {
+        "x": 0,
+        "y": 189,
+        "width": 390,
+        "height": 655
+      },
+      "fieldset": {
+        "clientHeight": 584,
+        "scrollHeight": 584,
+        "scrollTop": 0
+      },
+      "lastBounds": {
+        "x": 13,
+        "y": 779,
+        "width": 364,
+        "height": 56
+      },
+      "bodyOverflow": "hidden"
+    },
+    "scrolled": {
+      "clientHeight": 584,
+      "scrollHeight": 584,
+      "scrollTop": 0
+    },
+    "selected": {
+      "closed": true,
+      "triggerText": "第五世代\n合众",
+      "saveGens": [
+        5
+      ]
+    },
+    "afterReload": {
+      "triggerText": "第五世代\n合众",
+      "saveGens": [
+        5
+      ]
+    },
+    "escape": {
+      "closed": true,
+      "focusedTrigger": true
+    },
+    "backdrop": {
+      "closed": true
+    },
+    "english": {
+      "triggerText": "Generation 5\nUnova",
+      "heading": "Current Generation",
+      "saveGens": [
+        5
+      ],
+      "dialogTitle": "Choose Generation",
+      "row9": "Generation 9\nPaldea"
+    },
+    "errors": [],
+    "httpErrors": []
+  },
+  "844x390": {
+    "initial": {
+      "triggerText": "第一世代\n关都",
+      "buttonCount": 1,
+      "selectedGens": [
+        1
+      ],
+      "triggerBounds": {
+        "x": 45,
+        "y": 292.63299560546875,
+        "width": 750,
+        "height": 56
+      }
+    },
+    "opened": {
+      "radioCount": 9,
+      "labels": [
+        "第一世代\n关都",
+        "第二世代\n城都",
+        "第三世代\n丰缘",
+        "第四世代\n神奥",
+        "第五世代\n合众",
+        "第六世代\n卡洛斯",
+        "第七世代\n阿罗拉",
+        "第八世代\n伽勒尔",
+        "第九世代\n帕底亚"
+      ],
+      "dialogBounds": {
+        "x": 162,
+        "y": 12,
+        "width": 520,
+        "height": 378
+      },
+      "fieldset": {
+        "clientHeight": 307,
+        "scrollHeight": 584,
+        "scrollTop": 0
+      },
+      "lastBounds": {
+        "x": 175,
+        "y": 602,
+        "width": 494,
+        "height": 56
+      },
+      "bodyOverflow": "hidden"
+    },
+    "scrolled": {
+      "clientHeight": 307,
+      "scrollHeight": 584,
+      "scrollTop": 0
+    },
+    "selected": {
+      "closed": true,
+      "triggerText": "第三世代\n丰缘",
+      "saveGens": [
+        3
+      ]
+    },
+    "afterReload": {
+      "triggerText": "第三世代\n丰缘",
+      "saveGens": [
+        3
+      ]
+    },
+    "escape": {
+      "closed": true,
+      "focusedTrigger": true
+    },
+    "backdrop": {
+      "closed": true
+    },
+    "english": {
+      "triggerText": "Generation 3\nHoenn",
+      "heading": "Current Generation",
+      "saveGens": [
+        3
+      ],
+      "dialogTitle": "Choose Generation",
+      "row9": "Generation 9\nPaldea"
+    },
+    "errors": [],
+    "httpErrors": []
+  }
+}

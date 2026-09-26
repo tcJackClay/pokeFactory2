@@ -1,3 +1,5 @@
+import { FACTORY_BRAIN_TRAINER_ID } from './factoryBrain';
+
 export interface FactoryTrainerTemplate {
   id: string;
   trainerName: string;
@@ -11,6 +13,20 @@ export interface FactoryTrainerTemplate {
   qualityBiasOffset: number;
   betterRangeSlots: number;
 }
+
+export const FACTORY_BRAIN_TEMPLATE: FactoryTrainerTemplate = {
+  id: FACTORY_BRAIN_TRAINER_ID,
+  trainerName: 'NOLAND',
+  facilityClass: 'FACILITY_CLASS_FACTORY_HEAD',
+  monSetExpr: 'FACTORY_RANDOM',
+  monSetBase: 'FACTORY_RANDOM',
+  monSetKey: 'FACTORY_RANDOM',
+  tierHint: 4,
+  challengeTierMin: 0,
+  challengeTierMax: 7,
+  qualityBiasOffset: 3,
+  betterRangeSlots: 3,
+};
 
 // Auto-generated from reference battle_frontier_trainers.h + battle_frontier_trainer_mons.h
 // Templates: 300
@@ -331,6 +347,7 @@ export function selectFactoryTrainerTemplate(params: {
   usedTrainerIds?: Set<string>;
 }): FactoryTrainerTemplate {
   const { challengeNum, isBoss, isSpecialUnlockBoss, usedTrainerIds = new Set<string>() } = params;
+  if (isSpecialUnlockBoss) return FACTORY_BRAIN_TEMPLATE;
   const targetTier = Math.min(4, getTrainerTierByChallenge(challengeNum) + (isBoss ? 1 : 0) + (isSpecialUnlockBoss ? 1 : 0));
   const challengeCandidates = FACTORY_TRAINER_TEMPLATES.filter((template) => challengeNum >= template.challengeTierMin && challengeNum <= template.challengeTierMax);
   const pool = challengeCandidates.length > 0 ? challengeCandidates : FACTORY_TRAINER_TEMPLATES;
@@ -352,5 +369,6 @@ export function selectFactoryTrainerTemplate(params: {
 }
 
 export function getFactoryTrainerTemplateById(id: string): FactoryTrainerTemplate | null {
+  if (id === FACTORY_BRAIN_TRAINER_ID) return FACTORY_BRAIN_TEMPLATE;
   return FACTORY_TRAINER_TEMPLATES.find((template) => template.id === id) ?? null;
 }

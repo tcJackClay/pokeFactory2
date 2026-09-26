@@ -1,0 +1,56 @@
+{
+  "390x844": {
+    "before": {
+      "gens": [
+        9
+      ],
+      "balance": 3,
+      "stage": 7,
+      "phase": "BASE",
+      "paused": true
+    },
+    "locked": {
+      "disabled": true,
+      "text": "第九世代\n帕底亚",
+      "status": "当前挑战仍可继续。请先完成或结束该挑战，再修改世代；设置仅对下一次新挑战生效。",
+      "dialogCount": 0
+    },
+    "afterReload": {
+      "gens": [
+        9
+      ],
+      "balance": 3,
+      "stage": 7,
+      "phase": "BASE",
+      "paused": true
+    },
+    "errors": []
+  },
+  "844x390": {
+    "before": {
+      "gens": [
+        9
+      ],
+      "balance": 3,
+      "stage": 7,
+      "phase": "BASE",
+      "paused": true
+    },
+    "locked": {
+      "disabled": true,
+      "text": "第九世代\n帕底亚",
+      "status": "当前挑战仍可继续。请先完成或结束该挑战，再修改世代；设置仅对下一次新挑战生效。",
+      "dialogCount": 0
+    },
+    "afterReload": {
+      "gens": [
+        9
+      ],
+      "balance": 3,
+      "stage": 7,
+      "phase": "BASE",
+      "paused": true
+    },
+    "errors": []
+  }
+}

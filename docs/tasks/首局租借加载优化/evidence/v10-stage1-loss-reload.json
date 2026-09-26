@@ -1,0 +1,13 @@
+{
+  "resultReload": {
+    "balance": 0,
+    "phase": "ROUND_RESULT",
+    "stage": 1
+  },
+  "baseAfterReload": {
+    "balance": 0,
+    "status": "EMPTY",
+    "challengeStatus": 0
+  },
+  "body": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n商店\n培育\n图鉴\n事件\n设置"
+}

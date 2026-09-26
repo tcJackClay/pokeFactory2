@@ -17,7 +17,7 @@ export function BattlePokemonPanel({ viewModel }: GameViewSectionProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
       transition={{ duration: shouldReduceMotion ? 0.01 : 0.18, ease: 'easeOut' }}
-      className="flex h-full flex-col p-3 sm:p-4"
+      className="pf-battle-pokemon-panel flex h-full min-w-0 flex-col p-3 sm:p-4"
     >
       {mustChooseReplacement && (
         <div className="mb-3 rounded-[18px] border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.92)]">
@@ -25,7 +25,7 @@ export function BattlePokemonPanel({ viewModel }: GameViewSectionProps) {
         </div>
       )}
 
-      <div className="custom-scrollbar grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+      <div className="pf-battle-pokemon-grid custom-scrollbar grid min-h-0 min-w-0 flex-1 grid-cols-1 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
         {playerTeam.map((pokemon, index) => {
           const hpRatio = pokemon.maxHp > 0 ? pokemon.currentHp / pokemon.maxHp : 0;
           const isLead = index === 0;

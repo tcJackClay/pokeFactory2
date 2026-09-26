@@ -1,0 +1,94 @@
+{
+  "generation": 1,
+  "clickToSixCardsSeconds": 6.22,
+  "bootRequestsBeforeClick": {
+    "all": 186,
+    "pokeapi": 26,
+    "factoryIndex": 1,
+    "pokedexCsv": 0,
+    "sprite": 0,
+    "fetchOrXhr": 27
+  },
+  "bootResponsesBeforeClick": {
+    "all": 181,
+    "pokeapi": 24,
+    "factoryIndex": 1,
+    "pokedexCsv": 0,
+    "sprite": 0,
+    "fetchOrXhr": 25
+  },
+  "rentalRequests": {
+    "all": 33,
+    "pokeapi": 25,
+    "factoryIndex": 0,
+    "pokedexCsv": 0,
+    "sprite": 6,
+    "fetchOrXhr": 25
+  },
+  "rentalResponses": {
+    "all": 30,
+    "pokeapi": 27,
+    "factoryIndex": 0,
+    "pokedexCsv": 0,
+    "sprite": 0,
+    "fetchOrXhr": 27
+  },
+  "cards": 6,
+  "rentalBody": "0\nBP\n0/7\n轮次\n0\n连胜\n毒\n尼多朗\n草\n毒\n喇叭芽\n岩石\n水\n菊石兽\n火\n小火龙\n水\n可达鸭\n一般\n喵喵\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)",
+  "stage1": {
+    "balance": 0,
+    "rentals": [
+      32,
+      69,
+      138,
+      4,
+      54,
+      52
+    ]
+  },
+  "dexFirstOpen": {
+    "elapsedObservedSeconds": 6.62,
+    "requests": {
+      "all": 170,
+      "pokeapi": 160,
+      "factoryIndex": 0,
+      "pokedexCsv": 0,
+      "sprite": 8,
+      "fetchOrXhr": 160
+    },
+    "responses": {
+      "all": 160,
+      "pokeapi": 150,
+      "factoryIndex": 0,
+      "pokedexCsv": 0,
+      "sprite": 8,
+      "fetchOrXhr": 150
+    },
+    "body": "0\nBP\n0/7\n轮次\n0\n连胜\n宝可梦图鉴\n返回\n属性一\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n属性二\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n全国\n关都\n城都\n丰缘\n神奥\n合众\n卡洛斯\n阿罗拉\n伽勒尔\n帕底亚\n#0004\n租赁\n小火龙\n火\nHP\n39\nATK\n52\nDEF\n43\nSPA\n60\nSPD\n50\nSPE\n65\nMega Punch\n--\n变化\n--\nFire Punch\n--\n变化\n--\nThunder Punch\n--\n变化\n--\nScratch\n--\n变化\n--\nSwords Dance\n--\n变化\n--\nCut\n--\n变化\n--\nWing Attack\n--\n变化\n--\nMega Kick\n--\n变化\n--\nHeadbutt\n--\n变化\n--\nBody Slam\n--\n变化\n--\nTake Down\n--\n变化\n--\nDouble Edge\n--\n变化\n--\nLeer\n--\n变化\n--\nBite\n--\n变化\n--\nGrowl\n--\n变化\n--\nRoar\n--\n变化\n--\nEmber\n--\n变化\n--\nFlamethrower\n--\n变化\n--\nSubmission\n--\n变化\n--\nCounter\n--\n变化\n--\nSeismic Toss\n--\n变化\n--\nStrength\n--\n变化\n--\nDragon Rage\n--\n变化\n--\nFire Spin\n--\n变"
+  },
+  "eventSelector": {
+    "disabled": false,
+    "elapsedObservedSeconds": 5.32,
+    "requests": {
+      "all": 37,
+      "pokeapi": 33,
+      "factoryIndex": 0,
+      "pokedexCsv": 3,
+      "sprite": 0,
+      "fetchOrXhr": 36
+    },
+    "responses": {
+      "all": 57,
+      "pokeapi": 36,
+      "factoryIndex": 0,
+      "pokedexCsv": 3,
+      "sprite": 1,
+      "fetchOrXhr": 39
+    },
+    "body": "0\nBP\n0/7\n轮次\n0\n连胜\n事件派遣\nMock模式: 关\n返回主页\n\n开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。\n\n关都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n城都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n丰缘\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n神奥\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n合众\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n卡洛斯\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n伽勒尔\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n帕底亚\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n关都 派遣宝可梦\n\n优先选择属性匹配：normal / water / grass\n\n喇叭芽 #69\n\n匹配\n\n菊石兽 #138\n\n匹配\n\n尼多朗 #32\n\n可选"
+  },
+  "errors": {
+    "console": [],
+    "http": []
+  }
+}

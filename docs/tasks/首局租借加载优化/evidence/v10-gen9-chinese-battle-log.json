@@ -1,0 +1,44 @@
+[
+  {
+    "turn": 1,
+    "move": "巨声一般威力 90命中 100PP 10/10",
+    "log": "\nFCT-01\n\n走鲸陷入了混乱状态！\n\n走鲸 使用了 巨声！\n\n",
+    "englishFragments": [],
+    "bodyHead": "0\nBP\n1/7\n轮次\n0\n连胜\n原野水母\n♀\nLV.50\n地面\n草\nHP\n100%\n走鲸\n♀\nLV.50\n冰\nHP\n168/168\n战斗日志\nFCT-01\n\n走鲸陷入了混乱状态！\n\n走鲸 使用了 巨声！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n叫声\n一般\n威力 --\n命中 100\nP"
+  },
+  {
+    "turn": 2,
+    "move": "巨声一般威力 90命中 100PP 9/10",
+    "log": "\nFCT-01\n\n走鲸陷入了混乱状态！\n\n走鲸 使用了 巨声！\n\n",
+    "englishFragments": [],
+    "bodyHead": "0\nBP\n1/7\n轮次\n0\n连胜\n原野水母\n♀\nLV.50\n地面\n草\nHP\n92%\n走鲸\n♀\nLV.50\n冰\nHP\n168/168\n战斗日志\nFCT-01\n\n走鲸陷入了混乱状态！\n\n走鲸 使用了 巨声！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n叫声\n一般\n威力 --\n命中 100\nPP"
+  },
+  {
+    "turn": 3,
+    "move": "巨声一般威力 90命中 100PP 9/10",
+    "log": "\nFCT-01\n\n走鲸陷入了混乱状态！\n\n走鲸 使用了 巨声！\n\n",
+    "englishFragments": [],
+    "bodyHead": "0\nBP\n1/7\n轮次\n0\n连胜\n原野水母\n♀\nLV.50\n地面\n草\nHP\n84%\n走鲸\n♀\nLV.50\n冰\nHP\n168/168\n战斗日志\nFCT-01\n\n走鲸陷入了混乱状态！\n\n走鲸 使用了 巨声！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n叫声\n一般\n威力 --\n命中 100\nPP"
+  },
+  {
+    "turn": 4,
+    "move": "巨声一般威力 90命中 100PP 8/10",
+    "log": "\nFCT-01\n\n走鲸陷入了混乱状态！\n\n走鲸 使用了 巨声！\n\n",
+    "englishFragments": [],
+    "bodyHead": "0\nBP\n1/7\n轮次\n0\n连胜\n原野水母\n♀\nLV.50\n地面\n草\nHP\n78%\n走鲸\n♀\nLV.50\n冰\nHP\n168/168\n战斗日志\nFCT-01\n\n走鲸陷入了混乱状态！\n\n走鲸 使用了 巨声！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n叫声\n一般\n威力 --\n命中 100\nPP"
+  },
+  {
+    "turn": 5,
+    "move": "巨声一般威力 90命中 100PP 7/10",
+    "log": "\nFCT-01\n\n对手的 原野水母 使用了 超音波！\n\n走鲸陷入了混乱！\n\n",
+    "englishFragments": [],
+    "bodyHead": "0\nBP\n1/7\n轮次\n0\n连胜\n原野水母\n♀\nLV.50\n地面\n草\nHP\n72%\n走鲸\n♀\nLV.50\n冰\n混乱\nHP\n143/168\n战斗日志\nFCT-01\n\n对手的 原野水母 使用了 超音波！\n\n走鲸陷入了混乱！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n叫声\n一般\n威力 --\n命"
+  },
+  {
+    "turn": 6,
+    "move": "巨声一般威力 90命中 100PP 6/10",
+    "log": "\nFCT-01\n\n对手的 原野水母 使用了 生长！\n\n走鲸从混乱中清醒了！\n\n",
+    "englishFragments": [],
+    "bodyHead": "0\nBP\n1/7\n轮次\n0\n连胜\n原野水母\n♀\nLV.50\n地面\n草\nHP\n78%\n走鲸\n♀\nLV.50\n冰\nHP\n153/168\n战斗日志\nFCT-01\n\n对手的 原野水母 使用了 生长！\n\n走鲸从混乱中清醒了！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n叫声\n一般\n威力 --\n命中 "
+  }
+]

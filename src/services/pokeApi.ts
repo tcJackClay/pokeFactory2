@@ -131,7 +131,7 @@ async function fetchPokemonBase(identifier: PokemonIdentifier): Promise<Pokemon>
   return request;
 }
 
-async function hydratePokemonDetails(data: Pokemon): Promise<Pokemon> {
+async function hydratePokemonDetails(data: Pokemon, requireCompleteDetails = false): Promise<Pokemon> {
   try {
     const rawSpeciesUrl = (data as any)?.species?.url;
     if (rawSpeciesUrl && !Array.isArray(data.names)) {
@@ -157,7 +157,11 @@ async function hydratePokemonDetails(data: Pokemon): Promise<Pokemon> {
       a.ability.names = await fetchAbilityNames(a.ability.url);
       a.ability.zhName = getZhName(a.ability.names);
     }
+    if (requireCompleteDetails && data.abilities.some((slot) => !Array.isArray(slot.ability.names) || slot.ability.names.length === 0)) {
+      throw new Error(`Missing ability details for ${data.name}`);
+    }
   } catch (e) {
+    if (requireCompleteDetails) throw e;
     data.zhName = data.name;
   }
 
@@ -168,9 +172,9 @@ export async function fetchPokemonLite(identifier: PokemonIdentifier): Promise<P
   return fetchPokemonBase(identifier);
 }
 
-export async function fetchPokemon(identifier: PokemonIdentifier): Promise<Pokemon> {
+export async function fetchPokemon(identifier: PokemonIdentifier, requireCompleteDetails = false): Promise<Pokemon> {
   const data = await fetchPokemonBase(identifier);
-  return hydratePokemonDetails(data);
+  return hydratePokemonDetails(data, requireCompleteDetails);
 }
 
 export async function fetchAbilityNames(url: string): Promise<any[]> {
@@ -185,7 +189,7 @@ export async function fetchAbilityNames(url: string): Promise<any[]> {
     try {
       const data = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(url));
       const names = Array.isArray(data.names) ? data.names : [];
-      abilityNamesCache.set(normalizedUrl, names);
+      if (names.length > 0) abilityNamesCache.set(normalizedUrl, names);
       return names;
     } catch (e) {
       return [];
@@ -343,6 +347,13 @@ export async function fetchMoveByName(moveName: string): Promise<Move> {
   return move;
 }
 
+export function fetchRequiredMovesInOrder(
+  moveNames: readonly string[],
+  fetchMove: (moveName: string) => Promise<Move> = fetchMoveByName,
+): Promise<Move[]> {
+  return Promise.all(moveNames.map((moveName) => fetchMove(moveName)));
+}
+
 export async function fetchAvailableEvolutionChain(pokemonId: number): Promise<number[]> {
   return fetchEvolutionChain(pokemonId);
 }
@@ -374,8 +385,8 @@ function calculateStat(base: number, iv: number, level: number, isHp: boolean = 
   return Math.floor((Math.floor((base * 2 + iv) * level / 100) + 5) * natureMod);
 }
 
-export async function getProcessedPokemon(identifier: PokemonIdentifier, level: number = 50): Promise<GamePokemon> {
-  const raw = await fetchPokemon(identifier);
+export async function getProcessedPokemon(identifier: PokemonIdentifier, level: number = 50, requireCompleteDetails = false): Promise<GamePokemon> {
+  const raw = await fetchPokemon(identifier, requireCompleteDetails);
   const normalizedIdentifier = typeof identifier === 'string' ? identifier.trim().toLowerCase() : '';
   const speciesId = parsePokeApiNumericId((raw as any)?.species?.url) ?? raw.id;
   const speciesData = await fetchPokemonSpeciesById(speciesId);
@@ -392,18 +403,23 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
   // Pick random moves that have power
   const validMoves: Move[] = [];
   const shuffledMoves = raw.moves.sort(() => 0.5 - Math.random());
-  
-  for (const m of shuffledMoves) {
-    try {
-      const move = await fetchMoveByName(m.move.name);
-      validMoves.push(move);
-      if (validMoves.length >= 4) break;
-    } catch (e) {
-      continue;
+
+  if (requireCompleteDetails) {
+    validMoves.push(...await fetchRequiredMovesInOrder(shuffledMoves.slice(0, 4).map((entry) => entry.move.name)));
+  } else {
+    for (const m of shuffledMoves) {
+      try {
+        const move = await fetchMoveByName(m.move.name);
+        validMoves.push(move);
+        if (validMoves.length >= 4) break;
+      } catch {
+        continue;
+      }
     }
   }
   
   if (validMoves.length === 0) {
+    if (requireCompleteDetails) throw new Error(`Missing moves for ${raw.name}`);
     validMoves.push({
       name: 'tackle',
       zhName: '撞击',
@@ -524,8 +540,8 @@ export async function getProcessedPokemon(identifier: PokemonIdentifier, level: 
     };
   }
 
-export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceSet, level: number = 50): Promise<GamePokemon> {
-  const raw = await fetchPokemon(set.speciesId);
+export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceSet, level: number = 50, requireCompleteDetails = false): Promise<GamePokemon> {
+  const raw = await fetchPokemon(set.speciesId, requireCompleteDetails);
   const speciesId = parsePokeApiNumericId((raw as any)?.species?.url) ?? set.speciesId;
   const speciesData = await fetchPokemonSpeciesById(speciesId);
   const speciesName = String(raw.name ?? '').toLowerCase();
@@ -538,16 +554,21 @@ export async function getProcessedPokemonFromReferenceSet(set: FactoryReferenceS
   const gender = resolvePokemonGender(speciesData?.gender_rate);
 
   const selectedMoves: Move[] = [];
-  for (const moveName of set.moveNames) {
-    try {
-      const move = await fetchMoveByName(moveName);
-      selectedMoves.push(move);
-    } catch {
-      continue;
+  if (requireCompleteDetails) {
+    selectedMoves.push(...await fetchRequiredMovesInOrder(set.moveNames));
+  } else {
+    for (const moveName of set.moveNames) {
+      try {
+        const move = await fetchMoveByName(moveName);
+        selectedMoves.push(move);
+      } catch {
+        continue;
+      }
     }
   }
 
   if (selectedMoves.length === 0) {
+    if (requireCompleteDetails) throw new Error(`Missing reference moves for ${raw.name}`);
     return getProcessedPokemon(set.speciesId, level);
   }
 

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="PokeFactory2">
+  <rect width="64" height="64" rx="14" fill="#17345a"/>
+  <path d="M10 51V31l14 8V27l14 10V17h9v22l7-4v16H10Z" fill="#f8fafc"/>
+  <path d="M38 17h9v8h-9z" fill="#fbbf24"/>
+  <path d="M17 44h6m6 0h6m6 0h6" stroke="#17345a" stroke-width="4" stroke-linecap="round"/>
+</svg>

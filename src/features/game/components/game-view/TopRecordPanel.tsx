@@ -28,7 +28,7 @@ export function TopRecordPanel({ currentLanguage, coins, stage, streak, battleIn
   const battleIndex = battleIndexOverride ?? getBattleIndexInSet(stage, battlesPerSet);
 
   const items = [
-    { key: 'tokens', label: isZh ? '代币' : 'Coins', value: String(coins), icon: Coins, iconClass: 'text-amber-500' },
+    { key: 'bp', label: 'BP', value: String(coins), icon: Coins, iconClass: 'text-amber-500' },
     { key: 'round', label: isZh ? '轮次' : 'Round', value: `${battleIndex}/${battlesPerSet}`, icon: Hash, iconClass: 'text-sky-600' },
     { key: 'streak', label: isZh ? '连胜' : 'Streak', value: String(streak), icon: Flame, iconClass: 'text-orange-500' },
   ] as const;

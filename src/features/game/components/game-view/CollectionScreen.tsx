@@ -5,6 +5,7 @@ import TypeBadge from '../../../../components/TypeBadge';
 import {
   fetchDexCatalogEntries,
   fetchDexMoveDetails,
+  fetchDexMoveNameFallbacks,
   fetchDexSnapshots,
   fetchDexTypeMap,
   type DexCatalogEntry,
@@ -19,6 +20,7 @@ import {
   proxyExternalResourceUrl,
 } from '../../../../services/pokeApiEndpoint';
 import type { GameViewSectionProps } from './shared';
+import { getDexMoveDisplayName, type DexMoveNameFallback } from '../../utils/dexMoveName';
 
 interface DexEntry {
   id: number;
@@ -171,19 +173,6 @@ function getFormDisplayLabel(
   return getFallbackFormLabel(String(entry.raw?.name ?? ''), entry.formCategory, isZh);
 }
 
-function formatMoveName(name: string) {
-  return name
-    .split('-')
-    .map((part) => (part ? part[0].toUpperCase() + part.slice(1) : part))
-    .join(' ');
-}
-
-function getMoveDisplayName(move: string, detail: DexMoveDetail | undefined, isZh: boolean) {
-  const en = detail?.enName || formatMoveName(move);
-  const zh = detail?.zhName || en;
-  return isZh ? zh : en;
-}
-
 function getDamageClassLabel(damageClass: DexMoveDetail['damageClass'] | undefined, isZh: boolean) {
   if (damageClass === 'physical') return isZh ? '物理' : 'Physical';
   if (damageClass === 'special') return isZh ? '特殊' : 'Special';
@@ -260,6 +249,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
   const [dexTypeMap, setDexTypeMap] = useState<Record<string, string[]>>({});
   const [snapshotMap, setSnapshotMap] = useState<Record<number, DexSnapshot>>({});
   const [moveDetailMap, setMoveDetailMap] = useState<Record<string, DexMoveDetail>>({});
+  const [moveNameFallbackMap, setMoveNameFallbackMap] = useState<Record<string, DexMoveNameFallback>>({});
   const [search, setSearch] = useState('');
   const [typeFilterPrimary, setTypeFilterPrimary] = useState('all');
   const [typeFilterSecondary, setTypeFilterSecondary] = useState('all');
@@ -479,6 +469,20 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     };
   }, [moveDetailMap, selectedEntry]);
 
+  useEffect(() => {
+    const moveNames = selectedEntry?.learnableMoves ?? [];
+    if (moveNames.length === 0) return;
+    let cancelled = false;
+    void fetchDexMoveNameFallbacks(moveNames)
+      .then((names) => {
+        if (!cancelled) setMoveNameFallbackMap((prev) => ({ ...prev, ...names }));
+      })
+      .catch(() => {
+        // The move identifier remains available if localized names cannot load.
+      });
+    return () => { cancelled = true; };
+  }, [selectedEntry]);
+
   return (
     <motion.div
       key="collection"
@@ -680,7 +684,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
                         {selectedEntry.learnableMoves.map((move) => {
                           const normalizedMove = String(move || '').toLowerCase();
                           const detail = moveDetailMap[normalizedMove];
-                          const displayName = getMoveDisplayName(move, detail, isZh);
+                          const displayName = getDexMoveDisplayName(move, detail, moveNameFallbackMap[normalizedMove], currentLanguage);
                           return (
                             <div
                               key={`${selectedEntry.id}-${move}`}

@@ -1,4 +1,5 @@
 import type { FieldState, GamePokemon, Move, StatStages } from '../../../../types';
+import { battleLine } from '../battleLogText';
 import { getMoveTypeMultiplier, getTypeEffectivenessMultiplierForTypes } from './resolveTypeEffectiveness';
 import { setVolatileStatus } from '../../utils/battleStatus';
 import { getResolvedBattleMoveType } from './resolveMoveType';
@@ -27,6 +28,7 @@ export function resolveTypeImmunityReaction(
   defender: GamePokemon,
   fieldState: FieldState[] = [],
   attacker?: GamePokemon,
+  currentLanguage?: string,
 ): TypeImmunityReactionResult {
   if (getMoveTypeMultiplier(move, defender, attacker, fieldState) !== 0) {
     return { defender, message: null };
@@ -63,37 +65,37 @@ export function resolveTypeImmunityReaction(
     const heal = Math.max(0, Math.min(Math.floor(defender.maxHp / 4), defender.maxHp - defender.currentHp));
     return {
       defender: heal > 0 ? { ...defender, currentHp: defender.currentHp + heal } : defender,
-      message: `${defender.name}'s ${ability} absorbed the attack${heal > 0 ? ' and restored HP' : ''}!`,
+      message: battleLine(currentLanguage, `${defender.name}'s ${ability} absorbed the attack${heal > 0 ? ' and restored HP' : ''}!`, `${defender.zhName || defender.name}的特性吸收了招式${heal > 0 ? '，并恢复了体力' : ''}！`),
     };
   }
   if (ability === 'lightning-rod' || ability === 'storm-drain') {
     return {
       defender: raiseStage(defender, 'spAtk', 1),
-      message: `${defender.name}'s ${ability} raised its Special Attack!`,
+      message: battleLine(currentLanguage, `${defender.name}'s ${ability} raised its Special Attack!`, `${defender.zhName || defender.name}的特性提高了特攻！`),
     };
   }
   if (ability === 'motor-drive') {
     return {
       defender: raiseStage(defender, 'speed', 1),
-      message: `${defender.name}'s motor-drive raised its Speed!`,
+      message: battleLine(currentLanguage, `${defender.name}'s motor-drive raised its Speed!`, `${defender.zhName || defender.name}的特性提高了速度！`),
     };
   }
   if (ability === 'sap-sipper') {
     return {
       defender: raiseStage(defender, 'attack', 1),
-      message: `${defender.name}'s sap-sipper raised its Attack!`,
+      message: battleLine(currentLanguage, `${defender.name}'s sap-sipper raised its Attack!`, `${defender.zhName || defender.name}的特性提高了攻击！`),
     };
   }
   if (ability === 'well-baked-body') {
     return {
       defender: raiseStage(defender, 'defense', 2),
-      message: `${defender.name}'s well-baked-body sharply raised its Defense!`,
+      message: battleLine(currentLanguage, `${defender.name}'s well-baked-body sharply raised its Defense!`, `${defender.zhName || defender.name}的特性大幅提高了防御！`),
     };
   }
   if (ability === 'flash-fire') {
     return {
       defender: setVolatileStatus(defender, 'flash-fire'),
-      message: `${defender.name}'s flash-fire was activated!`,
+      message: battleLine(currentLanguage, `${defender.name}'s flash-fire was activated!`, `${defender.zhName || defender.name}的引火特性发动了！`),
     };
   }
   return { defender, message: null };

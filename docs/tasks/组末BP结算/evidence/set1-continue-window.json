@@ -1,0 +1,89 @@
+{
+  "before": {
+    "wallet": {
+      "balance": 3,
+      "revision": 2,
+      "currentRunId": "run:f8137e5e-02ac-424a-bff0-8f895acaba02",
+      "brainSymbols": 0,
+      "settledThrough": 1,
+      "lastSettlement": {
+        "runId": "run:f8137e5e-02ac-424a-bff0-8f895acaba02",
+        "setNo": 1,
+        "stage": 7,
+        "result": "WIN",
+        "isFrontierBrain": false,
+        "nominalBp": 3,
+        "amount": 3,
+        "settledAt": "2026-09-26T05:16:42.854Z"
+      }
+    },
+    "stage": 7,
+    "streak": 7,
+    "status": "READY",
+    "challengeStatus": 0
+  },
+  "baseBody": "3\nBP\n7/7\n轮次\n7\n连胜\n继续中\n对战工厂\n\n继续当前挑战\n\n继续挑战\n商店\n培育\n图鉴\n事件\n设置\nDEV",
+  "button": "继续挑战",
+  "at120ms": {
+    "state": {
+      "wallet": {
+        "balance": 3,
+        "revision": 2,
+        "currentRunId": "run:f8137e5e-02ac-424a-bff0-8f895acaba02",
+        "brainSymbols": 0,
+        "settledThrough": 1,
+        "lastSettlement": {
+          "runId": "run:f8137e5e-02ac-424a-bff0-8f895acaba02",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T05:16:42.854Z"
+        }
+      },
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "challengeStatus": 1
+    },
+    "body": "3\nBP\n1/7\n轮次\n7\n连胜\n捣蛋小妖\n♂\nLV.50\n恶\n妖精\nHP\n108/108\n战斗日志\nFCT-01\n\n等待战斗指令。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n投掷\n恶\n威力 --\n命中 100\nPP 10/10\n打鼾\n一般\n威力 50\n命中 100\nPP 15/15\n报仇\n一般\n威力 70\n命中 100\nPP 4/5\n挥指\n一般\n威力 --\n命中 "
+  },
+  "afterReload": {
+    "state": {
+      "wallet": {
+        "balance": 3,
+        "revision": 2,
+        "currentRunId": "run:f8137e5e-02ac-424a-bff0-8f895acaba02",
+        "brainSymbols": 0,
+        "settledThrough": 1,
+        "lastSettlement": {
+          "runId": "run:f8137e5e-02ac-424a-bff0-8f895acaba02",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T05:16:42.854Z"
+        }
+      },
+      "stage": null,
+      "streak": null,
+      "status": "EMPTY",
+      "challengeStatus": 0
+    },
+    "body": "3\nBP\n0/7\n轮次\n7\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n商店\n培育\n图鉴\n事件\n设置\nDEV",
+    "buttons": [
+      "开始挑战",
+      "商店",
+      "培育",
+      "图鉴",
+      "事件",
+      "设置",
+      "DEV"
+    ]
+  },
+  "errors": []
+}

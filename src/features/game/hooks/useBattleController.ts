@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Weather } from '../../../types';
-import { getFactoryTokenReward } from '../config/factoryRewards';
+import { getBattleIndexInSet } from '../config/factoryRewards';
+import type { PendingFactorySettlement } from '../../../services/saveManager';
 import {
   FACTORY_STYLE,
   type FactoryStyleId,
@@ -55,6 +56,7 @@ import {
 import {
   findNextLivingLeadIndex,
 } from '../lib/battleResolution';
+import { battleAilmentName, battleHeldItemName, battleItemMessage, battleLine, battleMoveName, battleStatName, isChineseBattleLog } from '../battle/battleLogText';
 import {
   clearNonVolatileStatus,
   clearVolatileStatus,
@@ -95,14 +97,21 @@ interface UseBattleControllerParams {
   enemyAiTier: FactoryAiTier;
   specialModeUnlocked: boolean;
   specialBossBattleActive: boolean;
+  isFrontierBrain: boolean;
   battleSpecialUsage: BattleSpecialUsageState;
   enemySpecialUsage: BattleSpecialUsageState;
   allowWildCatch: boolean;
   suppressFactoryBattleResult: boolean;
   onSuppressBattleResolved: (result: 'WIN' | 'LOSS') => void;
+  factoryRunId: string | null;
+  pendingSettlement: PendingFactorySettlement | null;
+  settleFactoryBattle: (runId: string, stage: number, result: 'WIN' | 'LOSS', isFrontierBrain: boolean) => {
+    awarded: boolean;
+    amount: number;
+  };
   t: TranslateFn;
+  currentLanguage: string;
   getLocalized: LocalizeFn;
-  setCoins: Dispatch<SetStateAction<number>>;
   setInventory: Dispatch<SetStateAction<Item[]>>;
   setPlayerTeam: Dispatch<SetStateAction<GamePokemon[]>>;
   setEnemy: Dispatch<SetStateAction<GamePokemon | null>>;
@@ -306,14 +315,18 @@ export function useBattleController({
   enemyAiTier,
   specialModeUnlocked,
   specialBossBattleActive,
+  isFrontierBrain,
   battleSpecialUsage,
   enemySpecialUsage,
   allowWildCatch,
   suppressFactoryBattleResult,
   onSuppressBattleResolved,
+  factoryRunId,
+  pendingSettlement,
+  settleFactoryBattle,
   t,
+  currentLanguage,
   getLocalized,
-  setCoins,
   setInventory,
   setPlayerTeam,
   setEnemy,
@@ -344,6 +357,8 @@ export function useBattleController({
   setBattleSpecialUsage,
   setEnemySpecialUsage,
 }: UseBattleControllerParams) {
+  const [settlementError, setSettlementError] = useState(Boolean(pendingSettlement));
+  const pendingSettlementRef = useRef<PendingFactorySettlement | null>(pendingSettlement);
   const previousTurnRef = useRef<BattleTurn | null>(null);
   const pendingPlayerSwitchRef = useRef(false);
   const pendingForcedPlayerTurnRef = useRef<BattleTurn | null>(null);
@@ -368,34 +383,18 @@ export function useBattleController({
 
   const getHeldItemLabel = useCallback((itemId?: string) => {
     const normalized = normalizeHeldItemId(itemId);
-    if (!normalized) return 'Held Item';
-    return HELD_ITEM_LABELS[normalized]
+    const english = !normalized ? 'Held Item' : (HELD_ITEM_LABELS[normalized]
       ?? normalized
         .split('_')
         .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-        .join(' ');
-  }, [normalizeHeldItemId]);
+        .join(' '));
+    return battleHeldItemName(normalized, english, currentLanguage);
+  }, [currentLanguage, normalizeHeldItemId]);
 
   const getStatusLabel = useCallback((status?: string) => {
     const normalized = normalizeBattleStatusId(status);
-    if (normalized === 'paralysis') return 'paralysis';
-    if (normalized === 'sleep') return 'sleep';
-    if (normalized === 'poison' || normalized === 'bad_poison') return 'poison';
-    if (normalized === 'burn') return 'burn';
-    if (normalized === 'freeze') return 'freeze';
-    if (normalized === 'confusion') return 'confusion';
-    return normalized || 'status';
-  }, []);
-
-  const getStageLabel = useCallback((stageKey: keyof GamePokemon['statStages']) => {
-    if (stageKey === 'attack') return 'Attack';
-    if (stageKey === 'defense') return 'Defense';
-    if (stageKey === 'spAtk') return 'Sp. Atk';
-    if (stageKey === 'spDef') return 'Sp. Def';
-    if (stageKey === 'speed') return 'Speed';
-    if (stageKey === 'accuracy') return 'Accuracy';
-    return 'Evasion';
-  }, []);
+    return battleAilmentName(normalized || 'status', currentLanguage);
+  }, [currentLanguage]);
 
   const isGhostType = useCallback((pokemon: GamePokemon | null | undefined) => {
     return Boolean(pokemon?.types.some((typeSlot) => typeSlot.type.name === 'ghost'));
@@ -497,12 +496,12 @@ export function useBattleController({
       curedStatuses.push(getStatusLabel(nonVolatileStatusId));
     }
 
-    const curedStatus = curedStatuses.join(' and ');
+    const curedStatus = curedStatuses.join(isChineseBattleLog(currentLanguage) ? '和' : ' and ');
     return {
       pokemon: nextPokemon,
-      message: `${getLocalized(nextPokemon)} cured its ${curedStatus} with ${getHeldItemLabel(heldId)}!`,
+      message: battleItemMessage(currentLanguage, 'cure', getLocalized(nextPokemon), getHeldItemLabel(heldId), curedStatus),
     };
-  }, [consumeHeldItem, getHeldItemLabel, getLocalized, getStatusLabel, normalizeHeldItemId]);
+  }, [consumeHeldItem, currentLanguage, getHeldItemLabel, getLocalized, getStatusLabel, normalizeHeldItemId]);
 
   const tryActivateSitrusBerry = useCallback((pokemon: GamePokemon | null | undefined) => {
     if (!pokemon) return { pokemon, message: null as string | null };
@@ -524,9 +523,9 @@ export function useBattleController({
     const nextPokemon = { ...consumed, currentHp: Math.min(consumed.maxHp, consumed.currentHp + recover) };
     return {
       pokemon: nextPokemon,
-      message: `${getLocalized(nextPokemon)} restored HP with ${getHeldItemLabel(heldId)}!`,
+      message: battleItemMessage(currentLanguage, 'heal', getLocalized(nextPokemon), getHeldItemLabel(heldId)),
     };
-  }, [consumeHeldItem, getHeldItemLabel, getLocalized, hasHeldItemEffect, normalizeHeldItemId]);
+  }, [consumeHeldItem, currentLanguage, getHeldItemLabel, getLocalized, hasHeldItemEffect, normalizeHeldItemId]);
 
   const tryActivatePinchStatBerry = useCallback((pokemon: GamePokemon | null | undefined) => {
     if (!pokemon) return { pokemon, message: null as string | null };
@@ -554,9 +553,9 @@ export function useBattleController({
     };
     return {
       pokemon: nextPokemon,
-      message: `${getLocalized(nextPokemon)}'s ${getStageLabel(targetStat)} rose with ${getHeldItemLabel(heldId)}!`,
+      message: battleItemMessage(currentLanguage, 'stat', getLocalized(nextPokemon), getHeldItemLabel(heldId), battleStatName(targetStat, currentLanguage)),
     };
-  }, [consumeHeldItem, getHeldItemLabel, getLocalized, getStageLabel, normalizeHeldItemId]);
+  }, [consumeHeldItem, currentLanguage, getHeldItemLabel, getLocalized, normalizeHeldItemId]);
 
   const tryActivateWhiteHerb = useCallback((before: GamePokemon | null | undefined, after: GamePokemon | null | undefined) => {
     if (!before || !after) return { pokemon: after, message: null as string | null };
@@ -577,9 +576,9 @@ export function useBattleController({
     const nextPokemon = { ...consumed, statStages: restoredStages };
     return {
       pokemon: nextPokemon,
-      message: `${getLocalized(nextPokemon)} restored its lowered stats with ${getHeldItemLabel('white_herb')}!`,
+      message: battleItemMessage(currentLanguage, 'restoreStats', getLocalized(nextPokemon), getHeldItemLabel('white_herb')),
     };
-  }, [consumeHeldItem, getHeldItemLabel, getLocalized, hasHeldItem]);
+  }, [consumeHeldItem, currentLanguage, getHeldItemLabel, getLocalized, hasHeldItem]);
 
   const tryConsumeMentalHerb = useCallback((pokemon: GamePokemon | null | undefined) => {
     if (!pokemon) return { pokemon, message: null as string | null };
@@ -594,9 +593,9 @@ export function useBattleController({
     const nextPokemon = clearVolatileStatuses(consumeHeldItem(pokemon, heldId), activeMentalStatuses);
     return {
       pokemon: nextPokemon,
-      message: `${getLocalized(nextPokemon)} recovered from ${getStatusLabel(activeMentalStatuses[0])} with ${getHeldItemLabel(heldId)}!`,
+      message: battleItemMessage(currentLanguage, 'mentalCure', getLocalized(nextPokemon), getHeldItemLabel(heldId), getStatusLabel(activeMentalStatuses[0])),
     };
-  }, [consumeHeldItem, getHeldItemLabel, getLocalized, getItemMentalStatuses, getStatusLabel, hasHeldItemEffect, normalizeHeldItemId]);
+  }, [consumeHeldItem, currentLanguage, getHeldItemLabel, getLocalized, getItemMentalStatuses, getStatusLabel, hasHeldItemEffect, normalizeHeldItemId]);
 
   const addMessagesSequentially = useCallback(async (messages: string[]) => {
     setIsMessageProcessing(true);
@@ -675,11 +674,11 @@ export function useBattleController({
 
   const announceHpChange = useCallback(async (displayName: string, hpChange: number) => {
     if (hpChange > 0) {
-      await addMessagesSequentially([`${displayName} recovered some HP!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${displayName} recovered some HP!`, `${displayName}恢复了一些体力！`)]);
     } else if (hpChange < 0) {
-      await addMessagesSequentially([`${displayName} was hurt by recoil!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${displayName} was hurt by recoil!`, `${displayName}受到了反作用力的伤害！`)]);
     }
-  }, [addMessagesSequentially]);
+  }, [addMessagesSequentially, currentLanguage]);
 
   const calculateConfusionSelfHitDamage = useCallback((pokemon: GamePokemon) => {
     return resolveConfusionSelfHitDamage(pokemon);
@@ -712,6 +711,7 @@ export function useBattleController({
       fieldState,
       weather,
       getLocalized,
+      currentLanguage,
       targetHasActedThisTurn,
       extraFlinchChance,
       allowUserEffects,
@@ -726,7 +726,7 @@ export function useBattleController({
     }
 
     return result;
-  }, [addMessagesSequentially, fieldState, getLocalized, weather]);
+  }, [addMessagesSequentially, currentLanguage, fieldState, getLocalized, weather]);
 
   const resolvePreTurnStatus = useCallback(async ({
     combatant,
@@ -741,7 +741,13 @@ export function useBattleController({
     currentEnemyTeam?: GamePokemon[];
     move?: Move;
   }) => {
-    const displayName = isEnemy ? `Enemy ${getLocalized(combatant)}` : getLocalized(combatant);
+    const displayName = isEnemy
+      ? currentLanguage === 'zh-hant'
+        ? `對手${getLocalized(combatant)}`
+        : currentLanguage.startsWith('zh')
+          ? `对手${getLocalized(combatant)}`
+          : `Enemy ${getLocalized(combatant)}`
+      : getLocalized(combatant);
     const result = resolveBeforeMoveChecksStep({
       snapshot: {
         playerTeam: [...(currentPlayerTeam ?? playerTeam)],
@@ -755,6 +761,7 @@ export function useBattleController({
       combatant,
       move,
       displayName,
+      currentLanguage,
       hasAbilityEffect: hasPrimaryAbilityEffect,
       isMoveUsableWhileAsleep,
       getEncoredMove,
@@ -787,6 +794,7 @@ export function useBattleController({
   }, [
     addMessagesSequentially,
     calculateConfusionSelfHitDamage,
+    currentLanguage,
     enemyTeam,
     fieldState,
     fieldTurns,
@@ -805,7 +813,7 @@ export function useBattleController({
     tryConsumeStatusCureBerry,
   ]);
 
-  const resolveBattleResult = useCallback(async (result: 'WIN' | 'LOSS') => {
+  const resolveBattleResult = useCallback(async (result: 'WIN' | 'LOSS', retryPending?: PendingFactorySettlement | null) => {
     setLoading(true);
 
     try {
@@ -815,23 +823,39 @@ export function useBattleController({
       }
 
       const nextStreak = result === 'WIN' ? streak + 1 : streak;
-      const tokens = getFactoryTokenReward(stage, result);
+      const brainOpponent = retryPending?.runId === factoryRunId && retryPending.stage === stage && retryPending.result === result
+        ? retryPending.isFrontierBrain
+        : isFrontierBrain;
+      let creditedTokens: number;
+      try {
+        if (!factoryRunId) throw new Error('Factory run ID is missing.');
+        const settlement = settleFactoryBattle(factoryRunId, stage, result, brainOpponent);
+        creditedTokens = settlement.amount;
+        pendingSettlementRef.current = null;
+        setSettlementError(false);
+      } catch (error) {
+        console.error('Factory settlement failed', error);
+        if (factoryRunId) pendingSettlementRef.current = { runId: factoryRunId, stage, result, isFrontierBrain: brainOpponent };
+        setSettlementError(true);
+        return;
+      }
 
       if (result === 'WIN') {
         setStreak(nextStreak);
+      } else {
+        setStreak(0);
       }
 
-      setCoins((prev) => prev + tokens);
       setRoundResult(result);
-      setLastTokenGain(tokens);
+      setLastTokenGain(creditedTokens);
       setGameState('ROUND_RESULT');
 
       const summary = result === 'WIN'
-        ? t('battleSettlementWin', {
+        ? getBattleIndexInSet(stage) === 7 ? t('battleSettlementWin', {
             streak: nextStreak,
-            coins: tokens,
-          })
-        : t('battleSettlementLoss', { coins: tokens });
+            coins: creditedTokens,
+          }) : t('battleResultWin')
+        : t('battleSettlementLoss', { coins: creditedTokens });
 
       if (result === 'WIN' && specialBossBattleActive && !specialModeUnlocked) {
         setSpecialModeUnlocked(true);
@@ -853,8 +877,9 @@ export function useBattleController({
     }
   }, [
     addMessagesSequentially,
+    factoryRunId,
     onSuppressBattleResolved,
-    setCoins,
+    settleFactoryBattle,
     setGameState,
     setLastTokenGain,
     setLoading,
@@ -864,6 +889,7 @@ export function useBattleController({
     setStreak,
     suppressFactoryBattleResult,
     specialBossBattleActive,
+    isFrontierBrain,
     specialModeUnlocked,
     stage,
     streak,
@@ -876,6 +902,11 @@ export function useBattleController({
 
   const loseBattle = useCallback(async () => {
     await resolveBattleResult('LOSS');
+  }, [resolveBattleResult]);
+
+  const retrySettlement = useCallback(async () => {
+    const pending = pendingSettlementRef.current;
+    if (pending) await resolveBattleResult(pending.result, pending);
   }, [resolveBattleResult]);
 
   const sendOutNextEnemy = useCallback(async (currentEnemyTeam: GamePokemon[], excludedId: number) => {
@@ -1338,10 +1369,10 @@ export function useBattleController({
           next[0] = { ...next[0], currentHp: 0 };
           return next;
         });
-        await addMessagesSequentially([`${getLocalized(enemy)} was caught!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(enemy)} was caught!`, `收服了${getLocalized(enemy)}！`)]);
         setTimeout(() => void winBattle(), 300);
       } else {
-        await addMessagesSequentially([`${getLocalized(enemy)} broke free!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(enemy)} broke free!`, `${getLocalized(enemy)}挣脱了！`)]);
         setMainBattleTurn('ENEMY');
       }
       return;
@@ -1362,6 +1393,7 @@ export function useBattleController({
   }, [
     addMessagesSequentially,
     allowWildCatch,
+    currentLanguage,
     enemy,
     gameState,
     getLocalized,
@@ -1389,11 +1421,11 @@ export function useBattleController({
     const incomingPokemon = newTeam[index];
     if (!currentLead || !incomingPokemon || incomingPokemon.currentHp <= 0) return;
     if (getForcedLockedMove(currentLead)) {
-      await addMessagesSequentially([`${getLocalized(currentLead)} cannot switch out during the uproar!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(currentLead)} cannot switch out during the uproar!`, `${getLocalized(currentLead)}正在大闹，无法替换！`)]);
       return;
     }
     if (currentLead.currentHp > 0 && (hasVolatileStatus(currentLead, 'trapped') || hasVolatileStatus(currentLead, 'ingrain'))) {
-      await addMessagesSequentially([`${getLocalized(currentLead)} cannot switch out!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(currentLead)} cannot switch out!`, `${getLocalized(currentLead)}无法替换！`)]);
       return;
     }
     const withdrawnLead = clearSwitchingBattleState(currentLead);
@@ -1418,6 +1450,7 @@ export function useBattleController({
   }, [
     addMessagesSequentially,
     clearSwitchingBattleState,
+    currentLanguage,
     gameState,
     getForcedLockedMove,
     getLocalized,
@@ -1450,7 +1483,9 @@ export function useBattleController({
     const defendingSide: 'player' | 'enemy' = isPlayerActing ? 'enemy' : 'player';
     const attackBuffApplied = isPlayerActing ? activeBuffs.atk : enemyBuffs.atk;
     const defenseBuffApplied = isPlayerActing ? enemyBuffs.def : activeBuffs.def;
-    const actorLabel = isPlayerActing ? getLocalized(actor) : `Enemy ${getLocalized(actor)}`;
+    const actorLabel = isPlayerActing
+      ? getLocalized(actor)
+      : battleLine(currentLanguage, `Enemy ${getLocalized(actor)}`, `对手${getLocalized(actor)}`);
     const selectedMove = move;
 
     let nextPlayerTeam = isPlayerActing ? [...actorTeam] : [...defenderTeam];
@@ -1531,7 +1566,9 @@ export function useBattleController({
             }),
           };
           updatedActor = consumeHeldItem(updatedActor, 'leppa_berry');
-          leppaMessage = `${actorLabel}'s ${getHeldItemLabel('leppa_berry')} restored PP!`;
+          leppaMessage = battleLine(currentLanguage,
+            `${actorLabel}'s ${getHeldItemLabel('leppa_berry')} restored PP!`,
+            `${actorLabel}使用${getHeldItemLabel('leppa_berry')}恢复了招式点数！`);
         }
       }
       syncLeadBySide(actingSide, updatedActor);
@@ -1544,7 +1581,7 @@ export function useBattleController({
     if (hasMoveBattleEffect(selectedMove, 'SLEEP_TALK')) {
       const calledMove = chooseSleepTalkMove(updatedActor);
       if (!calledMove) {
-        await addMessagesSequentially([`${actorLabel}'s Sleep Talk failed!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s Sleep Talk failed!`, `${actorLabel}的梦话失败了！`)]);
         if (isPlayerActing) {
           setPlayerAnim('idle');
           setMainBattleTurn('ENEMY');
@@ -1558,10 +1595,12 @@ export function useBattleController({
 
       resolvedMove = calledMove;
       setActiveMoveType(calledMove.type);
-      await addMessagesSequentially([`${actorLabel}'s Sleep Talk used ${getLocalized(calledMove)}!`]);
+      await addMessagesSequentially([battleLine(currentLanguage,
+        `${actorLabel}'s Sleep Talk used ${battleMoveName(calledMove, currentLanguage)}!`,
+        `${actorLabel}的梦话使出了${battleMoveName(calledMove, currentLanguage)}！`)]);
     }
     if (hasMoveBattleEffect(resolvedMove, 'SNORE') && getNonVolatileStatusId(updatedActor) !== 'sleep') {
-      await addMessagesSequentially([`${actorLabel}'s Snore failed!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s Snore failed!`, `${actorLabel}的打鼾失败了！`)]);
       if (isPlayerActing) {
         setPlayerAnim('idle');
         setMainBattleTurn('ENEMY');
@@ -1595,8 +1634,8 @@ export function useBattleController({
       syncLeadBySide(actingSide, updatedActor);
       await addMessagesSequentially([
         protectionResult.succeeded
-          ? `${actorLabel} protected itself!`
-          : `${actorLabel}'s protection failed!`,
+          ? battleLine(currentLanguage, `${actorLabel} protected itself!`, `${actorLabel}保护了自己！`)
+          : battleLine(currentLanguage, `${actorLabel}'s protection failed!`, `${actorLabel}的守住失败了！`),
       ]);
       if (isPlayerActing) {
         setPlayerAnim('idle');
@@ -1622,7 +1661,7 @@ export function useBattleController({
       );
 
       if (restBlocked) {
-        await addMessagesSequentially([`${actorLabel}'s Rest failed!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s Rest failed!`, `${actorLabel}的睡觉失败了！`)]);
       } else {
         updatedActor = setNonVolatileStatus({
           ...updatedActor,
@@ -1633,7 +1672,7 @@ export function useBattleController({
         });
         updatedActor = clearVolatileStatus(updatedActor, 'nightmare');
         syncLeadBySide(actingSide, updatedActor);
-        await addMessagesSequentially([`${actorLabel} slept and became healthy!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel} slept and became healthy!`, `${actorLabel}睡着了，并恢复了体力！`)]);
       }
 
       if (isPlayerActing) {
@@ -1653,7 +1692,7 @@ export function useBattleController({
       const substituteBlocked = substituteAlreadyActive || updatedActor.currentHp <= substituteHpCost;
 
       if (substituteBlocked) {
-        await addMessagesSequentially([`${actorLabel}'s Substitute failed!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s Substitute failed!`, `${actorLabel}的替身失败了！`)]);
       } else {
         updatedActor = setVolatileStatus({
           ...updatedActor,
@@ -1663,7 +1702,7 @@ export function useBattleController({
           sourceMoveName: resolvedMove.name,
         });
         syncLeadBySide(actingSide, updatedActor);
-        await addMessagesSequentially([`${actorLabel} put in a substitute!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel} put in a substitute!`, `${actorLabel}制造了替身！`)]);
       }
 
       if (isPlayerActing) {
@@ -1679,7 +1718,7 @@ export function useBattleController({
 
     if (hasMoveBattleEffect(resolvedMove, 'CURSE') && isGhostType(updatedActor)) {
       if (hasVolatileStatus(updatedDefender, 'curse')) {
-        await addMessagesSequentially([`${actorLabel}'s Curse failed!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s Curse failed!`, `${actorLabel}的诅咒失败了！`)]);
       } else {
         updatedDefender = setVolatileStatus(updatedDefender, 'curse', {
           sourceMoveName: resolvedMove.name,
@@ -1693,7 +1732,9 @@ export function useBattleController({
           currentHp: Math.max(0, updatedActor.currentHp - curseSelfDamage),
         };
         syncLeadBySide(actingSide, updatedActor);
-        await addMessagesSequentially([`${actorLabel} cut its own HP and laid a curse on ${getLocalized(updatedDefender)}!`]);
+        await addMessagesSequentially([battleLine(currentLanguage,
+          `${actorLabel} cut its own HP and laid a curse on ${getLocalized(updatedDefender)}!`,
+          `${actorLabel}削减了自己的体力，诅咒了${getLocalized(updatedDefender)}！`)]);
       }
 
       if (isPlayerActing) {
@@ -1748,6 +1789,7 @@ export function useBattleController({
         extraFlinchChance,
         allowUserEffects,
         allowTargetEffects,
+        currentLanguage,
       });
       nextPlayerTeam = secondaryEffects.playerTeam;
       nextEnemyTeam = secondaryEffects.enemyTeam;
@@ -1807,7 +1849,7 @@ export function useBattleController({
         await addMessagesSequentially(itemResolutionMessages);
       }
       if (extraFlinchChance > 0 && secondaryEffects.flinched && moveFlinchChance < extraFlinchChance) {
-        await addMessagesSequentially([`${actorLabel}'s King's Rock triggered!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s King's Rock triggered!`, `${actorLabel}的王者之证生效了！`)]);
       }
     };
 
@@ -1841,10 +1883,10 @@ export function useBattleController({
       multiplier = hitResult.multiplier;
 
       if (hitResult.blockedByProtect) {
-        await addMessagesSequentially([`${getLocalized(updatedDefender)} protected itself!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)} protected itself!`, `${getLocalized(updatedDefender)}保护了自己！`)]);
         if (!hitResult.protectReducedDamage) {
           updatedActor = { ...updatedActor, factoryConsecutiveMoveCount: 0 };
-          const protectionCollisionResult = resolveProtectionCollision(updatedActor, updatedDefender, resolvedMove);
+          const protectionCollisionResult = resolveProtectionCollision(updatedActor, updatedDefender, resolvedMove, currentLanguage);
           updatedActor = protectionCollisionResult.attacker;
           syncLeadBySide(actingSide, updatedActor);
           if (protectionCollisionResult.messages.length > 0) {
@@ -1872,7 +1914,7 @@ export function useBattleController({
       }
 
       if (hitResult.blockedBySubstitute && resolvedMove.damage_class === 'status') {
-        await addMessagesSequentially([`${getLocalized(updatedDefender)}'s substitute blocked the move!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)}'s substitute blocked the move!`, `${getLocalized(updatedDefender)}的替身挡住了招式！`)]);
         if (isPlayerActing) {
           setPlayerAnim('idle');
           setMainBattleTurn('ENEMY');
@@ -1888,7 +1930,7 @@ export function useBattleController({
         if (hitCount === 0) {
           updatedActor = { ...updatedActor, factoryConsecutiveMoveCount: 0 };
           syncLeadBySide(actingSide, updatedActor);
-          await addMessagesSequentially([`${actorLabel}'s attack missed!`]);
+          await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s attack missed!`, `${actorLabel}的攻击没有命中！`)]);
           if (isPlayerActing) {
             setPlayerAnim('idle');
             setMainBattleTurn('ENEMY');
@@ -1905,7 +1947,7 @@ export function useBattleController({
       if (hitResult.multiplier === 0) {
         updatedActor = { ...updatedActor, factoryConsecutiveMoveCount: 0 };
         syncLeadBySide(actingSide, updatedActor);
-        const immunityReaction = resolveTypeImmunityReaction(resolvedMove, updatedDefender, fieldState, updatedActor);
+        const immunityReaction = resolveTypeImmunityReaction(resolvedMove, updatedDefender, fieldState, updatedActor, currentLanguage);
         updatedDefender = immunityReaction.defender;
         syncLeadBySide(defendingSide, updatedDefender);
         if (immunityReaction.message) {
@@ -1928,7 +1970,7 @@ export function useBattleController({
         };
         newDefenderHp = updatedDefender.currentHp;
         syncLeadBySide(defendingSide, updatedDefender);
-        await addMessagesSequentially([`${getLocalized(updatedDefender)} regained health!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)} regained health!`, `${getLocalized(updatedDefender)}恢复了体力！`)]);
         break;
       }
 
@@ -1947,9 +1989,9 @@ export function useBattleController({
             : clearVolatileStatus(updatedDefender, 'substitute');
         }
         syncLeadBySide(defendingSide, updatedDefender);
-        await addMessagesSequentially([`${getLocalized(updatedDefender)}'s substitute took the damage!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)}'s substitute took the damage!`, `${getLocalized(updatedDefender)}的替身承受了伤害！`)]);
         if (hitResult.substituteBroke) {
-          await addMessagesSequentially([`${getLocalized(updatedDefender)}'s substitute broke!`]);
+          await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)}'s substitute broke!`, `${getLocalized(updatedDefender)}的替身消失了！`)]);
         }
         await resolvePostHitSecondaryEffects({
           extraFlinchChance: kingsRockFlinchChance,
@@ -1994,7 +2036,7 @@ export function useBattleController({
       if (hasMoveBattleEffect(resolvedMove, 'SMELLING_SALTS') && getNonVolatileStatusId(updatedDefender) === 'paralysis') {
         updatedDefender = clearNonVolatileStatus(updatedDefender);
         syncLeadBySide(defendingSide, updatedDefender);
-        await addMessagesSequentially([`${getLocalized(updatedDefender)} was cured of paralysis!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)} was cured of paralysis!`, `${getLocalized(updatedDefender)}的麻痹被治好了！`)]);
       }
       if (
         hasMoveBattleEffect(resolvedMove, 'KNOCK_OFF')
@@ -2008,7 +2050,7 @@ export function useBattleController({
         const knockedOffItem = updatedDefender.factoryHeldItemId;
         updatedDefender = { ...updatedDefender, factoryHeldItemId: undefined };
         syncLeadBySide(defendingSide, updatedDefender);
-        await addMessagesSequentially([`${getLocalized(updatedDefender)} lost ${getHeldItemLabel(knockedOffItem)}!`]);
+        await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)} lost ${getHeldItemLabel(knockedOffItem)}!`, `${getLocalized(updatedDefender)}失去了${getHeldItemLabel(knockedOffItem)}！`)]);
       }
 
       if (updatedDefender.currentHp <= 0) {
@@ -2017,7 +2059,7 @@ export function useBattleController({
     }
 
     if (anyCrit) {
-      await addMessagesSequentially(['Critical hit!']);
+      await addMessagesSequentially([battleLine(currentLanguage, 'Critical hit!', '击中要害！')]);
     }
 
     if (totalDamage > 0 || totalSubstituteDamage > 0) {
@@ -2029,7 +2071,7 @@ export function useBattleController({
     }
 
     if (focusBandTriggered) {
-      await addMessagesSequentially([`${getLocalized(updatedDefender)} hung on with ${getHeldItemLabel('focus_band')}!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)} hung on with ${getHeldItemLabel('focus_band')}!`, `${getLocalized(updatedDefender)}靠${getHeldItemLabel('focus_band')}挺住了！`)]);
     }
     if (totalDamage > 0) {
       const defenderSitrusResult = tryActivateSitrusBerry(updatedDefender);
@@ -2098,7 +2140,7 @@ export function useBattleController({
     syncLeadBySide(actingSide, updatedActor);
     await announceHpChange(actorLabel, actorHpChange);
     if (shellBellRecover > 0) {
-      await addMessagesSequentially([`${actorLabel} restored HP with ${getHeldItemLabel('shell_bell')}!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel} restored HP with ${getHeldItemLabel('shell_bell')}!`, `${actorLabel}靠${getHeldItemLabel('shell_bell')}恢复了体力！`)]);
     }
     const actorSitrusResult = tryActivateSitrusBerry(updatedActor);
     if (actorSitrusResult.message) {
@@ -2151,7 +2193,7 @@ export function useBattleController({
       ]);
     }
     if ((totalDamage > 0 || totalSubstituteDamage > 0) && hitCount > 1) {
-      await addMessagesSequentially([`${actorLabel}'s attack hit ${hitCount} times!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s attack hit ${hitCount} times!`, `${actorLabel}的攻击命中了${hitCount}次！`)]);
     }
 
     if (hasMoveBattleEffect(resolvedMove, 'UPROAR') && !hasVolatileStatus(updatedActor, 'uproar')) {
@@ -2160,7 +2202,7 @@ export function useBattleController({
         linkedMoveName: 'uproar',
       });
       syncLeadBySide(actingSide, updatedActor);
-      await addMessagesSequentially([`${actorLabel} caused an uproar!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel} caused an uproar!`, `${actorLabel}开始大闹！`)]);
     }
 
     const nextWeather = getMoveWeather(resolvedMove);
@@ -2207,6 +2249,7 @@ export function useBattleController({
     applyMoveSecondaryEffects,
     calculateDamage,
     clearSwitchingBattleState,
+    currentLanguage,
     enemyBuffs.atk,
     enemyBuffs.def,
     getLocalized,
@@ -2475,7 +2518,7 @@ export function useBattleController({
 
     const forcedLockedMove = getForcedLockedMove(playerTeam[0]);
     if (forcedLockedMove && move.name !== forcedLockedMove.name) {
-      await addMessagesSequentially([`${getLocalized(playerTeam[0])} must keep making an uproar!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(playerTeam[0])} must keep making an uproar!`, `${getLocalized(playerTeam[0])}必须继续大闹！`)]);
       return;
     }
     if (!forcedLockedMove && getMoveCurrentPp(move) <= 0) return;
@@ -2496,7 +2539,11 @@ export function useBattleController({
       && playerLockedMoveName
       && playerLockedMoveName !== move.name
     ) {
-      await addMessagesSequentially([`${getLocalized(actingPlayerLead)} is locked into ${playerLockedMoveName}!`]);
+      const lockedMove = actingPlayerLead.selectedMoves.find((candidate) => candidate.name === playerLockedMoveName);
+      const lockedMoveLabel = battleMoveName(lockedMove, currentLanguage) || playerLockedMoveName;
+      await addMessagesSequentially([battleLine(currentLanguage,
+        `${getLocalized(actingPlayerLead)} is locked into ${lockedMoveLabel}!`,
+        `${getLocalized(actingPlayerLead)}只能使出${lockedMoveLabel}！`)]);
       return;
     }
     const enemyDecision = chooseEnemyMove(enemy, actingPlayerLead);
@@ -2512,11 +2559,11 @@ export function useBattleController({
     });
 
     if (playerQuickClawActivated) {
-      await addMessagesSequentially([`${getLocalized(actingPlayerLead)}'s Quick Claw activated!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(actingPlayerLead)}'s Quick Claw activated!`, `${getLocalized(actingPlayerLead)}的先制之爪生效了！`)]);
     }
 
     if (enemyQuickClawActivated) {
-      await addMessagesSequentially([`Enemy ${getLocalized(enemy)}'s Quick Claw activated!`]);
+      await addMessagesSequentially([battleLine(currentLanguage, `Enemy ${getLocalized(enemy)}'s Quick Claw activated!`, `对手${getLocalized(enemy)}的先制之爪生效了！`)]);
     }
 
     if (enemyActsFirst) {
@@ -2538,7 +2585,11 @@ export function useBattleController({
         && latestLockedMoveName
         && latestLockedMoveName !== move.name
       ) {
-        await addMessagesSequentially([`${getLocalized(latestPlayerLead)} is locked into ${latestLockedMoveName}!`]);
+        const lockedMove = latestPlayerLead.selectedMoves.find((candidate) => candidate.name === latestLockedMoveName);
+        const lockedMoveLabel = battleMoveName(lockedMove, currentLanguage) || latestLockedMoveName;
+        await addMessagesSequentially([battleLine(currentLanguage,
+          `${getLocalized(latestPlayerLead)} is locked into ${lockedMoveLabel}!`,
+          `${getLocalized(latestPlayerLead)}只能使出${lockedMoveLabel}！`)]);
         return;
       }
 
@@ -2574,6 +2625,7 @@ export function useBattleController({
   }, [
     addMessagesSequentially,
     chooseEnemyMove,
+    currentLanguage,
     enemy,
     enemyTeam,
     executeTurn,
@@ -2592,16 +2644,16 @@ export function useBattleController({
   ]);
 
   useEffect(() => {
-    if (turn === 'ENEMY' && gameState === 'BATTLE') {
+    if (turn === 'ENEMY' && gameState === 'BATTLE' && !settlementError) {
       void enemyTurn();
     }
-  }, [enemyTurn, gameState, turn]);
+  }, [enemyTurn, gameState, settlementError, turn]);
 
   useEffect(() => {
     const prevTurn = previousTurnRef.current;
     previousTurnRef.current = turn;
 
-    if (gameState !== 'BATTLE' || isMessageProcessing) return;
+    if (gameState !== 'BATTLE' || isMessageProcessing || settlementError) return;
     if (prevTurn !== 'ENEMY' || turn !== 'PLAYER') return;
     if (!playerTeam[0] || !enemyTeam[0]) return;
 
@@ -2618,6 +2670,7 @@ export function useBattleController({
           fieldTurns,
         },
         getLocalized,
+        currentLanguage,
         formatDynamaxEndMessage: (pokemon) => t('specialDynamaxEnd').replace('{name}', getLocalized(pokemon)),
         getMoveCurrentPp,
         tryActivateSitrusBerry,
@@ -2670,6 +2723,7 @@ export function useBattleController({
     };
   }, [
     addMessagesSequentially,
+    currentLanguage,
     enemyTeam,
     fieldState,
     fieldTurns,
@@ -2678,6 +2732,7 @@ export function useBattleController({
     hasHeldItem,
     isMessageProcessing,
     playerTeam,
+    settlementError,
     sendOutNextEnemy,
     sendOutNextPlayer,
     setEnemy,
@@ -2705,6 +2760,8 @@ export function useBattleController({
   }, [gameState, isMessageProcessing, winBattle]);
 
   return {
+    settlementError,
+    retrySettlement,
     addMessagesSequentially,
     useItem,
     switchPokemon,

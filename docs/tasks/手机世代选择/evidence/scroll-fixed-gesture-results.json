@@ -1,0 +1,54 @@
+{
+  "320x568": {
+    "before": {
+      "scrollTop": 0,
+      "scrollHeight": 584,
+      "clientHeight": 485,
+      "overflowY": "auto"
+    },
+    "afterTouch": {
+      "scrollTop": 99,
+      "scrollHeight": 584,
+      "clientHeight": 485
+    },
+    "afterWheel": {
+      "scrollTop": 99,
+      "scrollHeight": 584,
+      "clientHeight": 485
+    },
+    "ninthBounds": {
+      "x": 13,
+      "y": 503,
+      "width": 294,
+      "height": 56
+    },
+    "ninthFullyVisible": true,
+    "errors": []
+  },
+  "844x390": {
+    "before": {
+      "scrollTop": 0,
+      "scrollHeight": 584,
+      "clientHeight": 307,
+      "overflowY": "auto"
+    },
+    "afterTouch": {
+      "scrollTop": 177,
+      "scrollHeight": 584,
+      "clientHeight": 307
+    },
+    "afterWheel": {
+      "scrollTop": 277,
+      "scrollHeight": 584,
+      "clientHeight": 307
+    },
+    "ninthBounds": {
+      "x": 175,
+      "y": 325,
+      "width": 494,
+      "height": 56
+    },
+    "ninthFullyVisible": true,
+    "errors": []
+  }
+}

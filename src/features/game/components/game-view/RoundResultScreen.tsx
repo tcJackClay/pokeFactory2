@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react';
-import { ChevronRight, Coins, RefreshCw, ShieldCheck, Trophy } from 'lucide-react';
-import { FACTORY_REWARD_CONFIG } from '../../config/factoryRewards';
+import { ArrowLeft, ChevronRight, ShieldCheck, Trophy } from 'lucide-react';
+import { FACTORY_REWARD_CONFIG, getFactorySetBp, getSetNoByStage } from '../../config/factoryRewards';
+import { FACTORY_BRAIN_TRAINER_ID } from '../../config/factoryBrain';
 import type { GameViewSectionProps } from './shared';
 
 export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
@@ -10,9 +11,10 @@ export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
     swapCount,
     enemyAiTier,
     roundResult,
-    lastTokenGain,
     currentEnemyTrainer,
     currentLanguage,
+    coins,
+    lastTokenGain,
     t,
     continueAfterRoundResult,
   } = viewModel;
@@ -23,7 +25,9 @@ export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
   const battleInSet = ((stage - 1) % battlesPerSet) + 1;
   const isSetCompleted = roundResult === 'WIN' && battleInSet === battlesPerSet;
   const title = roundResult === 'WIN' ? t('battleResultWin') : t('battleResultLoss');
-  const actionLabel = roundResult === 'WIN' ? t('continueToSwap') : t('restartFactory');
+  const actionLabel = roundResult === 'WIN' && !isSetCompleted
+    ? t('continueToSwap')
+    : isZh ? '返回基地' : 'Return to Base';
 
   return (
     <motion.div
@@ -39,10 +43,6 @@ export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
             <div className="pf-result-badge border-amber-200 bg-amber-50 text-amber-700">
               <Trophy className="h-4 w-4" />
               {title}
-            </div>
-            <div className="pf-result-badge text-slate-600">
-              <Coins className="h-4 w-4 text-amber-500" />
-              {t('tokensEarned', { coins: lastTokenGain })}
             </div>
           </div>
 
@@ -80,13 +80,21 @@ export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
             </div>
           )}
 
+          {(isSetCompleted || roundResult === 'LOSS') && (
+            <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-bold text-amber-950">
+              {isSetCompleted && <div>{isZh ? '基础 BP' : 'Base BP'} {getFactorySetBp(getSetNoByStage(stage))}{currentEnemyTrainer?.id === FACTORY_BRAIN_TRAINER_ID ? ` + ${isZh ? '首领额外' : 'Brain bonus'} 10` : ''}</div>}
+              <div>{isZh ? '本组实际获得 BP' : 'BP credited this set'}：+{roundResult === 'WIN' ? lastTokenGain : 0}</div>
+              <div>{isZh ? '当前 BP' : 'Current BP'}：{coins} / 9999</div>
+            </div>
+          )}
+
           <button
             type="button"
             data-tone="primary"
             onClick={continueAfterRoundResult}
             className="pf-action-button mt-7 min-w-[280px] px-6"
           >
-            {roundResult === 'WIN' ? <ChevronRight className="h-4 w-4" /> : <RefreshCw className="h-4 w-4" />}
+            {roundResult === 'WIN' && !isSetCompleted ? <ChevronRight className="h-4 w-4" /> : <ArrowLeft className="h-4 w-4" />}
             <span>{actionLabel}</span>
           </button>
         </div>

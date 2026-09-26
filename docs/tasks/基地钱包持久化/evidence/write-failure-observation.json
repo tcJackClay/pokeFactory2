@@ -1,0 +1,54 @@
+{
+  "before": {
+    "balance": 1,
+    "revision": 3,
+    "currentRunId": "run:f4586902-ed13-40f7-9618-5208cb32c78d",
+    "settledThrough": 0,
+    "lastSettlement": null,
+    "migratedFromV7": false
+  },
+  "failed": {
+    "wallet": {
+      "balance": 1,
+      "revision": 3,
+      "currentRunId": "run:f4586902-ed13-40f7-9618-5208cb32c78d",
+      "settledThrough": 0,
+      "lastSettlement": null,
+      "migratedFromV7": false
+    },
+    "faults": 1,
+    "body": "1\n代币\n1/7\n轮次\n0\n连胜\n独角犀牛\n♂\nLV.50\n地面\n岩石\nHP\n100%\n毒贝比\n◇\nLV.50\n毒\nHP\n129/129\n战斗日志\nFCT-01\n\n对手 派出了 独角犀牛！\n\n结算未能保存，代币尚未到账。请重试。\n\n重试结算\nHIDE\nDEVELOPER\nBATTLE\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 1\nC 1\nSP OFF",
+    "alert": 1
+  },
+  "resumed": {
+    "wallet": {
+      "balance": 1,
+      "revision": 3,
+      "currentRunId": "run:f4586902-ed13-40f7-9618-5208cb32c78d",
+      "settledThrough": 0,
+      "lastSettlement": null,
+      "migratedFromV7": false
+    },
+    "body": "1\n代币\n1/7\n轮次\n0\n连胜\n独角犀牛\n♂\nLV.50\n地面\n岩石\nHP\n100%\n毒贝比\n◇\nLV.50\n毒\nHP\n129/129\n战斗日志\nFCT-01\n\n对手 派出了 独角犀牛！\n\n结算未能保存，代币尚未到账。请重试。\n\n重试结算\nDEV",
+    "alert": 1
+  },
+  "after": {
+    "wallet": {
+      "balance": 5,
+      "revision": 4,
+      "currentRunId": "run:f4586902-ed13-40f7-9618-5208cb32c78d",
+      "settledThrough": 1,
+      "lastSettlement": {
+        "runId": "run:f4586902-ed13-40f7-9618-5208cb32c78d",
+        "stage": 1,
+        "result": "WIN",
+        "amount": 4,
+        "settledAt": "2026-09-26T04:23:14.422Z"
+      },
+      "migratedFromV7": false
+    },
+    "body": "5\n代币\n1/7\n轮次\n1\n连胜\n本场胜利\n获得代币：+4\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nANTON / RUIN_MANIAC\n前往换怪\nDEV",
+    "alert": 0
+  },
+  "errors": []
+}

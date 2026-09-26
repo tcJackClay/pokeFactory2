@@ -1,4 +1,5 @@
 import type { GamePokemon, Move } from '../../../../types';
+import { battleLine } from '../battleLogText';
 import { clearVolatileStatus, getVolatileStatus, hasVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
 
 export interface ProtectionMoveResult {
@@ -75,6 +76,7 @@ export function resolveProtectionCollision(
   attacker: GamePokemon,
   defender: GamePokemon,
   move: Move,
+  currentLanguage?: string,
 ): ProtectionCollisionResult {
   const protectState = getVolatileStatus(defender, 'protect');
   if (!protectState || !move.battleData?.makesContact) {
@@ -102,7 +104,7 @@ export function resolveProtectionCollision(
           attack: nextAttackStage,
         },
       },
-      messages: [`${attacker.name}'s Attack harshly fell!`],
+      messages: [battleLine(currentLanguage, `${attacker.name}'s Attack harshly fell!`, `${attacker.zhName || attacker.name}的攻击大幅降低了！`)],
       hpChange: 0,
     };
   }
@@ -115,7 +117,7 @@ export function resolveProtectionCollision(
         ...attacker,
         currentHp: nextHp,
       },
-      messages: [`${attacker.name} was hurt by Spiky Shield!`],
+      messages: [battleLine(currentLanguage, `${attacker.name} was hurt by Spiky Shield!`, `${attacker.zhName || attacker.name}受到了尖刺防守的伤害！`)],
       hpChange: nextHp - attacker.currentHp,
     };
   }

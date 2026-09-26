@@ -1,0 +1,66 @@
+{
+  "gens": [
+    9
+  ],
+  "summary": {
+    "elapsedSeconds": 6.09,
+    "cards": 6,
+    "error": false,
+    "requests": 123,
+    "responses": 120,
+    "apiRequests": 122,
+    "pokeapiRequests": 113,
+    "dataRequests": 0,
+    "fetchRequests": 116,
+    "bad": [],
+    "factoryIndex": [],
+    "pending": [
+      "http://127.0.0.15:4300/src/features/game/config/factoryReferenceSets/chunks/chunk_110_209.ts",
+      "http://127.0.0.15:4300/api/pokeapi-sprites/pokemon/974.png",
+      "http://127.0.0.15:4300/api/pokeapi-sprites/pokemon/960.png",
+      "http://127.0.0.15:4300/api/pokeapi-sprites/pokemon/996.png",
+      "http://127.0.0.15:4300/api/pokeapi-sprites/pokemon/940.png",
+      "http://127.0.0.15:4300/api/pokeapi-sprites/pokemon/946.png",
+      "http://127.0.0.15:4300/api/pokeapi-sprites/pokemon/969.png"
+    ]
+  },
+  "stage1": {
+    "state": {
+      "schema": 10,
+      "gens": [
+        9
+      ],
+      "balance": 0,
+      "stage": 1,
+      "phase": "BATTLE",
+      "rentals": [
+        974,
+        960,
+        996,
+        940,
+        946,
+        969
+      ],
+      "team": [
+        974,
+        960,
+        996
+      ]
+    },
+    "body": "0\nBP\n1/7\n轮次\n0\n连胜\n原野水母\n♀\nLV.50\n地面\n草\nHP\n100%\n走鲸\n♀\nLV.50\n冰\nHP\n168/168\n战斗日志\nFCT-01\n\n对手 派出了 原野水母！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n叫声\n一般\n威力 --\n命中 100\nPP 40/40\n巨声\n一般\n威力 90\n命中 100\nPP 10/10\n诅咒\n幽灵\n威力 --\n命中 --\nPP 10/10\n守住\n一般\n威力 --\n命中 --\nPP 10/10"
+  },
+  "moveButton": "巨声一般威力 90命中 100PP 10/10",
+  "afterMove": {
+    "body": "0\nBP\n1/7\n轮次\n0\n连胜\n原野水母\n♀\nLV.50\n地面\n草\nHP\n86%\n走鲸\n♀\nLV.50\n冰\nHP\n168/168\n战斗日志\nFCT-01\n\n走鲸陷入了混乱状态！\n\n走鲸 使用了 巨声！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n叫声\n一般\n威力 --\n命中 100\nPP 40/40\n巨声\n一般\n威力 90\n命中 100\nPP 9/10\n诅咒\n幽灵\n威力 --\n命中 --\nPP 10/10\n守住\n一般\n威力 --\n命中 --\nPP 10/10",
+    "wallet": {
+      "balance": 0,
+      "revision": 1,
+      "currentRunId": "run:b2efcd6c-d0cd-46a3-8827-0d47aff66ed0",
+      "brainSymbols": 0,
+      "settledThrough": 0,
+      "lastSettlement": null
+    }
+  },
+  "consoleErrors": [],
+  "allHttpErrors": []
+}

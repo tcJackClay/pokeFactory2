@@ -1,4 +1,5 @@
 import type { GamePokemon } from '../../../../types';
+import { battleLine } from '../battleLogText';
 import { hasAbilityBattleEffect, hasItemBattleEffect, getItemEndTurnHealDenominator } from '../../data/battle';
 import {
   applyStatusResidualDamage,
@@ -16,6 +17,7 @@ const UPROAR_TURNS_GEN5_PLUS = 3;
 interface ResolveEndTurnOptions {
   snapshot: BattleSnapshot;
   getLocalized: LocalizeFn;
+  currentLanguage?: string;
   formatDynamaxEndMessage: (pokemon: GamePokemon) => string;
   getMoveCurrentPp: (move: { currentPp?: number; pp?: number }) => number;
   tryActivateSitrusBerry: (pokemon: GamePokemon | null | undefined) => { pokemon: GamePokemon | null | undefined; message: string | null };
@@ -32,6 +34,7 @@ function isGrounded(pokemon: GamePokemon, fieldState: BattleSnapshot['fieldState
 export function resolveEndTurn({
   snapshot,
   getLocalized,
+  currentLanguage,
   formatDynamaxEndMessage,
   getMoveCurrentPp,
   tryActivateSitrusBerry,
@@ -96,9 +99,9 @@ export function resolveEndTurn({
 
   const applyResidual = (
     pokemon: GamePokemon,
-    applyFn: (pokemon: GamePokemon, getLocalized: LocalizeFn) => { pokemon: GamePokemon; messages: string[]; fainted?: boolean },
+    applyFn: (pokemon: GamePokemon, getLocalized: LocalizeFn, currentLanguage?: string) => { pokemon: GamePokemon; messages: string[]; fainted?: boolean },
   ) => {
-    const result = applyFn(pokemon, getLocalized);
+    const result = applyFn(pokemon, getLocalized, currentLanguage);
     result.messages.forEach((message) => events.push({ type: 'message', message }));
     return result.pokemon;
   };
@@ -114,7 +117,7 @@ export function resolveEndTurn({
     const shedSkinCures = hasAbilityBattleEffect(abilityName, 'SHED_SKIN') && random() < 0.3;
     if (!hydrationCures && !shedSkinCures) return pokemon;
     const cured = clearNonVolatileStatus(pokemon);
-    events.push({ type: 'message', message: `${getLocalized(cured)} was cured of its status by its ability!` });
+    events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(cured)} was cured of its status by its ability!`, `${getLocalized(cured)}通过特性解除了异常状态！`) });
     return cured;
   };
 
@@ -141,7 +144,7 @@ export function resolveEndTurn({
           nextSource = { ...nextSource, currentHp: Math.min(nextSource.maxHp, nextSource.currentHp + damage) };
         }
       }
-      events.push({ type: 'message', message: `${getLocalized(nextTarget)}'s health was sapped by Leech Seed!` });
+      events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(nextTarget)}'s health was sapped by Leech Seed!`, `${getLocalized(nextTarget)}的体力被寄生种子吸取了！`) });
     }
 
     const trapped = getVolatileStatus(nextTarget, 'trapped');
@@ -156,7 +159,7 @@ export function resolveEndTurn({
         if (!magicGuard) {
           const damage = Math.min(nextTarget.currentHp, Math.max(1, Math.floor(nextTarget.maxHp / 8)));
           nextTarget = { ...nextTarget, currentHp: nextTarget.currentHp - damage };
-          events.push({ type: 'message', message: `${getLocalized(nextTarget)} was hurt by ${trapped.sourceMoveName ?? 'the trap'}!` });
+          events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(nextTarget)} was hurt by ${trapped.sourceMoveName ?? 'the trap'}!`, `${getLocalized(nextTarget)}受到了束缚伤害！`) });
         }
       } else {
         nextTarget = clearVolatileStatus(nextTarget, 'trapped');
@@ -167,7 +170,7 @@ export function resolveEndTurn({
       const heal = Math.max(0, Math.min(Math.max(1, Math.floor(nextTarget.maxHp / 16)), nextTarget.maxHp - nextTarget.currentHp));
       if (heal > 0) {
         nextTarget = { ...nextTarget, currentHp: nextTarget.currentHp + heal };
-        events.push({ type: 'message', message: `${getLocalized(nextTarget)} absorbed nutrients with its roots!` });
+        events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(nextTarget)} absorbed nutrients with its roots!`, `${getLocalized(nextTarget)}通过扎根恢复了体力！`) });
       }
     }
 
@@ -179,7 +182,7 @@ export function resolveEndTurn({
           counter,
           sourceMoveName: perishSong.sourceMoveName,
         });
-        events.push({ type: 'message', message: `${getLocalized(nextTarget)}'s perish count fell to ${counter}!` });
+        events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(nextTarget)}'s perish count fell to ${counter}!`, `${getLocalized(nextTarget)}的灭亡倒计时降至${counter}！`) });
       } else {
         nextTarget = clearVolatileStatus({ ...nextTarget, currentHp: 0 }, 'perish-song');
       }
@@ -219,7 +222,7 @@ export function resolveEndTurn({
         });
       }
       const clearedPokemon = clearVolatileStatus(pokemon, 'encore');
-      events.push({ type: 'message', message: `${getLocalized(clearedPokemon)}'s Encore ended.` });
+      events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(clearedPokemon)}'s Encore ended.`, `${getLocalized(clearedPokemon)}的再来一次效果结束了。`) });
       return clearedPokemon;
     }
 
@@ -236,7 +239,7 @@ export function resolveEndTurn({
         });
       }
       const clearedPokemon = clearVolatileStatus(pokemon, 'disable');
-      events.push({ type: 'message', message: `${getLocalized(clearedPokemon)} is no longer disabled.` });
+      events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(clearedPokemon)} is no longer disabled.`, `${getLocalized(clearedPokemon)}的招式封锁解除了。`) });
       return clearedPokemon;
     }
 
@@ -249,9 +252,9 @@ export function resolveEndTurn({
 
     const clearedPokemon = clearVolatileStatus(pokemon, statusId);
     if (statusId === 'taunt') {
-      events.push({ type: 'message', message: `${getLocalized(clearedPokemon)} shook off the taunt.` });
+      events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(clearedPokemon)} shook off the taunt.`, `${getLocalized(clearedPokemon)}摆脱了挑衅。`) });
     } else if (statusId === 'torment') {
-      events.push({ type: 'message', message: `${getLocalized(clearedPokemon)} is no longer tormented.` });
+      events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(clearedPokemon)} is no longer tormented.`, `${getLocalized(clearedPokemon)}不再受到无理取闹的影响。`) });
     }
     return clearedPokemon;
   };
@@ -265,6 +268,7 @@ export function resolveEndTurn({
     enemyTeam: nextSnapshot.enemyTeam,
     fieldState: nextSnapshot.fieldState,
     getLocalized,
+    currentLanguage,
   });
   playerYawnResult.messages.forEach((message) => events.push({ type: 'message', message }));
   syncPlayerLead(playerYawnResult.pokemon);
@@ -275,6 +279,7 @@ export function resolveEndTurn({
     enemyTeam: nextSnapshot.enemyTeam,
     fieldState: nextSnapshot.fieldState,
     getLocalized,
+    currentLanguage,
   });
   enemyYawnResult.messages.forEach((message) => events.push({ type: 'message', message }));
   syncEnemyLead(enemyYawnResult.pokemon);
@@ -284,7 +289,7 @@ export function resolveEndTurn({
       return pokemon;
     }
     const awakened = clearVolatileStatus(clearNonVolatileStatus(pokemon), 'nightmare');
-    events.push({ type: 'message', message: `${getLocalized(awakened)} woke up in the uproar!` });
+    events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(awakened)} woke up in the uproar!`, `${getLocalized(awakened)}被吵闹声惊醒了！`) });
     return awakened;
   };
 
@@ -301,12 +306,12 @@ export function resolveEndTurn({
         turnsRemaining: turnsRemaining - 1,
         linkedMoveName: 'uproar',
       });
-      events.push({ type: 'message', message: `${getLocalized(continued)} is making an uproar!` });
+      events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(continued)} is making an uproar!`, `${getLocalized(continued)}仍在大声吵闹！`) });
       return continued;
     }
 
     const ended = clearVolatileStatus(pokemon, 'uproar');
-    events.push({ type: 'message', message: `${getLocalized(ended)} calmed down.` });
+    events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(ended)} calmed down.`, `${getLocalized(ended)}平静下来了。`) });
     return ended;
   };
 
@@ -314,11 +319,11 @@ export function resolveEndTurn({
   syncEnemyLead(resolveUproar(enemyLead));
 
   if (nextSnapshot.weather !== 'none' && !weatherSuppressed) {
-    const playerWeatherResult = applyWeatherChipDamage({ pokemon: playerLead, weather: nextSnapshot.weather, getLocalized });
+    const playerWeatherResult = applyWeatherChipDamage({ pokemon: playerLead, weather: nextSnapshot.weather, getLocalized, currentLanguage });
     playerWeatherResult.messages.forEach((message) => events.push({ type: 'message', message }));
     syncPlayerLead(playerWeatherResult.pokemon);
 
-    const enemyWeatherResult = applyWeatherChipDamage({ pokemon: enemyLead, weather: nextSnapshot.weather, getLocalized });
+    const enemyWeatherResult = applyWeatherChipDamage({ pokemon: enemyLead, weather: nextSnapshot.weather, getLocalized, currentLanguage });
     enemyWeatherResult.messages.forEach((message) => events.push({ type: 'message', message }));
     syncEnemyLead(enemyWeatherResult.pokemon);
   }
@@ -332,7 +337,7 @@ export function resolveEndTurn({
     const nextPokemon = { ...pokemon, currentHp: Math.min(pokemon.maxHp, pokemon.currentHp + recover) };
     return {
       pokemon: nextPokemon,
-      message: `${getLocalized(nextPokemon)} restored HP from Grassy Terrain!`,
+      message: battleLine(currentLanguage, `${getLocalized(nextPokemon)} restored HP from Grassy Terrain!`, `${getLocalized(nextPokemon)}借助青草场地恢复了体力！`),
     };
   };
 
@@ -371,7 +376,7 @@ export function resolveEndTurn({
   const applyLeftoversRecovery = (pokemon: GamePokemon) => {
     if (pokemon.currentHp <= 0) return { pokemon, message: null as string | null };
     const healDenominator = getItemEndTurnHealDenominator(pokemon.factoryHeldItemId);
-        if (!hasItemBattleEffect(pokemon.factoryHeldItemId, 'LEFTOVERS') || !healDenominator) {
+    if (!hasItemBattleEffect(pokemon.factoryHeldItemId, 'LEFTOVERS') || !healDenominator) {
       return { pokemon, message: null as string | null };
     }
     const maxRecover = Math.floor(pokemon.maxHp / healDenominator);
@@ -380,7 +385,7 @@ export function resolveEndTurn({
     const nextPokemon = { ...pokemon, currentHp: Math.min(pokemon.maxHp, pokemon.currentHp + recover) };
     return {
       pokemon: nextPokemon,
-      message: `${getLocalized(nextPokemon)} restored HP with Leftovers!`,
+      message: battleLine(currentLanguage, `${getLocalized(nextPokemon)} restored HP with Leftovers!`, `${getLocalized(nextPokemon)}通过剩饭恢复了体力！`),
     };
   };
 

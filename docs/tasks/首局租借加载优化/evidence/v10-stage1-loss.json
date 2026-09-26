@@ -1,0 +1,46 @@
+{
+  "before": {
+    "balance": 0,
+    "stage": 1,
+    "phase": "BATTLE",
+    "status": "READY",
+    "streak": 0,
+    "challengeStatus": 1
+  },
+  "afterEscape": {
+    "state": {
+      "balance": 0,
+      "stage": 1,
+      "phase": "BATTLE",
+      "status": "READY",
+      "streak": 0,
+      "challengeStatus": 1
+    },
+    "body": "0\nBP\n1/7\n轮次\n0\n连胜\n鬼斯通\n♂\nLV.50\n幽灵\n毒\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n107/107\n战斗日志\nFCT-01\n\n对手 派出了 鬼斯通！\n\n战斗\n变化\n背包\n宝可梦\n确认\n二连踢\n格斗\n威力 30\n命中 100\nPP 30/30\n铁尾\n钢\n威力 100\n命中 75\nPP 15/15\n居合斩\n一般\n威力 50\n命中 95\nPP 30/30\n瞬间失忆\n超能\n威力 --\n命中 --\nPP 20/20",
+    "buttons": [
+      "战斗",
+      "变化",
+      "背包",
+      "宝可梦",
+      "确认",
+      "二连踢格斗威力 30命中 100PP 30/30",
+      "铁尾钢威力 100命中 75PP 15/15",
+      "居合斩一般威力 50命中 95PP 30/30",
+      "瞬间失忆超能威力 --命中 --PP 20/20"
+    ]
+  },
+  "afterConfirm": {
+    "state": {
+      "balance": 0,
+      "stage": 1,
+      "phase": "ROUND_RESULT",
+      "status": "READY",
+      "streak": 0,
+      "challengeStatus": 1
+    },
+    "body": "0\nBP\n1/7\n轮次\n0\n连胜\n本场失败\n本场失败\n当前进度\n组别进度：1/7\n连胜数: 0\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nNICO / CYCLING_TRIATHLETE_M\n本组实际获得 BP：+0\n当前 BP：0 / 9999\n返回基地",
+    "buttons": [
+      "返回基地"
+    ]
+  }
+}

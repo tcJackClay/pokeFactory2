@@ -1,0 +1,443 @@
+{
+  "before": {
+    "wallet": {
+      "balance": 3,
+      "revision": 3,
+      "currentRunId": "run:b9ea5c0b-205b-47c4-bf9d-87b8f9048927",
+      "brainSymbols": 0,
+      "settledThrough": 1,
+      "lastSettlement": {
+        "runId": "run:b9ea5c0b-205b-47c4-bf9d-87b8f9048927",
+        "setNo": 1,
+        "stage": 7,
+        "result": "WIN",
+        "isFrontierBrain": false,
+        "nominalBp": 3,
+        "amount": 3,
+        "settledAt": "2026-09-26T05:38:46.365Z"
+      }
+    },
+    "stage": 7,
+    "streak": 7,
+    "status": "READY",
+    "phase": "BASE",
+    "challengePaused": true,
+    "challengeStatus": 0,
+    "trainerIdsBySet": [],
+    "team": [
+      915,
+      940,
+      946
+    ],
+    "events": {
+      "speciesBattleCounts": {},
+      "dispatchPokemonByRegion": {
+        "kanto": null,
+        "johto": null,
+        "hoenn": null,
+        "sinnoh": null,
+        "unova": null,
+        "kalos": null,
+        "alola": null,
+        "galar": null,
+        "paldea": null
+      },
+      "dispatches": {
+        "kanto": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "johto": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "hoenn": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "sinnoh": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "unova": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "kalos": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "alola": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "galar": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        },
+        "paldea": {
+          "status": "IDLE",
+          "startedAt": null,
+          "readyAt": null,
+          "lastResolvedAt": null,
+          "lastResult": ""
+        }
+      }
+    }
+  },
+  "afterCancel": {
+    "state": {
+      "wallet": {
+        "balance": 3,
+        "revision": 3,
+        "currentRunId": "run:b9ea5c0b-205b-47c4-bf9d-87b8f9048927",
+        "brainSymbols": 0,
+        "settledThrough": 1,
+        "lastSettlement": {
+          "runId": "run:b9ea5c0b-205b-47c4-bf9d-87b8f9048927",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T05:38:46.365Z"
+        }
+      },
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengePaused": true,
+      "challengeStatus": 0,
+      "trainerIdsBySet": [],
+      "team": [
+        915,
+        940,
+        946
+      ],
+      "events": {
+        "speciesBattleCounts": {},
+        "dispatchPokemonByRegion": {
+          "kanto": null,
+          "johto": null,
+          "hoenn": null,
+          "sinnoh": null,
+          "unova": null,
+          "kalos": null,
+          "alola": null,
+          "galar": null,
+          "paldea": null
+        },
+        "dispatches": {
+          "kanto": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "johto": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "hoenn": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "sinnoh": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "unova": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "kalos": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "alola": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "galar": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "paldea": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          }
+        }
+      }
+    },
+    "body": "3\nBP\n7/7\n轮次\n7\n连胜\n继续中\n对战工厂\n\n继续当前挑战\n\n继续挑战\n结束当前连胜\n商店\n培育\n图鉴\n事件\n设置\nDEV"
+  },
+  "afterConfirm": {
+    "state": {
+      "wallet": {
+        "balance": 3,
+        "revision": 4,
+        "currentRunId": null,
+        "brainSymbols": 0,
+        "settledThrough": 0,
+        "lastSettlement": null
+      },
+      "stage": null,
+      "streak": null,
+      "status": "EMPTY",
+      "phase": null,
+      "challengePaused": false,
+      "challengeStatus": 0,
+      "trainerIdsBySet": [],
+      "team": null,
+      "events": {
+        "speciesBattleCounts": {},
+        "dispatchPokemonByRegion": {
+          "kanto": null,
+          "johto": null,
+          "hoenn": null,
+          "sinnoh": null,
+          "unova": null,
+          "kalos": null,
+          "alola": null,
+          "galar": null,
+          "paldea": null
+        },
+        "dispatches": {
+          "kanto": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "johto": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "hoenn": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "sinnoh": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "unova": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "kalos": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "alola": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "galar": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "paldea": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          }
+        }
+      }
+    },
+    "body": "3\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n商店\n培育\n图鉴\n事件\n设置\nDEV",
+    "buttons": [
+      "开始挑战",
+      "商店",
+      "培育",
+      "图鉴",
+      "事件",
+      "设置",
+      "DEV"
+    ]
+  },
+  "afterReload": {
+    "state": {
+      "wallet": {
+        "balance": 3,
+        "revision": 4,
+        "currentRunId": null,
+        "brainSymbols": 0,
+        "settledThrough": 0,
+        "lastSettlement": null
+      },
+      "stage": null,
+      "streak": null,
+      "status": "EMPTY",
+      "phase": null,
+      "challengePaused": false,
+      "challengeStatus": 0,
+      "trainerIdsBySet": [],
+      "team": null,
+      "events": {
+        "speciesBattleCounts": {},
+        "dispatchPokemonByRegion": {
+          "kanto": null,
+          "johto": null,
+          "hoenn": null,
+          "sinnoh": null,
+          "unova": null,
+          "kalos": null,
+          "alola": null,
+          "galar": null,
+          "paldea": null
+        },
+        "dispatches": {
+          "kanto": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "johto": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "hoenn": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "sinnoh": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "unova": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "kalos": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "alola": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "galar": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          },
+          "paldea": {
+            "status": "IDLE",
+            "startedAt": null,
+            "readyAt": null,
+            "lastResolvedAt": null,
+            "lastResult": ""
+          }
+        }
+      }
+    },
+    "body": "3\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n商店\n培育\n图鉴\n事件\n设置\nDEV"
+  },
+  "eventControlsAfterEnd": {
+    "选择": false,
+    "开始派遣": false,
+    "Mock道具": false,
+    "Mock加入": false,
+    "Mock特殊": false
+  },
+  "eventBody": "3\nBP\n0/7\n轮次\n0\n连胜\n事件派遣\nMock模式: 开\n返回主页\n\n关都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n城都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具\nMock加入\nMock特殊\n\n丰缘\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\nMock道具",
+  "errors": []
+}

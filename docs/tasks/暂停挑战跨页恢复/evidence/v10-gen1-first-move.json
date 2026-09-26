@@ -1,0 +1,11 @@
+{
+  "body": "0\nBP\n1/7\n轮次\n0\n连胜\n呆呆兽\n♂\nLV.50\n水\n超能\nHP\n0%\n霹雳电球\n◇\nLV.50\n电\nHP\n102/102\n战斗日志\nFCT-01\n\n对手 派出了 呆呆兽！\n\n霹雳电球 使用了 十万伏特！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n影子分身\n一般\n威力 --\n命中 --\nPP 15/15\n硬撑\n一般\n威力 70\n命中 100\nPP 20/20\n十万伏特\n电\n威力 90\n命中 100\nPP 14/15\n高速星星\n一般\n威力 60\n命中 --\nPP 20/20",
+  "wallet": {
+    "balance": 0,
+    "revision": 1,
+    "currentRunId": "run:05d5c1ef-d5bc-400d-b449-ba3753f6c672",
+    "brainSymbols": 0,
+    "settledThrough": 0,
+    "lastSettlement": null
+  }
+}

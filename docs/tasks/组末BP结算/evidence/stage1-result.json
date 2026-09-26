@@ -1,0 +1,22 @@
+{
+  "wallet": {
+    "balance": 0,
+    "revision": 1,
+    "currentRunId": "run:f8137e5e-02ac-424a-bff0-8f895acaba02",
+    "brainSymbols": 0,
+    "settledThrough": 0,
+    "lastSettlement": null
+  },
+  "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nNIKOLAS / PKMN_RANGER_M\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 1\nC 0\nSP OFF",
+  "buttons": [
+    "前往换怪",
+    "HIDE",
+    "Win",
+    "Reward",
+    "+500",
+    "Unlock",
+    "Reset",
+    "Open",
+    "Clear"
+  ]
+}

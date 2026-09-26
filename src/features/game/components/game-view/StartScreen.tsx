@@ -23,6 +23,7 @@ interface StartNavItem {
 export function StartScreen({ viewModel }: GameViewSectionProps) {
   const {
     loading,
+    rentalLoadError,
     availableEggCount,
     eventDispatches,
     shopUnlocked,
@@ -33,6 +34,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
     closeRunSummary,
     hasFactoryRunToResume,
     startOrResumeFactoryFromBase,
+    endPausedFactoryRun,
     openBaseTab,
     setGameState,
     currentLanguage,
@@ -40,6 +42,8 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
 
   const shouldReduceMotion = useReducedMotion();
   const [companionFrame, setCompanionFrame] = useState(0);
+  const [confirmEndRun, setConfirmEndRun] = useState(false);
+  const [endRunError, setEndRunError] = useState(false);
   const isZh = currentLanguage.startsWith('zh');
 
   const readyEventCount = EVENT_REGIONS.reduce((total, region) => {
@@ -57,13 +61,15 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
         : (isZh ? '开始下一轮挑战' : 'Start next run'),
       primaryAction: loading
         ? (isZh ? '载入中' : 'Loading')
+        : rentalLoadError
+          ? (isZh ? '重试载入' : 'Retry loading')
         : hasFactoryRunToResume
           ? (isZh ? '继续挑战' : 'Resume Run')
           : (isZh ? '开始挑战' : 'Start Run'),
       hide: isZh ? '收起' : 'Hide',
       setCleared: isZh ? '组别通关' : 'Set Cleared',
       runEnded: isZh ? '挑战结束' : 'Run Ended',
-      tokens: isZh ? '代币' : 'Tokens',
+      tokens: 'BP',
       standby: hasFactoryRunToResume ? (isZh ? '继续中' : 'Resume') : (isZh ? '待命' : 'Standby'),
       events: isZh ? '事件' : 'Events',
       shop: isZh ? '商店' : 'Shop',
@@ -71,7 +77,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
       collection: isZh ? '图鉴' : 'Collection',
       settings: isZh ? '设置' : 'Settings',
     }),
-    [hasFactoryRunToResume, isZh, loading],
+    [hasFactoryRunToResume, isZh, loading, rentalLoadError],
   );
   useEffect(() => {
     if (shouldReduceMotion) {
@@ -173,7 +179,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
                   onClick={() => void startOrResumeFactoryFromBase()}
                   disabled={loading}
                   className="pf-start-primary-orb pf-primary-orb relative mt-6 flex h-44 w-44 items-center justify-center rounded-full disabled:opacity-70 md:h-52 md:w-52"
-                  aria-label="Enter Battle Factory"
+                  aria-label={copy.primaryAction}
                 >
                   <span className="absolute inset-0 rounded-full bg-white/40" />
                   <span className="relative z-10 flex flex-col items-center gap-3">
@@ -183,6 +189,26 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
                     </span>
                   </span>
                   </motion.button>
+                  {rentalLoadError && (
+                    <p role="alert" className="mt-3 max-w-xs rounded-lg border border-rose-300 bg-white/95 px-3 py-2 text-xs font-bold text-rose-900">
+                      {isZh ? rentalLoadError : 'Rental data could not load in time. Check your connection and tap Start to retry.'}
+                    </p>
+                  )}
+                  {hasFactoryRunToResume && (
+                    <button
+                      type="button"
+                      disabled={loading}
+                      onClick={() => { setEndRunError(false); setConfirmEndRun(true); }}
+                      className="mt-3 rounded-lg border border-rose-300 bg-white/90 px-4 py-2 text-xs font-black text-rose-800 disabled:opacity-50"
+                    >
+                      {isZh ? '结束当前连胜' : 'End current streak'}
+                    </button>
+                  )}
+                  {endRunError && (
+                    <p role="alert" className="mt-2 text-xs font-bold text-rose-800">
+                      {isZh ? '保存失败，连胜仍可继续。请重试。' : 'Save failed. Your streak can still be resumed. Please retry.'}
+                    </p>
+                  )}
                 </div>
 
               <div className="pf-start-companion pointer-events-none absolute bottom-5 left-4 z-10 md:bottom-6 md:left-6">
@@ -215,6 +241,30 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
             </div>
           </div>
         </div>
+
+        {confirmEndRun && hasFactoryRunToResume && (
+          <div className="fixed inset-0 z-[150] flex items-center justify-center bg-slate-950/60 p-4" role="presentation">
+            <div role="alertdialog" aria-modal="true" aria-labelledby="end-factory-run-title" className="w-full max-w-sm rounded-2xl border border-slate-300 bg-white p-5 shadow-2xl">
+              <h2 id="end-factory-run-title" className="text-lg font-black text-slate-950">
+                {isZh ? '结束当前连胜？' : 'End current streak?'}
+              </h2>
+              <p className="mt-2 text-sm text-slate-700">
+                {isZh ? '当前挑战将无法继续。已获得的 BP 会保留；下一组尚未开始，不会额外结算。' : 'You cannot resume this run. Earned BP stays; no new set is settled.'}
+              </p>
+              <div className="mt-5 flex justify-end gap-2">
+                <button type="button" onClick={() => setConfirmEndRun(false)} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-bold">
+                  {isZh ? '取消' : 'Cancel'}
+                </button>
+                <button type="button" onClick={() => {
+                  if (endPausedFactoryRun()) setConfirmEndRun(false);
+                  else { setEndRunError(true); setConfirmEndRun(false); }
+                }} className="rounded-lg bg-rose-700 px-3 py-2 text-sm font-bold text-white">
+                  {isZh ? '确认结束' : 'Confirm end'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="pf-start-dock-region px-3 pb-2">
           <div className="pf-dock px-2 py-2">

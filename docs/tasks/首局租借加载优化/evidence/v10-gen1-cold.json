@@ -1,0 +1,64 @@
+{
+  "summary": {
+    "elapsedSeconds": 11.96,
+    "cards": 6,
+    "error": false,
+    "requests": 122,
+    "responses": 118,
+    "apiRequests": 120,
+    "pokeapiRequests": 111,
+    "dataRequests": 0,
+    "fetchRequests": 114,
+    "bad": [],
+    "factoryIndex": [],
+    "pending": [
+      "http://127.0.0.14:4300/src/features/game/config/factoryReferenceSets/chunks/chunk_610_709.ts",
+      "http://127.0.0.14:4300/src/features/game/config/factoryReferenceSets/chunks/chunk_710_809.ts",
+      "http://127.0.0.14:4300/api/pokeapi-sprites/pokemon/32.png",
+      "http://127.0.0.14:4300/api/pokeapi-sprites/pokemon/79.png",
+      "http://127.0.0.14:4300/api/pokeapi-sprites/pokemon/41.png",
+      "http://127.0.0.14:4300/api/pokeapi-sprites/pokemon/56.png",
+      "http://127.0.0.14:4300/api/pokeapi-sprites/pokemon/108.png",
+      "http://127.0.0.14:4300/api/pokeapi-sprites/pokemon/63.png"
+    ]
+  },
+  "stage1": {
+    "state": {
+      "schema": 10,
+      "gens": [
+        1
+      ],
+      "balance": 0,
+      "stage": 1,
+      "phase": "BATTLE",
+      "rentals": [
+        32,
+        79,
+        41,
+        56,
+        108,
+        63
+      ],
+      "team": [
+        32,
+        79,
+        41
+      ]
+    },
+    "body": "0\nBP\n1/7\n轮次\n0\n连胜\n鬼斯通\n♂\nLV.50\n幽灵\n毒\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n107/107\n战斗日志\nFCT-01\n\n对手 派出了 鬼斯通！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n二连踢\n格斗\n威力 30\n命中 100\nPP 30/30\n铁尾\n钢\n威力 100\n命中 75\nPP 15/15\n居合斩\n一般\n威力 50\n命中 95\nPP 30/30\n瞬间失忆\n超能\n威力 --\n命中 --\nPP 20/20"
+  },
+  "moveButton": "二连踢格斗威力 30命中 100PP 30/30",
+  "afterMove": {
+    "body": "0\nBP\n1/7\n轮次\n0\n连胜\n鬼斯通\n♂\nLV.50\n幽灵\n毒\nHP\n100%\n尼多朗\n♂\nLV.50\n毒\nHP\n56/107\n战斗日志\nFCT-01\n\n对手的 鬼斯通 造成了 51 点伤害。\n\n尼多朗 使用了 二连踢！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n二连踢\n格斗\n威力 30\n命中 100\nPP 29/30\n铁尾\n钢\n威力 100\n命中 75\nPP 15/15\n居合斩\n一般\n威力 50\n命中 95\nPP 30/30\n瞬间失忆\n超能\n威力 --\n命中 --\nPP 20/20",
+    "wallet": {
+      "balance": 0,
+      "revision": 1,
+      "currentRunId": "run:b4b0f2da-2f5e-41ea-9b27-763195bd360a",
+      "brainSymbols": 0,
+      "settledThrough": 0,
+      "lastSettlement": null
+    }
+  },
+  "consoleErrors": [],
+  "allHttpErrors": []
+}

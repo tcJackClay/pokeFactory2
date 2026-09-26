@@ -1,3 +1,5 @@
+import { RequestTimeoutError, withRequestTimeout } from './requestTimeout';
+
 const DEFAULT_POKEAPI_BASE_URL = '/api/pokeapi';
 const DEFAULT_POKEAPI_CSV_BASE_URL = '/api/pokedex-csv';
 const DEFAULT_POKEAPI_SPRITE_BASE_URL = '/api/pokeapi-sprites/pokemon';
@@ -5,6 +7,8 @@ const DEFAULT_POKEAPI_HOME_SPRITE_BASE_URL = '/api/pokeapi-sprites/pokemon/other
 const DEFAULT_POKEAPI_ARTWORK_BASE_URL = '/api/pokeapi-sprites/pokemon/other/official-artwork';
 const POKEAPI_PROXY_PATH_PREFIX = '/api/pokeapi/';
 const POKEAPI_RETRY_DELAYS_MS = [0, 250, 750];
+export const POKEAPI_REQUEST_TIMEOUT_MS = 6000;
+export const POKEAPI_RESOURCE_TIMEOUT_MS = 8000;
 const inFlightPokeApiRequests = new Map<string, Promise<any>>();
 const runtimeEnv: Partial<ImportMetaEnv> = import.meta.env ?? {};
 
@@ -165,36 +169,43 @@ function delay(ms: number): Promise<void> {
   return new Promise((resolve) => globalThis.setTimeout(resolve, ms));
 }
 
-async function fetchPokeApiJsonFromUrl(url: string): Promise<any> {
-  const response = await fetch(url, {
+async function fetchPokeApiJsonFromUrl(url: string, timeoutMs = POKEAPI_REQUEST_TIMEOUT_MS): Promise<any> {
+  return withRequestTimeout(async (signal) => {
+    const response = await fetch(url, {
     headers: {
       Accept: 'application/json',
     },
-  });
+      signal,
+    });
 
-  if (!response.ok) {
-    throw new PokeApiHttpError(url, response.status);
-  }
+    if (!response.ok) {
+      throw new PokeApiHttpError(url, response.status);
+    }
 
-  return proxyExternalResourceUrls(await response.json());
+    return proxyExternalResourceUrls(await response.json());
+  }, timeoutMs, url);
 }
 
 async function fetchPokeApiJsonWithRetry(normalizedPath: string): Promise<any> {
   const primaryUrl = buildPokeApiUrl(normalizedPath);
+  const deadlineAt = Date.now() + POKEAPI_RESOURCE_TIMEOUT_MS;
   let lastError: unknown = new Error(`Failed to fetch ${normalizedPath}`);
 
   for (let attempt = 0; attempt < POKEAPI_RETRY_DELAYS_MS.length; attempt += 1) {
     const retryDelay = POKEAPI_RETRY_DELAYS_MS[attempt];
     if (retryDelay > 0) {
+      if (Date.now() + retryDelay >= deadlineAt) break;
       await delay(retryDelay);
     }
 
     try {
-      return await fetchPokeApiJsonFromUrl(primaryUrl);
+      const remainingMs = deadlineAt - Date.now();
+      if (remainingMs <= 0) break;
+      return await fetchPokeApiJsonFromUrl(primaryUrl, Math.min(POKEAPI_REQUEST_TIMEOUT_MS, remainingMs));
     } catch (error) {
       lastError = error;
       const hasNextAttempt = attempt < POKEAPI_RETRY_DELAYS_MS.length - 1;
-      if (!hasNextAttempt || !isRetriablePokeApiError(error)) {
+      if (!hasNextAttempt || (!isRetriablePokeApiError(error) && !(error instanceof RequestTimeoutError))) {
         throw error;
       }
     }
@@ -220,15 +231,17 @@ export async function fetchPokeApiJson(path: string): Promise<any> {
   }
 }
 
-export async function fetchPokeApiJsonByResourceUrl(url: string): Promise<any> {
+export async function fetchPokeApiJsonByResourceUrl(url: string, timeoutMs = POKEAPI_RESOURCE_TIMEOUT_MS): Promise<any> {
   const path = parsePokeApiPathFromUrl(url);
   if (path) {
-    return fetchPokeApiJson(path);
+    return withRequestTimeout(() => fetchPokeApiJson(path), timeoutMs, url);
   }
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch resource: ${response.status}`);
-  }
-  return proxyExternalResourceUrls(await response.json());
+  return withRequestTimeout(async (signal) => {
+    const response = await fetch(url, { signal });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch resource: ${response.status}`);
+    }
+    return proxyExternalResourceUrls(await response.json());
+  }, timeoutMs, url);
 }

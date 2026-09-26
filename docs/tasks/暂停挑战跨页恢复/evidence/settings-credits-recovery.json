@@ -1,0 +1,139 @@
+{
+  "base": {
+    "state": {
+      "balance": 3,
+      "revision": 3,
+      "settledThrough": 1,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengeStatus": 0,
+      "challengePaused": true,
+      "gens": [
+        9
+      ],
+      "team": [
+        915,
+        940,
+        946
+      ],
+      "trainerIdsBySet": []
+    },
+    "body": "3\nBP\n7/7\n轮次\n7\n连胜\n继续中\n对战工厂\n\n继续当前挑战\n\n继续挑战\n结束当前连胜\n商店\n培育\n图鉴\n事件\n设置\nDEV"
+  },
+  "settings": {
+    "state": {
+      "balance": 3,
+      "revision": 3,
+      "settledThrough": 1,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengeStatus": 0,
+      "challengePaused": true,
+      "gens": [
+        9
+      ],
+      "team": [
+        915,
+        940,
+        946
+      ],
+      "trainerIdsBySet": []
+    },
+    "body": "设置\n返回\n\n语言\n\n中文\nENGLISH\n\n出场世代\n\n扩展世代随机池：九选一。所选世代决定下一次新挑战中随机出现的宝可梦。\n\n当前挑战仍可继续。请先完成或结束该挑战，再修改世代；设置仅对下一次新挑战生效。\n\n第一世代\n关都\n第二世代\n城都\n第三世代\n丰缘\n第四世代\n神奥\n第五世代\n合众\n第六世代\n卡洛斯\n第七世代\n阿罗拉\n第八世代\n伽勒尔\n第九世代\n帕底亚\n\n存档管理\n\n导出存档\n导入存档\n\n通知\n\n当前版本暂不提供消息推送与提醒。\n\n版权与素材来源\n\n查看版权说明\n\nDEV 面板\n\n开启\n关闭\nDEV",
+    "disabled": 0,
+    "checked": [
+      "第九世代帕底亚"
+    ]
+  },
+  "credits": {
+    "state": {
+      "balance": 3,
+      "revision": 3,
+      "settledThrough": 1,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengeStatus": 0,
+      "challengePaused": true,
+      "gens": [
+        9
+      ],
+      "team": [
+        915,
+        940,
+        946
+      ],
+      "trainerIdsBySet": []
+    },
+    "body": "版权与素材来源\n返回设置\n项目性质与关系\n\nPokeFactory2 是独立制作的非商业游戏项目，与 The Pokémon Company、Nintendo、Game Freak、Creatures 或 PokéAPI 没有官方关联或背书。宝可梦名称、角色、形象及相关素材的权利归各自权利人所有。非商业性质和来源署名不代表已获得相关知识产权的使用许可。\n\n宝可梦官方内容使用说明\n\n资料、图像与声音\n宝可梦资料使用 PokéAPI 数据，感谢其贡献者。 \nPokéAPI\n · \n项目许可\n部分图像"
+  },
+  "settingsReturn": {
+    "balance": 3,
+    "revision": 3,
+    "settledThrough": 1,
+    "stage": 7,
+    "streak": 7,
+    "status": "READY",
+    "phase": "BASE",
+    "challengeStatus": 0,
+    "challengePaused": true,
+    "gens": [
+      9
+    ],
+    "team": [
+      915,
+      940,
+      946
+    ],
+    "trainerIdsBySet": []
+  },
+  "baseReturn": {
+    "balance": 3,
+    "revision": 3,
+    "settledThrough": 1,
+    "stage": 7,
+    "streak": 7,
+    "status": "READY",
+    "phase": "BASE",
+    "challengeStatus": 0,
+    "challengePaused": true,
+    "gens": [
+      9
+    ],
+    "team": [
+      915,
+      940,
+      946
+    ],
+    "trainerIdsBySet": []
+  },
+  "baseReload": {
+    "state": {
+      "balance": 3,
+      "revision": 3,
+      "settledThrough": 1,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengeStatus": 0,
+      "challengePaused": true,
+      "gens": [
+        9
+      ],
+      "team": [
+        915,
+        940,
+        946
+      ],
+      "trainerIdsBySet": []
+    },
+    "body": "3\nBP\n7/7\n轮次\n7\n连胜\n继续中\n对战工厂\n\n继续当前挑战\n\n继续挑战\n结束当前连胜\n商店\n培育\n图鉴\n事件\n设置\nDEV"
+  },
+  "errors": []
+}

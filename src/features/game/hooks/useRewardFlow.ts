@@ -33,7 +33,7 @@ interface UseRewardFlowParams {
   ) => Promise<boolean>;
   prefetchEnemy: (currentStage: number) => Promise<boolean>;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setCoins: Dispatch<SetStateAction<number>>;
+  spendWallet: (amount: number) => boolean;
   setRerollCount: Dispatch<SetStateAction<number>>;
   setRewards: Dispatch<SetStateAction<GameReward[]>>;
   setRewardChoiceMade: Dispatch<SetStateAction<boolean>>;
@@ -81,7 +81,7 @@ export function useRewardFlow({
   spawnEnemy,
   prefetchEnemy,
   setLoading,
-  setCoins,
+  spendWallet,
   setRerollCount,
   setRewards,
   setRewardChoiceMade,
@@ -320,9 +320,10 @@ export function useRewardFlow({
 
     setLoading(true);
     try {
-      setCoins((prev) => prev - cost);
+      const nextRewards = await generateRewardSet();
+      if (!spendWallet(cost)) return;
       setRerollCount((prev) => prev + 1);
-      setRewards(await generateRewardSet());
+      setRewards(nextRewards);
       setRewardChoiceMade(false);
       setPendingTmMove(null);
       setPendingTmLearnerIndexes([]);
@@ -336,7 +337,7 @@ export function useRewardFlow({
     coins,
     generateRewardSet,
     rerollCount,
-    setCoins,
+    spendWallet,
     setLoading,
     setPendingEvolutionEligibleIndexes,
     setPendingTmLearnerIndexes,

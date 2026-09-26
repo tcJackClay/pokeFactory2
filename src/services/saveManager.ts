@@ -1,7 +1,34 @@
 import type { FieldState, FieldTurns, GamePokemon } from '../types';
+import { getBattleIndexInSet, getFactoryGroupBp, getSetNoByStage, MAX_FACTORY_BP } from '../features/game/config/factoryRewards';
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
-const SAVE_SCHEMA_VERSION = 7 as const;
+const PENDING_SETTLEMENT_KEY = 'pokefactory_pending_settlement_v1';
+const SAVE_SCHEMA_VERSION = 10 as const;
+
+export interface FactoryWallet {
+  balance: number;
+  revision: number;
+  currentRunId: string | null;
+  brainSymbols: number;
+  settledThrough: number;
+  lastSettlement: {
+    runId: string;
+    setNo: number;
+    stage: number;
+    result: 'WIN' | 'LOSS';
+    isFrontierBrain: boolean;
+    nominalBp: number;
+    amount: number;
+    settledAt: string;
+  } | null;
+}
+
+export interface PendingFactorySettlement {
+  runId: string;
+  stage: number;
+  result: 'WIN' | 'LOSS';
+  isFrontierBrain: boolean;
+}
 
 export interface BattleResumeSpecialUsageState {
   MEGA: boolean;
@@ -43,6 +70,9 @@ export interface BattleResumeSnapshot {
   currentEnemyTrainerId: string | null;
   inventoryItemIds: string[];
   battleLog: string[];
+  phase: 'BATTLE' | 'ROUND_RESULT' | 'FACTORY_SWAP' | 'BASE';
+  roundResult: 'WIN' | 'LOSS' | null;
+  lastBpGain: number;
 }
 
 export type FactoryBattleResume = EmptyBattleResume | BattleResumeSnapshot;
@@ -60,6 +90,7 @@ export interface CollectionLedger {
 export interface GameSaveData {
   schemaVersion: typeof SAVE_SCHEMA_VERSION;
   updatedAt: string;
+  wallet: FactoryWallet;
   progress: {
     totalRents: number;
     highestStreak: number;
@@ -99,6 +130,7 @@ export interface GameSaveData {
 }
 
 interface SaveDraftInput {
+  wallet: FactoryWallet;
   totalRents: number;
   highestStreak: number;
   specialModeUnlocked: boolean;
@@ -141,12 +173,69 @@ function sanitizePositiveInt(value: unknown, fallback: number) {
   return Math.max(0, Math.floor(value));
 }
 
+function sanitizeSafeNonNegativeInt(value: unknown, fallback = 0): number {
+  return typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 ? value : fallback;
+}
+
+export function createEmptyWallet(): FactoryWallet {
+  return {
+    balance: 0,
+    revision: 0,
+    currentRunId: null,
+    brainSymbols: 0,
+    settledThrough: 0,
+    lastSettlement: null,
+  };
+}
+
+function sanitizeWallet(value: unknown): FactoryWallet {
+  const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+  const settlement = source.lastSettlement && typeof source.lastSettlement === 'object'
+    ? (source.lastSettlement as Record<string, unknown>)
+    : {};
+  const currentRunId = typeof source.currentRunId === 'string' && source.currentRunId.length > 0 && source.currentRunId.length <= 160
+    ? source.currentRunId
+    : null;
+  const stage = sanitizeSafeNonNegativeInt(settlement.stage);
+  const setNo = sanitizeSafeNonNegativeInt(settlement.setNo);
+  const lastSettlement = currentRunId && settlement.runId === currentRunId && stage > 0
+    && setNo === getSetNoByStage(stage)
+    && (settlement.result === 'WIN' || settlement.result === 'LOSS')
+    ? {
+        runId: currentRunId,
+        setNo,
+        stage,
+        result: settlement.result as 'WIN' | 'LOSS',
+        isFrontierBrain: settlement.isFrontierBrain === true,
+        nominalBp: sanitizeSafeNonNegativeInt(settlement.nominalBp),
+        amount: sanitizeSafeNonNegativeInt(settlement.amount),
+        settledAt: typeof settlement.settledAt === 'string' ? settlement.settledAt : '',
+      }
+    : null;
+  return {
+    balance: Math.min(MAX_FACTORY_BP, sanitizeSafeNonNegativeInt(source.balance)),
+    revision: sanitizeSafeNonNegativeInt(source.revision),
+    currentRunId,
+    brainSymbols: Math.min(2, sanitizeSafeNonNegativeInt(source.brainSymbols)),
+    settledThrough: currentRunId ? sanitizeSafeNonNegativeInt(source.settledThrough) : 0,
+    lastSettlement,
+  };
+}
+
 function sanitizeIntArray(values: unknown): number[] {
   if (!Array.isArray(values)) return [];
   const normalized = values
     .map((value) => (typeof value === 'number' && Number.isFinite(value) ? Math.floor(value) : NaN))
     .filter((value) => Number.isFinite(value) && value > 0);
   return [...new Set(normalized)];
+}
+
+function sanitizeGenerationSelection(values: unknown): number[] {
+  if (!Array.isArray(values) || values.length !== 1) return [1];
+  const generation = values[0];
+  return typeof generation === 'number' && Number.isInteger(generation) && generation >= 1 && generation <= 9
+    ? [generation]
+    : [1];
 }
 
 function sanitizeNonNegativeIntList(values: unknown): number[] {
@@ -455,6 +544,9 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
       : null,
     inventoryItemIds: sanitizeStringList(source.inventoryItemIds),
     battleLog: sanitizeStringList(source.battleLog),
+    phase: source.phase === 'ROUND_RESULT' || source.phase === 'FACTORY_SWAP' || source.phase === 'BASE' ? source.phase : 'BATTLE',
+    roundResult: source.roundResult === 'WIN' || source.roundResult === 'LOSS' ? source.roundResult : null,
+    lastBpGain: sanitizeSafeNonNegativeInt(source.lastBpGain),
   };
 }
 
@@ -542,10 +634,15 @@ function normalizeSaveData(value: unknown): GameSaveData {
   const factory = source.factory && typeof source.factory === 'object'
     ? (source.factory as Record<string, unknown>)
     : {};
+  const battleResume = sanitizeBattleResume(factory.battleResume);
+  const schemaVersion = sanitizeSafeNonNegativeInt(source.schemaVersion);
+  if (schemaVersion !== SAVE_SCHEMA_VERSION) throw new Error(`旧规则存档不兼容（版本 ${schemaVersion}），请备份后重新开始。`);
+  const wallet = sanitizeWallet(source.wallet);
 
   return {
     schemaVersion: SAVE_SCHEMA_VERSION,
     updatedAt: new Date().toISOString(),
+    wallet,
     progress: {
       totalRents: sanitizePositiveInt(progress.totalRents, 0),
       highestStreak: sanitizePositiveInt(progress.highestStreak, 0),
@@ -553,7 +650,7 @@ function normalizeSaveData(value: unknown): GameSaveData {
     },
     settings: {
       currentLanguage: sanitizeLanguage(settings.currentLanguage, 'zh-hans'),
-      selectedGens: sanitizeIntArray(settings.selectedGens),
+      selectedGens: sanitizeGenerationSelection(settings.selectedGens),
       startLevel: sanitizeLevel(settings.startLevel, 50),
       developerMode: Boolean(settings.developerMode),
     },
@@ -565,7 +662,7 @@ function normalizeSaveData(value: unknown): GameSaveData {
       winStreakActiveFlags: sanitizeUnsignedInt(factory.winStreakActiveFlags, 0),
       winStreakActiveMasks: sanitizeUnsignedInt(factory.winStreakActiveMasks, 0xffffffff),
       trainerIdsBySet: sanitizeTrainerIdsBySet(factory.trainerIdsBySet),
-      battleResume: sanitizeBattleResume(factory.battleResume),
+      battleResume,
     },
     collection: sanitizeCollectionLedger(source.collection),
     events: sanitizeEvents(source.events),
@@ -573,6 +670,8 @@ function normalizeSaveData(value: unknown): GameSaveData {
 }
 
 function normalizeSaveDataSafely(value: unknown): GameSaveData {
+  const version = value && typeof value === 'object' ? (value as Record<string, unknown>).schemaVersion : undefined;
+  if (version !== SAVE_SCHEMA_VERSION) throw new Error(`旧规则存档不兼容（版本 ${String(version ?? 'unknown')}），请备份后重新开始。`);
   try {
     return normalizeSaveData(value);
   } catch (error) {
@@ -588,53 +687,11 @@ function normalizeSaveDataSafely(value: unknown): GameSaveData {
   }
 }
 
-function readLegacySaveFallback(): Partial<GameSaveData> {
-  if (typeof window === 'undefined') return {};
-
-  const totalRents = Number(window.localStorage.getItem('pokefactory_total_rents') ?? 0);
-  const highestStreak = Number(window.localStorage.getItem('pokefactory_highest_streak') ?? 0);
-  const specialModeUnlocked = window.localStorage.getItem('pokefactory_special_mode_unlocked') === '1';
-  const developerMode = window.localStorage.getItem('pokefactory_developer_mode') === '1';
-
-  return {
-    progress: {
-      totalRents: Number.isFinite(totalRents) ? Math.max(0, Math.floor(totalRents)) : 0,
-      highestStreak: Number.isFinite(highestStreak) ? Math.max(0, Math.floor(highestStreak)) : 0,
-      specialModeUnlocked,
-    },
-    settings: {
-      currentLanguage: 'zh-hans',
-      selectedGens: [],
-      startLevel: 50,
-      developerMode,
-    },
-    factory: {
-      challengeStatus: 0,
-      curChallengeBattleNum: 0,
-      challengePaused: false,
-      disableRecordBattle: false,
-      winStreakActiveFlags: 0,
-      winStreakActiveMasks: 0xffffffff,
-      trainerIdsBySet: [],
-      battleResume: createEmptyBattleResume(),
-    },
-    collection: {
-      seenIds: [],
-      ownedIds: [],
-      formKeys: [],
-    },
-    events: {
-      speciesBattleCounts: {},
-      dispatchPokemonByRegion: {},
-      dispatches: {},
-    },
-  };
-}
-
 export function createSaveData(input: SaveDraftInput): GameSaveData {
   return normalizeSaveDataSafely({
     schemaVersion: SAVE_SCHEMA_VERSION,
     updatedAt: new Date().toISOString(),
+    wallet: input.wallet,
     progress: {
       totalRents: input.totalRents,
       highestStreak: input.highestStreak,
@@ -657,19 +714,29 @@ export function parseSaveDataFromText(text: string): GameSaveData {
   return normalizeSaveDataSafely(parsed);
 }
 
+export function readUnsupportedSave(): string | null {
+  if (typeof window === 'undefined') return null;
+  const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    return parsed.schemaVersion === SAVE_SCHEMA_VERSION ? null : raw;
+  } catch {
+    return raw;
+  }
+}
+
+export function discardUnsupportedSave() {
+  if (typeof window === 'undefined') return;
+  window.localStorage.removeItem(SAVE_STORAGE_KEY);
+  clearPendingFactorySettlement();
+}
+
 export function loadSaveData(): GameSaveData | null {
   if (typeof window === 'undefined') return null;
 
   const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
-  if (!raw) {
-    const legacy = readLegacySaveFallback();
-    const normalized = normalizeSaveDataSafely(legacy);
-    if (normalized.progress.totalRents > 0 || normalized.progress.highestStreak > 0 || normalized.progress.specialModeUnlocked || normalized.settings.developerMode) {
-      persistSaveData(normalized);
-      return normalized;
-    }
-    return null;
-  }
+  if (!raw || readUnsupportedSave()) return null;
 
   try {
     const parsed = JSON.parse(raw) as unknown;
@@ -683,7 +750,245 @@ export function loadSaveData(): GameSaveData | null {
 
 export function persistSaveData(saveData: GameSaveData) {
   if (typeof window === 'undefined') return;
+  const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
+  let wallet = saveData.wallet;
+  let battleResume = saveData.factory.battleResume;
+  if (raw) {
+    try {
+      const persisted = normalizeSaveDataSafely(JSON.parse(raw) as unknown);
+      if (persisted.wallet.revision > wallet.revision) wallet = persisted.wallet;
+      const committed = persisted.factory.battleResume;
+      if (committed.status === 'READY' && committed.phase === 'ROUND_RESULT'
+        && battleResume.status === 'READY' && battleResume.phase === 'BATTLE'
+        && committed.stage === battleResume.stage
+        && wallet.currentRunId === persisted.wallet.currentRunId) {
+        battleResume = committed;
+      }
+    } catch {
+      // Preserve the valid draft when an older stored save cannot be parsed.
+    }
+  }
+  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
+    ...saveData,
+    wallet,
+    factory: { ...saveData.factory, battleResume },
+  }));
+}
+
+export function replaceSaveData(saveData: GameSaveData) {
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
   window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(saveData));
+}
+
+export function loadPendingFactorySettlement(): PendingFactorySettlement | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.sessionStorage.getItem(PENDING_SETTLEMENT_KEY);
+    if (!raw) return null;
+    const value = JSON.parse(raw) as Record<string, unknown>;
+    if (typeof value.runId !== 'string' || value.runId.length === 0 || value.runId.length > 160
+      || !Number.isSafeInteger(value.stage) || (value.stage as number) < 1
+      || (value.result !== 'WIN' && value.result !== 'LOSS')
+      || typeof value.isFrontierBrain !== 'boolean') return null;
+    return value as unknown as PendingFactorySettlement;
+  } catch {
+    return null;
+  }
+}
+
+export function clearPendingFactorySettlement() {
+  if (typeof window === 'undefined') return;
+  try {
+    window.sessionStorage.removeItem(PENDING_SETTLEMENT_KEY);
+  } catch {
+    // Settlement has already been saved; a stale intent is harmless and idempotent.
+  }
+}
+
+function rememberPendingFactorySettlement(pending: PendingFactorySettlement) {
+  if (typeof window === 'undefined') return;
+  try {
+    window.sessionStorage.setItem(PENDING_SETTLEMENT_KEY, JSON.stringify(pending));
+  } catch (error) {
+    console.error('Could not retain failed factory settlement for this tab.', error);
+  }
+}
+
+function commitWalletChange(
+  draft: GameSaveData,
+  change: (wallet: FactoryWallet) => FactoryWallet,
+  saveForWallet?: (draft: GameSaveData, wallet: FactoryWallet) => GameSaveData,
+): FactoryWallet {
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
+  let wallet = draft.wallet;
+  if (raw) {
+    const persisted = normalizeSaveDataSafely(JSON.parse(raw) as unknown);
+    if (persisted.wallet.revision >= wallet.revision) wallet = persisted.wallet;
+  }
+  const nextWallet = change(wallet);
+  if (nextWallet === wallet) return wallet;
+  const save = saveForWallet ? saveForWallet(draft, nextWallet) : draft;
+  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify({ ...save, wallet: nextWallet, updatedAt: new Date().toISOString() }));
+  return nextWallet;
+}
+
+function nextWalletRevision(wallet: FactoryWallet): number {
+  if (wallet.revision >= Number.MAX_SAFE_INTEGER) throw new Error('Wallet revision overflow.');
+  return wallet.revision + 1;
+}
+
+function createFactoryRunId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return `run:${crypto.randomUUID()}`;
+  }
+  if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+    return `run:${Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')}`;
+  }
+  return `run:${Date.now().toString(36)}:${Math.random().toString(36).slice(2)}`;
+}
+
+export function beginFactoryWalletRun(draft: GameSaveData, devBonus = 0, startingStage = 1): FactoryWallet {
+  if (!Number.isSafeInteger(devBonus) || devBonus < 0) throw new Error('Invalid developer bonus.');
+  if (!Number.isSafeInteger(startingStage) || startingStage < 1) throw new Error('Invalid starting stage.');
+  const freshRunDraft: GameSaveData = {
+    ...draft,
+    factory: {
+      ...draft.factory,
+      challengeStatus: 0,
+      curChallengeBattleNum: 0,
+      challengePaused: false,
+      winStreakActiveFlags: 0,
+      trainerIdsBySet: [],
+      battleResume: createEmptyBattleResume(),
+    },
+  };
+  const nextWallet = commitWalletChange(freshRunDraft, (wallet) => {
+    const balance = Math.min(MAX_FACTORY_BP, wallet.balance + devBonus);
+    if (!Number.isSafeInteger(balance)) throw new Error('Wallet balance overflow.');
+    return {
+      ...wallet,
+      balance,
+      revision: nextWalletRevision(wallet),
+      currentRunId: createFactoryRunId(),
+      settledThrough: getSetNoByStage(startingStage) - 1,
+      lastSettlement: null,
+    };
+  });
+  clearPendingFactorySettlement();
+  return nextWallet;
+}
+
+export function endFactoryWalletRun(draft: GameSaveData, runId: string): FactoryWallet {
+  const endedDraft: GameSaveData = {
+    ...draft,
+    factory: {
+      ...draft.factory,
+      challengeStatus: 0,
+      curChallengeBattleNum: 0,
+      challengePaused: false,
+      winStreakActiveFlags: 0,
+      trainerIdsBySet: [],
+      battleResume: createEmptyBattleResume(),
+    },
+  };
+  const wallet = commitWalletChange(endedDraft, (current) => {
+    if (!runId || current.currentRunId !== runId) throw new Error('Factory run changed before ending.');
+    return {
+      ...current,
+      revision: nextWalletRevision(current),
+      currentRunId: null,
+      settledThrough: 0,
+      lastSettlement: null,
+    };
+  });
+  clearPendingFactorySettlement();
+  return wallet;
+}
+
+export function adjustWalletBalance(draft: GameSaveData, delta: number): FactoryWallet {
+  if (!Number.isSafeInteger(delta)) throw new Error('Invalid wallet adjustment.');
+  return commitWalletChange(draft, (wallet) => {
+    const balance = wallet.balance + delta;
+    if (!Number.isSafeInteger(balance) || balance < 0 || balance > MAX_FACTORY_BP) throw new Error('Insufficient or invalid wallet balance.');
+    return { ...wallet, balance, revision: nextWalletRevision(wallet) };
+  });
+}
+
+export function commitFactoryGroupSettlement(
+  draft: GameSaveData,
+  runId: string,
+  stage: number,
+  result: 'WIN' | 'LOSS',
+  isFrontierBrain: boolean,
+): { wallet: FactoryWallet; awarded: boolean; amount: number; nominalBp: number } {
+  if (!Number.isSafeInteger(stage) || stage < 1) {
+    throw new Error('Invalid factory settlement.');
+  }
+  if (result === 'WIN' && getBattleIndexInSet(stage) !== 7) {
+    return { wallet: draft.wallet, awarded: false, amount: 0, nominalBp: 0 };
+  }
+  const setNo = getSetNoByStage(stage);
+  const nominalBp = getFactoryGroupBp(stage, result, isFrontierBrain);
+  const pending: PendingFactorySettlement = { runId, stage, result, isFrontierBrain };
+  let awarded = false;
+  const validateSettlement = (current: FactoryWallet) => {
+    if (!runId || current.currentRunId !== runId) throw new Error('Factory run changed before settlement.');
+    if (setNo <= current.settledThrough) {
+      if (current.lastSettlement?.setNo !== setNo || current.lastSettlement.result !== result) throw new Error('Factory group was settled in a different result.');
+      return;
+    }
+    if (setNo !== current.settledThrough + 1) throw new Error('Factory group is out of sequence.');
+  };
+  const applySettlement = (current: FactoryWallet) => {
+    validateSettlement(current);
+    if (setNo <= current.settledThrough) return current;
+    awarded = true;
+    const amount = Math.min(nominalBp, MAX_FACTORY_BP - current.balance);
+    return {
+      ...current,
+      balance: current.balance + amount,
+      brainSymbols: result === 'WIN' && isFrontierBrain ? Math.min(2, current.brainSymbols + 1) : current.brainSymbols,
+      revision: nextWalletRevision(current),
+      settledThrough: setNo,
+      lastSettlement: { runId, setNo, stage, result, isFrontierBrain, nominalBp, amount, settledAt: new Date().toISOString() },
+    };
+  };
+  const raw = typeof window !== 'undefined' ? window.localStorage.getItem(SAVE_STORAGE_KEY) : null;
+  const persisted = raw ? normalizeSaveDataSafely(JSON.parse(raw) as unknown) : draft;
+  const current = persisted.wallet.revision >= draft.wallet.revision ? persisted.wallet : draft.wallet;
+  validateSettlement(current);
+  let wallet: FactoryWallet;
+  try {
+    wallet = commitWalletChange(draft, applySettlement, (save, nextWallet) => ({
+      ...save,
+      factory: {
+        ...save.factory,
+        battleResume: save.factory.battleResume.status === 'READY'
+          ? {
+              ...save.factory.battleResume,
+              phase: 'ROUND_RESULT',
+              roundResult: result,
+              lastBpGain: nextWallet.lastSettlement?.amount ?? 0,
+              streak: result === 'WIN' ? save.factory.battleResume.streak + 1 : 0,
+            }
+          : save.factory.battleResume,
+      },
+    }));
+  } catch (error) {
+    rememberPendingFactorySettlement(pending);
+    throw error;
+  }
+  clearPendingFactorySettlement();
+  return {
+    wallet,
+    awarded,
+    nominalBp,
+    amount: wallet.lastSettlement?.setNo === setNo && wallet.lastSettlement.result === result
+      ? wallet.lastSettlement.amount
+      : 0,
+  };
 }
 
 export function buildSaveExportFilename() {

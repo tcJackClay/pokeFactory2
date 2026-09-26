@@ -1,0 +1,50 @@
+{
+  "failedWallet": {
+    "balance": 1,
+    "revision": 3,
+    "currentRunId": "run:99462304-1497-41f4-a7e9-2a6047c518f3",
+    "settledThrough": 0,
+    "lastSettlement": null,
+    "migratedFromV7": false
+  },
+  "reopenedWallet": {
+    "balance": 1,
+    "revision": 3,
+    "currentRunId": "run:99462304-1497-41f4-a7e9-2a6047c518f3",
+    "settledThrough": 0,
+    "lastSettlement": null,
+    "migratedFromV7": false
+  },
+  "reopenedBody": "1\n代币\n1/7\n轮次\n0\n连胜\n多边兽\n◇\nLV.50\n一般\nHP\n100%\n小猫怪\n♂\nLV.50\n电\nHP\n105/105\n战斗日志\nFCT-01\n\n对手 派出了 多边兽！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n二连踢\n格斗\n威力 30\n命中 100\nPP 30/30\n头锤\n一般\n威力 70\n命中 100\nPP 15/15\n梦话\n一般\n威力 --\n命中 --\nPP 10/10\n十万伏特\n电\n威力 90\n命中 100\nPP 15/15\nDEV",
+  "alert": 0,
+  "buttons": [
+    "",
+    "",
+    "",
+    "",
+    "战斗",
+    "变化",
+    "背包",
+    "宝可梦",
+    "逃跑",
+    "二连踢格斗威力 30命中 100PP 30/30",
+    "头锤一般威力 70命中 100PP 15/15",
+    "梦话一般威力 --命中 --PP 10/10"
+  ],
+  "afterAction": "dev-win-replay",
+  "finalWallet": {
+    "balance": 5,
+    "revision": 4,
+    "currentRunId": "run:99462304-1497-41f4-a7e9-2a6047c518f3",
+    "settledThrough": 1,
+    "lastSettlement": {
+      "runId": "run:99462304-1497-41f4-a7e9-2a6047c518f3",
+      "stage": 1,
+      "result": "WIN",
+      "amount": 4,
+      "settledAt": "2026-09-26T04:25:26.395Z"
+    },
+    "migratedFromV7": false
+  },
+  "finalBody": "5\n代币\n1/7\n轮次\n1\n连胜\n本场胜利\n获得代币：+4\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nZACH / PSYCHIC_M\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 1\nC 5\nSP OFF"
+}

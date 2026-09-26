@@ -1,4 +1,5 @@
 import type { PokemonIdentifier } from '../../../services/pokeApi';
+import { withRequestTimeout } from '../../../services/requestTimeout';
 
 export type FactorySpeciesEvolutionStage = 'BASE' | 'MID' | 'FINAL';
 
@@ -12,18 +13,19 @@ export interface FactorySpeciesIndexEntry {
 }
 
 let factorySpeciesIndexPromise: Promise<Map<string, FactorySpeciesIndexEntry>> | null = null;
-const FACTORY_SPECIES_INDEX_URL = `${import.meta.env.BASE_URL}api/data/factory-species-index`;
+const FACTORY_SPECIES_INDEX_URL = `${import.meta.env?.BASE_URL ?? '/'}api/data/factory-species-index`;
+export const FACTORY_SPECIES_INDEX_TIMEOUT_MS = 4000;
 
-async function loadFactorySpeciesIndexMap(): Promise<Map<string, FactorySpeciesIndexEntry>> {
+async function loadFactorySpeciesIndexMap(timeoutMs = FACTORY_SPECIES_INDEX_TIMEOUT_MS): Promise<Map<string, FactorySpeciesIndexEntry>> {
   if (!factorySpeciesIndexPromise) {
-    factorySpeciesIndexPromise = fetch(FACTORY_SPECIES_INDEX_URL)
-      .then(async (response) => {
+    factorySpeciesIndexPromise = withRequestTimeout(async (signal) => {
+        const response = await fetch(FACTORY_SPECIES_INDEX_URL, { signal });
         if (!response.ok) {
           throw new Error(`Failed to load factory species index: HTTP ${response.status}`);
         }
         const entries = await response.json() as FactorySpeciesIndexEntry[];
         return new Map(entries.map((entry) => [entry.identifier, entry] as const));
-      })
+      }, timeoutMs, 'Factory species index')
       .catch((error) => {
         factorySpeciesIndexPromise = null;
         throw error;
@@ -33,8 +35,8 @@ async function loadFactorySpeciesIndexMap(): Promise<Map<string, FactorySpeciesI
   return factorySpeciesIndexPromise;
 }
 
-export async function preloadFactorySpeciesIndex(): Promise<void> {
-  await loadFactorySpeciesIndexMap();
+export async function preloadFactorySpeciesIndex(timeoutMs = FACTORY_SPECIES_INDEX_TIMEOUT_MS): Promise<void> {
+  await loadFactorySpeciesIndexMap(timeoutMs);
 }
 
 export async function getFactorySpeciesIndexEntry(

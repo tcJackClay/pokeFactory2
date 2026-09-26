@@ -230,6 +230,50 @@ test('resolveEndTurn applies poison damage before leftovers recovery', () => {
   assert.equal(result.snapshot.playerTeam[0].currentHp, 74);
 });
 
+test('end-turn Leftovers messages follow the selected battle language', () => {
+  const holder = createPokemon(1, 'ledyba', { zhName: '芭瓢虫', currentHp: 50, factoryHeldItemId: 'leftovers' });
+  const snapshot = createSnapshot({ playerTeam: [holder] });
+  const options = {
+    snapshot,
+    formatDynamaxEndMessage: (pokemon: GamePokemon) => `${pokemon.name} shrank back down.`,
+    getMoveCurrentPp: (move: Move) => move.currentPp ?? move.pp ?? 0,
+    tryActivateSitrusBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    tryActivatePinchStatBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+  };
+  const chinese = resolveEndTurn({ ...options, currentLanguage: 'zh-CN', getLocalized: (pokemon) => pokemon.zhName || pokemon.name });
+  const english = resolveEndTurn({ ...options, currentLanguage: 'en', getLocalized: (pokemon) => pokemon.name });
+  assert.ok(chinese.events.some((event) => event.type === 'message' && event.message === '芭瓢虫通过剩饭恢复了体力！'));
+  assert.ok(english.events.some((event) => event.type === 'message' && event.message === 'ledyba restored HP with Leftovers!'));
+});
+
+test('confusion messages are complete Chinese or English sentences', () => {
+  const confused = setVolatileStatus(createPokemon(1, 'ledyba', { zhName: '芭瓢虫' }), 'confusion', { turnsRemaining: 3 });
+  const options = {
+    snapshot: createSnapshot({ playerTeam: [confused] }),
+    side: 'player' as const,
+    combatant: confused,
+    move: createMove(),
+    hasAbilityEffect: () => false,
+    isMoveUsableWhileAsleep: () => false,
+    getEncoredMove: () => null,
+    getMoveCurrentPp: (move: Move) => move.currentPp ?? move.pp ?? 0,
+    tryConsumeStatusCureBerry: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    tryConsumeMentalHerb: (pokemon: GamePokemon | null | undefined) => ({ pokemon, message: null }),
+    calculateConfusionSelfHitDamage: () => 10,
+    random: () => 0,
+  };
+  const chinese = resolveBeforeMoveChecks({ ...options, currentLanguage: 'zh-CN', displayName: '芭瓢虫' });
+  const english = resolveBeforeMoveChecks({ ...options, currentLanguage: 'en', displayName: 'Ledyba' });
+  assert.deepEqual(chinese.events.filter((event) => event.type === 'message').map((event) => event.message), [
+    '芭瓢虫陷入了混乱！',
+    '芭瓢虫因混乱伤害了自己！',
+  ]);
+  assert.deepEqual(english.events.filter((event) => event.type === 'message').map((event) => event.message), [
+    'Ledyba is confused!',
+    'Ledyba hurt itself in its confusion!',
+  ]);
+});
+
 test('resolveEndTurn increments toxic counter at end of turn', () => {
   const badlyPoisonedPokemon = createPokemon(1, 'toxic', {
     currentHp: 100,

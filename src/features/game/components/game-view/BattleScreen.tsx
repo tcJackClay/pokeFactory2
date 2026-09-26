@@ -12,6 +12,9 @@ export function BattleScreen({ viewModel }: GameViewSectionProps) {
     trainerIntroActive,
     trainerIntroAwaitingContinue,
     currentEnemyTrainer,
+    currentLanguage,
+    settlementError,
+    retrySettlement,
   } = viewModel;
   const shouldReduceMotion = useReducedMotion();
 
@@ -36,7 +39,16 @@ export function BattleScreen({ viewModel }: GameViewSectionProps) {
     >
       <TopStatusRegion viewModel={viewModel} />
       <BattleViewportRegion viewModel={viewModel} loading={loading} />
-      <BattleCommandRegion viewModel={viewModel} active={!loading} />
+      {settlementError ? (
+        <div role="alert" className="mx-2 mb-2 rounded-2xl border border-rose-300 bg-white p-3 text-center text-sm font-bold text-rose-800 shadow-lg">
+          <p>{currentLanguage.startsWith('zh') ? '本组结算未能保存，BP 尚未到账。请重试。' : 'The group settlement could not be saved. BP has not been credited yet.'}</p>
+          <button type="button" onClick={() => void retrySettlement()} className="pf-action-button mt-2 min-h-11 px-4">
+            {currentLanguage.startsWith('zh') ? '重试结算' : 'Retry settlement'}
+          </button>
+        </div>
+      ) : (
+        <BattleCommandRegion viewModel={viewModel} active={!loading} />
+      )}
     </motion.div>
   );
 }

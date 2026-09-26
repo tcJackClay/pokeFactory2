@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   buildPokeApiUrl,
+  fetchPokeApiJsonByResourceUrl,
   getPokemonHomeSpriteUrl,
   getPokemonOfficialArtworkUrl,
   getPokemonSpriteUrl,
@@ -47,4 +48,46 @@ test('PokeAPI 响应中的嵌套外部资源地址会被递归改写', () => {
     species: { url: '/api/pokeapi/pokemon-species/25/' },
     sprites: ['/api/pokeapi-sprites/pokemon/25.png'],
   });
+});
+
+test('resource JSON body timeout aborts and a later retry can succeed', async () => {
+  const originalFetch = globalThis.fetch;
+  let signal: AbortSignal | undefined;
+  try {
+    globalThis.fetch = (async (_url, init) => {
+      signal = init?.signal as AbortSignal;
+      return { ok: true, json: async () => new Promise(() => {}) } as Response;
+    }) as typeof fetch;
+    await assert.rejects(fetchPokeApiJsonByResourceUrl('https://example.test/data', 25), /timed out/);
+    assert.equal(signal?.aborted, true);
+
+    globalThis.fetch = (async () => ({ ok: true, json: async () => ({ name: 'retry-ok' }) }) as Response) as typeof fetch;
+    assert.deepEqual(await fetchPokeApiJsonByResourceUrl('https://example.test/data', 100), { name: 'retry-ok' });
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('one caller timeout does not abort another caller sharing a PokeAPI resource', async () => {
+  const originalFetch = globalThis.fetch;
+  let requestCount = 0;
+  let sharedSignal: AbortSignal | undefined;
+  try {
+    globalThis.fetch = (async (_url, init) => {
+      requestCount += 1;
+      sharedSignal = init?.signal as AbortSignal;
+      return {
+        ok: true,
+        json: async () => new Promise((resolve) => setTimeout(() => resolve({ name: 'shared-ok' }), 60)),
+      } as Response;
+    }) as typeof fetch;
+    const shortWait = fetchPokeApiJsonByResourceUrl('/api/pokeapi/pokemon/999991/', 10);
+    const longWait = fetchPokeApiJsonByResourceUrl('/api/pokeapi/pokemon/999991/', 200);
+    await assert.rejects(shortWait, /timed out/);
+    assert.deepEqual(await longWait, { name: 'shared-ok' });
+    assert.equal(requestCount, 1);
+    assert.equal(sharedSignal?.aborted, false);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });

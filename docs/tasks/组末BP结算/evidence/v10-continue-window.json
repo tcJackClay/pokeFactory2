@@ -1,0 +1,45 @@
+{
+  "base": {
+    "state": {
+      "balance": 3,
+      "revision": 3,
+      "settledThrough": 1,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengeStatus": 0,
+      "challengePaused": true
+    },
+    "body": "3\nBP\n7/7\n轮次\n7\n连胜\n继续中\n对战工厂\n\n继续当前挑战\n\n继续挑战\n商店\n培育\n图鉴\n事件\n设置\nDEV"
+  },
+  "at120ms": {
+    "state": {
+      "balance": 3,
+      "revision": 3,
+      "settledThrough": 1,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengeStatus": 1,
+      "challengePaused": false
+    },
+    "body": "3\nBP\n1/7\n轮次\n7\n连胜\n爱吃豚\n♂\nLV.50\n一般\nHP\n116/116\n战斗日志\nFCT-01\n\n等待战斗指令。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n诅咒\n幽灵\n威力 --\n命中 --\nPP 10/10\n掷泥\n地面\n威力 20\n命中 100\nPP 10/10\n猛撞\n一般\n威力 90\n命中"
+  },
+  "afterReload": {
+    "state": {
+      "balance": 3,
+      "revision": 3,
+      "settledThrough": 1,
+      "stage": 7,
+      "streak": 7,
+      "status": "READY",
+      "phase": "BASE",
+      "challengeStatus": 0,
+      "challengePaused": true
+    },
+    "body": "3\nBP\n7/7\n轮次\n7\n连胜\n继续中\n对战工厂\n\n继续当前挑战\n\n继续挑战\n商店\n培育\n图鉴\n事件\n设置\nDEV"
+  },
+  "errors": []
+}

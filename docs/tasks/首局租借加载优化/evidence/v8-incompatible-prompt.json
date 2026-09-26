@@ -1,0 +1,27 @@
+{
+  "body": "旧规则存档不兼容 / Old save is incompatible\n\n新版本按七战整组结算 BP，旧版逐场代币不能转入 BP。请先备份旧存档，再重新开始。\n\nThe new BP rules require a fresh save. Old per-battle tokens cannot be carried over.\n\n导出旧存档 / BACK UP\n清除旧存档并开始 / START FRESH",
+  "before": {
+    "schema": 8,
+    "wallet": {
+      "balance": 1,
+      "revision": 2,
+      "currentRunId": "run:7d913fb7-2365-4696-b9b7-50fecbb0c961",
+      "settledThrough": 1,
+      "lastSettlement": {
+        "runId": "run:7d913fb7-2365-4696-b9b7-50fecbb0c961",
+        "stage": 1,
+        "result": "LOSS",
+        "amount": 1,
+        "settledAt": "2026-09-26T04:19:55.028Z"
+      },
+      "migratedFromV7": false
+    }
+  },
+  "buttons": [
+    "导出旧存档 / Back up",
+    "清除旧存档并开始 / Start fresh"
+  ],
+  "downloadName": "pokefactory-legacy-backup.json",
+  "downloadSchema": 8,
+  "after": 8
+}

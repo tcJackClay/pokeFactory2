@@ -10,6 +10,7 @@ import { PokemonInfoScreen } from './game-view/PokemonInfoScreen';
 import { RoundResultScreen } from './game-view/RoundResultScreen';
 import { RewardScreen } from './game-view/RewardScreen';
 import { SettingsScreen } from './game-view/SettingsScreen';
+import { CreditsScreen } from './game-view/CreditsScreen';
 import { EventsScreen } from './game-view/EventsScreen';
 import { BootLoadingScreen } from './game-view/BootLoadingScreen';
 import { BaseScreen } from './game-view/BaseScreen';
@@ -17,6 +18,7 @@ import { StartScreen } from './game-view/StartScreen';
 import { TopRecordPanel } from './game-view/TopRecordPanel';
 import { DeveloperPanel } from './game-view/DeveloperPanel';
 import { APP_PALETTE } from '../../../theme/palette';
+import { discardUnsupportedSave, readUnsupportedSave, triggerJsonDownload } from '../../../services/saveManager';
 
 const CollectionScreen = lazy(async () => import('./game-view/CollectionScreen').then((module) => ({ default: module.CollectionScreen })));
 
@@ -38,6 +40,7 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
     hasFactoryRunToResume,
   } = viewModel;
   const shouldReduceMotion = useReducedMotion();
+  const unsupportedSave = readUnsupportedSave();
   const showFactoryTopRecord = [
     'BASE',
     'START',
@@ -91,7 +94,9 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
     </Suspense>
   );
 
-  if (gameState === 'BOOT') {
+  if (unsupportedSave) {
+    screenContent = <div className="flex flex-1 items-center justify-center p-4"><div className="w-full max-w-lg rounded-2xl bg-white p-6 text-center shadow-lg"><h1 className="text-xl font-black text-slate-900">旧规则存档不兼容 / Old save is incompatible</h1><p className="mt-3 text-sm text-slate-700">新版本按七战整组结算 BP，旧版逐场代币不能转入 BP。请先备份旧存档，再重新开始。</p><p className="mt-2 text-sm text-slate-700">The new BP rules require a fresh save. Old per-battle tokens cannot be carried over.</p><div className="mt-5 flex flex-wrap justify-center gap-3"><button type="button" className="pf-action-button px-4" onClick={() => triggerJsonDownload(unsupportedSave, 'pokefactory-legacy-backup.json')}>导出旧存档 / Back up</button><button type="button" className="pf-action-button px-4" data-tone="primary" onClick={() => { discardUnsupportedSave(); window.location.reload(); }}>清除旧存档并开始 / Start fresh</button></div></div></div>;
+  } else if (gameState === 'BOOT') {
     screenContent = <BootLoadingScreen key="boot-screen" viewModel={viewModel} />;
   } else if (gameState === 'BASE') {
     if (currentBaseTab === 'COLLECTION') {
@@ -107,6 +112,8 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
     screenContent = renderCollectionScreen('collection-screen');
   } else if (gameState === 'SETTINGS') {
     screenContent = <SettingsScreen key="settings-screen" viewModel={viewModel} />;
+  } else if (gameState === 'CREDITS') {
+    screenContent = <CreditsScreen key="credits-screen" viewModel={viewModel} />;
   } else if (gameState === 'EVENTS') {
     screenContent = <EventsScreen key="events-screen" viewModel={viewModel} />;
   } else if (gameState === 'BATTLE' && playerTeam[0]) {

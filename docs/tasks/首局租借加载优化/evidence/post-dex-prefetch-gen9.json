@@ -1,0 +1,56 @@
+{
+  "generation": 9,
+  "clickToSixCardsSeconds": 8.03,
+  "bootRequestsBeforeClick": {
+    "all": 177,
+    "pokeapi": 17,
+    "factoryIndex": 1,
+    "pokedexCsv": 0,
+    "sprite": 0,
+    "fetchOrXhr": 18
+  },
+  "bootResponsesBeforeClick": {
+    "all": 173,
+    "pokeapi": 13,
+    "factoryIndex": 1,
+    "pokedexCsv": 0,
+    "sprite": 0,
+    "fetchOrXhr": 14
+  },
+  "rentalRequests": {
+    "all": 85,
+    "pokeapi": 78,
+    "factoryIndex": 0,
+    "pokedexCsv": 0,
+    "sprite": 6,
+    "fetchOrXhr": 78
+  },
+  "rentalResponses": {
+    "all": 82,
+    "pokeapi": 82,
+    "factoryIndex": 0,
+    "pokedexCsv": 0,
+    "sprite": 0,
+    "fetchOrXhr": 82
+  },
+  "cards": 6,
+  "rentalBody": "0\nBP\n0/7\n轮次\n0\n连胜\n草\n幽灵\n纳噬草\n火\n炭小侍\n岩石\n盐石宝\n草\n一般\n迷你芙\n水\n海地鼠\n幽灵\n墓仔狗\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)",
+  "gens": [
+    9
+  ],
+  "stage1": {
+    "balance": 0,
+    "rentals": [
+      946,
+      935,
+      932,
+      928,
+      960,
+      971
+    ]
+  },
+  "errors": {
+    "console": [],
+    "http": []
+  }
+}

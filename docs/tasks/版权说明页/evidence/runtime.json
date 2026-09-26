@@ -1,0 +1,644 @@
+[
+  {
+    "viewport": "320x568",
+    "errors": [
+      "error: Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "languages": {
+      "zh": {
+        "top": {
+          "viewport": [
+            320,
+            568
+          ],
+          "body": [
+            320,
+            568
+          ],
+          "heading": {
+            "x": 20,
+            "y": 20,
+            "w": 196,
+            "h": 42
+          },
+          "back": {
+            "x": 20,
+            "y": 78,
+            "w": 104.734375,
+            "h": 44
+          },
+          "scroll": [
+            0,
+            418,
+            1186,
+            280,
+            280
+          ],
+          "links": [
+            {
+              "text": "宝可梦官方内容使用说明",
+              "href": "https://support.pokemon.com/hc/en-us/articles/360000634094-Can-I-use-Pok%C3%A9mon-images-or-materials",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokéAPI",
+              "href": "https://github.com/PokeAPI/pokeapi",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "项目许可",
+              "href": "https://github.com/PokeAPI/pokeapi/blob/master/LICENSE.md",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/sprites",
+              "href": "https://github.com/PokeAPI/sprites",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "来源说明",
+              "href": "https://github.com/PokeAPI/sprites/blob/master/LICENCE.txt",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/cries",
+              "href": "https://github.com/PokeAPI/cries",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "52Poké",
+              "href": "https://wiki.52poke.com/wiki/%E5%B1%9E%E6%80%A7",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue Assets",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "来源许可标记",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets/blob/35c1ee6/images/REUSE.toml",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue",
+              "href": "https://github.com/pagefaultgames/pokerogue",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            }
+          ]
+        },
+        "bottom": {
+          "scrollTop": 768,
+          "visibleBack": true
+        },
+        "saveSame": {
+          "progress": true,
+          "factory": true,
+          "collection": true,
+          "events": true
+        },
+        "language": "zh-hans"
+      },
+      "en": {
+        "top": {
+          "viewport": [
+            320,
+            568
+          ],
+          "body": [
+            320,
+            568
+          ],
+          "heading": {
+            "x": 20,
+            "y": 21.264699935913086,
+            "w": 280,
+            "h": 72
+          },
+          "back": {
+            "x": 20,
+            "y": 109.26470184326172,
+            "w": 121.71875,
+            "h": 43.99999237060547
+          },
+          "scroll": [
+            0,
+            388,
+            1389,
+            280,
+            280
+          ],
+          "links": [
+            {
+              "text": "Official Pokémon content-use guidance",
+              "href": "https://support.pokemon.com/hc/en-us/articles/360000634094-Can-I-use-Pok%C3%A9mon-images-or-materials",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokéAPI",
+              "href": "https://github.com/PokeAPI/pokeapi",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "Project license",
+              "href": "https://github.com/PokeAPI/pokeapi/blob/master/LICENSE.md",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/sprites",
+              "href": "https://github.com/PokeAPI/sprites",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "Source notice",
+              "href": "https://github.com/PokeAPI/sprites/blob/master/LICENCE.txt",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/cries",
+              "href": "https://github.com/PokeAPI/cries",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "52Poké",
+              "href": "https://wiki.52poke.com/wiki/%E5%B1%9E%E6%80%A7",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue Assets",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "Source license marker",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets/blob/35c1ee6/images/REUSE.toml",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue",
+              "href": "https://github.com/pagefaultgames/pokerogue",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            }
+          ]
+        },
+        "bottom": {
+          "scrollTop": 1001,
+          "visibleBack": true
+        },
+        "saveSame": {
+          "progress": true,
+          "factory": true,
+          "collection": true,
+          "events": true
+        },
+        "language": "en"
+      }
+    },
+    "baseButtons": [
+      "Start Run",
+      "Shop",
+      "Breed",
+      "Collection",
+      "Events",
+      "Settings"
+    ],
+    "baseSaveSame": true,
+    "reloadSaveSame": true
+  },
+  {
+    "viewport": "390x844",
+    "errors": [],
+    "languages": {
+      "zh": {
+        "top": {
+          "viewport": [
+            390,
+            844
+          ],
+          "body": [
+            390,
+            844
+          ],
+          "heading": {
+            "x": 20,
+            "y": 18.608644485473633,
+            "w": 196,
+            "h": 42
+          },
+          "back": {
+            "x": 265.265625,
+            "y": 18.608644485473633,
+            "w": 104.734375,
+            "h": 44
+          },
+          "scroll": [
+            0,
+            752,
+            1029,
+            350,
+            350
+          ],
+          "links": [
+            {
+              "text": "宝可梦官方内容使用说明",
+              "href": "https://support.pokemon.com/hc/en-us/articles/360000634094-Can-I-use-Pok%C3%A9mon-images-or-materials",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokéAPI",
+              "href": "https://github.com/PokeAPI/pokeapi",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "项目许可",
+              "href": "https://github.com/PokeAPI/pokeapi/blob/master/LICENSE.md",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/sprites",
+              "href": "https://github.com/PokeAPI/sprites",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "来源说明",
+              "href": "https://github.com/PokeAPI/sprites/blob/master/LICENCE.txt",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/cries",
+              "href": "https://github.com/PokeAPI/cries",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "52Poké",
+              "href": "https://wiki.52poke.com/wiki/%E5%B1%9E%E6%80%A7",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue Assets",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "来源许可标记",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets/blob/35c1ee6/images/REUSE.toml",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue",
+              "href": "https://github.com/pagefaultgames/pokerogue",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            }
+          ]
+        },
+        "bottom": {
+          "scrollTop": 277,
+          "visibleBack": true
+        },
+        "saveSame": {
+          "progress": true,
+          "factory": true,
+          "collection": true,
+          "events": true
+        },
+        "language": "zh-hans"
+      },
+      "en": {
+        "top": {
+          "viewport": [
+            390,
+            844
+          ],
+          "body": [
+            390,
+            844
+          ],
+          "heading": {
+            "x": 20,
+            "y": 18.561229705810547,
+            "w": 291.328125,
+            "h": 36
+          },
+          "back": {
+            "x": 20,
+            "y": 70.56123352050781,
+            "w": 121.71875,
+            "h": 44
+          },
+          "scroll": [
+            0,
+            700,
+            1205,
+            350,
+            350
+          ],
+          "links": [
+            {
+              "text": "Official Pokémon content-use guidance",
+              "href": "https://support.pokemon.com/hc/en-us/articles/360000634094-Can-I-use-Pok%C3%A9mon-images-or-materials",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokéAPI",
+              "href": "https://github.com/PokeAPI/pokeapi",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "Project license",
+              "href": "https://github.com/PokeAPI/pokeapi/blob/master/LICENSE.md",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/sprites",
+              "href": "https://github.com/PokeAPI/sprites",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "Source notice",
+              "href": "https://github.com/PokeAPI/sprites/blob/master/LICENCE.txt",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/cries",
+              "href": "https://github.com/PokeAPI/cries",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "52Poké",
+              "href": "https://wiki.52poke.com/wiki/%E5%B1%9E%E6%80%A7",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue Assets",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "Source license marker",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets/blob/35c1ee6/images/REUSE.toml",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue",
+              "href": "https://github.com/pagefaultgames/pokerogue",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            }
+          ]
+        },
+        "bottom": {
+          "scrollTop": 505,
+          "visibleBack": true
+        },
+        "saveSame": {
+          "progress": true,
+          "factory": true,
+          "collection": true,
+          "events": true
+        },
+        "language": "en"
+      }
+    },
+    "baseButtons": [
+      "Start Run",
+      "Shop",
+      "Breed",
+      "Collection",
+      "Events",
+      "Settings"
+    ],
+    "baseSaveSame": true,
+    "reloadSaveSame": true,
+    "officialLinkPopupUrl": "https://support.pokemon.com/hc/en-us/articles/360000634094-Can-I-use-Pok%C3%A9mon-images-or-materials"
+  },
+  {
+    "viewport": "844x390",
+    "languages": {
+      "zh": {
+        "top": {
+          "page": [
+            844,
+            390
+          ],
+          "scroll": [
+            0,
+            282,
+            720,
+            788,
+            788
+          ],
+          "links": [
+            {
+              "text": "宝可梦官方内容使用说明",
+              "href": "https://support.pokemon.com/hc/en-us/articles/360000634094-Can-I-use-Pok%C3%A9mon-images-or-materials",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokéAPI",
+              "href": "https://github.com/PokeAPI/pokeapi",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "项目许可",
+              "href": "https://github.com/PokeAPI/pokeapi/blob/master/LICENSE.md",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/sprites",
+              "href": "https://github.com/PokeAPI/sprites",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "来源说明",
+              "href": "https://github.com/PokeAPI/sprites/blob/master/LICENCE.txt",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/cries",
+              "href": "https://github.com/PokeAPI/cries",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "52Poké",
+              "href": "https://wiki.52poke.com/wiki/%E5%B1%9E%E6%80%A7",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue Assets",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "来源许可标记",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets/blob/35c1ee6/images/REUSE.toml",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue",
+              "href": "https://github.com/pagefaultgames/pokerogue",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            }
+          ]
+        },
+        "bottom": {
+          "scrollTop": 438,
+          "visibleBack": true
+        },
+        "saveSame": {
+          "progress": true,
+          "factory": true,
+          "collection": true,
+          "events": true
+        },
+        "language": "zh-hans"
+      },
+      "en": {
+        "top": {
+          "page": [
+            844,
+            390
+          ],
+          "scroll": [
+            0,
+            282,
+            765,
+            788,
+            788
+          ],
+          "links": [
+            {
+              "text": "Official Pokémon content-use guidance",
+              "href": "https://support.pokemon.com/hc/en-us/articles/360000634094-Can-I-use-Pok%C3%A9mon-images-or-materials",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokéAPI",
+              "href": "https://github.com/PokeAPI/pokeapi",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "Project license",
+              "href": "https://github.com/PokeAPI/pokeapi/blob/master/LICENSE.md",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/sprites",
+              "href": "https://github.com/PokeAPI/sprites",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "Source notice",
+              "href": "https://github.com/PokeAPI/sprites/blob/master/LICENCE.txt",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeAPI/cries",
+              "href": "https://github.com/PokeAPI/cries",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "52Poké",
+              "href": "https://wiki.52poke.com/wiki/%E5%B1%9E%E6%80%A7",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue Assets",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "Source license marker",
+              "href": "https://github.com/pagefaultgames/pokerogue-assets/blob/35c1ee6/images/REUSE.toml",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            },
+            {
+              "text": "PokeRogue",
+              "href": "https://github.com/pagefaultgames/pokerogue",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            }
+          ]
+        },
+        "bottom": {
+          "scrollTop": 483,
+          "visibleBack": true
+        },
+        "saveSame": {
+          "progress": true,
+          "factory": true,
+          "collection": true,
+          "events": true
+        },
+        "language": "en"
+      }
+    },
+    "errors": [],
+    "baseSaveSame": true,
+    "baseButtons": [
+      "Start Run",
+      "Shop",
+      "Breed",
+      "Collection",
+      "Events",
+      "Settings"
+    ]
+  }
+]

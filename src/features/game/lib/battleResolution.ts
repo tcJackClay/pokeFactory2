@@ -1,5 +1,5 @@
 import type { FieldState, GamePokemon, Move, StatStages, Weather } from '../../../types';
-import { AILMENT_ZH, STAT_ZH } from '../battle/battleText';
+import { battleAilmentName, battleLine, battleMoveName, battleStatName } from '../battle/battleLogText';
 import { getMoveSecondaryEffects, getMoveTarget, hasAbilityBattleEffect, hasMoveBattleEffect } from '../data/battle';
 import type { LocalizeFn } from '../view-model';
 import {
@@ -29,6 +29,7 @@ interface ApplyMoveSecondaryEffectsOptions {
   fieldState?: FieldState[];
   weather?: Weather;
   getLocalized: LocalizeFn;
+  currentLanguage?: string;
   targetHasActedThisTurn?: boolean;
   extraFlinchChance?: number;
   allowUserEffects?: boolean;
@@ -53,6 +54,7 @@ interface ApplyWeatherChipDamageOptions {
   pokemon: GamePokemon;
   weather: Weather;
   getLocalized: LocalizeFn;
+  currentLanguage?: string;
 }
 
 interface ResolveYawnEndTurnOptions {
@@ -61,6 +63,7 @@ interface ResolveYawnEndTurnOptions {
   enemyTeam: GamePokemon[];
   fieldState?: FieldState[];
   getLocalized: LocalizeFn;
+  currentLanguage?: string;
   random?: () => number;
 }
 
@@ -181,6 +184,7 @@ export function applyWeatherChipDamage({
   pokemon,
   weather,
   getLocalized,
+  currentLanguage,
 }: ApplyWeatherChipDamageOptions): ApplyResidualDamageResult {
   if (pokemon.currentHp <= 0) {
     return { pokemon, messages: [], fainted: false };
@@ -200,7 +204,7 @@ export function applyWeatherChipDamage({
     const updatedPokemon = heal > 0 ? { ...pokemon, currentHp: pokemon.currentHp + heal } : pokemon;
     return {
       pokemon: updatedPokemon,
-      messages: heal > 0 ? [`${getLocalized(updatedPokemon)} restored HP in the weather!`] : [],
+      messages: heal > 0 ? [battleLine(currentLanguage, `${getLocalized(updatedPokemon)} restored HP in the weather!`, `${getLocalized(updatedPokemon)}在天气影响下恢复了体力！`)] : [],
       fainted: false,
     };
   }
@@ -210,7 +214,7 @@ export function applyWeatherChipDamage({
     const updatedPokemon = { ...pokemon, currentHp: Math.max(0, pokemon.currentHp - weatherDamage) };
     return {
       pokemon: updatedPokemon,
-      messages: [`${getLocalized(updatedPokemon)} was hurt by the sunlight!`],
+      messages: [battleLine(currentLanguage, `${getLocalized(updatedPokemon)} was hurt by the sunlight!`, `${getLocalized(updatedPokemon)}受到了阳光的伤害！`)],
       fainted: updatedPokemon.currentHp <= 0,
     };
   }
@@ -221,7 +225,7 @@ export function applyWeatherChipDamage({
     const updatedPokemon = { ...pokemon, currentHp: Math.max(0, pokemon.currentHp - weatherDamage) };
     return {
       pokemon: updatedPokemon,
-      messages: [`${getLocalized(updatedPokemon)} is hurt by the sandstorm!`],
+      messages: [battleLine(currentLanguage, `${getLocalized(updatedPokemon)} is hurt by the sandstorm!`, `${getLocalized(updatedPokemon)}受到了沙暴的伤害！`)],
       fainted: updatedPokemon.currentHp <= 0,
     };
   }
@@ -232,7 +236,7 @@ export function applyWeatherChipDamage({
     const updatedPokemon = { ...pokemon, currentHp: Math.max(0, pokemon.currentHp - weatherDamage) };
     return {
       pokemon: updatedPokemon,
-      messages: [`${getLocalized(updatedPokemon)} is pelted by hail!`],
+      messages: [battleLine(currentLanguage, `${getLocalized(updatedPokemon)} is pelted by hail!`, `${getLocalized(updatedPokemon)}受到了冰雹的伤害！`)],
       fainted: updatedPokemon.currentHp <= 0,
     };
   }
@@ -240,7 +244,7 @@ export function applyWeatherChipDamage({
   return { pokemon, messages: [], fainted: false };
 }
 
-export function applyStatusResidualDamage(pokemon: GamePokemon, getLocalized: LocalizeFn): ApplyResidualDamageResult {
+export function applyStatusResidualDamage(pokemon: GamePokemon, getLocalized: LocalizeFn, currentLanguage?: string): ApplyResidualDamageResult {
   const statusId = getNonVolatileStatusId(pokemon);
   if (pokemon.currentHp <= 0 || (statusId !== 'poison' && statusId !== 'burn' && statusId !== 'bad_poison')) {
     return { pokemon, messages: [], fainted: false };
@@ -266,7 +270,7 @@ export function applyStatusResidualDamage(pokemon: GamePokemon, getLocalized: Lo
     }
     return {
       pokemon: updatedPokemon,
-      messages: healAmount > 0 ? [`${getLocalized(updatedPokemon)} restored HP with Poison Heal!`] : [],
+      messages: healAmount > 0 ? [battleLine(currentLanguage, `${getLocalized(updatedPokemon)} restored HP with Poison Heal!`, `${getLocalized(updatedPokemon)}通过毒疗恢复了体力！`)] : [],
       fainted: false,
     };
   }
@@ -295,12 +299,12 @@ export function applyStatusResidualDamage(pokemon: GamePokemon, getLocalized: Lo
 
   return {
     pokemon: updatedPokemon,
-    messages: [`${getLocalized(updatedPokemon)} took ${AILMENT_ZH[statusId] || statusId} damage!`],
+    messages: [battleLine(currentLanguage, `${getLocalized(updatedPokemon)} took ${battleAilmentName(statusId)} damage!`, `${getLocalized(updatedPokemon)}受到了${battleAilmentName(statusId, currentLanguage)}伤害！`)],
     fainted: updatedPokemon.currentHp <= 0,
   };
 }
 
-export function applyNightmareResidualDamage(pokemon: GamePokemon, getLocalized: LocalizeFn): ApplyResidualDamageResult {
+export function applyNightmareResidualDamage(pokemon: GamePokemon, getLocalized: LocalizeFn, currentLanguage?: string): ApplyResidualDamageResult {
   if (pokemon.currentHp <= 0 || !hasVolatileStatus(pokemon, 'nightmare')) {
     return { pokemon, messages: [], fainted: false };
   }
@@ -321,12 +325,12 @@ export function applyNightmareResidualDamage(pokemon: GamePokemon, getLocalized:
 
   return {
     pokemon: updatedPokemon,
-    messages: [`${getLocalized(updatedPokemon)} is locked in a nightmare!`],
+    messages: [battleLine(currentLanguage, `${getLocalized(updatedPokemon)} is locked in a nightmare!`, `${getLocalized(updatedPokemon)}受到了噩梦的伤害！`)],
     fainted: updatedPokemon.currentHp <= 0,
   };
 }
 
-export function applyCurseResidualDamage(pokemon: GamePokemon, getLocalized: LocalizeFn): ApplyResidualDamageResult {
+export function applyCurseResidualDamage(pokemon: GamePokemon, getLocalized: LocalizeFn, currentLanguage?: string): ApplyResidualDamageResult {
   if (pokemon.currentHp <= 0 || !hasVolatileStatus(pokemon, 'curse')) {
     return { pokemon, messages: [], fainted: false };
   }
@@ -339,7 +343,7 @@ export function applyCurseResidualDamage(pokemon: GamePokemon, getLocalized: Loc
 
   return {
     pokemon: updatedPokemon,
-    messages: [`${getLocalized(updatedPokemon)} is afflicted by the curse!`],
+    messages: [battleLine(currentLanguage, `${getLocalized(updatedPokemon)} is afflicted by the curse!`, `${getLocalized(updatedPokemon)}受到了诅咒的伤害！`)],
     fainted: updatedPokemon.currentHp <= 0,
   };
 }
@@ -350,6 +354,7 @@ export function resolveYawnEndTurn({
   enemyTeam,
   fieldState,
   getLocalized,
+  currentLanguage,
   random = Math.random,
 }: ResolveYawnEndTurnOptions): ApplyResidualDamageResult {
   const yawnState = getVolatileStatus(pokemon, 'yawn');
@@ -383,7 +388,7 @@ export function resolveYawnEndTurn({
   updatedPokemon = setNonVolatileStatus(updatedPokemon, 'sleep', {}, random);
   return {
     pokemon: updatedPokemon,
-    messages: [`${getLocalized(updatedPokemon)} grew drowsy and fell asleep!`],
+    messages: [battleLine(currentLanguage, `${getLocalized(updatedPokemon)} grew drowsy and fell asleep!`, `${getLocalized(updatedPokemon)}困意袭来，睡着了！`)],
     fainted: false,
   };
 }
@@ -395,6 +400,7 @@ export function applyMoveSecondaryEffects({
   fieldState,
   weather = 'none',
   getLocalized,
+  currentLanguage,
   targetHasActedThisTurn = false,
   extraFlinchChance = 0,
   allowUserEffects = true,
@@ -435,7 +441,7 @@ export function applyMoveSecondaryEffects({
     if (actingSide === 'player') playerTeam = protectedTeam;
     else enemyTeam = protectedTeam;
     actorPokemon = protectedTeam[0];
-    messages.push(`${getLocalized(actorPokemon)}'s team became protected by Safeguard!`);
+    messages.push(battleLine(currentLanguage, `${getLocalized(actorPokemon)}'s team became protected by Safeguard!`, `${getLocalized(actorPokemon)}一方受到了神秘守护的保护！`));
   }
   const screenStatus = hasMoveBattleEffect(move, 'REFLECT')
     ? 'reflect'
@@ -451,7 +457,7 @@ export function applyMoveSecondaryEffects({
     if (actingSide === 'player') playerTeam = screenedTeam;
     else enemyTeam = screenedTeam;
     actorPokemon = screenedTeam[0];
-    messages.push(`${getLocalized(actorPokemon)}'s team put up ${move.name}!`);
+    messages.push(battleLine(currentLanguage, `${getLocalized(actorPokemon)}'s team put up ${move.name}!`, `${getLocalized(actorPokemon)}一方架起了${battleMoveName(move, currentLanguage)}！`));
   }
   if (hasMoveBattleEffect(move, 'BREAK_SCREENS')) {
     const clearedTeam = (targetSide === 'player' ? playerTeam : enemyTeam).map((pokemon) => (
@@ -470,13 +476,13 @@ export function applyMoveSecondaryEffects({
     if (actingSide === 'player') playerTeam = curedTeam;
     else enemyTeam = curedTeam;
     actorPokemon = curedTeam[0];
-    messages.push(`${getLocalized(actorPokemon)}'s team was cured of status conditions!`);
+    messages.push(battleLine(currentLanguage, `${getLocalized(actorPokemon)}'s team was cured of status conditions!`, `${getLocalized(actorPokemon)}一方的异常状态解除了！`));
   }
   if (hasMoveBattleEffect(move, 'REFRESH')) {
     const refreshableStatus = getNonVolatileStatusId(actorPokemon);
     if (refreshableStatus === 'burn' || refreshableStatus === 'paralysis' || refreshableStatus === 'poison' || refreshableStatus === 'bad_poison') {
       actorPokemon = clearNonVolatileStatus(actorPokemon);
-      messages.push(`${getLocalized(actorPokemon)} became healthy!`);
+      messages.push(battleLine(currentLanguage, `${getLocalized(actorPokemon)} became healthy!`, `${getLocalized(actorPokemon)}恢复了健康！`));
     }
   }
   if (targetSide === actingSide) targetPokemon = actorPokemon;
@@ -485,7 +491,7 @@ export function applyMoveSecondaryEffects({
     const sharedHp = Math.floor((actorPokemon.currentHp + targetPokemon.currentHp) / 2);
     actorPokemon = { ...actorPokemon, currentHp: Math.min(actorPokemon.maxHp, sharedHp) };
     targetPokemon = { ...targetPokemon, currentHp: Math.min(targetPokemon.maxHp, sharedHp) };
-    messages.push(`${getLocalized(actorPokemon)} shared its pain with ${getLocalized(targetPokemon)}!`);
+    messages.push(battleLine(currentLanguage, `${getLocalized(actorPokemon)} shared its pain with ${getLocalized(targetPokemon)}!`, `${getLocalized(actorPokemon)}与${getLocalized(targetPokemon)}平分了体力！`));
   }
   if (hasMoveBattleEffect(move, 'BELLY_DRUM')) {
     const hpCost = Math.max(1, Math.floor(actorPokemon.maxHp / 2));
@@ -496,7 +502,7 @@ export function applyMoveSecondaryEffects({
         statStages: { ...actorPokemon.statStages, attack: 6 },
       };
       targetPokemon = actorPokemon;
-      messages.push(`${getLocalized(actorPokemon)} cut its HP and maximized its Attack!`);
+      messages.push(battleLine(currentLanguage, `${getLocalized(actorPokemon)} cut its HP and maximized its Attack!`, `${getLocalized(actorPokemon)}削减体力，将攻击提升到了最高！`));
     }
   }
   if (hasMoveBattleEffect(move, 'FOCUS_ENERGY')) {
@@ -587,7 +593,7 @@ export function applyMoveSecondaryEffects({
 
   if (move.battleData?.thawsTarget && getNonVolatileStatusId(targetPokemon) === 'freeze') {
     targetPokemon = clearNonVolatileStatus(targetPokemon);
-    messages.push(`${getLocalized(targetPokemon)} thawed out!`);
+    messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)} thawed out!`, `${getLocalized(targetPokemon)}解冻了！`));
   }
 
   const isYawnMove = hasMoveBattleEffect(move, 'YAWN');
@@ -634,14 +640,14 @@ export function applyMoveSecondaryEffects({
         turnsRemaining: 2,
         sourceMoveName: move.name,
       });
-      messages.push(`${getLocalized(targetPokemon)} grew drowsy!`);
+      messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)} grew drowsy!`, `${getLocalized(targetPokemon)}开始犯困了！`));
     }
   } else if (isNightmareMove) {
     if (getNonVolatileStatusId(targetPokemon) === 'sleep' && !hasVolatileStatus(targetPokemon, 'nightmare')) {
       targetPokemon = setVolatileStatus(targetPokemon, 'nightmare', {
         sourceMoveName: move.name,
       });
-      messages.push(`${getLocalized(targetPokemon)} began having a nightmare!`);
+      messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)} began having a nightmare!`, `${getLocalized(targetPokemon)}陷入了噩梦！`));
     }
   } else if (isGhostCurse) {
     if (!hasVolatileStatus(targetPokemon, 'curse')) {
@@ -649,7 +655,7 @@ export function applyMoveSecondaryEffects({
         sourceMoveName: move.name,
         linkedPokemonId: actorPokemon?.id,
       });
-      messages.push(`${getLocalized(targetPokemon)} was afflicted by the curse!`);
+      messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)} was afflicted by the curse!`, `${getLocalized(targetPokemon)}受到了诅咒！`));
     }
   } else if (isAttractMove) {
     if (
@@ -662,7 +668,7 @@ export function applyMoveSecondaryEffects({
         sourceMoveName: move.name,
         linkedPokemonId: actorPokemon.id,
       });
-      messages.push(`${getLocalized(targetPokemon)} fell in love!`);
+      messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)} fell in love!`, `${getLocalized(targetPokemon)}陷入了着迷状态！`));
     }
   } else if (isTauntMove) {
     if (!hasVolatileStatus(targetPokemon, 'taunt')) {
@@ -670,7 +676,7 @@ export function applyMoveSecondaryEffects({
         turnsRemaining: targetHasActedThisTurn ? 4 : 3,
         sourceMoveName: move.name,
       });
-      messages.push(`${getLocalized(targetPokemon)} fell for the taunt!`);
+      messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)} fell for the taunt!`, `${getLocalized(targetPokemon)}受到了挑衅！`));
     }
   } else if (isTormentMove) {
     if (!hasVolatileStatus(targetPokemon, 'torment')) {
@@ -678,7 +684,7 @@ export function applyMoveSecondaryEffects({
         turnsRemaining: 3,
         sourceMoveName: move.name,
       });
-      messages.push(`${getLocalized(targetPokemon)} was subjected to torment!`);
+      messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)} was subjected to torment!`, `${getLocalized(targetPokemon)}受到了无理取闹的影响！`));
     }
   } else if (isDisableMove) {
     const moveToDisable = findMoveByName(targetPokemon, targetPokemon.factoryLastUsedMoveName);
@@ -688,7 +694,7 @@ export function applyMoveSecondaryEffects({
         sourceMoveName: move.name,
         linkedMoveName: moveToDisable.name,
       });
-      messages.push(`${getLocalized(targetPokemon)}'s ${moveToDisable.name} was disabled!`);
+      messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)}'s ${moveToDisable.name} was disabled!`, `${getLocalized(targetPokemon)}的${battleMoveName(moveToDisable, currentLanguage)}被封住了！`));
     }
   } else if (isEncoreMove) {
     const moveToEncore = findMoveByName(targetPokemon, targetPokemon.factoryLastUsedMoveName);
@@ -698,7 +704,7 @@ export function applyMoveSecondaryEffects({
         sourceMoveName: move.name,
         linkedMoveName: moveToEncore.name,
       });
-      messages.push(`${getLocalized(targetPokemon)} received an encore!`);
+      messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)} received an encore!`, `${getLocalized(targetPokemon)}受到了再来一次的影响！`));
     }
   }
 
@@ -763,7 +769,7 @@ export function applyMoveSecondaryEffects({
           affectedPokemon = nonVolatileStatusId
             ? setNonVolatileStatus(affectedPokemon, nonVolatileStatusId, {}, random)
             : setVolatileStatus(affectedPokemon, statusId, {}, random);
-          messages.push(`${getLocalized(affectedPokemon)} is afflicted with ${AILMENT_ZH[statusId] || statusId}!`);
+          messages.push(battleLine(currentLanguage, `${getLocalized(affectedPokemon)} is afflicted with ${battleAilmentName(statusId)}!`, `${getLocalized(affectedPokemon)}陷入了${battleAilmentName(statusId, currentLanguage)}状态！`));
           const synchronizable = nonVolatileStatusId
             && ['burn', 'paralysis', 'poison', 'bad_poison'].includes(nonVolatileStatusId);
           if (
@@ -774,10 +780,10 @@ export function applyMoveSecondaryEffects({
             && !isNonVolatileStatusBlocked(actorPokemon, nonVolatileStatusId, fieldState, move, affectedPokemon, effectiveWeather)
           ) {
             actorPokemon = setNonVolatileStatus(actorPokemon, nonVolatileStatusId, {}, random);
-            messages.push(`${getLocalized(actorPokemon)} was afflicted by Synchronize!`);
+            messages.push(battleLine(currentLanguage, `${getLocalized(actorPokemon)} was afflicted by Synchronize!`, `${getLocalized(actorPokemon)}受到了同步特性的影响！`));
           }
         } else if (effectSleepBlockedByUproar) {
-          messages.push(`${getLocalized(affectedPokemon)} cannot fall asleep during the uproar!`);
+          messages.push(battleLine(currentLanguage, `${getLocalized(affectedPokemon)} cannot fall asleep during the uproar!`, `吵闹声中，${getLocalized(affectedPokemon)}无法入睡！`));
         }
       }
 
@@ -795,9 +801,12 @@ export function applyMoveSecondaryEffects({
                 [statKey]: newStage,
               },
             };
-            const changeText = stageDelta > 0 ? 'rose' : 'fell';
-            const statName = STAT_ZH[String(effect.stat)] || effect.stat;
-            messages.push(`${getLocalized(affectedPokemon)}'s ${statName} ${changeText}!`);
+            const statName = battleStatName(String(effect.stat), currentLanguage);
+            messages.push(battleLine(
+              currentLanguage,
+              `${getLocalized(affectedPokemon)}'s ${statName} ${stageDelta > 0 ? 'rose' : 'fell'}!`,
+              `${getLocalized(affectedPokemon)}的${statName}${stageDelta > 0 ? '提高了' : '降低了'}！`,
+            ));
           }
         }
       }

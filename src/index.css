@@ -1175,16 +1175,27 @@ button {
   }
 
   .pf-battle-screen {
-    grid-template-rows: auto minmax(88px, 1fr) clamp(132px, 40svh, 156px);
+    grid-template-columns: minmax(0, 1fr) clamp(240px, 35vw, 300px);
+    grid-template-rows: auto minmax(0, 1fr);
     gap: 0.4rem;
     overflow: hidden;
   }
 
   .pf-battle-top-region {
+    grid-column: 1 / -1;
     padding-top: 0;
   }
 
+  .pf-battle-viewport-region {
+    grid-column: 1;
+    grid-row: 2;
+    padding-right: 0;
+  }
+
   .pf-battle-command-region {
+    grid-column: 2;
+    grid-row: 2;
+    padding-left: 0;
     padding-bottom: 0.25rem;
   }
 
@@ -1214,8 +1225,16 @@ button {
   }
 
   .pf-battle-moves-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.35rem;
+  }
+
+  .pf-battle-pokemon-panel {
+    padding: 0.4rem !important;
+  }
+
+  .pf-battle-pokemon-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .pf-battle-move-button {
@@ -1252,7 +1271,7 @@ button {
   }
 
   .pf-battle-command-button {
-    min-height: 36px;
+    min-height: 44px;
     gap: 0.15rem;
     border-radius: 14px;
     font-size: 9px;
@@ -1577,6 +1596,37 @@ button {
   background: rgba(255, 255, 255, 0.92);
   box-shadow: var(--pf-shadow-panel);
   padding: 1rem;
+}
+
+.pf-generation-option {
+  display: flex;
+  min-width: 0;
+  min-height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border: 1px solid rgba(203, 213, 225, 0.92);
+  border-radius: 14px;
+  background: rgba(248, 250, 252, 0.96);
+  color: var(--pf-text-body);
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+}
+
+.pf-generation-option[data-active='true'] {
+  border-color: rgba(37, 99, 235, 0.44);
+  background: rgba(239, 246, 255, 0.98);
+  color: var(--pf-text-strong);
+}
+
+.pf-generation-option:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.55);
+  outline-offset: 2px;
+}
+
+.pf-generation-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 .pf-segmented {

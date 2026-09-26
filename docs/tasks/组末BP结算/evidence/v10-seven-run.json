@@ -1,0 +1,252 @@
+{
+  "results": [
+    {
+      "stage": 1,
+      "before": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "balance": 0,
+        "revision": 2,
+        "settledThrough": 0,
+        "stage": 1,
+        "streak": 0,
+        "status": "READY",
+        "phase": "BATTLE",
+        "challengeStatus": 1,
+        "rentals": [
+          915,
+          940,
+          946,
+          963,
+          932,
+          928
+        ],
+        "team": [
+          915,
+          940,
+          946
+        ]
+      }
+    },
+    {
+      "stage": 1,
+      "after": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "balance": 0,
+        "revision": 2,
+        "settledThrough": 0,
+        "stage": 1,
+        "streak": 1,
+        "status": "READY",
+        "phase": "ROUND_RESULT",
+        "challengeStatus": 1,
+        "rentals": [
+          915,
+          940,
+          946,
+          963,
+          932,
+          928
+        ],
+        "team": [
+          915,
+          940,
+          946
+        ]
+      },
+      "body": "0\nBP\n1/7\n轮次\n1\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nBROOKS / GENTLEMAN\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 1\nC 0\nSP OFF"
+    },
+    {
+      "stage": 2,
+      "after": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "balance": 0,
+        "revision": 2,
+        "settledThrough": 0,
+        "stage": 2,
+        "streak": 2,
+        "status": "READY",
+        "phase": "ROUND_RESULT",
+        "challengeStatus": 1,
+        "rentals": [
+          915,
+          940,
+          946,
+          963,
+          932,
+          928
+        ],
+        "team": [
+          915,
+          940,
+          946
+        ]
+      },
+      "body": "0\nBP\n2/7\n轮次\n2\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：2/7\n连胜数: 2\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nADRIAN / COLLECTOR\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 2\nC 0\nSP OFF"
+    },
+    {
+      "stage": 3,
+      "after": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "balance": 0,
+        "revision": 2,
+        "settledThrough": 0,
+        "stage": 3,
+        "streak": 3,
+        "status": "READY",
+        "phase": "ROUND_RESULT",
+        "challengeStatus": 1,
+        "rentals": [
+          915,
+          940,
+          946,
+          963,
+          932,
+          928
+        ],
+        "team": [
+          915,
+          940,
+          946
+        ]
+      },
+      "body": "0\nBP\n3/7\n轮次\n3\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：3/7\n连胜数: 3\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nROBERTO / DRAGON_TAMER\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 3\nC 0\nSP OFF"
+    },
+    {
+      "stage": 4,
+      "after": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "balance": 0,
+        "revision": 2,
+        "settledThrough": 0,
+        "stage": 4,
+        "streak": 4,
+        "status": "READY",
+        "phase": "ROUND_RESULT",
+        "challengeStatus": 1,
+        "rentals": [
+          915,
+          940,
+          946,
+          963,
+          932,
+          928
+        ],
+        "team": [
+          915,
+          940,
+          946
+        ]
+      },
+      "body": "0\nBP\n4/7\n轮次\n4\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：4/7\n连胜数: 4\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nELISE / SCHOOL_KID_F\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 4\nC 0\nSP OFF"
+    },
+    {
+      "stage": 5,
+      "after": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "balance": 0,
+        "revision": 2,
+        "settledThrough": 0,
+        "stage": 5,
+        "streak": 5,
+        "status": "READY",
+        "phase": "ROUND_RESULT",
+        "challengeStatus": 1,
+        "rentals": [
+          915,
+          940,
+          946,
+          963,
+          932,
+          928
+        ],
+        "team": [
+          915,
+          940,
+          946
+        ]
+      },
+      "body": "0\nBP\n5/7\n轮次\n5\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：5/7\n连胜数: 5\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nNORTON / PSYCHIC_M\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 5\nC 0\nSP OFF"
+    },
+    {
+      "stage": 6,
+      "after": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "balance": 0,
+        "revision": 2,
+        "settledThrough": 0,
+        "stage": 6,
+        "streak": 6,
+        "status": "READY",
+        "phase": "ROUND_RESULT",
+        "challengeStatus": 1,
+        "rentals": [
+          915,
+          940,
+          946,
+          963,
+          932,
+          928
+        ],
+        "team": [
+          915,
+          940,
+          946
+        ]
+      },
+      "body": "0\nBP\n6/7\n轮次\n6\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：6/7\n连胜数: 6\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nBRADLEY / YOUNGSTER\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 6\nC 0\nSP OFF"
+    },
+    {
+      "stage": 7,
+      "after": {
+        "schema": 10,
+        "gens": [
+          9
+        ],
+        "balance": 3,
+        "revision": 3,
+        "settledThrough": 1,
+        "stage": 7,
+        "streak": 7,
+        "status": "READY",
+        "phase": "ROUND_RESULT",
+        "challengeStatus": 1,
+        "rentals": [
+          915,
+          940,
+          946,
+          963,
+          932,
+          928
+        ],
+        "team": [
+          915,
+          940,
+          946
+        ]
+      },
+      "body": "3\nBP\n7/7\n轮次\n7\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：7/7\n连胜数: 7\n交换次数: 0\n对手信息\n敌方 AI 档位: BOSS\nKATHRYN / RUNNING_TRIATHLETE_F\n完成一组挑战！已击败第 7 战对手。\n基础 BP 3\n本组实际获得 BP：+3\n当前 BP：3 / 9999\n返回基地\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 7\nC 3\nSP OFF"
+    }
+  ],
+  "errors": []
+}

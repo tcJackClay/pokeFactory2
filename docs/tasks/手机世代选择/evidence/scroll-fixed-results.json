@@ -1,0 +1,78 @@
+{
+  "320x568": {
+    "before": {
+      "scrollTop": 0,
+      "scrollHeight": 618,
+      "clientHeight": 554,
+      "overflowY": "hidden"
+    },
+    "afterTouch": {
+      "scrollTop": 0,
+      "scrollHeight": 618,
+      "clientHeight": 554
+    },
+    "afterSet": {
+      "scrollTop": 64,
+      "scrollHeight": 618,
+      "clientHeight": 554
+    },
+    "ninthBounds": {
+      "x": 13,
+      "y": 439,
+      "width": 294,
+      "height": 56
+    },
+    "selected": {
+      "closed": true,
+      "trigger": "第九世代\n帕底亚",
+      "gens": [
+        9
+      ]
+    },
+    "afterReload": {
+      "trigger": "第九世代\n帕底亚",
+      "gens": [
+        9
+      ]
+    },
+    "errors": []
+  },
+  "844x390": {
+    "before": {
+      "scrollTop": 0,
+      "scrollHeight": 618,
+      "clientHeight": 376,
+      "overflowY": "hidden"
+    },
+    "afterTouch": {
+      "scrollTop": 0,
+      "scrollHeight": 618,
+      "clientHeight": 376
+    },
+    "afterSet": {
+      "scrollTop": 242,
+      "scrollHeight": 618,
+      "clientHeight": 376
+    },
+    "ninthBounds": {
+      "x": 175,
+      "y": 117,
+      "width": 494,
+      "height": 56
+    },
+    "selected": {
+      "closed": true,
+      "trigger": "第九世代\n帕底亚",
+      "gens": [
+        9
+      ]
+    },
+    "afterReload": {
+      "trigger": "第九世代\n帕底亚",
+      "gens": [
+        9
+      ]
+    },
+    "errors": []
+  }
+}

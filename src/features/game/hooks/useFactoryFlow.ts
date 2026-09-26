@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import {
   fetchEvolutionChain,
@@ -20,9 +20,12 @@ import {
 } from '../config/factoryBattle';
 import { getFactoryBstBand } from '../config/factoryDifficultyBands';
 import { FACTORY_REWARD_CONFIG } from '../config/factoryRewards';
+import { isFactoryBrainStage } from '../config/factoryBrain';
+import { swapDefeatedPokemon } from '../config/classicFlow';
 import { getReferenceSetsByRange, hasReferenceFrontierMonId, type FactoryReferenceSet } from '../config/factoryReferenceSets';
 import { getReferenceRangeByChallenge, inReferenceRange } from '../config/factoryReferenceRanges';
-import { getFactorySpeciesIndexEntry } from '../config/factorySpeciesIndex';
+import { getFactorySpeciesIndexEntry, preloadFactorySpeciesIndex } from '../config/factorySpeciesIndex';
+import { withRequestTimeout } from '../../../services/requestTimeout';
 import { FACTORY_BANNED_SPECIES_IDS, isFactoryBannedSpecies } from '../config/factorySpeciesRules';
 import { selectFactoryTrainerTemplate, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools';
@@ -36,6 +39,7 @@ interface UseFactoryFlowParams {
   stage: number;
   totalRents: number;
   specialModeUnlocked: boolean;
+  brainSymbols: number;
   selectedRentalIndices: number[];
   factoryRentals: GamePokemon[];
   playerTeam: GamePokemon[];
@@ -44,10 +48,11 @@ interface UseFactoryFlowParams {
   getLocalized: LocalizeFn;
   addMessagesSequentially: (messages: string[]) => Promise<void>;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  setRentalLoadError: Dispatch<SetStateAction<string | null>>;
   setFactoryRentals: Dispatch<SetStateAction<GamePokemon[]>>;
   setSelectedRentalIndices: Dispatch<SetStateAction<number[]>>;
   setInventory: Dispatch<SetStateAction<Item[]>>;
-  setCoins: Dispatch<SetStateAction<number>>;
+  beginWalletRun: (devBonus?: number) => void;
   setRoundResult: Dispatch<SetStateAction<'WIN' | 'LOSS' | null>>;
   setLastTokenGain: Dispatch<SetStateAction<number>>;
   setSwapCount: Dispatch<SetStateAction<number>>;
@@ -401,12 +406,13 @@ function getHeldItemBySlot(slot: number, setNo: number): string {
 }
 
 export function useFactoryFlow({
-  selectedGens,
+  selectedGens: configuredGens,
   startLevel,
   developerMode,
   stage,
   totalRents,
   specialModeUnlocked,
+  brainSymbols,
   selectedRentalIndices,
   factoryRentals,
   playerTeam,
@@ -415,10 +421,11 @@ export function useFactoryFlow({
   getLocalized,
   addMessagesSequentially,
   setLoading,
+  setRentalLoadError,
   setFactoryRentals,
   setSelectedRentalIndices,
   setInventory,
-  setCoins,
+  beginWalletRun,
   setRoundResult,
   setLastTokenGain,
   setSwapCount,
@@ -449,17 +456,42 @@ export function useFactoryFlow({
   setActiveBuffs,
   setEnemyBuffs,
 }: UseFactoryFlowParams) {
+  const generationId = configuredGens.length === 1 && Number.isInteger(configuredGens[0])
+    && configuredGens[0] >= 1 && configuredGens[0] <= 9
+    ? configuredGens[0]
+    : 1;
+  const selectedGens = useMemo(() => [generationId], [generationId]);
   const prefetchedEncounterRef = useRef<{ stage: number; key: string; data: EnemyEncounterData } | null>(null);
   const enemyPrefetchInFlightRef = useRef<EnemyEncounterPrefetchInFlight | null>(null);
   const prefetchRequestTokenRef = useRef(0);
   const prefetchedRentalsRef = useRef<RentalDraftCache | null>(null);
   const rentalPrefetchInFlightRef = useRef<RentalDraftPrefetchInFlight | null>(null);
   const rentalPrefetchTokenRef = useRef(0);
+  const startGameTokenRef = useRef(0);
+  const startGameInFlightRef = useRef(false);
+  const activeGenerationRef = useRef(generationId);
   const confirmRentalsInFlightRef = useRef(false);
   const usedTrainerIdsBySetRef = useRef<Map<number, Set<string>>>(new Map());
   const evolutionStageCacheRef = useRef<Map<number, EvolutionStage>>(new Map());
   const trainerIntroContinueResolverRef = useRef<(() => void) | null>(null);
   const debugFactoryEnabled = import.meta.env.DEV || developerMode;
+
+  useLayoutEffect(() => {
+    if (activeGenerationRef.current === generationId) return;
+    activeGenerationRef.current = generationId;
+    rentalPrefetchTokenRef.current += 1;
+    startGameTokenRef.current += 1;
+    startGameInFlightRef.current = false;
+    setLoading(false);
+    setRentalLoadError(null);
+    prefetchRequestTokenRef.current += 1;
+    prefetchedRentalsRef.current = null;
+    rentalPrefetchInFlightRef.current = null;
+    prefetchedEncounterRef.current = null;
+    enemyPrefetchInFlightRef.current = null;
+    setNextEnemyPreviewTeam([]);
+    setNextEnemyPreviewTrainer(null);
+  }, [generationId, setLoading, setNextEnemyPreviewTeam, setNextEnemyPreviewTrainer, setRentalLoadError]);
 
   const getEvolutionStage = useCallback(async (speciesId: number): Promise<EvolutionStage> => {
     const cached = evolutionStageCacheRef.current.get(speciesId);
@@ -555,6 +587,14 @@ export function useFactoryFlow({
     setWeather,
     setWeatherTurns,
   ]);
+
+  const clearFactoryEncounter = useCallback(() => {
+    prefetchRequestTokenRef.current += 1;
+    prefetchedEncounterRef.current = null;
+    enemyPrefetchInFlightRef.current = null;
+    usedTrainerIdsBySetRef.current.clear();
+    resetBattlePreview();
+  }, [resetBattlePreview]);
 
   const getUsedTrainerIdsForSet = useCallback((setNo: number) => {
     return usedTrainerIdsBySetRef.current.get(setNo) ?? new Set<string>();
@@ -673,6 +713,7 @@ export function useFactoryFlow({
     isBoss,
     applyEvolutionStageWeights = false,
     requiredEvolutionStage,
+    rentalSignal,
   }: {
     count: number;
     level: number;
@@ -693,6 +734,7 @@ export function useFactoryFlow({
     isBoss: boolean;
     applyEvolutionStageWeights?: boolean;
     requiredEvolutionStage?: EvolutionStage;
+    rentalSignal?: AbortSignal;
   }) => {
     const pickedSpecies = new Set<number>([...blockedSpecies, ...FACTORY_BANNED_SPECIES_IDS]);
     const pickedItems = new Set<string>();
@@ -720,6 +762,7 @@ export function useFactoryFlow({
     });
 
     while (mons.length < count && attempts < maxAttempts) {
+      if (rentalSignal?.aborted) throw new Error('Rental generation cancelled.');
       attempts += 1;
       const slotQualityBias = perSlotQualityBiases?.[mons.length] ?? qualityBias;
       const slotUseBetterRange = perSlotUseBetterRange?.[mons.length] ?? useBetterRange ?? false;
@@ -754,6 +797,7 @@ export function useFactoryFlow({
           if (!picked || pickedSpecies.has(picked.speciesId)) continue;
 
           const meta = await getFactoryCandidateMeta(picked.speciesId);
+          if (rentalSignal?.aborted) throw new Error('Rental generation cancelled.');
           if (!meta) continue;
 
           candidates.push({
@@ -781,6 +825,7 @@ export function useFactoryFlow({
           if (!speciesId || pickedSpecies.has(speciesId) || isFactoryBannedSpecies(speciesId)) continue;
 
           const meta = await getFactoryCandidateMeta(speciesId);
+          if (rentalSignal?.aborted) throw new Error('Rental generation cancelled.');
           if (!meta || pickedSpecies.has(meta.pokemonId) || isFactoryBannedSpecies(meta.pokemonId)) continue;
           if (strictBand) {
             if (meta.bst < bstBand.min || meta.bst > bstBand.max) continue;
@@ -810,6 +855,7 @@ export function useFactoryFlow({
           if (typeof identifier === 'number' && (pickedSpecies.has(identifier) || isFactoryBannedSpecies(identifier))) continue;
 
           const meta = await getFactoryCandidateMeta(identifier);
+          if (rentalSignal?.aborted) throw new Error('Rental generation cancelled.');
           if (!meta || pickedSpecies.has(meta.pokemonId) || isFactoryBannedSpecies(meta.pokemonId)) continue;
           if (strictBand) {
             if (meta.bst < bstBand.min || meta.bst > bstBand.max) continue;
@@ -857,12 +903,14 @@ export function useFactoryFlow({
       if (!picked) continue;
 
       const itemId = picked.itemId;
+      if (rentalSignal?.aborted) throw new Error('Rental generation cancelled.');
       const hasRealItem = itemId.length > 0 && itemId !== 'none';
       if (hasRealItem && pickedItems.has(itemId)) continue;
 
       const finalizedPokemon = picked.referenceSet
-        ? await getProcessedPokemonFromReferenceSet(picked.referenceSet, level)
-        : await getProcessedPokemon(picked.identifier, level);
+        ? await getProcessedPokemonFromReferenceSet(picked.referenceSet, level, Boolean(rentalSignal))
+        : await getProcessedPokemon(picked.identifier, level, Boolean(rentalSignal));
+      if (rentalSignal?.aborted) throw new Error('Rental generation cancelled.');
       const fixedIvPokemon = applyFactoryIvBuild(finalizedPokemon, slotFixedIv, slotIvBuildMode);
       const candidatePokemon = isBoss ? applyBossBuildEnhancement(fixedIvPokemon, FACTORY_BATTLE_CONFIG.boss.minIv) : fixedIvPokemon;
 
@@ -888,7 +936,9 @@ export function useFactoryFlow({
     return mons;
   }, [debugFactoryLog, getFactoryCandidateMeta, getTrainerReferenceSetPool, selectedGens]);
 
-  const generateRentalDraft = useCallback(async () => {
+  const generateRentalDraft = useCallback(async (rentalSignal: AbortSignal) => {
+    await preloadFactorySpeciesIndex();
+    if (rentalSignal.aborted) throw new Error('Rental generation cancelled.');
     const challengeNum = getFactoryChallengeNum(1, FACTORY_REWARD_CONFIG.battlesPerSet);
     const rentalRank = getRentalHistoryRank(totalRents);
     const perSlotQualityBiases = Array.from({ length: FACTORY_BATTLE_CONFIG.rentalsPerDraft }, (_, index) =>
@@ -914,6 +964,7 @@ export function useFactoryFlow({
       isBoss: false,
       applyEvolutionStageWeights: true,
       requiredEvolutionStage: 'BASE',
+      rentalSignal,
     });
 
     if (rentals.length < FACTORY_BATTLE_CONFIG.rentalsPerDraft) {
@@ -939,13 +990,14 @@ export function useFactoryFlow({
     let promise: Promise<boolean>;
     promise = (async () => {
       try {
-        const rentals = await generateRentalDraft();
-        if (rentalPrefetchTokenRef.current !== requestToken) return false;
+        const rentals = await withRequestTimeout(generateRentalDraft, 30000, 'Factory rental draft');
+        if (rentalPrefetchTokenRef.current !== requestToken || activeGenerationRef.current !== generationId) return false;
         prefetchedRentalsRef.current = { key, rentals };
         return true;
       } catch (error) {
         console.error(error);
-        if (rentalPrefetchTokenRef.current === requestToken) {
+        if (rentalPrefetchTokenRef.current === requestToken && activeGenerationRef.current === generationId) {
+          rentalPrefetchTokenRef.current += 1;
           prefetchedRentalsRef.current = null;
         }
         return false;
@@ -958,7 +1010,7 @@ export function useFactoryFlow({
 
     rentalPrefetchInFlightRef.current = { key, promise };
     return promise;
-  }, [buildRentalPrefetchKey, generateRentalDraft]);
+  }, [buildRentalPrefetchKey, generateRentalDraft, generationId]);
 
   const generateEnemyEncounter = useCallback(async (
     currentStage: number,
@@ -968,7 +1020,7 @@ export function useFactoryFlow({
     const battleInSet = ((currentStage - 1) % battlesPerSet) + 1;
     const setNo = getSetNoByStage(currentStage, battlesPerSet);
     const isBoss = battleInSet === battlesPerSet;
-    const isSpecialUnlockBoss = currentStage === FACTORY_BATTLE_CONFIG.specialUnlock.unlockBossStage && !specialModeUnlocked;
+    const isSpecialUnlockBoss = isFactoryBrainStage(currentStage, brainSymbols);
     const aiTier = getAiTier(currentStage, battlesPerSet);
     const challengeNum = getFactoryChallengeNum(currentStage, battlesPerSet);
     const qualityBias = getFactoryQualityBiasByChallenge(startLevel, challengeNum, false);
@@ -1081,6 +1133,7 @@ export function useFactoryFlow({
     getUsedTrainerIdsForSet,
     playerTeam,
     specialModeUnlocked,
+    brainSymbols,
     startLevel,
     totalRents,
   ]);
@@ -1112,7 +1165,7 @@ export function useFactoryFlow({
     promise = (async () => {
       try {
         const data = await generateEnemyEncounter(currentStage, options);
-        if (prefetchRequestTokenRef.current !== requestToken) return false;
+        if (prefetchRequestTokenRef.current !== requestToken || activeGenerationRef.current !== generationId) return false;
         prefetchedEncounterRef.current = { stage: currentStage, key, data };
         setNextEnemyPreviewTeam(data.team);
         setNextEnemyPreviewTrainer(data.trainer);
@@ -1125,7 +1178,7 @@ export function useFactoryFlow({
         return true;
       } catch (error) {
         console.error(error);
-        if (prefetchRequestTokenRef.current === requestToken) {
+        if (prefetchRequestTokenRef.current === requestToken && activeGenerationRef.current === generationId) {
           prefetchedEncounterRef.current = null;
         }
         return false;
@@ -1143,6 +1196,7 @@ export function useFactoryFlow({
     debugFactoryLog,
     factoryRentals,
     generateEnemyEncounter,
+    generationId,
     playerTeam,
     setNextEnemyPreviewTeam,
     setNextEnemyPreviewTrainer,
@@ -1277,6 +1331,10 @@ export function useFactoryFlow({
   ]);
 
   const startGame = useCallback(async () => {
+    if (startGameInFlightRef.current) return;
+    startGameInFlightRef.current = true;
+    const startToken = ++startGameTokenRef.current;
+    setRentalLoadError(null);
     setLoading(true);
 
     try {
@@ -1287,17 +1345,19 @@ export function useFactoryFlow({
         rentals = cached.rentals;
       } else {
         const warmed = await prefetchRentals();
+        if (activeGenerationRef.current !== generationId || startGameTokenRef.current !== startToken) return;
+        if (!warmed) throw new Error('Factory rental data is unavailable or timed out.');
         const warmedCache = prefetchedRentalsRef.current;
-        rentals = warmed && warmedCache && warmedCache.key === key
-          ? warmedCache.rentals
-          : await generateRentalDraft();
+        if (!warmedCache || warmedCache.key !== key) throw new Error('Factory rental request became stale.');
+        rentals = warmedCache.rentals;
       }
+      if (activeGenerationRef.current !== generationId || startGameTokenRef.current !== startToken) return;
       prefetchedRentalsRef.current = null;
 
       setFactoryRentals(rentals);
       setSelectedRentalIndices([]);
       setInventory([]);
-      setCoins(0);
+      beginWalletRun();
       setRoundResult(null);
       setLastTokenGain(0);
       setSwapCount(0);
@@ -1315,19 +1375,26 @@ export function useFactoryFlow({
       void prefetchEnemy(1, { factoryPool: rentals, playerPool: [] });
     } catch (error) {
       console.error(error);
-      prefetchedRentalsRef.current = null;
+      if (activeGenerationRef.current === generationId && startGameTokenRef.current === startToken) {
+        prefetchedRentalsRef.current = null;
+        setRentalLoadError('租借资料加载失败或超时，请检查连接后重试。');
+      }
     } finally {
-      setLoading(false);
+      if (startGameTokenRef.current === startToken) {
+        startGameInFlightRef.current = false;
+        setLoading(false);
+      }
     }
   }, [
     buildRentalPrefetchKey,
     debugFactoryLog,
-    generateRentalDraft,
+    generationId,
     prefetchRentals,
-    setCoins,
+    beginWalletRun,
     setEnemyAiTier,
     setFactoryRentals,
     setGameState,
+    setRentalLoadError,
     setInventory,
     setLastTokenGain,
     setLoading,
@@ -1383,7 +1450,7 @@ export function useFactoryFlow({
       setSelectedRentalIndices(selected);
       setPlayerTeam(team);
       setInventory([]);
-      setCoins(500);
+      beginWalletRun(500);
       setRoundResult(null);
       setLastTokenGain(0);
       setSwapCount(0);
@@ -1405,7 +1472,7 @@ export function useFactoryFlow({
   }, [
     buildFactoryPool,
     resetBattlePreview,
-    setCoins,
+    beginWalletRun,
     setEnemyAiTier,
     setFactoryRentals,
     setGameState,
@@ -1461,35 +1528,43 @@ export function useFactoryFlow({
     }
   }, [factoryRentals, resetBattlePreview, selectedRentalIndices, setGameState, setIsTransitioning, setPlayerTeam, spawnEnemy, startBattleTransition]);
 
-  const nextFactoryStage = useCallback(async () => {
+  const nextFactoryStage = useCallback(async (playerPool?: GamePokemon[]): Promise<boolean> => {
     healAllPokemon();
     setStage((prev) => prev + 1);
     resetBattlePreview();
     const nextStageNo = stage + 1;
     startBattleTransition();
-    void prefetchEnemy(nextStageNo);
-    await spawnEnemy(nextStageNo, { playTrainerIntro: true });
-  }, [healAllPokemon, prefetchEnemy, resetBattlePreview, setStage, spawnEnemy, stage, startBattleTransition]);
+    const encounterOptions = playerPool ? { playerPool } : undefined;
+    void prefetchEnemy(nextStageNo, encounterOptions);
+    const ready = await spawnEnemy(nextStageNo, { ...encounterOptions, playTrainerIntro: true });
+    if (!ready) {
+      setStage(stage);
+      setIsTransitioning(false);
+      setGameState(playerPool ? 'FACTORY_SWAP' : 'BASE');
+    }
+    return ready;
+  }, [healAllPokemon, prefetchEnemy, resetBattlePreview, setStage, setGameState, setIsTransitioning, spawnEnemy, stage, startBattleTransition]);
 
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
-    const newTeam = [...playerTeam];
-    const swappedPokemon = {
-      ...enemyTeam[enemyIdx],
-      currentHp: enemyTeam[enemyIdx].maxHp,
-    };
+    const newTeam = swapDefeatedPokemon(playerTeam, enemyTeam, playerIdx, enemyIdx);
+    if (!newTeam) return null;
+    return newTeam.map((pokemon) => ({ ...pokemon, currentHp: pokemon.maxHp }));
+  }, [enemyTeam, playerTeam]);
 
-    newTeam[playerIdx] = swappedPokemon;
+  const commitSwap = useCallback((newTeam: GamePokemon[]) => {
     setPlayerTeam(newTeam);
     setSwapCount((prev) => prev + 1);
     setTotalRents((prev) => prev + 1);
-  }, [enemyTeam, playerTeam, setPlayerTeam, setSwapCount, setTotalRents]);
+  }, [setPlayerTeam, setSwapCount, setTotalRents]);
 
   return {
+    clearFactoryEncounter,
     startGame,
     quickStartDevBattle,
     toggleRental,
     confirmRentals,
     performSwap,
+    commitSwap,
     nextFactoryStage,
     healAllPokemon,
     startBattleTransition,

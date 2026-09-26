@@ -141,6 +141,32 @@ test('applyMoveSecondaryEffects keeps user-side drops when the target is behind 
   assert.equal(result.enemyTeam[0].statStages.spAtk, 0);
 });
 
+test('secondary confusion and stat changes use one selected language', () => {
+  const move = createMove({
+    battleData: createBattleData({
+      secondaryEffects: [
+        { kind: 'status', chance: 100, appliesTo: 'target', isPrimary: true, statusId: 'confusion' },
+        { kind: 'stat-stage', chance: 100, appliesTo: 'user', isPrimary: true, stat: 'attack', change: 1 },
+      ],
+    }),
+  });
+  const player = createPokemon(1, 'tentacool', { zhName: '玛瑙水母' });
+  const enemy = createPokemon(2, 'ledyba', { zhName: '芭瓢虫' });
+  const options = {
+    move,
+    actingSide: 'player' as const,
+    teams: { playerTeam: [player], enemyTeam: [enemy] },
+    random: () => 0,
+  };
+  const chinese = applyMoveSecondaryEffects({ ...options, currentLanguage: 'zh-CN', getLocalized: (pokemon) => pokemon.zhName || pokemon.name });
+  const english = applyMoveSecondaryEffects({ ...options, currentLanguage: 'en', getLocalized: (pokemon) => pokemon.name });
+  assert.ok(chinese.messages.includes('芭瓢虫陷入了混乱状态！'));
+  assert.ok(chinese.messages.includes('玛瑙水母的攻击提高了！'));
+  assert.ok(english.messages.includes('ledyba is afflicted with confusion!'));
+  assert.ok(english.messages.includes("tentacool's Attack rose!"));
+  assert.ok(chinese.messages.every((message) => !/\b(?:is|was|with|rose)\b|'s/.test(message)));
+});
+
 test('applyMoveSecondaryEffects thaws a frozen target for an eligible move', () => {
   const move = createMove({
     name: 'flamethrower',

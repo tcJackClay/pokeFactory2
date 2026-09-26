@@ -1,0 +1,45 @@
+{
+  "base": {
+    "balance": 3,
+    "stage": 7,
+    "status": "READY",
+    "phase": "BASE",
+    "challengePaused": true,
+    "challengeStatus": 0,
+    "gens": [
+      9
+    ]
+  },
+  "settings": {
+    "state": {
+      "balance": 3,
+      "stage": null,
+      "status": "EMPTY",
+      "phase": null,
+      "challengePaused": true,
+      "challengeStatus": 0,
+      "gens": [
+        9
+      ]
+    },
+    "body": "设置\n返回\n\n语言\n\n中文\nENGLISH\n\n出场世代\n\n扩展世代随机池：九选一。所选世代决定下一次新挑战中随机出现的宝可梦。\n\n当前挑战仍可继续。请先完成或结束该挑战，再修改世代；设置仅对下一次新挑战生效。\n\n第一世代\n关都\n第二世代\n城都\n第三世代\n丰缘\n第四世代\n神奥\n第五世代\n合众\n第六世代\n卡洛斯\n第七世代\n阿罗拉\n第八世代\n伽勒尔\n第九世代\n帕底亚\n\n存档管理\n\n导出存档\n导入存档\n\n通知\n\n当前版本暂不提供消息推送与提醒。\n\n版权与素材来源\n\n查看版权说明\n\nDEV 面板\n\n开启\n关闭\nDEV",
+    "checked": [
+      "第九世代帕底亚"
+    ],
+    "disabledCount": 0
+  },
+  "afterReload": {
+    "state": {
+      "balance": 3,
+      "stage": null,
+      "status": "EMPTY",
+      "phase": null,
+      "challengePaused": true,
+      "challengeStatus": 0,
+      "gens": [
+        9
+      ]
+    },
+    "body": "3\nBP\n1/7\n轮次\n0\n连胜\n继续中\n对战工厂\n\n继续当前挑战\n\n继续挑战\n商店\n培育\n图鉴\n事件\n设置\nDEV"
+  }
+}

@@ -1,0 +1,289 @@
+{
+  "results": [
+    {
+      "stage": 2,
+      "atSwap": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 2,
+        "streak": 2,
+        "status": "READY"
+      },
+      "swapBody": "0\nBP\n2/7\n轮次\n2\n连胜\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n恶\n妖精\n捣蛋小妖\n我的已选\n钢\n毒\n噗隆隆\n选我方\n电\n正电拍拍\n选我方\n对手队伍\n待选择\n一般\n飞",
+      "nextIntroSave": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 2,
+        "streak": 2,
+        "status": "READY"
+      }
+    },
+    {
+      "stage": 3,
+      "beforeWin": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 3,
+        "streak": 2,
+        "status": "READY"
+      },
+      "afterWin": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 3,
+        "streak": 3,
+        "status": "READY"
+      },
+      "body": "0\nBP\n3/7\n轮次\n3\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：3/7\n连胜数: 3\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nGLENN / SCHOOL_KID_M\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 3\nC 0\nSP OFF",
+      "buttons": [
+        "前往换怪",
+        "HIDE",
+        "Win",
+        "Reward",
+        "+500",
+        "Unlock",
+        "Reset",
+        "Open",
+        "Clear"
+      ]
+    },
+    {
+      "stage": 3,
+      "atSwap": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 3,
+        "streak": 3,
+        "status": "READY"
+      },
+      "swapBody": "0\nBP\n3/7\n轮次\n3\n连胜\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n恶\n妖精\n捣蛋小妖\n我的已选\n钢\n毒\n噗隆隆\n选我方\n电\n正电拍拍\n选我方\n对手队伍\n待选择\n幽灵\n草",
+      "nextIntroSave": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 3,
+        "streak": 2,
+        "status": "READY"
+      }
+    },
+    {
+      "stage": 4,
+      "beforeWin": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 4,
+        "streak": 3,
+        "status": "READY"
+      },
+      "afterWin": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 4,
+        "streak": 4,
+        "status": "READY"
+      },
+      "body": "0\nBP\n4/7\n轮次\n4\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：4/7\n连胜数: 4\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nXANDER / POKEMANIAC\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 4\nC 0\nSP OFF",
+      "buttons": [
+        "前往换怪",
+        "HIDE",
+        "Win",
+        "Reward",
+        "+500",
+        "Unlock",
+        "Reset",
+        "Open",
+        "Clear"
+      ]
+    },
+    {
+      "stage": 4,
+      "atSwap": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 4,
+        "streak": 4,
+        "status": "READY"
+      },
+      "swapBody": "0\nBP\n4/7\n轮次\n4\n连胜\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n恶\n妖精\n捣蛋小妖\n我的已选\n钢\n毒\n噗隆隆\n选我方\n电\n正电拍拍\n选我方\n对手队伍\n待选择\n火\n火岩",
+      "nextIntroSave": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 4,
+        "streak": 3,
+        "status": "READY"
+      }
+    },
+    {
+      "stage": 5,
+      "beforeWin": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 5,
+        "streak": 4,
+        "status": "READY"
+      },
+      "afterWin": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 5,
+        "streak": 5,
+        "status": "READY"
+      },
+      "body": "0\nBP\n5/7\n轮次\n5\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：5/7\n连胜数: 5\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nLIZBETH / BEAUTY\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 5\nC 0\nSP OFF",
+      "buttons": [
+        "前往换怪",
+        "HIDE",
+        "Win",
+        "Reward",
+        "+500",
+        "Unlock",
+        "Reset",
+        "Open",
+        "Clear"
+      ]
+    },
+    {
+      "stage": 5,
+      "atSwap": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 5,
+        "streak": 5,
+        "status": "READY"
+      },
+      "swapBody": "0\nBP\n5/7\n轮次\n5\n连胜\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n恶\n妖精\n捣蛋小妖\n我的已选\n钢\n毒\n噗隆隆\n选我方\n电\n正电拍拍\n选我方\n对手队伍\n待选择\n超能\n迷",
+      "nextIntroSave": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 5,
+        "streak": 4,
+        "status": "READY"
+      }
+    },
+    {
+      "stage": 6,
+      "beforeWin": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 6,
+        "streak": 5,
+        "status": "READY"
+      },
+      "afterWin": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 6,
+        "streak": 6,
+        "status": "READY"
+      },
+      "body": "0\nBP\n6/7\n轮次\n6\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：6/7\n连胜数: 6\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nLIZBETH / BEAUTY\n前往换怪\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 6\nC 0\nSP OFF",
+      "buttons": [
+        "前往换怪",
+        "HIDE",
+        "Win",
+        "Reward",
+        "+500",
+        "Unlock",
+        "Reset",
+        "Open",
+        "Clear"
+      ]
+    },
+    {
+      "stage": 6,
+      "atSwap": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 6,
+        "streak": 6,
+        "status": "READY"
+      },
+      "swapBody": "0\nBP\n6/7\n轮次\n6\n连胜\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n恶\n妖精\n捣蛋小妖\n我的已选\n钢\n毒\n噗隆隆\n选我方\n电\n正电拍拍\n选我方\n对手队伍\n待选择\n草\n飞行",
+      "nextIntroSave": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 6,
+        "streak": 5,
+        "status": "READY"
+      }
+    },
+    {
+      "stage": 7,
+      "beforeWin": {
+        "balance": 0,
+        "revision": 1,
+        "settledThrough": 0,
+        "lastSettlement": null,
+        "stage": 7,
+        "streak": 6,
+        "status": "READY"
+      },
+      "afterWin": {
+        "balance": 3,
+        "revision": 2,
+        "settledThrough": 1,
+        "lastSettlement": {
+          "runId": "run:f8137e5e-02ac-424a-bff0-8f895acaba02",
+          "setNo": 1,
+          "stage": 7,
+          "result": "WIN",
+          "isFrontierBrain": false,
+          "nominalBp": 3,
+          "amount": 3,
+          "settledAt": "2026-09-26T05:16:42.854Z"
+        },
+        "stage": 7,
+        "streak": 7,
+        "status": "READY"
+      },
+      "body": "3\nBP\n7/7\n轮次\n7\n连胜\n本场胜利\n本场胜利\n当前进度\n组别进度：7/7\n连胜数: 7\n交换次数: 0\n对手信息\n敌方 AI 档位: BOSS\nTRISTAN / COLLECTOR\n完成一组挑战！已击败第 7 战对手。\n基础 BP 3\n本组实际获得 BP：+3\n当前 BP：3 / 9999\n返回基地\nHIDE\nDEVELOPER\nROUND_RESULT\nWIN\nREWARD\n+500\nUNLOCK\nRESET\nSTATUS\nidle\nOPEN\nCLEAR\n\nF: none\n\nS 7\nC 3\nSP OFF",
+      "buttons": [
+        "返回基地",
+        "HIDE",
+        "Win",
+        "Reward",
+        "+500",
+        "Unlock",
+        "Reset",
+        "Open",
+        "Clear"
+      ]
+    }
+  ],
+  "errors": []
+}

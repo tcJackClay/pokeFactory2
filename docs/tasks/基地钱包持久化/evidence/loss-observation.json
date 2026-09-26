@@ -1,0 +1,31 @@
+{
+  "loaded": 10.1,
+  "apiCount": 148,
+  "preWallet": {
+    "balance": 0,
+    "revision": 1,
+    "currentRunId": "run:b27bd5e7-3a1a-42bb-814c-bcd1b1c6c4e7",
+    "settledThrough": 0,
+    "lastSettlement": null,
+    "migratedFromV7": false
+  },
+  "afterWallet": {
+    "balance": 1,
+    "revision": 2,
+    "currentRunId": "run:b27bd5e7-3a1a-42bb-814c-bcd1b1c6c4e7",
+    "settledThrough": 1,
+    "lastSettlement": {
+      "runId": "run:b27bd5e7-3a1a-42bb-814c-bcd1b1c6c4e7",
+      "stage": 1,
+      "result": "LOSS",
+      "amount": 1,
+      "settledAt": "2026-09-26T04:18:47.668Z"
+    },
+    "migratedFromV7": false
+  },
+  "body": "1\n代币\n1/7\n轮次\n0\n连胜\n本场失败\n获得代币：+1\n本场失败\n当前进度\n组别进度：1/7\n连胜数: 0\n交换次数: 0\n对手信息\n敌方 AI 档位: RANDOM\nALIZE / PICNICKER\n返回开始",
+  "buttons": [
+    "返回开始"
+  ],
+  "errors": []
+}

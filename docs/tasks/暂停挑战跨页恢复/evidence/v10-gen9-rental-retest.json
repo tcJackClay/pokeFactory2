@@ -1,0 +1,92 @@
+{
+  "generation": {
+    "before": [
+      1
+    ],
+    "selected": [
+      9
+    ],
+    "afterReload": [
+      9
+    ]
+  },
+  "records": [
+    {
+      "attempt": 1,
+      "elapsedSeconds": 14.31,
+      "cards": 6,
+      "errorVisible": false,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n草\n幽灵\n斯魔茶\n毒\n一般\n滋汁鼹\n恶\n偶叫獒\n电\n布拨\n水\n海地鼠\n水\n润水鸭\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)",
+      "requests": 135,
+      "responses": 125,
+      "bad": []
+    },
+    {
+      "stage1": {
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n一对鼠\n◇\nLV.50\n一般\nHP\n100%\n斯魔茶\n◇\nLV.50\n草\n幽灵\nHP\n101/101\n战斗日志\nFCT-01\n\n对手 派出了 一对鼠！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n魔法叶\n草\n威力 60\n命中 --\nPP 20/20\n灵骚\n幽灵\n威力 110\n命中 90\nPP 5/5\n戏法空间\n超能\n威力 --\n命中 --\nPP 5/5\n挺住\n一般\n威力 --\n命中 --\nPP 10/10",
+        "save": {
+          "schema": 10,
+          "gens": [
+            9
+          ],
+          "wallet": {
+            "balance": 0,
+            "revision": 1,
+            "currentRunId": "run:2dcf7dd5-a553-4857-bf84-e8e7225fb288",
+            "brainSymbols": 0,
+            "settledThrough": 0,
+            "lastSettlement": null
+          },
+          "stage": 1,
+          "phase": "BATTLE",
+          "rentals": [
+            1012,
+            944,
+            942,
+            921,
+            960,
+            912
+          ],
+          "team": [
+            1012,
+            944,
+            942
+          ]
+        }
+      }
+    },
+    {
+      "afterMove": {
+        "usedButton": "魔法叶草威力 60命中 --PP 20/20",
+        "body": "0\nBP\n1/7\n轮次\n0\n连胜\n一对鼠\n◇\nLV.50\n一般\nHP\n100%\n斯魔茶\n◇\nLV.50\n草\n幽灵\nHP\n101/101\n战斗日志\nFCT-01\n\n对手 派出了 一对鼠！\n\n对手的 一对鼠 使用了 帮助！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n魔法叶\n草\n威力 60\n命中 --\nPP 20/20\n灵骚\n幽灵\n威力 110\n命中 90\nPP 5/5\n戏法空间\n超能\n威力 --\n命中 --\nPP 5/5\n挺住\n一般\n威力 --\n命中 --\nPP 10/10",
+        "wallet": {
+          "balance": 0,
+          "revision": 1,
+          "currentRunId": "run:2dcf7dd5-a553-4857-bf84-e8e7225fb288",
+          "brainSymbols": 0,
+          "settledThrough": 0,
+          "lastSettlement": null
+        }
+      }
+    }
+  ],
+  "totalRequests": 566,
+  "totalResponses": 565,
+  "pendingLast": [
+    "http://127.0.0.12:4300/api/pokeapi/move/assurance/"
+  ],
+  "factorySpeciesIndex": [
+    {
+      "t": 352587.2388298,
+      "status": 200,
+      "url": "http://127.0.0.12:4300/api/data/factory-species-index"
+    },
+    {
+      "t": 352590.5293126,
+      "status": 200,
+      "url": "http://127.0.0.12:4300/api/data/factory-species-index"
+    }
+  ],
+  "consoleErrors": [],
+  "httpErrors": []
+}

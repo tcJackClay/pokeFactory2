@@ -7,10 +7,12 @@ export interface SaveImportResult {
 }
 
 export interface GameViewActions {
+  retrySettlement: () => Promise<void>;
   enterBase: () => void;
   openBaseTab: (tab: BaseTab) => void;
   closeRunSummary: () => void;
   startOrResumeFactoryFromBase: () => Promise<void>;
+  endPausedFactoryRun: () => boolean;
   startGame: () => Promise<void>;
   quickStartDevBattle: () => Promise<void>;
   confirmRentals: () => Promise<void>;

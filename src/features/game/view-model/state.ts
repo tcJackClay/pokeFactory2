@@ -36,6 +36,7 @@ export interface GameViewFlowState {
   currentLanguage: string;
   pendingRewardAction: RewardAction;
   loading: boolean;
+  rentalLoadError: string | null;
   bootProgress: number;
   canEnterProject: boolean;
   bootStatusText: string;
@@ -72,6 +73,7 @@ export interface GameViewProgressState {
 }
 
 export interface GameViewBattleState {
+  settlementError: boolean;
   activeBuffs: { atk: boolean; def: boolean };
   weather: Weather;
   weatherTurns: number;

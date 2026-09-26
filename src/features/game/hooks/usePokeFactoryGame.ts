@@ -6,14 +6,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, Weather } from '../../../types';
 import { ALL_ITEMS } from '../../../uiAppConstants';
-import { GENERATIONS } from '../../../constants';
 import { fetchPokemon, getProcessedPokemon, isEvolutionChainBaseSpecies } from '../../../services/pokeApi';
 import { getAiTier } from '../config/factoryBattle';
-import { FACTORY_REWARD_CONFIG, getFactoryRewardChoiceCount, shouldTriggerPreBattleRewardStage } from '../config/factoryRewards';
+import { FACTORY_REWARD_CONFIG, getFactoryRewardChoiceCount } from '../config/factoryRewards';
+import { canAdvanceClassicStage, createClassicActionGate, getClassicPostBattleDestination } from '../config/classicFlow';
 import { EVENT_REGIONS, IV_TRAIN_BATTLE_THRESHOLD, RARE_SPECIES_POOL, createDefaultDispatchState } from '../config/events';
 import { useGameLocalization } from './useGameLocalization';
 import { useBattleController } from './useBattleController';
 import { useFactoryFlow } from './useFactoryFlow';
+import { hasRecoverableFactoryBaseCheckpoint, shouldReleaseFactoryBaseCheckpoint } from './factoryResumeCheckpoint';
 import { useRewardFlow } from './useRewardFlow';
 import { clearNonVolatileStatus, clearVolatileStatuses } from '../utils/battleStatus';
 import { addEvToPokemon, addIvToPokemon, type StatKey } from '../utils/pokemonStats';
@@ -23,6 +24,7 @@ import {
   rollDispatchOutcome,
 } from '../utils/eventDispatchRewards';
 import { getFactoryTrainerTemplateById, type FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
+import { FACTORY_BRAIN_TRAINER_ID } from '../config/factoryBrain';
 import type {
   BaseRunSummary,
   BaseTab,
@@ -36,25 +38,29 @@ import type {
   PokemonInfoSource,
 } from '../view-model';
 import { getBattleIndexInSet, getSetNoByStage } from '../config/factoryRewards';
-import { preloadFactorySpeciesIndex } from '../config/factorySpeciesIndex';
 import {
   buildSaveExportFilename,
+  beginFactoryWalletRun,
+  endFactoryWalletRun,
+  adjustWalletBalance,
+  commitFactoryGroupSettlement,
   createEmptyBattleResume,
+  createEmptyWallet,
   createSaveData,
   loadSaveData,
+  loadPendingFactorySettlement,
+  readUnsupportedSave,
+  discardUnsupportedSave,
   parseSaveDataFromText,
   persistSaveData,
+  replaceSaveData,
   triggerJsonDownload,
   type BattleResumeSnapshot,
   type CollectionLedger,
+  type FactoryWallet,
+  type GameSaveData,
 } from '../../../services/saveManager';
 import { createPokemonFormLedgerKey, normalizeStoredFormKeys } from '../utils/formLedger';
-import {
-  fetchDexCatalogEntries,
-  fetchDexMoveDetails,
-  fetchDexSnapshots,
-  fetchDexTypeMap,
-} from '../../../services/pokedexClient';
 import { getPokemonSpriteUrl } from '../../../services/pokeApiEndpoint';
 
 const STREAK_FACTORY_SINGLES_50 = 1 << 8;
@@ -80,30 +86,6 @@ interface EventBattleContext {
   specialSiteName?: string;
 }
 
-const BOOT_DEX_SNAPSHOT_IDS = [1, 4, 7, 25, 39, 94, 133, 150, 245, 249, 384, 493, 722, 810, 905];
-const BOOT_MOVE_DETAIL_KEYS = [
-  'tackle',
-  'quick-attack',
-  'thunderbolt',
-  'ice-beam',
-  'flamethrower',
-  'surf',
-  'earthquake',
-  'psychic',
-  'shadow-ball',
-  'dragon-claw',
-  'close-combat',
-  'moonblast',
-  'dark-pulse',
-  'iron-head',
-  'energy-ball',
-  'stone-edge',
-  'u-turn',
-  'protect',
-  'toxic',
-  'swords-dance',
-];
-
 function hydrateInventoryFromItemIds(itemIds: string[]): Item[] {
   return itemIds
     .map((itemId) => ITEM_BY_ID[itemId])
@@ -111,9 +93,17 @@ function hydrateInventoryFromItemIds(itemIds: string[]): Item[] {
 }
 
 export function usePokeFactoryGame(): GameViewModel {
+  const [legacySaveRaw] = useState<string | null>(() => readUnsupportedSave());
   const initialSave = loadSaveData();
   const initialBattleResume = initialSave?.factory.battleResume.status === 'READY'
     ? initialSave.factory.battleResume
+    : null;
+  const storedPendingSettlement = loadPendingFactorySettlement();
+  const initialPendingSettlement = storedPendingSettlement
+    && initialBattleResume
+    && storedPendingSettlement.runId === initialSave?.wallet.currentRunId
+    && storedPendingSettlement.stage === initialBattleResume.stage
+    ? storedPendingSettlement
     : null;
   const initialEnemyTrainer = initialBattleResume?.currentEnemyTrainerId
     ? getFactoryTrainerTemplateById(initialBattleResume.currentEnemyTrainerId)
@@ -125,7 +115,9 @@ export function usePokeFactoryGame(): GameViewModel {
     return devToolsAvailable ? saved : false;
   });
   const [startStep, setStartStep] = useState(0);
-  const [coins, setCoins] = useState(initialBattleResume?.coins ?? 0);
+  const walletRef = useRef<FactoryWallet>(initialSave?.wallet ?? createEmptyWallet());
+  const currentSaveBuilderRef = useRef<(() => GameSaveData) | null>(null);
+  const [coins, setCoins] = useState(walletRef.current.balance);
   const [shopItems, setShopItems] = useState<{ item: Item; price: number }[]>([]);
   const [rewardChoiceMade, setRewardChoiceMade] = useState(false);
   const [rerollCount, setRerollCount] = useState(0);
@@ -146,7 +138,7 @@ export function usePokeFactoryGame(): GameViewModel {
   const [pendingTmLearnerIndexes, setPendingTmLearnerIndexes] = useState<number[]>([]);
   const [pendingEvolutionEligibleIndexes, setPendingEvolutionEligibleIndexes] = useState<number[]>([]);
   const [selectedGens, setSelectedGens] = useState<number[]>(
-    () => initialSave?.settings.selectedGens?.length ? initialSave.settings.selectedGens : GENERATIONS.map((generation) => generation.id),
+    () => [initialSave?.settings.selectedGens?.[0] ?? 1],
   );
   const [startLevel, setStartLevel] = useState(initialSave?.settings.startLevel ?? 50);
   const [hoveredMove, setHoveredMove] = useState<Move | null>(null);
@@ -157,6 +149,7 @@ export function usePokeFactoryGame(): GameViewModel {
   const [currentLanguage, setCurrentLanguage] = useState(initialSave?.settings.currentLanguage ?? 'zh-hans');
   const [pendingRewardAction, setPendingRewardAction] = useState<'MOVE' | 'EVOLUTION' | null>(null);
   const [loading, setLoading] = useState(false);
+  const [rentalLoadError, setRentalLoadError] = useState<string | null>(null);
   const [bootProgress, setBootProgress] = useState(0);
   const [bootStatusText, setBootStatusText] = useState('');
   const [inventory, setInventory] = useState<Item[]>(() => hydrateInventoryFromItemIds(initialBattleResume?.inventoryItemIds ?? []));
@@ -176,8 +169,8 @@ export function usePokeFactoryGame(): GameViewModel {
   const [enemyAiTier, setEnemyAiTier] = useState<FactoryAiTier>(
     initialBattleResume?.enemyAiTier ?? getAiTier(1, FACTORY_REWARD_CONFIG.battlesPerSet),
   );
-  const [roundResult, setRoundResult] = useState<RoundResult>(null);
-  const [lastTokenGain, setLastTokenGain] = useState(0);
+  const [roundResult, setRoundResult] = useState<RoundResult>(initialBattleResume?.roundResult ?? null);
+  const [lastTokenGain, setLastTokenGain] = useState(initialBattleResume?.lastBpGain ?? 0);
   const [factoryRentals, setFactoryRentals] = useState<GamePokemon[]>(initialBattleResume?.factoryRentals ?? []);
   const [selectedRentalIndices, setSelectedRentalIndices] = useState<number[]>(initialBattleResume?.selectedRentalIndices ?? []);
   const [battleLog, setBattleLog] = useState<string[]>(initialBattleResume?.battleLog ?? []);
@@ -200,7 +193,9 @@ export function usePokeFactoryGame(): GameViewModel {
   const [catchSuccess, setCatchSuccess] = useState<boolean | null>(null);
   const [currentBaseTab, setCurrentBaseTab] = useState<BaseTab>('HOME');
   const [pendingRunSummary, setPendingRunSummary] = useState<BaseRunSummary | null>(null);
-  const [hasFactoryRunToResume, setHasFactoryRunToResume] = useState(false);
+  const [hasFactoryRunToResume, setHasFactoryRunToResume] = useState(
+    hasRecoverableFactoryBaseCheckpoint(initialBattleResume, initialSave?.wallet.currentRunId),
+  );
   const [pendingBattleResumeRestore, setPendingBattleResumeRestore] = useState(Boolean(initialBattleResume));
   const [starterName] = useState('Pikachu');
   const [starterBondLevel] = useState(1);
@@ -242,9 +237,10 @@ export function usePokeFactoryGame(): GameViewModel {
   const { t, getLocalized, getLocalizedDesc, getLocalizedNature, getStatName } = useGameLocalization(currentLanguage);
   const canEnterProject = bootProgress >= BOOT_ENTER_THRESHOLD;
   const battleResumeSnapshotRef = useRef<BattleResumeSnapshot | null>(initialBattleResume);
-  const backgroundWarmupStartedRef = useRef(false);
-  const nextFactoryStageInFlightRef = useRef(false);
-  const performSwapInFlightRef = useRef(false);
+  const factoryResumeActiveRef = useRef(hasFactoryRunToResume);
+  factoryResumeActiveRef.current = hasFactoryRunToResume;
+  const classicAdvanceGateRef = useRef(createClassicActionGate());
+  const handledRoundResultRef = useRef<string | null>(null);
 
   const buildStableFactoryBattleResume = useCallback((): BattleResumeSnapshot | null => {
     if (eventBattleActive || gameState !== 'BATTLE') return null;
@@ -252,6 +248,7 @@ export function usePokeFactoryGame(): GameViewModel {
     if (playerAnim !== 'idle' || enemyAnim !== 'idle' || activeMoveType !== null) return null;
     if (isCatching || showReplaceUI !== null) return null;
     if (playerTeam.length === 0 || enemyTeam.length === 0 || !currentEnemyTrainer) return null;
+    if (playerTeam.every((pokemon) => pokemon.currentHp <= 0) || enemyTeam.every((pokemon) => pokemon.currentHp <= 0)) return null;
 
     return {
       status: 'READY',
@@ -282,6 +279,9 @@ export function usePokeFactoryGame(): GameViewModel {
       currentEnemyTrainerId: currentEnemyTrainer.id,
       inventoryItemIds: inventory.map((item) => item.id),
       battleLog,
+      phase: 'BATTLE',
+      roundResult: null,
+      lastBpGain: 0,
     };
   }, [
     activeBuffs,
@@ -328,14 +328,33 @@ export function usePokeFactoryGame(): GameViewModel {
     if (stableSnapshot) {
       return stableSnapshot;
     }
+    if (!eventBattleActive && hasFactoryRunToResume
+      && hasRecoverableFactoryBaseCheckpoint(battleResumeSnapshotRef.current, walletRef.current.currentRunId)) {
+      return battleResumeSnapshotRef.current!;
+    }
     if (pendingBattleResumeRestore && battleResumeSnapshotRef.current) {
       return battleResumeSnapshotRef.current;
     }
     if (!eventBattleActive && gameState === 'BATTLE' && battleResumeSnapshotRef.current) {
       return battleResumeSnapshotRef.current;
     }
+    if (!eventBattleActive && (gameState === 'ROUND_RESULT' || gameState === 'FACTORY_SWAP' || (gameState === 'BASE' && hasFactoryRunToResume)) && battleResumeSnapshotRef.current) {
+      const snapshot: BattleResumeSnapshot = {
+        ...battleResumeSnapshotRef.current,
+        phase: gameState,
+        roundResult,
+        lastBpGain: lastTokenGain,
+        streak,
+        swapCount,
+        totalRents,
+        playerTeam,
+        enemyTeam,
+      };
+      if (gameState === 'BASE') battleResumeSnapshotRef.current = snapshot;
+      return snapshot;
+    }
     return createEmptyBattleResume();
-  }, [buildStableFactoryBattleResume, eventBattleActive, gameState, pendingBattleResumeRestore]);
+  }, [buildStableFactoryBattleResume, eventBattleActive, gameState, hasFactoryRunToResume, pendingBattleResumeRestore, roundResult, lastTokenGain, streak, swapCount, totalRents, playerTeam, enemyTeam]);
 
   const getEventItemLabel = useCallback((item: Item) => EVENT_ITEM_LABELS[item.id] ?? getLocalized(item), [getLocalized]);
 
@@ -434,6 +453,42 @@ export function usePokeFactoryGame(): GameViewModel {
     getLocalized,
     pickGrowthRewardItem,
   ]);
+  const getCurrentSaveDraft = useCallback(() => {
+    const build = currentSaveBuilderRef.current;
+    if (!build) throw new Error('Save draft is not ready.');
+    return build();
+  }, []);
+
+  const syncWallet = useCallback((wallet: FactoryWallet) => {
+    walletRef.current = wallet;
+    setCoins(wallet.balance);
+  }, []);
+
+  const beginWalletRun = useCallback((devBonus = 0, startingStage = 1) => {
+    syncWallet(beginFactoryWalletRun(getCurrentSaveDraft(), devBonus, startingStage));
+  }, [getCurrentSaveDraft, syncWallet]);
+
+  const adjustWallet = useCallback((delta: number) => {
+    syncWallet(adjustWalletBalance(getCurrentSaveDraft(), delta));
+  }, [getCurrentSaveDraft, syncWallet]);
+
+  const spendWallet = useCallback((amount: number) => {
+    if (!Number.isSafeInteger(amount) || amount < 0) return false;
+    try {
+      adjustWallet(-amount);
+      return true;
+    } catch (error) {
+      console.error('Wallet spend failed', error);
+      return false;
+    }
+  }, [adjustWallet]);
+
+  const settleFactoryBattle = useCallback((runId: string, battleStage: number, result: 'WIN' | 'LOSS', isFrontierBrain: boolean) => {
+    const settlement = commitFactoryGroupSettlement(getCurrentSaveDraft(), runId, battleStage, result, isFrontierBrain);
+    syncWallet(settlement.wallet);
+    return settlement;
+  }, [getCurrentSaveDraft, syncWallet]);
+
   const battleController = useBattleController({
     gameState,
     turn,
@@ -453,14 +508,18 @@ export function usePokeFactoryGame(): GameViewModel {
     enemyAiTier,
     specialModeUnlocked,
     specialBossBattleActive,
+    isFrontierBrain: currentEnemyTrainer?.id === FACTORY_BRAIN_TRAINER_ID,
     battleSpecialUsage,
     enemySpecialUsage,
     allowWildCatch: eventBattleActive,
     suppressFactoryBattleResult: eventBattleActive,
     onSuppressBattleResolved: handleSuppressedBattleResolved,
+    factoryRunId: walletRef.current.currentRunId,
+    pendingSettlement: initialPendingSettlement,
+    settleFactoryBattle,
     t,
+    currentLanguage,
     getLocalized,
-    setCoins,
     setInventory,
     setPlayerTeam,
     setEnemy,
@@ -499,6 +558,7 @@ export function usePokeFactoryGame(): GameViewModel {
       stage,
   totalRents,
   specialModeUnlocked,
+  brainSymbols: walletRef.current.brainSymbols,
     selectedRentalIndices,
     factoryRentals,
     playerTeam,
@@ -507,10 +567,11 @@ export function usePokeFactoryGame(): GameViewModel {
     getLocalized,
     addMessagesSequentially: battleController.addMessagesSequentially,
     setLoading,
+    setRentalLoadError,
     setFactoryRentals,
     setSelectedRentalIndices,
     setInventory,
-    setCoins,
+    beginWalletRun,
     setRoundResult,
     setLastTokenGain,
     setSwapCount,
@@ -542,6 +603,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setEnemyBuffs,
   });
   const {
+    clearFactoryEncounter,
     prefetchRentals,
     prefetchEnemy,
     exportUsedTrainerIdsBySet,
@@ -555,21 +617,27 @@ export function usePokeFactoryGame(): GameViewModel {
   useEffect(() => {
     const stableSnapshot = buildStableFactoryBattleResume();
     if (!stableSnapshot) return;
+    const checkpointStage = battleResumeSnapshotRef.current?.stage ?? null;
     battleResumeSnapshotRef.current = stableSnapshot;
-  }, [buildStableFactoryBattleResume]);
+    if (shouldReleaseFactoryBaseCheckpoint(hasFactoryRunToResume, checkpointStage, stableSnapshot.stage)) {
+      setHasFactoryRunToResume(false);
+    }
+  }, [buildStableFactoryBattleResume, hasFactoryRunToResume]);
 
   useEffect(() => {
     if (pendingBattleResumeRestore) return;
-    if (eventBattleActive || gameState !== 'BATTLE') {
+    if (!eventBattleActive && hasFactoryRunToResume
+      && hasRecoverableFactoryBaseCheckpoint(battleResumeSnapshotRef.current, walletRef.current.currentRunId)) return;
+    if (eventBattleActive || !(['BATTLE', 'ROUND_RESULT', 'FACTORY_SWAP'].includes(gameState) || (gameState === 'BASE' && hasFactoryRunToResume))) {
       battleResumeSnapshotRef.current = null;
     }
-  }, [eventBattleActive, gameState, pendingBattleResumeRestore]);
+  }, [eventBattleActive, gameState, hasFactoryRunToResume, pendingBattleResumeRestore]);
 
   useEffect(() => {
     if (!pendingBattleResumeRestore || !canEnterProject || gameState !== 'BASE') return;
     setPendingBattleResumeRestore(false);
-    setGameState('BATTLE');
-  }, [canEnterProject, gameState, pendingBattleResumeRestore]);
+    setGameState(initialBattleResume?.phase ?? 'BATTLE');
+  }, [canEnterProject, gameState, pendingBattleResumeRestore, initialBattleResume?.phase]);
 
   const rewardFlow = useRewardFlow({
     selectedGens,
@@ -595,7 +663,7 @@ export function usePokeFactoryGame(): GameViewModel {
     spawnEnemy: factoryFlow.spawnEnemy,
     prefetchEnemy: factoryFlow.prefetchEnemy,
     setLoading,
-    setCoins,
+    spendWallet,
     setRerollCount,
     setRewards,
     setRewardChoiceMade,
@@ -725,23 +793,6 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [gameState, pendingBattleResumeRestore, prefetchRentals, t]);
 
   useEffect(() => {
-    if (gameState !== 'BASE' && gameState !== 'START') return;
-    if (backgroundWarmupStartedRef.current) return;
-    backgroundWarmupStartedRef.current = true;
-
-    const timer = window.setTimeout(() => {
-      void Promise.allSettled([
-        preloadFactorySpeciesIndex(),
-        Promise.all([fetchDexCatalogEntries(), fetchDexTypeMap()]),
-        fetchDexSnapshots(BOOT_DEX_SNAPSHOT_IDS),
-        fetchDexMoveDetails(BOOT_MOVE_DETAIL_KEYS),
-      ]);
-    }, 600);
-
-    return () => window.clearTimeout(timer);
-  }, [gameState]);
-
-  useEffect(() => {
     if (streak > highestStreak) {
       setHighestStreak(streak);
     }
@@ -761,8 +812,10 @@ export function usePokeFactoryGame(): GameViewModel {
     const winStreakActiveMasks = (WIN_STREAK_ACTIVE_MASK_DEFAULT & (~activeFlag >>> 0)) >>> 0;
     const curChallengeBattleNum = Math.max(0, Math.min(FACTORY_REWARD_CONFIG.battlesPerSet - 1, (stage - 1) % FACTORY_REWARD_CONFIG.battlesPerSet));
     const battleResume = getPersistableBattleResume();
+    const checkpointPaused = hasFactoryRunToResume && battleResume.status === 'READY' && battleResume.phase === 'BASE';
 
     return createSaveData({
+      wallet: walletRef.current,
       totalRents,
       highestStreak,
       specialModeUnlocked,
@@ -773,7 +826,7 @@ export function usePokeFactoryGame(): GameViewModel {
       factory: {
         challengeStatus: challengeActive ? 1 : 0,
         curChallengeBattleNum,
-        challengePaused: !challengeActive && hasFactoryRunToResume,
+        challengePaused: checkpointPaused,
         disableRecordBattle: false,
         winStreakActiveFlags,
         winStreakActiveMasks,
@@ -807,15 +860,27 @@ export function usePokeFactoryGame(): GameViewModel {
     totalRents,
   ]);
 
+  currentSaveBuilderRef.current = buildCurrentSaveData;
+
   useEffect(() => {
-    persistSaveData(buildCurrentSaveData());
-  }, [buildCurrentSaveData]);
+    try {
+      if (legacySaveRaw) return;
+      persistSaveData(buildCurrentSaveData());
+    } catch (error) {
+      console.error('Auto save failed', error);
+    }
+  }, [buildCurrentSaveData, legacySaveRaw]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const persistCurrentState = () => {
-      persistSaveData(buildCurrentSaveData());
+      try {
+        if (legacySaveRaw) return;
+        persistSaveData(buildCurrentSaveData());
+      } catch (error) {
+        console.error('Save on page exit failed', error);
+      }
     };
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
@@ -829,7 +894,7 @@ export function usePokeFactoryGame(): GameViewModel {
       window.removeEventListener('beforeunload', persistCurrentState);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [buildCurrentSaveData]);
+  }, [buildCurrentSaveData, legacySaveRaw]);
 
   const enterBase = useCallback(() => {
     setCurrentBaseTab('HOME');
@@ -846,12 +911,35 @@ export function usePokeFactoryGame(): GameViewModel {
   }, []);
 
   const continueAfterRoundResult = () => {
+    if (gameState !== 'ROUND_RESULT' || !roundResult) return;
+    const roundKey = `${walletRef.current.currentRunId}:${stage}`;
+    if (handledRoundResultRef.current === roundKey) return;
+    handledRoundResultRef.current = roundKey;
     const setNo = getSetNoByStage(stage);
     const battleIndexInSet = getBattleIndexInSet(stage);
     const newRecord = roundResult === 'WIN' ? streak >= highestStreak : false;
 
+    if (getClassicPostBattleDestination(stage, roundResult) === 'FACTORY_SWAP') {
+      void factoryFlow.prefetchEnemy(stage + 1);
+      setGameState('FACTORY_SWAP');
+      return;
+    }
+
     if (roundResult === 'WIN') {
       if (battleIndexInSet === FACTORY_REWARD_CONFIG.battlesPerSet) {
+        if (battleResumeSnapshotRef.current) {
+          battleResumeSnapshotRef.current = {
+            ...battleResumeSnapshotRef.current,
+            phase: 'BASE',
+            roundResult: 'WIN',
+            lastBpGain: lastTokenGain,
+            streak,
+            swapCount,
+            totalRents,
+            playerTeam,
+            enemyTeam,
+          };
+        }
         setPendingRunSummary({
           visible: true,
           mode: 'CLASSIC',
@@ -862,15 +950,12 @@ export function usePokeFactoryGame(): GameViewModel {
           newRecord,
           unlockedFeatureIds: [],
         });
-        setHasFactoryRunToResume(true);
+        setHasFactoryRunToResume(hasRecoverableFactoryBaseCheckpoint(battleResumeSnapshotRef.current, walletRef.current.currentRunId));
         setCurrentBaseTab('HOME');
         setGameState('BASE');
         return;
       }
 
-      void factoryFlow.prefetchEnemy(stage + 1);
-      setGameState('FACTORY_SWAP');
-      return;
     }
     setPendingRunSummary({
       visible: true,
@@ -893,14 +978,38 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [devToolsAvailable]);
 
   const devAddCoins = useCallback((amount: number) => {
-    setCoins((prev) => Math.max(0, prev + amount));
-  }, []);
+    if (!devToolsAvailable) return;
+    try {
+      adjustWallet(amount);
+    } catch (error) {
+      console.error('Developer wallet adjustment failed', error);
+    }
+  }, [adjustWallet, devToolsAvailable]);
 
   const devSetStage = useCallback((value: number) => {
+    if (!devToolsAvailable || playerTeam.length === 0) return;
     const normalized = Math.max(1, Math.floor(value));
-    setStage(normalized);
-    setEnemyAiTier(getAiTier(normalized, FACTORY_REWARD_CONFIG.battlesPerSet));
-  }, []);
+    try {
+      beginWalletRun(0, normalized);
+      battleResumeSnapshotRef.current = null;
+      setHasFactoryRunToResume(false);
+      setRoundResult(null);
+      setLastTokenGain(0);
+      setStage(normalized);
+      setStreak(normalized - 1);
+      setEnemyAiTier(getAiTier(normalized, FACTORY_REWARD_CONFIG.battlesPerSet));
+      setIsTransitioning(true);
+      setGameState('BATTLE');
+      void factoryFlow.spawnEnemy(normalized).then((ready) => {
+        if (!ready) {
+          setIsTransitioning(false);
+          setGameState('BASE');
+        }
+      });
+    } catch (error) {
+      console.error('Developer stage change failed', error);
+    }
+  }, [beginWalletRun, devToolsAvailable, factoryFlow, playerTeam.length]);
 
   const devUnlockSpecialMode = useCallback(() => {
     setSpecialModeUnlocked(true);
@@ -1044,36 +1153,28 @@ export function usePokeFactoryGame(): GameViewModel {
     });
   }, [gameState]);
 
-  const shouldTriggerPreBattleReward = useCallback((nextStage: number) => shouldTriggerPreBattleRewardStage(nextStage), []);
-
   const nextFactoryStage = useCallback(async () => {
-    if (nextFactoryStageInFlightRef.current) return;
-    nextFactoryStageInFlightRef.current = true;
-
-    const nextStageValue = stage + 1;
-    try {
-      if (shouldTriggerPreBattleReward(nextStageValue)) {
-        void factoryFlow.prefetchEnemy(nextStageValue);
-        await rewardFlow.openRewardStage();
-        return;
-      }
-      await factoryFlow.nextFactoryStage();
-    } finally {
-      nextFactoryStageInFlightRef.current = false;
-    }
-  }, [factoryFlow, rewardFlow, shouldTriggerPreBattleReward, stage]);
+    if (!canAdvanceClassicStage(stage, gameState, roundResult, hasFactoryRunToResume)) return;
+    const actionKey = `${walletRef.current.currentRunId}:${stage}:${gameState}`;
+    await classicAdvanceGateRef.current(actionKey, async () => {
+      const ready = await factoryFlow.nextFactoryStage();
+      return ready;
+    });
+  }, [factoryFlow, gameState, hasFactoryRunToResume, roundResult, stage]);
 
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
-    if (performSwapInFlightRef.current) return;
-    performSwapInFlightRef.current = true;
-
-    try {
-      await factoryFlow.performSwap(playerIdx, enemyIdx);
-      await nextFactoryStage();
-    } finally {
-      performSwapInFlightRef.current = false;
-    }
-  }, [factoryFlow, nextFactoryStage]);
+    if (!canAdvanceClassicStage(stage, gameState, roundResult, hasFactoryRunToResume)) return;
+    if (!Number.isInteger(playerIdx) || playerIdx < 0 || playerIdx >= playerTeam.length) return;
+    if (!Number.isInteger(enemyIdx) || enemyIdx < 0 || enemyIdx >= enemyTeam.length) return;
+    const actionKey = `${walletRef.current.currentRunId}:${stage}:${gameState}`;
+    await classicAdvanceGateRef.current(actionKey, async () => {
+      const swappedTeam = await factoryFlow.performSwap(playerIdx, enemyIdx);
+      if (!swappedTeam) return false;
+      const ready = await factoryFlow.nextFactoryStage(swappedTeam);
+      if (ready) factoryFlow.commitSwap(swappedTeam);
+      return ready;
+    });
+  }, [enemyTeam.length, factoryFlow, gameState, hasFactoryRunToResume, playerTeam, roundResult, stage]);
 
   const startGame = useCallback(async () => {
     if (!canEnterProject) return;
@@ -1102,19 +1203,45 @@ export function usePokeFactoryGame(): GameViewModel {
     setCurrentBaseTab('HOME');
 
     if (hasFactoryRunToResume) {
-      setHasFactoryRunToResume(false);
       await nextFactoryStage();
       return;
     }
 
     await startGame();
   }, [hasFactoryRunToResume, nextFactoryStage, startGame]);
+
+  const endPausedFactoryRun = useCallback(() => {
+    const runId = walletRef.current.currentRunId;
+    if (gameState !== 'BASE' || !hasFactoryRunToResume || !runId
+      || !hasRecoverableFactoryBaseCheckpoint(battleResumeSnapshotRef.current, runId)) return false;
+    try {
+      const wallet = endFactoryWalletRun(buildCurrentSaveData(), runId);
+      syncWallet(wallet);
+      factoryResumeActiveRef.current = false;
+      battleResumeSnapshotRef.current = null;
+      setHasFactoryRunToResume(false);
+      setPendingRunSummary(null);
+      setRoundResult(null);
+      setLastTokenGain(0);
+      clearFactoryEncounter();
+      setStage(1);
+      setStreak(0);
+      setSwapCount(0);
+      setCurrentBaseTab('HOME');
+      return true;
+    } catch (error) {
+      console.error('Failed to end factory run', error);
+      return false;
+    }
+  }, [buildCurrentSaveData, clearFactoryEncounter, gameState, hasFactoryRunToResume, syncWallet]);
   const setEventDispatchPokemon = useCallback((regionId: string, pokemonId: number | null) => {
+    if (factoryResumeActiveRef.current) return;
     if (!EVENT_REGIONS.some((region) => region.id === regionId)) return;
     setEventDispatchPokemonByRegion((prev) => ({ ...prev, [regionId]: pokemonId }));
   }, []);
 
   const autoPickDispatchPokemon = useCallback(async (regionId: string) => {
+    if (factoryResumeActiveRef.current) return null;
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region) return null;
     const ownedIds = [...collectionLedger.ownedIds];
@@ -1123,6 +1250,7 @@ export function usePokeFactoryGame(): GameViewModel {
     for (const pokemonId of shuffled) {
       try {
         const data = await fetchPokemon(pokemonId);
+        if (factoryResumeActiveRef.current) return null;
         const types = data.types.map((slot) => slot.type.name);
         if (region.requiredTypes.some((type) => types.includes(type))) {
           return pokemonId;
@@ -1152,6 +1280,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, []);
 
   const resolveDispatchRegion = useCallback(async (regionId: string) => {
+    if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region) return '派遣失败：未知地区';
 
@@ -1159,6 +1288,7 @@ export function usePokeFactoryGame(): GameViewModel {
     if (!selectedPokemonId) return '请先选择一只已拥有的派遣宝可梦';
 
     const selectedPokemonData = await fetchPokemon(selectedPokemonId);
+    if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
     const selectedTypes = selectedPokemonData.types.map((slot) => slot.type.name);
     const matched = region.requiredTypes.some((type) => selectedTypes.includes(type));
     if (!matched) {
@@ -1189,6 +1319,7 @@ export function usePokeFactoryGame(): GameViewModel {
       const candidate = regionalPool[Math.floor(Math.random() * regionalPool.length)];
       if (!candidate) continue;
       if (await isEvolutionChainBaseSpecies(candidate)) {
+        if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
         sampledBaseSpecies.push(candidate);
       }
     }
@@ -1204,6 +1335,7 @@ export function usePokeFactoryGame(): GameViewModel {
       const joinIdentifier = commonTargetPool[Math.floor(Math.random() * commonTargetPool.length)];
       if (!joinIdentifier) return `${region.name}: 生成目标失败`;
       const targetPokemon = await getProcessedPokemon(joinIdentifier, Math.max(20, startLevel));
+      if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
       const ballIndex = inventory.findIndex((item) => item.isBall);
       if (ballIndex < 0) return `${region.name}: 背包里没有可用的精灵球`;
 
@@ -1250,6 +1382,7 @@ export function usePokeFactoryGame(): GameViewModel {
     if (!battleIdentifier) return `${region.name}: 生成遭遇失败`;
     const battleLevel = Math.max(20, specialEncounter?.site.minLevel ?? startLevel);
     const targetPokemon = await getProcessedPokemon(battleIdentifier, battleLevel);
+    if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
 
     setCatchSuccess(null);
     setEventBattleActive(true);
@@ -1285,6 +1418,7 @@ export function usePokeFactoryGame(): GameViewModel {
     startLevel,
   ]);
   const dispatchEventRegion = useCallback(async (regionId: string) => {
+    if (factoryResumeActiveRef.current) return;
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region) return;
 
@@ -1310,6 +1444,7 @@ export function usePokeFactoryGame(): GameViewModel {
       }
       try {
         const selectedPokemonData = await fetchPokemon(selectedPokemonId);
+        if (factoryResumeActiveRef.current) return;
         const selectedTypes = selectedPokemonData.types.map((slot) => slot.type.name);
         const matched = region.requiredTypes.some((type) => selectedTypes.includes(type));
         if (!matched) {
@@ -1325,6 +1460,7 @@ export function usePokeFactoryGame(): GameViewModel {
           return;
         }
       } catch {
+        if (factoryResumeActiveRef.current) return;
         setEventDispatches((prev) => ({
           ...prev,
           [regionId]: {
@@ -1349,6 +1485,7 @@ export function usePokeFactoryGame(): GameViewModel {
     }
 
     const resultText = await resolveDispatchRegion(regionId);
+    if (factoryResumeActiveRef.current) return;
     const resolvedAt = Date.now();
     setEventDispatches((prev) => ({
       ...prev,
@@ -1361,6 +1498,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [eventDispatchPokemonByRegion, eventDispatches, resolveDispatchRegion]);
 
   const mockEventDispatchResult = useCallback((regionId: string, outcome: 'item' | 'join' | 'battle_special') => {
+    if (factoryResumeActiveRef.current) return;
     if (!developerMode) return;
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region) return;
@@ -1380,6 +1518,7 @@ export function usePokeFactoryGame(): GameViewModel {
       const level = Math.max(20, startLevel);
       void fetchPokemon(mockPokemonId)
         .then((pokemon) => {
+          if (factoryResumeActiveRef.current) return;
           setEventDispatchPopup({
             kind: 'POKEMON',
             title: `${region.name}奇遇成功（Mock）`,
@@ -1390,6 +1529,7 @@ export function usePokeFactoryGame(): GameViewModel {
           });
         })
         .catch(() => {
+          if (factoryResumeActiveRef.current) return;
           setEventDispatchPopup({
             kind: 'POKEMON',
             title: `${region.name}奇遇成功（Mock）`,
@@ -1440,27 +1580,8 @@ export function usePokeFactoryGame(): GameViewModel {
         collection: normalizedCollection,
       };
 
-      setTotalRents(parsed.progress.totalRents);
-      setHighestStreak(parsed.progress.highestStreak);
-      setSpecialModeUnlocked(parsed.progress.specialModeUnlocked);
-
-      setCurrentLanguage(parsed.settings.currentLanguage);
-      setSelectedGens(parsed.settings.selectedGens.length > 0 ? parsed.settings.selectedGens : GENERATIONS.map((generation) => generation.id));
-      setStartLevel(parsed.settings.startLevel);
-      setDeveloperMode(devToolsAvailable ? parsed.settings.developerMode : false);
-      setEventSpeciesBattleCounts(parsed.events.speciesBattleCounts);
-      setEventDispatchPokemonByRegion(() => {
-        const base = Object.fromEntries(EVENT_REGIONS.map((region) => [region.id, null as number | null]));
-        return { ...base, ...parsed.events.dispatchPokemonByRegion };
-      });
-      setEventDispatches(() => {
-        const base = Object.fromEntries(EVENT_REGIONS.map((region) => [region.id, createDefaultDispatchState()]));
-        return { ...base, ...parsed.events.dispatches };
-      });
-
-      setCollectionLedger(normalizedCollection);
-      importUsedTrainerIdsBySet(parsed.factory.trainerIdsBySet);
-      persistSaveData(normalizedParsed);
+      replaceSaveData(normalizedParsed);
+      window.location.reload();
 
       return {
         ok: true,
@@ -1470,10 +1591,12 @@ export function usePokeFactoryGame(): GameViewModel {
       console.error('Import save failed', error);
       return {
         ok: false,
-        message: 'Invalid save format. Import failed.',
+        message: error instanceof Error && error.message.includes('旧规则存档不兼容')
+          ? error.message
+          : 'Invalid save format. Import failed.',
       };
     }
-  }, [devToolsAvailable, importUsedTrainerIdsBySet]);
+  }, []);
 
   const viewModel = {
     gameState,
@@ -1494,6 +1617,7 @@ export function usePokeFactoryGame(): GameViewModel {
     trainerIntroActive,
     trainerIntroAwaitingContinue,
     isMessageProcessing,
+    settlementError: battleController.settlementError,
     canUseBattleSpecial: battleController.canUseBattleSpecial,
     canUseBattleSpecialByMode: battleController.canUseBattleSpecialByMode,
     learningPokemonIdx,
@@ -1512,6 +1636,7 @@ export function usePokeFactoryGame(): GameViewModel {
     currentLanguage,
     pendingRewardAction,
     loading,
+    rentalLoadError,
     bootProgress,
     canEnterProject,
     bootStatusText,
@@ -1594,6 +1719,7 @@ export function usePokeFactoryGame(): GameViewModel {
     openBaseTab,
     closeRunSummary,
     startOrResumeFactoryFromBase,
+    endPausedFactoryRun,
     startGame,
     quickStartDevBattle,
     confirmRentals: factoryFlow.confirmRentals,
@@ -1616,6 +1742,7 @@ export function usePokeFactoryGame(): GameViewModel {
     continueAfterRoundResult,
     continueTrainerIntro: factoryFlow.continueTrainerIntro,
     forfeitChallenge: battleController.forfeitChallenge,
+    retrySettlement: battleController.retrySettlement,
     toggleDeveloperMode,
     devAddCoins,
     devSetStage,

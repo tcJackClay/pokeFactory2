@@ -48,6 +48,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
     eventDispatches,
     eventDispatchPokemonByRegion,
     eventDispatchPopup,
+    hasFactoryRunToResume,
     getLocalized,
     setEventDispatchPokemon,
     dispatchEventRegion,
@@ -65,6 +66,10 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
   const [snapshotById, setSnapshotById] = useState<Record<number, DexSnapshot>>({});
 
   const isZh = currentLanguage.startsWith('zh');
+
+  useEffect(() => {
+    if (hasFactoryRunToResume) setPickerRegionId(null);
+  }, [hasFactoryRunToResume]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
@@ -102,6 +107,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
   }, [collectionOwnedIds, pickerRegionId, snapshotById]);
 
   const openPicker = (regionId: string) => {
+    if (hasFactoryRunToResume) return;
     setPickerSearch('');
     setPickerRegionId(regionId);
   };
@@ -136,10 +142,12 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
   };
 
   const pickRecommendedPokemon = async (regionId: string) => {
+    if (hasFactoryRunToResume) return;
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region || collectionOwnedIds.length === 0) return;
 
     const snapshots = await ensureSnapshots(collectionOwnedIds);
+    if (hasFactoryRunToResume) return;
     const candidates = collectionOwnedIds.filter((pokemonId) => {
       const snapshot = snapshots[pokemonId];
       if (!snapshot) return false;
@@ -221,6 +229,12 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
           </p>
         )}
 
+        {hasFactoryRunToResume && (
+          <p role="status" className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-bold text-amber-900">
+            {isZh ? '当前连胜可继续。请先回基地继续或结束挑战，再派遣或领取事件结果。' : 'Your Factory run can continue. Resume or end it at Base before dispatching or claiming event results.'}
+          </p>
+        )}
+
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
           {EVENT_REGIONS.map((region, index) => {
             const dispatch = eventDispatches[region.id];
@@ -295,12 +309,14 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                   <div className="mt-2 grid grid-cols-3 gap-1.5">
                     <button
                       onClick={() => openPicker(region.id)}
+                      disabled={hasFactoryRunToResume}
                       className="rounded bg-slate-800 px-2 py-1 text-[10px] font-black text-white"
                     >
                       {isZh ? '选择' : 'Pick'}
                     </button>
                     <button
                       onClick={() => setEventDispatchPokemon(region.id, null)}
+                      disabled={hasFactoryRunToResume}
                       className="inline-flex items-center justify-center gap-1 rounded bg-slate-200 px-2 py-1 text-[10px] font-black text-slate-700"
                     >
                       <Trash2 size={11} />
@@ -308,7 +324,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                     </button>
                     <button
                       onClick={() => void pickRecommendedPokemon(region.id)}
-                      disabled={pickerLoading || collectionOwnedIds.length === 0}
+                      disabled={hasFactoryRunToResume || pickerLoading || collectionOwnedIds.length === 0}
                       className="inline-flex items-center justify-center gap-1 rounded bg-emerald-600 px-2 py-1 text-[10px] font-black text-white disabled:opacity-50"
                     >
                       <Sparkles size={11} />
@@ -319,7 +335,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
 
                 <button
                   onClick={() => void dispatchEventRegion(region.id)}
-                  disabled={isRunning}
+                  disabled={hasFactoryRunToResume || isRunning}
                   className="mt-2 w-full px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-black disabled:opacity-50"
                 >
                   {buttonLabel}
@@ -335,18 +351,21 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                   <div className="mt-1 grid grid-cols-3 gap-1">
                     <button
                       onClick={() => mockEventDispatchResult(region.id, 'item')}
+                      disabled={hasFactoryRunToResume}
                       className="px-1.5 py-1 rounded bg-emerald-600 text-white text-[10px] font-black"
                     >
                       Mock道具
                     </button>
                     <button
                       onClick={() => mockEventDispatchResult(region.id, 'join')}
+                      disabled={hasFactoryRunToResume}
                       className="px-1.5 py-1 rounded bg-sky-600 text-white text-[10px] font-black"
                     >
                       Mock加入
                     </button>
                     <button
                       onClick={() => mockEventDispatchResult(region.id, 'battle_special')}
+                      disabled={hasFactoryRunToResume}
                       className="px-1.5 py-1 rounded bg-amber-600 text-white text-[10px] font-black"
                     >
                       Mock特殊
@@ -494,9 +513,11 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                         <button
                           key={`${pickerRegion.id}-${pokemonId}`}
                           onClick={() => {
+                            if (hasFactoryRunToResume) return;
                             setEventDispatchPokemon(pickerRegion.id, pokemonId);
                             closePicker();
                           }}
+                          disabled={hasFactoryRunToResume}
                           className={`rounded-lg border p-2 text-left transition-colors ${
                             isSelected
                               ? 'border-blue-500 bg-blue-50'
