@@ -63,6 +63,7 @@ import {
 } from '../../../services/saveManager';
 import { createPokemonFormLedgerKey, normalizeStoredFormKeys } from '../utils/formLedger';
 import { getPokemonSpriteUrl } from '../../../services/pokeApiEndpoint';
+import { rentalDuration, rentalNow, reportRentalPerformance } from '../performance/rentalPerformance';
 
 const STREAK_FACTORY_SINGLES_50 = 1 << 8;
 const STREAK_FACTORY_SINGLES_OPEN = 1 << 9;
@@ -784,7 +785,19 @@ export function usePokeFactoryGame(): GameViewModel {
       } else {
         setBootStatusText(t('bootPreparingRentalPool'));
         setProgress(18);
-        void prefetchRentals();
+        const bootPrefetchStartedAt = rentalNow();
+        const prefetchResult = prefetchRentals();
+        queueMicrotask(() => {
+          if (cancelled) return;
+          reportRentalPerformance('boot-prefetch-start');
+          void prefetchResult.then((ready) => {
+            if (cancelled) return;
+            reportRentalPerformance('boot-prefetch-end', {
+              durationMs: rentalDuration(bootPrefetchStartedAt),
+              ready,
+            });
+          });
+        });
       }
 
       setBootStatusText(t('bootFinalizingStartup'));

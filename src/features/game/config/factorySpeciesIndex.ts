@@ -1,5 +1,6 @@
 import type { PokemonIdentifier } from '../../../services/pokeApi';
 import { withRequestTimeout } from '../../../services/requestTimeout';
+import { recordRentalContentResponse, rentalNow } from '../performance/rentalPerformance';
 
 export type FactorySpeciesEvolutionStage = 'BASE' | 'MID' | 'FINAL';
 
@@ -19,7 +20,9 @@ export const FACTORY_SPECIES_INDEX_TIMEOUT_MS = 4000;
 async function loadFactorySpeciesIndexMap(timeoutMs = FACTORY_SPECIES_INDEX_TIMEOUT_MS): Promise<Map<string, FactorySpeciesIndexEntry>> {
   if (!factorySpeciesIndexPromise) {
     factorySpeciesIndexPromise = withRequestTimeout(async (signal) => {
+        const requestStartedAt = rentalNow();
         const response = await fetch(FACTORY_SPECIES_INDEX_URL, { signal });
+        recordRentalContentResponse(FACTORY_SPECIES_INDEX_URL, response, requestStartedAt);
         if (!response.ok) {
           throw new Error(`Failed to load factory species index: HTTP ${response.status}`);
         }

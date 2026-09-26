@@ -1,4 +1,5 @@
 import { RequestTimeoutError, withRequestTimeout } from './requestTimeout';
+import { recordRentalContentResponse, rentalNow } from '../features/game/performance/rentalPerformance';
 
 const DEFAULT_POKEAPI_BASE_URL = '/api/pokeapi';
 const DEFAULT_POKEAPI_CSV_BASE_URL = '/api/pokedex-csv';
@@ -171,12 +172,14 @@ function delay(ms: number): Promise<void> {
 
 async function fetchPokeApiJsonFromUrl(url: string, timeoutMs = POKEAPI_REQUEST_TIMEOUT_MS): Promise<any> {
   return withRequestTimeout(async (signal) => {
+    const requestStartedAt = rentalNow();
     const response = await fetch(url, {
     headers: {
       Accept: 'application/json',
     },
       signal,
     });
+    recordRentalContentResponse(url, response, requestStartedAt);
 
     if (!response.ok) {
       throw new PokeApiHttpError(url, response.status);

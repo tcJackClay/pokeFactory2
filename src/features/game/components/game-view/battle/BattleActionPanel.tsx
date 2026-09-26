@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { BattleBagPanel } from './BattleBagPanel';
 import { BattleMainMenu } from './BattleMainMenu';
@@ -5,6 +6,7 @@ import { BattleMovesPanel } from './BattleMovesPanel';
 import { BattlePokemonPanel } from './BattlePokemonPanel';
 import { BattleStatusPanel } from './BattleStatusPanel';
 import type { GameViewSectionProps } from '../shared';
+import { markFirstCommandActionable } from '../../../performance/rentalPerformance';
 
 export function BattleActionPanel({ viewModel }: GameViewSectionProps) {
   const {
@@ -32,6 +34,11 @@ export function BattleActionPanel({ viewModel }: GameViewSectionProps) {
     && !viewModel.isTransitioning
     && !viewModel.trainerIntroActive
     && !viewModel.trainerIntroAwaitingContinue;
+  useEffect(() => {
+    if (commandsEnabled && turn === 'PLAYER' && viewModel.enemy) {
+      markFirstCommandActionable();
+    }
+  }, [commandsEnabled, turn, viewModel.enemy]);
   const activePanelKey = battleMenuTab === 'MOVES' ? 'MAIN' : battleMenuTab;
 
   return (

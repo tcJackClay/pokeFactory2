@@ -1,5 +1,5 @@
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
-import { Fragment, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Info, Swords } from 'lucide-react';
 import TypeBadge from '../../../../components/TypeBadge';
@@ -7,6 +7,7 @@ import type { GamePokemon } from '../../../../types';
 import { FACTORY_BATTLE_CONFIG } from '../../config/factoryBattle';
 import type { GameViewSectionProps } from './shared';
 import { FactoryRentalDetailDialog } from './FactoryRentalDetailDialog';
+import { markRentalCardsActionable } from '../../performance/rentalPerformance';
 
 function PokeballIndicator({ active, compact = false }: { active: boolean; compact?: boolean }) {
   const shellSize = compact ? 'h-4 w-4' : 'h-5 w-5';
@@ -172,6 +173,11 @@ export function FactorySelectScreen({ viewModel }: GameViewSectionProps) {
   const teamSize = FACTORY_BATTLE_CONFIG.teamSize;
   const canConfirm = selectedCount === teamSize;
   const interactionLocked = loading || isTransitioning;
+  useEffect(() => {
+    if (!interactionLocked && factoryRentals.length === FACTORY_BATTLE_CONFIG.rentalsPerDraft) {
+      markRentalCardsActionable();
+    }
+  }, [factoryRentals.length, interactionLocked]);
   const [detailIndex, setDetailIndex] = useState<number | null>(null);
   const detailButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const detailPokemon = detailIndex !== null ? factoryRentals[detailIndex] ?? null : null;

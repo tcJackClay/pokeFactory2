@@ -31,6 +31,15 @@ import { selectFactoryTrainerTemplate, type FactoryTrainerTemplate } from '../co
 import { getFactoryTrainerMonSetPool } from '../config/factoryTrainerMonSetPools';
 import type { BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, Stats, Weather } from '../../../types';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
+import {
+  beginRentalNetworkCapture,
+  clearRentalConfirm,
+  markRentalConfirm,
+  markRentalStart,
+  rentalDuration,
+  rentalNow,
+  reportRentalPerformance,
+} from '../performance/rentalPerformance';
 
 interface UseFactoryFlowParams {
   selectedGens: number[];
@@ -747,6 +756,8 @@ export function useFactoryFlow({
     const useReferenceSets = FACTORY_BATTLE_CONFIG.useReferenceSetPool || trainerReferenceSets.length > 0;
     const selectedSources: Array<FactoryPoolCandidate['source']> = [];
     let attempts = 0;
+    let slotStartedAt = rentalNow();
+    let slotAttempts = 0;
 
     debugFactoryLog('buildFactoryPool:start', {
       count,
@@ -764,6 +775,7 @@ export function useFactoryFlow({
     while (mons.length < count && attempts < maxAttempts) {
       if (rentalSignal?.aborted) throw new Error('Rental generation cancelled.');
       attempts += 1;
+      slotAttempts += 1;
       const slotQualityBias = perSlotQualityBiases?.[mons.length] ?? qualityBias;
       const slotUseBetterRange = perSlotUseBetterRange?.[mons.length] ?? useBetterRange ?? false;
       const slotFixedIv = perSlotFixedIvs?.[mons.length] ?? fixedIv;
@@ -907,6 +919,7 @@ export function useFactoryFlow({
       const hasRealItem = itemId.length > 0 && itemId !== 'none';
       if (hasRealItem && pickedItems.has(itemId)) continue;
 
+      const detailStartedAt = rentalNow();
       const finalizedPokemon = picked.referenceSet
         ? await getProcessedPokemonFromReferenceSet(picked.referenceSet, level, Boolean(rentalSignal))
         : await getProcessedPokemon(picked.identifier, level, Boolean(rentalSignal));
@@ -920,6 +933,17 @@ export function useFactoryFlow({
       }
       selectedSources.push(picked.source);
       mons.push({ ...candidatePokemon, factoryHeldItemId: itemId });
+      if (rentalSignal) {
+        reportRentalPerformance('rental-member', {
+          slot: mons.length,
+          attempts: slotAttempts,
+          durationMs: rentalDuration(slotStartedAt),
+          detailsMs: rentalDuration(detailStartedAt),
+          source: picked.source,
+        });
+      }
+      slotStartedAt = rentalNow();
+      slotAttempts = 0;
     }
 
     debugFactoryLog('buildFactoryPool:done', {
@@ -937,7 +961,14 @@ export function useFactoryFlow({
   }, [debugFactoryLog, getFactoryCandidateMeta, getTrainerReferenceSetPool, selectedGens]);
 
   const generateRentalDraft = useCallback(async (rentalSignal: AbortSignal) => {
-    await preloadFactorySpeciesIndex();
+    const indexStartedAt = rentalNow();
+    let indexReady = false;
+    try {
+      await preloadFactorySpeciesIndex();
+      indexReady = true;
+    } finally {
+      reportRentalPerformance('species-index', { durationMs: rentalDuration(indexStartedAt), ready: indexReady });
+    }
     if (rentalSignal.aborted) throw new Error('Rental generation cancelled.');
     const challengeNum = getFactoryChallengeNum(1, FACTORY_REWARD_CONFIG.battlesPerSet);
     const rentalRank = getRentalHistoryRank(totalRents);
@@ -987,12 +1018,17 @@ export function useFactoryFlow({
     }
 
     const requestToken = ++rentalPrefetchTokenRef.current;
+    const prefetchStartedAt = rentalNow();
+    const endCapture = beginRentalNetworkCapture();
+    let prefetchReady = false;
+    reportRentalPerformance('rental-prefetch-start', { generation: generationId });
     let promise: Promise<boolean>;
     promise = (async () => {
       try {
         const rentals = await withRequestTimeout(generateRentalDraft, 30000, 'Factory rental draft');
         if (rentalPrefetchTokenRef.current !== requestToken || activeGenerationRef.current !== generationId) return false;
         prefetchedRentalsRef.current = { key, rentals };
+        prefetchReady = true;
         return true;
       } catch (error) {
         console.error(error);
@@ -1002,6 +1038,12 @@ export function useFactoryFlow({
         }
         return false;
       } finally {
+        endCapture();
+        reportRentalPerformance('rental-prefetch-end', {
+          generation: generationId,
+          durationMs: rentalDuration(prefetchStartedAt),
+          ready: prefetchReady,
+        });
         if (rentalPrefetchInFlightRef.current?.promise === promise) {
           rentalPrefetchInFlightRef.current = null;
         }
@@ -1161,12 +1203,17 @@ export function useFactoryFlow({
     }
 
     const requestToken = ++prefetchRequestTokenRef.current;
+    const prefetchStartedAt = rentalNow();
+    const endCapture = beginRentalNetworkCapture();
+    let prefetchReady = false;
+    reportRentalPerformance('enemy-prefetch-start', { stage: currentStage, generation: generationId });
     let promise: Promise<boolean>;
     promise = (async () => {
       try {
         const data = await generateEnemyEncounter(currentStage, options);
         if (prefetchRequestTokenRef.current !== requestToken || activeGenerationRef.current !== generationId) return false;
         prefetchedEncounterRef.current = { stage: currentStage, key, data };
+        prefetchReady = true;
         setNextEnemyPreviewTeam(data.team);
         setNextEnemyPreviewTrainer(data.trainer);
         debugFactoryLog('prefetchEnemy:stored', {
@@ -1183,6 +1230,13 @@ export function useFactoryFlow({
         }
         return false;
       } finally {
+        endCapture();
+        reportRentalPerformance('enemy-prefetch-end', {
+          stage: currentStage,
+          generation: generationId,
+          durationMs: rentalDuration(prefetchStartedAt),
+          ready: prefetchReady,
+        });
         if (enemyPrefetchInFlightRef.current?.promise === promise) {
           enemyPrefetchInFlightRef.current = null;
         }
@@ -1213,17 +1267,36 @@ export function useFactoryFlow({
       const contextKey = buildEncounterContextKey(currentStage, options);
       debugFactoryLog('spawnEnemy:start', { stage: currentStage, contextKey });
       let cached = prefetchedEncounterRef.current;
+      let awaitedPrefetch = false;
       if (!(cached && cached.stage === currentStage && cached.key === contextKey)) {
         const inFlight = enemyPrefetchInFlightRef.current;
         if (inFlight && inFlight.stage === currentStage && inFlight.key === contextKey) {
+          awaitedPrefetch = true;
           await inFlight.promise;
           cached = prefetchedEncounterRef.current;
         }
       }
 
-      const encounter = cached && cached.stage === currentStage && cached.key === contextKey
-        ? cached.data
-        : await generateEnemyEncounter(currentStage, options);
+      let encounter: EnemyEncounterData;
+      if (cached && cached.stage === currentStage && cached.key === contextKey) {
+        encounter = cached.data;
+      } else {
+        const endCapture = currentStage === 1 && options?.playTrainerIntro
+          ? beginRentalNetworkCapture()
+          : () => {};
+        try {
+          encounter = await generateEnemyEncounter(currentStage, options);
+        } finally {
+          endCapture();
+        }
+      }
+      if (currentStage === 1 && options?.playTrainerIntro) {
+        reportRentalPerformance('enemy-consumed', {
+          source: cached && cached.stage === currentStage && cached.key === contextKey
+            ? (awaitedPrefetch ? 'awaited-prefetch' : 'ready-prefetch')
+            : 'generated-on-confirm',
+        });
+      }
       debugFactoryLog('spawnEnemy:resolved', {
         stage: currentStage,
         contextKey,
@@ -1244,6 +1317,7 @@ export function useFactoryFlow({
       setBattleLog([]);
 
       if (options?.playTrainerIntro) {
+        const introStartedAt = rentalNow();
         setTrainerIntroActive(true);
         debugFactoryLog('spawnEnemy:trainer-intro', {
           stage: currentStage,
@@ -1260,6 +1334,9 @@ export function useFactoryFlow({
         await new Promise<void>((resolve) => {
           trainerIntroContinueResolverRef.current = resolve;
         });
+        if (currentStage === 1) {
+          reportRentalPerformance('trainer-intro-end', { durationMs: rentalDuration(introStartedAt) });
+        }
       }
 
       setEnemyTeam(team);
@@ -1333,6 +1410,7 @@ export function useFactoryFlow({
   const startGame = useCallback(async () => {
     if (startGameInFlightRef.current) return;
     startGameInFlightRef.current = true;
+    markRentalStart();
     const startToken = ++startGameTokenRef.current;
     setRentalLoadError(null);
     setLoading(true);
@@ -1512,18 +1590,21 @@ export function useFactoryFlow({
     if (confirmRentalsInFlightRef.current) return;
 
     confirmRentalsInFlightRef.current = true;
+    markRentalConfirm();
+    let enemyReady = false;
 
     try {
       const team = selectedRentalIndices.map((index) => factoryRentals[index]);
       setPlayerTeam(team);
       resetBattlePreview();
       startBattleTransition();
-      const enemyReady = await spawnEnemy(1, { factoryPool: factoryRentals, playerPool: [], playTrainerIntro: true });
+      enemyReady = await spawnEnemy(1, { factoryPool: factoryRentals, playerPool: [], playTrainerIntro: true });
       if (!enemyReady) {
         setIsTransitioning(false);
         setGameState('FACTORY_SELECT');
       }
     } finally {
+      if (!enemyReady) clearRentalConfirm();
       confirmRentalsInFlightRef.current = false;
     }
   }, [factoryRentals, resetBattlePreview, selectedRentalIndices, setGameState, setIsTransitioning, setPlayerTeam, spawnEnemy, startBattleTransition]);
