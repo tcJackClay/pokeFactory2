@@ -11,6 +11,10 @@ function isRoom(field: FieldState): boolean {
   return ROOM_FIELDS.includes(field);
 }
 
+export function isRepeatFieldFailure(previous: readonly FieldState[], nextField: FieldState): boolean {
+  return (nextField === 'gravity' || nextField === 'fairy_lock') && previous.includes(nextField);
+}
+
 export function nextFieldStates(previous: FieldState[], nextField: FieldState): FieldState[] {
   if (isTerrain(nextField)) {
     return [...previous.filter((field) => !isTerrain(field)), nextField];

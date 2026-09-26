@@ -27,7 +27,7 @@ import {
   resolveTypeImmunityReaction,
   clearSwitchingBattleState,
 } from '../battle/engine';
-import { nextFieldStates, nextFieldTurns } from '../battle/engine/fieldEffectTransition';
+import { isRepeatFieldFailure, nextFieldStates, nextFieldTurns } from '../battle/engine/fieldEffectTransition';
 import {
   getItemDamageBasedHealDenominator,
   getItemFlinchChance,
@@ -2196,7 +2196,11 @@ export function useBattleController({
 
     const nextField = getMoveFieldState(resolvedMove);
     if (nextField) {
-      applyFieldEffect(nextField);
+      if (isRepeatFieldFailure(fieldState, nextField)) {
+        await addMessagesSequentially([battleLine(currentLanguage, 'But it failed!', '但是失败了！')]);
+      } else {
+        applyFieldEffect(nextField);
+      }
     }
 
     if (defendingSide === 'player') {
@@ -2235,6 +2239,7 @@ export function useBattleController({
     currentLanguage,
     enemyBuffs.atk,
     enemyBuffs.def,
+    fieldState,
     getLocalized,
     getHeldItemLabel,
     hasHeldItem,

@@ -6,7 +6,7 @@ import type { BattleSnapshot } from './types';
 import { resolveBeforeMoveChecks } from './resolveBeforeMoveChecks';
 import { resolveEndTurn } from './resolveEndTurn';
 import { resolveActionSelection } from './resolveActionSelection';
-import { nextFieldStates, nextFieldTurns } from './fieldEffectTransition';
+import { isRepeatFieldFailure, nextFieldStates, nextFieldTurns } from './fieldEffectTransition';
 import { setNonVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
 
 const DEFAULT_NATURE: Nature = {
@@ -164,8 +164,11 @@ test('other rooms toggle off, repeat Gravity and Fairy Lock stay active, and ter
   }
   assert.deepEqual(nextFieldStates(['gravity'], 'gravity'), ['gravity']);
   assert.deepEqual(nextFieldTurns({ gravity: 2 }, 'gravity'), { gravity: 2 });
+  assert.equal(isRepeatFieldFailure(['gravity'], 'gravity'), true);
   assert.deepEqual(nextFieldStates(['fairy_lock'], 'fairy_lock'), ['fairy_lock']);
   assert.deepEqual(nextFieldTurns({ fairy_lock: 1 }, 'fairy_lock'), { fairy_lock: 1 });
+  assert.equal(isRepeatFieldFailure(['fairy_lock'], 'fairy_lock'), true);
+  assert.equal(isRepeatFieldFailure(['trick_room'], 'trick_room'), false);
   assert.deepEqual(nextFieldStates(['electric_terrain', 'trick_room'], 'grassy_terrain'), ['trick_room', 'grassy_terrain']);
   assert.deepEqual(nextFieldTurns({ electric_terrain: 2, trick_room: 4 }, 'grassy_terrain'), { trick_room: 4, grassy_terrain: 5 });
   assert.deepEqual(nextFieldStates(['grassy_terrain'], 'grassy_terrain'), ['grassy_terrain']);
