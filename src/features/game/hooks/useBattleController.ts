@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { completeEndTurnResolution } from './presentEndTurnResolution';
+import { createEnemyActionGate } from './enemyActionGate';
 import type { BattleHazards, BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, TailwindTurns, Weather } from '../../../types';
 import { getBattleIndexInSet } from '../config/factoryRewards';
 import type { PendingFactorySettlement } from '../../../services/saveManager';
@@ -381,6 +382,7 @@ export function useBattleController({
     };
   }, []);
   const pendingPlayerSwitchRef = useRef(false);
+  const enemyActionGateRef = useRef(createEnemyActionGate());
   const pendingForcedPlayerTurnRef = useRef<BattleTurn | null>(null);
   const hazardsRef = useRef(hazards);
   hazardsRef.current = hazards;
@@ -2779,10 +2781,14 @@ export function useBattleController({
   ]);
 
   useEffect(() => {
-    if (turn === 'ENEMY' && gameState === 'BATTLE' && !settlementError) {
-      void enemyTurn();
+    if (turn !== 'ENEMY' || gameState !== 'BATTLE') {
+      enemyActionGateRef.current.reset();
+      return;
     }
-  }, [enemyTurn, gameState, settlementError, turn]);
+    if (settlementError || isMessageProcessing || !enemy || !playerTeam[0]) return;
+    if (!enemyActionGateRef.current.claim()) return;
+    void enemyTurn().catch((error: unknown) => console.error('Enemy action failed', error));
+  }, [enemy, enemyTurn, gameState, isMessageProcessing, playerTeam, settlementError, turn]);
 
   useEffect(() => {
     const prevTurn = previousTurnRef.current;
