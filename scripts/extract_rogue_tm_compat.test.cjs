@@ -1,6 +1,8 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { parseTmTable, parseProfile, extract } = require('./extract_rogue_tm_compat.cjs');
+const path = require('node:path');
+const fs = require('node:fs');
+const { parseTmTable, parseProfile, extract, parseNationalDex, mapFactorySpecies } = require('./extract_rogue_tm_compat.cjs');
 
 function table(moves = Array.from({ length: 50 }, (_, index) => `MOVE_TEST_${index + 1}`)) {
   const assignments = moves.map((move, index) => `  [ITEM_TM${String(index + 1).padStart(2, '0')} - ITEM_TM01] = ${move},`).join('\n');
@@ -39,4 +41,37 @@ test('rejects malformed ordinary profiles', () => {
 
 test('refuses a source checkout that is not the pinned commit', () => {
   assert.throws(() => extract(process.cwd()), /Wrong Rogue source commit/);
+});
+
+test('pinned Rogue dex and all ten form exceptions map every factory identity', {
+  skip: !process.env.ROGUE_TM_SOURCE && 'Set ROGUE_TM_SOURCE to the pinned checkout for integration validation',
+}, () => {
+  const sourceRoot = path.resolve(process.env.ROGUE_TM_SOURCE);
+  const projectRoot = path.resolve(__dirname, '..');
+  const { matrix } = extract(sourceRoot);
+  const index = JSON.parse(fs.readFileSync(path.join(projectRoot, 'storage/data/factorySpeciesIndex.json'), 'utf8'));
+  const dex = parseNationalDex(fs.readFileSync(path.join(sourceRoot, 'include/constants/pokedex.h'), 'utf8'));
+  assert.equal(dex[0], 'BULBASAUR');
+  assert.equal(dex[1024], 'PECHARUNT');
+  const result = mapFactorySpecies(matrix, index, sourceRoot);
+  assert.equal(result.mappings.filter((row) => row.kind === 'base').length, 1025);
+  assert.equal(result.mappings.filter((row) => row.kind === 'form').length, 51);
+  assert.equal(result.mappings.filter((row) => row.method === 'explicit-form-exception').length, 10);
+  assert.deepEqual(result.unknown, []);
+  assert.deepEqual(result.conflicts, []);
+  assert.equal(result.mappings.find((row) => row.speciesId === 1 && row.kind === 'base').sourceAlias, 'SPECIES_BULBASAUR');
+  assert.equal(result.mappings.find((row) => row.speciesId === 1025 && row.kind === 'base').sourceAlias, 'SPECIES_PECHARUNT');
+  const exceptions = Object.fromEntries(result.mappings.filter((row) => row.method === 'explicit-form-exception').map((row) => [row.identifier, row.sourceAlias]));
+  assert.deepEqual(exceptions, {
+    'wormadam-sandy': 'SPECIES_WORMADAM_SANDY_CLOAK',
+    'wormadam-trash': 'SPECIES_WORMADAM_TRASH_CLOAK',
+    'zacian-crowned': 'SPECIES_ZACIAN_CROWNED_SWORD',
+    'zamazenta-crowned': 'SPECIES_ZAMAZENTA_CROWNED_SHIELD',
+    'urshifu-rapid-strike': 'SPECIES_URSHIFU_RAPID_STRIKE_STYLE',
+    'tauros-paldea-combat-breed': 'SPECIES_TAUROS_PALDEAN_COMBAT_BREED',
+    'tauros-paldea-blaze-breed': 'SPECIES_TAUROS_PALDEAN_BLAZE_BREED',
+    'tauros-paldea-aqua-breed': 'SPECIES_TAUROS_PALDEAN_AQUA_BREED',
+    'wooper-paldea': 'SPECIES_WOOPER_PALDEAN',
+    'maushold-family-of-three': 'SPECIES_MAUSHOLD',
+  });
 });
