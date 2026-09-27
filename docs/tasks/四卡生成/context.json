@@ -1,0 +1,61 @@
+{
+  "_comment": "architect 拥有。列出下游各角色应读的文件。all 段注入给 programmer/auditor/player 全部；各角色段额外补充。路径相对仓库根 D:/Games/pokeFactory2（实现位置为工作树 D:/Games/pokeFactory2-worktrees/four-card-reward）。",
+  "inject_config": {
+    "all": [
+      { "file": "docs/tasks/四卡生成/prd.md", "reason": "产品契约：本任务唯一产品输入，含 10 条验收条件与边界情况" },
+      { "file": "docs/tasks/四卡生成/plan.md", "reason": "技术方案：改动面、奖励节点状态机、状态契约、验证计划、风险与隐含决策、上游分支复用结论、当前实现进度盘点" },
+      { "file": "docs/tasks/扩池规则/design.md", "reason": "扩池与四卡生成定稿：§0 数量下界 |H|>=7、§1.1 七件名单、§2.3 卡面诚实、§3 四卡生成规则、§3.3 候选不足三分" },
+      { "file": "docs/tasks/扩池规则/decisions.md", "reason": "Orchestrator 裁决（2026-09-27）：第 1（批准七件）、6（不固定 ITEM/TM 配比）、7（允许可装备但无触发场景）、8、10（唯一性与回池）——不要再当待定项" },
+      { "file": "docs/公开版规则定稿.md", "reason": "现行规则：第 6 行（第 3、6 胜后换怪再四选一）、第 7 行（返还基准与第七胜后不提前返还）、第 8 行（奖励持有物装备与替换；注意此处仍写「五件」，七件仅在设计文档与裁决中）" },
+      { "file": "docs/tasks/单线工厂奖励/four-card-coverage-analysis.md", "reason": "候选覆盖公式 |H\\E|+|T|+|O|>=4 与「可重复验证」逐队枚举方法，验收 1 的确定性夹具口径来源" },
+      { "file": "docs/tasks/四卡生成/log.md", "reason": "运行日志：只追加，programmer/auditor/player 依次写入" },
+      { "file": "AGENTS.md", "reason": "协作章程：静态门禁命令、五种证据不可互相替代、禁止事项与工作树操作禁忌" }
+    ],
+    "programmer": [
+      { "file": ".agents/roles/programmer.md", "reason": "编码规则与本角色边界" },
+      { "file": ".agents/templates/plan.md", "reason": "plan 模板（本任务 plan 的组织方式）" },
+      { "file": "src/features/game/config/factoryRewards.ts", "reason": "已有触发点与 getFactoryRewardChoiceCount；本任务在此新增 isFactoryRewardPreBattle / shouldEnterRewardAfterWinning" },
+      { "file": "src/features/game/data/battle/itemEffects.ts", "reason": "七件的战斗元数据（effectId / hooks），候选合法性与卡面适用性判定的依据" },
+      { "file": "src/features/game/data/battle/index.ts", "reason": "getItemBattleData / isKnownFactoryHeldItemId：装备位标准 ID 归一与查重的唯一口径" },
+      { "file": "src/features/game/battle/engine/resolveEntryHazards.ts", "reason": "heavy_duty_boots 的真实生效条件（隐形岩伤害 + 毒菱状态；接地毒属性仍吸收毒菱），卡面诚实文案的事实依据" },
+      { "file": "src/features/game/battle/engine/resolveMoveStrikes.ts", "reason": "loaded_dice 的真实生效条件（minHits===2 && maxHits===5），卡面适用性判定谓词必须与此一致" },
+      { "file": "src/features/game/hooks/usePokeFactoryGame.ts", "reason": "热点文件（1898 行）：奖励接线、快照稳定性、PENDING/claim/continue 动作、view-model 暴露" },
+      { "file": "src/features/game/hooks/useFactoryFlow.ts", "reason": "buildFactoryPool 的 mons.push 需补写 factoryEquippedHeldItemId；nextFactoryStage / performSwap / commitSwap 的既有签名" },
+      { "file": "src/features/game/hooks/useRewardFlow.ts", "reason": "旧奖池（597 行）：本任务不改造其内部，但需在 REWARD 相位短路 rerollRewards / nextStage / selectReward" },
+      { "file": "src/features/game/utils/restoreFactoryParty.ts", "reason": "prepareFactoryPartyForBattle 必须改读 factoryEquippedHeldItemId（本局返还基准）" },
+      { "file": "src/services/saveManager.ts", "reason": "检查点事务层落点：SAVE_SCHEMA_VERSION 13->14、phase 增 REWARD、FactoryRewardCheckpoint、四个 commit* 函数、canEquipRewardItem" },
+      { "file": "src/services/saveManager.test.ts", "reason": "既有 1014 行测试与 withStorage / failNextWrite 注入脚手架，新用例照此写" },
+      { "file": "src/features/game/config/classicFlow.ts", "reason": "canAdvanceClassicStage / getClassicPostBattleDestination / swapDefeatedPokemon：奖励节点的前后衔接" },
+      { "file": "src/features/game/config/factoryBattle.ts", "reason": "heldItemPool（敌方伪持有物去重池，9 件）——本任务不改；理解它避免误复用" },
+      { "file": "src/features/game/config/factoryHeldItemIcons.ts", "reason": "持有物图标映射与 fallback；两件道具实测 404，需非图片兜底" },
+      { "file": "src/features/game/battle/battleLogText.ts", "reason": "HELD_ITEM_ZH：需补 heavy_duty_boots / loaded_dice 中文名；battleHeldItemName 是名称渲染口径" },
+      { "file": "src/features/game/view-model/state.ts", "reason": "视图状态字段落点（7 个新增字段）" },
+      { "file": "src/features/game/view-model/actions.ts", "reason": "动作契约落点（4 个新增动作 + 移除 devOpenRewardScreen）" },
+      { "file": "src/features/game/view-model/common.ts", "reason": "GameReward 类型；旧奖励屏与旧分析函数的形状" },
+      { "file": "src/features/game/components/GameView.tsx", "reason": "REWARD 路由与 InvalidSaveScreen（旧存档提示）均在此外；lucide 图标与 SSR 测试范式" },
+      { "file": "src/features/game/components/game-view/RewardScreen.tsx", "reason": "需改为委托新屏；旧六卡 UI 与重抽/确认领取按钮的现状" },
+      { "file": "src/features/game/components/game-view/FactorySwapScreen.tsx", "reason": "换怪/跳过屏：需加装备冲突提示与禁用；注意其已有 opponentLoadError 区块" },
+      { "file": "src/features/game/components/game-view/PokemonDetailPanel.tsx", "reason": "队员装备展示的既有口径（getFactoryHeldItemLabel / getFactoryHeldItemIcon），奖励屏队员选择应与之对齐" },
+      { "file": "src/features/game/config/rewardPools.ts", "reason": "旧奖池（FREE_REWARD_TYPE_WEIGHTS 等）：本任务只需不再使用，禁止引用" },
+      { "file": "src/types.ts", "reason": "GamePokemon 增 factoryEquippedHeldItemId；Move.battleData 供适用性判定" },
+      { "file": "src/uiAppConstants.ts", "reason": "ALL_ITEMS：七件均不在其中，确认装备链路不依赖它，勿把七件加入" }
+    ],
+    "auditor": [
+      { "file": ".agents/roles/auditor.md", "reason": "静态审查边界：不运行游戏" },
+      { "file": "docs/公开版需求矩阵.md", "reason": "验收条件与证据等级口径，回填时对齐" },
+      { "file": "docs/tasks/轮次事务/plan.md", "reason": "同一协作流程下的 plan 组织方式与验证计划粒度参照；ROUND_RESULT 相位既有语义" },
+      { "file": "docs/tasks/单线工厂奖励/tm-mapping-coverage.md", "reason": "TM allowlist 0/50 的证据：确认 TM 候选恒为空是本任务设计前提而非缺陷" },
+      { "file": "src/features/game/hooks/factoryResumeCheckpoint.ts", "reason": "hasRecoverableFactoryBaseCheckpoint / shouldReleaseFactoryBaseCheckpoint：BASE 检查点与 REWARD 的边界" },
+      { "file": "src/features/game/hooks/useBattleController.ts", "reason": "核对本任务未改动战斗控制器回合语义（PRD 显式非目标）" }
+    ],
+    "player": [
+      { "file": ".agents/roles/player.md", "reason": "实玩边界：不写实现代码；证据类型与记录格式" },
+      { "file": "docs/手机端试玩验收记录.md", "reason": "视口矩阵（390x844 / 844x390）与记录格式" },
+      { "file": "docs/tasks/单线工厂奖励/run-toxic-spikes-browser.mjs", "reason": "既有隔离 Playwright 脚本范式，端到端链路脚本可照此写" },
+      { "file": "docs/tasks/轮次事务/runtime.md", "reason": "既有 runtime.md 的记录体例与「未验场景」写法参照" },
+      { "file": "src/features/game/config/classicFlow.ts", "reason": "canAdvanceClassicStage / getClassicPostBattleDestination：端到端链路要经过的换怪/跳过与开战判定" },
+      { "file": "src/features/game/components/GameView.tsx", "reason": "屏幕路由：确认 REWARD 相位渲染的是新奖励屏而非旧奖励屏" },
+      { "file": "src/features/game/components/game-view/reward/RewardCard.tsx", "reason": "旧卡面的视觉/交互规格，作为新四卡屏视觉对齐参照（非实现依据）" }
+    ]
+  }
+}

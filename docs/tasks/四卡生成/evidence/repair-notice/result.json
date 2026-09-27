@@ -1,0 +1,241 @@
+{
+  "name": "repair-notice",
+  "octet": 47,
+  "fixture": "fx-duplicate-baselines.json",
+  "steps": [
+    {
+      "name": "01-repaired-reward-390x844",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 2,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": true,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "READY",
+          "cardItemIds": [
+            "loaded_dice",
+            "focus_band",
+            "heavy_duty_boots",
+            "quick_claw"
+          ]
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": "scope_lens",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "choice_band",
+            "current": "scope_lens",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": "检测到队伍中有重复的「本局返还基准」（可能来自外部导入的存档），已自动规整：先持有的队员保留该装备，重复者回落其租借原配（原配不可用时置为空装备位）。任何道具都没有被丢弃、也没有进入背包，挑战可以继续。 知道了",
+        "bodyTail": "0 BP 3/7 轮次 2 连胜 检测到队伍中有重复的「本局返还基准」（可能来自外部导入的存档），已自动规整：先持有的队员保留该装备，重复者回落其租借原配（原配不可用时置为空装备位）。任何道具都没有被丢弃、也没有进入背包，挑战可以继续。 知道了 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 气势头带 厚底 厚底靴 条件性：仅在入场时已铺设隐形岩 / 毒菱时有收益；接地毒属性仍吸收毒菱。 先制之爪 选择装备队员 呆呆兽 焦点镜 独角犀牛 讲究头带 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "02-repaired-reward-844x390",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 2,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": true,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "READY",
+          "cardItemIds": [
+            "loaded_dice",
+            "focus_band",
+            "heavy_duty_boots",
+            "quick_claw"
+          ]
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": "scope_lens",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "choice_band",
+            "current": "scope_lens",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": "检测到队伍中有重复的「本局返还基准」（可能来自外部导入的存档），已自动规整：先持有的队员保留该装备，重复者回落其租借原配（原配不可用时置为空装备位）。任何道具都没有被丢弃、也没有进入背包，挑战可以继续。 知道了",
+        "bodyTail": "0 BP 3/7 轮次 2 连胜 检测到队伍中有重复的「本局返还基准」（可能来自外部导入的存档），已自动规整：先持有的队员保留该装备，重复者回落其租借原配（原配不可用时置为空装备位）。任何道具都没有被丢弃、也没有进入背包，挑战可以继续。 知道了 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 气势头带 厚底 厚底靴 条件性：仅在入场时已铺设隐形岩 / 毒菱时有收益；接地毒属性仍吸收毒菱。 先制之爪 选择装备队员 呆呆兽 焦点镜 独角犀牛 讲究头带 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容",
+        "viewport": [
+          844,
+          390
+        ],
+        "docSize": [
+          844,
+          390
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "notice": "检测到队伍中有重复的「本局返还基准」（可能来自外部导入的存档），已自动规整：先持有的队员保留该装备，重复者回落其租借原配（原配不可用时置为空装备位）。任何道具都没有被丢弃、也没有进入背包，挑战可以继续。 知道了",
+  "repairedFlag": true,
+  "cards": [
+    "loaded_dice",
+    "focus_band",
+    "heavy_duty_boots",
+    "quick_claw"
+  ],
+  "teammates": [
+    {
+      "id": 79,
+      "name": "slowpoke",
+      "original": "leftovers",
+      "equipped": "scope_lens",
+      "current": "scope_lens",
+      "hp": 151
+    },
+    {
+      "id": 111,
+      "name": "rhyhorn",
+      "original": "choice_band",
+      "equipped": "choice_band",
+      "current": "scope_lens",
+      "hp": 142
+    },
+    {
+      "id": 72,
+      "name": "tentacool",
+      "original": "scope_lens",
+      "equipped": "kings_rock",
+      "current": "kings_rock",
+      "hp": 102
+    }
+  ],
+  "assertions": {
+    "noInvalidSaveScreen": true,
+    "repairedFlagTrue": true,
+    "noticeVisible": true,
+    "noticeMentionsOriginalKept": true,
+    "teamNowUnique": true,
+    "originalFieldUntouched": true,
+    "fourCardsStillProduced": true,
+    "noDeadEnd": true
+  }
+}

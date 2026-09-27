@@ -1,0 +1,438 @@
+{
+  "name": "failure-semantics-reward",
+  "octet": 49,
+  "steps": [
+    {
+      "name": "01-prepare-write-failed",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 2,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "PENDING"
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "heavy_duty_boots",
+            "current": "heavy_duty_boots",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 2 连胜 奖励待准备 换怪结果已保存，奖励卡尚未准备完成。请保留存档，稍后继续。 奖励卡保存失败，进度未改变。请检查存储空间后重试。 重新准备奖励卡",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "02-retry-prepared",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 2,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "READY",
+          "cardItemIds": [
+            "scope_lens",
+            "focus_band",
+            "choice_band",
+            "loaded_dice"
+          ]
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "heavy_duty_boots",
+            "current": "heavy_duty_boots",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 2 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 焦点镜 气势头带 讲究头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 选择装备队员 呆呆兽 厚底靴 独角犀牛 先制之爪 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "03-claim-write-failed",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 2,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "READY",
+          "cardItemIds": [
+            "scope_lens",
+            "focus_band",
+            "choice_band",
+            "loaded_dice"
+          ]
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "heavy_duty_boots",
+            "current": "heavy_duty_boots",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 2 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 焦点镜 气势头带 讲究头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 选择装备队员 呆呆兽 厚底靴 独角犀牛 先制之爪 玛瑙水母 王者之证 确认替换持有物 呆呆兽：厚底靴 → 焦点镜 原装备会被替换，不会放入背包。 奖励保存失败，请检查所选队员和存储空间后重试。 重试保存 返回选择",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "04-claim-retried",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 2,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "CLAIMED",
+          "cardItemIds": [
+            "scope_lens",
+            "focus_band",
+            "choice_band",
+            "loaded_dice"
+          ],
+          "claim": {
+            "itemId": "scope_lens",
+            "targetIndex": 0
+          }
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": "scope_lens",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 2 连胜 奖励已领取 焦点镜已装备给呆呆兽；原装备已直接移除、未进入背包。领取结果已保存。 继续挑战",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    }
+  ],
+  "errors": [
+    "console Factory reward card preparation failed Error: injected quota failure (prepare)\n    at proto.setItem (<anonymous>:10:17)\n    at commitFactoryRewardReady (http://127.0.0.49:4300/src/services/saveManager.ts:1084:23)\n    at http://127.0.0.49:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790479594270:377:21\n    at Object.react_stack_bottom_frame (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:18565:20)\n    at runWithFiberInDEV (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:995:72)\n    at commitHookEffectListMount (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:9409:163)\n    at commitHookPassiveMountEffects (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:9463:60)\n    at commitPassiveMountOnFiber (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:11038:29)\n    at recursivelyTraversePassiveMountEffects (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:11008:13)\n    at commitPassiveMountOnFiber (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:11199:13)",
+    "console Factory item reward save failed Error: injected quota failure (failNextWrite)\n    at proto.setItem (eval at evaluate (:311:30), <anonymous>:11:15)\n    at commitFactoryItemRewardClaim (http://127.0.0.49:4300/src/services/saveManager.ts:1129:23)\n    at http://127.0.0.49:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790479594270:1259:26\n    at onClick (http://127.0.0.49:4300/src/features/game/components/game-view/reward/FactoryItemRewardScreen.tsx:404:130)\n    at executeDispatch (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:13620:11)\n    at runWithFiberInDEV (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:995:72)\n    at processDispatchQueue (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:13656:37)\n    at http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:14069:11\n    at batchedUpdates$1 (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:2624:42)\n    at dispatchEventForPluginEventSystem (http://127.0.0.49:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:13761:9)"
+  ],
+  "httpErrors": [],
+  "prepareFailure": {
+    "checkpointStatus": "PENDING",
+    "phase": "REWARD",
+    "stage": 3,
+    "prepareFailures": 1,
+    "errorVisible": true,
+    "bodyTail": "0 BP 3/7 轮次 2 连胜 奖励待准备 换怪结果已保存，奖励卡尚未准备完成。请保留存档，稍后继续。 奖励卡保存失败，进度未改变。请检查存储空间后重试。 重新准备奖励卡"
+  },
+  "prepareRecovered": {
+    "checkpointStatus": "READY",
+    "cards": [
+      "scope_lens",
+      "focus_band",
+      "choice_band",
+      "loaded_dice"
+    ],
+    "cardCount": 4,
+    "distinct": 4,
+    "duplicates": false,
+    "stage": 3
+  },
+  "claimTarget": "scope_lens",
+  "claimFailure": {
+    "checkpointStatus": "READY",
+    "equipUnchanged": true,
+    "errorVisible": true,
+    "failWriteStats": {
+      "armed": false,
+      "hits": 1
+    },
+    "bodyTail": "0 BP 3/7 轮次 2 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 焦点镜 气势头带 讲究头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 选择装备队员 呆呆兽 厚底靴 独角犀牛 先制之爪 玛瑙水母 王者之证 确认替换持有物 呆呆兽：厚底靴 → 焦点镜 原装备会被替换，不会放入背包。 奖励保存失败，请检查所选队员和存储空间后重试。 重试保存 返回选择"
+  },
+  "claimRecovered": {
+    "checkpointStatus": "CLAIMED",
+    "claim": {
+      "itemId": "scope_lens",
+      "targetIndex": 0
+    },
+    "equip": "scope_lens",
+    "stage": 3
+  },
+  "assertions": {
+    "prepareFailureStayedPending": true,
+    "prepareFailureStageUnchanged": true,
+    "prepareFailureHonestError": true,
+    "retryProducedFourDistinct": true,
+    "noPaddingOnRetry": true,
+    "claimFailureStayedReady": true,
+    "claimFailureEquipUnchanged": true,
+    "claimFailureHonestError": true,
+    "claimRetrySucceeded": true,
+    "claimRetryStageUnchanged": true
+  }
+}

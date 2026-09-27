@@ -1,0 +1,81 @@
+{
+  "commit": "0394e9d (worktree dirty, codex/four-card-reward)",
+  "origin": "http://127.0.0.21:4300",
+  "means": "模拟视口 390×844 + DEV Win 辅助取胜 + 真实 UI 触控",
+  "steps": [
+    {
+      "name": "stage1-battle-ready-390",
+      "state": {
+        "schema": 14,
+        "challengeStatus": 1,
+        "runSupply": {
+          "runId": "run:cd361805-03c5-44a1-8dea-27d82e9930c3",
+          "tickets": 0,
+          "lastCreditedStage": 0
+        },
+        "runId": "run:cd361805-03c5-44a1-8dea-27d82e9930c3",
+        "phase": "BATTLE",
+        "stage": 1,
+        "roundResult": null,
+        "streak": 0,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": null,
+        "player": [
+          {
+            "id": 81,
+            "name": "magnemite",
+            "equipped": "leftovers",
+            "original": "leftovers",
+            "current": "leftovers"
+          },
+          {
+            "id": 52,
+            "name": "meowth",
+            "equipped": "choice_band",
+            "original": "choice_band",
+            "current": "choice_band"
+          },
+          {
+            "id": 88,
+            "name": "grimer",
+            "equipped": "scope_lens",
+            "original": "scope_lens",
+            "current": "scope_lens"
+          }
+        ],
+        "enemy": [
+          {
+            "id": 5,
+            "name": "charmeleon",
+            "equipped": "white_herb",
+            "original": "white_herb",
+            "current": "white_herb"
+          },
+          {
+            "id": 29,
+            "name": "nidoran-f",
+            "equipped": "quick_claw",
+            "original": "quick_claw",
+            "current": "quick_claw"
+          },
+          {
+            "id": 56,
+            "name": "mankey",
+            "equipped": "bright_powder",
+            "original": "bright_powder",
+            "current": "bright_powder"
+          }
+        ],
+        "inventory": [],
+        "trainer": "FRONTIER_TRAINER_ELIZA"
+      }
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "uiLang": "zh-CN",
+  "devModeInjected": true,
+  "failure": "TimeoutError: locator.tap: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Win', exact: true })\u001b[22m\n",
+  "lastBody": "0\nBP\n1/7\n轮次\n0\n连胜\n火恐龙\n♀\nLV.50\n火\nHP\n100%\n小磁怪\n◇\nLV.50\n电\n钢\nHP\n85/85\n战斗日志\nFCT-01\n\n对手 派出了 火恐龙！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n轮唱\n一般\n威力 60\n命中 100\nPP 15/15\n剧毒\n毒\n威力 --\n命中 90\nPP 10/10\n打雷\n电\n威力 110\n命中 70\nPP 10/10\n瞬间移动\n超能\n威力 --\n命中 --\nPP 20/20"
+}

@@ -1,0 +1,393 @@
+{
+  "name": "same-version-import-export",
+  "octet": 62,
+  "steps": [
+    {
+      "name": "01-frozen-ready-source",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 2,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "READY",
+          "cardItemIds": [
+            "focus_band",
+            "loaded_dice",
+            "choice_band",
+            "scope_lens"
+          ]
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "heavy_duty_boots",
+            "current": "heavy_duty_boots",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 2 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 气势头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 讲究头带 焦点镜 选择装备队员 呆呆兽 厚底靴 独角犀牛 先制之爪 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "02-clean-base-screen",
+      "state": {
+        "schema": 14,
+        "runId": null,
+        "runSupply": {
+          "runId": null,
+          "tickets": 0,
+          "lastCreditedStage": 0
+        },
+        "phase": "EMPTY",
+        "stage": null,
+        "roundResult": null,
+        "rewardCheckpoint": null,
+        "player": [],
+        "enemy": [],
+        "inventoryItemIds": [],
+        "repairNotice": null,
+        "bodyTail": "0 BP 0/7 轮次 0 连胜 待命 对战工厂 开始下一轮挑战 开始挑战 伙伴：伊布 商店 培育 图鉴 事件 设置",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "03-settings-screen",
+      "state": {
+        "schema": 14,
+        "runId": null,
+        "runSupply": {
+          "runId": null,
+          "tickets": 0,
+          "lastCreditedStage": 0
+        },
+        "phase": "EMPTY",
+        "stage": null,
+        "roundResult": null,
+        "rewardCheckpoint": null,
+        "player": [],
+        "enemy": [],
+        "inventoryItemIds": [],
+        "repairNotice": null,
+        "bodyTail": "设置 返回 语言 中文 ENGLISH 当前世代 扩展世代随机池：九选一。所选世代决定下一次新挑战中随机出现的宝可梦。 关都 第一世代 存档管理 导出存档 导入存档 通知 当前版本暂不提供消息推送与提醒。 版权与素材来源 查看版权说明 DEV 面板 开启 关闭",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "04-after-export",
+      "state": {
+        "schema": 14,
+        "runId": null,
+        "runSupply": {
+          "runId": null,
+          "tickets": 0,
+          "lastCreditedStage": 0
+        },
+        "phase": "EMPTY",
+        "stage": null,
+        "roundResult": null,
+        "rewardCheckpoint": null,
+        "player": [],
+        "enemy": [],
+        "inventoryItemIds": [],
+        "repairNotice": null,
+        "bodyTail": "设置 返回 语言 中文 ENGLISH 当前世代 扩展世代随机池：九选一。所选世代决定下一次新挑战中随机出现的宝可梦。 关都 第一世代 存档管理 导出存档 导入存档 已导出存档文件。 通知 当前版本暂不提供消息推送与提醒。 版权与素材来源 查看版权说明 DEV 面板 开启 关闭",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "05-after-import",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 2,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "READY",
+          "cardItemIds": [
+            "focus_band",
+            "loaded_dice",
+            "choice_band",
+            "scope_lens"
+          ]
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "heavy_duty_boots",
+            "current": "heavy_duty_boots",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 2 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 气势头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 讲究头带 焦点镜 选择装备队员 呆呆兽 厚底靴 独角犀牛 先制之爪 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "frozenCards": [
+    "focus_band",
+    "loaded_dice",
+    "choice_band",
+    "scope_lens"
+  ],
+  "frozenStage": 3,
+  "importSource": {
+    "stage": 3,
+    "status": "READY",
+    "cards": [
+      "focus_band",
+      "loaded_dice",
+      "choice_band",
+      "scope_lens"
+    ],
+    "bytes": 4017750
+  },
+  "cleanBootScreen": {
+    "hasSettingsDock": true,
+    "bodyTail": "0 BP 0/7 轮次 0 连胜 待命 对战工厂 开始下一轮挑战 开始挑战 伙伴：伊布 商店 培育 图鉴 事件 设置"
+  },
+  "settingsReachable": true,
+  "export": {
+    "filename": "pokefactory-save-20260927-1136.json",
+    "bytes": 3214,
+    "schemaVersion": 14,
+    "companionSpeciesId": 133,
+    "runId": null,
+    "battleResumeStatus": "EMPTY"
+  },
+  "assertions": {
+    "exportIsValidCurrentSchema": true,
+    "exportMatchesLiveSave": true,
+    "importReachedRewardNode": true,
+    "cardsIdenticalAfterImport": true,
+    "stageUnchangedAfterImport": true
+  },
+  "writeTrace": [
+    {
+      "t": 1790480212122,
+      "key": "pokefactory_save_v1",
+      "bytes": 4017750,
+      "phase": "REWARD",
+      "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+      "checkpoint": "READY"
+    }
+  ],
+  "reloadedAfterImport": "reload",
+  "importDiagnostics": {
+    "phase": "REWARD",
+    "checkpoint": {
+      "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+      "stage": 3,
+      "status": "READY",
+      "cardItemIds": [
+        "focus_band",
+        "loaded_dice",
+        "choice_band",
+        "scope_lens"
+      ]
+    },
+    "bytes": 4017750,
+    "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+    "statusTexts": [],
+    "url": "http://127.0.0.62:4300/",
+    "body": "0 BP 3/7 轮次 2 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 气势头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 讲究头带 焦点镜 选择装备队员 呆呆兽 厚底靴 独角犀牛 先制之爪 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容"
+  },
+  "importedState": {
+    "phase": "REWARD",
+    "stage": 3,
+    "status": "READY",
+    "cards": [
+      "focus_band",
+      "loaded_dice",
+      "choice_band",
+      "scope_lens"
+    ],
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "original": "leftovers",
+        "equipped": "heavy_duty_boots",
+        "current": "heavy_duty_boots",
+        "hp": 151
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "original": "choice_band",
+        "equipped": "quick_claw",
+        "current": "quick_claw",
+        "hp": 142
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "original": "scope_lens",
+        "equipped": "kings_rock",
+        "current": "kings_rock",
+        "hp": 102
+      }
+    ]
+  },
+  "importOverwriteDiagnosis": {
+    "writes": 1,
+    "importedWriteIndex": 0,
+    "writeAfterImportedSave": []
+  }
+}

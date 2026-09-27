@@ -1,0 +1,741 @@
+{
+  "name": "consumed-baseline",
+  "octet": 43,
+  "fixture": "fx-consumed-stage3-battle.json",
+  "steps": [
+    {
+      "name": "01-battle-ready",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 2,
+          "lastCreditedStage": 2
+        },
+        "challengeStatus": 1,
+        "phase": "BATTLE",
+        "stage": 3,
+        "roundResult": null,
+        "streak": 2,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": null,
+            "hp": 400
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 400
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 400
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 1
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 1
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 1
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 2 连胜 比比鸟 ♂ LV.50 一般 飞行 HP 100% 呆呆兽 ♂ LV.50 水 超能 HP 400/400 战斗日志 FCT-01 等待战斗指令。 战斗 变化 背包 宝可梦 逃跑 撞击 一般 威力 150 命中 100 PP 20/20 撞击 一般 威力 40 命中 100 PP 35/35 猛撞 一般 威力 90 命中 85 PP 20/20 腹鼓 一般 威力 -- 命中 -- PP 10/10",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "02-round-result",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "ROUND_RESULT",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 3,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": null,
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 0
+          },
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 0
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 0
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 3 连胜 本场胜利 本场胜利 当前进度 组别进度：3/7 连胜数: 3 交换次数: 0 本局补给券：3 对手信息 敌方 AI 档位: RANDOM REECE / RUNNING_TRIATHLETE_M 前往换怪",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "03-factory-swap",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "FACTORY_SWAP",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 3,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": null,
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 0
+          },
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 0
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 0
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 3 连胜 对战工厂：交换宝可梦 先选择我方宝可梦，再选择一只对手宝可梦完成交换。 我的队伍 可交换 我的已选 水 超能 呆呆兽 我的已选 地面 岩石 独角犀牛 选我方 水 毒 玛瑙水母 选我方 对手队伍 待选择 一般 飞行 大葱鸭 选对手 一般 飞行 比比鸟 选对手 一般 伊布 选对手 当前选择 呆呆兽 交换目标 未选择 跳过交换 确认交换",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "04-reward-ready",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 3,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "READY",
+          "cardItemIds": [
+            "choice_band",
+            "loaded_dice",
+            "focus_band",
+            "heavy_duty_boots"
+          ]
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": null,
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 0
+          },
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 0
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 0
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 3 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 讲究头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 气势头带 厚底 厚底靴 条件性：仅在入场时已铺设隐形岩 / 毒菱时有收益；接地毒属性仍吸收毒菱。 选择装备队员 呆呆兽 焦点镜 独角犀牛 先制之爪 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "05-cards-after-consumed",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 3,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "READY",
+          "cardItemIds": [
+            "choice_band",
+            "loaded_dice",
+            "focus_band",
+            "heavy_duty_boots"
+          ]
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": null,
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 0
+          },
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 0
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 0
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 3 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 讲究头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 气势头带 厚底 厚底靴 条件性：仅在入场时已铺设隐形岩 / 毒菱时有收益；接地毒属性仍吸收毒菱。 选择装备队员 呆呆兽 焦点镜 独角犀牛 先制之爪 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "beforeBattle": {
+    "schema": 14,
+    "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+    "runSupply": {
+      "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+      "tickets": 2,
+      "lastCreditedStage": 2
+    },
+    "challengeStatus": 1,
+    "phase": "BATTLE",
+    "stage": 3,
+    "roundResult": null,
+    "streak": 2,
+    "swapCount": 0,
+    "heldItemBaselineRepaired": null,
+    "rewardCheckpoint": null,
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "original": "leftovers",
+        "equipped": "scope_lens",
+        "current": null,
+        "hp": 400
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "original": "choice_band",
+        "equipped": "quick_claw",
+        "current": "quick_claw",
+        "hp": 400
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "original": "scope_lens",
+        "equipped": "kings_rock",
+        "current": "kings_rock",
+        "hp": 400
+      }
+    ],
+    "enemy": [
+      {
+        "id": 17,
+        "name": "pidgeotto",
+        "original": "white-herb",
+        "equipped": "white-herb",
+        "current": "white-herb",
+        "hp": 1
+      },
+      {
+        "id": 133,
+        "name": "eevee",
+        "original": "salac-berry",
+        "equipped": "salac-berry",
+        "current": "salac-berry",
+        "hp": 1
+      },
+      {
+        "id": 83,
+        "name": "farfetchd",
+        "original": "leek",
+        "equipped": "leek",
+        "current": "leek",
+        "hp": 1
+      }
+    ],
+    "inventoryItemIds": [],
+    "totalRents": 0,
+    "repairNotice": null,
+    "bodyTail": "0 BP 3/7 轮次 2 连胜 比比鸟 ♂ LV.50 一般 飞行 HP 100% 呆呆兽 ♂ LV.50 水 超能 HP 400/400 战斗日志 FCT-01 等待战斗指令。 战斗 变化 背包 宝可梦 逃跑 撞击 一般 威力 150 命中 100 PP 20/20 撞击 一般 威力 40 命中 100 PP 35/35 猛撞 一般 威力 90 命中 85 PP 20/20 腹鼓 一般 威力 -- 命中 -- PP 10/10",
+    "viewport": [
+      390,
+      844
+    ],
+    "docSize": [
+      390,
+      844
+    ]
+  },
+  "win": {
+    "ok": true,
+    "turns": [
+      {
+        "turn": 0,
+        "action": "move",
+        "pick": 0,
+        "moveText": "撞击 一般 威力 150 命中 100 PP 20/20"
+      },
+      {
+        "turn": 1,
+        "action": "move",
+        "pick": 0,
+        "moveText": "撞击 一般 威力 150 命中 100 PP 19/20"
+      },
+      {
+        "turn": 2,
+        "action": "move",
+        "pick": 0,
+        "moveText": "撞击 一般 威力 150 命中 100 PP 18/20"
+      },
+      {
+        "turn": 3,
+        "action": "no-damaging-move"
+      }
+    ]
+  },
+  "rewardDom": {
+    "heading": "选择一件持有物",
+    "cards": [
+      {
+        "text": "讲究头带",
+        "pressed": "false",
+        "disabled": false
+      },
+      {
+        "text": "机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。",
+        "pressed": "false",
+        "disabled": false
+      },
+      {
+        "text": "气势头带",
+        "pressed": "false",
+        "disabled": false
+      },
+      {
+        "text": "厚底 厚底靴 条件性：仅在入场时已铺设隐形岩 / 毒菱时有收益；接地毒属性仍吸收毒菱。",
+        "pressed": "false",
+        "disabled": false
+      }
+    ],
+    "teammates": [
+      {
+        "text": "呆呆兽 焦点镜",
+        "disabled": true
+      },
+      {
+        "text": "独角犀牛 先制之爪",
+        "disabled": true
+      },
+      {
+        "text": "玛瑙水母 王者之证",
+        "disabled": true
+      }
+    ],
+    "confirm": null,
+    "hasConfirmButton": false,
+    "imgs": [
+      {
+        "src": "/api/pokeapi-sprites/items/choice-band.png",
+        "naturalWidth": 30,
+        "complete": true,
+        "inReward": true
+      },
+      {
+        "src": "/api/pokeapi-sprites/items/focus-band.png",
+        "naturalWidth": 30,
+        "complete": true,
+        "inReward": true
+      }
+    ],
+    "brokenImgs": [],
+    "body": "0 BP 3/7 轮次 3 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 讲究头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 气势头带 厚底 厚底靴 条件性：仅在入场时已铺设隐形岩 / 毒菱时有收益；接地毒属性仍吸收毒菱。 选择装备队员 呆呆兽 焦点镜 独角犀牛 先制之爪 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容"
+  },
+  "cards": [
+    "choice_band",
+    "loaded_dice",
+    "focus_band",
+    "heavy_duty_boots"
+  ],
+  "assertions": {
+    "consumedslotCurrentIsNull": true,
+    "consumedslotBaselineIsScopeLens": true,
+    "scopeLensNotInCards": true,
+    "fourCards": true,
+    "distinct": true,
+    "matchesExpectedSet": true
+  },
+  "cardTexts": [
+    {
+      "text": "讲究头带",
+      "pressed": "false",
+      "disabled": false
+    },
+    {
+      "text": "机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。",
+      "pressed": "false",
+      "disabled": false
+    },
+    {
+      "text": "气势头带",
+      "pressed": "false",
+      "disabled": false
+    },
+    {
+      "text": "厚底 厚底靴 条件性：仅在入场时已铺设隐形岩 / 毒菱时有收益；接地毒属性仍吸收毒菱。",
+      "pressed": "false",
+      "disabled": false
+    }
+  ],
+  "stateAfter": {
+    "schema": 14,
+    "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+    "runSupply": {
+      "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+      "tickets": 3,
+      "lastCreditedStage": 3
+    },
+    "challengeStatus": 1,
+    "phase": "REWARD",
+    "stage": 3,
+    "roundResult": "WIN",
+    "streak": 3,
+    "swapCount": 0,
+    "heldItemBaselineRepaired": null,
+    "rewardCheckpoint": {
+      "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+      "stage": 3,
+      "status": "READY",
+      "cardItemIds": [
+        "choice_band",
+        "loaded_dice",
+        "focus_band",
+        "heavy_duty_boots"
+      ]
+    },
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "original": "leftovers",
+        "equipped": "scope_lens",
+        "current": null,
+        "hp": 151
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "original": "choice_band",
+        "equipped": "quick_claw",
+        "current": "quick_claw",
+        "hp": 142
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "original": "scope_lens",
+        "equipped": "kings_rock",
+        "current": "kings_rock",
+        "hp": 102
+      }
+    ],
+    "enemy": [
+      {
+        "id": 83,
+        "name": "farfetchd",
+        "original": "leek",
+        "equipped": "leek",
+        "current": "leek",
+        "hp": 0
+      },
+      {
+        "id": 17,
+        "name": "pidgeotto",
+        "original": "white-herb",
+        "equipped": "white-herb",
+        "current": "white-herb",
+        "hp": 0
+      },
+      {
+        "id": 133,
+        "name": "eevee",
+        "original": "salac-berry",
+        "equipped": "salac-berry",
+        "current": "salac-berry",
+        "hp": 0
+      }
+    ],
+    "inventoryItemIds": [],
+    "totalRents": 0,
+    "repairNotice": null,
+    "bodyTail": "0 BP 3/7 轮次 3 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 讲究头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 气势头带 厚底 厚底靴 条件性：仅在入场时已铺设隐形岩 / 毒菱时有收益；接地毒属性仍吸收毒菱。 选择装备队员 呆呆兽 焦点镜 独角犀牛 先制之爪 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容",
+    "viewport": [
+      390,
+      844
+    ],
+    "docSize": [
+      390,
+      844
+    ]
+  }
+}

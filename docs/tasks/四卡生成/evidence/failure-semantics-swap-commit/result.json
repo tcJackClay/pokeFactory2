@@ -1,0 +1,280 @@
+{
+  "name": "failure-semantics-swap-commit",
+  "octet": 60,
+  "fixture": "fx-comboA-stage3-battle.json",
+  "steps": [
+    {
+      "name": "01-swap-commit-failed",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "FACTORY_SWAP",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 3,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "heavy_duty_boots",
+            "current": "heavy_duty_boots",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 0
+          },
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 0
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 0
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 3 连胜 对战工厂：交换宝可梦 先选择我方宝可梦，再选择一只对手宝可梦完成交换。 我的队伍 可交换 我的已选 水 超能 呆呆兽 我的已选 地面 岩石 独角犀牛 选我方 水 毒 玛瑙水母 选我方 对手队伍 待选择 一般 飞行 大葱鸭 选对手 一般 飞行 比比鸟 选对手 一般 伊布 选对手 奖励进度保存失败，请重试。 当前选择 呆呆兽 交换目标 未选择 跳过交换 确认交换",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "02-retry-succeeded",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        },
+        "challengeStatus": 1,
+        "phase": "REWARD",
+        "stage": 3,
+        "roundResult": "WIN",
+        "streak": 3,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "READY",
+          "cardItemIds": [
+            "scope_lens",
+            "focus_band",
+            "choice_band",
+            "loaded_dice"
+          ]
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "heavy_duty_boots",
+            "current": "heavy_duty_boots",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "leek",
+            "current": "leek",
+            "hp": 0
+          },
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "white-herb",
+            "current": "white-herb",
+            "hp": 0
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "salac-berry",
+            "current": "salac-berry",
+            "hp": 0
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 3/7 轮次 3 连胜 选择一件持有物 四选一，选定后为当前队伍的一名成员装备。 焦点镜 气势头带 讲究头带 机变 机变骰子 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 选择装备队员 呆呆兽 厚底靴 独角犀牛 先制之爪 玛瑙水母 王者之证 先选择一张奖励卡。 查看替换内容",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    }
+  ],
+  "errors": [
+    "console Reward checkpoint save failed Error: injected quota failure (failNextWrite)\n    at proto.setItem (eval at evaluate (:311:30), <anonymous>:11:15)\n    at commitFactoryRewardPending (http://127.0.0.60:4300/src/services/saveManager.ts:1046:23)\n    at http://127.0.0.60:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790479594270:1199:30\n    at Object.current (http://127.0.0.60:4300/src/features/game/config/classicFlow.ts:16:18)\n    at http://127.0.0.60:4300/src/features/game/hooks/usePokeFactoryGame.ts?t=1790479594270:1196:33\n    at executeDispatch (http://127.0.0.60:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:13620:11)\n    at runWithFiberInDEV (http://127.0.0.60:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:995:72)\n    at processDispatchQueue (http://127.0.0.60:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:13656:37)\n    at http://127.0.0.60:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:14069:11\n    at batchedUpdates$1 (http://127.0.0.60:4300/node_modules/.vite/deps/react-dom_client.js?v=d16bbd8e:2624:42)"
+  ],
+  "httpErrors": [],
+  "before": {
+    "stage": 3,
+    "phase": "FACTORY_SWAP",
+    "checkpoint": null,
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "original": "leftovers",
+        "equipped": "heavy_duty_boots",
+        "current": "heavy_duty_boots",
+        "hp": 151
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "original": "choice_band",
+        "equipped": "quick_claw",
+        "current": "quick_claw",
+        "hp": 142
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "original": "scope_lens",
+        "equipped": "kings_rock",
+        "current": "kings_rock",
+        "hp": 102
+      }
+    ],
+    "roundResult": "WIN"
+  },
+  "afterFailure": {
+    "stage": 3,
+    "phase": "FACTORY_SWAP",
+    "checkpoint": null,
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "original": "leftovers",
+        "equipped": "heavy_duty_boots",
+        "current": "heavy_duty_boots",
+        "hp": 151
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "original": "choice_band",
+        "equipped": "quick_claw",
+        "current": "quick_claw",
+        "hp": 142
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "original": "scope_lens",
+        "equipped": "kings_rock",
+        "current": "kings_rock",
+        "hp": 102
+      }
+    ],
+    "swapCount": 0,
+    "errorVisible": true,
+    "bodyTail": "0 BP 3/7 轮次 3 连胜 对战工厂：交换宝可梦 先选择我方宝可梦，再选择一只对手宝可梦完成交换。 我的队伍 可交换 我的已选 水 超能 呆呆兽 我的已选 地面 岩石 独角犀牛 选我方 水 毒 玛瑙水母 选我方 对手队伍 待选择 一般 飞行 大葱鸭 选对手 一般 飞行 比比鸟 选对手 一般 伊布 选对手 奖励进度保存失败，请重试。 当前选择 呆呆兽 交换目标 未选择 跳过交换 确认交换",
+    "failWriteStats": {
+      "armed": false,
+      "hits": 1
+    }
+  },
+  "recovered": {
+    "stage": 3,
+    "status": "READY",
+    "cards": [
+      "scope_lens",
+      "focus_band",
+      "choice_band",
+      "loaded_dice"
+    ]
+  },
+  "assertions": {
+    "stayedOnSwapScreen": true,
+    "stageNotAdvanced": true,
+    "noRewardCheckpointWritten": true,
+    "playerUntouched": true,
+    "honestErrorShown": true,
+    "injectedFailureActuallyFired": true,
+    "retryReachedReward": true,
+    "retryProducedFourDistinct": true,
+    "noDuplicateCards": true
+  }
+}

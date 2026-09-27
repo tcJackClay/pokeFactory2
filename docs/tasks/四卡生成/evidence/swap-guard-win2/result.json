@@ -1,0 +1,340 @@
+{
+  "name": "swap-guard-win2",
+  "octet": 56,
+  "stage": 2,
+  "steps": [
+    {
+      "name": "01-swap-screen",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 2,
+          "lastCreditedStage": 2
+        },
+        "challengeStatus": 1,
+        "phase": "FACTORY_SWAP",
+        "stage": 2,
+        "roundResult": "WIN",
+        "streak": 1,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": "scope_lens",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "focus_band",
+            "current": "focus_band",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "choice_band",
+            "current": "choice_band",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 2/7 轮次 1 连胜 对战工厂：交换宝可梦 先选择我方宝可梦，再选择一只对手宝可梦完成交换。 我的队伍 可交换 我的已选 水 超能 呆呆兽 我的已选 地面 岩石 独角犀牛 选我方 水 毒 玛瑙水母 选我方 对手队伍 待选择 一般 飞行 比比鸟 选对手 一般 伊布 选对手 一般 飞行 大葱鸭 选对手 当前选择 呆呆兽 交换目标 未选择 跳过交换 确认交换",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "02-conflicting-swap-blocked",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 2,
+          "lastCreditedStage": 2
+        },
+        "challengeStatus": 1,
+        "phase": "FACTORY_SWAP",
+        "stage": 2,
+        "roundResult": "WIN",
+        "streak": 1,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": "scope_lens",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "focus_band",
+            "current": "focus_band",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "choice_band",
+            "current": "choice_band",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 2/7 轮次 1 连胜 对战工厂：交换宝可梦 先选择我方宝可梦，再选择一只对手宝可梦完成交换。 我的队伍 可交换 我的已选 水 超能 呆呆兽 我的已选 地面 岩石 独角犀牛 选我方 水 毒 玛瑙水母 选我方 对手队伍 可交换 一般 飞行 比比鸟 选对手 一般 伊布 选对手 目标已选 一般 飞行 大葱鸭 目标已选 王者之证与留下的玛瑙水母装备重复。请选择其他换怪组合，或跳过换怪。 当前选择 呆呆兽 交换目标 大葱鸭 跳过交换 确认交换",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    },
+    {
+      "name": "03-legal-swap-allowed",
+      "state": {
+        "schema": 14,
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 2,
+          "lastCreditedStage": 2
+        },
+        "challengeStatus": 1,
+        "phase": "FACTORY_SWAP",
+        "stage": 2,
+        "roundResult": "WIN",
+        "streak": 1,
+        "swapCount": 0,
+        "heldItemBaselineRepaired": null,
+        "rewardCheckpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": "scope_lens",
+            "hp": 151
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw",
+            "hp": 142
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 102
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "name": "pidgeotto",
+            "original": "white-herb",
+            "equipped": "focus_band",
+            "current": "focus_band",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "name": "eevee",
+            "original": "salac-berry",
+            "equipped": "choice_band",
+            "current": "choice_band",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "name": "farfetchd",
+            "original": "leek",
+            "equipped": "kings_rock",
+            "current": "kings_rock",
+            "hp": 113
+          }
+        ],
+        "inventoryItemIds": [],
+        "totalRents": 0,
+        "repairNotice": null,
+        "bodyTail": "0 BP 2/7 轮次 1 连胜 对战工厂：交换宝可梦 先选择我方宝可梦，再选择一只对手宝可梦完成交换。 我的队伍 可交换 我的已选 水 超能 呆呆兽 我的已选 地面 岩石 独角犀牛 选我方 水 毒 玛瑙水母 选我方 对手队伍 可交换 目标已选 一般 飞行 比比鸟 目标已选 一般 伊布 选对手 一般 飞行 大葱鸭 选对手 当前选择 呆呆兽 交换目标 比比鸟 跳过交换 确认交换",
+        "viewport": [
+          390,
+          844
+        ],
+        "docSize": [
+          390,
+          844
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "before": {
+    "stage": 2,
+    "phase": "FACTORY_SWAP",
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "original": "leftovers",
+        "equipped": "scope_lens",
+        "current": "scope_lens",
+        "hp": 151
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "original": "choice_band",
+        "equipped": "quick_claw",
+        "current": "quick_claw",
+        "hp": 142
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "original": "scope_lens",
+        "equipped": "kings_rock",
+        "current": "kings_rock",
+        "hp": 102
+      }
+    ],
+    "enemy": [
+      {
+        "id": 17,
+        "name": "pidgeotto",
+        "original": "white-herb",
+        "equipped": "focus_band",
+        "current": "focus_band",
+        "hp": 124
+      },
+      {
+        "id": 133,
+        "name": "eevee",
+        "original": "salac-berry",
+        "equipped": "choice_band",
+        "current": "choice_band",
+        "hp": 116
+      },
+      {
+        "id": 83,
+        "name": "farfetchd",
+        "original": "leek",
+        "equipped": "kings_rock",
+        "current": "kings_rock",
+        "hp": 113
+      }
+    ],
+    "swapCount": 0
+  },
+  "selection": {
+    "my0Selected": true,
+    "enemy2Selected": true,
+    "enemy0Selected": true
+  },
+  "conflictOption": {
+    "visible": true,
+    "text": "王者之证与留下的玛瑙水母装备重复。请选择其他换怪组合，或跳过换怪。",
+    "confirmDisabled": true,
+    "ariaDescribedBy": "factory-swap-item-conflict"
+  },
+  "legalOption": {
+    "conflictVisible": false,
+    "confirmEnabled": true
+  },
+  "assertions": {
+    "guardCoversThisWin": true,
+    "isNotRewardAnchor": true,
+    "conflictingOptionDisabledAndExplained": true,
+    "ariaDescribedByWired": true,
+    "legalOptionStillAllowed": true
+  }
+}

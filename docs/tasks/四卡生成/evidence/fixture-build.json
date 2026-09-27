@@ -1,0 +1,426 @@
+{
+  "origin": "http://127.0.0.21:4300",
+  "means": "真实 UI 建自然档（模拟视口 390×844）+ 受控存档注入派生夹具",
+  "steps": [],
+  "errors": [],
+  "httpErrors": [],
+  "base": {
+    "schema": 14,
+    "phase": "BATTLE",
+    "stage": 1,
+    "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+    "runSupply": {
+      "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+      "tickets": 0,
+      "lastCreditedStage": 0
+    },
+    "trainer": "FRONTIER_TRAINER_REECE"
+  },
+  "ok": true,
+  "manifest": {
+    "origin": "http://127.0.0.21:4300",
+    "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+    "seven": [
+      "scope_lens",
+      "quick_claw",
+      "kings_rock",
+      "choice_band",
+      "focus_band",
+      "heavy_duty_boots",
+      "loaded_dice"
+    ],
+    "base": {
+      "schema": 14,
+      "phase": "BATTLE",
+      "stage": 1,
+      "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+      "runSupply": {
+        "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+        "tickets": 0,
+        "lastCreditedStage": 0
+      },
+      "trainer": "FRONTIER_TRAINER_REECE"
+    },
+    "fixtures": [
+      {
+        "file": "fx-comboA-stage3-battle.json",
+        "bytes": 3997809,
+        "stage": 3,
+        "phase": "BATTLE",
+        "roundResult": null,
+        "checkpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "heavy_duty_boots",
+            "current": "heavy_duty_boots"
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw"
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock"
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "equipped": "white-herb",
+            "hp": 1
+          },
+          {
+            "id": 133,
+            "equipped": "salac-berry",
+            "hp": 1
+          },
+          {
+            "id": 83,
+            "equipped": "leek",
+            "hp": 1
+          }
+        ],
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 2,
+          "lastCreditedStage": 2
+        }
+      },
+      {
+        "file": "fx-comboB-stage3-battle.json",
+        "bytes": 3997799,
+        "stage": 3,
+        "phase": "BATTLE",
+        "roundResult": null,
+        "checkpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "loaded_dice",
+            "current": "loaded_dice"
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "scope_lens",
+            "current": "scope_lens"
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "focus_band",
+            "current": "focus_band"
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "equipped": "white-herb",
+            "hp": 1
+          },
+          {
+            "id": 133,
+            "equipped": "salac-berry",
+            "hp": 1
+          },
+          {
+            "id": 83,
+            "equipped": "leek",
+            "hp": 1
+          }
+        ],
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 2,
+          "lastCreditedStage": 2
+        }
+      },
+      {
+        "file": "fx-consumed-stage3-battle.json",
+        "bytes": 3997764,
+        "stage": 3,
+        "phase": "BATTLE",
+        "roundResult": null,
+        "checkpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw"
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock"
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "equipped": "white-herb",
+            "hp": 1
+          },
+          {
+            "id": 133,
+            "equipped": "salac-berry",
+            "hp": 1
+          },
+          {
+            "id": 83,
+            "equipped": "leek",
+            "hp": 1
+          }
+        ],
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 2,
+          "lastCreditedStage": 2
+        }
+      },
+      {
+        "file": "fx-stage3-reward-pending.json",
+        "bytes": 4017682,
+        "stage": 3,
+        "phase": "REWARD",
+        "roundResult": "WIN",
+        "checkpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "PENDING"
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "heavy_duty_boots",
+            "current": "heavy_duty_boots"
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw"
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock"
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "equipped": "white-herb",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "equipped": "salac-berry",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "equipped": "leek",
+            "hp": 113
+          }
+        ],
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        }
+      },
+      {
+        "file": "fx-stage1-swap-conflict.json",
+        "bytes": 4017587,
+        "stage": 1,
+        "phase": "FACTORY_SWAP",
+        "roundResult": "WIN",
+        "checkpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": "scope_lens"
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw"
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock"
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "equipped": "focus_band",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "equipped": "choice_band",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "equipped": "kings_rock",
+            "hp": 113
+          }
+        ],
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 1,
+          "lastCreditedStage": 1
+        }
+      },
+      {
+        "file": "fx-stage7-battle.json",
+        "bytes": 3997764,
+        "stage": 7,
+        "phase": "BATTLE",
+        "roundResult": null,
+        "checkpoint": null,
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": null
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "quick_claw",
+            "current": "quick_claw"
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock"
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "equipped": "white-herb",
+            "hp": 1
+          },
+          {
+            "id": 133,
+            "equipped": "salac-berry",
+            "hp": 1
+          },
+          {
+            "id": 83,
+            "equipped": "leek",
+            "hp": 1
+          }
+        ],
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 6,
+          "lastCreditedStage": 6
+        }
+      },
+      {
+        "file": "fx-duplicate-baselines.json",
+        "bytes": 4017670,
+        "stage": 3,
+        "phase": "REWARD",
+        "roundResult": "WIN",
+        "checkpoint": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "stage": 3,
+          "status": "PENDING"
+        },
+        "player": [
+          {
+            "id": 79,
+            "name": "slowpoke",
+            "original": "leftovers",
+            "equipped": "scope_lens",
+            "current": "scope_lens"
+          },
+          {
+            "id": 111,
+            "name": "rhyhorn",
+            "original": "choice_band",
+            "equipped": "scope_lens",
+            "current": "scope_lens"
+          },
+          {
+            "id": 72,
+            "name": "tentacool",
+            "original": "scope_lens",
+            "equipped": "kings_rock",
+            "current": "kings_rock"
+          }
+        ],
+        "enemy": [
+          {
+            "id": 17,
+            "equipped": "white-herb",
+            "hp": 124
+          },
+          {
+            "id": 133,
+            "equipped": "salac-berry",
+            "hp": 116
+          },
+          {
+            "id": 83,
+            "equipped": "leek",
+            "hp": 113
+          }
+        ],
+        "runSupply": {
+          "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+          "tickets": 3,
+          "lastCreditedStage": 3
+        }
+      }
+    ]
+  }
+}
