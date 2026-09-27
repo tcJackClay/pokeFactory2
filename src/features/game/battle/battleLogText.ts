@@ -60,6 +60,7 @@ const HELD_ITEM_ZH: Record<string, string> = {
   miracle_seed: '奇迹种子', soft_sand: '柔软沙子', black_glasses: '黑色眼镜', silk_scarf: '丝绸围巾',
   choice_band: '讲究头带', focus_band: '气势头带', white_herb: '白色香草', mental_herb: '心灵香草',
   thick_club: '粗骨头', leek: '大葱', deep_sea_scale: '深海鳞片', leppa_berry: '苹野果',
+  heavy_duty_boots: '厚底靴', loaded_dice: '机变骰子',
 };
 
 export function battleHeldItemName(itemId: string | undefined, englishName: string, language?: string) {

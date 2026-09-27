@@ -1,15 +1,32 @@
 import type { BattleHazards, FieldState, FieldTurns, GamePokemon, TailwindTurns } from '../types';
-import { getBattleIndexInSet, getFactoryGroupBp, getSetNoByStage, MAX_FACTORY_BP } from '../features/game/config/factoryRewards';
+import {
+  getBattleIndexInSet,
+  getFactoryGroupBp,
+  getFactoryRewardChoiceCount,
+  getSetNoByStage,
+  MAX_FACTORY_BP,
+  shouldEnterRewardAfterWinning,
+} from '../features/game/config/factoryRewards';
+import {
+  canEquipFactoryRewardItem,
+  isFactoryRewardHeldItemId,
+  normalizeFactoryHeldItemId,
+  type FactoryRewardHeldItemId,
+} from '../features/game/config/factoryRewardPool';
+import {
+  repairFactoryHeldItemBaselines,
+  type FactoryHeldItemTeamMember,
+} from '../features/game/config/factoryHeldItemRules';
 import { getFactoryTrainerTemplateById } from '../features/game/config/factoryTrainerTemplates';
 import { isCompanionSpeciesId, type CompanionSpeciesId } from '../features/game/config/companionCandidates';
 import { hasRecoverableFactoryBaseCheckpoint } from '../features/game/hooks/factoryResumeCheckpoint';
-import { isKnownFactoryHeldItemId } from '../features/game/data/battle';
-import { restoreFactoryParty } from '../features/game/utils/restoreFactoryParty';
+import { getItemBattleData, isKnownFactoryHeldItemId } from '../features/game/data/battle';
+import { prepareFactoryPartyForBattle, restoreFactoryParty } from '../features/game/utils/restoreFactoryParty';
 import { createEmptyBattleHazards } from '../features/game/battle/engine/resolveEntryHazards';
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
 const PENDING_SETTLEMENT_KEY = 'pokefactory_pending_settlement_v1';
-const SAVE_SCHEMA_VERSION = 13 as const;
+const SAVE_SCHEMA_VERSION = 14 as const;
 
 export type SaveInspection =
   | { kind: 'none' }
@@ -64,6 +81,22 @@ export interface EmptyBattleResume {
   status: 'EMPTY';
 }
 
+/**
+ * 奖励节点检查点（PRD §3.4/§3.5、plan §2.2/§3）。
+ * `PENDING` 只记锚点；`READY` 冻结四张候选；`CLAIMED` 记领取结果与「已请求继续」意图。
+ */
+export type FactoryRewardCheckpoint =
+  | { runId: string; stage: number; status: 'PENDING' }
+  | { runId: string; stage: number; status: 'READY'; cardItemIds: FactoryRewardHeldItemId[] }
+  | {
+      runId: string;
+      stage: number;
+      status: 'CLAIMED';
+      cardItemIds: FactoryRewardHeldItemId[];
+      claim: { itemId: FactoryRewardHeldItemId; targetIndex: number };
+      continueRequested?: true;
+    };
+
 export interface BattleResumeSnapshot {
   status: 'READY';
   battleKind: 'FACTORY';
@@ -95,9 +128,15 @@ export interface BattleResumeSnapshot {
   currentEnemyTrainerId: string | null;
   inventoryItemIds: string[];
   battleLog: string[];
-  phase: 'BATTLE' | 'ROUND_RESULT' | 'FACTORY_SWAP' | 'BASE';
+  phase: 'BATTLE' | 'ROUND_RESULT' | 'FACTORY_SWAP' | 'REWARD' | 'BASE';
   roundResult: 'WIN' | 'LOSS' | null;
   lastBpGain: number;
+  rewardCheckpoint?: FactoryRewardCheckpoint;
+  /**
+   * 读取/导入时检测到三人返还基准重复，并按 `repairFactoryHeldItemBaselines` 规整过。
+   * 只用于「如实提示」，不参与相位合法性判定（修复后不变量恒成立）。
+   */
+  heldItemBaselineRepaired?: true;
 }
 
 export type FactoryBattleResume = EmptyBattleResume | BattleResumeSnapshot;
@@ -431,6 +470,7 @@ function sanitizeGamePokemon(value: unknown): GamePokemon | null {
         : [],
     selectedMoves: Array.isArray(source.selectedMoves) ? source.selectedMoves as GamePokemon['selectedMoves'] : [],
     factoryOriginalHeldItemId: source.factoryOriginalHeldItemId as string | null,
+    factoryEquippedHeldItemId: source.factoryEquippedHeldItemId as string | null,
     factoryHeldItemId: typeof source.factoryHeldItemId === 'string' ? source.factoryHeldItemId : undefined,
     gender: source.gender === 'male' || source.gender === 'female' || source.gender === 'genderless'
       ? source.gender
@@ -580,6 +620,19 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
     return createEmptyBattleResume();
   }
 
+  const phase: BattleResumeSnapshot['phase'] = source.phase === 'ROUND_RESULT' || source.phase === 'FACTORY_SWAP'
+    || source.phase === 'REWARD' || source.phase === 'BASE'
+    ? source.phase
+    : 'BATTLE';
+  // 奖励检查点只在 REWARD 相位存在；其余相位一律丢弃（PRD 边界「阶段切换」）。
+  const rewardCheckpoint = source.phase === 'REWARD' && isRecord(source.rewardCheckpoint)
+    ? source.rewardCheckpoint as unknown as FactoryRewardCheckpoint
+    : undefined;
+  // 不变量修复（裁决补遗一）：load / 旧档迁移 / 同版导入都必须让三人返还基准回到互不重复。
+  // 已落盘的 CLAIMED 领取目标优先保留，避免修复把「刚领到的装备」改判掉。
+  const claimedTargetIndex = phase === 'REWARD' ? resolveRewardClaimTargetIndex(rewardCheckpoint) : [];
+  const baselineRepair = repairFactoryHeldItemBaselines(playerTeam, { keepIndices: claimedTargetIndex });
+
   return {
     status: 'READY',
     battleKind,
@@ -608,16 +661,19 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
     enemyBuffs: sanitizeAtkDefFlags(source.enemyBuffs),
     factoryRentals: sanitizeGamePokemonArray(source.factoryRentals),
     selectedRentalIndices: sanitizeNonNegativeIntList(source.selectedRentalIndices),
-    playerTeam,
+    playerTeam: baselineRepair.team,
     enemyTeam,
     currentEnemyTrainerId: typeof source.currentEnemyTrainerId === 'string' && source.currentEnemyTrainerId.length > 0
       ? source.currentEnemyTrainerId
       : null,
     inventoryItemIds: sanitizeStringList(source.inventoryItemIds),
     battleLog: sanitizeStringList(source.battleLog),
-    phase: source.phase === 'ROUND_RESULT' || source.phase === 'FACTORY_SWAP' || source.phase === 'BASE' ? source.phase : 'BATTLE',
+    phase,
     roundResult: source.roundResult === 'WIN' || source.roundResult === 'LOSS' ? source.roundResult : null,
     lastBpGain: sanitizeSafeNonNegativeInt(source.lastBpGain),
+    rewardCheckpoint,
+    // 修复发生过就如实上报（不静默）：UI 据此提示玩家返还基准已被规整。
+    heldItemBaselineRepaired: baselineRepair.repaired || source.heldItemBaselineRepaired === true ? true : undefined,
   };
 }
 
@@ -764,16 +820,93 @@ function hasRecoverablePokemonCore(value: unknown): boolean {
 }
 
 function hasValidFactoryHeldItemState(value: unknown): boolean {
-  if (!isRecord(value) || !Object.prototype.hasOwnProperty.call(value, 'factoryOriginalHeldItemId')) return false;
+  if (!isRecord(value) || !Object.prototype.hasOwnProperty.call(value, 'factoryOriginalHeldItemId')
+    || !Object.prototype.hasOwnProperty.call(value, 'factoryEquippedHeldItemId')) return false;
   const original = value.factoryOriginalHeldItemId;
+  const equipped = value.factoryEquippedHeldItemId;
   const current = value.factoryHeldItemId;
   return (original === null || (typeof original === 'string' && original.length > 0 && isKnownFactoryHeldItemId(original)))
+    && (equipped === null || (typeof equipped === 'string' && equipped.length > 0 && isKnownFactoryHeldItemId(equipped)))
     && (current === undefined || (typeof current === 'string' && current.length > 0 && isKnownFactoryHeldItemId(current)));
 }
 
 function hasPreparedFactoryHeldItem(value: unknown): boolean {
   return hasValidFactoryHeldItemState(value) && isRecord(value)
-    && (value.factoryOriginalHeldItemId ?? undefined) === value.factoryHeldItemId;
+    && (value.factoryEquippedHeldItemId ?? undefined) === value.factoryHeldItemId;
+}
+
+function pokemonEquippedItemId(pokemon: unknown): string | null {
+  return isRecord(pokemon) ? normalizeFactoryHeldItemId(pokemon.factoryEquippedHeldItemId as string | null) : null;
+}
+
+/** 三人（或整队）「本局返还基准」互不重复 —— 本任务的不变量。 */
+function hasUniqueEquippedItems(team: readonly unknown[]): boolean {
+  const equipped = team
+    .map(pokemonEquippedItemId)
+    .filter((itemId): itemId is string => Boolean(itemId));
+  return equipped.length === new Set(equipped).size;
+}
+
+/**
+ * 换怪冲突（PRD 边界「换怪后须先核验整队返还基准唯一性」）：
+ * 换入成员的「本局返还基准」与留下的某名队员重复时返回冲突，否则 `null`。
+ */
+export function getFactorySwapEquippedItemConflict(
+  playerTeam: readonly GamePokemon[],
+  enemyTeam: readonly GamePokemon[],
+  playerIndex: number,
+  enemyIndex: number,
+): { itemId: string; retainedPlayerIndex: number } | null {
+  if (!Number.isSafeInteger(playerIndex) || playerIndex < 0 || playerIndex >= playerTeam.length
+    || !Number.isSafeInteger(enemyIndex) || enemyIndex < 0 || enemyIndex >= enemyTeam.length) return null;
+  const itemId = pokemonEquippedItemId(enemyTeam[enemyIndex]);
+  if (!itemId) return null;
+  const retainedPlayerIndex = playerTeam.findIndex((pokemon, index) => (
+    index !== playerIndex && pokemonEquippedItemId(pokemon) === itemId
+  ));
+  return retainedPlayerIndex < 0 ? null : { itemId, retainedPlayerIndex };
+}
+
+/** 合法装备对象判定：委托候选池模块的纯函数（单一真值源）。 */
+export function canEquipRewardItem(team: readonly unknown[], itemId: FactoryRewardHeldItemId, targetIndex: number): boolean {
+  if (!Array.isArray(team)) return false;
+  return canEquipFactoryRewardItem(team.map(pokemonEquippedItemId), itemId, targetIndex);
+}
+
+function hasValidFactoryRewardCheckpoint(value: unknown, runId: unknown, stage: unknown, playerTeam: unknown): boolean {
+  if (!isRecord(value) || value.runId !== runId || value.stage !== stage) return false;
+  if (value.status === 'PENDING') {
+    return value.cardItemIds === undefined && value.claim === undefined && value.continueRequested === undefined;
+  }
+  const cards = value.cardItemIds;
+  // 张数联动 `FACTORY_REWARD_CONFIG.freeRewardChoiceCount`（不再硬编码 4）。
+  const choiceCount = getFactoryRewardChoiceCount();
+  if (!Array.isArray(cards) || cards.length !== choiceCount || !cards.every(isFactoryRewardHeldItemId)
+    || new Set(cards).size !== choiceCount || !Array.isArray(playerTeam)) return false;
+  if (value.status === 'READY') {
+    return value.claim === undefined && value.continueRequested === undefined
+      && cards.every((itemId) => playerTeam.some((_, index) => canEquipRewardItem(playerTeam, itemId, index)));
+  }
+  if (value.status !== 'CLAIMED' || (value.continueRequested !== undefined && value.continueRequested !== true)
+    || !isRecord(value.claim)
+    || !isFactoryRewardHeldItemId(value.claim.itemId)
+    || !cards.includes(value.claim.itemId)
+    || !Number.isSafeInteger(value.claim.targetIndex)
+    || (value.claim.targetIndex as number) < 0
+    || (value.claim.targetIndex as number) >= playerTeam.length) return false;
+  const target = playerTeam[value.claim.targetIndex as number];
+  return isRecord(target) && target.factoryEquippedHeldItemId === value.claim.itemId
+    && target.factoryHeldItemId === value.claim.itemId && hasUniqueEquippedItems(playerTeam);
+}
+
+/**
+ * `CLAIMED` 检查点的领取目标下标（作为 `repairFactoryHeldItemBaselines` 的 `keepIndices` 输入）。
+ * 领取目标必须优先保住自己的基准，否则读档修复会把「刚领到的装备」改判掉。
+ */
+function resolveRewardClaimTargetIndex(rewardCheckpoint: unknown): number[] {
+  if (!isRecord(rewardCheckpoint) || rewardCheckpoint.status !== 'CLAIMED' || !isRecord(rewardCheckpoint.claim)) return [];
+  const targetIndex = rewardCheckpoint.claim.targetIndex;
+  return Number.isSafeInteger(targetIndex) ? [targetIndex as number] : [];
 }
 
 function assertCurrentSaveRecoverability(value: unknown): void {
@@ -808,10 +941,17 @@ function assertCurrentSaveRecoverability(value: unknown): void {
     }
     if (companionSpeciesId === null) throw new Error('Challenge exists before companion selection.');
     const phase = resume.phase;
-    const validPhase = phase === 'BATTLE' || phase === 'ROUND_RESULT' || phase === 'FACTORY_SWAP' || phase === 'BASE';
+    const validPhase = phase === 'BATTLE' || phase === 'ROUND_RESULT' || phase === 'FACTORY_SWAP' || phase === 'REWARD' || phase === 'BASE';
     const playerTeam = resume.playerTeam;
     const enemyTeam = resume.enemyTeam;
     const factoryRentals = resume.factoryRentals;
+    // 返还基准重复属于**可修复**状态（读档时由 `sanitizeBattleResume` 规整并如实上报标志），
+    // 不构成「整份存档不可恢复」—— 否则奖励节点对这类存档就是死路。
+    // 因此奖励检查点按**规整后**的队伍校验，且已落盘的 CLAIMED 领取目标优先保留。
+    const rewardPhaseTeam = repairFactoryHeldItemBaselines(
+      (playerTeam as readonly FactoryHeldItemTeamMember[] | undefined) ?? [],
+      { keepIndices: resolveRewardClaimTargetIndex(resume.rewardCheckpoint) },
+    ).team;
     if (resume.battleKind !== 'FACTORY' || !Number.isSafeInteger(resume.stage) || (resume.stage as number) < 1
       || !validPhase || !Array.isArray(playerTeam) || playerTeam.length === 0
       || !Array.isArray(enemyTeam) || enemyTeam.length === 0
@@ -825,8 +965,14 @@ function assertCurrentSaveRecoverability(value: unknown): void {
     }
     if ((phase === 'ROUND_RESULT' && resume.roundResult !== 'WIN' && resume.roundResult !== 'LOSS')
       || (phase === 'FACTORY_SWAP' && resume.roundResult !== 'WIN')
+      || (phase === 'REWARD' && (resume.roundResult !== 'WIN'
+        || !shouldEnterRewardAfterWinning(resume.stage as number)
+        || !hasValidFactoryRewardCheckpoint(resume.rewardCheckpoint, wallet?.currentRunId, resume.stage, rewardPhaseTeam)))
       || (phase === 'BASE' && (resume.roundResult !== 'WIN' || getBattleIndexInSet(resume.stage as number) !== 7))) {
       throw new Error('Battle checkpoint phase and result disagree.');
+    }
+    if (phase !== 'REWARD' && resume.rewardCheckpoint !== undefined) {
+      throw new Error('Reward checkpoint exists outside reward phase.');
     }
     const expectedCreditedStage = phase === 'BATTLE' ? (resume.stage as number) - 1 : resume.stage;
     if (phase === 'BATTLE' || resume.roundResult === 'WIN') {
@@ -976,14 +1122,31 @@ export function persistSaveData(saveData: GameSaveData) {
     }
     const committed = persisted.factory.battleResume;
     if (committed.status === 'READY' && wallet.currentRunId === persisted.wallet.currentRunId) {
-      const phaseRank = { BATTLE: 0, ROUND_RESULT: 1, FACTORY_SWAP: 2, BASE: 2 } as const;
+      const phaseRank = { BATTLE: 0, ROUND_RESULT: 1, FACTORY_SWAP: 2, REWARD: 3, BASE: 2 } as const;
       if (battleResume.status === 'EMPTY'
         || (battleResume.status === 'READY' && (committed.stage > battleResume.stage
           || (committed.stage === battleResume.stage && phaseRank[committed.phase] > phaseRank[battleResume.phase])
+          // 同为 REWARD 时以已落盘者为准，避免旧快照把 PENDING 回退覆盖 READY/CLAIMED。
+          || (committed.stage === battleResume.stage && committed.phase === 'REWARD' && battleResume.phase === 'REWARD')
           || (committed.stage === battleResume.stage && committed.phase === 'BATTLE' && battleResume.phase === 'BATTLE'
             && (committed.swapCount > battleResume.swapCount || committed.totalRents > battleResume.totalRents))))) {
         battleResume = committed;
       }
+    }
+  }
+  // 不变量（裁决补遗一）：任何写入路径都必须维持三人返还基准互不重复，落盘前再规整一次。
+  // 与 `sanitizeBattleResume` / `assertCurrentSaveRecoverability` 同口径：CLAIMED 领取目标优先保位，
+  // 否则兜底路径会把玩家刚领到的装备挤掉，还会让这份存档在下一次加载时被判 corrupt。
+  if (battleResume.status === 'READY') {
+    const baselineRepair = repairFactoryHeldItemBaselines(battleResume.playerTeam, {
+      keepIndices: resolveRewardClaimTargetIndex(battleResume.rewardCheckpoint),
+    });
+    if (baselineRepair.repaired) {
+      battleResume = {
+        ...battleResume,
+        playerTeam: baselineRepair.team,
+        heldItemBaselineRepaired: true,
+      };
     }
   }
   if (wallet.currentRunId === null) runSupply = createEmptyRunSupply();
@@ -1313,6 +1476,243 @@ export function commitFactoryGroupSettlement(
   }
 }
 
+/**
+ * 持久化点①：换怪/跳过完成 → 写 `phase: 'REWARD'` + `{status:'PENDING'}`。
+ * 失败时不推进战次、不出卡（PRD §4 与边界 A）。
+ */
+export function commitFactoryRewardPending(
+  runId: string,
+  stage: number,
+  finalTeam: GamePokemon[],
+  swapped: boolean,
+): BattleResumeSnapshot {
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  if (!runId || !shouldEnterRewardAfterWinning(stage)) throw new Error('This factory round has no reward checkpoint.');
+  const inspection = inspectStoredSave();
+  if (inspection.kind !== 'valid') throw new Error('A saved factory swap is required before the reward checkpoint.');
+  const previous = inspection.save;
+  const checkpoint = previous.factory.battleResume;
+  if (previous.wallet.currentRunId !== runId || checkpoint.status !== 'READY' || checkpoint.stage !== stage) {
+    throw new Error('Factory run changed before the reward checkpoint.');
+  }
+  if (checkpoint.phase === 'REWARD') {
+    // 幂等：同锚点重复调用返回同一检查点。
+    if (checkpoint.rewardCheckpoint?.runId !== runId || checkpoint.rewardCheckpoint.stage !== stage
+      || !['PENDING', 'READY', 'CLAIMED'].includes(checkpoint.rewardCheckpoint.status)) {
+      throw new Error('Reward checkpoint is damaged.');
+    }
+    return checkpoint;
+  }
+  if (checkpoint.phase !== 'FACTORY_SWAP' || checkpoint.roundResult !== 'WIN') {
+    throw new Error('Factory swap must be completed before the reward checkpoint.');
+  }
+  if (finalTeam.length !== checkpoint.playerTeam.length || finalTeam.length === 0
+    || !finalTeam.every((pokemon) => hasRecoverablePokemonCore(pokemon) && hasValidFactoryHeldItemState(pokemon))) {
+    throw new Error('Final factory team is invalid.');
+  }
+  // 不变量（裁决补遗一/二）：此处**不因**返还基准重复而抛错——那会把奖励节点变成死路。
+  // 重复在下面落盘前被规整（保留首个持有者、重复者回落原配或空位），并以 `heldItemBaselineRepaired` 如实上报。
+  const oldMembers = checkpoint.playerTeam.map(factoryRewardMemberIdentity);
+  const newMembers = finalTeam.map(factoryRewardMemberIdentity);
+  const changedSlots = newMembers.flatMap((member, index) => (member === oldMembers[index] ? [] : [index]));
+  if ((!swapped && changedSlots.length !== 0)
+    || (swapped && (changedSlots.length !== 1
+      || !checkpoint.enemyTeam.some((pokemon) => factoryRewardMemberIdentity(pokemon) === newMembers[changedSlots[0]])))) {
+    throw new Error('Final factory team does not match the chosen swap.');
+  }
+  // 奖励节点位于战前，返还基准必须保持「战斗中消耗态」：不得提前返还。
+  if (finalTeam.some((pokemon, index) => {
+    const source = changedSlots.includes(index)
+      ? checkpoint.enemyTeam.find((enemy) => factoryRewardMemberIdentity(enemy) === newMembers[index])
+      : checkpoint.playerTeam[index];
+    return !source || pokemon.factoryHeldItemId !== source.factoryHeldItemId
+      || pokemon.factoryEquippedHeldItemId !== source.factoryEquippedHeldItemId;
+  })) {
+    throw new Error('Factory held items must remain spent until the next battle.');
+  }
+  const baselineRepair = repairFactoryHeldItemBaselines(finalTeam);
+  const nextResume: BattleResumeSnapshot = {
+    ...checkpoint,
+    checkpointAt: new Date().toISOString(),
+    phase: 'REWARD',
+    playerTeam: baselineRepair.team,
+    swapCount: checkpoint.swapCount + (swapped ? 1 : 0),
+    totalRents: checkpoint.totalRents + (swapped ? 1 : 0),
+    rewardCheckpoint: { runId, stage, status: 'PENDING' },
+    heldItemBaselineRepaired: baselineRepair.repaired || checkpoint.heldItemBaselineRepaired === true
+      ? true
+      : undefined,
+  };
+  const nextSave: GameSaveData = {
+    ...previous,
+    updatedAt: new Date().toISOString(),
+    progress: { ...previous.progress, totalRents: Math.max(previous.progress.totalRents, nextResume.totalRents) },
+    factory: { ...previous.factory, battleResume: nextResume },
+  };
+  normalizeSaveDataSafely(nextSave);
+  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  const confirmed = loadSaveData()?.factory.battleResume;
+  if (confirmed?.status !== 'READY' || confirmed.phase !== 'REWARD'
+    || confirmed.rewardCheckpoint?.runId !== runId || confirmed.rewardCheckpoint.stage !== stage) {
+    throw new Error('Reward checkpoint could not be verified after saving.');
+  }
+  return confirmed;
+}
+
+/**
+ * 持久化点②：冻结四张候选（`PENDING → READY`）。
+ * 同锚点二次调用同卡幂等返回；不同卡抛错 ⇒ 刷新/重开/导入**不重抽**（PRD §3.4）。
+ */
+export function commitFactoryRewardReady(
+  runId: string,
+  stage: number,
+  cardItemIds: readonly FactoryRewardHeldItemId[],
+): BattleResumeSnapshot {
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  const inspection = inspectStoredSave();
+  if (inspection.kind !== 'valid') throw new Error('A saved reward checkpoint is required.');
+  const previous = inspection.save;
+  const checkpoint = previous.factory.battleResume;
+  if (!runId || previous.wallet.currentRunId !== runId || checkpoint.status !== 'READY'
+    || checkpoint.stage !== stage || checkpoint.phase !== 'REWARD'
+    || checkpoint.rewardCheckpoint?.runId !== runId || checkpoint.rewardCheckpoint.stage !== stage) {
+    throw new Error('Factory reward changed before cards were saved.');
+  }
+  const cards = [...cardItemIds];
+  if (checkpoint.rewardCheckpoint.status !== 'PENDING') {
+    if (JSON.stringify(checkpoint.rewardCheckpoint.cardItemIds) !== JSON.stringify(cards)) {
+      throw new Error('Different reward cards are already saved.');
+    }
+    return checkpoint;
+  }
+  const candidate: FactoryRewardCheckpoint = { runId, stage, status: 'READY', cardItemIds: cards };
+  if (!hasValidFactoryRewardCheckpoint(candidate, runId, stage, checkpoint.playerTeam)) {
+    throw new Error('Reward cards must be four distinct approved and claimable held items.');
+  }
+  const nextResume: BattleResumeSnapshot = {
+    ...checkpoint,
+    checkpointAt: new Date().toISOString(),
+    rewardCheckpoint: candidate,
+  };
+  const nextSave: GameSaveData = {
+    ...previous,
+    updatedAt: new Date().toISOString(),
+    factory: { ...previous.factory, battleResume: nextResume },
+  };
+  normalizeSaveDataSafely(nextSave);
+  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  const confirmed = loadSaveData()?.factory.battleResume;
+  if (confirmed?.status !== 'READY' || confirmed.phase !== 'REWARD'
+    || confirmed.rewardCheckpoint?.status !== 'READY'
+    || JSON.stringify(confirmed.rewardCheckpoint.cardItemIds) !== JSON.stringify(cards)) {
+    throw new Error('Reward cards could not be verified after saving.');
+  }
+  return confirmed;
+}
+
+/**
+ * 持久化点③：领取（`READY → CLAIMED`，原子）。
+ * - 同 `(itemId, targetIndex)` 二次调用幂等返回同一检查点 ⇒ 双击/连点只领一次；
+ * - 不同参数抛错且不写盘 ⇒ 不产生第二次 `CLAIMED`；
+ * - 旧装备**直接移除、不进背包**（`inventoryItemIds` 不变），并因基准字段改写而立即回池。
+ */
+export function commitFactoryItemRewardClaim(
+  runId: string,
+  stage: number,
+  itemId: FactoryRewardHeldItemId,
+  targetIndex: number,
+): BattleResumeSnapshot {
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  const inspection = inspectStoredSave();
+  if (inspection.kind !== 'valid') throw new Error('Saved reward cards are required.');
+  const previous = inspection.save;
+  const checkpoint = previous.factory.battleResume;
+  if (!runId || previous.wallet.currentRunId !== runId || checkpoint.status !== 'READY'
+    || checkpoint.stage !== stage || checkpoint.phase !== 'REWARD'
+    || checkpoint.rewardCheckpoint?.runId !== runId || checkpoint.rewardCheckpoint.stage !== stage) {
+    throw new Error('Factory reward changed before the item was claimed.');
+  }
+  const reward = checkpoint.rewardCheckpoint;
+  if (reward.status === 'CLAIMED') {
+    if (reward.claim.itemId !== itemId || reward.claim.targetIndex !== targetIndex) {
+      throw new Error('A different reward was already claimed.');
+    }
+    return checkpoint;
+  }
+  if (reward.status !== 'READY' || !isFactoryRewardHeldItemId(itemId)
+    || !reward.cardItemIds.includes(itemId)
+    || !canEquipRewardItem(checkpoint.playerTeam, itemId, targetIndex)) {
+    throw new Error('Item reward or target is not claimable.');
+  }
+  const nextTeam = checkpoint.playerTeam.map((pokemon, index) => (index === targetIndex
+    ? { ...pokemon, factoryEquippedHeldItemId: itemId, factoryHeldItemId: itemId }
+    : pokemon));
+  const nextResume: BattleResumeSnapshot = {
+    ...checkpoint,
+    checkpointAt: new Date().toISOString(),
+    playerTeam: nextTeam,
+    rewardCheckpoint: {
+      runId,
+      stage,
+      status: 'CLAIMED',
+      cardItemIds: reward.cardItemIds,
+      claim: { itemId, targetIndex },
+    },
+  };
+  const nextSave: GameSaveData = {
+    ...previous,
+    updatedAt: new Date().toISOString(),
+    factory: { ...previous.factory, battleResume: nextResume },
+  };
+  normalizeSaveDataSafely(nextSave);
+  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  const confirmed = loadSaveData()?.factory.battleResume;
+  if (confirmed?.status !== 'READY' || confirmed.phase !== 'REWARD'
+    || confirmed.rewardCheckpoint?.status !== 'CLAIMED'
+    || confirmed.rewardCheckpoint.claim.itemId !== itemId
+    || confirmed.rewardCheckpoint.claim.targetIndex !== targetIndex) {
+    throw new Error('Item reward could not be verified after saving.');
+  }
+  return confirmed;
+}
+
+/**
+ * 持久化点④：`CLAIMED` 后请求进入下一战。幂等 ⇒ 刷新/重开后可再次点击而不重复起战。
+ */
+export function commitFactoryRewardContinueIntent(runId: string, stage: number): BattleResumeSnapshot {
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  const inspection = inspectStoredSave();
+  if (inspection.kind !== 'valid') throw new Error('A claimed reward checkpoint is required.');
+  const previous = inspection.save;
+  const checkpoint = previous.factory.battleResume;
+  if (!runId || previous.wallet.currentRunId !== runId || checkpoint.status !== 'READY'
+    || checkpoint.phase !== 'REWARD' || checkpoint.stage !== stage
+    || checkpoint.rewardCheckpoint?.status !== 'CLAIMED'
+    || checkpoint.rewardCheckpoint.runId !== runId || checkpoint.rewardCheckpoint.stage !== stage) {
+    throw new Error('A claimed reward is required before continuing.');
+  }
+  if (checkpoint.rewardCheckpoint.continueRequested) return checkpoint;
+  const nextResume: BattleResumeSnapshot = {
+    ...checkpoint,
+    checkpointAt: new Date().toISOString(),
+    rewardCheckpoint: { ...checkpoint.rewardCheckpoint, continueRequested: true },
+  };
+  const nextSave: GameSaveData = {
+    ...previous,
+    updatedAt: new Date().toISOString(),
+    factory: { ...previous.factory, battleResume: nextResume },
+  };
+  normalizeSaveDataSafely(nextSave);
+  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  const confirmed = loadSaveData()?.factory.battleResume;
+  if (confirmed?.status !== 'READY' || confirmed.phase !== 'REWARD'
+    || confirmed.rewardCheckpoint?.status !== 'CLAIMED'
+    || confirmed.rewardCheckpoint.continueRequested !== true) {
+    throw new Error('Reward continuation could not be verified after saving.');
+  }
+  return confirmed;
+}
+
 export interface FactoryBattleStart {
   stage: number;
   playerTeam: GamePokemon[];
@@ -1321,6 +1721,23 @@ export interface FactoryBattleStart {
   enemyAiTier: BattleResumeSnapshot['enemyAiTier'];
   specialBossBattleActive: boolean;
   swapped: boolean;
+}
+
+/** 换怪前后「是否同一名队员」的身份指纹（含上下场装备，不含战斗内变化）。 */
+function factoryRewardMemberIdentity(pokemon: GamePokemon): string {
+  return JSON.stringify({
+    id: pokemon.id,
+    speciesId: pokemon.speciesId,
+    pokeApiName: pokemon.pokeApiName,
+    formLedgerSlug: pokemon.formLedgerSlug,
+    level: pokemon.level,
+    nature: pokemon.nature,
+    ivs: pokemon.ivs,
+    evs: pokemon.evs,
+    originalItem: pokemon.factoryOriginalHeldItemId,
+    equippedItem: pokemon.factoryEquippedHeldItemId,
+    moveNames: pokemon.selectedMoves.map((move) => move.name),
+  });
 }
 
 function factoryBattleMemberFingerprint(pokemon: GamePokemon): string {
@@ -1338,6 +1755,7 @@ function factoryBattleMemberFingerprint(pokemon: GamePokemon): string {
     maxHp: pokemon.maxHp,
     currentHp: pokemon.currentHp,
     originalItem: pokemon.factoryOriginalHeldItemId,
+    equippedItem: pokemon.factoryEquippedHeldItemId,
     currentItem: pokemon.factoryHeldItemId ?? null,
     selectedMoves: pokemon.selectedMoves.map((move) => ({
       name: move.name,
@@ -1351,6 +1769,23 @@ function factoryBattleMemberFingerprint(pokemon: GamePokemon): string {
 function sameFactoryBattleTeam(left: GamePokemon[], right: GamePokemon[]): boolean {
   return left.length === right.length
     && left.every((pokemon, index) => factoryBattleMemberFingerprint(pokemon) === factoryBattleMemberFingerprint(right[index]));
+}
+
+/**
+ * 起战前的队伍规整：三人返还基准重复时按下标保留首个持有者，重复者回落原配或空位，
+ * 并把「本场当前持有物」对齐到修复后的基准（起战态定义见 `hasPreparedFactoryHeldItem`）。
+ * 未发生时**逐项原样返回**，不做任何多余改写。
+ */
+function normalizeBattleStartTeam(team: GamePokemon[]): { team: GamePokemon[]; repaired: boolean } {
+  const repair = repairFactoryHeldItemBaselines(team);
+  if (!repair.repaired) return { team, repaired: false };
+  return {
+    team: repair.team.map((pokemon) => ({
+      ...pokemon,
+      factoryHeldItemId: pokemon.factoryEquippedHeldItemId ?? undefined,
+    })),
+    repaired: true,
+  };
 }
 
 export function commitFactoryBattleStart(runId: string, start: FactoryBattleStart): BattleResumeSnapshot {
@@ -1369,11 +1804,20 @@ export function commitFactoryBattleStart(runId: string, start: FactoryBattleStar
     if (!sameEncounter) throw new Error('A different next battle is already saved.');
     return checkpoint;
   }
+  // 不变量（裁决补遗一）：受损输入**修复而非抛错终止**，否则换怪/续战会被永久卡住。
+  const startTeam = normalizeBattleStartTeam(start.playerTeam);
+  // 奖励节点后的起战：必须「已领取 + 已请求继续」，且队伍与按返还基准返还的结果逐字段一致。
+  const rewardStage = shouldEnterRewardAfterWinning(checkpoint.stage);
+  const claimedRewardReadyToContinue = rewardStage && checkpoint.phase === 'REWARD'
+    && checkpoint.rewardCheckpoint?.status === 'CLAIMED'
+    && checkpoint.rewardCheckpoint.continueRequested === true
+    && !start.swapped
+    && sameFactoryBattleTeam(prepareFactoryPartyForBattle(checkpoint.playerTeam), startTeam.team);
   if (checkpoint.stage + 1 !== start.stage || checkpoint.roundResult !== 'WIN'
-    || !['ROUND_RESULT', 'FACTORY_SWAP', 'BASE'].includes(checkpoint.phase)
+    || (rewardStage ? !claimedRewardReadyToContinue : !['ROUND_RESULT', 'FACTORY_SWAP', 'BASE'].includes(checkpoint.phase))
     || !getFactoryTrainerTemplateById(start.currentEnemyTrainerId)
-    || start.playerTeam.length === 0 || start.enemyTeam.length === 0
-    || !start.playerTeam.every((pokemon) => hasRecoverablePokemonCore(pokemon) && hasPreparedFactoryHeldItem(pokemon))
+    || startTeam.team.length === 0 || start.enemyTeam.length === 0
+    || !startTeam.team.every((pokemon) => hasRecoverablePokemonCore(pokemon) && hasPreparedFactoryHeldItem(pokemon))
     || !start.enemyTeam.every((pokemon) => hasRecoverablePokemonCore(pokemon) && hasValidFactoryHeldItemState(pokemon))) {
     throw new Error('Next factory battle cannot start from this checkpoint.');
   }
@@ -1404,13 +1848,15 @@ export function commitFactoryBattleStart(runId: string, start: FactoryBattleStar
     hazards: createEmptyBattleHazards(),
     activeBuffs: { atk: false, def: false },
     enemyBuffs: { atk: false, def: false },
-    playerTeam: start.playerTeam,
+    playerTeam: startTeam.team,
     enemyTeam: start.enemyTeam,
     currentEnemyTrainerId: start.currentEnemyTrainerId,
     battleLog: [],
     phase: 'BATTLE',
     roundResult: null,
     lastBpGain: 0,
+    rewardCheckpoint: undefined,
+    heldItemBaselineRepaired: startTeam.repaired || checkpoint.heldItemBaselineRepaired === true ? true : undefined,
   };
   const nextSave: GameSaveData = {
     ...previous,

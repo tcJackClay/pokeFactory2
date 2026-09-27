@@ -53,9 +53,20 @@ export const FACTORY_HELD_ITEM_ICON_MAP: Record<string, string> = Object.fromEnt
   )),
 ) as Record<string, string>;
 
+/**
+ * 无图片资源的持有物 ID：PokeAPI sprites 仓库（905 张道具图）中不存在此二图，
+ * 实测 `.../heavy-duty-boots.png` 与 `.../loaded-dice.png` 均 404。
+ * 这些 ID 一律返回 `null`，由 UI 走非图片兜底。
+ */
+export const FACTORY_HELD_ITEM_ICONLESS_IDS = new Set(['heavy_duty_boots', 'loaded_dice']);
+
 export function getFactoryHeldItemIcon(itemId?: string): string | null {
   const normalized = normalizeHeldItemId(itemId);
   if (!normalized) return null;
+
+  // PokeAPI sprites 仓库无此二图（实测 404），按 ID 拼连字符 URL 会得到破图。
+  // 因此不产出图片 URL，由调用方降级为非图片文字徽标（PRD §3.6 / 裁决：不得出现破图）。
+  if (FACTORY_HELD_ITEM_ICONLESS_IDS.has(normalized)) return null;
 
   return FACTORY_HELD_ITEM_ICON_MAP[normalized]
     ?? `${FACTORY_HELD_ITEM_SPRITE_BASE_URL}/${normalized.replace(/_/g, '-')}.png`;

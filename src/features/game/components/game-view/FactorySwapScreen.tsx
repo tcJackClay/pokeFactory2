@@ -5,6 +5,8 @@ import { ArrowRight, Dna, Info, Swords } from 'lucide-react';
 import TypeBadge from '../../../../components/TypeBadge';
 import type { GameViewSectionProps } from './shared';
 import type { GamePokemon } from '../../../../types';
+import { battleHeldItemName } from '../../battle/battleLogText';
+import { getFactorySwapEquippedItemConflict } from '../../../../services/saveManager';
 
 function PokeballIndicator({ active, compact = false }: { active: boolean; compact?: boolean }) {
   const shellSize = compact ? 'h-4 w-4' : 'h-5 w-5';
@@ -144,9 +146,12 @@ export function FactorySwapScreen({ viewModel }: GameViewSectionProps) {
     gameState,
     loading,
     isTransitioning,
+    postBattleActionError,
+    stage,
     t,
     getLocalized,
     performSwap,
+    clearPostBattleActionError,
     nextFactoryStage,
     setInfoPokemonIdx,
     setInfoPokemonSource,
@@ -160,7 +165,16 @@ export function FactorySwapScreen({ viewModel }: GameViewSectionProps) {
 
   const selectedPlayer = selectedPlayerIndex !== null ? playerTeam[selectedPlayerIndex] ?? null : null;
   const selectedEnemy = selectedEnemyIndex !== null ? enemyTeam[selectedEnemyIndex] ?? null : null;
-  const canConfirmSwap = selectedPlayerIndex !== null && selectedEnemyIndex !== null && !loading && !isTransitioning;
+  // 三人返还基准互不重复是全任务不变量（裁决补遗一）：**每一次**换怪都核验，
+  // 不只是奖励前那一战；会让基准重复的组合禁用并说明（不自动替换、不丢弃原配）。
+  const equippedItemConflict = selectedPlayerIndex !== null && selectedEnemyIndex !== null
+    ? getFactorySwapEquippedItemConflict(playerTeam, enemyTeam, selectedPlayerIndex, selectedEnemyIndex)
+    : null;
+  const canConfirmSwap = selectedPlayerIndex !== null && selectedEnemyIndex !== null
+    && !equippedItemConflict && !loading && !isTransitioning;
+  const conflictItemName = equippedItemConflict
+    ? battleHeldItemName(equippedItemConflict.itemId, equippedItemConflict.itemId.split(/[-_]/).map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' '), currentLanguage)
+    : '';
 
   const copy = {
     titleHint: isZh ? '\u5148\u9009\u62e9\u6211\u65b9\u5b9d\u53ef\u68a6\uff0c\u518d\u9009\u62e9\u4e00\u53ea\u5bf9\u624b\u5b9d\u53ef\u68a6\u5b8c\u6210\u4ea4\u6362\u3002' : 'Choose one of your Pokemon, then choose one opponent Pokemon to swap.',
@@ -225,6 +239,7 @@ export function FactorySwapScreen({ viewModel }: GameViewSectionProps) {
                     accent="player"
                     badgeLabel={selectedPlayerIndex === index ? copy.chosenMine : copy.chooseMine}
                     onClick={() => {
+                      clearPostBattleActionError();
                       setSelectedPlayerIndex((prev) => (prev === index ? null : index));
                     }}
                     onOpenDetails={() => {
@@ -255,6 +270,7 @@ export function FactorySwapScreen({ viewModel }: GameViewSectionProps) {
                     accent="enemy"
                     badgeLabel={selectedEnemyIndex === index ? copy.chosenTarget : copy.chooseTarget}
                     onClick={() => {
+                      clearPostBattleActionError();
                       setSelectedEnemyIndex((prev) => (prev === index ? null : index));
                     }}
                     onOpenDetails={() => {
@@ -269,6 +285,14 @@ export function FactorySwapScreen({ viewModel }: GameViewSectionProps) {
       </div>
 
       <div className="px-1 pt-2">
+        {postBattleActionError && <p role="alert" className="mb-2 rounded-xl bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">{postBattleActionError}</p>}
+        {equippedItemConflict && (
+          <p id="factory-swap-item-conflict" role="status" className="mb-2 rounded-xl bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-900">
+            {isZh
+              ? `${conflictItemName}与留下的${getLocalized(playerTeam[equippedItemConflict.retainedPlayerIndex])}装备重复。请选择其他换怪组合，或跳过换怪。`
+              : `${conflictItemName} duplicates the item equipped by ${getLocalized(playerTeam[equippedItemConflict.retainedPlayerIndex])}. Choose another swap or skip.`}
+          </p>
+        )}
         <div className="pf-command-bar">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="min-w-0 flex-1">
@@ -308,6 +332,7 @@ export function FactorySwapScreen({ viewModel }: GameViewSectionProps) {
               <button
                 type="button"
                 disabled={!canConfirmSwap}
+                aria-describedby={equippedItemConflict ? 'factory-swap-item-conflict' : undefined}
                 onClick={() => {
                   if (!canConfirmSwap) return;
                   performSwap(selectedPlayerIndex, selectedEnemyIndex);

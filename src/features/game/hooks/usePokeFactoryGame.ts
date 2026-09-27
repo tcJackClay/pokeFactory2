@@ -9,7 +9,8 @@ import { createEmptyBattleHazards } from '../battle/engine/resolveEntryHazards';
 import { ALL_ITEMS } from '../../../uiAppConstants';
 import { fetchPokemon, getProcessedPokemon, isEvolutionChainBaseSpecies } from '../../../services/pokeApi';
 import { getAiTier } from '../config/factoryBattle';
-import { FACTORY_REWARD_CONFIG, getFactoryRewardChoiceCount } from '../config/factoryRewards';
+import { FACTORY_REWARD_CONFIG, shouldEnterRewardAfterWinning } from '../config/factoryRewards';
+import { drawFactoryRewardCards, type FactoryRewardHeldItemId } from '../config/factoryRewardPool';
 import { canAdvanceClassicStage, createClassicActionGate, getClassicPostBattleDestination } from '../config/classicFlow';
 import { EVENT_REGIONS, IV_TRAIN_BATTLE_THRESHOLD, RARE_SPECIES_POOL, createDefaultDispatchState } from '../config/events';
 import { useGameLocalization } from './useGameLocalization';
@@ -40,7 +41,8 @@ import type {
   SelectedEvolutionPokemon,
   PokemonInfoSource,
 } from '../view-model';
-import { getBattleIndexInSet, getSetNoByStage } from '../config/factoryRewards';
+import { getBattleIndexInSet, getFactoryRewardChoiceCount, getSetNoByStage } from '../config/factoryRewards';
+import { getFactoryHeldItemInTeamIds } from '../config/factoryHeldItemRules';
 import {
   buildSaveExportFilename,
   bindCompanionToSave,
@@ -49,6 +51,11 @@ import {
   adjustWalletBalance,
   commitFactoryGroupSettlement,
   commitFactoryBattleStart,
+  commitFactoryRewardPending,
+  commitFactoryRewardReady,
+  commitFactoryItemRewardClaim,
+  commitFactoryRewardContinueIntent,
+  getFactorySwapEquippedItemConflict,
   createEmptyBattleResume,
   createEmptyRunSupply,
   createEmptyWallet,
@@ -62,6 +69,7 @@ import {
   triggerJsonDownload,
   type BattleResumeSnapshot,
   type CollectionLedger,
+  type FactoryRewardCheckpoint,
   type FactoryWallet,
   type FactoryRunSupply,
   type GameSaveData,
@@ -163,6 +171,24 @@ export function usePokeFactoryGame(): GameViewModel {
   const [loading, setLoading] = useState(false);
   const [rentalLoadError, setRentalLoadError] = useState<string | null>(null);
   const [opponentLoadError, setOpponentLoadError] = useState(false);
+  const [postBattleActionError, setPostBattleActionError] = useState<string | null>(null);
+  const [rewardClaimError, setRewardClaimError] = useState<string | null>(null);
+  const [rewardClaimBusy, setRewardClaimBusy] = useState(false);
+  const [rewardContinueError, setRewardContinueError] = useState<string | null>(null);
+  const [rewardContinueBusy, setRewardContinueBusy] = useState(false);
+  const [rewardPrepareError, setRewardPrepareError] = useState<string | null>(null);
+  // 生成失败的「重新准备」重试令牌：变化即让生成 effect 重跑。
+  const [rewardPrepareAttempt, setRewardPrepareAttempt] = useState(0);
+  const [rewardCheckpoint, setRewardCheckpoint] = useState<FactoryRewardCheckpoint | null>(
+    initialBattleResume?.phase === 'REWARD' ? initialBattleResume.rewardCheckpoint ?? null : null,
+  );
+  // 三人返还基准唯一性被规整过的如实提示（PRD 裁决补遗一/二：可恢复 + 如实提示，不静默）。
+  // 单一状态：`repaired` 由写入层的 `heldItemBaselineRepaired` 驱动，`dismissed` 只在同一次修复内有效 ——
+  // 离开本局（含新挑战开始）时整体复位，避免上一局的规整提示跨 run 残留。
+  const [heldItemRepairNotice, setHeldItemRepairNotice] = useState({
+    repaired: initialBattleResume?.status === 'READY' && initialBattleResume.heldItemBaselineRepaired === true,
+    dismissed: false,
+  });
   const [bootProgress, setBootProgress] = useState(0);
   const [bootStatusText, setBootStatusText] = useState('');
   const [inventory, setInventory] = useState<Item[]>(() => hydrateInventoryFromItemIds(initialBattleResume?.inventoryItemIds ?? []));
@@ -256,6 +282,8 @@ export function usePokeFactoryGame(): GameViewModel {
   const factoryResumeActiveRef = useRef(hasFactoryRunToResume);
   factoryResumeActiveRef.current = hasFactoryRunToResume;
   const classicAdvanceGateRef = useRef(createClassicActionGate());
+  const rewardClaimInFlightRef = useRef(false);
+  const rewardPrepareInFlightRef = useRef(false);
   const handledRoundResultRef = useRef<string | null>(null);
 
   const buildStableFactoryBattleResume = useCallback((): BattleResumeSnapshot | null => {
@@ -359,6 +387,9 @@ export function usePokeFactoryGame(): GameViewModel {
     if (!eventBattleActive && gameState === 'BATTLE' && battleResumeSnapshotRef.current) {
       return battleResumeSnapshotRef.current;
     }
+    if (!eventBattleActive && gameState === 'REWARD' && battleResumeSnapshotRef.current?.phase === 'REWARD') {
+      return battleResumeSnapshotRef.current;
+    }
     if (!eventBattleActive && (gameState === 'ROUND_RESULT' || gameState === 'FACTORY_SWAP' || (gameState === 'BASE' && hasFactoryRunToResume)) && battleResumeSnapshotRef.current) {
       const snapshot: BattleResumeSnapshot = {
         ...battleResumeSnapshotRef.current,
@@ -376,6 +407,67 @@ export function usePokeFactoryGame(): GameViewModel {
     }
     return createEmptyBattleResume();
   }, [buildStableFactoryBattleResume, eventBattleActive, gameState, hasFactoryRunToResume, pendingBattleResumeRestore, roundResult, lastTokenGain, streak, swapCount, totalRents, playerTeam, enemyTeam]);
+
+  /**
+   * 奖励节点 `PENDING → READY`：枚举候选 + 等权不放回抽四张并**冻结落盘**。
+   * PRD §3.3/§3.4：候选不足**不得**补位、不得重复出卡；写入失败留在 PENDING 可重试。
+   * 只在 `gameState === 'REWARD'` 且锚点仍为 PENDING 时执行，且带同步门闩防重复抽取。
+   */
+  useEffect(() => {
+    if (gameState !== 'REWARD' || !canEnterProject) return;
+    const snapshot = battleResumeSnapshotRef.current;
+    if (snapshot?.phase !== 'REWARD' || snapshot.rewardCheckpoint?.status !== 'PENDING') return;
+    if (rewardPrepareInFlightRef.current) return;
+    const runId = walletRef.current.currentRunId;
+    if (!runId) return;
+    rewardPrepareInFlightRef.current = true;
+    const isZh = currentLanguage.startsWith('zh');
+    try {
+      const choiceCount = getFactoryRewardChoiceCount();
+      const drawn = drawFactoryRewardCards(snapshot.playerTeam.map((pokemon) => pokemon.factoryEquippedHeldItemId));
+      if (drawn.ok === false) {
+        // 边界 B：候选不足是缺陷，明确上报而不静默补位。
+        setRewardPrepareError(isZh
+          ? `奖励候选不足（${drawn.candidateCount}/${choiceCount}），已按缺陷记录，不会补位或重复出卡。请重试或上报。`
+          : `Not enough reward candidates (${drawn.candidateCount}/${choiceCount}). This is a defect: no padding or duplicate cards. Please retry or report.`);
+        return;
+      }
+      const ready = commitFactoryRewardReady(runId, snapshot.rewardCheckpoint.stage, drawn.cards);
+      battleResumeSnapshotRef.current = ready;
+      setRewardCheckpoint(ready.rewardCheckpoint ?? null);
+      setRewardPrepareError(null);
+    } catch (error) {
+      console.error('Factory reward card preparation failed', error);
+      // 候选卡可能已被同版导入/其它标签页冻结：采用已落盘结果，绝不重抽。
+      const stored = loadSaveData()?.factory.battleResume;
+      if (stored?.status === 'READY' && stored.phase === 'REWARD' && stored.rewardCheckpoint?.status === 'READY') {
+        battleResumeSnapshotRef.current = stored;
+        setRewardCheckpoint(stored.rewardCheckpoint);
+        setRewardPrepareError(null);
+      } else {
+        setRewardPrepareError(isZh
+          ? '奖励卡保存失败，进度未改变。请检查存储空间后重试。'
+          : 'Could not save the reward cards. Progress is unchanged. Check storage and retry.');
+      }
+    } finally {
+      rewardPrepareInFlightRef.current = false;
+    }
+  }, [canEnterProject, currentLanguage, gameState, rewardPrepareAttempt]);
+
+  /**
+   * 不变量修复的如实上报（裁决补遗一）：任何写入路径（load / 导入 / 换怪 / 起战 / 奖励节点）
+   * 一旦规整过返还基准，就在此统一采集并告知玩家，**不静默**。
+   */
+  useEffect(() => {
+    const resume = battleResumeSnapshotRef.current;
+    if (resume?.status !== 'READY' || resume.heldItemBaselineRepaired !== true) return;
+    setHeldItemRepairNotice((prev) => (prev.repaired ? prev : { repaired: true, dismissed: false }));
+  }, [gameState, playerTeam, rewardCheckpoint]);
+
+  const retryFactoryItemRewardPrepare = useCallback(() => {
+    setRewardPrepareError(null);
+    setRewardPrepareAttempt((prev) => prev + 1);
+  }, []);
 
   const getEventItemLabel = useCallback((item: Item) => EVENT_ITEM_LABELS[item.id] ?? getLocalized(item), [getLocalized]);
 
@@ -530,6 +622,8 @@ export function usePokeFactoryGame(): GameViewModel {
     const checkpoint = commitFactoryBattleStart(runId, start);
     battleResumeSnapshotRef.current = checkpoint;
     setHasFactoryRunToResume(false);
+    // 返回落盘后的队伍：事务层可能规整过返还基准，调用方须回写内存（见 `useFactoryFlow.nextFactoryStage`）。
+    return checkpoint;
   }, []);
 
   const battleController = useBattleController({
@@ -708,8 +802,10 @@ export function usePokeFactoryGame(): GameViewModel {
     if (pendingBattleResumeRestore) return;
     if (!eventBattleActive && hasFactoryRunToResume
       && hasRecoverableFactoryBaseCheckpoint(battleResumeSnapshotRef.current, walletRef.current.currentRunId)) return;
-    if (eventBattleActive || !(['BATTLE', 'ROUND_RESULT', 'FACTORY_SWAP'].includes(gameState) || (gameState === 'BASE' && hasFactoryRunToResume))) {
+    if (eventBattleActive || !(['BATTLE', 'ROUND_RESULT', 'FACTORY_SWAP', 'REWARD'].includes(gameState) || (gameState === 'BASE' && hasFactoryRunToResume))) {
       battleResumeSnapshotRef.current = null;
+      // 本局已结束 / 尚未开战（含**新挑战开始**）⇒ 复位提示，不让上一局的规整提示跨 run 残留。
+      setHeldItemRepairNotice((prev) => (prev.repaired || prev.dismissed ? { repaired: false, dismissed: false } : prev));
     }
   }, [eventBattleActive, gameState, hasFactoryRunToResume, pendingBattleResumeRestore]);
 
@@ -1036,7 +1132,12 @@ export function usePokeFactoryGame(): GameViewModel {
     const newRecord = roundResult === 'WIN' ? streak >= highestStreak : false;
 
     if (getClassicPostBattleDestination(stage, roundResult) === 'FACTORY_SWAP') {
-      void factoryFlow.prefetchEnemy(stage + 1);
+      // 奖励前那一战（组内第 3、6 胜后）先换怪/跳过再进奖励节点，此处不预取敌队。
+      // 预取时带上玩家在队持有物做生成期排除（裁决补遗二），使换怪不会撞上唯一性不变量。
+      if (!shouldEnterRewardAfterWinning(stage)) {
+        void factoryFlow.prefetchEnemy(stage + 1, { blockedItemIds: getFactoryHeldItemInTeamIds(playerTeam) });
+      }
+      setPostBattleActionError(null);
       setGameState('FACTORY_SWAP');
       return;
     }
@@ -1116,7 +1217,7 @@ export function usePokeFactoryGame(): GameViewModel {
       setEnemyAiTier(getAiTier(normalized, FACTORY_REWARD_CONFIG.battlesPerSet));
       setIsTransitioning(true);
       setGameState('BATTLE');
-      void factoryFlow.spawnEnemy(normalized).then((ready) => {
+      void factoryFlow.spawnEnemy(normalized, { blockedItemIds: getFactoryHeldItemInTeamIds(playerTeam) }).then((ready) => {
         if (!ready) {
           setIsTransitioning(false);
           setGameState('BASE');
@@ -1135,44 +1236,6 @@ export function usePokeFactoryGame(): GameViewModel {
     setBattleSpecialUsage({ MEGA: false, DYNAMAX: false, TERA: false, ZMOVE: false });
     setSpecialBossBattleActive(false);
   }, []);
-
-  const devOpenRewardScreen = useCallback(() => {
-    const fallbackItem = ALL_ITEMS[0];
-    const potionItem = ALL_ITEMS.find((item) => item.id === 'potion') ?? fallbackItem;
-    const permitItem = ALL_ITEMS.find((item) => item.id === 'team_capacity_permit') ?? fallbackItem;
-    const rewardChoiceCount = getFactoryRewardChoiceCount();
-    const samplePokemon = playerTeam[0] ?? factoryRentals[0];
-    const sampleTmMove = samplePokemon?.selectedMoves?.[0];
-    const tmReward: GameReward = sampleTmMove
-      ? { type: 'TM', data: { move: sampleTmMove, learnerIndexes: [0] } }
-      : { type: 'ITEM', data: potionItem };
-    const rewardCandidates: GameReward[] = [
-      { type: 'ITEM', data: potionItem },
-      samplePokemon ? { type: 'POKEMON', data: samplePokemon } : { type: 'ITEM', data: potionItem },
-      tmReward,
-      playerTeam.length > 0 ? { type: 'EVOLUTION', data: { eligibleIndexes: [0] } } : { type: 'ITEM', data: potionItem },
-      { type: 'ITEM', data: permitItem },
-      { type: 'ITEM', data: potionItem },
-    ];
-    const nextRewards = rewardCandidates.slice(0, rewardChoiceCount);
-    while (nextRewards.length < rewardChoiceCount) {
-      nextRewards.push({ type: 'ITEM', data: potionItem });
-    }
-
-    setRewards(nextRewards);
-    setRewardChoiceMade(false);
-    setRerollCount(0);
-    setPendingTmMove(null);
-    setPendingTmLearnerIndexes([]);
-    setPendingEvolutionEligibleIndexes([]);
-    setPendingRewardAction(null);
-    setLearningPokemonIdx(null);
-    setSelectedNewMove(null);
-    setSelectedPokemonForEvolution(null);
-    setEvolutionChoices([]);
-    setShowReplaceUI(null);
-    setGameState('REWARD');
-  }, [factoryRentals, playerTeam]);
 
   const devOpenStatusPanel = useCallback(() => {
     if (gameState !== 'BATTLE') return;
@@ -1276,24 +1339,135 @@ export function usePokeFactoryGame(): GameViewModel {
     if (!canAdvanceClassicStage(stage, gameState, roundResult, hasFactoryRunToResume)) return;
     const actionKey = `${walletRef.current.currentRunId}:${stage}:${gameState}`;
     await classicAdvanceGateRef.current(actionKey, async () => {
+      // 奖励前那一战（组内第 3、6 胜后）的「跳过换怪」：先落盘 PENDING，再进奖励节点。
+      if (gameState === 'FACTORY_SWAP' && shouldEnterRewardAfterWinning(stage)) {
+        try {
+          const checkpoint = commitFactoryRewardPending(walletRef.current.currentRunId ?? '', stage, playerTeam, false);
+          battleResumeSnapshotRef.current = checkpoint;
+          setPlayerTeam(checkpoint.playerTeam);
+          setRewardCheckpoint(checkpoint.rewardCheckpoint ?? null);
+          setRewardPrepareError(null);
+          setPostBattleActionError(null);
+          setGameState('REWARD');
+          return true;
+        } catch (error) {
+          console.error('Reward checkpoint save failed', error);
+          setPostBattleActionError(currentLanguage.startsWith('zh')
+            ? '奖励进度保存失败，请重试。'
+            : 'Could not save reward progress. Please retry.');
+          return false;
+        }
+      }
       const ready = await factoryFlow.nextFactoryStage();
       return ready;
     });
-  }, [factoryFlow, gameState, hasFactoryRunToResume, roundResult, stage]);
+  }, [currentLanguage, factoryFlow, gameState, hasFactoryRunToResume, playerTeam, roundResult, stage]);
 
   const performSwap = useCallback(async (playerIdx: number, enemyIdx: number) => {
     if (!canAdvanceClassicStage(stage, gameState, roundResult, hasFactoryRunToResume)) return;
     if (!Number.isInteger(playerIdx) || playerIdx < 0 || playerIdx >= playerTeam.length) return;
     if (!Number.isInteger(enemyIdx) || enemyIdx < 0 || enemyIdx >= enemyTeam.length) return;
+    // 三人返还基准互不重复是**全任务不变量**（PRD 边界 + 裁决补遗一）：
+    // 守卫挂在**每一次**换怪上（组内第 1–6 胜后都进 FACTORY_SWAP），不只在奖励前那一战。
+    // 会让基准重复的组合直接禁用并说明（不自动替换、不丢弃原配）。
+    if (getFactorySwapEquippedItemConflict(playerTeam, enemyTeam, playerIdx, enemyIdx)) {
+      setPostBattleActionError(currentLanguage.startsWith('zh')
+        ? '换入成员的本局装备与留下队员重复，请改选组合或跳过换怪。'
+        : 'The incoming member has the same equipped item as a remaining teammate. Choose another swap or skip.');
+      return;
+    }
+    setPostBattleActionError(null);
     const actionKey = `${walletRef.current.currentRunId}:${stage}:${gameState}`;
     await classicAdvanceGateRef.current(actionKey, async () => {
       const swappedTeam = await factoryFlow.performSwap(playerIdx, enemyIdx);
       if (!swappedTeam) return false;
+      if (shouldEnterRewardAfterWinning(stage)) {
+        try {
+          const checkpoint = commitFactoryRewardPending(walletRef.current.currentRunId ?? '', stage, swappedTeam, true);
+          battleResumeSnapshotRef.current = checkpoint;
+          setPlayerTeam(checkpoint.playerTeam);
+          setSwapCount(checkpoint.swapCount);
+          setTotalRents(checkpoint.totalRents);
+          setRewardCheckpoint(checkpoint.rewardCheckpoint ?? null);
+          setRewardPrepareError(null);
+          setPostBattleActionError(null);
+          setGameState('REWARD');
+          return true;
+        } catch (error) {
+          console.error('Reward checkpoint save failed', error);
+          setPostBattleActionError(currentLanguage.startsWith('zh')
+            ? '奖励进度保存失败，请重试。'
+            : 'Could not save reward progress. Please retry.');
+          return false;
+        }
+      }
       const ready = await factoryFlow.nextFactoryStage(swappedTeam);
       if (ready) factoryFlow.commitSwap(swappedTeam);
       return ready;
     });
-  }, [enemyTeam.length, factoryFlow, gameState, hasFactoryRunToResume, playerTeam, roundResult, stage]);
+  }, [currentLanguage, enemyTeam, factoryFlow, gameState, hasFactoryRunToResume, playerTeam, roundResult, stage]);
+
+  const clearPostBattleActionError = useCallback(() => setPostBattleActionError(null), []);
+
+  /** 领取奖励持有物：`READY → CLAIMED` 原子落盘；同步门闩保证双击/连点只领一次。 */
+  const claimFactoryItemReward = useCallback(async (itemId: FactoryRewardHeldItemId, targetIndex: number): Promise<boolean> => {
+    if (rewardClaimInFlightRef.current || gameState !== 'REWARD'
+      || battleResumeSnapshotRef.current?.phase !== 'REWARD'
+      || battleResumeSnapshotRef.current.rewardCheckpoint?.status !== 'READY') return false;
+    rewardClaimInFlightRef.current = true;
+    setRewardClaimBusy(true);
+    try {
+      const checkpoint = commitFactoryItemRewardClaim(walletRef.current.currentRunId ?? '', stage, itemId, targetIndex);
+      battleResumeSnapshotRef.current = checkpoint;
+      setPlayerTeam(checkpoint.playerTeam);
+      setRewardCheckpoint(checkpoint.rewardCheckpoint ?? null);
+      setRewardClaimError(null);
+      return true;
+    } catch (error) {
+      console.error('Factory item reward save failed', error);
+      setRewardClaimError(currentLanguage.startsWith('zh')
+        ? '奖励保存失败，请检查所选队员和存储空间后重试。'
+        : 'Could not save the reward. Check the selected teammate and storage, then retry.');
+      return false;
+    } finally {
+      rewardClaimInFlightRef.current = false;
+      setRewardClaimBusy(false);
+    }
+  }, [currentLanguage, gameState, stage]);
+
+  const clearFactoryItemRewardError = useCallback(() => setRewardClaimError(null), []);
+
+  /** `CLAIMED` 后续战：先落盘「继续意图」（幂等），再起下一战。 */
+  const continueAfterFactoryReward = useCallback(async () => {
+    if (gameState !== 'REWARD' || battleResumeSnapshotRef.current?.phase !== 'REWARD'
+      || battleResumeSnapshotRef.current.rewardCheckpoint?.status !== 'CLAIMED') return;
+    const runId = walletRef.current.currentRunId ?? '';
+    const actionKey = `${runId}:${stage}:REWARD`;
+    await classicAdvanceGateRef.current(actionKey, async () => {
+      setRewardContinueBusy(true);
+      try {
+        const checkpoint = commitFactoryRewardContinueIntent(runId, stage);
+        battleResumeSnapshotRef.current = checkpoint;
+        setRewardCheckpoint(checkpoint.rewardCheckpoint ?? null);
+        setRewardContinueError(null);
+        const ready = await factoryFlow.nextFactoryStage();
+        if (!ready) {
+          setRewardContinueError(currentLanguage.startsWith('zh')
+            ? '下一场战斗加载失败，请重试。'
+            : 'Could not load the next battle. Please retry.');
+        }
+        return ready;
+      } catch (error) {
+        console.error('Factory reward continuation failed', error);
+        setRewardContinueError(currentLanguage.startsWith('zh')
+          ? '进度保存失败，请检查存储空间后重试。'
+          : 'Could not save progress. Check storage and retry.');
+        return false;
+      } finally {
+        setRewardContinueBusy(false);
+      }
+    });
+  }, [currentLanguage, factoryFlow, gameState, stage]);
 
   const startGame = useCallback(async () => {
     if (!canEnterProject || companionCommittedRef.current === null) return;
@@ -1732,6 +1906,8 @@ export function usePokeFactoryGame(): GameViewModel {
     rerollCount,
     playerTeam,
     rewards,
+    rewardCheckpointStatus: gameState === 'REWARD' && rewardCheckpoint ? rewardCheckpoint.status : null,
+    rewardCheckpoint: gameState === 'REWARD' ? rewardCheckpoint : null,
     activeBuffs,
     weather,
     weatherTurns,
@@ -1765,6 +1941,15 @@ export function usePokeFactoryGame(): GameViewModel {
     loading,
     rentalLoadError,
     opponentLoadError,
+    postBattleActionError,
+    rewardClaimError,
+    rewardClaimBusy,
+    rewardContinueError,
+    rewardContinueBusy,
+    rewardPrepareError,
+    // 返还基准被规整过的如实提示（可关闭，但不会被静默吞掉）。
+    heldItemBaselineRepaired: heldItemRepairNotice.repaired && !heldItemRepairNotice.dismissed,
+    dismissHeldItemRepairNotice: () => setHeldItemRepairNotice((prev) => (prev.dismissed ? prev : { ...prev, dismissed: true })),
     bootProgress,
     canEnterProject,
     bootStatusText,
@@ -1853,14 +2038,20 @@ export function usePokeFactoryGame(): GameViewModel {
     confirmRentals: factoryFlow.confirmRentals,
     toggleRental: factoryFlow.toggleRental,
     performSwap,
+    clearPostBattleActionError,
     nextFactoryStage,
     useItem: battleController.useItem,
     switchPokemon: battleController.switchPokemon,
     handleAttack: battleController.handleAttack,
     triggerBattleSpecial: battleController.triggerBattleSpecial,
-    rerollRewards: rewardFlow.rerollRewards,
-    nextStage: rewardFlow.nextStage,
-    selectReward: rewardFlow.selectReward,
+    // 奖励节点期间旧奖池路径全部短路（PRD：旧奖池只需不再使用）。
+    rerollRewards: gameState === 'REWARD' ? async () => {} : rewardFlow.rerollRewards,
+    nextStage: gameState === 'REWARD' ? async () => {} : rewardFlow.nextStage,
+    selectReward: gameState === 'REWARD' ? () => {} : rewardFlow.selectReward,
+    claimFactoryItemReward,
+    continueAfterFactoryReward,
+    clearFactoryItemRewardError,
+    retryFactoryItemRewardPrepare,
     startLearningMove: rewardFlow.startLearningMove,
     handleLearnMove: rewardFlow.handleLearnMove,
     replaceMove: rewardFlow.replaceMove,
@@ -1877,7 +2068,6 @@ export function usePokeFactoryGame(): GameViewModel {
     devWinBattle: battleController.devWinBattle,
     devUnlockSpecialMode,
     devResetBattleSpecialUsage,
-    devOpenRewardScreen,
     devOpenStatusPanel,
     devApplyStatusPanelPreset,
     devSetWeather,

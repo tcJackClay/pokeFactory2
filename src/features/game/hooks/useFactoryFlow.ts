@@ -33,6 +33,7 @@ import type { BattleHazards, BattleMenuTab, FieldState, FieldTurns, GamePokemon,
 import { createEmptyBattleHazards } from '../battle/engine/resolveEntryHazards';
 import type { BattleSpecialUsageState, BattleTurn, FactoryAiTier, LocalizeFn, TranslateFn } from '../view-model';
 import { prepareFactoryPartyForBattle, restoreFactoryParty } from '../utils/restoreFactoryParty';
+import { getFactoryHeldItemInTeamIds } from '../config/factoryHeldItemRules';
 import { restoreFactoryBattlePresentation, type FactoryBattlePresentation } from './factoryBattleRollback';
 import { choosePoolCandidates, collectBlockedSpecies, emptyPoolRejectCounts, normalizePoolItemId, type PoolCandidate, type PoolSource } from './factoryOpponentCandidates';
 import {
@@ -60,6 +61,10 @@ interface UseFactoryFlowParams {
   currentEnemyTrainer: FactoryTrainerTemplate | null;
   gameState: GameState;
   battlePresentation: FactoryBattlePresentation;
+  /**
+   * 提交起战。返回**实际落盘的队伍**：事务层可能在提交时规整返还基准（防御层），
+   * 调用方必须用返回值回写内存，否则内存与存档不一致会在下一次奖励节点的身份指纹比对里炸掉。
+   */
   commitNextBattleStart: (start: {
     stage: number;
     playerTeam: GamePokemon[];
@@ -68,7 +73,7 @@ interface UseFactoryFlowParams {
     enemyAiTier: FactoryAiTier;
     specialBossBattleActive: boolean;
     swapped: boolean;
-  }) => void;
+  }) => { playerTeam: GamePokemon[] };
   t: TranslateFn;
   getLocalized: LocalizeFn;
   addMessagesSequentially: (messages: string[]) => Promise<void>;
@@ -436,6 +441,41 @@ function getAvailableHeldItemBySlot(slot: number, setNo: number, pickedItems: Re
   return '';
 }
 
+/**
+ * 生成期排除（Orchestrator 裁决补遗二；依据参考实现 `battle_factory.c:297/458/698`）：
+ * 敌方/换怪来源**不得携带玩家队当前在队的持有物**，否则战后任何换怪都会撞上
+ * 「三人返还基准互不重复」的不变量。本函数**只改持有物字段**：不改强度分档、
+ * 不改队伍构成与物种规则；池子耗尽时优雅退化为「无持有物」，绝不抛错、绝不补位。
+ * 对**缓存**与**新生成**的遭遇统一应用，因此预取路径不会绕过排除。
+ */
+function excludePlayerHeldItems(team: GamePokemon[], blockedItemIds: ReadonlySet<string>, setNo: number): GamePokemon[] {
+  if (team.length === 0 || blockedItemIds.size === 0) return team;
+  const taken = new Set<string>(blockedItemIds);
+  return team.map((pokemon, index) => {
+    const currentItemId = normalizePoolItemId(pokemon.factoryOriginalHeldItemId ?? '');
+    if (currentItemId.length === 0 || !taken.has(currentItemId)) {
+      if (currentItemId.length > 0) taken.add(currentItemId);
+      return pokemon;
+    }
+    const replacement = getAvailableHeldItemBySlot(index, setNo, taken);
+    const hasRealItem = replacement.length > 0;
+    if (hasRealItem) taken.add(normalizePoolItemId(replacement));
+    return {
+      ...pokemon,
+      factoryOriginalHeldItemId: hasRealItem ? replacement : null,
+      factoryEquippedHeldItemId: hasRealItem ? replacement : null,
+      factoryHeldItemId: hasRealItem ? replacement : undefined,
+    };
+  });
+}
+
+/** 敌方遭遇的生成/消费入参。`blockedItemIds` = 玩家队当前在队持有物（`normalizePoolItemId` 口径）。 */
+type FactoryEncounterOptions = {
+  factoryPool?: GamePokemon[];
+  playerPool?: GamePokemon[];
+  blockedItemIds?: readonly string[];
+};
+
 export function useFactoryFlow({
   selectedGens: configuredGens,
   startLevel,
@@ -762,6 +802,7 @@ export function useFactoryFlow({
     applyEvolutionStageWeights = false,
     requiredEvolutionStage,
     rentalSignal,
+    blockedItemIds,
   }: {
     count: number;
     level: number;
@@ -784,9 +825,12 @@ export function useFactoryFlow({
     applyEvolutionStageWeights?: boolean;
     requiredEvolutionStage?: EvolutionStage;
     rentalSignal?: AbortSignal;
+    /** 生成期排除：这些持有物不得分配给本池成员（裁决补遗二）。不改名单内容，只做排除。 */
+    blockedItemIds?: readonly string[];
   }) => {
     const pickedSpecies = new Set<number>([...blockedSpecies, ...FACTORY_BANNED_SPECIES_IDS]);
-    const pickedItems = new Set<string>();
+    // 预置玩家在队持有物 ⇒ 候选过滤与槽位分配都会绕开它们（与池内去重同一套 `pickedItems` 机制）。
+    const pickedItems = new Set<string>((blockedItemIds ?? []).map((itemId) => normalizePoolItemId(itemId)));
     const mons: GamePokemon[] = [];
     const slotRangeSetCache = new Map<string, Awaited<ReturnType<typeof getReferenceSetsByRange>>>();
     const trainerReferenceSets = selectionMode === 'TRAINER_POOL_FIRST'
@@ -1003,6 +1047,8 @@ export function useFactoryFlow({
       mons.push({
         ...candidatePokemon,
         factoryOriginalHeldItemId: hasRealItem ? itemId : null,
+        // 本局返还基准初始 = 租借原配（玩家与敌方对称写入）。
+        factoryEquippedHeldItemId: hasRealItem ? itemId : null,
         factoryHeldItemId: hasRealItem ? itemId : undefined,
       });
       if (rentalSignal) {
@@ -1140,7 +1186,7 @@ export function useFactoryFlow({
 
   const generateEnemyEncounter = useCallback(async (
     currentStage: number,
-    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[] },
+    options?: FactoryEncounterOptions,
   ): Promise<EnemyEncounterData> => {
     const battlesPerSet = FACTORY_REWARD_CONFIG.battlesPerSet;
     const battleInSet = ((currentStage - 1) % battlesPerSet) + 1;
@@ -1220,6 +1266,7 @@ export function useFactoryFlow({
       fixedIv,
       setNo,
       isBoss,
+      blockedItemIds: options?.blockedItemIds,
     });
 
     if (team.length < FACTORY_BATTLE_CONFIG.teamSize) {
@@ -1264,7 +1311,7 @@ export function useFactoryFlow({
 
   const prefetchEnemy = useCallback(async (
     currentStage: number,
-    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[] },
+    options?: FactoryEncounterOptions,
   ) => {
     const key = buildEncounterContextKey(currentStage, options);
     debugFactoryLog('prefetchEnemy:request', {
@@ -1340,7 +1387,7 @@ export function useFactoryFlow({
 
   const spawnEnemy = useCallback(async (
     currentStage: number,
-    options?: { factoryPool?: GamePokemon[]; playerPool?: GamePokemon[]; playTrainerIntro?: boolean; commitBattleStart?: (encounter: EnemyEncounterData) => void },
+    options?: FactoryEncounterOptions & { playTrainerIntro?: boolean; commitBattleStart?: (encounter: EnemyEncounterData) => void },
   ) => {
     setOpponentLoadError(false);
     setLoading(true);
@@ -1380,6 +1427,12 @@ export function useFactoryFlow({
             ? (awaitedPrefetch ? 'awaited-prefetch' : 'ready-prefetch')
             : 'generated-on-confirm',
         });
+      }
+      // 生成期排除（裁决补遗二）：对**缓存**与**新生成**统一应用，预取路径因此不会绕过排除。
+      const blockedItemIds = new Set((options?.blockedItemIds ?? []).map((itemId) => normalizePoolItemId(itemId)));
+      if (blockedItemIds.size > 0) {
+        const excludedTeam = excludePlayerHeldItems(encounter.team, blockedItemIds, encounter.setNo);
+        encounter = { ...encounter, team: excludedTeam, firstEnemy: excludedTeam[0] ?? encounter.firstEnemy };
       }
       debugFactoryLog('spawnEnemy:resolved', {
         stage: currentStage,
@@ -1543,6 +1596,8 @@ export function useFactoryFlow({
       debugFactoryLog('startGame:rentals-ready', {
         rentals: rentals.map((pokemon) => pokemon.id),
       });
+      // 此刻玩家尚未选出三人，无法做持有物排除（选人时由 `confirmRentals` 的 blockedItemIds 兜住）；
+      // 这里保留预取以维持首战零等待，排除逻辑在 `spawnEnemy` 消费缓存后统一应用。
       void prefetchEnemy(1, { factoryPool: rentals, playerPool: [] });
     } catch (error) {
       console.error(error);
@@ -1634,7 +1689,7 @@ export function useFactoryFlow({
       setGameState('BATTLE');
       usedTrainerIdsBySetRef.current.clear();
       resetBattlePreview();
-      await spawnEnemy(1);
+      await spawnEnemy(1, { blockedItemIds: getFactoryHeldItemInTeamIds(team) });
     } catch (error) {
       console.error(error);
     } finally {
@@ -1691,7 +1746,13 @@ export function useFactoryFlow({
       setPlayerTeam(team);
       resetBattlePreview();
       startBattleTransition();
-      enemyReady = await spawnEnemy(1, { factoryPool: factoryRentals, playerPool: [], playTrainerIntro: true });
+      enemyReady = await spawnEnemy(1, {
+        factoryPool: factoryRentals,
+        playerPool: [],
+        // 生成期排除：敌方不得携带玩家已确定的三人持有物（裁决补遗二）。
+        blockedItemIds: getFactoryHeldItemInTeamIds(team),
+        playTrainerIntro: true,
+      });
       if (!enemyReady) {
         setIsTransitioning(false);
         setGameState('FACTORY_SELECT');
@@ -1707,13 +1768,17 @@ export function useFactoryFlow({
     resetBattlePreview();
     const nextStageNo = stage + 1;
     startBattleTransition();
-    const encounterOptions = { playerPool: preparedTeam };
+    // 生成期排除（裁决补遗二）：下一战敌方不得携带玩家队当前在队的持有物。
+    const encounterOptions = {
+      playerPool: preparedTeam,
+      blockedItemIds: getFactoryHeldItemInTeamIds(preparedTeam),
+    };
     void prefetchEnemy(nextStageNo, encounterOptions);
     const ready = await spawnEnemy(nextStageNo, {
       ...encounterOptions,
       playTrainerIntro: true,
       commitBattleStart: (encounter) => {
-        commitNextBattleStart({
+        const committed = commitNextBattleStart({
           stage: nextStageNo,
           playerTeam: preparedTeam,
           enemyTeam: encounter.team,
@@ -1722,7 +1787,9 @@ export function useFactoryFlow({
           specialBossBattleActive: encounter.isSpecialUnlockBoss,
           swapped: Boolean(playerPool),
         });
-        setPlayerTeam(preparedTeam);
+        // 以落盘结果回写内存：防御层一旦规整过返还基准，内存必须与存档同步，
+        // 否则下一次奖励节点的身份指纹（含 equippedItem）会把该队员判为「被改动」⇒ 死路重现。
+        setPlayerTeam(committed.playerTeam);
         setStage(nextStageNo);
       },
     });

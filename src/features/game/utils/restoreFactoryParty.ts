@@ -47,6 +47,7 @@ export function restoreFactoryParty(team: GamePokemon[]): GamePokemon[] {
 export function prepareFactoryPartyForBattle(team: GamePokemon[]): GamePokemon[] {
   return restoreFactoryParty(team).map((pokemon) => ({
     ...pokemon,
-    factoryHeldItemId: pokemon.factoryOriginalHeldItemId ?? undefined,
+    // 按「本局返还基准」返还，而不是不可变的租借原配（领取奖励装备后基准会变）。
+    factoryHeldItemId: pokemon.factoryEquippedHeldItemId ?? undefined,
   }));
 }

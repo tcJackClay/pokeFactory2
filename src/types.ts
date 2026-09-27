@@ -358,6 +358,12 @@ export interface GamePokemon extends Pokemon {
   isGym?: boolean;
   factoryHeldItemId?: string;
   factoryOriginalHeldItemId?: string | null;
+  /**
+   * 本局返还基准（PRD §3.1/§3.5）：初始 = 租借原配，领取奖励装备后 = 该奖励装备。
+   * 战斗中消耗/被打落**不改动**本字段（`factoryHeldItemId` 才是本场当前持有物）；
+   * 每战开战前按本字段返还。三人互不重复是本任务的不变量。
+   */
+  factoryEquippedHeldItemId?: string | null;
   nonVolatileStatus?: NonVolatileStatusState;
   volatileStatuses?: VolatileStatusMap;
   statStages: StatStages;
