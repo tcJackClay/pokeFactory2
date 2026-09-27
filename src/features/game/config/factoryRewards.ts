@@ -4,6 +4,12 @@ export type BattleResult = 'WIN' | 'LOSS';
 export const FACTORY_SINGLES_BP = [3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 15, 15, 15, 15] as const;
 export const MAX_FACTORY_BP = 9999;
 
+/**
+ * 兑换券折算 BP 的唯一口径常量（PRD 奖励商店 F7 / decisions.md 第一节）：
+ * 组末七战全胜结算时，剩余兑换券按 1 券 = FACTORY_TICKETS_TO_BP_RATE BP 并入同一次结算。
+ */
+export const FACTORY_TICKETS_TO_BP_RATE = 1;
+
 export function getFactorySetBp(setNo: number): number {
   if (!Number.isSafeInteger(setNo) || setNo < 1) throw new Error('Invalid factory set.');
   return FACTORY_SINGLES_BP[Math.min(setNo - 1, FACTORY_SINGLES_BP.length - 1)];
@@ -14,15 +20,33 @@ export function getFactoryGroupBp(stage: number, result: BattleResult, isFrontie
   return getFactorySetBp(getSetNoByStage(stage)) + (isFrontierBrain ? 10 : 0);
 }
 
+/**
+ * 商店稀有度三档（PRD §2.3 / decisions.md 第 12 条）：价格就是档位数字。
+ * 逐件商品的档位表在 `factoryRewardPool.ts`（与候选名单同处，避免配置互相引用形成环）。
+ */
+export type FactoryShopRarityTier = 1 | 2 | 3;
+
+export const FACTORY_SHOP_RARITY_PRICES: Record<FactoryShopRarityTier, number> = {
+  1: 1,
+  2: 2,
+  3: 3,
+};
+
+/** 档位 → 兑换价（券数）。唯一数值源，UI 不得内联硬编码。 */
+export function getFactoryShopRarityPrice(tier: FactoryShopRarityTier): number {
+  return FACTORY_SHOP_RARITY_PRICES[tier];
+}
+
 export interface FactoryRewardConfig {
   battlesPerSet: number;
-  freeRewardChoiceCount: number;
+  /** 商店货架件数（PRD 目标 A：6）。原「免费领张数 freeRewardChoiceCount」语义已废除。 */
+  shelfSize: number;
   preBattleRewardBattlesInSet: number[];
 }
 
 export const FACTORY_REWARD_CONFIG: FactoryRewardConfig = {
   battlesPerSet: 7,
-  freeRewardChoiceCount: 4,
+  shelfSize: 6,
   preBattleRewardBattlesInSet: [4, 7],
 };
 
@@ -34,8 +58,8 @@ export function getBattleIndexInSet(stage: number, battlesPerSet = FACTORY_REWAR
   return ((stage - 1) % battlesPerSet) + 1;
 }
 
-export function getFactoryRewardChoiceCount(config: FactoryRewardConfig = FACTORY_REWARD_CONFIG): number {
-  return Math.max(1, Math.floor(config.freeRewardChoiceCount));
+export function getFactoryShelfSize(config: FactoryRewardConfig = FACTORY_REWARD_CONFIG): number {
+  return Math.max(1, Math.floor(config.shelfSize));
 }
 
 export function getPreBattleRewardBattlesInSet(config: FactoryRewardConfig = FACTORY_REWARD_CONFIG): number[] {

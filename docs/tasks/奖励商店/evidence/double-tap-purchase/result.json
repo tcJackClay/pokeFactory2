@@ -1,0 +1,52 @@
+{
+  "name": "double-tap-purchase",
+  "octet": 46,
+  "fixture": "fx-shop-pending-t3.json",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "受控存档注入 + 真实 UI 触控 + 存档断言",
+  "steps": [
+    {
+      "name": "01-confirm-armed",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "02-after-double-tap",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 1,
+      "status": "READY"
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "before": {
+    "tickets": 3
+  },
+  "taps": [
+    "tap1-ok",
+    "tap2-ok"
+  ],
+  "purchaseCommits": 1,
+  "after": {
+    "tickets": 1,
+    "purchases": [
+      {
+        "itemId": "mental_herb",
+        "targetIndex": 2,
+        "ticketsSpent": 2
+      }
+    ]
+  },
+  "assertions": {
+    "singleCommit": true,
+    "chargedOnce": true,
+    "ticketsExactlyTwo": true,
+    "stillInShop": true
+  }
+}

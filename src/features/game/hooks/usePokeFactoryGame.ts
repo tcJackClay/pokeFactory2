@@ -10,7 +10,7 @@ import { ALL_ITEMS } from '../../../uiAppConstants';
 import { fetchPokemon, getProcessedPokemon, isEvolutionChainBaseSpecies } from '../../../services/pokeApi';
 import { getAiTier } from '../config/factoryBattle';
 import { FACTORY_REWARD_CONFIG, shouldEnterRewardAfterWinning } from '../config/factoryRewards';
-import { drawFactoryRewardCards, type FactoryRewardHeldItemId } from '../config/factoryRewardPool';
+import { drawFactoryShopShelf, type FactoryRewardHeldItemId } from '../config/factoryRewardPool';
 import { canAdvanceClassicStage, createClassicActionGate, getClassicPostBattleDestination } from '../config/classicFlow';
 import { EVENT_REGIONS, IV_TRAIN_BATTLE_THRESHOLD, RARE_SPECIES_POOL, createDefaultDispatchState } from '../config/events';
 import { useGameLocalization } from './useGameLocalization';
@@ -41,7 +41,7 @@ import type {
   SelectedEvolutionPokemon,
   PokemonInfoSource,
 } from '../view-model';
-import { getBattleIndexInSet, getFactoryRewardChoiceCount, getSetNoByStage } from '../config/factoryRewards';
+import { getBattleIndexInSet, getFactoryShelfSize, getSetNoByStage } from '../config/factoryRewards';
 import { getFactoryHeldItemInTeamIds } from '../config/factoryHeldItemRules';
 import {
   buildSaveExportFilename,
@@ -53,7 +53,7 @@ import {
   commitFactoryBattleStart,
   commitFactoryRewardPending,
   commitFactoryRewardReady,
-  commitFactoryItemRewardClaim,
+  commitFactoryShopPurchase,
   commitFactoryRewardContinueIntent,
   getFactorySwapEquippedItemConflict,
   createEmptyBattleResume,
@@ -412,8 +412,8 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [buildStableFactoryBattleResume, eventBattleActive, gameState, hasFactoryRunToResume, pendingBattleResumeRestore, roundResult, lastTokenGain, streak, swapCount, totalRents, playerTeam, enemyTeam]);
 
   /**
-   * 奖励节点 `PENDING → READY`：枚举候选 + 等权不放回抽四张并**冻结落盘**。
-   * PRD §3.3/§3.4：候选不足**不得**补位、不得重复出卡；写入失败留在 PENDING 可重试。
+   * 奖励节点 `PENDING → READY`：枚举候选 + 等权不放回抽满货架（shelfSize 件）并**冻结落盘**。
+   * PRD 奖励商店 F2：候选不足**不得**补位、不得重复出卡、不得悄悄少给；写入失败留在 PENDING 可重试。
    * 只在 `gameState === 'REWARD'` 且锚点仍为 PENDING 时执行，且带同步门闩防重复抽取。
    */
   useEffect(() => {
@@ -426,22 +426,22 @@ export function usePokeFactoryGame(): GameViewModel {
     rewardPrepareInFlightRef.current = true;
     const isZh = currentLanguage.startsWith('zh');
     try {
-      const choiceCount = getFactoryRewardChoiceCount();
-      const drawn = drawFactoryRewardCards(snapshot.playerTeam.map((pokemon) => pokemon.factoryEquippedHeldItemId));
+      const shelfSize = getFactoryShelfSize();
+      const drawn = drawFactoryShopShelf(snapshot.playerTeam.map((pokemon) => pokemon.factoryEquippedHeldItemId));
       if (drawn.ok === false) {
-        // 边界 B：候选不足是缺陷，明确上报而不静默补位。
+        // 边界（正常路径不可达）：候选不足是缺陷，明确上报而不静默补位。
         setRewardPrepareError(isZh
-          ? `奖励候选不足（${drawn.candidateCount}/${choiceCount}），已按缺陷记录，不会补位或重复出卡。请重试或上报。`
-          : `Not enough reward candidates (${drawn.candidateCount}/${choiceCount}). This is a defect: no padding or duplicate cards. Please retry or report.`);
+          ? `货架候选不足（${drawn.candidateCount}/${shelfSize}），已按缺陷记录，不会补位或重复上架。请重试或上报。`
+          : `Not enough shop candidates (${drawn.candidateCount}/${shelfSize}). This is a defect: no padding or duplicate products. Please retry or report.`);
         return;
       }
-      const ready = commitFactoryRewardReady(runId, snapshot.rewardCheckpoint.stage, drawn.cards);
+      const ready = commitFactoryRewardReady(runId, snapshot.rewardCheckpoint.stage, drawn.shelf);
       battleResumeSnapshotRef.current = ready;
       setRewardCheckpoint(ready.rewardCheckpoint ?? null);
       setRewardPrepareError(null);
     } catch (error) {
-      console.error('Factory reward card preparation failed', error);
-      // 候选卡可能已被同版导入/其它标签页冻结：采用已落盘结果，绝不重抽。
+      console.error('Factory reward shelf preparation failed', error);
+      // 候选货架可能已被同版导入/其它标签页冻结：采用已落盘结果，绝不重抽。
       const stored = loadSaveData()?.factory.battleResume;
       if (stored?.status === 'READY' && stored.phase === 'REWARD' && stored.rewardCheckpoint?.status === 'READY') {
         battleResumeSnapshotRef.current = stored;
@@ -449,8 +449,8 @@ export function usePokeFactoryGame(): GameViewModel {
         setRewardPrepareError(null);
       } else {
         setRewardPrepareError(isZh
-          ? '奖励卡保存失败，进度未改变。请检查存储空间后重试。'
-          : 'Could not save the reward cards. Progress is unchanged. Check storage and retry.');
+          ? '货架保存失败，进度未改变。请检查存储空间后重试。'
+          : 'Could not save the shop shelf. Progress is unchanged. Check storage and retry.');
       }
     } finally {
       rewardPrepareInFlightRef.current = false;
@@ -1413,38 +1413,40 @@ export function usePokeFactoryGame(): GameViewModel {
 
   const clearPostBattleActionError = useCallback(() => setPostBattleActionError(null), []);
 
-  /** 领取奖励持有物：`READY → CLAIMED` 原子落盘；同步门闩保证双击/连点只领一次。 */
-  const claimFactoryItemReward = useCallback(async (itemId: FactoryRewardHeldItemId, targetIndex: number): Promise<boolean> => {
+  /** 兑换商店购买：先扣券、再交货（单次落盘原子）；同步门闩保证双击/连点只扣一次券。 */
+  const purchaseFactoryShopItem = useCallback(async (itemId: FactoryRewardHeldItemId, targetIndex: number): Promise<boolean> => {
     if (rewardClaimInFlightRef.current || gameState !== 'REWARD'
       || battleResumeSnapshotRef.current?.phase !== 'REWARD'
       || battleResumeSnapshotRef.current.rewardCheckpoint?.status !== 'READY') return false;
     rewardClaimInFlightRef.current = true;
     setRewardClaimBusy(true);
     try {
-      const checkpoint = commitFactoryItemRewardClaim(walletRef.current.currentRunId ?? '', stage, itemId, targetIndex);
-      battleResumeSnapshotRef.current = checkpoint;
-      setPlayerTeam(checkpoint.playerTeam);
-      setRewardCheckpoint(checkpoint.rewardCheckpoint ?? null);
+      const { resume, runSupply } = commitFactoryShopPurchase(walletRef.current.currentRunId ?? '', stage, itemId, targetIndex);
+      battleResumeSnapshotRef.current = resume;
+      setPlayerTeam(resume.playerTeam);
+      setRewardCheckpoint(resume.rewardCheckpoint ?? null);
+      syncRunSupply(runSupply);
       setRewardClaimError(null);
       return true;
     } catch (error) {
-      console.error('Factory item reward save failed', error);
+      console.error('Factory shop purchase failed', error);
       setRewardClaimError(currentLanguage.startsWith('zh')
-        ? '奖励保存失败，请检查所选队员和存储空间后重试。'
-        : 'Could not save the reward. Check the selected teammate and storage, then retry.');
+        ? '兑换失败：券不足、队员不合法或保存出错。未扣券、未装备，请重试。'
+        : 'Purchase failed: not enough tickets, an invalid teammate, or a save error. Nothing was spent or equipped. Retry.');
       return false;
     } finally {
       rewardClaimInFlightRef.current = false;
       setRewardClaimBusy(false);
     }
-  }, [currentLanguage, gameState, stage]);
+  }, [currentLanguage, gameState, stage, syncRunSupply]);
 
   const clearFactoryItemRewardError = useCallback(() => setRewardClaimError(null), []);
 
-  /** `CLAIMED` 后续战：先落盘「继续意图」（幂等），再起下一战。 */
+  /** 离开商店（可一件不买）→ 落盘「继续意图」（幂等）→ 起下一战。 */
   const continueAfterFactoryReward = useCallback(async () => {
-    if (gameState !== 'REWARD' || battleResumeSnapshotRef.current?.phase !== 'REWARD'
-      || battleResumeSnapshotRef.current.rewardCheckpoint?.status !== 'CLAIMED') return;
+    if (gameState !== 'REWARD' || battleResumeSnapshotRef.current?.phase !== 'REWARD') return;
+    const checkpointStatus = battleResumeSnapshotRef.current.rewardCheckpoint?.status;
+    if (checkpointStatus !== 'READY' && checkpointStatus !== 'CLAIMED') return;
     const runId = walletRef.current.currentRunId ?? '';
     const actionKey = `${runId}:${stage}:REWARD`;
     await classicAdvanceGateRef.current(actionKey, async () => {
@@ -2055,7 +2057,7 @@ export function usePokeFactoryGame(): GameViewModel {
     rerollRewards: gameState === 'REWARD' ? async () => {} : rewardFlow.rerollRewards,
     nextStage: gameState === 'REWARD' ? async () => {} : rewardFlow.nextStage,
     selectReward: gameState === 'REWARD' ? () => {} : rewardFlow.selectReward,
-    claimFactoryItemReward,
+    purchaseFactoryShopItem,
     continueAfterFactoryReward,
     clearFactoryItemRewardError,
     retryFactoryItemRewardPrepare,

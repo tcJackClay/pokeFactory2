@@ -1,21 +1,22 @@
 import type { GamePokemon } from '../../../types';
 import { getItemBattleData, getMoveBattleData, hasAbilityBattleEffect } from '../data/battle';
-import { getFactoryRewardChoiceCount } from './factoryRewards';
+import { getFactoryShelfSize, getFactoryShopRarityPrice, type FactoryShopRarityTier } from './factoryRewards';
 
 /**
- * 「四卡生成」奖励池：单一真值源。
+ * 「奖励商店」货架候选池：单一真值源。
  *
- * 口径来源（PRD docs/tasks/四卡生成/prd.md §3.1–§3.3、§3.6）：
- * - H = 基础保底七件（design.md §1.1 + decisions.md 第 1 条裁决）；
+ * 口径来源（PRD docs/tasks/奖励商店/prd.md §2.1–§2.4、§F2/F5）：
+ * - H = 持有道具候选九件（decisions.md 第 1 条两轮扩池：5 → 7 → 9，白色香草 / 心灵香草本轮纳入）；
  * - E = 三名队员「本局返还基准」（`factoryEquippedHeldItemId`）去重集合，**不得**读本场当前持有物；
- * - 候选 = H \ E，不放回等权抽 min(4, |候选|)，不设权重、不固定 ITEM/TM 配比；
- * - TM 候选恒为空（allowlist 0/50），本模块不引入 TM 来源。
+ * - 候选 = H \ E，不放回等权抽 `shelfSize`(6) 件；因 9 − 3 = 6，持有道具这一类自己就够摆满货架；
+ * - 候选不足 shelfSize 是**缺陷**（正常路径不可达）：抛出 / 断言，不得用重复商品、未验收技能机、
+ *   旧奖池或空货位顶替，也不得悄悄少给（`INSUFFICIENT` 防御性语义保留）。
  *
  * 本模块只依赖 `data/battle` 与 `config/factoryRewards`，不 import `rewardPools.ts`，
  * 也不 import `services/saveManager`（避免与存档层互相依赖）。
  */
 
-/** 基础保底七件（PRD §3.1）。 */
+/** 持有道具候选九件（PRD §2.4，顺序即最终名单）。 */
 export const FACTORY_REWARD_HELD_ITEM_IDS = [
   'scope_lens',
   'quick_claw',
@@ -24,12 +25,58 @@ export const FACTORY_REWARD_HELD_ITEM_IDS = [
   'focus_band',
   'heavy_duty_boots',
   'loaded_dice',
+  'white_herb',
+  'mental_herb',
 ] as const;
 
 export type FactoryRewardHeldItemId = typeof FACTORY_REWARD_HELD_ITEM_IDS[number];
 
 export function isFactoryRewardHeldItemId(value: unknown): value is FactoryRewardHeldItemId {
   return typeof value === 'string' && FACTORY_REWARD_HELD_ITEM_IDS.some((itemId) => itemId === value);
+}
+
+/**
+ * 逐件商品的稀有度档位（PRD §2.3 定稿表 / decisions.md 第 12 条，唯一数值源）：
+ * 稀有度 3：讲究头带；稀有度 2：焦点镜、王者之证、气势头带、机变骰子、心灵香草；
+ * 稀有度 1：先制之爪、厚底靴、白色香草。价格 = 档位数字（见 `getFactoryHeldItemShopPrice`）。
+ */
+export const FACTORY_HELD_ITEM_SHOP_RARITY: Record<FactoryRewardHeldItemId, FactoryShopRarityTier> = {
+  scope_lens: 2,
+  quick_claw: 1,
+  kings_rock: 2,
+  choice_band: 3,
+  focus_band: 2,
+  heavy_duty_boots: 1,
+  loaded_dice: 2,
+  white_herb: 1,
+  mental_herb: 2,
+};
+
+/** 持有道具的兑换价（券）。未知道具返回 `null`（调用方必须如实禁用，不得默认免费）。 */
+export function getFactoryHeldItemShopPrice(itemId: string): number | null {
+  if (!isFactoryRewardHeldItemId(itemId)) return null;
+  return getFactoryShopRarityPrice(FACTORY_HELD_ITEM_SHOP_RARITY[itemId]);
+}
+
+/**
+ * 商店商品种类（PRD §2.2 / 本阶段 S1）：本阶段只产出持有道具一种，
+ * 但类型上**不写死**——后续阶段（进化道具、技能机）在此联合上扩展，
+ * 存档货架按 `kind` 区分，不假设所有商品都是持有道具。
+ */
+export type FactoryShopProductKind = 'HELD_ITEM';
+
+export interface FactoryShopHeldItemProduct {
+  kind: 'HELD_ITEM';
+  itemId: FactoryRewardHeldItemId;
+}
+
+export type FactoryShopProduct = FactoryShopHeldItemProduct;
+
+/** 商品是否为合法持有道具商品（含名单校验）。 */
+export function isFactoryShopProduct(value: unknown): value is FactoryShopHeldItemProduct {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const record = value as Record<string, unknown>;
+  return record.kind === 'HELD_ITEM' && isFactoryRewardHeldItemId(record.itemId);
 }
 
 /**
@@ -73,8 +120,8 @@ export function canEquipFactoryRewardItem(
 /**
  * 候选枚举：`H \ E`。
  *
- * PRD §3.2 要求「每张候选至少存在一个合法装备对象」由**代码断言**而非默认假设：
- * 只要出现一张无合法对象的候选，即为本任务的缺陷，直接抛出而不是静默补位。
+ * PRD 要求「每件候选至少存在一个合法装备对象」由**代码断言**而非默认假设：
+ * 只要出现一件无合法对象的候选，即为本任务的缺陷，直接抛出而不是静默补位。
  */
 export function enumerateFactoryRewardCandidates(
   equippedItemIds: readonly (string | null | undefined)[],
@@ -107,26 +154,35 @@ function sampleWithoutReplacement<T>(values: readonly T[], count: number, random
 
 /**
  * 抽样结果。
- * `INSUFFICIENT` = 候选数少于目标张数（PRD 边界 B），**禁止**重复卡 / 空卡 / 旧奖池 / 未验收 TM 补位。
+ * `INSUFFICIENT` = 候选数少于货架件数（PRD F2.3：9 − 3 = 6 恒可摆满，正常路径不可达），
+ * **禁止**重复商品 / 空货位 / 未验收技能机 / 旧奖池 / 进化道具顶替。
  */
 export type FactoryRewardDrawResult =
-  | { ok: true; cards: FactoryRewardHeldItemId[] }
+  | { ok: true; shelf: FactoryShopProduct[] }
   | { ok: false; reason: 'INSUFFICIENT'; candidateCount: number };
 
-export function drawFactoryRewardCards(
+/**
+ * 货架配货：从持有道具候选 `H \ E` 里不放回等权抽 `shelfSize` 件。
+ * 候选不足是缺陷（防御性 `INSUFFICIENT`），不得补位或悄悄少给。
+ */
+export function drawFactoryShopShelf(
   equippedItemIds: readonly (string | null | undefined)[],
-  count: number = getFactoryRewardChoiceCount(),
+  shelfSize: number = getFactoryShelfSize(),
   random: () => number = Math.random,
 ): FactoryRewardDrawResult {
-  const targetCount = Math.max(1, Math.floor(count));
+  const targetCount = Math.max(1, Math.floor(shelfSize));
   const candidates = enumerateFactoryRewardCandidates(equippedItemIds);
   if (candidates.length < targetCount) {
     return { ok: false, reason: 'INSUFFICIENT', candidateCount: candidates.length };
   }
-  return { ok: true, cards: sampleWithoutReplacement(candidates, targetCount, random) };
+  const itemIds = sampleWithoutReplacement(candidates, targetCount, random);
+  return {
+    ok: true,
+    shelf: itemIds.map((itemId) => ({ kind: 'HELD_ITEM' as const, itemId })),
+  };
 }
 
-/** 卡面适用性（PRD §3.6）：三态，**不得**为凑满四张谎称当局有效。 */
+/** 卡面适用性（PRD §3.6 / 奖励商店 F5）：三态，**不得**为凑满货架谎称当局有效。 */
 export type FactoryRewardApplicability = 'APPLICABLE' | 'CONDITIONAL' | 'NO_TRIGGER';
 
 /**
@@ -152,7 +208,11 @@ export function hasLoadedDiceTrigger(pokemon: GamePokemon): boolean {
   });
 }
 
-/** 卡面诚实判定的唯一真值源（plan §1 命名）。UI 文案必须由本函数驱动。 */
+/**
+ * 卡面诚实判定的唯一真值源（plan §1 命名）。UI 文案必须由本函数驱动。
+ * 白色香草 / 心灵香草（PRD F5）：均为「有条件才有用」，按 `CONDITIONAL` 处理，
+ * **不得**标成无条件有效（APPLICABLE）。
+ */
 export function getRewardApplicability(
   pokemon: GamePokemon,
   itemId: string | null | undefined,
@@ -161,6 +221,14 @@ export function getRewardApplicability(
   if (normalizedItemId === 'loaded_dice') return hasLoadedDiceTrigger(pokemon) ? 'APPLICABLE' : 'NO_TRIGGER';
   if (normalizedItemId === 'heavy_duty_boots') {
     // 陷阱由对手在战斗中铺设，奖励时刻不可判定 ⇒ 恒为条件性说明。
+    return 'CONDITIONAL';
+  }
+  if (normalizedItemId === 'white_herb') {
+    // 只有对手降低过持有者的能力等级才有收益（复原并消耗）；对手不降就是白装。
+    return 'CONDITIONAL';
+  }
+  if (normalizedItemId === 'mental_herb') {
+    // 只有对手造成过妨碍状态（挑衅、再来一次等）才有收益；对手不放就是白装。
     return 'CONDITIONAL';
   }
   return 'APPLICABLE';

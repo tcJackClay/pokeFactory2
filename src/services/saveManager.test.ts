@@ -3,12 +3,14 @@ import assert from 'node:assert/strict';
 import type { GamePokemon } from '../types';
 import { prepareFactoryPartyForBattle, restoreFactoryParty } from '../features/game/utils/restoreFactoryParty';
 
-import { FACTORY_SINGLES_BP, getFactoryGroupBp, getFactorySetBp, MAX_FACTORY_BP, shouldEnterRewardAfterWinning } from '../features/game/config/factoryRewards';
+import { FACTORY_SINGLES_BP, getFactoryGroupBp, getFactorySetBp, getFactoryShelfSize, MAX_FACTORY_BP, shouldEnterRewardAfterWinning } from '../features/game/config/factoryRewards';
 import {
   FACTORY_REWARD_HELD_ITEM_IDS,
   canEquipFactoryRewardItem,
   enumerateFactoryRewardCandidates,
+  getFactoryHeldItemShopPrice,
   type FactoryRewardHeldItemId,
+  type FactoryShopProduct,
 } from '../features/game/config/factoryRewardPool';
 import {
   getFactoryHeldItemBaselines,
@@ -27,7 +29,7 @@ import {
   commitFactoryBattleStart,
   commitFactoryRewardPending,
   commitFactoryRewardReady,
-  commitFactoryItemRewardClaim,
+  commitFactoryShopPurchase,
   commitFactoryRewardContinueIntent,
   createEmptyBattleResume,
   discardInvalidSave,
@@ -176,9 +178,11 @@ function draft(runId = 'run:test', balance = 0, settledThrough = 0, stage = 7) {
 function atBattle(saved: ReturnType<typeof draft>, stage: number) {
   const previous = saved.factory.battleResume;
   if (previous.status !== 'READY') throw new Error('Expected a READY checkpoint.');
+  // 组末券折算（PRD F7）：每组第 7 胜结算后券清零 ⇒ 战前券数 = 当前组已胜场数。
+  const tickets = (stage - 1) % 7;
   return {
     ...saved,
-    runSupply: { runId: saved.wallet.currentRunId, tickets: stage - 1, lastCreditedStage: stage - 1 },
+    runSupply: { runId: saved.wallet.currentRunId, tickets, lastCreditedStage: stage - 1 },
     factory: {
       ...saved.factory,
       battleResume: { ...previous, stage, phase: 'BATTLE' as const, roundResult: null, lastBpGain: 0 },
@@ -572,7 +576,9 @@ test('failed atomic result leaves battle consumption intact until retry', () => 
     }
     assert.ok(loadPendingFactorySettlement());
     const retry = commitFactoryGroupSettlement(loadSaveData()!, 'run:held-failure', 7, 'WIN', false);
-    assert.equal(retry.amount, 3);
+    // 组奖励 3 + 券折算 7（6 攒 + 1 新券）。
+    assert.equal(retry.amount, 10);
+    assert.equal(retry.ticketBp, 7);
     const committed = loadSaveData()!.factory.battleResume;
     assert.equal(committed.status, 'READY');
     if (committed.status === 'READY') {
@@ -836,11 +842,15 @@ test('wallet adjustment from an old run cannot overwrite a new run', () => {
   });
 });
 
-test('wallet adjustment preserves a paused base checkpoint and seven tickets', () => {
+test('wallet adjustment preserves a paused base checkpoint and the converted ticket supply', () => {
   withStorage(() => {
     const stale = draft('run:paused-wallet', 0, 0, 7);
     persistSaveData(stale);
-    commitFactoryGroupSettlement(stale, 'run:paused-wallet', 7, 'WIN', false);
+    const settled = commitFactoryGroupSettlement(stale, 'run:paused-wallet', 7, 'WIN', false);
+    // 组末折算：6 券 + 第 7 胜刚攒的 1 券 = 7 BP；折算后券清零。
+    assert.equal(settled.ticketBp, 7);
+    assert.equal(settled.amount, 10);
+    assert.equal(settled.runSupply.tickets, 0);
     const result = loadSaveData()!;
     const checkpoint = result.factory.battleResume;
     assert.equal(checkpoint.status, 'READY');
@@ -856,14 +866,14 @@ test('wallet adjustment preserves a paused base checkpoint and seven tickets', (
 
     adjustWalletBalance(stale, 5);
     const saved = loadSaveData()!;
-    assert.equal(saved.runSupply.tickets, 7);
+    assert.equal(saved.runSupply.tickets, 0);
     assert.equal(saved.factory.challengePaused, true);
     assert.equal(saved.factory.battleResume.status, 'READY');
     if (saved.factory.battleResume.status === 'READY') assert.equal(saved.factory.battleResume.phase, 'BASE');
   });
 });
 
-test('each win credits one run ticket once, including across a seven-battle set', () => {
+test('each win credits one run ticket once; the seventh converts them into BP and clears them', () => {
   withStorage(() => {
     let saved = draft('run:supply', 0, 0, 1);
     persistSaveData(saved);
@@ -873,19 +883,22 @@ test('each win credits one run ticket once, including across a seven-battle set'
         persistSaveData(saved);
       }
       const settled = commitFactoryGroupSettlement(saved, 'run:supply', stage, 'WIN', false);
-      assert.equal(settled.runSupply.tickets, stage);
+      const battleIndex = ((stage - 1) % 7) + 1;
+      // 组内第 7 胜：折算（券清零）；其余胜次：攒 1 券。
+      assert.equal(settled.runSupply.tickets, battleIndex === 7 ? 0 : battleIndex);
       assert.equal(settled.runSupply.lastCreditedStage, stage);
-      assert.equal(settled.wallet.balance, stage >= 7 ? 3 : 0);
+      // 第 7 胜结算 = 组奖励 3 + 折算 7（6 攒 + 1 新券）。
+      assert.equal(settled.wallet.balance, stage >= 7 ? 10 : 0);
       const duplicate = commitFactoryGroupSettlement(saved, 'run:supply', stage, 'WIN', false);
-      assert.equal(duplicate.runSupply.tickets, stage);
+      assert.equal(duplicate.runSupply.tickets, battleIndex === 7 ? 0 : battleIndex);
       assert.equal(duplicate.wallet.balance, settled.wallet.balance);
       persistSaveData(saved);
-      assert.equal(loadSaveData()!.runSupply.tickets, stage);
+      assert.equal(loadSaveData()!.runSupply.tickets, battleIndex === 7 ? 0 : battleIndex);
     }
   });
 });
 
-test('six wins credit zero; seventh win credits once; later sets and Brain bonus remain distinct', () => {
+test('six wins credit zero BP; seventh win converts the tickets; later sets and Brain bonus remain distinct', () => {
   withStorage(() => {
     let saved = draft('run:test', 0, 0, 1);
     persistSaveData(saved);
@@ -896,33 +909,44 @@ test('six wins credit zero; seventh win credits once; later sets and Brain bonus
       }
       const result = commitFactoryGroupSettlement(saved, 'run:test', stage, 'WIN', false);
       assert.equal(result.amount, 0);
+      assert.equal(result.ticketBp, 0);
       assert.equal(result.wallet.balance, 0);
     }
     assert.equal(loadSaveData()?.wallet.balance, 0);
     saved = atBattle(loadSaveData()!, 7);
     persistSaveData(saved);
     const first = commitFactoryGroupSettlement(saved, 'run:test', 7, 'WIN', false);
-    assert.equal(first.wallet.balance, 3);
-    assert.equal(first.amount, 3);
+    // 组奖励 3 + 折算 7（6 攒 + 1 新券），折算后券清零。
+    assert.equal(first.wallet.balance, 10);
+    assert.equal(first.amount, 10);
+    assert.equal(first.nominalBp, 3);
+    assert.equal(first.ticketBp, 7);
+    assert.equal(first.runSupply.tickets, 0);
     assert.equal(first.wallet.settledThrough, 1);
+    assert.equal(first.wallet.lastSettlement?.ticketBp, 7);
     const duplicate = commitFactoryGroupSettlement(saved, 'run:test', 7, 'WIN', false);
     assert.equal(duplicate.awarded, false);
-    assert.equal(duplicate.amount, 3);
+    assert.equal(duplicate.amount, 10);
+    assert.equal(duplicate.ticketBp, 7);
     persistSaveData(saved);
     saved = loadSaveData()!;
-    assert.equal(saved.wallet.balance, 3);
+    assert.equal(saved.wallet.balance, 10);
     assert.equal(saved.factory.battleResume.status, 'READY');
     if (saved.factory.battleResume.status === 'READY') assert.equal(saved.factory.battleResume.phase, 'ROUND_RESULT');
     saved = atBattle(saved, 14);
     persistSaveData(saved);
     const second = commitFactoryGroupSettlement(saved, 'run:test', 14, 'WIN', false);
-    assert.equal(second.wallet.balance, 6);
+    // 第二组：组奖励 3 + 折算 7。
+    assert.equal(second.wallet.balance, 20);
+    assert.equal(second.ticketBp, 7);
     saved = atBattle(loadSaveData()!, 21);
     persistSaveData(saved);
     const third = commitFactoryGroupSettlement(saved, 'run:test', 21, 'WIN', true);
-    assert.equal(third.wallet.balance, 20);
+    // 第三组（Brain）：组奖励 14 + 折算 7。
+    assert.equal(third.wallet.balance, 41);
     assert.equal(third.wallet.brainSymbols, 1);
     assert.equal(third.wallet.lastSettlement?.nominalBp, 14);
+    assert.equal(third.wallet.lastSettlement?.ticketBp, 7);
     assert.throws(() => commitFactoryGroupSettlement(saved, 'run:test', 35, 'WIN', false));
   });
 });
@@ -934,6 +958,7 @@ test('loss or forfeit closes its group for zero BP and keeps prior BP', () => {
       persistSaveData(saved);
       const loss = commitFactoryGroupSettlement(saved, `run:loss:${stage}`, stage, 'LOSS', false);
       assert.equal(loss.amount, 0);
+      assert.equal(loss.ticketBp, 0);
       assert.equal(loss.wallet.balance, 20);
       assert.equal(loss.wallet.settledThrough, 1);
       assert.deepEqual(loss.runSupply, { runId: null, tickets: 0, lastCreditedStage: 0 });
@@ -956,8 +981,9 @@ test('failed group write keeps READY checkpoint and session retry intent', () =>
     assert.equal(loadSaveData()?.factory.battleResume.status, 'READY');
     assert.deepEqual(loadPendingFactorySettlement(), { runId: 'run:retry', stage: 7, result: 'WIN', isFrontierBrain: false });
     const retry = commitFactoryGroupSettlement(loadSaveData()!, 'run:retry', 7, 'WIN', false);
-    assert.equal(retry.wallet.balance, 13);
-    assert.equal(retry.runSupply.tickets, 7);
+    assert.equal(retry.wallet.balance, 20);
+    assert.equal(retry.amount, 10);
+    assert.equal(retry.runSupply.tickets, 0);
     assert.equal(loadPendingFactorySettlement(), null);
     const after = loadSaveData()?.factory.battleResume;
     assert.equal(after?.status, 'READY');
@@ -965,13 +991,14 @@ test('failed group write keeps READY checkpoint and session retry intent', () =>
   });
 });
 
-test('BP caps at 9999 and new run retains BP but clears old encounter', () => {
+test('BP caps at 9999 including the converted tickets and new run retains BP but clears old encounter', () => {
   withStorage(() => {
     const saved = draft('run:cap', MAX_FACTORY_BP - 1, 0, 7);
     persistSaveData(saved);
     const settled = commitFactoryGroupSettlement(saved, 'run:cap', 7, 'WIN', false);
     assert.equal(settled.amount, 1);
     assert.equal(settled.nominalBp, 3);
+    assert.equal(settled.ticketBp, 7);
     assert.equal(settled.wallet.balance, MAX_FACTORY_BP);
     const next = beginFactoryWalletRun(loadSaveData()!, 0, 7);
     assert.equal(next.balance, MAX_FACTORY_BP);
@@ -994,7 +1021,7 @@ test('developer jump to the third set starts a fresh run at the correct group ba
     assert.equal(loadSaveData()?.factory.battleResume.status, 'EMPTY');
     const nextBattle = atBattle(draft(next.currentRunId!, next.balance, next.settledThrough, 21), 21);
     persistSaveData(nextBattle);
-    assert.equal(commitFactoryGroupSettlement(nextBattle, next.currentRunId!, 21, 'WIN', true).amount, 14);
+    assert.equal(commitFactoryGroupSettlement(nextBattle, next.currentRunId!, 21, 'WIN', true).amount, 21);
   });
 });
 
@@ -1072,6 +1099,16 @@ function baselinesOf(team: readonly GamePokemon[]): Array<string | null> {
   return team.map((pokemon) => pokemon.factoryEquippedHeldItemId ?? null);
 }
 
+/** 由候选前 N 件构建货架商品（kind 显式标注，价格由配置驱动）。 */
+function shelfOf(itemIds: readonly (string | null)[]): FactoryShopProduct[] {
+  const shelf = itemIds.map((itemId) => ({
+    kind: 'HELD_ITEM' as const,
+    itemId: itemId as FactoryRewardHeldItemId,
+  }));
+  if (shelf.length !== getFactoryShelfSize()) throw new Error(`Expected a ${getFactoryShelfSize()}-item shelf.`);
+  return shelf;
+}
+
 /** 组内第 3 战胜后的换怪完成态：`phase: 'FACTORY_SWAP'` + `roundResult: 'WIN'`，可直接提交奖励节点。 */
 function rewardSwapSave(options: {
   runId?: string;
@@ -1080,11 +1117,15 @@ function rewardSwapSave(options: {
   enemyItems?: Array<string | null>;
   /** 模拟「战斗中消耗 / 被拍落」的队员下标：清空本场当前持有物，但保留本局返还基准。 */
   spentIndices?: number[];
+  /** 进店时的券余额（PRD：第 3 胜后 3 张、第 6 胜后最多 6 张减去已花）。 */
+  tickets?: number;
 } = {}) {
   const runId = options.runId ?? 'run:reward';
   const stage = options.stage ?? 3;
   const playerItems = options.playerItems ?? [null, null, null];
   const enemyItems = options.enemyItems ?? [null, null, null];
+  const tickets = options.tickets ?? 0;
+  if (tickets < 0 || tickets > stage) throw new Error('Fixture tickets must stay within the invariant tickets <= lastCreditedStage.');
   const resume = buildLegacyReadyBattleResume({
     stage,
     phase: 'FACTORY_SWAP',
@@ -1102,7 +1143,7 @@ function rewardSwapSave(options: {
     schemaVersion: 14,
     progress: { companionSpeciesId: 25 },
     wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: stage },
-    runSupply: { runId, tickets: 0, lastCreditedStage: stage },
+    runSupply: { runId, tickets, lastCreditedStage: stage },
     factory: { battleResume: resume },
   }));
 }
@@ -1186,11 +1227,12 @@ test('a swap into the reward node commits once, counts the rent, and duplicate b
     assert.equal(repeat.swapCount, pending.swapCount);
     assert.equal(repeat.totalRents, pending.totalRents);
 
-    // 死路已消除：规整后的队伍仍然能正常出四张并冻结。
-    const cards = enumerateFactoryRewardCandidates(baselinesOf(pending.playerTeam)).slice(0, 4);
-    assert.equal(cards.length, 4);
-    assert.equal(cards.includes('quick_claw'), false);
-    const ready = commitFactoryRewardReady('run:swap', 3, cards).rewardCheckpoint;
+    // 死路已消除：规整后的队伍仍然能正常摆满货架并冻结。
+    const candidates = enumerateFactoryRewardCandidates(baselinesOf(pending.playerTeam));
+    const shelf = shelfOf(candidates.slice(0, getFactoryShelfSize()));
+    assert.equal(shelf.length, 6);
+    assert.equal(shelf.some((product) => product.itemId === 'quick_claw'), false);
+    const ready = commitFactoryRewardReady('run:swap', 3, shelf).rewardCheckpoint;
     assert.equal(ready?.status, 'READY');
 
     // 正常换怪（不引入重复）：只在真正换怪时 +1，且不产生「已修复」标志。
@@ -1211,9 +1253,9 @@ test('a swap into the reward node commits once, counts the rent, and duplicate b
   });
 });
 
-test('the four approved cards are frozen once and never re-drawn across refresh, reopen and same-version import', () => {
+test('the six approved shop products are frozen once and never re-drawn across refresh, reopen and same-version import', () => {
   withStorage(() => {
-    // H \ E 口径：无人持有时候选为全部七件；持有某件后该件退出候选池。
+    // H \ E 口径：无人持有时候选为全部九件；持有某件后该件退出候选池。
     assert.equal(enumerateFactoryRewardCandidates([null, null, null]).length, FACTORY_REWARD_HELD_ITEM_IDS.length);
     const saved = rewardSwapSave({ runId: 'run:freeze', stage: 3, playerItems: [null, 'quick_claw', null] });
     persistSaveData(saved);
@@ -1223,118 +1265,147 @@ test('the four approved cards are frozen once and never re-drawn across refresh,
     assert.equal(candidates.length, FACTORY_REWARD_HELD_ITEM_IDS.length - 1);
     assert.equal(candidates.includes('quick_claw'), false);
 
-    // 未冻结时一律拒收非法四张：不足四张、重复卡、已持有（无合法装备对象）都被挡下。
-    const cards = candidates.slice(0, 4);
-    assert.equal(new Set(cards).size, 4);
-    assert.throws(() => commitFactoryRewardReady('run:freeze', 3, cards.slice(0, 3)), /four distinct/);
-    assert.throws(() => commitFactoryRewardReady('run:freeze', 3, [cards[0], cards[0], cards[1], cards[2]]), /four distinct/);
+    // 未冻结时一律拒收非法货架：不足六件、重复商品、已持有（无合法装备对象）都被挡下。
+    const shelf = shelfOf(candidates.slice(0, 6));
+    assert.equal(new Set(shelf.map((product) => product.itemId)).size, 6);
+    assert.throws(() => commitFactoryRewardReady('run:freeze', 3, shelfOf(candidates.slice(0, 5))), /distinct approved shop products|shelf/);
     assert.throws(
-      () => commitFactoryRewardReady('run:freeze', 3, ['quick_claw' as FactoryRewardHeldItemId, cards[0], cards[1], cards[2]]),
-      /four distinct/,
+      () => commitFactoryRewardReady('run:freeze', 3, shelfOf([candidates[0], candidates[0], candidates[1], candidates[2], candidates[3], candidates[4]])),
+      /distinct approved shop products|shelf/,
+    );
+    assert.throws(
+      () => commitFactoryRewardReady('run:freeze', 3, shelfOf(['quick_claw', candidates[0], candidates[1], candidates[2], candidates[3], candidates[4]])),
+      /legal teammate/,
     );
 
-    // 冻结：一次落盘，此后逐张不变。
-    const frozen = commitFactoryRewardReady('run:freeze', 3, cards).rewardCheckpoint;
+    // 冻结：一次落盘，此后逐件不变。
+    const frozen = commitFactoryRewardReady('run:freeze', 3, shelf).rewardCheckpoint;
     assert.equal(frozen?.status, 'READY');
-    assert.deepEqual(frozen, { runId: 'run:freeze', stage: 3, status: 'READY', cardItemIds: cards });
+    assert.deepEqual(frozen, { runId: 'run:freeze', stage: 3, status: 'READY', shelf, purchases: [] });
 
-    // 刷新 / 重开：回读盘仍是同一组四张。
+    // 刷新 / 重开：回读盘仍是同一组六件。
     assert.deepEqual(storedResume().rewardCheckpoint, frozen);
 
-    // 同版导入：导出文本 → 重新解析 → 覆盖写盘，四张逐张不变。
+    // 同版导入：导出文本 → 重新解析 → 覆盖写盘，货架逐件不变。
     replaceSaveData(parseSaveDataFromText(JSON.stringify(loadSaveData())));
     assert.deepEqual(storedResume().rewardCheckpoint, frozen);
 
-    // 同卡二次提交幂等；不同卡被拒 ⇒ 绝不重抽、绝不换一组。
-    assert.deepEqual(commitFactoryRewardReady('run:freeze', 3, cards).rewardCheckpoint, frozen);
-    assert.throws(() => commitFactoryRewardReady('run:freeze', 3, candidates.slice(1, 5)), /Different reward cards/);
-    // 重新回到 PENDING 提交路径也复用同一组四张（不重抽）。
+    // 同货架二次提交幂等；不同货架被拒 ⇒ 绝不重抽、绝不换一组。
+    assert.deepEqual(commitFactoryRewardReady('run:freeze', 3, shelf).rewardCheckpoint, frozen);
+    assert.throws(() => commitFactoryRewardReady('run:freeze', 3, shelfOf(candidates.slice(1, 7))), /Different reward cards/);
+    // 重新回到 PENDING 提交路径也复用同一组货架（不重抽）。
     assert.deepEqual(commitFactoryRewardPending('run:freeze', 3, swapResume.playerTeam, false).rewardCheckpoint, frozen);
   });
 });
 
-test('a claim is single-shot, idempotent, and the replaced item never enters the bag', () => {
+test('a shop purchase is atomic, single-shot, idempotent, and the replaced item never enters the bag', () => {
   withStorage((_storage, failNextWrite) => {
-    const saved = rewardSwapSave({ runId: 'run:claim', stage: 3, playerItems: [null, 'quick_claw', null] });
+    const saved = rewardSwapSave({ runId: 'run:claim', stage: 3, playerItems: [null, 'quick_claw', null], tickets: 3 });
     persistSaveData(saved);
     const swapResume = storedResume();
     commitFactoryRewardPending('run:claim', 3, swapResume.playerTeam, false);
-    const cards = enumerateFactoryRewardCandidates(baselinesOf(swapResume.playerTeam)).slice(0, 4);
-    commitFactoryRewardReady('run:claim', 3, cards);
+    const candidates = enumerateFactoryRewardCandidates(baselinesOf(swapResume.playerTeam));
+    const shelf = shelfOf(candidates.slice(0, 6));
+    commitFactoryRewardReady('run:claim', 3, shelf);
     const bagBefore = JSON.stringify(storedResume().inventoryItemIds);
-    const claimItem = cards[0];
-    const otherItem = cards[1];
+    const purchaseItem = shelf[0].itemId;
+    const otherItem = shelf[4].itemId;
+    const price = getFactoryHeldItemShopPrice(purchaseItem)!;
+    assert.equal(purchaseItem, 'scope_lens');
+    assert.equal(price, 2);
 
-    // 写盘失败：不产生半领取状态。
+    // 写盘失败：不产生半兑换态（不扣券、不装备）。
     failNextWrite();
-    assert.throws(() => commitFactoryItemRewardClaim('run:claim', 3, claimItem, 1), /Quota/);
+    assert.throws(() => commitFactoryShopPurchase('run:claim', 3, purchaseItem, 1), /Quota/);
     assert.equal(storedResume().rewardCheckpoint?.status, 'READY');
+    assert.equal(loadSaveData()!.runSupply.tickets, 3);
 
-    // 双击 / 连点：同参数只领一次（不依赖 UI busy）。
-    const first = commitFactoryItemRewardClaim('run:claim', 3, claimItem, 1);
-    assert.equal(first.rewardCheckpoint?.status, 'CLAIMED');
-    const second = commitFactoryItemRewardClaim('run:claim', 3, claimItem, 1);
-    assert.deepEqual(second.rewardCheckpoint, first.rewardCheckpoint);
+    // 双击 / 连点：同参数只扣一次券、只入账一次。
+    const first = commitFactoryShopPurchase('run:claim', 3, purchaseItem, 1);
+    assert.equal(first.resume.rewardCheckpoint?.status, 'READY');
+    assert.equal(first.runSupply.tickets, 3 - price);
+    const second = commitFactoryShopPurchase('run:claim', 3, purchaseItem, 1);
+    assert.deepEqual(second.resume.rewardCheckpoint, first.resume.rewardCheckpoint);
+    assert.equal(second.runSupply.tickets, 3 - price);
+    assert.deepEqual(loadSaveData()!.runSupply, second.runSupply);
 
     const claimed = storedResume();
-    // 目标队员的本局返还基准与当前持有物都改判为领取到的道具。
-    assert.equal(claimed.playerTeam[1].factoryEquippedHeldItemId, claimItem);
-    assert.equal(claimed.playerTeam[1].factoryHeldItemId, claimItem);
+    // 目标队员的本局返还基准与当前持有物都改判为购买到的道具。
+    assert.equal(claimed.playerTeam[1].factoryEquippedHeldItemId, purchaseItem);
+    assert.equal(claimed.playerTeam[1].factoryHeldItemId, purchaseItem);
     // 旧物「直接移除、不进背包」，且已被替换掉。
     assert.equal(JSON.stringify(claimed.inventoryItemIds), bagBefore);
     assert.notEqual(claimed.playerTeam[1].factoryEquippedHeldItemId, 'quick_claw');
 
-    // 不同参数的第二次领取被绝对拒绝（换道具、换队员都不行）。
-    assert.throws(() => commitFactoryItemRewardClaim('run:claim', 3, otherItem, 1), /already claimed/);
-    assert.throws(() => commitFactoryItemRewardClaim('run:claim', 3, claimItem, 2), /already claimed/);
+    // 同一件商品换目标：被绝对拒绝（不得重复入账）。
+    assert.throws(() => commitFactoryShopPurchase('run:claim', 3, purchaseItem, 2), /already claimed/);
+
+    // 刷新 / 同版导入等价路径：导出文本 → 重新解析 → 覆盖写盘，兑换记录仍只有一条、券不重复扣。
+    replaceSaveData(parseSaveDataFromText(JSON.stringify(loadSaveData())));
+    const replayed = commitFactoryShopPurchase('run:claim', 3, purchaseItem, 1);
+    assert.equal(replayed.runSupply.tickets, 3 - price);
+    const replayedCheckpoint = replayed.resume.rewardCheckpoint;
+    if (replayedCheckpoint?.status !== 'READY') throw new Error('Expected READY.');
+    assert.deepEqual(replayedCheckpoint.purchases, [{ itemId: purchaseItem, targetIndex: 1, ticketsSpent: price }]);
+
+    // 一次可买多件：再买一件 1 券的（heavy_duty_boots，装给 2 号），券恰好按档位减少到 0（不得为负）。
+    const secondPurchase = commitFactoryShopPurchase('run:claim', 3, otherItem, 2);
+    assert.equal(otherItem, 'heavy_duty_boots');
+    assert.equal(secondPurchase.runSupply.tickets, 0);
+    assert.equal(storedResume().playerTeam[2].factoryEquippedHeldItemId, 'heavy_duty_boots');
+
+    // 券不足时再买任何一件都被拒，且券不变（不为负、不少给、不重复给）。
+    assert.throws(() => commitFactoryShopPurchase('run:claim', 3, shelf[1].itemId, 0), /Not enough reward tickets/);
+    assert.equal(loadSaveData()!.runSupply.tickets, 0);
   });
 });
 
-test('READY claims reject items outside the four cards, already-held items and out-of-range targets', () => {
+test('READY purchases reject items outside the shelf, already-held items and out-of-range targets', () => {
   withStorage(() => {
-    const saved = rewardSwapSave({ runId: 'run:claim-reject', stage: 3, playerItems: [null, 'quick_claw', null] });
+    const saved = rewardSwapSave({ runId: 'run:claim-reject', stage: 3, playerItems: [null, 'quick_claw', null], tickets: 3 });
     persistSaveData(saved);
     const swapResume = storedResume();
     commitFactoryRewardPending('run:claim-reject', 3, swapResume.playerTeam, false);
     const candidates = enumerateFactoryRewardCandidates(baselinesOf(swapResume.playerTeam));
-    const cards = candidates.slice(0, 4);
-    commitFactoryRewardReady('run:claim-reject', 3, cards);
-    const outsideItem = candidates.find((itemId) => !cards.includes(itemId));
+    const shelf = shelfOf(candidates.slice(0, 6));
+    commitFactoryRewardReady('run:claim-reject', 3, shelf);
+    const outsideItem = candidates.find((itemId) => !shelf.some((product) => product.itemId === itemId));
     assert.notEqual(outsideItem, undefined);
 
-    // 未在四张内。
-    assert.throws(() => commitFactoryItemRewardClaim('run:claim-reject', 3, outsideItem!, 1), /not claimable/);
+    // 未在货架内。
+    assert.throws(() => commitFactoryShopPurchase('run:claim-reject', 3, outsideItem!, 1), /not claimable/);
     // 队伍已作为返还基准持有的道具（无合法装备对象）。
-    assert.throws(() => commitFactoryItemRewardClaim('run:claim-reject', 3, 'quick_claw', 1), /not claimable/);
+    assert.throws(() => commitFactoryShopPurchase('run:claim-reject', 3, 'quick_claw', 1), /not claimable/);
     // 越界队员。
-    assert.throws(() => commitFactoryItemRewardClaim('run:claim-reject', 3, cards[0], 5), /not claimable/);
-    // 仍然一张都没被领走。
+    assert.throws(() => commitFactoryShopPurchase('run:claim-reject', 3, shelf[0].itemId, 5), /not claimable/);
+    // 仍然一件都没被买走、一张券都没扣。
     assert.equal(storedResume().rewardCheckpoint?.status, 'READY');
+    assert.equal(loadSaveData()!.runSupply.tickets, 3);
   });
 });
 
 test('the replaced baseline returns to the pool while the three baselines stay unique', () => {
   withStorage(() => {
-    const saved = rewardSwapSave({ runId: 'run:pool', stage: 3, playerItems: [null, 'quick_claw', null] });
+    const saved = rewardSwapSave({ runId: 'run:pool', stage: 3, playerItems: [null, 'quick_claw', null], tickets: 3 });
     persistSaveData(saved);
     const swapResume = storedResume();
     commitFactoryRewardPending('run:pool', 3, swapResume.playerTeam, false);
     const candidates = enumerateFactoryRewardCandidates(baselinesOf(swapResume.playerTeam));
-    const cards = candidates.slice(0, 4);
-    commitFactoryRewardReady('run:pool', 3, cards);
-    const claimItem = cards[0];
+    const shelf = shelfOf(candidates.slice(0, 6));
+    commitFactoryRewardReady('run:pool', 3, shelf);
+    const purchaseItem = shelf[0].itemId;
 
-    const claimedTeam = commitFactoryItemRewardClaim('run:pool', 3, claimItem, 1).playerTeam;
-    const baselines = baselinesOf(claimedTeam);
-    assert.deepEqual(baselines, [null, claimItem, null]);
+    const purchasedTeam = commitFactoryShopPurchase('run:pool', 3, purchaseItem, 1).resume.playerTeam;
+    const baselines = baselinesOf(purchasedTeam);
+    assert.deepEqual(baselines, [null, purchaseItem, null]);
     // 三人返还基准互不重复 —— 本任务的不变量。
     const held = baselines.filter((itemId): itemId is FactoryRewardHeldItemId => Boolean(itemId));
     assert.equal(new Set(held).size, held.length);
 
-    // 被替换掉的旧道具立即回到候选池，领取到的道具退出候选池。
+    // 被替换掉的旧道具立即回到候选池，购买到的道具退出候选池。
     const poolAfter = enumerateFactoryRewardCandidates(baselines);
     assert.equal(poolAfter.includes('quick_claw'), true);
-    assert.equal(poolAfter.includes(claimItem), false);
+    assert.equal(poolAfter.includes(purchaseItem), false);
     assert.equal(poolAfter.length, FACTORY_REWARD_HELD_ITEM_IDS.length - 1);
   });
 });
@@ -1383,9 +1454,9 @@ test('duplicate equipped baselines are rejected wherever they appear', () => {
   });
 });
 
-test('the next battle cannot bypass the reward node and restores the claimed baseline once', () => {
+test('the next battle cannot bypass the reward node; purchases ride the restore, and the shop may be left empty-handed', () => {
   withStorage(() => {
-    const saved = rewardSwapSave({ runId: 'run:next', stage: 3, playerItems: [null, 'quick_claw', null] });
+    const saved = rewardSwapSave({ runId: 'run:next', stage: 3, playerItems: [null, 'quick_claw', null], tickets: 3 });
     persistSaveData(saved);
     const swapResume = storedResume();
     const startFrom = (playerTeam: GamePokemon[]) => ({
@@ -1403,18 +1474,19 @@ test('the next battle cannot bypass the reward node and restores the claimed bas
     commitFactoryRewardPending('run:next', 3, swapResume.playerTeam, false);
     assert.throws(() => commitFactoryBattleStart('run:next', startFrom(swapResume.playerTeam)), /cannot start/);
 
-    const cards = enumerateFactoryRewardCandidates(baselinesOf(swapResume.playerTeam)).slice(0, 4);
-    commitFactoryRewardReady('run:next', 3, cards);
-    // ② 只冻结、未领取 ⇒ 仍不能起战。
+    const candidates = enumerateFactoryRewardCandidates(baselinesOf(swapResume.playerTeam));
+    const shelf = shelfOf(candidates.slice(0, 6));
+    commitFactoryRewardReady('run:next', 3, shelf);
+    // ② 只冻结、未离开 ⇒ 仍不能起战。
     assert.throws(() => commitFactoryBattleStart('run:next', startFrom(swapResume.playerTeam)), /cannot start/);
 
-    const claimItem = cards[0];
-    commitFactoryItemRewardClaim('run:next', 3, claimItem, 1);
-    // ③ 已领取但未请求继续 ⇒ 仍不能起战。
+    const purchaseItem = shelf[0].itemId;
+    commitFactoryShopPurchase('run:next', 3, purchaseItem, 1);
+    // ③ 已购买但未请求离开 ⇒ 仍不能起战。
     assert.throws(() => commitFactoryBattleStart('run:next', startFrom(swapResume.playerTeam)), /cannot start/);
 
+    // ④ 离开商店（买了一件）→ 起战必须使用「按本局返还基准返还」后的队伍；拿未返还的旧队伍会被拒。
     commitFactoryRewardContinueIntent('run:next', 3);
-    // ④ 起战必须使用「按本局返还基准返还」后的队伍；拿未返还的旧队伍会被拒。
     assert.throws(() => commitFactoryBattleStart('run:next', startFrom(swapResume.playerTeam)), /cannot start/);
 
     const prepared = prepareFactoryPartyForBattle(storedResume().playerTeam);
@@ -1422,22 +1494,57 @@ test('the next battle cannot bypass the reward node and restores the claimed bas
     assert.equal(started.phase, 'BATTLE');
     assert.equal(started.stage, 4);
     assert.equal(started.rewardCheckpoint, undefined);
-    // 逐战返还：起战携带的是本局返还基准（含刚领取的装备），而不是租借原配。
-    assert.equal(started.playerTeam[1].factoryHeldItemId, claimItem);
-    assert.equal(started.playerTeam[1].factoryEquippedHeldItemId, claimItem);
+    // 逐战返还：起战携带的是本局返还基准（含刚买到的装备），而不是租借原配。
+    assert.equal(started.playerTeam[1].factoryHeldItemId, purchaseItem);
+    assert.equal(started.playerTeam[1].factoryEquippedHeldItemId, purchaseItem);
 
     // ⑤ 幂等：同一场再起一次返回同一检查点，不重复消耗。
     const repeat = commitFactoryBattleStart('run:next', startFrom(prepared));
     assert.equal(repeat.stage, 4);
     assert.equal(repeat.phase, 'BATTLE');
-    assert.equal(repeat.playerTeam[1].factoryHeldItemId, claimItem);
-    assert.equal(repeat.playerTeam[1].factoryEquippedHeldItemId, claimItem);
+    assert.equal(repeat.playerTeam[1].factoryHeldItemId, purchaseItem);
+    assert.equal(repeat.playerTeam[1].factoryEquippedHeldItemId, purchaseItem);
     assert.equal(repeat.swapCount, started.swapCount);
 
-    // ⑥ 领取只发生一次：起战后奖励检查点已消费。
-    assert.throws(() => commitFactoryItemRewardClaim('run:next', 3, claimItem, 1), /changed before the item was claimed/);
+    // ⑥ 兑换只发生一次：起战后奖励检查点已消费。
+    assert.throws(() => commitFactoryShopPurchase('run:next', 3, purchaseItem, 1), /changed before the item was claimed/);
     assert.equal(storedResume().rewardCheckpoint, undefined);
     assert.equal(shouldEnterRewardAfterWinning(4), false);
+  });
+
+  // ⑦ 一件不买直接离开：货架冻结后直接 continue，下一战照常起战（PRD F1.6）。
+  withStorage(() => {
+    const saved = rewardSwapSave({ runId: 'run:next-empty', stage: 3, playerItems: [null, 'quick_claw', null], tickets: 3 });
+    persistSaveData(saved);
+    const swapResume = storedResume();
+    commitFactoryRewardPending('run:next-empty', 3, swapResume.playerTeam, false);
+    const candidates = enumerateFactoryRewardCandidates(baselinesOf(swapResume.playerTeam));
+    const shelf = shelfOf(candidates.slice(0, 6));
+    const closed = commitFactoryRewardReady('run:next-empty', 3, shelf);
+    assert.equal(closed.rewardCheckpoint?.status, 'READY');
+
+    const continuation = commitFactoryRewardContinueIntent('run:next-empty', 3);
+    const continued = continuation.rewardCheckpoint;
+    if (continued?.status !== 'CLAIMED') throw new Error('Expected a CLAIMED (closed shop) checkpoint.');
+    assert.deepEqual(continued.purchases, []);
+    assert.equal(continued.continueRequested, true);
+    // 幂等：重复离开仍是同一检查点。
+    assert.deepEqual(commitFactoryRewardContinueIntent('run:next-empty', 3).rewardCheckpoint, continued);
+
+    const prepared = prepareFactoryPartyForBattle(continuation.playerTeam);
+    const started = commitFactoryBattleStart('run:next-empty', {
+      stage: 4,
+      playerTeam: prepared,
+      enemyTeam: swapResume.enemyTeam,
+      currentEnemyTrainerId: swapResume.currentEnemyTrainerId,
+      enemyAiTier: swapResume.enemyAiTier,
+      specialBossBattleActive: false,
+      swapped: false,
+    });
+    assert.equal(started.phase, 'BATTLE');
+    assert.equal(started.stage, 4);
+    // 未买 ⇒ 队伍按本局返还基准返还，券不被扣（保留到组末结算）。
+    assert.equal(loadSaveData()!.runSupply.tickets, 3);
   });
 });
 
@@ -1448,24 +1555,25 @@ test('a reward checkpoint is only readable inside its own run, stage and phase',
     assert.equal(shouldEnterRewardAfterWinning(4), false);
     assert.equal(shouldEnterRewardAfterWinning(7), false);
 
-    const saved = rewardSwapSave({ runId: 'run:scope', stage: 3 });
+    const saved = rewardSwapSave({ runId: 'run:scope', stage: 3, tickets: 3 });
     persistSaveData(saved);
     const swapResume = storedResume();
     commitFactoryRewardPending('run:scope', 3, swapResume.playerTeam, false);
-    const cards = enumerateFactoryRewardCandidates(baselinesOf(swapResume.playerTeam)).slice(0, 4);
+    const candidates = enumerateFactoryRewardCandidates(baselinesOf(swapResume.playerTeam));
+    const shelf = shelfOf(candidates.slice(0, 6));
 
     // 别的 run、别的 stage 一律不可读。
-    assert.throws(() => commitFactoryRewardReady('run:other', 3, cards), /Factory reward changed/);
-    assert.throws(() => commitFactoryRewardReady('run:scope', 6, cards), /Factory reward changed/);
-    // PENDING 阶段还不能领取，也不能请求继续。
-    assert.throws(() => commitFactoryItemRewardClaim('run:scope', 3, cards[0], 0), /not claimable/);
+    assert.throws(() => commitFactoryRewardReady('run:other', 3, shelf), /Factory reward changed/);
+    assert.throws(() => commitFactoryRewardReady('run:scope', 6, shelf), /Factory reward changed/);
+    // PENDING 阶段还不能购买，也不能请求离开。
+    assert.throws(() => commitFactoryShopPurchase('run:scope', 3, shelf[0].itemId, 0), /shop is closed/);
     assert.throws(() => commitFactoryRewardContinueIntent('run:scope', 3), /claimed reward is required/);
 
-    const ready = commitFactoryRewardReady('run:scope', 3, cards);
+    const ready = commitFactoryRewardReady('run:scope', 3, shelf);
     assert.equal(ready.rewardCheckpoint?.stage, 3);
     assert.equal(ready.rewardCheckpoint?.runId, 'run:scope');
     // 冻结之后，跨锚点提交仍被拒。
-    assert.throws(() => commitFactoryRewardReady('run:scope', 6, cards), /Factory reward changed/);
+    assert.throws(() => commitFactoryRewardReady('run:scope', 6, shelf), /Factory reward changed/);
   });
 });
 
@@ -1492,11 +1600,11 @@ test('a spent current held item does not reopen its baseline candidate slot', ()
     // 战斗中消耗态不得被提前返还：进入奖励节点时本场当前持有物保持不变。
     assert.equal(pending.playerTeam[1].factoryHeldItemId, undefined);
 
-    const cards = candidates.slice(0, 4);
-    const ready = commitFactoryRewardReady('run:spent', 3, cards).rewardCheckpoint;
+    const shelf = shelfOf(candidates.slice(0, 6));
+    const ready = commitFactoryRewardReady('run:spent', 3, shelf).rewardCheckpoint;
     assert.equal(ready?.status, 'READY');
     if (ready?.status !== 'READY') return;
-    assert.deepEqual(ready.cardItemIds, cards);
+    assert.deepEqual(ready.shelf, shelf);
   });
 });
 
@@ -1613,16 +1721,16 @@ test('the reward node still produces four cards for a team built by an earlier l
       factory: { ...afterStart.factory, battleResume: rewardResume },
     });
 
-    // 死于奖励节点的老问题不复现：照常出四张、逐张互异、不出现重复卡。
+    // 死于奖励节点的老问题不复现：照常摆满六件货架、逐件互异、不重复上架。
     const pending = commitFactoryRewardPending(runId, 3, rewardResume.playerTeam, false);
     assert.equal(pending.rewardCheckpoint?.status, 'PENDING');
     assert.equal(pending.heldItemBaselineRepaired, undefined);
     const candidates = enumerateFactoryRewardCandidates(baselinesOf(pending.playerTeam));
     assert.equal(candidates.includes('quick_claw'), false);
-    const cards = candidates.slice(0, 4);
-    assert.equal(cards.length, 4);
-    assert.equal(new Set(cards).size, 4);
-    assert.equal(commitFactoryRewardReady(runId, 3, cards).rewardCheckpoint?.status, 'READY');
+    const shelf = shelfOf(candidates.slice(0, 6));
+    assert.equal(shelf.length, 6);
+    assert.equal(new Set(shelf.map((product) => product.itemId)).size, 6);
+    assert.equal(commitFactoryRewardReady(runId, 3, shelf).rewardCheckpoint?.status, 'READY');
   });
 });
 
@@ -1644,7 +1752,7 @@ test('importing a save with duplicate baselines recovers with an honest notice i
       schemaVersion: 14,
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: 3 },
-      runSupply: { runId, tickets: 0, lastCreditedStage: 3 },
+      runSupply: { runId, tickets: 3, lastCreditedStage: 3 },
       factory: { battleResume: resume },
     });
 
@@ -1665,21 +1773,24 @@ test('importing a save with duplicate baselines recovers with an honest notice i
     assert.equal(isFactoryHeldItemTeamUnique(reloaded.playerTeam), true);
     assert.equal(reloaded.heldItemBaselineRepaired, true);
 
-    // ③ 奖励节点不死路：这支「曾经重复」的队伍仍能出四张并正常领取。
-    const cards = enumerateFactoryRewardCandidates(baselinesOf(reloaded.playerTeam)).slice(0, 4);
-    assert.equal(commitFactoryRewardReady(runId, 3, cards).rewardCheckpoint?.status, 'READY');
-    const claimed = commitFactoryItemRewardClaim(runId, 3, cards[0], 2);
-    const claimedCheckpoint = claimed.rewardCheckpoint;
-    if (claimedCheckpoint?.status !== 'CLAIMED') throw new Error('Expected a CLAIMED reward checkpoint.');
-    assert.equal(claimedCheckpoint.claim.targetIndex, 2);
-    assert.equal(isFactoryHeldItemTeamUnique(claimed.playerTeam), true);
+    // ③ 奖励节点不死路：这支「曾经重复」的队伍仍能摆满货架并正常兑换。
+    const shelf = shelfOf(enumerateFactoryRewardCandidates(baselinesOf(reloaded.playerTeam)).slice(0, 6));
+    assert.equal(commitFactoryRewardReady(runId, 3, shelf).rewardCheckpoint?.status, 'READY');
+    const purchased = commitFactoryShopPurchase(runId, 3, shelf[0].itemId, 2);
+    const purchasedCheckpoint = purchased.resume.rewardCheckpoint;
+    if (purchasedCheckpoint?.status !== 'READY') throw new Error('Expected a READY reward checkpoint.');
+    assert.deepEqual(purchasedCheckpoint.purchases, [
+      { itemId: shelf[0].itemId, targetIndex: 2, ticketsSpent: getFactoryHeldItemShopPrice(shelf[0].itemId)! },
+    ]);
+    assert.equal(isFactoryHeldItemTeamUnique(purchased.resume.playerTeam), true);
   });
 });
 
-test('a claimed reward target keeps its item when the imported save is reconciled', () => {
+test('a legacy four-card CLAIMED save imports without crashing and migrates to a fresh PENDING shop', () => {
   withStorage(() => {
     const runId = 'run:dupe-claimed';
-    // CLAIMED 存档里领取目标（下标 2）与下标 0 重复：修复必须保留**领取目标**的基准。
+    // 旧「四卡免费领」阶段的 CLAIMED 存档（v14，cardItemIds + claim）：领取目标（下标 2）与下标 0 重复。
+    // S6 存档兼容：老档读入不得崩溃——迁移为 PENDING（重新配货），且旧领取目标保住刚领到的装备。
     const resume = buildLegacyReadyBattleResume({
       stage: 3,
       phase: 'REWARD',
@@ -1712,10 +1823,120 @@ test('a claimed reward target keeps its item when the imported save is reconcile
     assert.equal(restored.status, 'READY');
     if (restored.status !== 'READY') return;
     assert.equal(restored.heldItemBaselineRepaired, true);
-    // 领取目标保留了自己刚领到的 scope_lens；重复由下标 0 让出。
-    assert.equal(restored.rewardCheckpoint?.status, 'CLAIMED');
+    // 旧领取目标保留了自己刚领到的 scope_lens；重复由下标 0 回落原配让出。
+    assert.equal(restored.rewardCheckpoint?.status, 'PENDING');
     assert.equal(restored.playerTeam[2].factoryEquippedHeldItemId, 'scope_lens');
     assert.deepEqual(baselinesOf(restored.playerTeam), ['leftovers', null, 'scope_lens']);
     assert.equal(isFactoryHeldItemTeamUnique(restored.playerTeam), true);
+
+    // 落盘后迁移语义保持：迁移为 PENDING 的检查点照常摆满 6 件货架并可离开。
+    persistSaveData(imported);
+    const persistedClaimed = loadSaveData()!.factory.battleResume;
+    assert.equal(persistedClaimed.status, 'READY');
+    if (persistedClaimed.status !== 'READY') return;
+    assert.deepEqual(persistedClaimed.rewardCheckpoint, { runId, stage: 3, status: 'PENDING' });
+    const candidates = enumerateFactoryRewardCandidates(baselinesOf(restored.playerTeam));
+    const shelf = shelfOf(candidates.slice(0, 6));
+    assert.equal(commitFactoryRewardReady(runId, 3, shelf).rewardCheckpoint?.status, 'READY');
+    const closed = commitFactoryRewardContinueIntent(runId, 3).rewardCheckpoint;
+    assert.equal(closed?.status, 'CLAIMED');
+    assert.equal(closed?.continueRequested, true);
+  });
+});
+
+test('a legacy four-card READY save imports without crashing and re-stocks six products', () => {
+  withStorage(() => {
+    const runId = 'run:dupe-ready';
+    // 旧四卡阶段的 READY 存档：四张候选已冻结、尚未领取。迁移为 PENDING 重新配满 6 件
+    // （旧档没有任何已购记录与扣券，重新配货不构成重复给）。
+    const resume = buildLegacyReadyBattleResume({
+      stage: 3,
+      phase: 'REWARD',
+      roundResult: 'WIN',
+      lastBpGain: 7,
+      coins: 0,
+      playerTeam: [rewardMember(0, 'quick_claw'), rewardMember(1, null), rewardMember(2, null)],
+      enemyTeam: [rewardMember(0, null, 'enemy'), rewardMember(1, null, 'enemy'), rewardMember(2, null, 'enemy')],
+      rewardCheckpoint: {
+        runId,
+        stage: 3,
+        status: 'READY',
+        cardItemIds: ['scope_lens', 'kings_rock', 'choice_band', 'focus_band'],
+      },
+    });
+    const imported = parseSaveDataFromText(JSON.stringify({
+      schemaVersion: 14,
+      progress: { companionSpeciesId: 25 },
+      wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: 3 },
+      runSupply: { runId, tickets: 3, lastCreditedStage: 3 },
+      factory: { battleResume: resume },
+    }));
+    const restored = imported.factory.battleResume;
+    assert.equal(restored.status, 'READY');
+    if (restored.status !== 'READY') return;
+    assert.equal(restored.rewardCheckpoint?.status, 'PENDING');
+    assert.equal(isFactoryHeldItemTeamUnique(restored.playerTeam), true);
+
+    persistSaveData(imported);
+    const persistedReady = loadSaveData()!.factory.battleResume;
+    assert.equal(persistedReady.status, 'READY');
+    if (persistedReady.status !== 'READY') return;
+    assert.deepEqual(persistedReady.rewardCheckpoint, { runId, stage: 3, status: 'PENDING' });
+    const candidates = enumerateFactoryRewardCandidates(baselinesOf(restored.playerTeam));
+    const shelf = shelfOf(candidates.slice(0, 6));
+    const ready = commitFactoryRewardReady(runId, 3, shelf).rewardCheckpoint;
+    assert.equal(ready?.status, 'READY');
+    if (ready?.status !== 'READY') return;
+    assert.equal(ready.shelf.length, 6);
+    assert.equal(ready.purchases.length, 0);
+  });
+});
+
+test('group settlement converts remaining tickets into BP at 1:1, clears them, and never pays on a mid-group loss', () => {
+  withStorage(() => {
+    // 第 7 战战前：六胜攒了 6 券，第 6 胜后的商店花掉 2 券 ⇒ 剩 4 券。
+    const saved = draft('run:convert', 0, 0, 7);
+    persistSaveData({ ...saved, runSupply: { runId: 'run:convert', tickets: 4, lastCreditedStage: 6 } });
+    const settled = commitFactoryGroupSettlement(loadSaveData()!, 'run:convert', 7, 'WIN', false);
+    // 折算 BP = 剩余券（含第 7 胜刚攒到的 1 张）= 5；组奖励 3；合计 8，受 9999 上限约束。
+    assert.equal(settled.ticketBp, 5);
+    assert.equal(settled.nominalBp, 3);
+    assert.equal(settled.amount, 8);
+    assert.equal(settled.wallet.balance, 8);
+    assert.deepEqual(settled.runSupply, { runId: 'run:convert', tickets: 0, lastCreditedStage: 7 });
+    assert.equal(settled.wallet.lastSettlement?.ticketBp, 5);
+    assert.equal(settled.wallet.lastSettlement?.amount, 8);
+
+    // 幂等重放：同一结算再调一次返回同一结果，折算额可区分来源。
+    const replay = commitFactoryGroupSettlement(loadSaveData()!, 'run:convert', 7, 'WIN', false);
+    assert.equal(replay.awarded, false);
+    assert.equal(replay.amount, 8);
+    assert.equal(replay.ticketBp, 5);
+
+    // 下一组从 0 张重攒（fixture 注入 stage 8 战前态：0 券）。
+    const nextGroup = atBattle(loadSaveData()!, 8);
+    assert.equal(nextGroup.runSupply.tickets, 0);
+  });
+
+  // 中途败退：券清零、不折算、不给 BP（保持 createEmptyRunSupply 现行为）。
+  withStorage(() => {
+    const saved = draft('run:convert-loss', 10, 0, 4);
+    persistSaveData(saved);
+    const loss = commitFactoryGroupSettlement(saved, 'run:convert-loss', 4, 'LOSS', false);
+    assert.equal(loss.amount, 0);
+    assert.equal(loss.ticketBp, 0);
+    assert.equal(loss.wallet.balance, 10);
+    assert.deepEqual(loss.runSupply, { runId: null, tickets: 0, lastCreditedStage: 0 });
+  });
+});
+
+test('ticket conversion is capped together with the group reward at MAX_FACTORY_BP', () => {
+  withStorage(() => {
+    const saved = draft('run:convert-cap', MAX_FACTORY_BP - 5, 0, 7);
+    persistSaveData({ ...saved, runSupply: { runId: 'run:convert-cap', tickets: 6, lastCreditedStage: 6 } });
+    const settled = commitFactoryGroupSettlement(loadSaveData()!, 'run:convert-cap', 7, 'WIN', false);
+    assert.equal(settled.ticketBp, 7);
+    assert.equal(settled.amount, 5);
+    assert.equal(settled.wallet.balance, MAX_FACTORY_BP);
   });
 });

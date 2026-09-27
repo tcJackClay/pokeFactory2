@@ -2,7 +2,7 @@ import { FactoryItemRewardScreen } from './reward/FactoryItemRewardScreen';
 import type { GameViewSectionProps } from './shared';
 
 /**
- * `gameState === 'REWARD'` 路由的唯一入口：渲染「四卡持有物奖励」屏。
+ * `gameState === 'REWARD'` 路由的唯一入口：渲染「奖励商店」屏（6 件货架 + 券余额 + 兑换/离开）。
  * 旧六卡奖池屏（ITEM/POKEMON/TM/EVOLUTION + 重抽）已不再被本路由使用
  * （PRD：旧奖池路径只需不再使用，不要求清理）。
  */

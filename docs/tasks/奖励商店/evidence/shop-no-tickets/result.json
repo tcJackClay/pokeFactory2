@@ -1,0 +1,143 @@
+{
+  "name": "shop-no-tickets",
+  "octet": 42,
+  "fixture": "fx-shop-pending-t0.json",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "受控存档注入 + 真实 UI 触控 + 存档断言",
+  "steps": [
+    {
+      "name": "01-zero-tickets-390x844",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "READY"
+    },
+    {
+      "name": "02-zero-tickets-844x390",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "READY"
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "dom": {
+    "heading": "交换商店",
+    "ticketBalance": "兑换券余额：0 张",
+    "products": [
+      {
+        "label": "机变骰子",
+        "state": "insufficient",
+        "price": "2 券",
+        "priceLineThrough": true,
+        "effect": "提高 2–5 次连续攻击招式的命中次数。",
+        "note": "可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。",
+        "purchased": false,
+        "buttonText": "券不足",
+        "buttonDisabled": true,
+        "buttonGrayscale": true
+      },
+      {
+        "label": "气势头带",
+        "state": "insufficient",
+        "price": "2 券",
+        "priceLineThrough": true,
+        "effect": "受到致命一击时，有 10% 概率以 1 HP 挺住；本场不消耗，可反复判定。",
+        "note": null,
+        "purchased": false,
+        "buttonText": "券不足",
+        "buttonDisabled": true,
+        "buttonGrayscale": true
+      },
+      {
+        "label": "焦点镜",
+        "state": "insufficient",
+        "price": "2 券",
+        "priceLineThrough": true,
+        "effect": "命中要害等级 +1，稳定提高暴击概率。",
+        "note": null,
+        "purchased": false,
+        "buttonText": "券不足",
+        "buttonDisabled": true,
+        "buttonGrayscale": true
+      },
+      {
+        "label": "白色香草",
+        "state": "insufficient",
+        "price": "1 券",
+        "priceLineThrough": true,
+        "effect": "复原被对手降低的能力等级，随后消耗掉自己。",
+        "note": "条件性：只有对手降低过持有者的能力等级才有收益；没人降你能力就是白装。",
+        "purchased": false,
+        "buttonText": "券不足",
+        "buttonDisabled": true,
+        "buttonGrayscale": true
+      },
+      {
+        "label": "讲究头带",
+        "state": "insufficient",
+        "price": "3 券",
+        "priceLineThrough": true,
+        "effect": "物理招式威力 ×1.5，代价是只能连续使用同一招式。",
+        "note": null,
+        "purchased": false,
+        "buttonText": "券不足",
+        "buttonDisabled": true,
+        "buttonGrayscale": true
+      },
+      {
+        "label": "心灵香草",
+        "state": "insufficient",
+        "price": "2 券",
+        "priceLineThrough": true,
+        "effect": "解除挑衅、再来一次、定身法等妨碍状态，随后消耗掉自己。",
+        "note": "条件性：只有对手造成过挑衅、再来一次等妨碍状态才有收益；对手不放就是白装。",
+        "purchased": false,
+        "buttonText": "券不足",
+        "buttonDisabled": true,
+        "buttonGrayscale": true
+      }
+    ],
+    "teammateButtons": [
+      {
+        "text": "呆呆兽 厚底靴",
+        "disabled": true
+      },
+      {
+        "text": "独角犀牛 先制之爪",
+        "disabled": true
+      },
+      {
+        "text": "玛瑙水母 王者之证",
+        "disabled": true
+      }
+    ],
+    "confirmText": null,
+    "hasConfirm": false,
+    "leaveButtonText": "离开商店",
+    "hasLeaveButton": true,
+    "brokenImgs": [],
+    "body": "0 BP 3/7 轮次 2 连胜 交换商店 用兑换券兑换持有物。一次可买多件，也可以一件不买直接离开。 兑换券余额：0 张 机变 机变骰子 2 券 提高 2–5 次连续攻击招式的命中次数。 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 券不足 气势头带 2 券 受到致命一击时，有 10% 概率以 1 HP 挺住；本场不消耗，可反复判定。 券不足 焦点镜 2 券 命中要害等级 +1，稳定提高暴击概率。 券不足 白色香草 1 券 复原被对手降低的能力等级，随后消耗掉自己。 条件性：只有对手降低过持有者的能力等级才有收益；没人降你能力就是白装。 券不足 讲究头带 3 券 物理招式威力 ×1.5，代价是只能连续使用同一招式。 券不足 心灵香草 2 券 解除挑衅、再来一次、定身法等妨碍状态，随后消耗掉自己。 条件性：只有对手造成过挑衅、再来一次等妨碍状态才有收益；对手不放就是白装。 券不足 选择装备队员 呆呆兽 厚底靴 独角犀牛 先制之爪 玛瑙水母 王者之证 先选择一件要兑换的商品。 离开商店"
+  },
+  "assertions": {
+    "ticketBalanceIsZero": true,
+    "allProductsInsufficient": true,
+    "allButtonsDisabled": true,
+    "allButtonsSayInsufficient": true,
+    "allPricesStruckThrough": true,
+    "exactlySix": true,
+    "distinct": true,
+    "matchesExpectedSet": true,
+    "pricesMatchTierTable": true,
+    "everyProductHasEffect": true,
+    "ticketBalanceVisible": true,
+    "redeemButtonsPresent": true,
+    "leaveButtonVisible": true,
+    "noBrokenImages": true,
+    "headingIsShop": true
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "name": "refresh-import-purchase",
+  "octet": 47,
+  "fixture": "fx-shop-pending-t3.json",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "受控存档注入 + 真实 UI 触控 + 存档断言",
+  "steps": [
+    {
+      "name": "01-after-purchase",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 2,
+      "status": "READY"
+    },
+    {
+      "name": "02-after-reload",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 2,
+      "status": "READY"
+    },
+    {
+      "name": "03-cold-reopen",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 2,
+      "status": "READY"
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "afterPurchase": {
+    "tickets": 2,
+    "purchases": [
+      {
+        "itemId": "white_herb",
+        "targetIndex": 0,
+        "ticketsSpent": 1
+      }
+    ]
+  },
+  "assertions": {
+    "reloadKeptPurchase": true,
+    "reloadTicketsNotRededucted": true,
+    "reloadShelfFrozen": true,
+    "coldReopenKeptPurchase": true,
+    "coldReopenTicketsNotRededucted": true,
+    "coldReopenShelfFrozen": true,
+    "purchasedMarkedAfterReload": true,
+    "stillReadyAfterReload": true
+  }
+}

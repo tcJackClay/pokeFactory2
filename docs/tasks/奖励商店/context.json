@@ -1,0 +1,41 @@
+{
+  "_comment": "architect 拥有。列出下游各角色应读的文件。all 段注入给 programmer/auditor/player 全部；各角色段额外补充。路径相对仓库根 D:/Games/pokeFactory2（实现位置为工作树 D:/Games/pokeFactory2-worktrees/reward-shop，分支 codex/reward-shop，基线 64db423）。",
+  "inject_config": {
+    "all": [
+      { "file": "docs/tasks/奖励商店/prd.md", "reason": "产品契约：本阶段唯一产品输入，含 S1–S6 范围与 14 条验收条件（本阶段须过 AC-1~5/10/11/13/14）" },
+      { "file": "docs/tasks/奖励商店/plan.md", "reason": "技术方案：改动面、券经济与商店状态机、状态契约、验证计划、风险与隐含决策" },
+      { "file": "docs/tasks/扩池规则/decisions.md", "reason": "产品口径真相来源：第一节组末券折算、第二节/第四节三档定价、第三节 9 件名单、第八节第 9 项两香草" },
+      { "file": "docs/公开版规则定稿.md", "reason": "现行规则定稿：货架 6 件、三档定价、组末券折算、进化石（docs/rules 两笔提交 64db423/e972103 已定稿）" },
+      { "file": "docs/tasks/奖励商店/log.md", "reason": "运行日志：只追加，programmer/auditor/player 依次写入" },
+      { "file": "AGENTS.md", "reason": "协作章程：静态门禁命令、五种证据不可互相替代、禁止事项与工作树操作禁忌" }
+    ],
+    "programmer": [
+      { "file": ".agents/roles/programmer.md", "reason": "编码规则与本角色边界" },
+      { "file": ".agents/templates/plan.md", "reason": "plan 模板（本任务 plan 的组织方式）" },
+      { "file": "src/features/game/config/factoryRewards.ts", "reason": "shelfSize 替换 freeRewardChoiceCount、三档价格表、FACTORY_TICKETS_TO_BP_RATE 的唯一数值源" },
+      { "file": "src/features/game/config/factoryRewardPool.ts", "reason": "9 件持有道具名单、档位表、drawFactoryShopShelf 抽样、getRewardApplicability 三态判定" },
+      { "file": "src/services/saveManager.ts", "reason": "检查点事务层：FactoryRewardCheckpoint 新语义、commitFactoryShopPurchase、commitFactoryGroupSettlement 券折算、legacy 迁移" },
+      { "file": "src/features/game/hooks/usePokeFactoryGame.ts", "reason": "奖励接线：配货 effect、purchaseFactoryShopItem、continueAfterFactoryReward、syncRunSupply" },
+      { "file": "src/features/game/components/game-view/reward/FactoryItemRewardScreen.tsx", "reason": "商店 UI：券余额、6 商品卡、券不足视觉区分、队员选择→确认兑换、离开按钮" },
+      { "file": "src/features/game/data/battle/itemEffects.ts", "reason": "两香草的战斗元数据（effectId/hooks），商品功能说明与 CONDITIONAL 判定的事实依据" },
+      { "file": "docs/tasks/四卡生成/four-card-harness.mjs", "reason": "既有浏览器验收范式（本任务 shop-harness.mjs 照此写）" },
+      { "file": "docs/tasks/奖励商店/probe-shop-fixtures.mjs", "reason": "夹具派生脚本：从四卡基档生成商店验收存档（券余额/legacy 检查点/9999 上限）" },
+      { "file": "docs/tasks/奖励商店/run-reward-shop-browser.mjs", "reason": "本阶段浏览器验收脚本：AC-1~5/10/11/13 + F3 失败语义" }
+    ],
+    "auditor": [
+      { "file": ".agents/roles/auditor.md", "reason": "静态审查边界：不运行游戏" },
+      { "file": "docs/公开版需求矩阵.md", "reason": "验收条件与证据等级口径，回填时对齐" },
+      { "file": "src/services/saveManager.test.ts", "reason": "检查点/折算/迁移的既有用例（含 legacy READY/CLAIMED、上限钳位、败退）" },
+      { "file": "src/features/game/config/factoryRewardPool.test.ts", "reason": "84 组三人组合全枚举、档位表、9 件名单的确定性夹具" },
+      { "file": "src/features/game/components/game-view/reward/FactoryItemRewardScreen.test.ts", "reason": "商店 SSR 断言：券不足、已购、香草诚实文案、破图兜底" },
+      { "file": "docs/tasks/四卡生成/plan.md", "reason": "上一阶段状态机契约（PENDING/READY/CLAIMED 骨架）——本阶段是其语义扩展，审查时对照不回归" }
+    ],
+    "player": [
+      { "file": ".agents/roles/player.md", "reason": "实玩边界：不写实现代码；证据类型与记录格式" },
+      { "file": "docs/手机端试玩验收记录.md", "reason": "视口矩阵（390x844 / 844x390）与记录格式" },
+      { "file": "docs/tasks/四卡生成/run-four-card-reward-browser.mjs", "reason": "既有奖励节点浏览器脚本范式（来源隔离/受控注入/真实触控）" },
+      { "file": "docs/tasks/奖励商店/shop-harness.mjs", "reason": "本任务共享驱动库：readShopDom 断言锚点（shop-product/shop-redeem-button/shop-ticket-balance/shop-leave-button）" },
+      { "file": "docs/tasks/奖励商店/evidence/", "reason": "已产出的验收证据根：13 个用例目录 + fixtures + result.json" }
+    ]
+  }
+}

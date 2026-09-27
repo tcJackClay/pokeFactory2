@@ -1,0 +1,51 @@
+{
+  "name": "shop-closed-resume",
+  "octet": 54,
+  "fixture": "fx-shop-claimed-purchases.json",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "受控存档注入 + 真实 UI 触控 + 存档断言",
+  "steps": [
+    {
+      "name": "01-closed-screen-390x844",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "CLAIMED"
+    },
+    {
+      "name": "02-closed-screen-844x390",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "CLAIMED"
+    },
+    {
+      "name": "03-stage4-battle",
+      "phase": "BATTLE",
+      "stage": 4,
+      "tickets": 0,
+      "status": null
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "bootState": {
+    "phase": "REWARD",
+    "status": "CLAIMED"
+  },
+  "closedScreenText": "0 BP 3/7 轮次 2 连胜 商店已关闭 白色香草已装备给呆呆兽（花费 1 券）。结果已保存。 焦点镜已装备给独角犀牛（花费 2 券）。结果已保存。 继续挑战",
+  "assertions": {
+    "closedIsClaimed": true,
+    "screenSaysClosed": true,
+    "listsWhiteHerbPurchase": true,
+    "listsScopeLensPurchase": true,
+    "purchasesPreserved": true,
+    "continueButtonVisible": true,
+    "noCrash": true,
+    "stageAdvancedToFour": true,
+    "checkpointClearedOnBattleStart": true
+  }
+}

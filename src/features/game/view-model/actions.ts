@@ -29,7 +29,7 @@ export interface GameViewActions {
   rerollRewards: () => Promise<void>;
   nextStage: () => Promise<void>;
   selectReward: (reward: GameReward) => void;
-  claimFactoryItemReward: (itemId: FactoryRewardHeldItemId, targetIndex: number) => Promise<boolean>;
+  purchaseFactoryShopItem: (itemId: FactoryRewardHeldItemId, targetIndex: number) => Promise<boolean>;
   continueAfterFactoryReward: () => Promise<void>;
   clearFactoryItemRewardError: () => void;
   retryFactoryItemRewardPrepare: () => void;
