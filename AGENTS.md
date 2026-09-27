@@ -10,7 +10,7 @@
 | 项 | 值 |
 | --- | --- |
 | 主工作区 | `D:\Games\pokeFactory2`，主分支 `dev` |
-| 隔离工作树 | `D:\Games\pokeFactory2-worktrees\<task>`，分支 `codex/<task>`（2026-09-26 由 C 盘 `.codex\worktrees` 迁至 D 盘，理由：项目资产不落 C 盘） |
+| 隔离工作树 | `D:\Games\pokeFactory2-worktrees\<task>`，分支 `codex/<task>`。**37 个工作树已于 2026-09-27 全部由 C 盘 `.codex\worktrees` 迁至 D 盘**（C 盘仅剩无关项目 `5885`）。操作禁忌见下方注 |
 | 前端 | React 19 + Vite 6 + TS 5.8 + Tailwind 4；开发端口 `4300` |
 | 后端 | Go 1.22；`go run ./backend/cmd/server`，端口 `3001`；健康检查 `/api/health` |
 | 静态门禁 | `npm run lint`（tsc）· `npm test` · `npm run build` · `go test ./...` |
@@ -24,6 +24,14 @@
 > ```
 > 本机 PortableGit 系统级 gitconfig 设了 `credential.helper = helper-selector`，它会先做约 **28 秒的交互等待**再回落 store，导致普通 `push` 长时间无输出挂起（看起来像网络问题，实则 `ls-remote`/`curl` 都正常）。
 > 只写 `-c credential.helper=store` **不够**——“`credential.helper` 是多值配置，`-c` 是追加不是替换”；必须先 `-c credential.helper=` 清空继承列表。凭据来自 `~/.git-credentials`。
+
+> **工作树操作禁忌**（2026-09-27 迁移 37 个工作树时实测，违反会浪费数小时或造成数据丢失）
+>
+> 1. **不要用 `git worktree remove`**。本机实测删除约 5,000 个文件耗时 **383 秒**（≈74 ms/文件），一个工作树 6 分钟以上；37 个要 6 小时。正确做法：删掉工作树根的 `.git` 文件 → `git worktree prune` 解注册 → 在目标位置 `git worktree add`。实测**约 4 秒/个**。
+> 2. **每个工作树的 `node_modules` 是目录联接**，指向 `D:\Games\pokeFactory2\node_modules`（主仓库）。递归删除**会穿透联接、删掉主仓库的依赖**。删工作树前必须先用 `rmdir "<工作树>\node_modules"`（**不带 `/s`**）只摘掉链接。
+> 3. **`git worktree add <路径> refs/heads/x` 会得到 detached HEAD**（git 不把全限定引用当分支）。要传**短分支名**；已 detached 的用 `git symbolic-ref HEAD refs/heads/x` 挂回，不触碰工作区。
+> 4. **批量删除文件用 Python `shutil.rmtree`**（实测 0.6 ms/文件）；`cmd rmdir /s /q` 经沙箱子进程拦截后约慢 100 倍。
+> 5. 迁移工具与备份留档在 `D:\Games\pokeFactory2-worktrees\_migration\`（`migrate.py` / `manifest.json` / `backup\`），含全部未提交文件的 SHA256 与补丁。
 
 **产口真相来源（优先级从高到低）**
 1. 用户最新决定
@@ -154,11 +162,14 @@ orchestrator 读证据判定 → 标记完成 → 回填需求矩阵
 
 ---
 
-## 7. 当前主线优先级（2026-09-26 交接口径）
+## 7. 当前主线优先级（2026-09-27 更新）
 
-1. **P1 阻断**：战斗轮次事务（敌方先手可能二动、回合末提前结算）——修好前顺风/先手道具一律不得判通过。
-2. **扩池 + 四卡生成**：designer 定池 → architect 计划 → programmer 实现七件保底。
-3. **奖励检查点/UI 接线**：隔离分支与正式池、TM 准入接线，第 3/6 胜真实手机试玩。
+1. ~~**P1 阻断**：战斗轮次事务~~ ✅ **已完成并合入 `dev`**（`a435f1e`）：一次玩家指令 = 一轮，双方各至多行动一次，回合末恰好结算一次。静态门禁 + auditor + player 实玩均通过。**仍有未验场景**（同速/先制之爪、睡眠冰冻畏缩混乱、击倒重定向、双方同时濒死、实体手机触控），见 `docs/tasks/轮次事务/runtime.md` §12 —— 续接时不要把这些当已验。
+2. **扩池 + 四卡生成**（进行中，**等待用户拍板**）：规则 8（战斗消耗道具不入池，已删代码）与规则 10（单一种类数量 1 + 替换/舍弃回池）已定稿；但四卡生成**实现**仍被决策表 **第 1、6、7 条**阻塞 —— `docs/tasks/扩池规则/decisions.md`。
+3. **奖励检查点/UI 接线**：隔离分支 `codex/reward-item-ui`（已在 `D:\Games\pokeFactory2-worktrees\reward-item-ui`）与正式池、TM 准入接线，第 3/6 胜真实手机试玩。
 4. **回填矩阵 + 规则定稿**，再走基地商品/实体机/生产。
+5. **发布前**：素材/IP 权利审查单独完成，版权页不能替代权利依据。
+
+> 规则优先级提醒：`docs/公开版开发与试玩验收总计划.md` 与 `docs/技术差距与实施顺序.md` 含**已废止**的旧措辞（双模式、逐场代币、Classic 奖励卡），**不得作为实施依据**。
 
 详细续接顺序见 `docs/开发交接_2026-09-26.md`。
