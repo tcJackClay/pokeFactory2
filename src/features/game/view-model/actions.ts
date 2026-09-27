@@ -1,5 +1,6 @@
 import type { GamePokemon, Item, Move } from '../../../types';
 import type { BaseTab, BattleSpecialMode, GameReward } from './common';
+import type { FactoryRewardHeldItemId } from '../config/factoryRewardPool';
 
 export interface SaveImportResult {
   ok: boolean;
@@ -19,6 +20,7 @@ export interface GameViewActions {
   confirmRentals: () => Promise<void>;
   toggleRental: (index: number) => void;
   performSwap: (playerIdx: number, enemyIdx: number) => Promise<void>;
+  clearPostBattleActionError: () => void;
   nextFactoryStage: () => Promise<void>;
   useItem: (item: Item, index: number) => Promise<void>;
   switchPokemon: (index: number) => Promise<void>;
@@ -27,6 +29,12 @@ export interface GameViewActions {
   rerollRewards: () => Promise<void>;
   nextStage: () => Promise<void>;
   selectReward: (reward: GameReward) => void;
+  claimFactoryItemReward: (itemId: FactoryRewardHeldItemId, targetIndex: number) => Promise<boolean>;
+  continueAfterFactoryReward: () => Promise<void>;
+  clearFactoryItemRewardError: () => void;
+  retryFactoryItemRewardPrepare: () => void;
+  /** 关闭「返还基准已被规整」提示（提示本身不会被静默吞掉） */
+  dismissHeldItemRepairNotice: () => void;
   startLearningMove: (idx: number) => Promise<void>;
   handleLearnMove: (move: Move) => void;
   replaceMove: (oldMoveIdx: number) => void;
@@ -42,7 +50,6 @@ export interface GameViewActions {
   devWinBattle: () => void;
   devUnlockSpecialMode: () => void;
   devResetBattleSpecialUsage: () => void;
-  devOpenRewardScreen: () => void;
   devOpenStatusPanel: () => void;
   devApplyStatusPanelPreset: () => void;
   devSetWeather: (weather: 'none' | 'sunny' | 'rainy' | 'sandstorm' | 'hail' | 'snow', turns?: number) => void;

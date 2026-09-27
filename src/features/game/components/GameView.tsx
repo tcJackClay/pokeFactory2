@@ -9,6 +9,7 @@ import { GameOverScreen } from './game-view/GameOverScreen';
 import { PokemonInfoScreen } from './game-view/PokemonInfoScreen';
 import { RoundResultScreen } from './game-view/RoundResultScreen';
 import { RewardScreen } from './game-view/RewardScreen';
+import { FactoryHeldItemRepairNotice } from './game-view/FactoryHeldItemRepairNotice';
 import { SettingsScreen } from './game-view/SettingsScreen';
 import { CreditsScreen } from './game-view/CreditsScreen';
 import { EventsScreen } from './game-view/EventsScreen';
@@ -254,6 +255,10 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
               : 'The opponent team could not be prepared. Your progress is saved; tap Continue to retry.'}
           </p>
         )}
+
+        {/* 返还基准被规整过的如实提示：单点挂载即覆盖全部界面
+            （BATTLE / ROUND_RESULT / BASE / 换怪 / 奖励三态），标志为假时不渲染。 */}
+        <FactoryHeldItemRepairNotice viewModel={viewModel} />
 
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
           <AnimatePresence mode="wait" initial={!shouldReduceMotion}>

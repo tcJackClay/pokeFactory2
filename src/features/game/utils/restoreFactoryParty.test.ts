@@ -33,6 +33,7 @@ function makePokemon(id: number): GamePokemon {
     volatileStatuses: { confusion: { id: 'confusion', active: true }, protect_chain: { id: 'protect_chain', active: true, counter: 2 } },
     factoryHeldItemId: 'leftovers',
     factoryOriginalHeldItemId: 'leftovers',
+    factoryEquippedHeldItemId: 'leftovers',
     factoryChoiceLockedMoveName: 'tackle',
     factoryLastUsedMoveName: 'tackle',
     factoryConsecutiveMoveCount: 2,
@@ -109,11 +110,11 @@ test('restoration is repeatable and does not invent PP when a move has no maximu
 });
 
 test('result restoration preserves consumed items until next battle, including a swapped enemy', () => {
-  const consumed = { ...makePokemon(1), factoryOriginalHeldItemId: 'sitrus-berry', factoryHeldItemId: undefined };
-  const knockedOff = { ...makePokemon(2), factoryOriginalHeldItemId: 'white-herb', factoryHeldItemId: undefined };
-  const noItem = { ...makePokemon(3), factoryOriginalHeldItemId: null, factoryHeldItemId: 'sitrus-berry' };
-  const enemyConsumed = { ...makePokemon(4), factoryOriginalHeldItemId: 'leppa-berry', factoryHeldItemId: undefined };
-  const replaced = { ...makePokemon(5), factoryOriginalHeldItemId: 'pecha-berry', factoryHeldItemId: 'sitrus-berry' };
+  const consumed = { ...makePokemon(1), factoryOriginalHeldItemId: 'sitrus-berry', factoryEquippedHeldItemId: 'sitrus-berry', factoryHeldItemId: undefined };
+  const knockedOff = { ...makePokemon(2), factoryOriginalHeldItemId: 'white-herb', factoryEquippedHeldItemId: 'white-herb', factoryHeldItemId: undefined };
+  const noItem = { ...makePokemon(3), factoryOriginalHeldItemId: null, factoryEquippedHeldItemId: null, factoryHeldItemId: 'sitrus-berry' };
+  const enemyConsumed = { ...makePokemon(4), factoryOriginalHeldItemId: 'leppa-berry', factoryEquippedHeldItemId: 'leppa-berry', factoryHeldItemId: undefined };
+  const replaced = { ...makePokemon(5), factoryOriginalHeldItemId: 'pecha-berry', factoryEquippedHeldItemId: 'pecha-berry', factoryHeldItemId: 'sitrus-berry' };
 
   const restored = restoreFactoryParty([consumed, knockedOff, noItem, replaced]);
   assert.deepEqual(restored.map((pokemon) => pokemon.factoryHeldItemId), [undefined, undefined, 'sitrus-berry', 'sitrus-berry']);
@@ -126,4 +127,18 @@ test('result restoration preserves consumed items until next battle, including a
   assert.deepEqual(nextTeam.map((pokemon) => pokemon.id), [1, 4, 3, 5]);
   assert.deepEqual(nextTeam.map((pokemon) => pokemon.factoryHeldItemId), ['sitrus-berry', 'leppa-berry', undefined, 'pecha-berry']);
   assert.deepEqual(prepareFactoryPartyForBattle(nextTeam), nextTeam);
+});
+
+test('next battle returns the reward baseline, not the immutable rental original', () => {
+  // 领取过奖励装备：本局返还基准 = 奖励装备；租借原配保持不变（PRD §3.5 / 验收 6）。
+  const rewarded = { ...makePokemon(1), factoryOriginalHeldItemId: 'sitrus-berry', factoryEquippedHeldItemId: 'scope_lens', factoryHeldItemId: undefined };
+  const spentWithoutReward = { ...makePokemon(2), factoryOriginalHeldItemId: 'white-herb', factoryEquippedHeldItemId: 'white-herb', factoryHeldItemId: undefined };
+  const noItem = { ...makePokemon(3), factoryOriginalHeldItemId: null, factoryEquippedHeldItemId: null, factoryHeldItemId: undefined };
+
+  const next = prepareFactoryPartyForBattle([rewarded, spentWithoutReward, noItem]);
+  assert.deepEqual(next.map((pokemon) => pokemon.factoryHeldItemId), ['scope_lens', 'white-herb', undefined]);
+  assert.equal(next[0].factoryOriginalHeldItemId, 'sitrus-berry');
+  assert.equal(next[0].factoryEquippedHeldItemId, 'scope_lens');
+  // 基准字段本身不被返还过程改写。
+  assert.deepEqual(prepareFactoryPartyForBattle(next).map((pokemon) => pokemon.factoryEquippedHeldItemId), ['scope_lens', 'white-herb', null]);
 });

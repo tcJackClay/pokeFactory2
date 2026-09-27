@@ -50,3 +50,21 @@ export function shouldTriggerPreBattleRewardStage(stage: number, config: Factory
   const battleInSet = getBattleIndexInSet(stage, config.battlesPerSet);
   return getPreBattleRewardBattlesInSet(config).includes(battleInSet);
 }
+
+/**
+ * 奖励节点锚点（PRD §1）：该战是否为「奖励前的战前阶段」。
+ * 玩家可见表述 = 进入组内第 4、7 战的战前阶段；`preBattleRewardBattlesInSet` 是唯一数值源。
+ */
+export function isFactoryRewardPreBattle(stage: number, config: FactoryRewardConfig = FACTORY_REWARD_CONFIG): boolean {
+  if (!Number.isSafeInteger(stage) || stage < 1) return false;
+  return shouldTriggerPreBattleRewardStage(stage, config);
+}
+
+/**
+ * 换怪锚点：刚赢下的这一战（组内第 3、6 战）结束后是否需要进入奖励节点。
+ * 等价于「下一战 stage + 1 是奖励前战」，与 `isFactoryRewardPreBattle` 共用同一数值源。
+ */
+export function shouldEnterRewardAfterWinning(stage: number, config: FactoryRewardConfig = FACTORY_REWARD_CONFIG): boolean {
+  if (!Number.isSafeInteger(stage) || stage < 1) return false;
+  return shouldTriggerPreBattleRewardStage(stage + 1, config);
+}

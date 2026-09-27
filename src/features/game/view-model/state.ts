@@ -14,6 +14,7 @@ import type {
 import type { RegionDispatchState } from '../config/events';
 import type { FactoryTrainerTemplate } from '../config/factoryTrainerTemplates';
 import type { CompanionSpeciesId } from '../config/companionCandidates';
+import type { FactoryRewardCheckpoint } from '../../../services/saveManager';
 import type {
   BaseRunSummary,
   BaseTab,
@@ -41,6 +42,16 @@ export interface GameViewFlowState {
   loading: boolean;
   rentalLoadError: string | null;
   opponentLoadError: boolean;
+  /** 换怪/奖励落盘失败的提示（显示于换怪屏） */
+  postBattleActionError: string | null;
+  rewardClaimError: string | null;
+  rewardClaimBusy: boolean;
+  rewardContinueError: string | null;
+  rewardContinueBusy: boolean;
+  /** 奖励候选枚举/冻结失败（留在 PENDING 的缺陷态，可重试） */
+  rewardPrepareError: string | null;
+  /** 三人返还基准曾被规整为互不重复（检测到重复并恢复），需如实告知玩家 */
+  heldItemBaselineRepaired: boolean;
   bootProgress: number;
   canEnterProject: boolean;
   bootStatusText: string;
@@ -75,6 +86,8 @@ export interface GameViewProgressState {
   rewardChoiceMade: boolean;
   rerollCount: number;
   rewards: GameReward[];
+  rewardCheckpointStatus: 'PENDING' | 'READY' | 'CLAIMED' | null;
+  rewardCheckpoint: FactoryRewardCheckpoint | null;
 }
 
 export interface GameViewBattleState {

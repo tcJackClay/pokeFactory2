@@ -15,7 +15,6 @@ export function DeveloperPanel({ viewModel }: GameViewSectionProps) {
     devWinBattle,
     devUnlockSpecialMode,
     devResetBattleSpecialUsage,
-    devOpenRewardScreen,
     devOpenStatusPanel,
     devClearBattleStatuses,
   } = viewModel;
@@ -43,9 +42,6 @@ export function DeveloperPanel({ viewModel }: GameViewSectionProps) {
             <div className="grid grid-cols-2 gap-1.5 text-[10px]">
               <button onClick={devWinBattle} className="rounded-md bg-amber-600/90 px-2 py-1.5 font-black uppercase">
                 Win
-              </button>
-              <button onClick={devOpenRewardScreen} className="rounded-md bg-blue-600/90 px-2 py-1.5 font-black uppercase">
-                Reward
               </button>
               <button onClick={() => devAddCoins(500)} className="rounded-md bg-emerald-600/90 px-2 py-1.5 font-black uppercase">
                 +500

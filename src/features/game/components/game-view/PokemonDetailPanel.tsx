@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Package, Shield, Sparkles, Swords } from 'lucide-react';
 import TypeBadge from '../../../../components/TypeBadge';
@@ -6,6 +6,7 @@ import type { GamePokemon } from '../../../../types';
 import { ALL_ITEMS } from '../../../../uiAppConstants';
 import type { LocalizeDescFn, LocalizeFn, TranslateFn } from '../../view-model';
 import { getFactoryHeldItemIcon } from '../../config/factoryHeldItemIcons';
+import { battleHeldItemName } from '../../battle/battleLogText';
 
 interface PokemonDetailPanelProps {
   pokemon: GamePokemon;
@@ -55,7 +56,8 @@ function getFactoryHeldItemLabel(itemId: string | undefined, getLocalized: Local
     return getLocalized(knownItem);
   }
 
-  return formatIdentifierLabel(itemId);
+  // 工厂持有物（含基础保底七件）不在 ALL_ITEMS：回落到持有物译名表，避免中文界面显示英文串。
+  return battleHeldItemName(itemId, formatIdentifierLabel(itemId), isZh ? 'zh-hans' : 'en');
 }
 
 function getSpecialModeLabel(pokemon: GamePokemon, isZh: boolean): string {
@@ -208,6 +210,7 @@ export function PokemonDetailPanel({
   className = '',
 }: PokemonDetailPanelProps) {
   const shouldReduceMotion = useReducedMotion();
+  const [failedHeldItemIconKey, setFailedHeldItemIconKey] = useState<string | null>(null);
 
   const copy = useMemo(
     () => ({
@@ -223,6 +226,9 @@ export function PokemonDetailPanel({
   const abilityName = getLocalized(pokemon.abilities[0]?.ability) || t('none');
   const heldItemName = getFactoryHeldItemLabel(pokemon.factoryHeldItemId, getLocalized, isZh);
   const heldItemIcon = getFactoryHeldItemIcon(pokemon.factoryHeldItemId);
+  // 图标资源可能缺失（如实测 404 的厚底靴/机变骰子）：加载失败即隐藏图片，不留破图。
+  const heldItemIconKey = pokemon.factoryHeldItemId ?? '';
+  const showHeldItemIcon = Boolean(heldItemIcon) && failedHeldItemIconKey !== heldItemIconKey;
   const specialModeLabel = getSpecialModeLabel(pokemon, isZh);
   const natureAdjustments = [
     pokemon.nature.plus ? `+${getStatName(pokemon.nature.plus)}` : '',
@@ -273,13 +279,14 @@ export function PokemonDetailPanel({
             label={copy.heldItem}
             value={(
               <span className="inline-flex items-center gap-2">
-                {heldItemIcon && (
+                {showHeldItemIcon && (
                   <img
-                    src={heldItemIcon}
+                    src={heldItemIcon!}
                     alt=""
                     aria-hidden="true"
                     className="h-5 w-5 rounded object-contain [image-rendering:pixelated]"
                     referrerPolicy="no-referrer"
+                    onError={() => setFailedHeldItemIconKey(heldItemIconKey)}
                   />
                 )}
                 <span>{heldItemName}</span>
