@@ -285,6 +285,9 @@ export function usePokeFactoryGame(): GameViewModel {
   const rewardClaimInFlightRef = useRef(false);
   const rewardPrepareInFlightRef = useRef(false);
   const handledRoundResultRef = useRef<string | null>(null);
+  // 导入存档后立即 reload：此时 beforeunload / visibilitychange 的「退出存档」会把导入前的
+  // 内存旧状态回写，覆盖刚落盘的导入结果（导入被静默丢弃）。置位本标记让退出存档在本次导航内跳过。
+  const skipExitPersistRef = useRef(false);
 
   const buildStableFactoryBattleResume = useCallback((): BattleResumeSnapshot | null => {
     if (eventBattleActive || gameState !== 'BATTLE') return null;
@@ -1067,6 +1070,7 @@ export function usePokeFactoryGame(): GameViewModel {
 
     const persistCurrentState = () => {
       try {
+        if (skipExitPersistRef.current) return;
         if (saveBlocked || isTransitioning || loading || trainerIntroActive || trainerIntroAwaitingContinue) return;
         persistSaveData(buildCurrentSaveData());
       } catch (error) {
@@ -1878,6 +1882,9 @@ export function usePokeFactoryGame(): GameViewModel {
       };
 
       replaceSaveData(normalizedParsed);
+      // 导入已落盘，随后的 reload 会触发 beforeunload / visibilitychange 的退出存档；
+      // 若不跳过，退出存档会用导入前的内存旧状态覆盖导入结果。
+      skipExitPersistRef.current = true;
       window.location.reload();
 
       return {
