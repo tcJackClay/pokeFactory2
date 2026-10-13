@@ -41,3 +41,32 @@
 ## 后续证据
 
 修复 A1 并复审后，按 plan V1–V9 交 player 收集最终代码的真实 Go+Vite UI、受控场景与三种模拟视口证据。实体 Android Chrome、自然完整长局与生产环境不可由这些静态结果代替。
+
+## A1 修复复审
+
+受审提交：`146c23f35cacd9511b6c05e36edf551959c09075`。日期：2026-10-13。以下记录保留上轮 BLOCKED 的历史；**当前裁决为 PASS（静态门禁）**，A1 已在代码与静态回归层关闭，交 player 按更新后的 V1–V10 验证。
+
+### 修复与计划逐项对应
+
+- `currentFieldDamage.ts` 的适配器每次调用读取同一个 ref 的 `current.weather/current.fieldState`；控制器用 `useMemo` 建立稳定 resolver。旧回合回调保留该函数也不会捕获旧天气值。生产未传测试 RNG，适配器自身无 RNG 调用，底层 damage/accuracy 算法未修改。
+- 已逐条核对 plan「当前场地输入审计表」：副效果、前置检查、睡觉场地限制、补位入场、顺风、属性免疫响应、天气治疗及重复场地判断均按执行时读取 current ref；hazards 原即时 ref 保持。替换只改变输入来源，没有新增数值或移动调用时点。
+- 初始 AI 选招与初始行动顺序仍使用选择时快照，没有在回合中重新抽招或排序。场地写入仍经原同步 ref setter，回合末仍经原 `commitRoundEndTurn` 一次结算；未引入新的保存结构、战斗轮次或消费。
+- F6 的两队必填参数及当前队伍接线保持；上一轮已通过的目标类别、防护终态、PP 扣除位置及香草路径没有被后续修复改写。
+
+### 新增 3 项测试的实际覆盖与边界
+
+1. 同一 retained resolver 在真实 `executeRoundTransaction` 两行动之间替换 `ref.current`，验证先手沙暴后，沙隐目标的状态命中由 hit 变 miss；玩家/敌方先手均覆盖，回合末回调一次。
+2. 同一 resolver 在先手雨天或青草场地后计算后手实际伤害，分别断言水伤提高、地震降低；RNG 调用次数与无场地对照一致。调用顺序保持另由适配器与底层真实 diff 审查确认，次数断言本身不被夸大为顺序证明。
+3. 同轮薄雾场地后调用真实 secondary engine，双方互换，覆盖接地受保护、无场地与飞行目标允许剧毒三类实际状态结果。
+
+这些测试执行真实轮次/结算引擎和控制器实际使用的 damage 适配器；没有挂载 React hook，也没有调用真实 UI 设置天气/场地。secondary 的 current ref 接线已静态核对，最终端到端正确性仍由 player V10 提供证据，不能把测试称为浏览器实玩。
+
+### 复审独立门禁
+
+- `npm.cmd run lint`：PASS，退出码 0。
+- `npm.cmd test`：305/305 PASS，0 fail / 0 skipped。
+- `npm.cmd run build`：PASS，2242 modules；主 chunk 577.64 kB，仍有超过 500 kB 的非阻断提示。
+- `go test ./...`：PASS（server 无测试，其余包通过，使用 Go 缓存结果）。
+- `git diff --check 2022d20..HEAD`：PASS。
+
+本次 auditor 只追加审计记录，未修改业务代码、未运行游戏、未启动服务、未提交。没有新增静态阻断项；实体手机、自然长局和生产环境仍未验证。

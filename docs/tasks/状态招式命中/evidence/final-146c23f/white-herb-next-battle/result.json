@@ -1,0 +1,259 @@
+{
+  "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+  "controlled": {
+    "stage": 3,
+    "enemyCurrentHp": 1,
+    "save": true,
+    "globalRng": null,
+    "noDevWin": true
+  },
+  "origin": "http://127.0.0.145:4302",
+  "steps": [
+    {
+      "name": "before",
+      "phase": "BATTLE",
+      "stage": 3,
+      "log": [
+        "受控第三战香草返还起点"
+      ],
+      "current": "white_herb",
+      "equipped": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      },
+      "pp": 5
+    },
+    {
+      "name": "turn-1",
+      "phase": "BATTLE",
+      "stage": 3,
+      "log": [
+        "受控第三战香草返还起点",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "呆呆兽使用白色香草恢复了降低的能力！",
+        "呆呆兽 造成了 16 点伤害。",
+        "比比鸟 倒下了！",
+        "对手 派出了 伊布！"
+      ],
+      "current": null,
+      "equipped": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      },
+      "pp": 4
+    },
+    {
+      "name": "turn-2",
+      "phase": "BATTLE",
+      "stage": 3,
+      "log": [
+        "受控第三战香草返还起点",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "呆呆兽使用白色香草恢复了降低的能力！",
+        "呆呆兽 造成了 16 点伤害。",
+        "比比鸟 倒下了！",
+        "对手 派出了 伊布！",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "这一击效果绝佳！",
+        "呆呆兽 造成了 34 点伤害。",
+        "伊布 倒下了！",
+        "对手 派出了 大葱鸭！"
+      ],
+      "current": null,
+      "equipped": "white_herb",
+      "statStages": {
+        "attack": -1,
+        "defense": -1,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      },
+      "pp": 3
+    },
+    {
+      "name": "turn-3",
+      "phase": "ROUND_RESULT",
+      "stage": 3,
+      "log": [
+        "受控第三战香草返还起点",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "呆呆兽使用白色香草恢复了降低的能力！",
+        "呆呆兽 造成了 16 点伤害。",
+        "比比鸟 倒下了！",
+        "对手 派出了 伊布！",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "这一击效果绝佳！",
+        "呆呆兽 造成了 34 点伤害。",
+        "伊布 倒下了！",
+        "对手 派出了 大葱鸭！"
+      ],
+      "current": null,
+      "equipped": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      },
+      "pp": 5
+    },
+    {
+      "name": "victory",
+      "phase": "ROUND_RESULT",
+      "stage": 3,
+      "log": [
+        "受控第三战香草返还起点",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "呆呆兽使用白色香草恢复了降低的能力！",
+        "呆呆兽 造成了 16 点伤害。",
+        "比比鸟 倒下了！",
+        "对手 派出了 伊布！",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "这一击效果绝佳！",
+        "呆呆兽 造成了 34 点伤害。",
+        "伊布 倒下了！",
+        "对手 派出了 大葱鸭！"
+      ],
+      "current": null,
+      "equipped": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      },
+      "pp": 5
+    },
+    {
+      "name": "swap",
+      "phase": "FACTORY_SWAP",
+      "stage": 3,
+      "log": [
+        "受控第三战香草返还起点",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "呆呆兽使用白色香草恢复了降低的能力！",
+        "呆呆兽 造成了 16 点伤害。",
+        "比比鸟 倒下了！",
+        "对手 派出了 伊布！",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "这一击效果绝佳！",
+        "呆呆兽 造成了 34 点伤害。",
+        "伊布 倒下了！",
+        "对手 派出了 大葱鸭！"
+      ],
+      "current": null,
+      "equipped": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      },
+      "pp": 5
+    },
+    {
+      "name": "shop",
+      "phase": "REWARD",
+      "stage": 3,
+      "log": [
+        "受控第三战香草返还起点",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "呆呆兽使用白色香草恢复了降低的能力！",
+        "呆呆兽 造成了 16 点伤害。",
+        "比比鸟 倒下了！",
+        "对手 派出了 伊布！",
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "这一击效果绝佳！",
+        "呆呆兽 造成了 34 点伤害。",
+        "伊布 倒下了！",
+        "对手 派出了 大葱鸭！"
+      ],
+      "current": null,
+      "equipped": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      },
+      "pp": 5
+    },
+    {
+      "name": "next-battle",
+      "phase": "BATTLE",
+      "stage": 4,
+      "log": [
+        "对手 派出了 化石盔！"
+      ],
+      "current": "white_herb",
+      "equipped": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      },
+      "pp": 5
+    }
+  ],
+  "errors": [],
+  "http": [],
+  "assertions": {
+    "herbConsumed": true,
+    "herbBaseKept": true,
+    "stage4": true,
+    "herbRestored": true,
+    "statsRestored": true
+  }
+}

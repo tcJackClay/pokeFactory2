@@ -1,0 +1,32 @@
+[
+  {
+    "name": "status-player-hit",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "status-player-miss",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "status-enemy-hit",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "status-enemy-miss",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "status-hit-no-herb",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  }
+]

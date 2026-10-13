@@ -26,3 +26,15 @@
 - plan/context 与 implementation 已更新。Auditor首轮 BLOCKED记录保持原样，本段追加在其后。
 - 新增3项同轮天气/场地回归，共305/305 tests PASS；lint、build、go test ./...、diff check 均PASS；构建仍有既有chunk提示。
 - 仍未运行游戏。待独立复审与player最终SHA实玩，不能以此次静态绿灯宣告F1运行通过。
+
+# Auditor
+
+- What I checked: 复审 `146c23f` 相对 `3245304` 的 A1 修复，逐条核对 plan 当前场地输入表、实际 current ref 读取、初始 AI/先后手快照保留及 3 项新增回归的证据边界。
+- Fixed locally: none；仅追加审计记录，未改业务代码、未运行游戏、未启动服务、未提交。
+- Found but not fixed (needs lead routing): none。A1 在静态层关闭；React 控制器真实 UI 链路仍需 player V10，不能由纯引擎测试代替。
+- Independent gates: lint PASS；305/305 tests PASS；build PASS（主 chunk 577.64 kB 提示）；Go PASS；diff check PASS。
+- Verdict: PASS（静态门禁）；受审 SHA `146c23f35cacd9511b6c05e36edf551959c09075`，按 plan V1–V10 进入冻结实玩。
+
+# Player
+
+2026-10-13运行、2026-10-14收尾：冻结146c23f，在同工作树Go3003/Vite4302禁HMR验证26例，全部指定断言通过、零pageerror/console error/HTTP错误；V1–V10映射与受控参数见runtime.md及evidence/final-146c23f/manifest.json。双方状态hit/miss、保护替身、自用天气、香草自降/接触/下战返还、完整回合刷新、旧PP回滚两例和同轮沙暴/薄雾均有真实UI状态与截图。PP现15→14保持并刷新14。王者盾牌例contact flag受控注入，自然撞击数据缺口保留；沙暴与薄雾分别固定RNG .9/.5，其余无全局随机覆盖。未用DEV Win、未改实现、未提交。初版重复持有物和错误改战次夹具留fixture-draft目录，不计验收与建议入库。实体手机/自然七战/生产环境未验证。
