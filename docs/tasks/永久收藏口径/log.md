@@ -20,3 +20,17 @@
 - 最终完整代码四门禁：npm run lint PASS；npm test 322/322 PASS；npm run build PASS（既有chunk警告）；go test ./... PASS；git diff --check PASS。
 - 全src核对现有球定义/初始化/所有背包增加入口后，确认自然新档暂无球获得来源；R7需受控球/队伍夹具，不能宣称自然可达。详细证据、事件战断点缺口与旧大师球95%上限矛盾见implementation.md。
 - 没有运行游戏；交独立auditor，再由player以冻结最终代码验收。未推送，未合入主线。
+
+# Auditor
+
+- What I checked: 对 `a317686..7d6d177` 完整差异核对 PRD/plan、schema15 来源归一、全部主档写入口、初遇/派遣/捕捉交易、显式导入、轮次取消和上游场地修复；独立四门禁全部通过，测试 322/322。
+- Fixed locally: none；未改业务、未运行游戏、未提交。
+- Found but not fixed (needs lead routing): 捕捉结束的旧训练回调覆盖刚捕获队伍；跨地区并发 join 使用旧背包/队伍，最后一颗球可提交两次获得且后一次覆盖前一次加队。已用实际源码 AST 回调提取与受控依赖做静态复现，详情见 audit.md。需实现者修复并补回归。
+- Verdict: BLOCKED。门禁 PASS 不能代替上述状态契约修复；随后重审再转 player。
+
+# Programmer
+
+- 修复独立审计A1：控制器事件结算显式传递当前队伍，派遣训练不再写回捕捉前闭包队伍。
+- 修复A2：跨地区共享领取门闩，读取并同步最新队伍/背包，单球不双花且连续加入不丢成员。异步返回复核页面/工厂/事件战上下文，迟到结果不写回新状态。
+- 新增6项实际源码回调静态回归，包含真实catch→winBattle→resolveBattleResult→事件训练链与跨地区/上下文切换。R7同步补充相应实玩情形。
+- 四门禁：npm run lint PASS；npm test 328/328 PASS；npm run build PASS（既有chunk警告）；go test ./... PASS。未运行游戏，未推送、未合入主线；交独立复审。

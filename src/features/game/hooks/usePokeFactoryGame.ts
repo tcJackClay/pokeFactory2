@@ -106,6 +106,7 @@ interface EventBattleContext {
   specialSiteName?: string;
   dispatchStartedAt: number;
 }
+class StaleDispatchError extends Error {}
 
 function hydrateInventoryFromItemIds(itemIds: string[]): Item[] {
   return itemIds
@@ -247,7 +248,7 @@ export function usePokeFactoryGame(): GameViewModel {
   const [companionSpeciesId, setCompanionSpeciesId] = useState<CompanionSpeciesId | null>(initialSave?.progress.companionSpeciesId ?? null);
   const companionCommittedRef = useRef<CompanionSpeciesId | null>(initialSave?.progress.companionSpeciesId ?? null);
   const companionConfirmingRef = useRef(false);
-  const dispatchInFlightRef = useRef(new Set<string>());
+  const dispatchInFlightRef = useRef(false);
   const [activeEventCount] = useState(EVENT_REGIONS.length);
   const [shopUnlocked] = useState(true);
   const [collectionUnlocked] = useState(true);
@@ -274,6 +275,13 @@ export function usePokeFactoryGame(): GameViewModel {
   const [eventDispatchPopup, setEventDispatchPopup] = useState<EventDispatchPopup | null>(null);
   const [eventBattleActive, setEventBattleActive] = useState(false);
   const [eventBattleContext, setEventBattleContext] = useState<EventBattleContext | null>(null);
+  const eventRuntimeRef = useRef({ playerTeam, inventory, eventBattleActive, gameState, currentBaseTab });
+  eventRuntimeRef.current = { playerTeam, inventory, eventBattleActive, gameState, currentBaseTab };
+  const isDispatchContextCurrent = useCallback(() => {
+    const live = eventRuntimeRef.current;
+    return !factoryResumeActiveRef.current && !live.eventBattleActive
+      && (live.gameState === 'EVENTS' || (live.gameState === 'BASE' && live.currentBaseTab === 'EVENTS'));
+  }, []);
   const [highestStreak, setHighestStreak] = useState(initialSave?.progress.highestStreak ?? 0);
   const [collectionLedger, setCollectionLedger] = useState<CollectionLedger>(() => ({
     seenIds: initialSave?.collection?.seenIds ?? [],
@@ -507,9 +515,10 @@ export function usePokeFactoryGame(): GameViewModel {
     return growthPool[Math.floor(Math.random() * growthPool.length)] ?? ALL_ITEMS[0];
   }, []);
 
-  const awardDispatchTraining = useCallback((region: (typeof EVENT_REGIONS)[number], selectedPokemonId: number | null, completedBattleCount = 0) => {
-    const training = applyDispatchTrainingToTeam(playerTeam, selectedPokemonId, region, completedBattleCount);
+  const awardDispatchTraining = useCallback((region: (typeof EVENT_REGIONS)[number], selectedPokemonId: number | null, completedBattleCount = 0, team = eventRuntimeRef.current.playerTeam) => {
+    const training = applyDispatchTrainingToTeam(team, selectedPokemonId, region, completedBattleCount);
     if (training.trained) {
+      eventRuntimeRef.current.playerTeam = training.team;
       setPlayerTeam(training.team);
       const ivText = training.ivGain > 0 ? `，并获得 ${training.ivGain} 点个体值` : '';
       return {
@@ -521,9 +530,9 @@ export function usePokeFactoryGame(): GameViewModel {
       training,
       text: '派遣宝可梦不在当前队伍，训练收益已跳过。',
     };
-  }, [playerTeam]);
+  }, []);
 
-  const handleSuppressedBattleResolved = useCallback((result: 'WIN' | 'LOSS') => {
+  const handleSuppressedBattleResolved = useCallback((result: 'WIN' | 'LOSS', resolvedTeam: GamePokemon[]) => {
     if (!eventBattleActive) return;
 
     const context = eventBattleContext;
@@ -540,7 +549,7 @@ export function usePokeFactoryGame(): GameViewModel {
       }));
 
       if (result === 'WIN') {
-        const training = awardDispatchTraining(region, context.selectedPokemonId, nextBattleCount);
+        const training = awardDispatchTraining(region, context.selectedPokemonId, nextBattleCount, resolvedTeam);
         const rewardItem = pickGrowthRewardItem();
         const rewardName = getEventItemLabel(rewardItem);
         setInventory((prev) => [...prev, rewardItem]);
@@ -1657,7 +1666,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, []);
 
   const resolveDispatchRegion = useCallback(async (regionId: string, dispatchStartedAt: number) => {
-    if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
+    if (!isDispatchContextCurrent()) throw new StaleDispatchError();
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region) return '派遣失败：未知地区';
 
@@ -1665,7 +1674,7 @@ export function usePokeFactoryGame(): GameViewModel {
     if (!selectedPokemonId) return '请先选择一只已拥有的派遣宝可梦';
 
     const selectedPokemonData = await fetchPokemon(selectedPokemonId);
-    if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
+    if (!isDispatchContextCurrent()) throw new StaleDispatchError();
     const selectedTypes = selectedPokemonData.types.map((slot) => slot.type.name);
     const matched = region.requiredTypes.some((type) => selectedTypes.includes(type));
     if (!matched) {
@@ -1696,7 +1705,7 @@ export function usePokeFactoryGame(): GameViewModel {
       const candidate = regionalPool[Math.floor(Math.random() * regionalPool.length)];
       if (!candidate) continue;
       if (await isEvolutionChainBaseSpecies(candidate)) {
-        if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
+        if (!isDispatchContextCurrent()) throw new StaleDispatchError();
         sampledBaseSpecies.push(candidate);
       }
     }
@@ -1712,13 +1721,14 @@ export function usePokeFactoryGame(): GameViewModel {
       const joinIdentifier = commonTargetPool[Math.floor(Math.random() * commonTargetPool.length)];
       if (!joinIdentifier) return `${region.name}: 生成目标失败`;
       const targetPokemon = await getProcessedPokemon(joinIdentifier, Math.max(20, startLevel));
-      if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
-      const ballIndex = inventory.findIndex((item) => item.isBall);
+      if (!isDispatchContextCurrent()) throw new StaleDispatchError();
+      const live = eventRuntimeRef.current;
+      const ballIndex = live.inventory.findIndex((item) => item.isBall);
       if (ballIndex < 0) return `${region.name}: 背包里没有可用的精灵球`;
 
-      const joinedParty = playerTeam.length < 6;
+      const joinedParty = live.playerTeam.length < 6;
       const targetName = getLocalized(targetPokemon);
-      const trainingResult = applyDispatchTrainingToTeam(playerTeam, selectedPokemonId, region);
+      const trainingResult = applyDispatchTrainingToTeam(live.playerTeam, selectedPokemonId, region);
       const trainingText = trainingResult.trained
         ? `派遣宝可梦获得 ${getStatLabel(trainingResult.stat)} +${trainingResult.evGain} 努力值`
         : '派遣宝可梦不在当前队伍，训练收益已跳过。';
@@ -1736,13 +1746,14 @@ export function usePokeFactoryGame(): GameViewModel {
       setEventDispatches(committed.save.events.dispatches);
       if (!committed.applied) return committed.save.events.dispatches[regionId].lastResult;
 
-      setInventory((prev) => {
-        const next = [...prev];
-        next.splice(ballIndex, 1);
-        return next;
-      });
-
-      setPlayerTeam(joinedParty ? [...trainingResult.team, targetPokemon] : trainingResult.team);
+      const nextInventory = [...live.inventory];
+      nextInventory.splice(ballIndex, 1);
+      const nextTeam = joinedParty ? [...trainingResult.team, targetPokemon] : trainingResult.team;
+      // Update the live receipt resources before releasing the global dispatch gate.
+      eventRuntimeRef.current.inventory = nextInventory;
+      eventRuntimeRef.current.playerTeam = nextTeam;
+      setInventory(nextInventory);
+      setPlayerTeam(nextTeam);
       const rosterText = joinedParty ? '已加入当前队伍。' : '队伍已满，已登记到图鉴后备名册。';
       setEventDispatchPopup({
         kind: 'POKEMON',
@@ -1755,7 +1766,7 @@ export function usePokeFactoryGame(): GameViewModel {
       return resultText;
     }
 
-    if (!inventory.some((item) => item.isBall)) {
+    if (!eventRuntimeRef.current.inventory.some((item) => item.isBall)) {
       return `${region.name}: 背包里没有可用的精灵球`;
     }
 
@@ -1764,8 +1775,9 @@ export function usePokeFactoryGame(): GameViewModel {
     if (!battleIdentifier) return `${region.name}: 生成遭遇失败`;
     const battleLevel = Math.max(20, specialEncounter?.site.minLevel ?? startLevel);
     const targetPokemon = await getProcessedPokemon(battleIdentifier, battleLevel);
-    if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
+    if (!isDispatchContextCurrent()) throw new StaleDispatchError();
 
+    eventRuntimeRef.current.eventBattleActive = true;
     setCatchSuccess(null);
     setEventBattleActive(true);
     setEventBattleContext({
@@ -1797,15 +1809,14 @@ export function usePokeFactoryGame(): GameViewModel {
     getEventItemLabel,
     getLocalized,
     getCurrentSaveDraft,
-    inventory,
+    isDispatchContextCurrent,
     pickGrowthRewardItem,
     pickSpecialSiteEncounter,
-    playerTeam,
     startLevel,
   ]);
   const dispatchEventRegion = useCallback(async (regionId: string) => {
-    if (factoryResumeActiveRef.current || dispatchInFlightRef.current.has(regionId)) return;
-    dispatchInFlightRef.current.add(regionId);
+    if (!isDispatchContextCurrent() || dispatchInFlightRef.current) return;
+    dispatchInFlightRef.current = true;
     try {
       const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
       if (!region) return;
@@ -1832,7 +1843,7 @@ export function usePokeFactoryGame(): GameViewModel {
         }
         try {
           const selectedPokemonData = await fetchPokemon(selectedPokemonId);
-          if (factoryResumeActiveRef.current) return;
+          if (!isDispatchContextCurrent()) return;
           const selectedTypes = selectedPokemonData.types.map((slot) => slot.type.name);
           const matched = region.requiredTypes.some((type) => selectedTypes.includes(type));
           if (!matched) {
@@ -1848,7 +1859,7 @@ export function usePokeFactoryGame(): GameViewModel {
             return;
           }
         } catch {
-          if (factoryResumeActiveRef.current) return;
+          if (!isDispatchContextCurrent()) return;
           setEventDispatches((prev) => ({
             ...prev,
             [regionId]: {
@@ -1891,15 +1902,16 @@ export function usePokeFactoryGame(): GameViewModel {
         },
       }));
     } catch (error) {
+      if (error instanceof StaleDispatchError) return;
       console.error('Dispatch result could not be saved', error);
       setEventDispatches((prev) => ({
         ...prev,
         [regionId]: { ...(prev[regionId] ?? createDefaultDispatchState()), lastResult: t('permanentCollectionSaveFailed') },
       }));
     } finally {
-      dispatchInFlightRef.current.delete(regionId);
+      dispatchInFlightRef.current = false;
     }
-  }, [eventDispatchPokemonByRegion, eventDispatches, resolveDispatchRegion, t]);
+  }, [eventDispatchPokemonByRegion, eventDispatches, isDispatchContextCurrent, resolveDispatchRegion, t]);
 
   const mockEventDispatchResult = useCallback((regionId: string, outcome: 'item' | 'join' | 'battle_special') => {
     if (factoryResumeActiveRef.current) return;

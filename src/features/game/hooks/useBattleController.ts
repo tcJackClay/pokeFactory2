@@ -117,7 +117,7 @@ interface UseBattleControllerParams {
   allowWildCatch: boolean;
   commitCaughtPokemon: (pokemon: GamePokemon) => 'COMMITTED' | 'ALREADY_COMMITTED' | 'FAILED';
   suppressFactoryBattleResult: boolean;
-  onSuppressBattleResolved: (result: 'WIN' | 'LOSS') => void;
+  onSuppressBattleResolved: (result: 'WIN' | 'LOSS', resolvedTeam: GamePokemon[]) => void;
   factoryRunId: string | null;
   pendingSettlement: PendingFactorySettlement | null;
   settleFactoryBattle: (runId: string, stage: number, result: 'WIN' | 'LOSS', isFrontierBrain: boolean, finalTeams: { playerTeam: GamePokemon[]; enemyTeam: GamePokemon[] }) => {
@@ -1026,7 +1026,7 @@ export function useBattleController({
 
     try {
       if (suppressFactoryBattleResult) {
-        onSuppressBattleResolved(result);
+        onSuppressBattleResolved(result, [...liveBattleStateRef.current.playerTeam]);
         return;
       }
 
