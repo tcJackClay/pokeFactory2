@@ -1,0 +1,26 @@
+{
+  "inject_config": {
+    "all": [
+      { "file": "docs/tasks/手机状态标识可读性/prd.md", "reason": "产品契约与显示边界" },
+      { "file": "docs/tasks/手机状态标识可读性/plan.md", "reason": "技术方案及可观测验证" },
+      { "file": "src/components/TypeIcon.tsx", "reason": "mask显式color/currentColor/style优先级，保持不改" },
+      { "file": "src/components/TypeBadge.tsx", "reason": "浅色徽标使用深色currentColor，保持不改" }
+    ],
+    "programmer": [
+      { "file": "src/features/game/components/game-view/EventsScreen.tsx", "reason": "两个白底属性圆标" },
+      { "file": "src/features/game/components/game-view/TopRecordPanel.tsx", "reason": "三项指标props及小屏布局" },
+      { "file": "src/index.css", "reason": "既有面板响应式规则需按作用域迁移" },
+      { "file": "src/uiAppConstants.ts", "reason": "属性色与素材映射只读" }
+    ],
+    "auditor": [
+      { "file": "src/features/game/components/GameView.tsx", "reason": "指标传参及真实显示页面" },
+      { "file": "src/features/game/components/game-view/battle/TopStatusRegion.tsx", "reason": "战斗顶部复用" },
+      { "file": "src/features/game/config/factoryRewards.ts", "reason": "原轮次计算与BP上限不得变化" }
+    ],
+    "player": [
+      { "file": "docs/tasks/基地事件界面修整/runtime.md", "reason": "已知一般图标与Round问题来源，只参考不抵验" },
+      { "file": "src/features/game/components/game-view/battle/BattleMoveEffect.tsx", "reason": "style.color共享图标动画消费方" },
+      { "file": "docs/tasks/基地事件界面修整/player-prep.md", "reason": "既有真实页面夹具与三视口方式" }
+    ]
+  }
+}
