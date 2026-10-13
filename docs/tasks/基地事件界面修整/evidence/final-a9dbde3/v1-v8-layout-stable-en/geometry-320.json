@@ -1,0 +1,39 @@
+{
+  "boxes": [
+    {
+      "s": ".pf-start-status-row",
+      "text": "Standby",
+      "x": 37,
+      "y": 117.45260620117188,
+      "w": 246,
+      "h": 32
+    },
+    {
+      "s": ".pf-start-copy",
+      "text": "BATTLE FACTORY\n\nSTART NEXT RUN",
+      "x": 37,
+      "y": 161.45260620117188,
+      "w": 246,
+      "h": 130
+    },
+    {
+      "s": ".pf-start-action-group",
+      "text": "Start Run",
+      "x": 91.84375,
+      "y": 307.4526062011719,
+      "w": 136.3125,
+      "h": 136.3125
+    },
+    {
+      "s": ".pf-start-companion",
+      "text": "Companion: Rockruff",
+      "x": 37,
+      "y": 459.7651062011719,
+      "w": 246,
+      "h": 80.00003051757812
+    }
+  ],
+  "overlaps": [],
+  "width": 320,
+  "scrollWidth": 320
+}

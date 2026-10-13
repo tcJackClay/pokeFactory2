@@ -1,0 +1,165 @@
+{
+  "name": "v1-english-companion-133",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": true,
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791914561641,
+      "url": "http://127.0.0.203:4306/api/data/factory-species-index"
+    },
+    {
+      "at": 1791914561692,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/133/"
+    },
+    {
+      "at": 1791914561728,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/133/"
+    },
+    {
+      "at": 1791914561749,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/50/"
+    },
+    {
+      "at": 1791914561759,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/91/"
+    },
+    {
+      "at": 1791914562251,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/107/"
+    },
+    {
+      "at": 1791914562452,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/133.png"
+    },
+    {
+      "at": 1791914562704,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/hyper-voice/"
+    },
+    {
+      "at": 1791914562704,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/iron-tail/"
+    },
+    {
+      "at": 1791914562704,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/bite/"
+    },
+    {
+      "at": 1791914562704,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/rage/"
+    },
+    {
+      "at": 1791914563158,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/63/"
+    },
+    {
+      "at": 1791914563333,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/63/"
+    },
+    {
+      "at": 1791914563345,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/28/"
+    },
+    {
+      "at": 1791914563358,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/39/"
+    },
+    {
+      "at": 1791914563368,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/98/"
+    },
+    {
+      "at": 1791914563380,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/confusion/"
+    },
+    {
+      "at": 1791914563380,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/submission/"
+    },
+    {
+      "at": 1791914563380,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/return/"
+    },
+    {
+      "at": 1791914563380,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/thunder-punch/"
+    },
+    {
+      "at": 1791914563898,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/116/"
+    },
+    {
+      "at": 1791914564019,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/116/"
+    },
+    {
+      "at": 1791914564032,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/33/"
+    },
+    {
+      "at": 1791914564048,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/97/"
+    },
+    {
+      "at": 1791914564055,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/6/"
+    },
+    {
+      "at": 1791914564066,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/ice-beam/"
+    },
+    {
+      "at": 1791914564066,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/icy-wind/"
+    },
+    {
+      "at": 1791914564066,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/dragon-pulse/"
+    },
+    {
+      "at": 1791914564066,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/hail/"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "threeViewports": true
+  },
+  "steps": [
+    {
+      "label": "base-320",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "base-390",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "base-844",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    }
+  ]
+}

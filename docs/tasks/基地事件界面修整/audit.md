@@ -47,3 +47,29 @@
 修复 A1 后再按 V1–V8，用最终冻结提交真实 Go/Vite 重验。重点为自然基地入口、冷摘要、单只失败重试、共享请求、推荐迟到/手动切换/离场/续局、合法领取回归，以及中英三视口和繁中抽查。共享 API 的成功缓存要求冷故障用全新 context。
 
 动态结果原文、地区/地点/伙伴/属性繁中缺字段、全站语言、真实手机、自然球来源、岩狗狗资格、事件战完整恢复、生产和性能仍未由本片完成；本审计没有运行证据。
+
+## A1 返修独立复审
+
+2026-10-14；最终候选 `a9dbde359a6e5cef3b5b87820763b1b2290fc5c4`，复审差异 `cdf289d..a9dbde3`。**PASS（静态审计）；A1 已关闭，可以把此 SHA 原样冻结交 player。** 上方首轮 BLOCKED 与失败日志作为历史保留。
+
+### 对实际接线的复核
+
+- 新 `isEventDisplayPage` 与 GameView 及原控制器一致：接受独立 EVENTS 或 BASE/currentBaseTab EVENTS，拒绝 BASE/HOME、BASE/COLLECTION 及其他场景。推荐发起前和 await 后均调用同一生产 predicate。
+- 页面读取 currentBaseTab；latest ref、contextKey 以及失效 effect 都包含它。选择/Owned、页面、续局和手动取消继续使原操作失效；没有只放开所有 BASE 路由。
+- recommendation 记录自身 token。迟到或被取消的 continuation 仅在仍 mounted 且当前状态 token 属于自己时清除状态，不能清除更晚发起的 loading。卸载时不调用 React setter。正常成功、无匹配和加载失败仍分别退出 loading 或显示原 error/empty，推荐算法与候选资格不变。
+- 新增 6 项静态测试直接解析并执行生产 pickRecommendedPokemon/cancelRecommendation callback，覆盖两个真实合法路由、切换 BASE tab 后迟到失效并返回重试、选择/续局/战斗变化、旧请求与新 spinner 交错、卸载不写。测试没有启动浏览器，不能代替 effect 实际挂载/退出动画与真实触控验收。
+- 返修业务差异只有 EventsScreen、显示 helper 和其测试。领取动作、派遣配置、资源交易、永久登记、存档与战斗控制器均未修改；首次已审其他七文件范围和批准的本地化边界继续成立。
+
+### 本次独立串行门禁
+
+| 命令 | 结果 | 原始日志 |
+| --- | --- | --- |
+| `npm.cmd run lint` | PASS，exit 0 | `audit-a1-lint.log` |
+| `npm.cmd test` | PASS，345/345，exit 0 | `audit-a1-test.log` |
+| `npm.cmd run build` | PASS，exit 0 | `audit-a1-build.log` |
+| `go test ./...` | PASS，exit 0 | `audit-a1-go.log` |
+| `git diff --check cdf289d..a9dbde3` | PASS | 本次命令输出 |
+
+上述门禁本次依次执行，没有再次并行 lint/build。构建主 chunk 595.02 kB 的既有警告保留，不作性能准入声明。审计未改业务源码、未提交、未运行游戏或启动服务。
+
+player 必须使用此最终 SHA，从真实基地入口验证推荐正常成功、无匹配、失败后重试以及手动改选/离场/续局迟到回调；仍按 V1–V8 补完整运行与视觉证据。原有语言数据、自然来源、手机和生产等边界均保留，静态 PASS 不是公开版发布结论。

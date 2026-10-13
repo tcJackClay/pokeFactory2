@@ -25,3 +25,15 @@
 - latest、上下文签名和 effect 纳入 currentBaseTab；失效回调按自己的 token 清 loading，不再卡住推荐，也不清较新请求状态。未改公共 view-model 或控制器。
 - 新增 6 项直接执行生产页面 callback 的静态用例，覆盖双路由、其他BaseTab、迟到、手动取消/改选、续局/战斗、旧请求与新spinner及卸载；定向12/12通过。
 - 串行四门禁 PASS：lint、345/345 tests、build、Go；记录 static-a1-*.log。构建大chunk警告保留，未运行游戏；交独立复审。
+
+# Auditor
+
+- What I checked: 独立复审 cdf289d..a9dbde3，核对 GameView/openBaseTab 的双路由、currentBaseTab 最新上下文与 effect、旧 token loading 清理、手动取消/卸载/新旧推荐并发保护，以及生产 callback 新增测试；原交易与派遣配置无改动。
+- Fixed locally: none；未改业务源码、未提交、未启动服务、未运行游戏。
+- Found but not fixed (needs lead routing): 无新增静态阻断。原语言/自然来源/手机/生产边界与构建大 chunk 警告继续保留。
+- Checks: 本次独立串行 lint PASS、345/345 tests PASS、build PASS、Go PASS，diff --check PASS；原始日志 audit-a1-*.log。
+- Verdict: PASS（静态审计），A1 已关闭。候选 a9dbde359a6e5cef3b5b87820763b1b2290fc5c4 原样冻结交 player 按 V1–V8 实玩；本记录不代替运行或视觉结论。
+
+# Player
+
+冻结 a9dbde359a6e5cef3b5b87820763b1b2290fc5c4，真实Go3007/Vite4306、HMR关闭、Chromium触控模拟。最终26场景PASS，V1–V8对应路径/前后状态/截图/受控项见runtime.md与最终manifest。无DEV Win/实体手机/生产结论；独立EVENTS路径经真实投球后再推荐已验证。零球原流程READY→IDLE、动态中文/繁中专名、Round320截字与normal图标白对白如实保留。player未改业务，未暂存或提交；草稿留本地但不进入最终清单。
