@@ -1,0 +1,14 @@
+{
+  "name": "r7-catch-full-replace",
+  "code": "b2d58630e8475e4dbbc6d5e3a024b75073ebce1f",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "failure": "TimeoutError: locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.pf-modal-sheet') to be visible\u001b[22m\n",
+  "errors": [],
+  "http": [],
+  "evidence": [
+    "injected.json.gz",
+    "03-success.json.gz",
+    "failure.png"
+  ]
+}

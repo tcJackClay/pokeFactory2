@@ -1,0 +1,68 @@
+{
+  "name": "r6-legacy",
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "errors": [],
+  "http": [],
+  "steps": [
+    {
+      "label": "01-explanation",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "旧规则存档不兼容 / Old save is incompatible\n\n新版图鉴只统计有正式获得来源的永久收藏。旧版把租借队登记为已拥有，无法可靠转换。请先备份旧存档，再重新开始。\n\nThe new Pokedex counts permanent acquisitions. This older save recorded rentals as owned and cannot be converted reliably. Download a backup before starting over.\n\n下载原始存档 / DOWNLOAD BACKUP\n清除并重新开始 / START FRESH",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "02-cancel",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "旧规则存档不兼容 / Old save is incompatible\n\n新版图鉴只统计有正式获得来源的永久收藏。旧版把租借队登记为已拥有，无法可靠转换。请先备份旧存档，再重新开始。\n\nThe new Pokedex counts permanent acquisitions. This older save recorded rentals as owned and cannot be converted reliably. Download a backup before starting over.\n\n下载原始存档 / DOWNLOAD BACKUP\n清除并重新开始 / START FRESH",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "03-fresh",
+      "collection": {
+        "seenIds": [],
+        "ownedIds": [],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": null,
+      "body": "初遇伙伴\n\n从六位伙伴中选一位陪伴你待在基地。确认前可随时改选。\n\n皮卡丘\n点按选择\n伊布\n点按选择\n波克比\n点按选择\n利欧路\n点按选择\n岩狗狗\n点按选择\n布拨\n点按选择\n\n确认后会绑定当前存档，基地内无法改选。\n\n确认伙伴并进入基地",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "checks": {
+    "cancelPreserves": true,
+    "backupExact": true,
+    "resetToPartner": true
+  }
+}

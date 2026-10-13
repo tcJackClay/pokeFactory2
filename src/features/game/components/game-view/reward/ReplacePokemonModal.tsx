@@ -2,9 +2,8 @@ import { motion, useReducedMotion } from 'motion/react';
 import type { GameViewSectionProps } from '../shared';
 
 export function ReplacePokemonModal({ viewModel }: GameViewSectionProps) {
-  const { showReplaceUI, playerTeam, currentLanguage, t, getLocalized, replacePokemon, setShowReplaceUI } = viewModel;
+  const { showReplaceUI, playerTeam, t, getLocalized, replacePokemon, cancelReplacePokemon } = viewModel;
   const shouldReduceMotion = useReducedMotion();
-  const isZh = currentLanguage.startsWith('zh');
 
   if (!showReplaceUI) return null;
 
@@ -14,10 +13,11 @@ export function ReplacePokemonModal({ viewModel }: GameViewSectionProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="pf-modal-backdrop"
+      style={{ position: 'fixed', zIndex: 160, padding: '12px' }}
     >
-      <div className="pf-modal-sheet p-5 sm:p-6">
+      <div className="pf-modal-sheet p-4 sm:p-6" style={{ overflowY: 'auto' }} role="dialog" aria-modal="true" aria-labelledby="replace-pokemon-title">
         <div>
-          <h2 className="text-2xl font-black text-slate-950 sm:text-[30px]">{t('teamFull')}</h2>
+          <h2 id="replace-pokemon-title" className="text-2xl font-black text-slate-950 sm:text-[30px]">{t('teamFull')}</h2>
           <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">
             {t('replacePartner')} <span className="font-black text-blue-600">{getLocalized(showReplaceUI)}</span>
           </p>
@@ -50,7 +50,7 @@ export function ReplacePokemonModal({ viewModel }: GameViewSectionProps) {
 
           <button
             type="button"
-            onClick={() => setShowReplaceUI(null)}
+            onClick={cancelReplacePokemon}
             className="pf-action-button mt-5 w-full"
           >
             <span>{t('cancelReplace')}</span>

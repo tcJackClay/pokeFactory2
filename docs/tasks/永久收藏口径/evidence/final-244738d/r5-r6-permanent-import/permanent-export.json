@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 15,
+  "updatedAt": "2026-10-13T16:59:35.764Z",
+  "wallet": {
+    "balance": 0,
+    "revision": 1,
+    "currentRunId": null,
+    "brainSymbols": 0,
+    "settledThrough": 0,
+    "lastSettlement": null
+  },
+  "runSupply": {
+    "runId": null,
+    "tickets": 0,
+    "lastCreditedStage": 0
+  },
+  "progress": {
+    "totalRents": 0,
+    "highestStreak": 0,
+    "specialModeUnlocked": false,
+    "companionSpeciesId": 744
+  },
+  "settings": {
+    "currentLanguage": "zh-hans",
+    "selectedGens": [
+      9
+    ],
+    "startLevel": 50,
+    "developerMode": false
+  },
+  "factory": {
+    "challengeStatus": 0,
+    "curChallengeBattleNum": 0,
+    "challengePaused": false,
+    "disableRecordBattle": false,
+    "winStreakActiveFlags": 0,
+    "winStreakActiveMasks": 4294967039,
+    "trainerIdsBySet": [
+      {
+        "setNo": 1,
+        "trainerIds": [
+          "FRONTIER_TRAINER_VALERIA"
+        ]
+      }
+    ],
+    "battleResume": {
+      "status": "EMPTY"
+    }
+  },
+  "collection": {
+    "seenIds": [
+      150,
+      744,
+      906,
+      909,
+      921,
+      940,
+      948,
+      951,
+      953,
+      955,
+      957,
+      963,
+      965,
+      969,
+      996,
+      999
+    ],
+    "ownedIds": [
+      150,
+      744,
+      948
+    ],
+    "formKeys": [
+      "form-v2:150:mewtwo",
+      "form-v2:906:sprigatito",
+      "form-v2:909:fuecoco",
+      "form-v2:921:pawmi",
+      "form-v2:940:wattrel",
+      "form-v2:948:toedscool",
+      "form-v2:951:capsakid",
+      "form-v2:953:rellor",
+      "form-v2:955:flittle",
+      "form-v2:957:tinkatink",
+      "form-v2:963:finizen",
+      "form-v2:965:varoom",
+      "form-v2:969:glimmet",
+      "form-v2:996:frigibax",
+      "form-v2:999:gimmighoul"
+    ],
+    "acquisitions": [
+      {
+        "acquisitionId": "dispatch:kanto:10000",
+        "speciesId": 150,
+        "source": "DISPATCH_CATCH",
+        "regionId": "kanto",
+        "dispatchStartedAt": 10000,
+        "acquiredAt": 1791910647561
+      },
+      {
+        "acquisitionId": "dispatch:paldea:1000",
+        "speciesId": 948,
+        "source": "DISPATCH_JOIN",
+        "regionId": "paldea",
+        "dispatchStartedAt": 1000,
+        "acquiredAt": 2000
+      }
+    ]
+  },
+  "events": {
+    "speciesBattleCounts": {
+      "150": 1
+    },
+    "dispatchPokemonByRegion": {
+      "kanto": 948,
+      "johto": null,
+      "hoenn": 948,
+      "sinnoh": null,
+      "unova": null,
+      "kalos": null,
+      "alola": null,
+      "galar": null,
+      "paldea": null
+    },
+    "dispatches": {
+      "kanto": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": 1791910649081,
+        "lastResult": "关都: 战胜了 超梦，获得攻击增强剂；派遣宝可梦获得 HP +2 努力值"
+      },
+      "johto": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "hoenn": {
+        "status": "READY",
+        "startedAt": 10000,
+        "readyAt": 11000,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "sinnoh": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "unova": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "kalos": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "alola": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "galar": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "paldea": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      }
+    }
+  }
+}

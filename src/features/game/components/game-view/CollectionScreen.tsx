@@ -239,6 +239,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     collectionOwnedIds,
     collectionFormKeys,
     currentLanguage,
+    t,
     getLocalized,
     enterBase,
   } = viewModel;
@@ -251,6 +252,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
   const [moveDetailMap, setMoveDetailMap] = useState<Record<string, DexMoveDetail>>({});
   const [moveNameFallbackMap, setMoveNameFallbackMap] = useState<Record<string, DexMoveNameFallback>>({});
   const [search, setSearch] = useState('');
+  const [ownershipFilter, setOwnershipFilter] = useState<'SEEN' | 'OWNED'>('SEEN');
   const [typeFilterPrimary, setTypeFilterPrimary] = useState('all');
   const [typeFilterSecondary, setTypeFilterSecondary] = useState('all');
   const [dexScopeFilter, setDexScopeFilter] = useState<DexScopeFilter>('NATIONAL');
@@ -364,6 +366,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     const keyword = search.trim().toLowerCase();
     const filtered = entries.filter((entry) => {
       if (!entry.seen) return false;
+      if (ownershipFilter === 'OWNED' && !entry.owned) return false;
 
       const matchSearch =
         keyword.length === 0
@@ -384,7 +387,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
     filtered.sort((a, b) => a.id - b.id || a.name.localeCompare(b.name));
 
     return filtered;
-  }, [dexScopeFilter, entries, search, typeFilterPrimary, typeFilterSecondary]);
+  }, [dexScopeFilter, entries, ownershipFilter, search, typeFilterPrimary, typeFilterSecondary]);
 
   const hydrateIds = useMemo(() => {
     const selected = selectedId ? [selectedId] : [];
@@ -423,6 +426,7 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
   );
 
   const seenCount = entries.filter((entry) => entry.seen).length;
+  const ownedCount = new Set(collectionOwnedIds).size;
   const selectedSourceLabel = selectedEntry
     ? (
       isZh
@@ -496,11 +500,6 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
           <h2 className={`text-slate-950 ${isZh ? 'text-[28px] font-black' : 'text-[26px] font-black uppercase tracking-[0.05em]'}`}>
             {isZh ? '宝可梦图鉴' : 'Pokedex'}
           </h2>
-          <div className="hidden items-center gap-2 sm:flex">
-            <span className="rounded-full border border-slate-200 bg-white/90 px-3 py-1 text-[11px] font-black text-slate-500">
-              Seen {seenCount}
-            </span>
-          </div>
         </div>
         <button
           type="button"
@@ -514,6 +513,19 @@ export function CollectionScreen({ viewModel }: GameViewSectionProps) {
 
       <div className="pf-system-toolbar">
         <div className="pf-toolbar-panel p-2.5">
+          <div role="group" aria-label={t('collectionOwnershipFilter')} className="mb-2 grid grid-cols-2 gap-2">
+            {(['SEEN', 'OWNED'] as const).map((filter) => (
+              <button
+                key={filter}
+                type="button"
+                aria-pressed={ownershipFilter === filter}
+                onClick={() => setOwnershipFilter(filter)}
+                className={`min-h-11 rounded-lg border px-3 py-2 text-sm font-bold ${ownershipFilter === filter ? 'border-blue-600 bg-blue-50 text-blue-900' : 'border-slate-200 bg-white text-slate-600'}`}
+              >
+                {t(filter === 'SEEN' ? 'collectionSeenCount' : 'collectionOwnedCount', { count: filter === 'SEEN' ? seenCount : ownedCount })}
+              </button>
+            ))}
+          </div>
           <div className="grid grid-cols-1 gap-2 md:grid-cols-[1.5fr_1.5fr_1fr]">
             <label className="pf-filter-field">
               <Search className="h-4 w-4 text-slate-400" />

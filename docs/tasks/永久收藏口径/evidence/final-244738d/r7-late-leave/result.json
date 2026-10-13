@@ -1,0 +1,77 @@
+{
+  "name": "r7-late-leave",
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "errors": [],
+  "http": [],
+  "steps": [
+    {
+      "label": "after-delayed-response",
+      "collection": {
+        "seenIds": [
+          744,
+          906,
+          909,
+          921,
+          940,
+          948,
+          951,
+          953,
+          955,
+          957,
+          963,
+          965,
+          969,
+          996,
+          999
+        ],
+        "ownedIds": [
+          744,
+          948
+        ],
+        "formKeys": [
+          "form-v2:906:sprigatito",
+          "form-v2:909:fuecoco",
+          "form-v2:921:pawmi",
+          "form-v2:940:wattrel",
+          "form-v2:948:toedscool",
+          "form-v2:951:capsakid",
+          "form-v2:953:rellor",
+          "form-v2:955:flittle",
+          "form-v2:957:tinkatink",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:996:frigibax",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": [
+          {
+            "acquisitionId": "dispatch:paldea:1000",
+            "speciesId": 948,
+            "source": "DISPATCH_JOIN",
+            "regionId": "paldea",
+            "dispatchStartedAt": 1000,
+            "acquiredAt": 2000
+          }
+        ]
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n事件派遣\nMock模式: 关\n返回主页\n\n开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。\n\n关都\n\n未选择 #948\n\n属性不匹配该地区\n\n选择\n清除\n推荐\n领取结果\n\n城都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n丰缘\n\n未选择 #948\n\n属性不匹配该地区\n\n选择\n清除\n推荐\n领取结果\n\n神奥\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n合众\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n卡洛斯\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n伽勒尔\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n帕底亚\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "checks": {
+    "receiptUnchanged": true,
+    "teamUnchanged": true,
+    "ballUnspent": true,
+    "noCaughtOwned": true,
+    "correctPage": true,
+    "dispatchReady": true
+  },
+  "delayedTarget": true
+}

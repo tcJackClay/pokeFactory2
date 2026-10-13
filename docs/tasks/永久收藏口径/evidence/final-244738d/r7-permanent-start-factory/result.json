@@ -1,0 +1,87 @@
+{
+  "name": "r7-permanent-start-factory",
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "errors": [],
+  "http": [],
+  "steps": [
+    {
+      "label": "01-rental-selection",
+      "collection": {
+        "seenIds": [
+          150,
+          744,
+          906,
+          909,
+          915,
+          921,
+          940,
+          948,
+          951,
+          953,
+          955,
+          957,
+          960,
+          963,
+          965,
+          969,
+          996,
+          999
+        ],
+        "ownedIds": [
+          150,
+          744,
+          948
+        ],
+        "formKeys": [
+          "form-v2:150:mewtwo",
+          "form-v2:906:sprigatito",
+          "form-v2:909:fuecoco",
+          "form-v2:915:lechonk",
+          "form-v2:921:pawmi",
+          "form-v2:940:wattrel",
+          "form-v2:948:toedscool",
+          "form-v2:951:capsakid",
+          "form-v2:953:rellor",
+          "form-v2:955:flittle",
+          "form-v2:957:tinkatink",
+          "form-v2:960:wiglett",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:996:frigibax",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": [
+          {
+            "acquisitionId": "dispatch:kanto:10000",
+            "speciesId": 150,
+            "source": "DISPATCH_CATCH",
+            "regionId": "kanto",
+            "dispatchStartedAt": 10000,
+            "acquiredAt": 1791910647561
+          },
+          {
+            "acquisitionId": "dispatch:paldea:1000",
+            "speciesId": 948,
+            "source": "DISPATCH_JOIN",
+            "regionId": "paldea",
+            "dispatchStartedAt": 1000,
+            "acquiredAt": 2000
+          }
+        ]
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n电\n布拨\n水\n海地鼠\n幽灵\n索财灵\n草\n新叶喵\n虫\n虫滚泥\n一般\n爱吃豚\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "checks": {
+    "ownedPreserved": true,
+    "receiptsPreserved": true
+  }
+}

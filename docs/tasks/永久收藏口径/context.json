@@ -1,0 +1,92 @@
+{
+  "inject_config": {
+    "all": [
+      {
+        "file": "AGENTS.md",
+        "reason": "团队章程与证据边界"
+      },
+      {
+        "file": "docs/tasks/永久收藏口径/prd.md",
+        "reason": "产品契约"
+      },
+      {
+        "file": "docs/tasks/永久收藏口径/plan.md",
+        "reason": "技术与验证契约"
+      },
+      {
+        "file": "docs/公开版规则定稿.md",
+        "reason": "末节永久收藏和取消生蛋最新决定"
+      },
+      {
+        "file": "docs/tasks/局外规则提案/design.md",
+        "reason": "以用户最新派遣保留决定和更新后的PRD为准；不新增生蛋或替代养成"
+      }
+    ],
+    "programmer": [
+      {
+        "file": ".agents/roles/programmer.md",
+        "reason": "Route A实施纪律"
+      },
+      {
+        "file": "src/services/saveManager.ts",
+        "reason": "绑定、导入、版本及全部写盘入口"
+      },
+      {
+        "file": "src/features/game/hooks/usePokeFactoryGame.ts",
+        "reason": "collection三写入口与确认/派遣路径"
+      },
+      {
+        "file": "src/features/game/components/game-view/CollectionScreen.tsx",
+        "reason": "原Seen筛选/列表"
+      },
+      {
+        "file": "src/features/game/components/game-view/StartScreen.tsx",
+        "reason": "Breed与蛋占位"
+      },
+      {
+        "file": "src/features/game/hooks/useBattleController.ts",
+        "reason": "等待状态任务整合后才可接入捕捉提交；禁止并发修改"
+      },
+      {
+        "file": "src/features/game/components/game-view/reward/ReplacePokemonModal.tsx",
+        "reason": "满队捕捉结算后的替换/取消，实际由GameView顶层挂载"
+      }
+    ],
+    "auditor": [
+      {
+        "file": ".agents/roles/auditor.md",
+        "reason": "仅静态审计，不运行游戏"
+      },
+      {
+        "file": "docs/公开版需求矩阵.md",
+        "reason": "证据分级"
+      },
+      {
+        "file": "src/services/saveManager.test.ts",
+        "reason": "版本、失败原子性和旧快照保护回归"
+      },
+      {
+        "file": "src/features/game/hooks/permanentCollectionCallbacks.test.ts",
+        "reason": "实际捕捉与事件回调、并发领取、满队替换/取消和GameView SSR挂载回归"
+      }
+    ],
+    "player": [
+      {
+        "file": ".agents/roles/player.md",
+        "reason": "最终代码真实服务实玩与记录"
+      },
+      {
+        "file": "docs/tasks/奖励商店/runtime.md",
+        "reason": "仅参考进化/换怪实玩方法，不沿用旧证据"
+      },
+      {
+        "file": "docs/tasks/初遇伙伴/runtime.md",
+        "reason": "如文件存在，复用初遇确认与故障注入方法"
+      },
+      {
+        "file": "docs/手机端试玩验收记录.md",
+        "reason": "三视口与真实手机证据边界"
+      }
+    ]
+  }
+}

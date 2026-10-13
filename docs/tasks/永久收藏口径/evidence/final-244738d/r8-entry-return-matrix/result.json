@@ -1,0 +1,356 @@
+{
+  "name": "r8-entry-return-matrix",
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "errors": [],
+  "http": [],
+  "steps": [
+    {
+      "label": "zh-base-320",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：岩狗狗\n商店\n图鉴\n事件\n设置",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "label": "zh-设置-320",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "设置\n返回\n\n语言\n\n中文\nENGLISH\n\n当前世代\n\n扩展世代随机池：九选一。所选世代决定下一次新挑战中随机出现的宝可梦。\n\n关都\n第一世代\n\n存档管理\n\n导出存档\n导入存档\n\n通知\n\n当前版本暂不提供消息推送与提醒。\n\n版权与素材来源\n\n查看版权说明\n\nDEV 面板\n\n开启\n关闭",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "label": "zh-事件-320",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n事件派遣\nMock模式: 关\n返回主页\n\n开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。\n\n关都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n城都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n丰缘\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n神奥\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n合众\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n卡洛斯\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n伽勒尔\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n帕底亚\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "label": "zh-base-390",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：岩狗狗\n商店\n图鉴\n事件\n设置",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "zh-设置-390",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "设置\n返回\n\n语言\n\n中文\nENGLISH\n\n当前世代\n\n扩展世代随机池：九选一。所选世代决定下一次新挑战中随机出现的宝可梦。\n\n关都\n第一世代\n\n存档管理\n\n导出存档\n导入存档\n\n通知\n\n当前版本暂不提供消息推送与提醒。\n\n版权与素材来源\n\n查看版权说明\n\nDEV 面板\n\n开启\n关闭",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "zh-事件-390",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n事件派遣\nMock模式: 关\n返回主页\n\n开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。\n\n关都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n城都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n丰缘\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n神奥\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n合众\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n卡洛斯\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n伽勒尔\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n帕底亚\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "zh-base-844",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：岩狗狗\n商店\n图鉴\n事件\n设置",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "zh-设置-844",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "设置\n返回\n\n语言\n\n中文\nENGLISH\n\n当前世代\n\n扩展世代随机池：九选一。所选世代决定下一次新挑战中随机出现的宝可梦。\n\n关都\n第一世代\n\n存档管理\n\n导出存档\n导入存档\n\n通知\n\n当前版本暂不提供消息推送与提醒。\n\n版权与素材来源\n\n查看版权说明\n\nDEV 面板\n\n开启\n关闭",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "zh-事件-844",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n事件派遣\nMock模式: 关\n返回主页\n\n开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。\n\n关都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n城都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n丰缘\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n神奥\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n合众\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n卡洛斯\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n伽勒尔\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n帕底亚\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "en-base-320",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\nStandby\nBATTLE FACTORY\n\nSTART NEXT RUN\n\nStart Run\nCompanion: Rockruff\nShop\nCollection\nEvents\nSettings",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "label": "en-Settings-320",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "SETTINGS\nBACK\n\nLanguage\n\n中文\nENGLISH\n\nCurrent Generation\n\nExpanded generation random pool: choose one of nine. Your choice determines the Pokemon in your next new challenge.\n\nKanto\nGeneration 1\n\nSave Data\n\nEXPORT SAVE\nIMPORT SAVE\n\nNotifications\n\nPush notifications and reminder controls are not available in this version yet.\n\nCredits and Sources\n\nVIEW CREDITS\n\nDEV Panel\n\nENABLE\nDISABLE",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "label": "en-Events-320",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\n事件派遣\nMock模式: 关\n返回主页\n\n开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。\n\n关都\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n城都\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n丰缘\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n神奥\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n合众\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n卡洛斯\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n阿罗拉\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n伽勒尔\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n帕底亚\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "label": "en-base-390",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\nStandby\nBATTLE FACTORY\n\nSTART NEXT RUN\n\nStart Run\nCompanion: Rockruff\nShop\nCollection\nEvents\nSettings",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "en-Settings-390",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "SETTINGS\nBACK\n\nLanguage\n\n中文\nENGLISH\n\nCurrent Generation\n\nExpanded generation random pool: choose one of nine. Your choice determines the Pokemon in your next new challenge.\n\nKanto\nGeneration 1\n\nSave Data\n\nEXPORT SAVE\nIMPORT SAVE\n\nNotifications\n\nPush notifications and reminder controls are not available in this version yet.\n\nCredits and Sources\n\nVIEW CREDITS\n\nDEV Panel\n\nENABLE\nDISABLE",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "en-Events-390",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\n事件派遣\nMock模式: 关\n返回主页\n\n开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。\n\n关都\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n城都\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n丰缘\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n神奥\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n合众\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n卡洛斯\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n阿罗拉\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n伽勒尔\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n帕底亚\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "en-base-844",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\nStandby\nBATTLE FACTORY\n\nSTART NEXT RUN\n\nStart Run\nCompanion: Rockruff\nShop\nCollection\nEvents\nSettings",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "en-Settings-844",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "SETTINGS\nBACK\n\nLanguage\n\n中文\nENGLISH\n\nCurrent Generation\n\nExpanded generation random pool: choose one of nine. Your choice determines the Pokemon in your next new challenge.\n\nKanto\nGeneration 1\n\nSave Data\n\nEXPORT SAVE\nIMPORT SAVE\n\nNotifications\n\nPush notifications and reminder controls are not available in this version yet.\n\nCredits and Sources\n\nVIEW CREDITS\n\nDEV Panel\n\nENABLE\nDISABLE",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "en-Events-844",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\n事件派遣\nMock模式: 关\n返回主页\n\n开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。\n\n关都\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n城都\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n丰缘\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n神奥\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n合众\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n卡洛斯\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n阿罗拉\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n伽勒尔\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣\n\n帕底亚\n\nNo dispatched Pokemon selected\n\nPick one owned Pokedex Pokemon\n\nPick\nClear\nAuto\n开始派遣",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    }
+  ],
+  "checks": {
+    "entriesReturned": true,
+    "noOverflow": true
+  }
+}

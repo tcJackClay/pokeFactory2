@@ -43,6 +43,7 @@ export interface GameViewActions {
   startEvolution: (pokemon: GamePokemon, index: number) => Promise<void>;
   performEvolution: (evolvedId: number) => Promise<void>;
   replacePokemon: (index: number) => void;
+  cancelReplacePokemon: () => void;
   continueAfterRoundResult: () => void;
   continueTrainerIntro: () => void;
   forfeitChallenge: () => void;

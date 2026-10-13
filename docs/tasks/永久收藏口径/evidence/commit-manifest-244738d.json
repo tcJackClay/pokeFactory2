@@ -1,0 +1,1412 @@
+{
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "purpose": "Exact player artifact paths suggested for explicit staging; local drafts excluded. Add current audit/log separately. Preserve bytes via task .gitattributes before staging.",
+  "files": [
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/environment.json",
+      "bytes": 763,
+      "sha256": "c9ded10a0dd7b71ddaf25b9c19eb78d513e667cb1e36f05f972202fe1feabd90"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/manifest.json",
+      "bytes": 67181,
+      "sha256": "e9dba66c98e53a6004507513e97d0c5d1d7221b8c1cf9bbad4b20ea5e2f453ad"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/natural-base.json",
+      "bytes": 1799,
+      "sha256": "39abe5f7ef64617d1cd19198d655a05c359c37dcef3238c10bc1fd0cb6288a39"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/natural-battle.json",
+      "bytes": 1247369,
+      "sha256": "578b7fe4418da07f93c400d6b5109167c02f4f37c5e976ff347e639f80718e56"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/fixture-sources/event-party-natural-b2d5863.json.gz",
+      "bytes": 97785,
+      "sha256": "e80c45b0a3dd8633a9570f86a891c4a0424666ca7b9e0c50c4d0935612f4baa6"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-dex-load/01-early.json.gz",
+      "bytes": 2483,
+      "sha256": "e7ad693addbaf900b7073a71f2da433edfcef406dbcea1a8b468708c131dc67b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-dex-load/01-early.png",
+      "bytes": 360365,
+      "sha256": "9d74ee4117d015c462387ef84f074aedfbeced8c8161ba1db21880a139922602"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-dex-load/02-loaded.json.gz",
+      "bytes": 2483,
+      "sha256": "e7ad693addbaf900b7073a71f2da433edfcef406dbcea1a8b468708c131dc67b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-dex-load/02-loaded.png",
+      "bytes": 360587,
+      "sha256": "19a312b31bd3a0f1584ea8fe79b2da473b14b6003e1093766238a3fd9fd1e1df"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-dex-load/injected.json.gz",
+      "bytes": 615,
+      "sha256": "86249efa437f0944e9fad8204ddde1b77d5d8eda76acb360336c167e1f1e674f"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-dex-load/result.json",
+      "bytes": 5992,
+      "sha256": "3f6020cd90afd2e5503235276fc2eb1c69a51c8e8dd29a480c8a5a221a2d2fc8"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-event-summary/01-without-picker.json.gz",
+      "bytes": 3003,
+      "sha256": "ef35d2dc059a85da0954551c435d7dcca35c631479b92525ec84793f8d9ecbfb"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-event-summary/01-without-picker.png",
+      "bytes": 405301,
+      "sha256": "4afe508cf6a57bb325a23dc5ec111d8451f4f45e61145e761bbd171cfa5d4718"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-event-summary/02-picker-loaded.json.gz",
+      "bytes": 3003,
+      "sha256": "ef35d2dc059a85da0954551c435d7dcca35c631479b92525ec84793f8d9ecbfb"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-event-summary/02-picker-loaded.png",
+      "bytes": 294728,
+      "sha256": "e00dd2a958771a98c08e0fc1ea17610834850e0a8c3db336fb783180e03ed336"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-event-summary/injected.json.gz",
+      "bytes": 1114,
+      "sha256": "faeeb841ee67e9745dbd8130c3fc0a74d859e69deaed1cf1e872137f2a7df8c5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/observation-event-summary/result.json",
+      "bytes": 7090,
+      "sha256": "fab8ce3fb5b196d74c667d01f3afb8372b05a64d138d412a276f6df1248a66d4"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/01-unconfirmed.json.gz",
+      "bytes": 2485,
+      "sha256": "8d30d20bf48139b8fe9e73cc413c20cd8696dbfab5625e7ec286c4e72090c778"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/01-unconfirmed.png",
+      "bytes": 508860,
+      "sha256": "58636a2283f92f1435e1adcb46ac2d0a5ea16dbd023990654b89de877f4aa4a5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/02-reselected.json.gz",
+      "bytes": 2485,
+      "sha256": "8d30d20bf48139b8fe9e73cc413c20cd8696dbfab5625e7ec286c4e72090c778"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/02-reselected.png",
+      "bytes": 514480,
+      "sha256": "d1d7ea62dac6f6ab2ccb9e3a24b53a6479aa959d23918477cfb8cd8a9688fef7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/03-base.json.gz",
+      "bytes": 2479,
+      "sha256": "8780c83718b4ea7e83bedce161dc8520f60ddfbf90a7f1b30a0cc80ce39809de"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/03-base.png",
+      "bytes": 589664,
+      "sha256": "35131440c0fca6dab8c5d4fec8ac312989e2fdc5fae8235f77b384c694150259"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/04-owned.json.gz",
+      "bytes": 2485,
+      "sha256": "20b5918afdff4ee72406a3175da223ed778cb444b4e0087f70170fe0c7e141ae"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/04-owned.png",
+      "bytes": 362676,
+      "sha256": "429eb9c27334cf3593aee77c70f719d7dc00d124ee2b7fe10fefc775e4e28de2"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/05-six-rentals.json.gz",
+      "bytes": 52301,
+      "sha256": "221c92d6ea15b18a6b3e1e949b2ea17088d20dfeefbc21a5b1611efa6e70e68d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/05-six-rentals.png",
+      "bytes": 478397,
+      "sha256": "bcb74a15dcfe2615b1b7a2319a8cf2037fda3e236fdb1710f69695e6b4fc1264"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/06-first-round.json.gz",
+      "bytes": 210507,
+      "sha256": "77908ffe7a7b30a815f3c2e430489ff22e7e0499926bb22c217054d4726828b9"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/06-first-round.png",
+      "bytes": 483855,
+      "sha256": "626144763c95c7eda66ac18e8e29ced5a960ab2b0bb87afac11e1cefd78250d6"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r1-natural-partner/result.json",
+      "bytes": 6646,
+      "sha256": "defacfae52bb253739b7b4b4e370d4a566d620733f72d3a2fe642da9335d1565"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r2-bind-failure/01-failure.json.gz",
+      "bytes": 2485,
+      "sha256": "1364e53a4ffe089107691acf8624927116f9b89b8320a5c4679fa8ab7f92f9f6"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r2-bind-failure/01-failure.png",
+      "bytes": 517788,
+      "sha256": "1e0bdc60a0988c614c1fb660a698459231d60bf15a3de68484675302b0ecfc9a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r2-bind-failure/02-retry.json.gz",
+      "bytes": 2477,
+      "sha256": "bf8329c9f7653b36ca0d34af1c40cccabf28a31a7c3275e8786b10706b3fac04"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r2-bind-failure/02-retry.png",
+      "bytes": 592601,
+      "sha256": "1f114a7763a5b98ec6966dab74628e45c8559cc1f439f91fabaf81d3957cdfbc"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r2-bind-failure/03-reload.json.gz",
+      "bytes": 2477,
+      "sha256": "43e6816314686afcdbe37f4853de51a51549b14f29138779e872f6449514782b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r2-bind-failure/03-reload.png",
+      "bytes": 593131,
+      "sha256": "6245556aa0ed7edb78257960265aebb444735efd173d49eba1523e6e0c4596f7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r2-bind-failure/result.json",
+      "bytes": 2960,
+      "sha256": "d749a75006643d414f034133b3989b06a5f3d584fa117b8776da07bde36d7a93"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-evolution/01-before.json.gz",
+      "bytes": 376963,
+      "sha256": "fcd4988ffadcdb103cd943526167393af7710e99dbd10346bbd864f3c481ba50"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-evolution/01-before.png",
+      "bytes": 416049,
+      "sha256": "fc6648c708188435022d7b34c392b8b356d8b9334600bc504ca24bf57500853e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-evolution/02-evolved.json.gz",
+      "bytes": 379090,
+      "sha256": "ce1ed47a7d48d37ccb4571eb89d38bad7fd08c645508ce5a5a73c69694f79905"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-evolution/02-evolved.png",
+      "bytes": 344747,
+      "sha256": "b42d33ccb38fcd197719cf3bcdc5120cf8125c925bdc4ec02f705a1097b0054c"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-evolution/03-reload.json.gz",
+      "bytes": 379093,
+      "sha256": "14670fa1d3b9459cde682424dfe4238d339b2b571bbfb4afa05e889806d2a9d4"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-evolution/03-reload.png",
+      "bytes": 395239,
+      "sha256": "29643ba37152e9a840b90ecbf61278badad1233da78deab312ec3b314b8030a7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-evolution/injected.json.gz",
+      "bytes": 181432,
+      "sha256": "d287977dd14169fa9da5934c857258f0216870267397f5d69e861ee758ef4947"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-evolution/result.json",
+      "bytes": 6759,
+      "sha256": "d67e1da447f3bb2e8626006cb1898847fd78bc508a9248aeb5888701dee54e73"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-swap/01-before.json.gz",
+      "bytes": 210228,
+      "sha256": "1c42969c5f3878e979f49efc6bc53b023c15f2fb38d5e497f9af1e188aa1d373"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-swap/01-before.png",
+      "bytes": 479226,
+      "sha256": "96d365dfbcc07749b56be0fade23903202a574a10665581fbc5df99d4f4f6ba1"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-swap/02-swapped.json.gz",
+      "bytes": 212455,
+      "sha256": "210285de4341379e3892a48e3118767975cd5990858aab7d5d50e59abda984ec"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-swap/02-swapped.png",
+      "bytes": 512749,
+      "sha256": "3db5f1aa67ec002a7a73f11cf8e33aae303054bffd3fedff9b744217aa871384"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-swap/injected.json.gz",
+      "bytes": 100229,
+      "sha256": "53d8b526bffcbc9be68383a1403ed38faa913912898fe6ea9bcdb7722771544a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r4-rental-swap/result.json",
+      "bytes": 2900,
+      "sha256": "d76a87bf0dc301d1a4c5d91e650ea32f9a699b00e0070be74299f8c961032b76"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/01-permanent-owned.json.gz",
+      "bytes": 3005,
+      "sha256": "6489cf0048ead7295d4e80fc22a3eace28e38d92dcd8a50a231d7202df811410"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/01-permanent-owned.png",
+      "bytes": 398451,
+      "sha256": "a151dc1dbcb850c33b87356928ca643556c83b443b4dba1dfa4e7be713e3a70c"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/02-permanent-import.json.gz",
+      "bytes": 3001,
+      "sha256": "36a9ec6156e3cb1a89d129c2c73709ad32416e476774383dfbc4424912168576"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/02-permanent-import.png",
+      "bytes": 588502,
+      "sha256": "9bc286f2abc2df35603206d18a38f4785950cf90916c9794d4c5953076689dc6"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/03-old-import-rejected.json.gz",
+      "bytes": 3007,
+      "sha256": "8b498546002778a956bb81583f9cfdc5a3b651c67e4b422760d21486c4b72cbe"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/03-old-import-rejected.png",
+      "bytes": 405439,
+      "sha256": "1c9770c9aed29bb4d9e249c5985ee5c05a8abced27d7704dbe94195bbc60dfba"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/04-other-save-replaced.json.gz",
+      "bytes": 2477,
+      "sha256": "ccd4d70197905053c44977b364327e3e3ecb258c44ea485d2a062c6b4d5d28aa"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/04-other-save-replaced.png",
+      "bytes": 592817,
+      "sha256": "045bc73b1bef665aabe16a8403187b9fd6b1b9174501cf81f4b925f0989abb62"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/05-other-owned.json.gz",
+      "bytes": 2483,
+      "sha256": "629c7923051457f4d45fa172907186244b4c91a17a9dad61dd3ce99aa5929bc1"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/05-other-owned.png",
+      "bytes": 359415,
+      "sha256": "5f94312cbf97f19180e8599e3fe0c6435754be397d4a1fd343936bb63fc97ab3"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/injected.json.gz",
+      "bytes": 1114,
+      "sha256": "faeeb841ee67e9745dbd8130c3fc0a74d859e69deaed1cf1e872137f2a7df8c5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/other-save.json",
+      "bytes": 1799,
+      "sha256": "54f9a580bb8e98f00d19d301949f3a3d9d60bb4456b2eeeecc6130458d4b16ae"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/permanent-export.json",
+      "bytes": 4080,
+      "sha256": "ee99bc9ea58acaa39eec094c77dc7bf6d6f7b0bfbe8d1255abc86bfdd0bfa009"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r6-permanent-import/result.json",
+      "bytes": 14448,
+      "sha256": "a40a4ecb854f1826b8ce2b515af6109b6ac2d6e06385b26c953ac8b4dc4a8874"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-base-320.json.gz",
+      "bytes": 2474,
+      "sha256": "90f32db6b21004216ca30f43bddc8cff56cf35494a136f859cf3ff90fd01a6c9"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-base-320.png",
+      "bytes": 322686,
+      "sha256": "778abd63b8d5b79bb0a2e4e330fce1f75a64bd8a6863daa6f639f74508a139d5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-base-390.json.gz",
+      "bytes": 2474,
+      "sha256": "90f32db6b21004216ca30f43bddc8cff56cf35494a136f859cf3ff90fd01a6c9"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-base-390.png",
+      "bytes": 580226,
+      "sha256": "ea9b9547aee59dafe436c3b555e8829067009305e0e2c89237401974829b0d3d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-base-844.json.gz",
+      "bytes": 2474,
+      "sha256": "90f32db6b21004216ca30f43bddc8cff56cf35494a136f859cf3ff90fd01a6c9"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-base-844.png",
+      "bytes": 436829,
+      "sha256": "58e092a482ca3e7f7d90c97d2efdb5f4ec4130c74049d6f5e19388297b4cdae9"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-owned-320.json.gz",
+      "bytes": 2480,
+      "sha256": "25aba1d8ffa44469383eec9ad223d2d6fdcc34c558cc1a1e166ed5ea6aaf035a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-owned-320.png",
+      "bytes": 244612,
+      "sha256": "153c04810c28421de981acaf3ecf50741de7d1d0ef2b377ff19fedcd2ce1da18"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-owned-390.json.gz",
+      "bytes": 2480,
+      "sha256": "25aba1d8ffa44469383eec9ad223d2d6fdcc34c558cc1a1e166ed5ea6aaf035a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-owned-390.png",
+      "bytes": 360315,
+      "sha256": "54ab386e8429c3602d1638d3fbcbfc2a390cc32408888913e1547cda4f8f3fd9"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-owned-844.json.gz",
+      "bytes": 2480,
+      "sha256": "25aba1d8ffa44469383eec9ad223d2d6fdcc34c558cc1a1e166ed5ea6aaf035a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/en-owned-844.png",
+      "bytes": 304082,
+      "sha256": "7b64a401f486ec880afcbf09ab1844b2ddd9a5aa562e60b02e575e6cb19489db"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/export.json",
+      "bytes": 2760,
+      "sha256": "9eef17b02ff6229f08619dc75d15a5a17f7e7bd1e88c93d11b42b72f1635f037"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/filters-empty.json.gz",
+      "bytes": 2484,
+      "sha256": "be0711d49553659626cdf4e5c4899eb1610918e7cf3bb2718fc9016eb84fa7c3"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/filters-empty.png",
+      "bytes": 310027,
+      "sha256": "07eac612225fd6123c71849ad433c884f556b2212dc457493923dc17f8a0fd9d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/filters-match.json.gz",
+      "bytes": 2484,
+      "sha256": "be0711d49553659626cdf4e5c4899eb1610918e7cf3bb2718fc9016eb84fa7c3"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/filters-match.png",
+      "bytes": 305609,
+      "sha256": "c4859ecbf2c9c2089f2638fadd4e6a6fa0224306c5cee69b81611e17b22426db"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/import-reloaded.json.gz",
+      "bytes": 2449,
+      "sha256": "91b6aed8449685d65a3ed50c8b55a51470ae72963766ba071328891e039b80ab"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/import-reloaded.png",
+      "bytes": 579193,
+      "sha256": "f9f883cd9c294354beb23396d91ca437657216796a5c7403965f5cab9400807d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/injected.json.gz",
+      "bytes": 617,
+      "sha256": "49b41fa3a0b5cce91b4866d66404e6433a138ead22f9f76040f990c133aaaea5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/result.json",
+      "bytes": 23561,
+      "sha256": "efc5f4521fae34eca5ec42e8a3ad698bb938bb8dfee540b6d177b999e59912de"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-base-320.json.gz",
+      "bytes": 2478,
+      "sha256": "7c97fa4f8046c77112d4507a00efd7083fde51ed2b52a6e55968d20e62eae1c7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-base-320.png",
+      "bytes": 348744,
+      "sha256": "b75ecbe2493ccb2ade92d9fd75dae0895ee889b53147f0ff0a9f04300cd3e356"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-base-390.json.gz",
+      "bytes": 2478,
+      "sha256": "7c97fa4f8046c77112d4507a00efd7083fde51ed2b52a6e55968d20e62eae1c7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-base-390.png",
+      "bytes": 587777,
+      "sha256": "48c566b979317ae81ab5e225b090c83ad89512acbf875466fb806c015d3f54ad"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-base-844.json.gz",
+      "bytes": 2478,
+      "sha256": "7c97fa4f8046c77112d4507a00efd7083fde51ed2b52a6e55968d20e62eae1c7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-base-844.png",
+      "bytes": 438588,
+      "sha256": "aaeb846bd4afc83574cca417be9a5b0365bf26907fe1b62ed8059ee9963218d5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-owned-320.json.gz",
+      "bytes": 2484,
+      "sha256": "be0711d49553659626cdf4e5c4899eb1610918e7cf3bb2718fc9016eb84fa7c3"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-owned-320.png",
+      "bytes": 248678,
+      "sha256": "754bdad58783d8bf1f0c6554170d048a05593d7f4d3c5513842ef826d42bcc0b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-owned-390.json.gz",
+      "bytes": 2484,
+      "sha256": "be0711d49553659626cdf4e5c4899eb1610918e7cf3bb2718fc9016eb84fa7c3"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-owned-390.png",
+      "bytes": 361807,
+      "sha256": "0a0b1a84e00acfe5a9bb12bd55cdb1eb72f63bc3c253fc531acfaaef5599d125"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-owned-844.json.gz",
+      "bytes": 2484,
+      "sha256": "be0711d49553659626cdf4e5c4899eb1610918e7cf3bb2718fc9016eb84fa7c3"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-r8-filter-import-layout/zh-owned-844.png",
+      "bytes": 312262,
+      "sha256": "27909b7a2974ce51a7fcfb11c2d6a54dde51c384a3939b47d37f6db1abbf5e09"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-same-species-dedup/injected.json.gz",
+      "bytes": 89532,
+      "sha256": "0f5a4d4a0b69e7977ae6dba9d2d9ecacdfd0eafba2757bc3e94db5d9e9d9a86f"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-same-species-dedup/owned-0.json.gz",
+      "bytes": 189791,
+      "sha256": "df5ca367c2bba7c340912ac0545f0ab8103727b00eed2aade2c4c6fd762fb85a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-same-species-dedup/owned-0.png",
+      "bytes": 360299,
+      "sha256": "b1cd2239186657a2f571aae2ef96310f96f5923103ba01afd5f9f2b6b3de4e61"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-same-species-dedup/owned-1.json.gz",
+      "bytes": 189791,
+      "sha256": "df5ca367c2bba7c340912ac0545f0ab8103727b00eed2aade2c4c6fd762fb85a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-same-species-dedup/owned-1.png",
+      "bytes": 360518,
+      "sha256": "3610607ce6d8a920f78573f71ef564df7abff2567671cc87c2ee78af5b15a3b8"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-same-species-dedup/owned-2.json.gz",
+      "bytes": 189791,
+      "sha256": "df5ca367c2bba7c340912ac0545f0ab8103727b00eed2aade2c4c6fd762fb85a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-same-species-dedup/owned-2.png",
+      "bytes": 362647,
+      "sha256": "94180c9af9f9423fadedc25284bf1c03e277b6689ed9b9c68e674f9f1d3f2c4a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r5-same-species-dedup/result.json",
+      "bytes": 10427,
+      "sha256": "2685ad2b0960ac13e5136875449bfe210bf638c0bacbd47f38b20e28c94eef95"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r6-legacy/01-explanation.json.gz",
+      "bytes": 2452,
+      "sha256": "cca225c7cf550e4de8e0231b2991fabc6a16c4b4da30c6faf9d33d2cf1456227"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r6-legacy/01-explanation.png",
+      "bytes": 419404,
+      "sha256": "5e74a94bafd8ae07b1c2b5825bd7443f4f4b8542fef49b1c3546d7daf83f845c"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r6-legacy/02-cancel.json.gz",
+      "bytes": 2452,
+      "sha256": "cca225c7cf550e4de8e0231b2991fabc6a16c4b4da30c6faf9d33d2cf1456227"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r6-legacy/02-cancel.png",
+      "bytes": 417397,
+      "sha256": "1178082e115e40d3c432f244382b0ad048a549764b02cdb651164ddde475e4c5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r6-legacy/03-fresh.json.gz",
+      "bytes": 2485,
+      "sha256": "45bfe82442bd54bf7b4eab63bba3edc1930f5ff2f6c6ba8cad8543cba42dd52b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r6-legacy/03-fresh.png",
+      "bytes": 507346,
+      "sha256": "17da4e5f8127c38823fb2e19f792d04f4a9053069ed498b6cc178078f475992c"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r6-legacy/injected.json.gz",
+      "bytes": 617,
+      "sha256": "f24803721369a63f24e6ae5e5620802ab3d935b07c36c36ac49ea92c4d451fef"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r6-legacy/legacy-backup.json",
+      "bytes": 1799,
+      "sha256": "33a5e0dcb6b9c8deaa87a75837e51064b7d8bd63dedcb09a25a8fe3693b9c26e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r6-legacy/result.json",
+      "bytes": 2488,
+      "sha256": "26e99591d7b0ab8b4661e4b56d0811b554df009ebc57ad52549b7a5f116463b4"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/01-event-battle.json.gz",
+      "bytes": 257122,
+      "sha256": "753c4275f18615beefdc4f36cfed32bd3f72dcffae0f7054cb5874c88ea18e75"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/01-event-battle.png",
+      "bytes": 382512,
+      "sha256": "472c8b8079a010c9cdfe17c2d04e1ef5666fff72dbd533d44e56928fb5909b1f"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/03-success.json.gz",
+      "bytes": 118205,
+      "sha256": "4e32db2d1b76767cd0a4b0d048d77f00f43b400c71a7846e27210495e53f0456"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/03-success.png",
+      "bytes": 159637,
+      "sha256": "f0a2b3dbdf2c7b9dc3b95e8527595757343efb02fe1337b21e32dcf7102068aa"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/04-full-team.json.gz",
+      "bytes": 118205,
+      "sha256": "4e32db2d1b76767cd0a4b0d048d77f00f43b400c71a7846e27210495e53f0456"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/04-full-team.png",
+      "bytes": 113328,
+      "sha256": "f282e3cd8e7aadde499e8b2ff19694bec4fbca8979b0bee61fce1590cd6b2f8b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/04b-cancel-scrolled.json.gz",
+      "bytes": 118205,
+      "sha256": "4e32db2d1b76767cd0a4b0d048d77f00f43b400c71a7846e27210495e53f0456"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/04b-cancel-scrolled.png",
+      "bytes": 92587,
+      "sha256": "15a98be2a680394079bdd14299a272a02637972817a77656056922f1c76a7b55"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/05-full-decision.json.gz",
+      "bytes": 102516,
+      "sha256": "01bc7a1a91b560ccf5c0c0bc0584119b54aeeb647f631eeb0b5c3ca51402b6c5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/05-full-decision.png",
+      "bytes": 177225,
+      "sha256": "b0146053497d5790416f79953dfbeef0e5625176b2d47053edf29968066b411f"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/06-reload.json.gz",
+      "bytes": 3001,
+      "sha256": "6bcb543be6859d87b2b5c8d3eaaf486603a25c39f634e1d80186336a3d33946d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/06-reload.png",
+      "bytes": 350137,
+      "sha256": "86cb1c59989c2bf47c74de1bffb8c6ff2dfdc541750887f0bd18a18dd4df4de7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/injected.json.gz",
+      "bytes": 124567,
+      "sha256": "b680e48d83735f2ce6b2715459ec42d6a6a45746030535680655c2982ee126d0"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/result-detail.json.gz",
+      "bytes": 323701,
+      "sha256": "ac15dafe577f1a6e4422c82ae28af7dcadb38622e0d81bcc79926b51bc5465e7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-cancel/result.json",
+      "bytes": 29191,
+      "sha256": "8c5a96bfc0f9a8d43c3259bdf65369e6a631b2174d02728800750d0d97f80828"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/01-event-battle.json.gz",
+      "bytes": 257123,
+      "sha256": "43393d6a78764095429518706b2d3b5dea22016910e801d7489b2dc19cd253f7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/01-event-battle.png",
+      "bytes": 384124,
+      "sha256": "3327764a2d05331e520042eae86a36ff0994f88fd97dc22377cd9cb9c12b41b0"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/03-success.json.gz",
+      "bytes": 118206,
+      "sha256": "e4103bcb93fe654734b83efef0972bc9ad6ad0d98faa79102b5c18501ef2d6ad"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/03-success.png",
+      "bytes": 159440,
+      "sha256": "d52d15a0bbeb6f1babf8963836a6117b44452712ca931cfa1e60324d90b185ec"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/04-full-team.json.gz",
+      "bytes": 118206,
+      "sha256": "e4103bcb93fe654734b83efef0972bc9ad6ad0d98faa79102b5c18501ef2d6ad"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/04-full-team.png",
+      "bytes": 115724,
+      "sha256": "37be8ee9510871dd5b008c852ebcc3520ec1a5caa1d2f7d5cab2176700e7b543"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/05-full-decision.json.gz",
+      "bytes": 109930,
+      "sha256": "7648e85e7bacfe6a46d77ffc3d6721dd0cd2fca497492560d854e7f84a524e46"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/05-full-decision.png",
+      "bytes": 268995,
+      "sha256": "b412ae0155c1b7db0ba00c42998fb5a7204821c99b0655a551519a6ad0612ae3"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/06-reload.json.gz",
+      "bytes": 3002,
+      "sha256": "51ea6283d57d754707506b8f9f35cc9d2f421031f1f67cc30786ed660b6ab99d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/06-reload.png",
+      "bytes": 440152,
+      "sha256": "f924d230a3969c6bf1e7ec072ee3ffc73a609aa368e5d61de9ce58fd7274e676"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/injected.json.gz",
+      "bytes": 124567,
+      "sha256": "50473b8faf1ca991e7b8102e942b3ac9dbf53113c73fe76f99fd9e31241d0e73"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/result-detail.json.gz",
+      "bytes": 336866,
+      "sha256": "c238ad22f19b84622e99b9a44a8d21fe01a46d1e459aeebbbb3d10a71fe31b29"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-full-replace/result.json",
+      "bytes": 25867,
+      "sha256": "7b211c282cb79004423fac3a8a4b8fb5da694365b4cb6a45e7c87d1e5c65ba86"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-probability-failure/01-event-battle.json.gz",
+      "bytes": 176923,
+      "sha256": "a5bb6edec1b60976115de45241e8a153d76e1917cd86fe9df6a97ba620bd193a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-probability-failure/01-event-battle.png",
+      "bytes": 380092,
+      "sha256": "c0a0ea8a6525faaf4cb6f689c6f2aad8164c2e93c2029635a3e9ee5836ff87cc"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-probability-failure/02-probability-failure.json.gz",
+      "bytes": 177109,
+      "sha256": "e3492b86ba1af65e68129a271e3e1a744851c441317dcd871dd6bc83d0984c63"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-probability-failure/02-probability-failure.png",
+      "bytes": 518521,
+      "sha256": "06e225dbe150d747d7e45053940746c042d6464d3197653fd51260f31ad0eae4"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-probability-failure/injected.json.gz",
+      "bytes": 84420,
+      "sha256": "88b624664cbd925f0a5251b9177cdfdd5850c05a2e3574d2fe6fa19717cf24fd"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-probability-failure/result-detail.json.gz",
+      "bytes": 131096,
+      "sha256": "1907bc18f6f849144aa026868f3db1ff07a3cb9232a4c02f96c9f9624ec09943"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-probability-failure/result.json",
+      "bytes": 6908,
+      "sha256": "05386be5f7d02f430ddab7107f91de76cb7f4004cefacacc6c53eb2859521435"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-success-training/01-event-battle.json.gz",
+      "bytes": 176921,
+      "sha256": "ac861f932e4220ccebbe04986ea406669f6ca72d054d911a4dae24577d4e90ce"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-success-training/01-event-battle.png",
+      "bytes": 379492,
+      "sha256": "fe40e011de50f174752cbec235e01c59681fe66cd89f492b5f093d5a5c3f8b12"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-success-training/03-success.json.gz",
+      "bytes": 78192,
+      "sha256": "06ce7bef30570df32b67a7cbd3f4f86d52e4f15c058b837c8754cbbe718e963f"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-success-training/03-success.png",
+      "bytes": 290936,
+      "sha256": "0e3ffc623b2bad6c15c761a4704ce0f802d04904e3ce887ebb0572d30ee4e489"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-success-training/06-reload.json.gz",
+      "bytes": 3001,
+      "sha256": "9d520e8400fcd9d8745723de62dd44ebd2f78b4fe33dd1fa14d7625bb5d674c3"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-success-training/06-reload.png",
+      "bytes": 589335,
+      "sha256": "0c4799794d5dd4dc86561d828f7f8ec6ca61558ccb72d6119c0ee56884563e72"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-success-training/injected.json.gz",
+      "bytes": 84420,
+      "sha256": "10a69e023c692877754d7378b19f2aa83322b15752ea0e418aa9d164cb58331d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-success-training/result-detail.json.gz",
+      "bytes": 238439,
+      "sha256": "fa4e078f1e9cd7a660d72bbcf01cfb048922d026a93d14e42399a4b3bd93de97"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-success-training/result.json",
+      "bytes": 13235,
+      "sha256": "16c0bb7e7c515ed05e7802708d35dd4f67f20188e6bec772f403e6f12ec78dcb"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/01-event-battle.json.gz",
+      "bytes": 176921,
+      "sha256": "b5d47c0dcd61c7a67d9c0868e969868e4cdcb09d5b77c0f866e5e04d8d75d194"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/01-event-battle.png",
+      "bytes": 378384,
+      "sha256": "3aa6e0bb7884f8da9251438eeaf239e6c441aafb36f5412a10b39237786fa4b6"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/02-storage-failure.json.gz",
+      "bytes": 177037,
+      "sha256": "ee88791658b0a3530728537a1ab2b355a0bdf1fe014b922890ef483027afc280"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/02-storage-failure.png",
+      "bytes": 520637,
+      "sha256": "a45c7a56c9ca95bd047a82163b5110ed768786521a351f2cf69c731ea1822a4f"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/03-success.json.gz",
+      "bytes": 78192,
+      "sha256": "14f7f20cfb7caca2754296351e4e54376a75b3170103ad6d06f57a8cb9c9b960"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/03-success.png",
+      "bytes": 290401,
+      "sha256": "4b83552e54fdee009640d7dbb0e38fe52ed94253fe5d2c27b3449d3f3fadb320"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/06-reload.json.gz",
+      "bytes": 3001,
+      "sha256": "4f92cccc7a733242571fe5e431eed863a46082657063f4f1678ced88059547b2"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/06-reload.png",
+      "bytes": 588851,
+      "sha256": "1bfdf37963862d4846cbb3f806ca582cb3cc930791b12c92c6336a88d225aa5e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/injected.json.gz",
+      "bytes": 84421,
+      "sha256": "6a1807e52e07cb3347383bf8cf4f3db9c62ab418c6418ed1d773fb82714e5e4e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/result-detail.json.gz",
+      "bytes": 369265,
+      "sha256": "d2821b0974fdbb94262122fef8a49a71675d4eb17e4d5c61f7c665172540ab4d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-catch-write-failure-retry/result.json",
+      "bytes": 22790,
+      "sha256": "96f4da4dc4e91d361b3832e53badec8c18395f0bb5d3110682a717c1d2f41942"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-item/01-before.json.gz",
+      "bytes": 179333,
+      "sha256": "46caa3f10c09dd988372e54cf7b5c342bbfe48f38bfc1311ab1321d90d11e1a4"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-item/01-before.png",
+      "bytes": 385651,
+      "sha256": "2c55c0348dc90d479061b6f494becc376be24c2980967360595d8c28551b9568"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-item/03-result.json.gz",
+      "bytes": 179628,
+      "sha256": "a8ea56ccaef9c198b4992785f633ad12c3f43b9c6f786554af1a0320cf9fa371"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-item/03-result.png",
+      "bytes": 298340,
+      "sha256": "5361e77915c543caf3cad75fa94a01502b303243c97fb6904fd4cc848af98e95"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-item/injected.json.gz",
+      "bytes": 84416,
+      "sha256": "851634eae3198437f13976c57f18ed9a1d573f6342a1c6927fe5953218eb399a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-item/result-detail.json.gz",
+      "bytes": 256808,
+      "sha256": "cef3a1083d819d3fea6cec4e519180071bf6d5663ec5ecfbae19bf432af27ead"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-item/result.json",
+      "bytes": 11902,
+      "sha256": "b3a057bb39f5d1a15b79d2eca414c3e20b3572fcb389fa5990fdf6679f7db5ff"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-two-regions/01-ready.json.gz",
+      "bytes": 179343,
+      "sha256": "e042ff76961dc61fc0222bc338fce58acf3cc72b88cd3b7c6cd3a03d6bf28d91"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-two-regions/01-ready.png",
+      "bytes": 384809,
+      "sha256": "3773f62b3a89422de2bd856721ece1dd21eeb21693c49a1dcb352b633805449d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-two-regions/02-first.json.gz",
+      "bytes": 111474,
+      "sha256": "3d0c04a4c4cb252e13cc7a3d09a5b2e3b7d043acb6e2a0ed0ef4b67ff9652a16"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-two-regions/02-first.png",
+      "bytes": 304629,
+      "sha256": "bc31f11219acfe57669ceffe28a4f7882ba80c2131aaebfc133636b0317a4277"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-two-regions/03-second.json.gz",
+      "bytes": 124739,
+      "sha256": "e86ed875efb70569aa27f1cc494bb08018841e61867561d0602ad5a7e909bc2d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-two-regions/03-second.png",
+      "bytes": 316320,
+      "sha256": "3e063af705dc6f7d407d813495e9578cc89489b296cc333bf08890c7867697c7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-two-regions/injected.json.gz",
+      "bytes": 84420,
+      "sha256": "3b53e4b0f47d3eeef857f7bf48975c301cee374c133e6bd433656060c9e65025"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-two-regions/result-detail.json.gz",
+      "bytes": 318895,
+      "sha256": "8713fbcaba210fdc4be4776dc082fd52c2527a0357141dfed6b2486443c33c1d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-two-regions/result.json",
+      "bytes": 17607,
+      "sha256": "f7e1afb3aa07356863f8e8b51bd0aa3dc4e2f4db3611c890b4a46fbc3d30b80e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-write-failure/01-before.json.gz",
+      "bytes": 179333,
+      "sha256": "55eb752801123a1c840c625e614a4e66cc6762979b4ed1674f7ddb9c9c0bdd0d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-write-failure/01-before.png",
+      "bytes": 385446,
+      "sha256": "4df71261f0db31ea66c8265e982c4f9accc549c1c0058994ce1b4a7b38e48393"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-write-failure/02-failure.json.gz",
+      "bytes": 179417,
+      "sha256": "71cf12f70f08cdf145f241ae05d21e370e126b393b35312568c459135b77a5d2"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-write-failure/02-failure.png",
+      "bytes": 402756,
+      "sha256": "164ff1be98c01f1bd65e307538ffea8b52d83eb6421a1c3f466eb039a5f8314e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-write-failure/03-result.json.gz",
+      "bytes": 111348,
+      "sha256": "484b1f633644372a441a0a835851add7b7f33c61af23c343701e2255aa49a4e8"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-write-failure/03-result.png",
+      "bytes": 303875,
+      "sha256": "6227ea355083aa20eac5da12a83e34e83d6a5dcda26119444700b58efd2ee2cf"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-write-failure/injected.json.gz",
+      "bytes": 84416,
+      "sha256": "a8a01991905ed34b5f07fe35930b250cab76c4d1212b9a63250e4f0dfc010850"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-write-failure/result-detail.json.gz",
+      "bytes": 406401,
+      "sha256": "ce36869ee1a0b510a2a50e180a91481e512def0cc008e04c43598b99c190ed3b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-join-write-failure/result.json",
+      "bytes": 20220,
+      "sha256": "f7744e8d2c09ea7d7aadf49ac4713226e5612de78215bb2ab00cf5c0121ac7ac"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-late-factory/after-delayed-response.json.gz",
+      "bytes": 94993,
+      "sha256": "62e21cd63bda0c7002c263e3ed6010d18ba31ca659379455bbc6d39b6812efe8"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-late-factory/after-delayed-response.png",
+      "bytes": 469393,
+      "sha256": "69046e5908ce55fe1498e61ed7d5226e825eb04698616363d113d8a587e2b2f9"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-late-factory/injected.json.gz",
+      "bytes": 84418,
+      "sha256": "db48704594ace6d59f0c9d78ee735addc240d729eeca3c07be3f46325c29982a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-late-factory/result.json",
+      "bytes": 2116,
+      "sha256": "030b015440f35db0bbcdda76eb03b8b2cf3b17298a20009809000ecd18fd6109"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-late-leave/after-delayed-response.json.gz",
+      "bytes": 179333,
+      "sha256": "5b4657f1777be213f9b8fb5d1863104a4471c2949a403aad10f2de907207e276"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-late-leave/after-delayed-response.png",
+      "bytes": 385524,
+      "sha256": "c0e1ee690e950a571d569009fb560071ee0c11bac3ee13906213a84a504b2f4a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-late-leave/injected.json.gz",
+      "bytes": 84416,
+      "sha256": "f5663c0117471133133e6cce00ba095ef1d69ed78ef81cf2e6c18d928ec31326"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-late-leave/result.json",
+      "bytes": 2958,
+      "sha256": "8cbd4748326e18355b53766c1232e283b47b44464554a403e0b7762988cb66d3"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-overlap-event-double-catch/01-single-event.json.gz",
+      "bytes": 176923,
+      "sha256": "72639067f63c53eb544b497bfb87a248884857b437b1a0fd607959af9c45a100"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-overlap-event-double-catch/01-single-event.png",
+      "bytes": 380285,
+      "sha256": "7d5dd996d267ab2abea3a77ebd7ae555e8ec4c7d0de6d5a596229e3e4c47cf47"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-overlap-event-double-catch/02-double-catch.json.gz",
+      "bytes": 78192,
+      "sha256": "4bd0390ce71ee043bd2c577c1a5703b8abe47637e54621cd38e8e7d3d59792ef"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-overlap-event-double-catch/02-double-catch.png",
+      "bytes": 289864,
+      "sha256": "f9741c97f215b5d5b48c12dd76b09777ed49f3dfd9cc175da3e681e85c662966"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-overlap-event-double-catch/injected.json.gz",
+      "bytes": 84421,
+      "sha256": "809c3dc446280df76c015aabcd6192a303f6059527eefa9f6bf72105a9499124"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-overlap-event-double-catch/result.json",
+      "bytes": 5151,
+      "sha256": "edae72e14c90360930afa13de82811c9e36459bf2a9227b980901519059d1c49"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-permanent-start-factory/01-rental-selection.json.gz",
+      "bytes": 51653,
+      "sha256": "ebe091bc94cf6da2b3aa98eac1a0da0377a9cfb09b6355c51ff6982568cae728"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-permanent-start-factory/01-rental-selection.png",
+      "bytes": 468795,
+      "sha256": "85fea0f6a23fc25bb498152a40faadb4bcf9b55ef16bd7a0a1cfc5abbcac6e1d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-permanent-start-factory/injected.json.gz",
+      "bytes": 1114,
+      "sha256": "faeeb841ee67e9745dbd8130c3fc0a74d859e69deaed1cf1e872137f2a7df8c5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-permanent-start-factory/result.json",
+      "bytes": 2198,
+      "sha256": "9e70fc16b2840e6bb1d2a64e4bc53940a3747dca606a5b0f14fe205e505b84f8"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-single-ball-concurrent/01-before.json.gz",
+      "bytes": 179333,
+      "sha256": "ef5e3ec909e0a43c44799ba3e9d0a72a2a222643db21d8ed3d27b5f2f0312f71"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-single-ball-concurrent/01-before.png",
+      "bytes": 384743,
+      "sha256": "e8942c3507b1f4fa8ec01d282749be71305ac3a4c1bc685615d59ceb1e1db79c"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-single-ball-concurrent/03-result.json.gz",
+      "bytes": 111359,
+      "sha256": "15130deced3245945ae195a88a29f1216ac2ddf568888c6a1560ed1ddafa7c0b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-single-ball-concurrent/03-result.png",
+      "bytes": 304748,
+      "sha256": "ed91b6bd88ca492ecd75136de757643325d4799ce41e11cf7365884f2c184bd8"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-single-ball-concurrent/injected.json.gz",
+      "bytes": 84416,
+      "sha256": "250227349ec45d1a289112c4f11a0ea4a4b441a9b40d682e229496115f949e67"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-single-ball-concurrent/result-detail.json.gz",
+      "bytes": 278042,
+      "sha256": "41f76c0a19770bdf065a13ddbb78843ebec5f72b1b8008fc36ba3c218e034c9d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r7-single-ball-concurrent/result.json",
+      "bytes": 12799,
+      "sha256": "9023f698f53fe851dc730b7a41d8f9e8c1f430ae44f61f70e4906c1988b14fd0"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-base-320.json.gz",
+      "bytes": 2473,
+      "sha256": "9e4013469ddb7c99b5684f5d37b2953c0f653ccc3ee434ac5c0e9e7cda2a7836"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-base-320.png",
+      "bytes": 322740,
+      "sha256": "a961e507054bce4b266dc2d95f41b4533374fe5fbdfeb280d919fb30d54943b7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-base-390.json.gz",
+      "bytes": 2473,
+      "sha256": "319d11a9994a5c60a01af922c79cbec91af89effc2982197ffd56a7b1d9d508d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-base-390.png",
+      "bytes": 581416,
+      "sha256": "7111d7cd52501816c346fe8f25630b4f5c633699ea96c633cad9040368bfe2f4"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-base-844.json.gz",
+      "bytes": 2474,
+      "sha256": "06d585f987aeff2d18794ed077d8d1ff6e0d395a0c19ad0a31ecf40e306b83a5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-base-844.png",
+      "bytes": 436377,
+      "sha256": "c5a5c5affb9c419db1302dcb32cac2076f218c017492cd40b19834b6ed293c03"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Events-320.json.gz",
+      "bytes": 2475,
+      "sha256": "82a415c4d295a8881a4a1073b1268b515a5f44b746e648b99c3a87e79e6d3ccf"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Events-320.png",
+      "bytes": 239470,
+      "sha256": "8c8059a4247b5a07f77786f7a14f33591181b227a66210bd01c28f20114c9ae2"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Events-390.json.gz",
+      "bytes": 2476,
+      "sha256": "e6021ab57785b48a7fb38f8751e95ed569e1dec6f5e8c2261c56d1e04ed769e5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Events-390.png",
+      "bytes": 380530,
+      "sha256": "22d0218a4ec4d4a1940ba40327b4cbef6f39423a95ffaa8f7dd50c993f4dd2f5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Events-844.json.gz",
+      "bytes": 2475,
+      "sha256": "b4e6cd1ade23dcaf9f998dc0782664517636562273d97a0f6c80dd1e052a2675"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Events-844.png",
+      "bytes": 277684,
+      "sha256": "f42e90ec241d6e6ce8367d9768962e0f26b4d3daa7f222341e358ce4b2b620cf"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Settings-320.json.gz",
+      "bytes": 2481,
+      "sha256": "b4fbb77e4e3dd637f8d9557a56758954c4e9b81e1b11c884cc318cdb9662ea7e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Settings-320.png",
+      "bytes": 234149,
+      "sha256": "738ac08e3e34a18d990e47a3ff46c128f92294ef28e42bcb7414d58be1778abf"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Settings-390.json.gz",
+      "bytes": 2480,
+      "sha256": "1f7e4062ad8fa6215caaf6cb774b1c5b25058bca27de83774ef1505d1fbebebe"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Settings-390.png",
+      "bytes": 395920,
+      "sha256": "06be2cb9b5fed2f104cc2af0dc923f9d34edd8072086b0e39dc06e58da198ce1"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Settings-844.json.gz",
+      "bytes": 2480,
+      "sha256": "4d6df4adcd972234a3ae0c53a5fc1b551002d14dfd5141fd67c588dfe4e7928e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-Settings-844.png",
+      "bytes": 320047,
+      "sha256": "35c29d274a9cfffac491ca41376df6c88241020aae0b44fc6b4401bfa40a5ee7"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/injected.json.gz",
+      "bytes": 617,
+      "sha256": "49b41fa3a0b5cce91b4866d66404e6433a138ead22f9f76040f990c133aaaea5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/result.json",
+      "bytes": 17188,
+      "sha256": "aa2964271d80544ce5aab99a80caaafbdee262e089fc05d3dc734881f96a5bed"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-base-320.json.gz",
+      "bytes": 2478,
+      "sha256": "570a189d9cafce157ad547ac33a4456ca6fd9080fdadf31be4fa6fb725106dba"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-base-320.png",
+      "bytes": 348702,
+      "sha256": "c4f70ab78dd62ee56274e101bb47f6d82e38dec0c479f50d2075b53e560cd0e5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-base-390.json.gz",
+      "bytes": 2478,
+      "sha256": "a268625a41c13dfe0fe8591092bb354ee53f441e6cc17f8db167acb68c12f62f"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-base-390.png",
+      "bytes": 588066,
+      "sha256": "8f367166331af6386c164c91c8c9127b3cb365d6c984034fc7c6e5afee3423c9"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-base-844.json.gz",
+      "bytes": 2479,
+      "sha256": "e336c972b253d0883c4e7aa077ee6326e656ddea572dced40889fd7cf066431f"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-base-844.png",
+      "bytes": 438478,
+      "sha256": "37fbccbbaeaedc984daa2f167438203d55227f2d827ccd9d3e0ed4a456af7456"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-事件-320.json.gz",
+      "bytes": 2479,
+      "sha256": "fa218f1b7955285eead100013670f591a4aa5b753bdd7a71de9dd3ed11bacdf4"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-事件-320.png",
+      "bytes": 247454,
+      "sha256": "ea5226524eab87e4c48d7173550f254b7a1ea8e3a99421f7ca6a067ab3a89a99"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-事件-390.json.gz",
+      "bytes": 2480,
+      "sha256": "92cc0bfbc35c3bfec1b390a22bcdd7ded2bc78550f3340956def0a9910aefcb3"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-事件-390.png",
+      "bytes": 391843,
+      "sha256": "4947d407c6c5fa4b25d6a86256fc9cf2a91695b5136f7278253603b93ab85061"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-事件-844.json.gz",
+      "bytes": 2480,
+      "sha256": "520f20c15d071f5b5879d7d92d93a608704e3e81951f21aaf45df1d67e973e8f"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-事件-844.png",
+      "bytes": 283647,
+      "sha256": "0450243171535f78a91246c8bdcf65eb7d458d56a09d376dcddab2e41f155f88"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-设置-320.json.gz",
+      "bytes": 2485,
+      "sha256": "55dc315bce78fe98a4c03562cd931d80987030945a76cf8f00c04dd63b3a950e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-设置-320.png",
+      "bytes": 233702,
+      "sha256": "6bab326c43635cae73682028beb3d1ffb916540581334cbd75152b2e6e5a4dfc"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-设置-390.json.gz",
+      "bytes": 2484,
+      "sha256": "8317b843482fb6244454ee7d55cb92b3dd13db10b253ced1d1a6806a2bd97abb"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-设置-390.png",
+      "bytes": 404417,
+      "sha256": "efe69bf12688a5000686ea97855c6badbdf084e2d4e7f42a0add540ec347c165"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-设置-844.json.gz",
+      "bytes": 2485,
+      "sha256": "80d172162c72d1f93b1e2b635601f561def3d3359f51351b2d49758cd28a686b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/zh-设置-844.png",
+      "bytes": 321574,
+      "sha256": "cc85749a53638a3a521bf13d7083fb055c355acecfcf53f589bd13baf5c5a11a"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/build-manifest.mjs",
+      "bytes": 2925,
+      "sha256": "732f25fd831eafeec464108bf2e9fcff05c2756188642d9407028e1fcbd5826d"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/fixture-path.mjs",
+      "bytes": 129,
+      "sha256": "9c036ef99d5de43b956fc99211f5010da05812b2d438a527d1069dcdbb580831"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/fixtures.mjs",
+      "bytes": 1553,
+      "sha256": "409b0f1e8e06ccdb340bcc092c514dac442be8d85f61753ebc6290f534c0c530"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/run-catch.mjs",
+      "bytes": 4195,
+      "sha256": "6ed270f5e8b02658b90f3d1aa7ec9d6594a39281ae3fcd9556a32d9a3aa0d55e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/run-event-overlap.mjs",
+      "bytes": 2309,
+      "sha256": "45402ac4382ceaac619670e9e37527e4822639baf37c688188f264aca78d4f4b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/run-events.mjs",
+      "bytes": 1392,
+      "sha256": "6d9ba27074b2f199c663eeda15df3abc185f7b98c5298dc9daebd6b23690d6ef"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/run-import-matrix.mjs",
+      "bytes": 4536,
+      "sha256": "630e10e6f49b5c81ce4fab51eaab17ea4d5e646b3f258131e20b318314a838c1"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/run-join-boundaries.mjs",
+      "bytes": 2692,
+      "sha256": "31f33f8293f8f31cd90e33a4a54793b38a042bae8a7e786e1abc57fd3a7fac61"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/run-late.mjs",
+      "bytes": 2025,
+      "sha256": "e046285d3011940488d06c1d681e304224862b581568b46092f60b7cc4787e43"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/run-natural.mjs",
+      "bytes": 3551,
+      "sha256": "320a3bbfb97434aa765d7aa23758a3846925a15606d4e875be2450b12869a422"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/run-observations.mjs",
+      "bytes": 1258,
+      "sha256": "db241dc74ce92f283bd151fee7abb90a32d6dccd015f4cde047cbf9a7b6117a5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/run-rentals.mjs",
+      "bytes": 2870,
+      "sha256": "49ebfaccb002559e7bf05597f6770b971bbf152f3c3c62b0a782532b14a3a049"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/run-ui.mjs",
+      "bytes": 3297,
+      "sha256": "c6d01a50fd14782f8889b37c8f18627a1a625c64f1a31cd0a7bc41ac9eccb62b"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/runtime-harness.mjs",
+      "bytes": 3187,
+      "sha256": "0cbd15fabf9925261fc8df4f88bf28ddeb6cc5c82faaab7e60769fad39b0fa80"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/runtime.md",
+      "bytes": 16298,
+      "sha256": "22969461c89432951cd3797a810029b5c3e551eea48ed7d5aa9ab2f0124e1683"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-b2d5863/r7-catch-full-cancel/blocked-summary.json",
+      "bytes": 437,
+      "sha256": "36894effcbc644d793e086046498f7da034617db1285ef364415dd2914b887de"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-b2d5863/r7-catch-full-cancel/injected.json.gz",
+      "bytes": 124566,
+      "sha256": "1e3ad80d3aaf802bdff84403ba628791a0af7e63873556bd54979b61c0c76bc5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-b2d5863/r7-catch-full-cancel/03-success.json.gz",
+      "bytes": 118057,
+      "sha256": "09d7469f367a562369dac13f23418cbcf2b36681bcb81077f956e34b608cd531"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-b2d5863/r7-catch-full-cancel/failure.png",
+      "bytes": 392501,
+      "sha256": "8c85459d510dc716e32429349a1cfb6e3bc5f63d2340b83c6a7ef7d3e0d4a02e"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-b2d5863/r7-catch-full-replace/blocked-summary.json",
+      "bytes": 438,
+      "sha256": "9ab82de508fb1dde8cd2ce71fe39e26b36d1751b036174687e2d30d047ccfbb5"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-b2d5863/r7-catch-full-replace/injected.json.gz",
+      "bytes": 124566,
+      "sha256": "ca4ceb5f0549443a58f229807c189b84475b3e869e5e42aedcc97f29ab6c4684"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-b2d5863/r7-catch-full-replace/03-success.json.gz",
+      "bytes": 118057,
+      "sha256": "602e686185fb03cd543e2ce2c89ea1b925a6c52b96546874fd76a87d61dd9cbe"
+    },
+    {
+      "path": "docs/tasks/永久收藏口径/evidence/final-b2d5863/r7-catch-full-replace/failure.png",
+      "bytes": 392803,
+      "sha256": "dbe38e36f14edce0ead0977cc193fc1eb5e8f3ea3dcc944671dd21a5331af3f8"
+    }
+  ],
+  "totalBytes": 51377143
+}
