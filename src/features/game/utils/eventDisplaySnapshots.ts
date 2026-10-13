@@ -1,4 +1,11 @@
 import type { DexSnapshot } from '../../../services/pokedexClient';
+import type { GameState } from '../../../types';
+import type { BaseTab } from '../view-model';
+
+// Matches GameView's two actual EventsScreen routes.
+export function isEventDisplayPage(context: { gameState: GameState; currentBaseTab: BaseTab }) {
+  return context.gameState === 'EVENTS' || (context.gameState === 'BASE' && context.currentBaseTab === 'EVENTS');
+}
 
 export type EventDisplayRecord =
   | { phase: 'loading' }

@@ -7,7 +7,7 @@ import { TYPE_COLORS, TYPE_ICONS } from '../../../../uiAppConstants';
 import type { DexSnapshot } from '../../../../services/pokedexClient';
 import { TYPE_ZH } from '../../../../constants';
 import { useEventDisplaySnapshots } from '../../hooks/useEventDisplaySnapshots';
-import { createEventDisplayActionGuard } from '../../utils/eventDisplaySnapshots';
+import { createEventDisplayActionGuard, isEventDisplayPage } from '../../utils/eventDisplaySnapshots';
 import { getBaseEventCopy, getEventRegionName } from './baseEventCopy';
 import './baseEventUi.css';
 import { getPokemonSpriteUrl } from '../../../../services/pokeApiEndpoint';
@@ -44,6 +44,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
     eventDispatchPopup,
     hasFactoryRunToResume,
     gameState,
+    currentBaseTab,
     getLocalized,
     setEventDispatchPokemon,
     dispatchEventRegion,
@@ -55,12 +56,12 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
   const [now, setNow] = useState(() => Date.now());
   const [pickerRegionId, setPickerRegionId] = useState<string | null>(null);
   const [pickerSearch, setPickerSearch] = useState('');
-  const [recommendation, setRecommendation] = useState<{ regionId: string; status: 'loading' | 'error' | 'empty' } | null>(null);
+  const [recommendation, setRecommendation] = useState<{ token: number; regionId: string; status: 'loading' | 'error' | 'empty' } | null>(null);
   const actionGuard = useRef(createEventDisplayActionGuard());
   const mounted = useRef(true);
-  const contextKey = JSON.stringify([collectionOwnedIds.slice().sort((a, b) => a - b), Object.entries(eventDispatchPokemonByRegion).sort()]);
-  const latest = useRef({ contextKey, hasFactoryRunToResume, gameState });
-  latest.current = { contextKey, hasFactoryRunToResume, gameState };
+  const contextKey = JSON.stringify([gameState, currentBaseTab, collectionOwnedIds.slice().sort((a, b) => a - b), Object.entries(eventDispatchPokemonByRegion).sort()]);
+  const latest = useRef({ contextKey, hasFactoryRunToResume, gameState, currentBaseTab });
+  latest.current = { contextKey, hasFactoryRunToResume, gameState, currentBaseTab };
   const selectedIds = Object.values(eventDispatchPokemonByRegion).filter((id): id is number => id !== null);
   const { records, ensure } = useEventDisplaySnapshots(pickerRegionId ? [...selectedIds, ...collectionOwnedIds] : selectedIds);
   const snapshotById: Record<number, DexSnapshot> = {};
@@ -90,7 +91,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
     if (hasFactoryRunToResume) setPickerRegionId(null);
     actionGuard.current.cancel();
     setRecommendation(null);
-  }, [hasFactoryRunToResume, contextKey, gameState]);
+  }, [hasFactoryRunToResume, contextKey, gameState, currentBaseTab]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
@@ -119,18 +120,22 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
   };
 
   const pickRecommendedPokemon = async (regionId: string) => {
-    if (hasFactoryRunToResume) return;
+    if (hasFactoryRunToResume || !isEventDisplayPage(latest.current)) return;
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region || collectionOwnedIds.length === 0) return;
 
     const token = actionGuard.current.begin();
     const initialContext = contextKey;
-    setRecommendation({ regionId, status: 'loading' });
+    setRecommendation({ token, regionId, status: 'loading' });
     const loaded = await ensure(collectionOwnedIds, true);
     if (!mounted.current || !actionGuard.current.isCurrent(token, initialContext, latest.current.contextKey,
-      latest.current.hasFactoryRunToResume || latest.current.gameState !== 'EVENTS')) return;
+      latest.current.hasFactoryRunToResume || !isEventDisplayPage(latest.current))) {
+      // A stale continuation may clear only its own spinner, never a newer recommendation.
+      if (mounted.current) setRecommendation((current) => current?.token === token ? null : current);
+      return;
+    }
     if (collectionOwnedIds.some((id) => loaded[id]?.phase !== 'ready')) {
-      setRecommendation({ regionId, status: 'error' });
+      setRecommendation({ token, regionId, status: 'error' });
       return;
     }
     const candidates = collectionOwnedIds.filter((pokemonId) => {
@@ -140,7 +145,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
       return region.requiredTypes.some((requiredType) => snapshot.types.includes(requiredType));
     });
 
-    if (candidates.length === 0) { setRecommendation({ regionId, status: 'empty' }); return; }
+    if (candidates.length === 0) { setRecommendation({ token, regionId, status: 'empty' }); return; }
     const recommendedId = candidates[Math.floor(Math.random() * candidates.length)];
     if (!recommendedId) return;
     setRecommendation(null);

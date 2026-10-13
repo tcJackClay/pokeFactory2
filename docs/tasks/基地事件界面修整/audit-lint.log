@@ -1,0 +1,19 @@
+
+> react-example@0.0.0 lint
+> tsc --noEmit
+
+error TS6053: File 'D:/Games/pokeFactory2-worktrees/base-event-ui/dist/assets/CollectionScreen-0R-QPXrL.js' not found.
+  The file is in the program because:
+    Matched by default include pattern '**/*'
+error TS6053: File 'D:/Games/pokeFactory2-worktrees/base-event-ui/dist/assets/factory-reference-sets-BiGTL4E9.js' not found.
+  The file is in the program because:
+    Matched by default include pattern '**/*'
+error TS6053: File 'D:/Games/pokeFactory2-worktrees/base-event-ui/dist/assets/factory-trainer-data-DqDeOsHh.js' not found.
+  The file is in the program because:
+    Matched by default include pattern '**/*'
+error TS6053: File 'D:/Games/pokeFactory2-worktrees/base-event-ui/dist/assets/index-4Wvn_IO7.js' not found.
+  The file is in the program because:
+    Matched by default include pattern '**/*'
+error TS6053: File 'D:/Games/pokeFactory2-worktrees/base-event-ui/dist/assets/vendor-DtP9C58-.js' not found.
+  The file is in the program because:
+    Matched by default include pattern '**/*'

@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import fs from 'node:fs';
+import ts from 'typescript';
 import type { DexSnapshot } from '../../../services/pokedexClient';
-import { createEventDisplayActionGuard, createEventDisplaySnapshots } from './eventDisplaySnapshots';
+import { createEventDisplayActionGuard, createEventDisplaySnapshots, isEventDisplayPage } from './eventDisplaySnapshots';
+import { EVENT_REGIONS } from '../config/events';
 
 const snapshot = (id: number): DexSnapshot => ({ id, apiName: `pokemon-${id}`, names: [], sprite: '', types: ['normal'], baseStats: { hp: 1, attack: 1, defense: 1, spAtk: 1, spDef: 1, speed: 1 }, learnableMoves: [] });
 const deferred = <T>() => {
@@ -102,4 +105,120 @@ test('recommendation guard rejects replacement, changed selection/ownership, res
   assert.equal(guard.isCurrent(first, 'same', 'same', false), false);
   guard.cancel();
   assert.equal(guard.isCurrent(second, 'same', 'same', false), false);
+});
+
+// Execute the production EventsScreen callbacks (the repository's static callback-test pattern).
+// This detects route wiring errors that a precomputed "blocked" boolean cannot detect.
+function eventCallback(name: string, scope: Record<string, unknown>) {
+  const path = new URL('../components/game-view/EventsScreen.tsx', import.meta.url);
+  const source = fs.readFileSync(path, 'utf8');
+  const tree = ts.createSourceFile(path.pathname, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  let expression: string | undefined;
+  const visit = (node: ts.Node) => {
+    if (ts.isVariableDeclaration(node) && node.name.getText(tree) === name && node.initializer && ts.isArrowFunction(node.initializer)) {
+      expression = node.initializer.getText(tree);
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(tree);
+  assert.ok(expression, `Missing production callback ${name}`);
+  const js = ts.transpileModule(`const actual = ${expression};`, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None } }).outputText;
+  return new Function(...Object.keys(scope), `${js}; return actual;`)(...Object.values(scope));
+}
+
+function recommendationHarness(gameState: 'BASE' | 'EVENTS' = 'BASE', currentBaseTab = 'EVENTS') {
+  let recommendation: any = null;
+  const selections: Array<[string, number]> = [];
+  const pending: Array<ReturnType<typeof deferred<Record<number, any>>>> = [];
+  const scope: Record<string, any> = {
+    hasFactoryRunToResume: false,
+    collectionOwnedIds: [133],
+    contextKey: 'initial-selection',
+    latest: { current: { contextKey: 'initial-selection', hasFactoryRunToResume: false, gameState, currentBaseTab } },
+    mounted: { current: true },
+    actionGuard: { current: createEventDisplayActionGuard() },
+    EVENT_REGIONS, isEventDisplayPage,
+    setRecommendation: (value: any) => { recommendation = typeof value === 'function' ? value(recommendation) : value; },
+    ensure: () => { const wait = deferred<Record<number, any>>(); pending.push(wait); return wait.promise; },
+    setEventDispatchPokemon: (region: string, id: number) => { selections.push([region, id]); },
+  };
+  const pick = eventCallback('pickRecommendedPokemon', scope) as (region: string) => Promise<void>;
+  const cancel = eventCallback('cancelRecommendation', scope) as () => void;
+  const resolve = (index = 0) => pending[index].resolve({ 133: { phase: 'ready', snapshot: snapshot(133) } });
+  return { scope, pick, cancel, resolve, selections, pending, status: () => recommendation };
+}
+
+for (const route of [{ gameState: 'BASE', currentBaseTab: 'EVENTS' }, { gameState: 'EVENTS', currentBaseTab: 'HOME' }] as const) {
+  test(`real recommendation completes on ${route.gameState}/${route.currentBaseTab} and releases loading`, async () => {
+    const h = recommendationHarness(route.gameState, route.currentBaseTab);
+    const request = h.pick('kanto');
+    assert.equal(h.status().status, 'loading');
+    h.resolve();
+    await request;
+    assert.deepEqual(h.selections, [['kanto', 133]]);
+    assert.equal(h.status(), null);
+  });
+}
+
+test('real BASE event recommendation rejects a late response after another base tab and can retry on return', async () => {
+  const h = recommendationHarness();
+  const first = h.pick('kanto');
+  h.scope.latest.current.currentBaseTab = 'COLLECTION';
+  h.resolve();
+  await first;
+  assert.deepEqual(h.selections, []);
+  assert.equal(h.status(), null);
+  await h.pick('kanto');
+  assert.equal(h.pending.length, 1, 'cannot start another request while off the event page');
+  h.scope.latest.current.currentBaseTab = 'EVENTS';
+  const retry = h.pick('kanto');
+  h.resolve(1);
+  await retry;
+  assert.deepEqual(h.selections, [['kanto', 133]]);
+  assert.equal(h.status(), null);
+});
+
+test('real recommendation rejects late selection changes, resume and battle transitions without stuck loading', async () => {
+  for (const change of [
+    { contextKey: 'manually-selected-new-member' },
+    { hasFactoryRunToResume: true },
+    { gameState: 'BATTLE' },
+  ]) {
+    const h = recommendationHarness();
+    const request = h.pick('kanto');
+    Object.assign(h.scope.latest.current, change);
+    h.resolve();
+    await request;
+    assert.deepEqual(h.selections, []);
+    assert.equal(h.status(), null);
+  }
+});
+
+test('real manual cancel releases loading and an older callback cannot clear a new request spinner', async () => {
+  const h = recommendationHarness();
+  const first = h.pick('kanto');
+  h.cancel();
+  assert.equal(h.status(), null);
+  const second = h.pick('kanto');
+  const secondToken = h.status().token;
+  h.resolve(0);
+  await first;
+  assert.deepEqual(h.selections, []);
+  assert.equal(h.status().token, secondToken);
+  assert.equal(h.status().status, 'loading');
+  h.resolve(1);
+  await second;
+  assert.deepEqual(h.selections, [['kanto', 133]]);
+  assert.equal(h.status(), null);
+});
+
+test('real unmounted recommendation does not write UI or select after its response', async () => {
+  const h = recommendationHarness();
+  const request = h.pick('kanto');
+  const oldState = h.status();
+  h.scope.mounted.current = false;
+  h.resolve();
+  await request;
+  assert.deepEqual(h.selections, []);
+  assert.equal(h.status(), oldState, 'must not call a React setter after unmount');
 });

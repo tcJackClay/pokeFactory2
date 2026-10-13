@@ -1,0 +1,3 @@
+# Preserve diagnostic output bytes, including intentional blank final lines.
+audit-*.log -text -whitespace
+static-a1-*.log -text -whitespace

@@ -10,3 +10,18 @@
 - 不改 usePokeFactoryGame/useBattleController/saveManager/types/pokedexClient/index.css/派遣配置；无玩法或数值偏离，动态上游文案按批准边界保留。
 - 最终四门禁 PASS：lint、339/339 tests、build、Go；命令记录见 static-*.log。构建大 chunk 警告保留。
 - 未运行游戏。下一步为独立 auditor，再以候选最终 SHA 执行 V1–V8 浏览器验收。当前结论仅静态已验证。
+
+# Auditor
+
+- What I checked: 独立对照 PRD/plan/context/review、七文件 diff、真实 GameView/openBaseTab 路由、快照服务与原永久领取校验；审查五态、部分失败/显式重试、请求去重、disposed/StrictMode、推荐失效、语言边界及禁用保护。
+- Fixed locally: none；未改业务源码、未提交、未启动或运行游戏。
+- Found but not fixed (needs lead routing): A1，EventsScreen.tsx:131 遗漏正常 BASE + currentBaseTab EVENTS 路由，推荐完成必早退并留下 loading，导致所有推荐按钮禁用。须对齐现有双路由语义、纳入最新 tab 失效保护并补验证，见 audit.md。
+- Checks: lint PASS（构建结束后单独运行）、339/339 tests PASS、build PASS、Go PASS、diff --check PASS。首次 lint/build 并行造成 dist 清理竞态 TS6053，原始失败日志保留；详见 audit.md，后续两者串行。
+- Verdict: BLOCKED A1。其余静态审查未见额外阻断；四门禁不能替代真实路由与后续 player 的 V1–V8 验收。
+
+# Programmer
+
+- 返修 A1：核对 GameView、openBaseTab 和 isDispatchContextCurrent，合法路由是 EVENTS 或 BASE + currentBaseTab EVENTS；页面专用 predicate 接受两者，拒绝其他 BASE 页签。
+- latest、上下文签名和 effect 纳入 currentBaseTab；失效回调按自己的 token 清 loading，不再卡住推荐，也不清较新请求状态。未改公共 view-model 或控制器。
+- 新增 6 项直接执行生产页面 callback 的静态用例，覆盖双路由、其他BaseTab、迟到、手动取消/改选、续局/战斗、旧请求与新spinner及卸载；定向12/12通过。
+- 串行四门禁 PASS：lint、345/345 tests、build、Go；记录 static-a1-*.log。构建大chunk警告保留，未运行游戏；交独立复审。

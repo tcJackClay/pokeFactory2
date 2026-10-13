@@ -1,5 +1,13 @@
 # 实现交接：基地事件界面修整
 
+## A1 返修后的当前候选
+
+独立审计 cdf289d 得到 BLOCKED A1，原因是遗漏 `BASE/currentBaseTab=EVENTS` 的真实合法入口。已修为与 GameView/原派遣上下文一致的两路判定；latest、上下文签名和 effect 均读取 currentBaseTab。推荐状态带 token，失效回调只清自身 loading，较新请求状态不受旧响应影响。
+
+新增 6 项测试直接提取并执行生产 `pickRecommendedPokemon`/`cancelRecommendation` callback：两个合法入口均成功、BASE 换页迟到不写且返回后可再推荐、改选/续局/进入战斗失效、手动取消与新旧请求交错、卸载不写 UI。未只测试预计算 blocked 布尔值。
+
+返修后四门禁**串行**通过：lint exit 0、345/345 tests exit 0、build exit 0、Go exit 0；见 `static-a1-*.log`。主 chunk 595.02 kB（gzip 197.47 kB）警告仍保留。未运行游戏；等待独立复审。下方339项记录保留为首候选历史，不代替本次结果。
+
 2026-10-14。分支 `codex/base-event-ui`，工作树 `D:/Games/pokeFactory2-worktrees/base-event-ui`，基线 `fdbf4e7`。本文件只记录实现与静态验证；独立 auditor / player 尚未裁决。
 
 ## 已实现
