@@ -163,3 +163,36 @@
 - Static gate: `npm run lint` PASS；`npm test` PASS（289/289）；`npm run build` PASS（既有大 chunk 提示）；`go test ./...` PASS；`python scripts/generate_factory_evolution_relations.py --check` PASS（39 件/94 条）；`git diff --check` PASS（仅 LF/CRLF 提示）。
 - Found but not fixed (needs lead routing): 本次静态复审不产生新的代码阻断。`scripts/audit_factory_evolution_resources.py` 的独立在线资源复验仍需 Go 内容代理（此前本机 3001 未监听）；Programmer 已记录 175/175 资源与 94/94 关系通过，但该结论应在 player 启动最终代码服务时连同 `/api/health` 再核并留原始输出。`GamePokemon` 无异色状态字段，异色保留仍按 plan 标记不适用／未验证。模拟浏览器、实体手机和生产环境均不属本静态裁决。
 - Verdict: **PASS（独立静态审计）**。先前 F6 阻断和 F5 文案问题在最终 diff 中已修复；可转交 player 对最终代码取得运行证据。此结论不等于运行验收或任务完成。
+
+# Player
+
+- 验收对象：`604232f49a2d4bc13c37d6a52bcb8ce3a7326b36`；本工作树 Vite 4300 与 Go 3001 均启动，`/api/health` 200。经 Go 代理重跑资源审计原始输出：175/175 资源、94/94 进化关系、9 个 form-only 资源可用。见 `runtime.md` 和 `evidence/final-604232f/health.txt`、`resource-audit.json`。
+- 模拟浏览器实玩：Playwright Chromium 触控模拟、DPR 2、320×568 / 390×844 / 844×390；未用 DEV Win。旧商店 14 个回归场景全通过；新进化正例/无匹配负例/性别限定/多队员选择/扣券与保留字段/8 连点/写盘失败重试/刷新冷重开/同版 UI 导出导入/受控第 7 战跨组，及白色香草自降蛮力、对手冰冻之风、战间返还均有状态 JSON 和截图。`evidence/final-604232f/` 各目录含可复查文件。
+- 发现但未改：原始羽毛舞 `isPrimary:true,chance:0` 经真实 UI 出招后不产生攻击下降，也不触发白色香草。原始失败状态、截图、注入存档留在 `evidence/final-604232f/white-herb-opponent-natural-fail/`；`runtime.md` 将 AC-9 标为部分通过和产品阻断候选。受控将 `chance` 提到 100 可触发白色香草，对手原始冰冻之风也可触发，表明缺口在羽毛舞具体招式结算。
+- Verdict：**PARTIAL / BLOCKED for full task acceptance**。AC-1–8、10–13 的指定模拟浏览器关键路径通过；AC-9 原始羽毛舞失败。AC-14 引用独立 auditor 的静态门禁结论。实体手机、生产环境、自然完整七战、资源失败浏览器降级、同道具同队员多目标、异色字段及王者盾牌浏览器路径均未验证；详见 `runtime.md` 的 AC 表。未修改业务实现、PRD 或 plan，未提交。
+
+# Programmer
+
+## 最终实玩羽毛舞缺陷修复
+
+- `buildMoveBattleDataFromPokeApiMove` 将状态招式的主能力变化 `meta.stat_chance=0` 归一为必然生效；攻击招式与其余非零概率保留原值。`applyMoveSecondaryEffects` 对已序列化、仍携带 `chance:0` 的状态招式主能力变化作同义窄兜底，避免旧检查点中的羽毛舞持续失效。
+- 原始 PokeAPI 字段夹具覆盖羽毛舞、撒娇、叫声、剑舞及冰冻之风、精神强念；旧序列化羽毛舞覆盖玩家/敌方、随机值 0/0.99、保护/替身阻断、非主与非状态招式的零概率边界；精神强念 10% 阈值保持不变。控制器级测试验证原始和旧序列化羽毛舞均先降攻击，再由白色香草复原并单次消耗/记录。
+- `plan.md` §7.5 已如实说明另一项既有缺陷：状态招式当前绕过命中率判定。本轮未扩大招式命中与平衡修改，也不声称“羽毛舞未命中不降级”通过。
+
+## 修复后静态门禁
+
+- `npm run lint`：PASS。
+- `npm test`：PASS，293/293。
+- `npm run build`：PASS，仅既有大 chunk 提示。
+- `go test ./...`：PASS。
+- `git diff --check`：PASS，仅本机 LF/CRLF 提示。
+
+本修复尚未提交、未运行浏览器实玩；请原独立 auditor 复审此最小 diff，再由 Player 针对修复后代码重新取得羽毛舞真 UI 证据。旧 `604232f` 运行证据不能替代新代码验收。
+
+# Auditor
+
+- What I checked: 按 `plan.md` §7.5 复审羽毛舞修复的 `data/battle/index.ts` 与 `lib/battleResolution.ts`、相邻测试和白色香草控制器测试。原始 PokeAPI 构建器仅在 `damage_class=status` 且 `stat_changes` 生成的主 `stat-stage` 上，把 `stat_chance=0` 归一为 100；非零数值与攻击招式保持原值，显式招式 override 不经过此归一。旧序列化运行时兜底限定为 `status` + 分组首项 `stat-stage` + `isPrimary===true` + `chance===0`；项目构建器的同组多能力变化均为同一主效果，非主/攻击招式零概率仍被跳过。测试锁定羽毛舞、撒娇、叫声、剑舞、冰冻之风和精神强念 10% 阈值。旧羽毛舞测试用 `calculateDamage` 的保护/替身结果传入 `allowUserEffects/allowTargetEffects`，被阻断时不降级；控制器测试用真实 `applyMoveSecondaryEffects` 输出分别让玩家和敌方能力下降，随后经控制器共用香草函数归零、单次消耗并记录。王者盾牌路径未改，仍走前次审计确认的真实碰撞入口。
+- Fixed locally: none。未改实现、未启动游戏或 Playwright。
+- Static gate: `npm run lint` PASS；`npm test` PASS（293/293）；`npm run build` PASS（既有大 chunk 提示）；`go test ./...` PASS；`git diff --check` PASS（仅 LF/CRLF 提示）。
+- Found but not fixed (needs lead routing): 既有状态招式命中率分支在命中判定前返回，`plan.md` §7.5 已明确列为独立未验问题；本裁决不声称羽毛舞未命中会正确阻止降级。旧 `604232f` 的浏览器截图不能证明本次修改后的行为，Player 须按新代码重新取 AC-9 的真实 UI 证据。前次审计所列异色字段不可观测、实体手机和生产环境边界不变。
+- Verdict: **PASS（本次最小修复的独立静态审计）**。概率语义、保护/替身阻断和双方香草接线符合已批准的技术计划；运行验收仍由 Player 完成。

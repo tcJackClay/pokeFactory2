@@ -68,10 +68,13 @@ function buildMoveSecondaryEffects(data: any): MoveSecondaryEffect[] {
 
   const statChanges = Array.isArray(data?.stat_changes) ? data.stat_changes : [];
   const statChance = Number(data?.meta?.stat_chance ?? 100);
+  // PokeAPI reports 0 for guaranteed status-move stat changes (for example Feather Dance).
+  // Damaging moves keep their reported secondary-effect chance unchanged.
+  const resolvedStatChance = isStatusMove && statChance === 0 ? 100 : statChance;
   for (const statChange of statChanges) {
     secondaryEffects.push({
       kind: 'stat-stage',
-      chance: statChance,
+      chance: resolvedStatChance,
       group: 'stat-stage',
       appliesTo: defaultStatTarget,
       isPrimary: isStatusMove || defaultStatTarget === 'user',

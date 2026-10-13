@@ -738,7 +738,12 @@ export function applyMoveSecondaryEffects({
       && hasAbilityBattleEffect(actorPokemon?.abilities?.[0]?.ability?.name, 'SERENE_GRACE')
       ? 2
       : 1;
-    const effectChance = Math.min(100, (effectGroup[0]?.chance ?? 100) * sereneGraceMultiplier);
+    const firstEffect = effectGroup[0];
+    // Saved moves can predate the PokeAPI normalization: 0 is not a failed roll for
+    // a status move's guaranteed primary stat change (e.g. Feather Dance).
+    const primaryStatusStatChange = move.damage_class === 'status'
+      && firstEffect?.kind === 'stat-stage' && firstEffect.isPrimary === true && firstEffect.chance === 0;
+    const effectChance = Math.min(100, (primaryStatusStatChange ? 100 : firstEffect?.chance ?? 100) * sereneGraceMultiplier);
     if (effectChance <= 0 || random() * 100 >= effectChance) continue;
 
     for (const effect of effectGroup) {

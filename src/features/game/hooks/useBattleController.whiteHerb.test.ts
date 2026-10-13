@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import type { GamePokemon, Move, MoveBattleData, StatStages } from '../../../types';
 import { applyMoveSecondaryEffects } from '../lib/battleResolution';
+import { buildMoveBattleDataFromPokeApiMove } from '../data/battle';
 import { setVolatileStatus } from '../utils/battleStatus';
 import { resolveControllerProtectionCollision, resolveControllerWhiteHerb } from './useBattleController';
 
@@ -63,6 +64,36 @@ test('controller resolves opponent and self stat drops for either side exactly o
       const second = activate(first.pokemon);
       assert.equal(second.message, null, `${side}/${cause} logs once`);
       assert.equal(second.pokemon, first.pokemon);
+    }
+  }
+});
+
+test('raw and saved Feather Dance both lower either target before White Herb restores it once', () => {
+  const battleData = buildMoveBattleDataFromPokeApiMove({
+    name: 'feather-dance', priority: 0, target: { name: 'selected-pokemon' },
+    damage_class: { name: 'status' }, meta: { stat_chance: 0 },
+    stat_changes: [{ change: -2, stat: { name: 'attack' } }], flags: [{ name: 'protect' }],
+  });
+  for (const savedChance of [false, true]) {
+    const move = {
+      name: 'feather-dance', power: null, accuracy: 100, type: 'flying', damage_class: 'status',
+      battleData: savedChance
+        ? { ...battleData, secondaryEffects: battleData.secondaryEffects.map((effect) => ({ ...effect, chance: 0 })) }
+        : battleData,
+    } as Move;
+    for (const actingSide of ['player', 'enemy'] as const) {
+      const action = applyMoveSecondaryEffects({
+        move, actingSide,
+        teams: { playerTeam: [combatant('player')], enemyTeam: [combatant('enemy')] },
+        getLocalized: (pokemon) => pokemon.name, currentLanguage: 'zh-hans', random: () => 0.99,
+      });
+      const lowered = actingSide === 'player' ? action.enemyTeam[0] : action.playerTeam[0];
+      assert.equal(lowered.statStages.attack, -2, `${actingSide}/${savedChance} drops Attack`);
+      const first = activate(lowered);
+      assert.equal(first.pokemon.statStages.attack, 0);
+      assert.equal(first.pokemon.factoryHeldItemId, undefined);
+      assert.match(first.message ?? '', /白色香草/);
+      assert.equal(activate(first.pokemon).message, null);
     }
   }
 });

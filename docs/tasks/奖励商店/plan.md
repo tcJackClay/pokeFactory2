@@ -184,3 +184,28 @@ REWARD / CLAIMED ──「继续挑战」──→ nextFactoryStage() → 第 4/
 3. **检查点购买历史与连续进化**：现有 `hasValidFactoryRewardCheckpoint` 要求每条已购效果仍直接落在最终队伍上。若同一名队员先后进化两次、或买持有物后又换装，早期 purchase 记录在当前队伍上会“失效”，可能导致存档被拒。PRD F4 一次购买只进化一步，F1/F3 允许多次购买；需要校验**交易序列**或仅检查最后状态，保留历史幂等性，不可通过禁止合法购买规避。
 4. **目标身份与原子边界**：WIP 用 `targetIndex/fromSpeciesId/toSpeciesId` 防误兑，但跨店刷新/导入和异步取数期间队伍可能改变；提交前须重读检查点并核对队员稳定身份、货架及余额，网络请求不应扣券或改内存。成功落盘后若 React 同步失败，恢复必须以存档为准。
 5. **异色字段可观测性**：PRD F4.3 要求异色保留，当前 `GamePokemon` 未见显式异色状态，WIP 保留断言也没有对应项。实现前核查是否经其他字段记录；若不存在，AC-8 中这条只能标记不适用／未验证，由 orchestrator 记录产品数据缺口，不得以“其余字段保留”替代证明。
+
+### 7.5 最终实玩发现的羽毛舞缺陷：限定修复方案（已批准）
+
+**依据与现象。** PRD F6 要求能力等级真的降至 0 以下时白色香草才复原、消耗；AC-9 要在浏览器里看见一次完整触发。Player 对 `604232f` 的最终实玩中，原始羽毛舞使用后没有先发生攻击下降，因而香草不触发；冰冻之风和自身蛮力已能触发。根因在上游招式效果概率：`data/battle/index.ts:70–81` 把 PokeAPI `meta.stat_chance=0` 原样生成 `stat-stage {chance:0,isPrimary:true,change:-2}`；`lib/battleResolution.ts:739–742` 看到 `effectChance<=0` 就跳过整组。白色香草看到未下降的能力等级而不触发是正确的下游行为，不应改成无下降也消耗。
+
+**资料口径。** 本机游戏 Go 代理对 `/api/pokeapi/move/feather-dance` 返回 `damage_class=status`、`target=selected-pokemon`、`stat_changes=[attack:-2]`、`meta.stat_chance=0`、`effect_chance=null`；同类的 `charm`、`growl` 和自身 `swords-dance` 也返回 0，冰冻之风返回 100，精神强念返回 10。本地固定 Rogue expansion `src/data/battle_moves_revised.h` 的 `MOVE_FEATHER_DANCE` 同时声明 `.effect=EFFECT_ATTACK_DOWN_2`、`.split=SPLIT_STATUS`、`.secondaryEffectChance=0`，证明这里的 0 不是“主效果永远不发生”。[PokéAPI Move 文档](https://pokeapi.co/docs/v2#moves)把 `stat_changes` 与 `meta.stat_chance` 分列；后者描述为“攻击导致目标能力变化的概率”，对主效果为零的解释需结合上述真实数据与固定参考实现，不能对所有 `chance=0` 一概视作必然。
+
+**最小实现面。**
+
+1. 在 `buildMoveSecondaryEffects` 只对 **`damage_class=status` 且存在 `stat_changes` 的主能力变化**，把 `meta.stat_chance=0` 归一为 `chance=100`；保留 `isPrimary=true`、命中/保护及目标适用条件。`meta.stat_chance>0` 原值不动，攻击招式的次要效果与显式 override 不改。
+2. 在 `applyMoveSecondaryEffects` 的效果组概率门增加同一语义的窄幅兜底：仅当该效果是 `kind='stat-stage'`、`isPrimary===true`、`move.damage_class==='status'`、`chance===0` 时按 100 执行。这样已冻结在队员 `selectedMoves` 或检查点中的原始 `chance:0` 羽毛舞无需改档也可执行；`isPrimary=false` 或非状态招式的 0 仍为不触发。不得把所有 0 或所有 `isPrimary` 统一改为 100。
+3. 白色香草结算入口维持现状：能力真的下降后由控制器为受影响一侧复原、消耗与记录；无下降（被保护/替身阻断、已到下限等）仍不得消耗。
+
+**可执行验证计划。**
+
+| 断言 | 静态验证 | 最终浏览器取证 |
+| --- | --- | --- |
+| 原始羽毛舞主效果生效 | `data/battle/index.test.ts` 用真实字段夹具断言生成 `chance=100,isPrimary=true,attack:-2`；`lib/battleResolution.test.ts` 用 `chance=0,isPrimary=true,status` 的旧序列化招式断言目标攻击 -2，随机值 0/0.99 均生效 | Player 重跑原始羽毛舞命中白色香草持有者：日志先降攻击再复原，目标最终攻击等级 0、本战持有物消耗，下一战基准返还；记录代码 SHA 与 `result.json`/截图 |
+| 不扩大概率效果 | 同两处测试锁定精神强念 10%、冰冻之风 100%、非主效果或非状态招式 `chance=0` 仍不触发；保护/替身阻断不令羽毛舞效果或香草发生 | 原有冰冻之风、蛮力案例重跑或在最终回归中保留，证明自降与有概率降级未回退 |
+| 双方与幂等 | 控制器测试以羽毛舞真实效果输出分别作用玩家/敌方，白色香草各只消耗及记录一次；第二次检查不重复触发 | 手机模拟视口（390×844）真实 UI 操作；用受控存档时注明，不将受控抽取说成自然抽取 |
+| 门禁 | `npm run lint`、`npm test`、`npm run build`、`go test ./...`；auditor 静态复审该最小 diff | Player 只对修复后的最终代码重新取证，旧 `604232f` 截图不得复用为完成证据 |
+
+**独立既有缺陷。** `battle/engine/resolveDamage.ts` 的状态招式分支在命中率判定前返回，不能在本任务中宣称羽毛舞“未命中不降级”已被验证；状态招式命中率另案处理。本轮只验证保护/替身阻断和主效果概率语义，不借机扩大招式平衡修改。
+
+本节已获 orchestrator 批准，按任务流水线实施与复审；运行证据由 Player 在实现冻结后重取。

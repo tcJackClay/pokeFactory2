@@ -456,6 +456,29 @@ test('Rogue TM10 and TM43 convert the PokeAPI stat change to a guaranteed user d
   }
 });
 
+test('PokeAPI status primary stat_chance 0 is guaranteed while attack effect chances stay exact', () => {
+  const raw = (name: string, damageClass: string, target: string, chance: number, stat: string, change: number) => ({
+    name, priority: 0, target: { name: target }, damage_class: { name: damageClass },
+    meta: { stat_chance: chance }, stat_changes: [{ change, stat: { name: stat } }],
+    flags: [{ name: 'protect' }],
+  });
+  for (const [name, target, stat, change] of [
+    ['feather-dance', 'selected-pokemon', 'attack', -2],
+    ['charm', 'selected-pokemon', 'attack', -2],
+    ['growl', 'all-opponents', 'attack', -1],
+    ['swords-dance', 'user', 'attack', 2],
+  ] as const) {
+    const effects = buildMoveBattleDataFromPokeApiMove(raw(name, 'status', target, 0, stat, change)).secondaryEffects;
+    assert.equal(effects[0]?.kind, 'stat-stage');
+    assert.equal(effects[0]?.chance, 100, name);
+    assert.equal(effects[0]?.isPrimary, true, name);
+    assert.equal(effects[0]?.change, change, name);
+  }
+  assert.equal(buildMoveBattleDataFromPokeApiMove(raw('icy-wind', 'special', 'all-opponents', 100, 'speed', -1)).secondaryEffects[0]?.chance, 100);
+  assert.equal(buildMoveBattleDataFromPokeApiMove(raw('psychic', 'special', 'selected-pokemon', 10, 'special-defense', -1)).secondaryEffects[0]?.chance, 10);
+  assert.equal(buildMoveBattleDataFromPokeApiMove(raw('zero-damage-extra', 'special', 'selected-pokemon', 0, 'speed', -1)).secondaryEffects[0]?.chance, 0);
+});
+
 test('every held item in factory reference chunks has an explicit battle metadata entry', () => {
   const chunksDir = path.resolve(process.cwd(), 'src/features/game/config/factoryReferenceSets/chunks');
   const chunkFiles = readdirSync(chunksDir).filter((file) => file.endsWith('.ts'));
