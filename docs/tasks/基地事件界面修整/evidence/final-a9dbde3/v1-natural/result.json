@@ -1,0 +1,77 @@
+{
+  "name": "v1-natural",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": false,
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791914499483,
+      "url": "http://127.0.0.203:4306/api/data/factory-species-index"
+    },
+    {
+      "at": 1791914499513,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/50/"
+    },
+    {
+      "at": 1791914500302,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/25.png"
+    },
+    {
+      "at": 1791914500303,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/133.png"
+    },
+    {
+      "at": 1791914500304,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/175.png"
+    },
+    {
+      "at": 1791914500304,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/447.png"
+    },
+    {
+      "at": 1791914500304,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": 1791914500304,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/921.png"
+    },
+    {
+      "at": 1791914500617,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/50/"
+    },
+    {
+      "at": 1791914501232,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/8/"
+    },
+    {
+      "at": 1791914501311,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/71/"
+    },
+    {
+      "at": 1791914501802,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/159/"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "naturalCompanion": true
+  },
+  "steps": [
+    {
+      "label": "01-base",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    }
+  ]
+}

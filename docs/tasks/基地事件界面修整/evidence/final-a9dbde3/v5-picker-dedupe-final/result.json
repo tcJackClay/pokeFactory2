@@ -1,0 +1,292 @@
+{
+  "name": "v5-picker-dedupe-final",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": true,
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791914732561,
+      "url": "http://127.0.0.203:4306/api/data/factory-species-index"
+    },
+    {
+      "at": 1791914732609,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/43/"
+    },
+    {
+      "at": 1791914732646,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/43/"
+    },
+    {
+      "at": 1791914732660,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/34/"
+    },
+    {
+      "at": 1791914732673,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/50/"
+    },
+    {
+      "at": 1791914732685,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/endure/"
+    },
+    {
+      "at": 1791914732685,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/headbutt/"
+    },
+    {
+      "at": 1791914732685,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/stun-spore/"
+    },
+    {
+      "at": 1791914732685,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/snore/"
+    },
+    {
+      "at": 1791914733205,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/111/"
+    },
+    {
+      "at": 1791914733326,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/111/"
+    },
+    {
+      "at": 1791914733342,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/31/"
+    },
+    {
+      "at": 1791914733354,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/69/"
+    },
+    {
+      "at": 1791914733366,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/120/"
+    },
+    {
+      "at": 1791914733383,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": 1791914733412,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/sleep-talk/"
+    },
+    {
+      "at": 1791914733413,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/spite/"
+    },
+    {
+      "at": 1791914733413,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/blizzard/"
+    },
+    {
+      "at": 1791914733413,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/rest/"
+    },
+    {
+      "at": 1791914734034,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/948.png"
+    },
+    {
+      "at": 1791914734034,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": 1791914734066,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/25/"
+    },
+    {
+      "at": 1791914734066,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914734131,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/25/"
+    },
+    {
+      "at": 1791914734249,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/41/"
+    },
+    {
+      "at": 1791914734356,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/41/"
+    },
+    {
+      "at": 1791914734370,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/39/"
+    },
+    {
+      "at": 1791914734381,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/151/"
+    },
+    {
+      "at": 1791914734393,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/air-slash/"
+    },
+    {
+      "at": 1791914734393,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/aerial-ace/"
+    },
+    {
+      "at": 1791914734393,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/haze/"
+    },
+    {
+      "at": 1791914734393,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/u-turn/"
+    },
+    {
+      "at": 1791914734447,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/744/"
+    },
+    {
+      "at": 1791914734481,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/744/"
+    },
+    {
+      "at": 1791914734514,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/744.png"
+    },
+    {
+      "at": 1791914734914,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/83/"
+    },
+    {
+      "at": 1791914735075,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/83/"
+    },
+    {
+      "at": 1791914735110,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/51/"
+    },
+    {
+      "at": 1791914735124,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/128/"
+    },
+    {
+      "at": 1791914735173,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/twister/"
+    },
+    {
+      "at": 1791914735176,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/revenge/"
+    },
+    {
+      "at": 1791914735178,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/final-gambit/"
+    },
+    {
+      "at": 1791914735178,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/frustration/"
+    },
+    {
+      "at": 1791914735210,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    },
+    {
+      "at": 1791914735693,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/4/"
+    },
+    {
+      "at": 1791914735914,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/4/"
+    },
+    {
+      "at": 1791914735930,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/66/"
+    },
+    {
+      "at": 1791914735944,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/94/"
+    },
+    {
+      "at": 1791914735959,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/cut/"
+    },
+    {
+      "at": 1791914735960,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/beat-up/"
+    },
+    {
+      "at": 1791914735960,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/fire-spin/"
+    },
+    {
+      "at": 1791914735960,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/take-down/"
+    },
+    {
+      "at": 1791914736513,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/100/"
+    },
+    {
+      "at": 1791914736671,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/100/"
+    },
+    {
+      "at": 1791914736686,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/43/"
+    },
+    {
+      "at": 1791914736700,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/9/"
+    },
+    {
+      "at": 1791914736715,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/106/"
+    },
+    {
+      "at": 1791914736728,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/magnet-rise/"
+    },
+    {
+      "at": 1791914736729,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/thunder-shock/"
+    },
+    {
+      "at": 1791914736729,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/rage/"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "dedupe": true,
+    "searchEmpty": true,
+    "normalRouteAutoSuccess": true,
+    "noCompatible": true
+  },
+  "steps": [
+    {
+      "label": "01-search-empty",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "02-normal-route-auto-visible",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "03-no-compatible",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    }
+  ]
+}

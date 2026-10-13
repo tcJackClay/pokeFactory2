@@ -1,0 +1,132 @@
+{
+  "name": "v7-independent-events-route-final",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": "READY+balls; .99 event battle then .001 catch. No DEV Win.",
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791914881756,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": 1791914882435,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/948.png"
+    },
+    {
+      "at": 1791914882435,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": 1791914882460,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914882498,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    },
+    {
+      "at": 1791914882830,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914882843,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    },
+    {
+      "at": 1791914882853,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/298/"
+    },
+    {
+      "at": 1791914882861,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/1/"
+    },
+    {
+      "at": 1791914882873,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/150/"
+    },
+    {
+      "at": 1791914883353,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/150/"
+    },
+    {
+      "at": 1791914883806,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/46/"
+    },
+    {
+      "at": 1791914884277,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/127/"
+    },
+    {
+      "at": 1791914884381,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/mega-punch/"
+    },
+    {
+      "at": 1791914884397,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/pay-day/"
+    },
+    {
+      "at": 1791914884908,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/fire-punch/"
+    },
+    {
+      "at": 1791914885373,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/ice-punch/"
+    },
+    {
+      "at": 1791914885852,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/back/948.png"
+    },
+    {
+      "at": 1791914885852,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/150.png"
+    },
+    {
+      "at": 1791914892772,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/150/"
+    },
+    {
+      "at": 1791914892772,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/744/"
+    },
+    {
+      "at": 1791914892842,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/150/"
+    },
+    {
+      "at": 1791914892854,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/744/"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "eventBattleActualCapture": true,
+    "independentRouteAuto": true
+  },
+  "steps": [
+    {
+      "label": "01-catch-settlement",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "EVENTS",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "02-independent-auto",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "EVENTS",
+      "currentBaseTab": "EVENTS"
+    }
+  ]
+}

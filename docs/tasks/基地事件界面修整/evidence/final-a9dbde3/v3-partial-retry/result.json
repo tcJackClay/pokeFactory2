@@ -1,0 +1,133 @@
+{
+  "name": "v3-partial-retry",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": true,
+  "errors": [
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "console",
+      "message": "Failed to fetch dex snapshot for #948 PokeApiHttpError: Failed to fetch /api/pokeapi/pokemon/948/: HTTP 404\n    at http://127.0.0.203:4306/src/services/pokeApiEndpoint.ts:153:13\n    at async withRequestTimeout (http://127.0.0.203:4306/src/services/requestTimeout.ts:17:12)\n    at async fetchPokeApiJsonWithRetry (http://127.0.0.203:4306/src/services/pokeApiEndpoint.ts:171:14)\n    at async fetchPokeApiJson (http://127.0.0.203:4306/src/services/pokeApiEndpoint.ts:191:12)\n    at async fetchDexSnapshotById (http://127.0.0.203:4306/src/services/pokedexClient.ts:265:21)\n    at async Promise.all (index 1)\n    at async fetchDexSnapshots (http://127.0.0.203:4306/src/services/pokedexClient.ts:305:21)"
+    }
+  ],
+  "requests": [
+    {
+      "at": 1791914360388,
+      "url": "http://127.0.0.203:4306/api/data/factory-species-index"
+    },
+    {
+      "at": 1791914360420,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/7/"
+    },
+    {
+      "at": 1791914361093,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/7/"
+    },
+    {
+      "at": 1791914361214,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": 1791914361554,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/67/"
+    },
+    {
+      "at": 1791914361869,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/948.png"
+    },
+    {
+      "at": 1791914361869,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": 1791914361901,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/25/"
+    },
+    {
+      "at": 1791914361901,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914361969,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/25/"
+    },
+    {
+      "at": 1791914362107,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/44/"
+    },
+    {
+      "at": 1791914362641,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/withdraw/"
+    },
+    {
+      "at": 1791914362641,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/dig/"
+    },
+    {
+      "at": 1791914362641,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/confusion/"
+    },
+    {
+      "at": 1791914362641,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/mega-kick/"
+    },
+    {
+      "at": 1791914363177,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/102/"
+    },
+    {
+      "at": 1791914363928,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/102/"
+    },
+    {
+      "at": 1791914364045,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914364054,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    }
+  ],
+  "http": [
+    {
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/",
+      "status": 404
+    }
+  ],
+  "checks": {
+    "oneFailure": true,
+    "noStorm": true,
+    "selectionPreserved": true,
+    "explicitRetry": true
+  },
+  "steps": [
+    {
+      "label": "01-one-error",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "02-retry-ready",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    }
+  ],
+  "expectedFault": "First pokemon/948 HTTP404; 1500ms measured no-auto-retry window only."
+}

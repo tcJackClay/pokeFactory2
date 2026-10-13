@@ -1,0 +1,134 @@
+{
+  "name": "v7-join-1-ball-final-v2",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": "READY + one Master Ball + .7 then .001 RNG; true DOM double-click burst",
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791914966120,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": 1791914966800,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/948.png"
+    },
+    {
+      "at": 1791914966800,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": 1791914966835,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914966875,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    },
+    {
+      "at": 1791914968273,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914968281,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    },
+    {
+      "at": 1791914968287,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/298/"
+    },
+    {
+      "at": 1791914968293,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/1/"
+    },
+    {
+      "at": 1791914968311,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/1/"
+    },
+    {
+      "at": 1791914968354,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/1/"
+    },
+    {
+      "at": 1791914968360,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/65/"
+    },
+    {
+      "at": 1791914968371,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/34/"
+    },
+    {
+      "at": 1791914968384,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/razor-wind/"
+    },
+    {
+      "at": 1791914968395,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/swords-dance/"
+    },
+    {
+      "at": 1791914968411,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/cut/"
+    },
+    {
+      "at": 1791914968423,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/bind/"
+    },
+    {
+      "at": 1791914968481,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/1.png"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "oneReceipt": true,
+    "oneBall": true,
+    "oneMember": true,
+    "resultCloseBothSizes": true
+  },
+  "steps": [
+    {
+      "label": "01-result-320",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "02-result-844",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "02b-result-844-scrolled",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "03-closed-original-result",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    }
+  ]
+}

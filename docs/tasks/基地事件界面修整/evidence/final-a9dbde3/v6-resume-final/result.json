@@ -1,0 +1,195 @@
+{
+  "name": "v6-resume-final",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": "Natural first-battle team transplanted to valid stage7 BASE/WIN checkpoint; no seven-win claim.",
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791914838442,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": 1791914839652,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/948.png"
+    },
+    {
+      "at": 1791914839652,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": 1791914839676,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914839700,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    },
+    {
+      "at": 1791914842124,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": 1791914845340,
+      "url": "http://127.0.0.203:4306/api/data/factory-species-index"
+    },
+    {
+      "at": 1791914845352,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/squawkabilly-yellow-plumage/"
+    },
+    {
+      "at": 1791914845617,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/back/953.png"
+    },
+    {
+      "at": 1791914845737,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/931/"
+    },
+    {
+      "at": 1791914846180,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/22/"
+    },
+    {
+      "at": 1791914846276,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/55/"
+    },
+    {
+      "at": 1791914846287,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/125/"
+    },
+    {
+      "at": 1791914846299,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/fly/"
+    },
+    {
+      "at": 1791914846299,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/feather-dance/"
+    },
+    {
+      "at": 1791914846299,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/hyper-voice/"
+    },
+    {
+      "at": 1791914846299,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/thief/"
+    },
+    {
+      "at": 1791914846826,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/958/"
+    },
+    {
+      "at": 1791914847407,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/958/"
+    },
+    {
+      "at": 1791914847898,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/104/"
+    },
+    {
+      "at": 1791914848346,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/20/"
+    },
+    {
+      "at": 1791914848431,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/124/"
+    },
+    {
+      "at": 1791914848941,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/thunder-wave/"
+    },
+    {
+      "at": 1791914848941,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/metal-sound/"
+    },
+    {
+      "at": 1791914848941,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/brutal-swing/"
+    },
+    {
+      "at": 1791914848941,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/substitute/"
+    },
+    {
+      "at": 1791914849450,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/933/"
+    },
+    {
+      "at": 1791914849907,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/933/"
+    },
+    {
+      "at": 1791914850360,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/272/"
+    },
+    {
+      "at": 1791914850922,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/5/"
+    },
+    {
+      "at": 1791914851033,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/29/"
+    },
+    {
+      "at": 1791914851440,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/stomping-tantrum/"
+    },
+    {
+      "at": 1791914851440,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/earth-power/"
+    },
+    {
+      "at": 1791914851441,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/rock-throw/"
+    },
+    {
+      "at": 1791914851441,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/headbutt/"
+    },
+    {
+      "at": 1791914853462,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/10261.png"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "disabled": true,
+    "cancelPreserves": true,
+    "resumesNextSet": true
+  },
+  "steps": [
+    {
+      "label": "01-disabled-summary",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "02-end-confirm",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "03-resumed-eight",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BATTLE",
+      "currentBaseTab": "HOME"
+    }
+  ]
+}

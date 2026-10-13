@@ -1,0 +1,255 @@
+{
+  "name": "v5-all-details-failed-final",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": true,
+  "errors": [
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "console",
+      "message": "Failed to fetch dex snapshot for #948 PokeApiHttpError: Failed to fetch /api/pokeapi/pokemon/948/: HTTP 404\n    at http://127.0.0.203:4306/src/services/pokeApiEndpoint.ts:153:13\n    at async withRequestTimeout (http://127.0.0.203:4306/src/services/requestTimeout.ts:17:12)\n    at async fetchPokeApiJsonWithRetry (http://127.0.0.203:4306/src/services/pokeApiEndpoint.ts:171:14)\n    at async fetchPokeApiJson (http://127.0.0.203:4306/src/services/pokeApiEndpoint.ts:191:12)\n    at async fetchDexSnapshotById (http://127.0.0.203:4306/src/services/pokedexClient.ts:265:21)\n    at async Promise.all (index 0)\n    at async fetchDexSnapshots (http://127.0.0.203:4306/src/services/pokedexClient.ts:305:21)\n    at async Promise.all (index 0)\n    at async Object.request (http://127.0.0.203:4306/src/features/game/utils/eventDisplaySnapshots.ts:48:5)"
+    },
+    {
+      "type": "console",
+      "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "console",
+      "message": "Failed to fetch dex snapshot for #744 PokeApiHttpError: Failed to fetch /api/pokeapi/pokemon/744/: HTTP 404\n    at http://127.0.0.203:4306/src/services/pokeApiEndpoint.ts:153:13\n    at async withRequestTimeout (http://127.0.0.203:4306/src/services/requestTimeout.ts:17:12)\n    at async fetchPokeApiJsonWithRetry (http://127.0.0.203:4306/src/services/pokeApiEndpoint.ts:171:14)\n    at async fetchPokeApiJson (http://127.0.0.203:4306/src/services/pokeApiEndpoint.ts:191:12)\n    at async fetchDexSnapshotById (http://127.0.0.203:4306/src/services/pokedexClient.ts:265:21)\n    at async Promise.all (index 0)\n    at async fetchDexSnapshots (http://127.0.0.203:4306/src/services/pokedexClient.ts:305:21)\n    at async Promise.all (index 0)\n    at async Object.request (http://127.0.0.203:4306/src/features/game/utils/eventDisplaySnapshots.ts:48:5)"
+    }
+  ],
+  "requests": [
+    {
+      "at": 1791914757494,
+      "url": "http://127.0.0.203:4306/api/data/factory-species-index"
+    },
+    {
+      "at": 1791914757543,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/58/"
+    },
+    {
+      "at": 1791914757599,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/58/"
+    },
+    {
+      "at": 1791914757614,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/22/"
+    },
+    {
+      "at": 1791914757626,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/18/"
+    },
+    {
+      "at": 1791914757638,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/154/"
+    },
+    {
+      "at": 1791914757649,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/snarl/"
+    },
+    {
+      "at": 1791914757650,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/double-kick/"
+    },
+    {
+      "at": 1791914757650,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/headbutt/"
+    },
+    {
+      "at": 1791914757650,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/secret-power/"
+    },
+    {
+      "at": 1791914758065,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/120/"
+    },
+    {
+      "at": 1791914758200,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/120/"
+    },
+    {
+      "at": 1791914758214,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/35/"
+    },
+    {
+      "at": 1791914758227,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/30/"
+    },
+    {
+      "at": 1791914758239,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/148/"
+    },
+    {
+      "at": 1791914758251,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/double-edge/"
+    },
+    {
+      "at": 1791914758252,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/take-down/"
+    },
+    {
+      "at": 1791914758252,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/harden/"
+    },
+    {
+      "at": 1791914758252,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/signal-beam/"
+    },
+    {
+      "at": 1791914758327,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": 1791914758678,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/32/"
+    },
+    {
+      "at": 1791914758950,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/948.png"
+    },
+    {
+      "at": 1791914758950,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": 1791914758979,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914759172,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/32/"
+    },
+    {
+      "at": 1791914759399,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/744/"
+    },
+    {
+      "at": 1791914759598,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/38/"
+    },
+    {
+      "at": 1791914759685,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/79/"
+    },
+    {
+      "at": 1791914759696,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/55/"
+    },
+    {
+      "at": 1791914759707,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/venom-drench/"
+    },
+    {
+      "at": 1791914759708,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/iron-tail/"
+    },
+    {
+      "at": 1791914759708,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/super-fang/"
+    },
+    {
+      "at": 1791914759708,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/poison-sting/"
+    },
+    {
+      "at": 1791914760180,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/744/"
+    },
+    {
+      "at": 1791914760180,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914760211,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/109/"
+    },
+    {
+      "at": 1791914760325,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/744/"
+    },
+    {
+      "at": 1791914760333,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    },
+    {
+      "at": 1791914760375,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/109/"
+    },
+    {
+      "at": 1791914760406,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/744.png"
+    },
+    {
+      "at": 1791914760423,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/26/"
+    },
+    {
+      "at": 1791914760434,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/256/"
+    },
+    {
+      "at": 1791914760442,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/1/"
+    },
+    {
+      "at": 1791914760453,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/spit-up/"
+    },
+    {
+      "at": 1791914760453,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/memento/"
+    },
+    {
+      "at": 1791914760453,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/scary-face/"
+    },
+    {
+      "at": 1791914760453,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/rollout/"
+    }
+  ],
+  "http": [
+    {
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/",
+      "status": 404
+    },
+    {
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/744/",
+      "status": 404
+    }
+  ],
+  "checks": {
+    "failureNotEmpty": true,
+    "pickerRetry": true
+  },
+  "steps": [
+    {
+      "label": "01-failure-not-empty-owned",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "02-picker-retry",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    }
+  ],
+  "expectedFault": "pokemon data requests HTTP404 until explicit retry"
+}

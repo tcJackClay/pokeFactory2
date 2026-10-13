@@ -1,0 +1,57 @@
+{
+  "recordedAt": "2026-10-14T02:13:41.566985",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "srcTree": "717d26b87db1565e14b045642f61b9371efaca7a",
+  "backendTree": "653145c29e68ff1c69697d95efd3f4214915af46",
+  "businessDiff": [],
+  "browser": "151.0.7922.34",
+  "origin": "http://127.0.0.203:4306",
+  "worktree": "D:\\Games\\pokeFactory2-worktrees\\base-event-ui",
+  "go": {
+    "port": 3007,
+    "session": 38278,
+    "cwd": "D:\\Games\\pokeFactory2-worktrees\\base-event-ui",
+    "health": {
+      "runtime": "go",
+      "status": "ok"
+    }
+  },
+  "vite": {
+    "port": 4306,
+    "session": 43860,
+    "host": "0.0.0.0",
+    "GO_BACKEND_URL": "http://127.0.0.1:3007",
+    "DISABLE_HMR": "true"
+  },
+  "viewports": [
+    [
+      320,
+      568
+    ],
+    [
+      390,
+      844
+    ],
+    [
+      844,
+      390
+    ]
+  ],
+  "isMobile": true,
+  "hasTouch": true,
+  "deviceScaleFactor": 2,
+  "physicalPhone": false,
+  "production": false,
+  "devWin": false,
+  "data": {
+    "storage/data/factorySpeciesIndex.json": {
+      "bytes": 103088,
+      "sha256": "050cd9359609752a4ba53da5b54ac03a8967f93dfb0bb9a57056258a622c1dcd"
+    },
+    "storage/assets/pokemon-sprites/report.json": {
+      "bytes": 535060,
+      "sha256": "ca575d0727111d11cb0fd9eac4afdcf7f72050cb48310409b03d69b8295c3c03"
+    }
+  },
+  "sourceFreeze": "Only task evidence/replay/docs written during runtime; src/backend diff empty at start/end."
+}

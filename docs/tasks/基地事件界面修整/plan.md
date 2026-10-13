@@ -66,6 +66,7 @@ architect 拥有；2026-10-14。调研基线 `26a8e933a9357fe2f8aaa6055fa48a140c
 
 - 显示始终用 render 中当前 selected ID 取 record，A 的迟到响应不会把 B 的摘要换回 A。改变语言只重新格式化现有 snapshot，不清选择、不重新发奖。
 - 推荐开启时捕获当前 Owned 签名、全部选择签名、region、操作序号；完成后检查 mounted、最新 hasFactoryRunToResume=false、签名一致、操作序号仍当前，才调用原 setEventDispatchPokemon。手动选、清除、再次推荐、退出页面均使旧操作失效。推荐抽样范围与原随机算法保持，不改资格。
+- A1 复核补充：真实事件页面包括 `gameState='EVENTS'` 和 `gameState='BASE' && currentBaseTab='EVENTS'` 两条路由。最新上下文、签名与失效 effect 必须包含 currentBaseTab；不能拒绝正常 BASE 事件入口，也不能放开其他 BASE 页签。每次推荐状态带操作 token，失效回调只清自身 loading，不能清较新推荐状态。静态测试直接执行生产推荐/取消 callback，以实际路由字段覆盖两入口成功及换 tab 后迟到失效。
 - 部分 Owned 获取失败时推荐不从残缺候选池悄悄抽样：显示加载失败可重试，已有选择保持；全部加载成功但无匹配才显示“没有符合地区属性的已拥有宝可梦”。这是显示完整性约束，不新增资格。
 - picker 可先展示已加载候选，同时标注剩余加载/失败数量和重试；“没有宝可梦”只在 Owned 真空，“无搜索结果”在有数据但筛选为空。失败状态不能伪装空收藏。
 - resume 时关闭 picker、取消未完成推荐；选择/清除/推荐/派遣领取/开发预览仍 disabled，摘要与只读重试允许。最终动作仍由原 controller 的 ref guard 阻止；不改互斥门闩/存档/支付顺序。
