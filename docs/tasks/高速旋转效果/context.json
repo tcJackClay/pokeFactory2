@@ -1,0 +1,45 @@
+{
+  "status": "plan-only-blocked-by-held-item-effects",
+  "researchBase": "82a98efecd263f1f788d7425456b086e64cc7a4c",
+  "fixedReference": "a6adfcf18d7eaf99c2803e4b0bc04eca7af2f014",
+  "blockedBy": ["永久收藏合入 dev", "九种持有物效果合入 dev"],
+  "inject_config": {
+    "all": [
+      { "file": "AGENTS.md", "reason": "角色所有权与证据纪律" },
+      { "file": "docs/tasks/高速旋转效果/prd.md", "reason": "F1-F5和Edge产品契约" },
+      { "file": "docs/tasks/高速旋转效果/design.md", "reason": "固定参考规则与范围" },
+      { "file": "docs/tasks/高速旋转效果/plan.md", "reason": "技术状态契约与验证计划" },
+      { "file": "docs/tasks/九种持有物效果/plan.md", "reason": "实施前读取已合入版本，元数据/独立畏缩/白草接线依赖" },
+      { "file": "docs/tasks/自然长局基线/runtime.md", "reason": "原自然缺陷与证据边界" }
+    ],
+    "programmer": [
+      { "file": ".agents/roles/programmer.md", "reason": "Route A 实施职责" },
+      { "file": "src/features/game/data/battle/index.ts", "reason": "真实PokeAPI builder与次效果受益者" },
+      { "file": "src/features/game/data/battle/moveEffectTable.ts", "reason": "专用effect及现有override优先级" },
+      { "file": "src/features/game/hooks/useBattleController.ts", "reason": "合入后重读命中/替身/倒下/事务当前状态，不套旧行号" },
+      { "file": "src/features/game/lib/battleResolution.ts", "reason": "普通次效果、概率、强行及当前阶段变换" },
+      { "file": "src/features/game/battle/engine/resolveDamage.ts", "reason": "真实失败及替身命中资格" },
+      { "file": "src/features/game/battle/engine/resolveEndTurn.ts", "reason": "寄生束缚与无关状态的轮末对照" },
+      { "file": "src/features/game/battle/engine/resolveEntryHazards.ts", "reason": "本侧清场后真实入场结果" },
+      { "file": "src/features/game/utils/battleStatus.ts", "reason": "整项清除来源字段" },
+      { "file": "src/services/pokeApi.ts", "reason": "两个生产Move正文入口" },
+      { "file": "output/rogue-expansion-reference/data/battle_scripts_1.s", "reason": "固定源Rapid Spin伤后/倒下/moveend顺序" },
+      { "file": "output/rogue-expansion-reference/src/battle_script_commands.c", "reason": "rapidspinfree与Simple/Contrary变化规则" },
+      { "file": "output/rogue-expansion-reference/src/data/battle_moves.h", "reason": "固定普通正文与代表次效果标志" }
+    ],
+    "auditor": [
+      { "file": ".agents/roles/auditor.md", "reason": "独立静态审计，不运行游戏" },
+      { "file": "docs/公开版需求矩阵.md", "reason": "不能将局部修复宣称发布通过" },
+      { "file": "src/features/game/hooks/factoryResumeCheckpoint.ts", "reason": "完整轮保存与刷新状态契约" },
+      { "file": "src/features/game/utils/restoreFactoryParty.ts", "reason": "结算自动恢复不能替代瞬时状态证据" }
+    ],
+    "player": [
+      { "file": ".agents/roles/player.md", "reason": "真实UI验收，不写实现" },
+      { "file": "docs/tasks/自然长局基线/evidence/attempt-2/rapid-spin-target-observation.json", "reason": "原始目标错误与真实生产输入" },
+      { "file": "docs/tasks/自然长局基线/evidence/attempt-2/rapid-spin-go-raw.json", "reason": "经生产builder重建，不手补新字段" },
+      { "file": "docs/tasks/状态招式命中/run-status-browser.mjs", "reason": "隔离Go/Vite、真实UI与完整checkpoint工具范式" },
+      { "file": "docs/tasks/自然长局基线/run-natural.mjs", "reason": "自然短链与强制换人UI观察，不误等半轮持久化" },
+      { "file": "src/features/game/components/game-view/battle/BattleStatusPanel.tsx", "reason": "只读定位可见状态及真实props；不dispatch或修改状态" }
+    ]
+  }
+}

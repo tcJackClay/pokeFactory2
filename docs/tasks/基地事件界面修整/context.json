@@ -1,0 +1,64 @@
+{
+  "task": "基地事件界面修整",
+  "baseline": "26a8e933a9357fe2f8aaa6055fa48a140c4cc5db",
+  "status": "plan-awaiting-review",
+  "branch": "codex/base-event-ui",
+  "ownership": {
+    "write": [
+      "src/features/game/components/game-view/StartScreen.tsx",
+      "src/features/game/components/game-view/EventsScreen.tsx",
+      "src/features/game/components/game-view/baseEventUi.css",
+      "src/features/game/components/game-view/baseEventCopy.ts",
+      "src/features/game/hooks/useEventDisplaySnapshots.ts",
+      "src/features/game/utils/eventDisplaySnapshots.ts",
+      "src/features/game/utils/eventDisplaySnapshots.test.ts"
+    ],
+    "forbidden": [
+      "src/features/game/hooks/usePokeFactoryGame.ts",
+      "src/features/game/hooks/useBattleController.ts",
+      "src/services/saveManager.ts",
+      "src/services/pokedexClient.ts",
+      "src/features/game/config/events.ts",
+      "src/features/game/config/companionCandidates.ts",
+      "src/types.ts",
+      "src/uiStrings.ts",
+      "src/index.css",
+      "src/features/game/view-model"
+    ]
+  },
+  "inject_config": {
+    "all": [
+      { "file": "AGENTS.md", "reason": "角色所有权、独立审计与证据纪律" },
+      { "file": "docs/tasks/基地事件界面修整/prd.md", "reason": "F1-F3/E1-E3产品边界" },
+      { "file": "docs/tasks/基地事件界面修整/plan.md", "reason": "异步五态、文案范围与V1-V8验证计划" },
+      { "file": "docs/公开版规则定稿.md", "reason": "保留永久来源及地区派遣既有规则" },
+      { "file": "docs/tasks/永久收藏口径/runtime.md", "reason": "最终244738d通过边界与本片真实缺陷来源" }
+    ],
+    "programmer": [
+      { "file": ".agents/roles/programmer.md", "reason": "实现阶段职责与静态门禁" },
+      { "file": "src/features/game/components/game-view/StartScreen.tsx", "reason": "实际hero绝对定位与四入口/续局行为" },
+      { "file": "src/features/game/components/game-view/EventsScreen.tsx", "reason": "当前picker专用fetch、摘要误判与自有文案" },
+      { "file": "src/index.css", "reason": "只读核对低高度!important与横屏旧选择器" },
+      { "file": "src/services/pokedexClient.ts", "reason": "只读fetchDexSnapshots部分成功/缓存语义" },
+      { "file": "src/features/game/hooks/useGameLocalization.ts", "reason": "现有物种多语言fallback" },
+      { "file": "src/features/game/hooks/usePokeFactoryGame.ts", "reason": "只读派遣真实校验/交易/原文结果；禁止改" },
+      { "file": "src/features/game/config/events.ts", "reason": "只读地区ID/资格/时间；禁止改" },
+      { "file": "src/features/game/config/companionCandidates.ts", "reason": "只读六只伙伴既有名称" },
+      { "file": "src/features/game/components/game-view/CollectionScreen.tsx", "reason": "既有中英地区名称对应来源，不编辑" },
+      { "file": "src/features/game/components/game-view/SettingsScreen.tsx", "reason": "已有开发开关与英文地区对应，不编辑" }
+    ],
+    "auditor": [
+      { "file": ".agents/roles/auditor.md", "reason": "不运行游戏，独立检查与四门禁" },
+      { "file": "docs/tasks/永久收藏口径/prd.md", "reason": "收藏/续局交易不回退" },
+      { "file": "src/features/game/utils/eventDisplaySnapshots.test.ts", "reason": "需实现后检查真实竞态覆盖，非实现镜像" },
+      { "file": "src/features/game/view-model/common.ts", "reason": "动态popup无结构化ID/语言元数据，禁止猜译" }
+    ],
+    "player": [
+      { "file": ".agents/roles/player.md", "reason": "真实服务实玩，不写业务代码" },
+      { "file": "docs/tasks/永久收藏口径/runtime-harness.mjs", "reason": "冻结Go/Vite及只读view-model证据范式，不沿用旧结果" },
+      { "file": "docs/tasks/永久收藏口径/fixtures.mjs", "reason": "当前schema合法档构造范式，核对最终版本后复用" },
+      { "file": "docs/tasks/永久收藏口径/run-observations.mjs", "reason": "原事件摘要缺陷实际UI复现" },
+      { "file": "docs/tasks/永久收藏口径/evidence/final-244738d/r8-entry-return-matrix/en-base-320.png", "reason": "原缺陷图片，仅对照不作本次通过证据" }
+    ]
+  }
+}

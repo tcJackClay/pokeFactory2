@@ -1,0 +1,137 @@
+{
+  "name": "v4-selected-a-to-b",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": true,
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791914659010,
+      "url": "http://127.0.0.203:4306/api/data/factory-species-index"
+    },
+    {
+      "at": 1791914659047,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/92/"
+    },
+    {
+      "at": 1791914659095,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/92/"
+    },
+    {
+      "at": 1791914659113,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/26/"
+    },
+    {
+      "at": 1791914659127,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/rage/"
+    },
+    {
+      "at": 1791914659127,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/thief/"
+    },
+    {
+      "at": 1791914659128,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/taunt/"
+    },
+    {
+      "at": 1791914659128,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/toxic/"
+    },
+    {
+      "at": 1791914659564,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/111/"
+    },
+    {
+      "at": 1791914659814,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": 1791914660142,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/111/"
+    },
+    {
+      "at": 1791914660468,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/948.png"
+    },
+    {
+      "at": 1791914660468,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": 1791914660500,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914660551,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/31/"
+    },
+    {
+      "at": 1791914660656,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/69/"
+    },
+    {
+      "at": 1791914660669,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/120/"
+    },
+    {
+      "at": 1791914660852,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/25/"
+    },
+    {
+      "at": 1791914660852,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/744/"
+    },
+    {
+      "at": 1791914660892,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/744/"
+    },
+    {
+      "at": 1791914660936,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/25/"
+    },
+    {
+      "at": 1791914660980,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/744.png"
+    },
+    {
+      "at": 1791914661193,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    },
+    {
+      "at": 1791914661903,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/tackle/"
+    },
+    {
+      "at": 1791914661904,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/stomping-tantrum/"
+    },
+    {
+      "at": 1791914661904,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/ancient-power/"
+    },
+    {
+      "at": 1791914661904,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/payback/"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "currentSelectionB": true
+  },
+  "steps": [
+    {
+      "label": "01-late-a-keeps-b",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    }
+  ]
+}

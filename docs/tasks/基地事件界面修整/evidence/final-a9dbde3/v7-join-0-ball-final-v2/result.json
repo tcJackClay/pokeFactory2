@@ -1,0 +1,99 @@
+{
+  "name": "v7-join-0-ball-final-v2",
+  "sha": "a9dbde359a6e5cef3b5b87820763b1b2290fc5c4",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": "READY + zero balls + .7 then .001 RNG",
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791914934788,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": 1791914935494,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/948.png"
+    },
+    {
+      "at": 1791914935494,
+      "url": "http://127.0.0.203:4306/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": 1791914935522,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914935563,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    },
+    {
+      "at": 1791914936925,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/948/"
+    },
+    {
+      "at": 1791914936933,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/948/"
+    },
+    {
+      "at": 1791914936939,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/298/"
+    },
+    {
+      "at": 1791914936946,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/1/"
+    },
+    {
+      "at": 1791914936960,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon/1/"
+    },
+    {
+      "at": 1791914937000,
+      "url": "http://127.0.0.203:4306/api/pokeapi/pokemon-species/1/"
+    },
+    {
+      "at": 1791914937007,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/65/"
+    },
+    {
+      "at": 1791914937018,
+      "url": "http://127.0.0.203:4306/api/pokeapi/ability/34/"
+    },
+    {
+      "at": 1791914937032,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/razor-wind/"
+    },
+    {
+      "at": 1791914937048,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/swords-dance/"
+    },
+    {
+      "at": 1791914937062,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/cut/"
+    },
+    {
+      "at": 1791914937077,
+      "url": "http://127.0.0.203:4306/api/pokeapi/move/bind/"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "noBallOriginalMessage": true,
+    "noReceipt": true,
+    "existingIdledOutcome": true
+  },
+  "steps": [
+    {
+      "label": "01-no-ball",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    }
+  ]
+}
