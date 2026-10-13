@@ -1,0 +1,5694 @@
+{
+  "n": 1,
+  "commit": "2022d20d045404b757b99c908d0d7c22c3655bda",
+  "browser": "151.0.7922.34",
+  "origin": "http://127.0.0.181:4301",
+  "timing": {
+    "partnerReady": 1256,
+    "baseReady": 1972,
+    "challengeClick": 3195,
+    "sixCards": 15004,
+    "movesReady": 24460
+  },
+  "steps": [
+    {
+      "name": "sixCards",
+      "ms": 15004,
+      "state": {
+        "schema": 14,
+        "generation": [
+          9
+        ],
+        "companion": 744,
+        "status": "EMPTY",
+        "wallet": 0
+      },
+      "layout": {
+        "viewport": [
+          390,
+          844
+        ],
+        "document": [
+          390,
+          844
+        ],
+        "buttons": [],
+        "images": [
+          {
+            "alt": "wattrel",
+            "src": "/api/pokeapi-sprites/pokemon/940.png",
+            "complete": false,
+            "naturalWidth": 0
+          },
+          {
+            "alt": "fuecoco",
+            "src": "/api/pokeapi-sprites/pokemon/909.png",
+            "complete": false,
+            "naturalWidth": 0
+          },
+          {
+            "alt": "flittle",
+            "src": "/api/pokeapi-sprites/pokemon/955.png",
+            "complete": false,
+            "naturalWidth": 0
+          },
+          {
+            "alt": "poltchageist",
+            "src": "/api/pokeapi-sprites/pokemon/1012.png",
+            "complete": false,
+            "naturalWidth": 0
+          },
+          {
+            "alt": "toedscool",
+            "src": "/api/pokeapi-sprites/pokemon/948.png",
+            "complete": false,
+            "naturalWidth": 0
+          },
+          {
+            "alt": "pawmi",
+            "src": "/api/pokeapi-sprites/pokemon/921.png",
+            "complete": false,
+            "naturalWidth": 0
+          }
+        ]
+      },
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n电\n飞行\n电海燕\n火\n呆火鳄\n超能\n飘飘雏\n草\n幽灵\n斯魔茶\n地面\n草\n原野水母\n电\n布拨\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)"
+    },
+    {
+      "name": "movesReady",
+      "ms": 24460,
+      "state": {
+        "schema": 14,
+        "generation": [
+          9
+        ],
+        "companion": 744,
+        "status": "READY",
+        "phase": "BATTLE",
+        "stage": 1,
+        "turn": "PLAYER",
+        "wallet": 0,
+        "player": [
+          {
+            "id": 940,
+            "name": "wattrel",
+            "hp": 102,
+            "moves": [
+              {
+                "name": "fly",
+                "power": 90
+              },
+              {
+                "name": "pluck",
+                "power": 60
+              },
+              {
+                "name": "growl",
+                "power": null
+              },
+              {
+                "name": "charge-beam",
+                "power": 50
+              }
+            ]
+          },
+          {
+            "id": 909,
+            "name": "fuecoco",
+            "hp": 129,
+            "moves": [
+              {
+                "name": "ember",
+                "power": 40
+              },
+              {
+                "name": "outrage",
+                "power": 120
+              },
+              {
+                "name": "take-down",
+                "power": 90
+              },
+              {
+                "name": "flare-blitz",
+                "power": 120
+              }
+            ]
+          },
+          {
+            "id": 955,
+            "name": "flittle",
+            "hp": 91,
+            "moves": [
+              {
+                "name": "peck",
+                "power": 35
+              },
+              {
+                "name": "trick",
+                "power": null
+              },
+              {
+                "name": "take-down",
+                "power": 90
+              },
+              {
+                "name": "pluck",
+                "power": 60
+              }
+            ]
+          }
+        ],
+        "enemy": [
+          {
+            "id": 974,
+            "name": "cetoddle",
+            "hp": 169
+          },
+          {
+            "id": 942,
+            "name": "maschiff",
+            "hp": 121
+          },
+          {
+            "id": 10263,
+            "name": "gimmighoul-roaming",
+            "hp": 106
+          }
+        ],
+        "log": [
+          "对手 派出了 走鲸！"
+        ]
+      },
+      "layout": {
+        "viewport": [
+          390,
+          844
+        ],
+        "document": [
+          390,
+          844
+        ],
+        "buttons": [
+          {
+            "text": "战斗",
+            "disabled": false,
+            "rect": {
+              "x": 33,
+              "y": 553.609375,
+              "width": 59.046875,
+              "height": 56
+            }
+          },
+          {
+            "text": "变化",
+            "disabled": false,
+            "rect": {
+              "x": 99.234375,
+              "y": 553.609375,
+              "width": 59.046875,
+              "height": 56
+            }
+          },
+          {
+            "text": "背包",
+            "disabled": false,
+            "rect": {
+              "x": 165.46875,
+              "y": 553.609375,
+              "width": 59.046875,
+              "height": 56
+            }
+          },
+          {
+            "text": "宝可梦",
+            "disabled": false,
+            "rect": {
+              "x": 231.703125,
+              "y": 553.609375,
+              "width": 59.046875,
+              "height": 56
+            }
+          },
+          {
+            "text": "逃跑",
+            "disabled": false,
+            "rect": {
+              "x": 297.9375,
+              "y": 553.609375,
+              "width": 59.046875,
+              "height": 56
+            }
+          },
+          {
+            "text": "飞翔飞行威力 90命中 95PP 15/15",
+            "disabled": false,
+            "rect": {
+              "x": 42,
+              "y": 630.609375,
+              "width": 148,
+              "height": 78
+            }
+          },
+          {
+            "text": "啄食飞行威力 60命中 100PP 20/20",
+            "disabled": false,
+            "rect": {
+              "x": 196,
+              "y": 630.609375,
+              "width": 148,
+              "height": 78
+            }
+          },
+          {
+            "text": "叫声一般威力 --命中 100PP 40/40",
+            "disabled": false,
+            "rect": {
+              "x": 42,
+              "y": 714.609375,
+              "width": 148,
+              "height": 78
+            }
+          },
+          {
+            "text": "充电光束电威力 50命中 90PP 10/10",
+            "disabled": false,
+            "rect": {
+              "x": 196,
+              "y": 714.609375,
+              "width": 148,
+              "height": 78
+            }
+          }
+        ],
+        "images": [
+          {
+            "alt": "",
+            "src": "/assets/pokerogue/arenas/factory_bg.png",
+            "complete": true,
+            "naturalWidth": 320
+          },
+          {
+            "alt": "",
+            "src": "/assets/pokerogue/arenas/factory_a.png",
+            "complete": true,
+            "naturalWidth": 320
+          },
+          {
+            "alt": "",
+            "src": "/assets/pokerogue/arenas/factory_b.png",
+            "complete": true,
+            "naturalWidth": 320
+          },
+          {
+            "alt": "",
+            "src": "/api/pokeapi-sprites/pokemon/back/940.png",
+            "complete": true,
+            "naturalWidth": 96
+          },
+          {
+            "alt": "",
+            "src": "/api/pokeapi-sprites/pokemon/974.png",
+            "complete": true,
+            "naturalWidth": 96
+          }
+        ]
+      },
+      "body": "0\nBP\n1/7\n轮次\n0\n连胜\n走鲸\n♀\nLV.50\n冰\nHP\n100%\n电海燕\n♀\nLV.50\n电\n飞行\nHP\n102/102\n战斗日志\nFCT-01\n\n对手 派出了 走鲸！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n飞翔\n飞行\n威力 90\n命中 95\nPP 15/15\n啄食\n飞行\n威力 60\n命中 100\nPP 20/20\n叫声\n一般\n威力 --\n命中 100\nPP 40/40\n充电光束\n电\n威力 50\n命中 90\nPP 10/10"
+    }
+  ],
+  "requests": [
+    {
+      "ms": 6,
+      "url": "http://127.0.0.181:4301/",
+      "type": "document"
+    },
+    {
+      "ms": 23,
+      "url": "http://127.0.0.181:4301/@vite/client",
+      "type": "script"
+    },
+    {
+      "ms": 23,
+      "url": "http://127.0.0.181:4301/src/main.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 47,
+      "url": "http://127.0.0.181:4301/node_modules/vite/dist/client/env.mjs",
+      "type": "script"
+    },
+    {
+      "ms": 49,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=06767bf0",
+      "type": "script"
+    },
+    {
+      "ms": 49,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/react.js?v=06767bf0",
+      "type": "script"
+    },
+    {
+      "ms": 49,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/react-dom_client.js?v=4cd110d3",
+      "type": "script"
+    },
+    {
+      "ms": 49,
+      "url": "http://127.0.0.181:4301/src/App.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 49,
+      "url": "http://127.0.0.181:4301/src/index.css",
+      "type": "script"
+    },
+    {
+      "ms": 56,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/chunk-ST4CIM76.js?v=47d8bb6e",
+      "type": "script"
+    },
+    {
+      "ms": 71,
+      "url": "http://127.0.0.181:4301/src/features/game/components/GameView.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 71,
+      "url": "http://127.0.0.181:4301/src/features/game/components/LoadingScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 71,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/usePokeFactoryGame.ts",
+      "type": "script"
+    },
+    {
+      "ms": 75,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/lucide-react.js?v=a932ac03",
+      "type": "script"
+    },
+    {
+      "ms": 75,
+      "url": "http://127.0.0.181:4301/src/assets/loading/battle-factory-loading.jpg?import",
+      "type": "script"
+    },
+    {
+      "ms": 76,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/motion_react.js?v=ef485804",
+      "type": "script"
+    },
+    {
+      "ms": 76,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/BattleScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 76,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/FactorySelectScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 76,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/FactorySwapScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 76,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/GameOverScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 76,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/PokemonInfoScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 76,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/RoundResultScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/RewardScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/FactoryHeldItemRepairNotice.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/SettingsScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/CreditsScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/EventsScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/BootLoadingScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/CompanionSelectScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/BaseScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/StartScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/TopRecordPanel.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/DeveloperPanel.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/theme/palette.ts",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/components/TypeBadge.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 77,
+      "url": "http://127.0.0.181:4301/src/services/saveManager.ts",
+      "type": "script"
+    },
+    {
+      "ms": 85,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/chunk-ZNDIUWA6.js?v=47d8bb6e",
+      "type": "script"
+    },
+    {
+      "ms": 86,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveEntryHazards.ts",
+      "type": "script"
+    },
+    {
+      "ms": 86,
+      "url": "http://127.0.0.181:4301/src/uiAppConstants.ts",
+      "type": "script"
+    },
+    {
+      "ms": 86,
+      "url": "http://127.0.0.181:4301/src/services/pokeApi.ts",
+      "type": "script"
+    },
+    {
+      "ms": 86,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryBattle.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryRewards.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryRewardPool.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/factoryEvolutionShop.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/config/classicFlow.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/config/events.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/useGameLocalization.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/useBattleController.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/useFactoryFlow.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/factoryTrainerHistory.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/factoryResumeCheckpoint.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/useRewardFlow.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/battleStatus.ts",
+      "type": "script"
+    },
+    {
+      "ms": 87,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/eventDispatchRewards.ts",
+      "type": "script"
+    },
+    {
+      "ms": 88,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerTemplates.ts",
+      "type": "script"
+    },
+    {
+      "ms": 88,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryBrain.ts",
+      "type": "script"
+    },
+    {
+      "ms": 88,
+      "url": "http://127.0.0.181:4301/src/features/game/config/companionCandidates.ts",
+      "type": "script"
+    },
+    {
+      "ms": 88,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryHeldItemRules.ts",
+      "type": "script"
+    },
+    {
+      "ms": 88,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/formLedger.ts",
+      "type": "script"
+    },
+    {
+      "ms": 88,
+      "url": "http://127.0.0.181:4301/src/services/pokeApiEndpoint.ts",
+      "type": "script"
+    },
+    {
+      "ms": 88,
+      "url": "http://127.0.0.181:4301/src/features/game/performance/rentalPerformance.ts",
+      "type": "script"
+    },
+    {
+      "ms": 109,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleCommandRegion.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 109,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleViewportRegion.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 109,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/TopStatusRegion.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 111,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/battleLogText.ts",
+      "type": "script"
+    },
+    {
+      "ms": 117,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/reward/FactoryItemRewardScreen.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/FactoryRentalDetailDialog.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/PokemonDetailPanel.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/team/TeamRosterSelector.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/react-dom.js?v=06767bf0",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/constants.ts",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/services/pokedexClient.ts",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/assets/items/event-hp-up.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/assets/items/event-battle-stat-item.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/assets/maps/region-map-hoenn.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/assets/maps/region-map-kanto.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/assets/maps/region-map-sevii123.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/assets/maps/region-map-sevii45.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 125,
+      "url": "http://127.0.0.181:4301/src/assets/menu/pikachu-anim-front.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 125,
+      "url": "http://127.0.0.181:4301/src/assets/menu/pokedex.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 125,
+      "url": "http://127.0.0.181:4301/src/assets/menu/clipboard.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 126,
+      "url": "http://127.0.0.181:4301/src/components/typeBadgeLabels.ts",
+      "type": "script"
+    },
+    {
+      "ms": 126,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/chunk-TTC7QQAV.js?v=47d8bb6e",
+      "type": "script"
+    },
+    {
+      "ms": 127,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryEvolutionRules.ts",
+      "type": "script"
+    },
+    {
+      "ms": 127,
+      "url": "http://127.0.0.181:4301/src/features/game/data/battle/index.ts",
+      "type": "script"
+    },
+    {
+      "ms": 127,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/restoreFactoryParty.ts",
+      "type": "script"
+    },
+    {
+      "ms": 132,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryEvolutionItems.ts",
+      "type": "script"
+    },
+    {
+      "ms": 132,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryEvolutionRelations.generated.ts",
+      "type": "script"
+    },
+    {
+      "ms": 133,
+      "url": "http://127.0.0.181:4301/src/uiStrings.ts",
+      "type": "script"
+    },
+    {
+      "ms": 133,
+      "url": "http://127.0.0.181:4301/src/components/TypeIcon.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 133,
+      "url": "http://127.0.0.181:4301/src/features/game/config/specialForms.ts",
+      "type": "script"
+    },
+    {
+      "ms": 133,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/pokemonStats.ts",
+      "type": "script"
+    },
+    {
+      "ms": 133,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveTypeEffectiveness.ts",
+      "type": "script"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryDifficultyBands.ts",
+      "type": "script"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryReferenceSets.ts",
+      "type": "script"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryReferenceRanges.ts",
+      "type": "script"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factorySpeciesIndex.ts",
+      "type": "script"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/services/requestTimeout.ts",
+      "type": "script"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factorySpeciesRules.ts",
+      "type": "script"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerMonSetPools.ts",
+      "type": "script"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/factoryBattleRollback.ts",
+      "type": "script"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/factoryOpponentCandidates.ts",
+      "type": "script"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/config/rewardPools.ts",
+      "type": "script"
+    },
+    {
+      "ms": 156,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/presentEndTurnResolution.ts",
+      "type": "script"
+    },
+    {
+      "ms": 156,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/roundTransaction.ts",
+      "type": "script"
+    },
+    {
+      "ms": 156,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryBattleStyle.ts",
+      "type": "script"
+    },
+    {
+      "ms": 156,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/index.ts",
+      "type": "script"
+    },
+    {
+      "ms": 158,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/fieldEffectTransition.ts",
+      "type": "script"
+    },
+    {
+      "ms": 158,
+      "url": "http://127.0.0.181:4301/src/features/game/lib/battleResolution.ts",
+      "type": "script"
+    },
+    {
+      "ms": 162,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleActionPanel.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 162,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleFieldPanel.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 162,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/battleText.ts",
+      "type": "script"
+    },
+    {
+      "ms": 162,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryHeldItemIcons.ts",
+      "type": "script"
+    },
+    {
+      "ms": 176,
+      "url": "http://127.0.0.181:4301/src/features/game/data/battle/abilityEffects.ts",
+      "type": "script"
+    },
+    {
+      "ms": 176,
+      "url": "http://127.0.0.181:4301/src/features/game/data/battle/itemEffects.ts",
+      "type": "script"
+    },
+    {
+      "ms": 176,
+      "url": "http://127.0.0.181:4301/src/features/game/data/battle/moveEffectTable.ts",
+      "type": "script"
+    },
+    {
+      "ms": 177,
+      "url": "http://127.0.0.181:4301/src/features/game/data/battle/moveFlags.ts",
+      "type": "script"
+    },
+    {
+      "ms": 181,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/bug.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 181,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/dark.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/dragon.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/electric.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fairy.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fighting.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fire.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/flying.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ghost.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/grass.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ground.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ice.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/normal.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/poison.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/psychic.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 184,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/rock.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 185,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/steel.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 185,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/water.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 191,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveMoveType.ts",
+      "type": "script"
+    },
+    {
+      "ms": 201,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/types.ts",
+      "type": "script"
+    },
+    {
+      "ms": 201,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveActionSelection.ts",
+      "type": "script"
+    },
+    {
+      "ms": 201,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveTailwind.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveAccuracy.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveBeforeMoveChecks.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveDamage.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/evaluateAiMove.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveEndTurn.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveMoveStrikes.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveProtection.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveSecondaryEffects.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveSwitchState.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveTypeImmunityReaction.ts",
+      "type": "script"
+    },
+    {
+      "ms": 202,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveWhiteHerb.ts",
+      "type": "script"
+    },
+    {
+      "ms": 210,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerPresentation.ts",
+      "type": "script"
+    },
+    {
+      "ms": 210,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleMoveEffect.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 210,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleLogPanel.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 210,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/CatchEffectOverlay.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 210,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/EnemyBattleCard.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 210,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/PlayerBattleCard.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 210,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/battleArenaAssets.ts",
+      "type": "script"
+    },
+    {
+      "ms": 210,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/battleSceneLayout.ts",
+      "type": "script"
+    },
+    {
+      "ms": 211,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleBagPanel.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 211,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleMainMenu.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 211,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleMovesPanel.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 211,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattlePokemonPanel.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 211,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleStatusPanel.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 247,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/stageModifiers.ts",
+      "type": "script"
+    },
+    {
+      "ms": 269,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerIntroQuotes.ts",
+      "type": "script"
+    },
+    {
+      "ms": 269,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/battleStatusLabels.ts",
+      "type": "script"
+    },
+    {
+      "ms": 269,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleSpecialTriggersNearHp.tsx",
+      "type": "script"
+    },
+    {
+      "ms": 273,
+      "url": "http://127.0.0.181:4301/src/assets/battle/mega-trigger.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 273,
+      "url": "http://127.0.0.181:4301/src/assets/battle/dynamax-trigger.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 273,
+      "url": "http://127.0.0.181:4301/src/assets/battle/tera-trigger.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 273,
+      "url": "http://127.0.0.181:4301/src/assets/battle/zmove-trigger.png?import",
+      "type": "script"
+    },
+    {
+      "ms": 370,
+      "url": "http://127.0.0.181:4301/src/assets/loading/battle-factory-loading.jpg",
+      "type": "image"
+    },
+    {
+      "ms": 406,
+      "url": "http://127.0.0.181:4301/api/data/factory-species-index",
+      "type": "fetch"
+    },
+    {
+      "ms": 435,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/118/",
+      "type": "fetch"
+    },
+    {
+      "ms": 631,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/118/",
+      "type": "fetch"
+    },
+    {
+      "ms": 1048,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/33/",
+      "type": "fetch"
+    },
+    {
+      "ms": 1208,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/25.png",
+      "type": "image"
+    },
+    {
+      "ms": 1208,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/133.png",
+      "type": "image"
+    },
+    {
+      "ms": 1208,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/175.png",
+      "type": "image"
+    },
+    {
+      "ms": 1208,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/447.png",
+      "type": "image"
+    },
+    {
+      "ms": 1208,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/744.png",
+      "type": "image"
+    },
+    {
+      "ms": 1208,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/921.png",
+      "type": "image"
+    },
+    {
+      "ms": 1461,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/41/",
+      "type": "fetch"
+    },
+    {
+      "ms": 1961,
+      "url": "http://127.0.0.181:4301/src/assets/menu/pokedex.png",
+      "type": "image"
+    },
+    {
+      "ms": 1961,
+      "url": "http://127.0.0.181:4301/src/assets/menu/clipboard.png",
+      "type": "image"
+    },
+    {
+      "ms": 2009,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/31/",
+      "type": "fetch"
+    },
+    {
+      "ms": 2410,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/tail-whip/",
+      "type": "fetch"
+    },
+    {
+      "ms": 2410,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/mud-shot/",
+      "type": "fetch"
+    },
+    {
+      "ms": 2410,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/scale-shot/",
+      "type": "fetch"
+    },
+    {
+      "ms": 2410,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/horn-attack/",
+      "type": "fetch"
+    },
+    {
+      "ms": 2757,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/72/",
+      "type": "fetch"
+    },
+    {
+      "ms": 3157,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/72/",
+      "type": "fetch"
+    },
+    {
+      "ms": 3470,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/29/",
+      "type": "fetch"
+    },
+    {
+      "ms": 3637,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/64/",
+      "type": "fetch"
+    },
+    {
+      "ms": 3900,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/44/",
+      "type": "fetch"
+    },
+    {
+      "ms": 3947,
+      "url": "http://127.0.0.181:4301/src/assets/loading/battle-factory-loading.jpg",
+      "type": "image"
+    },
+    {
+      "ms": 3963,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/940/",
+      "type": "fetch"
+    },
+    {
+      "ms": 4181,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/940/",
+      "type": "fetch"
+    },
+    {
+      "ms": 4186,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/knock-off/",
+      "type": "fetch"
+    },
+    {
+      "ms": 4186,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/safeguard/",
+      "type": "fetch"
+    },
+    {
+      "ms": 4186,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/frustration/",
+      "type": "fetch"
+    },
+    {
+      "ms": 4186,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/acid/",
+      "type": "fetch"
+    },
+    {
+      "ms": 4526,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/277/",
+      "type": "fetch"
+    },
+    {
+      "ms": 4550,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/111/",
+      "type": "fetch"
+    },
+    {
+      "ms": 4901,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/10/",
+      "type": "fetch"
+    },
+    {
+      "ms": 5056,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/111/",
+      "type": "fetch"
+    },
+    {
+      "ms": 5514,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/172/",
+      "type": "fetch"
+    },
+    {
+      "ms": 5525,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/69/",
+      "type": "fetch"
+    },
+    {
+      "ms": 5850,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/fly/",
+      "type": "fetch"
+    },
+    {
+      "ms": 5850,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/pluck/",
+      "type": "fetch"
+    },
+    {
+      "ms": 5850,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/growl/",
+      "type": "fetch"
+    },
+    {
+      "ms": 5850,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/charge-beam/",
+      "type": "fetch"
+    },
+    {
+      "ms": 5866,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/120/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6235,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/909/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6239,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/rock-polish/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6239,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/bulldoze/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6239,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/crush-claw/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6471,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/909/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6755,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/66/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6870,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/109/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6879,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/ember/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6880,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/outrage/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6880,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/take-down/",
+      "type": "fetch"
+    },
+    {
+      "ms": 6880,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/flare-blitz/",
+      "type": "fetch"
+    },
+    {
+      "ms": 7053,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/955/",
+      "type": "fetch"
+    },
+    {
+      "ms": 7463,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/955/",
+      "type": "fetch"
+    },
+    {
+      "ms": 7790,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/107/",
+      "type": "fetch"
+    },
+    {
+      "ms": 7849,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/69/",
+      "type": "fetch"
+    },
+    {
+      "ms": 8174,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/119/",
+      "type": "fetch"
+    },
+    {
+      "ms": 8264,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/69/",
+      "type": "fetch"
+    },
+    {
+      "ms": 8560,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/3/",
+      "type": "fetch"
+    },
+    {
+      "ms": 8629,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/34/",
+      "type": "fetch"
+    },
+    {
+      "ms": 8939,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/peck/",
+      "type": "fetch"
+    },
+    {
+      "ms": 8939,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/trick/",
+      "type": "fetch"
+    },
+    {
+      "ms": 8987,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/82/",
+      "type": "fetch"
+    },
+    {
+      "ms": 9302,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/1012/",
+      "type": "fetch"
+    },
+    {
+      "ms": 9368,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/swords-dance/",
+      "type": "fetch"
+    },
+    {
+      "ms": 9368,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/magical-leaf/",
+      "type": "fetch"
+    },
+    {
+      "ms": 9368,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/cut/",
+      "type": "fetch"
+    },
+    {
+      "ms": 9368,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/endure/",
+      "type": "fetch"
+    },
+    {
+      "ms": 9589,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/1012/",
+      "type": "fetch"
+    },
+    {
+      "ms": 9613,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/301/",
+      "type": "fetch"
+    },
+    {
+      "ms": 9736,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/104/",
+      "type": "fetch"
+    },
+    {
+      "ms": 9937,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/85/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10197,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/giga-drain/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10197,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/spite/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10197,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/life-dew/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10197,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/energy-ball/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10284,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/104/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10594,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/4/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10613,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/948/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10938,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/948/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10943,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/mega-kick/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10943,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/hidden-power/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10944,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/mega-punch/",
+      "type": "fetch"
+    },
+    {
+      "ms": 10944,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/snore/",
+      "type": "fetch"
+    },
+    {
+      "ms": 11650,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/298/",
+      "type": "fetch"
+    },
+    {
+      "ms": 11671,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/1/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12003,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/reflect/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12003,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/supersonic/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12003,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/sleep-talk/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12003,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/wrap/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12034,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/1/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12492,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/921/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12501,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/65/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12905,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/sludge-bomb/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12905,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/charm/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12905,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/helping-hand/",
+      "type": "fetch"
+    },
+    {
+      "ms": 12964,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/921/",
+      "type": "fetch"
+    },
+    {
+      "ms": 13325,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/9/",
+      "type": "fetch"
+    },
+    {
+      "ms": 13811,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/30/",
+      "type": "fetch"
+    },
+    {
+      "ms": 13989,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/89/",
+      "type": "fetch"
+    },
+    {
+      "ms": 14266,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/encore/",
+      "type": "fetch"
+    },
+    {
+      "ms": 14266,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/metal-claw/",
+      "type": "fetch"
+    },
+    {
+      "ms": 14266,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/sweet-kiss/",
+      "type": "fetch"
+    },
+    {
+      "ms": 14266,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/baton-pass/",
+      "type": "fetch"
+    },
+    {
+      "ms": 14710,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryReferenceSets/chunks/chunk_110_209.ts",
+      "type": "script"
+    },
+    {
+      "ms": 14738,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/940.png",
+      "type": "image"
+    },
+    {
+      "ms": 14738,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/909.png",
+      "type": "image"
+    },
+    {
+      "ms": 14738,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/955.png",
+      "type": "image"
+    },
+    {
+      "ms": 14738,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/1012.png",
+      "type": "image"
+    },
+    {
+      "ms": 14738,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/948.png",
+      "type": "image"
+    },
+    {
+      "ms": 14738,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/921.png",
+      "type": "image"
+    },
+    {
+      "ms": 14764,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/electric.png",
+      "type": "image"
+    },
+    {
+      "ms": 14764,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/flying.png",
+      "type": "image"
+    },
+    {
+      "ms": 14764,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fire.png",
+      "type": "image"
+    },
+    {
+      "ms": 14764,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/psychic.png",
+      "type": "image"
+    },
+    {
+      "ms": 14764,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/grass.png",
+      "type": "image"
+    },
+    {
+      "ms": 14764,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ghost.png",
+      "type": "image"
+    },
+    {
+      "ms": 14764,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ground.png",
+      "type": "image"
+    },
+    {
+      "ms": 14878,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/974/",
+      "type": "fetch"
+    },
+    {
+      "ms": 15504,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/974/",
+      "type": "fetch"
+    },
+    {
+      "ms": 15805,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/47/",
+      "type": "fetch"
+    },
+    {
+      "ms": 16049,
+      "url": "http://127.0.0.181:4301/assets/pokerogue/arenas/factory_bg.png",
+      "type": "image"
+    },
+    {
+      "ms": 16050,
+      "url": "http://127.0.0.181:4301/assets/pokerogue/arenas/factory_a.png",
+      "type": "image"
+    },
+    {
+      "ms": 16050,
+      "url": "http://127.0.0.181:4301/assets/pokerogue/arenas/factory_b.png",
+      "type": "image"
+    },
+    {
+      "ms": 16050,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/back/940.png",
+      "type": "image"
+    },
+    {
+      "ms": 16079,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/normal.png",
+      "type": "image"
+    },
+    {
+      "ms": 16183,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/81/",
+      "type": "fetch"
+    },
+    {
+      "ms": 16563,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/125/",
+      "type": "fetch"
+    },
+    {
+      "ms": 16917,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/bounce/",
+      "type": "fetch"
+    },
+    {
+      "ms": 16917,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/icy-wind/",
+      "type": "fetch"
+    },
+    {
+      "ms": 17249,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/942/",
+      "type": "fetch"
+    },
+    {
+      "ms": 17603,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/942/",
+      "type": "fetch"
+    },
+    {
+      "ms": 17969,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/22/",
+      "type": "fetch"
+    },
+    {
+      "ms": 18319,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/50/",
+      "type": "fetch"
+    },
+    {
+      "ms": 19173,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/198/",
+      "type": "fetch"
+    },
+    {
+      "ms": 19519,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/payback/",
+      "type": "fetch"
+    },
+    {
+      "ms": 19519,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/headbutt/",
+      "type": "fetch"
+    },
+    {
+      "ms": 19519,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/tackle/",
+      "type": "fetch"
+    },
+    {
+      "ms": 19801,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/gimmighoul-roaming/",
+      "type": "fetch"
+    },
+    {
+      "ms": 20379,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/999/",
+      "type": "fetch"
+    },
+    {
+      "ms": 21304,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/night-shade/",
+      "type": "fetch"
+    },
+    {
+      "ms": 21304,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/nasty-plot/",
+      "type": "fetch"
+    },
+    {
+      "ms": 21305,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/tera-blast/",
+      "type": "fetch"
+    },
+    {
+      "ms": 21782,
+      "url": "http://127.0.0.181:4301/trainers/reference/front_pics/sailor.png",
+      "type": "image"
+    },
+    {
+      "ms": 22852,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/974.png",
+      "type": "image"
+    },
+    {
+      "ms": 22852,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ice.png",
+      "type": "image"
+    }
+  ],
+  "responses": [
+    {
+      "ms": 17,
+      "url": "http://127.0.0.181:4301/",
+      "status": 200,
+      "contentType": "text/html"
+    },
+    {
+      "ms": 46,
+      "url": "http://127.0.0.181:4301/@vite/client",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 47,
+      "url": "http://127.0.0.181:4301/src/main.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 54,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=06767bf0",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 55,
+      "url": "http://127.0.0.181:4301/node_modules/vite/dist/client/env.mjs",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 56,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/react.js?v=06767bf0",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 70,
+      "url": "http://127.0.0.181:4301/src/App.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 71,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/chunk-ST4CIM76.js?v=47d8bb6e",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 74,
+      "url": "http://127.0.0.181:4301/src/features/game/components/LoadingScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 75,
+      "url": "http://127.0.0.181:4301/src/index.css",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 75,
+      "url": "http://127.0.0.181:4301/src/features/game/components/GameView.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 84,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/react-dom_client.js?v=4cd110d3",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 85,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/usePokeFactoryGame.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 100,
+      "url": "http://127.0.0.181:4301/src/assets/loading/battle-factory-loading.jpg?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 108,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/BattleScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 110,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/GameOverScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 110,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/FactorySwapScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 111,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/RewardScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 111,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/FactorySelectScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 117,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/RoundResultScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 117,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/PokemonInfoScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 117,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/FactoryHeldItemRepairNotice.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 119,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/CreditsScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 119,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/BootLoadingScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 119,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/SettingsScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 122,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/BaseScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 122,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/CompanionSelectScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 122,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/TopRecordPanel.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 122,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/EventsScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/StartScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/DeveloperPanel.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/theme/palette.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/src/components/TypeBadge.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 123,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/motion_react.js?v=ef485804",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 126,
+      "url": "http://127.0.0.181:4301/src/services/saveManager.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 130,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/chunk-ZNDIUWA6.js?v=47d8bb6e",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 130,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryRewards.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 130,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/factoryEvolutionShop.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 130,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/useGameLocalization.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 130,
+      "url": "http://127.0.0.181:4301/src/features/game/config/classicFlow.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 130,
+      "url": "http://127.0.0.181:4301/src/features/game/config/events.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 130,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryBattle.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 132,
+      "url": "http://127.0.0.181:4301/src/uiAppConstants.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 133,
+      "url": "http://127.0.0.181:4301/src/services/pokeApi.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 133,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveEntryHazards.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 133,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryRewardPool.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 146,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/factoryResumeCheckpoint.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 146,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/factoryTrainerHistory.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/useFactoryFlow.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/eventDispatchRewards.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/battleStatus.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 147,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/useRewardFlow.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 148,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/lucide-react.js?v=a932ac03",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 148,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryBrain.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 156,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/useBattleController.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 158,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryHeldItemRules.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 158,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleCommandRegion.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 158,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/formLedger.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 158,
+      "url": "http://127.0.0.181:4301/src/features/game/performance/rentalPerformance.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 160,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/TopStatusRegion.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 160,
+      "url": "http://127.0.0.181:4301/src/services/pokeApiEndpoint.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 160,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleViewportRegion.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 160,
+      "url": "http://127.0.0.181:4301/src/features/game/config/companionCandidates.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 160,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/battleLogText.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 160,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/FactoryRentalDetailDialog.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 162,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerTemplates.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 162,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/reward/FactoryItemRewardScreen.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 163,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/PokemonDetailPanel.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 163,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/team/TeamRosterSelector.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 163,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/react-dom.js?v=06767bf0",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 164,
+      "url": "http://127.0.0.181:4301/src/constants.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 164,
+      "url": "http://127.0.0.181:4301/src/services/pokedexClient.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 164,
+      "url": "http://127.0.0.181:4301/src/assets/items/event-hp-up.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 165,
+      "url": "http://127.0.0.181:4301/src/assets/items/event-battle-stat-item.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 167,
+      "url": "http://127.0.0.181:4301/src/assets/maps/region-map-hoenn.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 168,
+      "url": "http://127.0.0.181:4301/src/assets/maps/region-map-kanto.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 168,
+      "url": "http://127.0.0.181:4301/src/assets/maps/region-map-sevii123.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 168,
+      "url": "http://127.0.0.181:4301/src/assets/maps/region-map-sevii45.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 168,
+      "url": "http://127.0.0.181:4301/src/assets/menu/pikachu-anim-front.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 170,
+      "url": "http://127.0.0.181:4301/src/assets/menu/pokedex.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 173,
+      "url": "http://127.0.0.181:4301/src/assets/menu/clipboard.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 173,
+      "url": "http://127.0.0.181:4301/src/components/typeBadgeLabels.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 174,
+      "url": "http://127.0.0.181:4301/node_modules/.vite/deps/chunk-TTC7QQAV.js?v=47d8bb6e",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 174,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryEvolutionRules.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 176,
+      "url": "http://127.0.0.181:4301/src/features/game/data/battle/index.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 177,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/restoreFactoryParty.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 177,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryEvolutionItems.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 179,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryEvolutionRelations.generated.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 180,
+      "url": "http://127.0.0.181:4301/src/components/TypeIcon.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 185,
+      "url": "http://127.0.0.181:4301/src/uiStrings.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 185,
+      "url": "http://127.0.0.181:4301/src/features/game/config/specialForms.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 190,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveTypeEffectiveness.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 191,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryReferenceSets.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 191,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryReferenceRanges.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 191,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factorySpeciesIndex.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 191,
+      "url": "http://127.0.0.181:4301/src/services/requestTimeout.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 191,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factorySpeciesRules.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 191,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryDifficultyBands.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 192,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/pokemonStats.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 194,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/factoryBattleRollback.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 198,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/factoryOpponentCandidates.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 199,
+      "url": "http://127.0.0.181:4301/src/features/game/config/rewardPools.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 199,
+      "url": "http://127.0.0.181:4301/src/features/game/hooks/presentEndTurnResolution.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 199,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/roundTransaction.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 200,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/index.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 200,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryBattleStyle.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 200,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/fieldEffectTransition.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 205,
+      "url": "http://127.0.0.181:4301/src/features/game/lib/battleResolution.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 208,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleFieldPanel.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 209,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/battleText.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 209,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerMonSetPools.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 209,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryHeldItemIcons.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 209,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleActionPanel.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 210,
+      "url": "http://127.0.0.181:4301/src/features/game/data/battle/abilityEffects.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 211,
+      "url": "http://127.0.0.181:4301/src/features/game/data/battle/itemEffects.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 217,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/electric.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 217,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/bug.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 217,
+      "url": "http://127.0.0.181:4301/src/features/game/data/battle/moveFlags.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 217,
+      "url": "http://127.0.0.181:4301/src/features/game/data/battle/moveEffectTable.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 220,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/dark.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 221,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/dragon.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 223,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/grass.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 229,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fairy.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 232,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fighting.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 234,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fire.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 235,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/types.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 235,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ground.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 235,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/normal.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 237,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/poison.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 237,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/rock.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 237,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/psychic.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 237,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/water.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 237,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveMoveType.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 238,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveTailwind.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 238,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveActionSelection.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 238,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/flying.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 238,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/steel.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 238,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ghost.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 238,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ice.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 247,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveAccuracy.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 248,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveBeforeMoveChecks.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 251,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveDamage.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 252,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/evaluateAiMove.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 253,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveMoveStrikes.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 253,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveEndTurn.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 254,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveProtection.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 255,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveSecondaryEffects.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 257,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveSwitchState.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 263,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveTypeImmunityReaction.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 265,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveWhiteHerb.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 266,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerPresentation.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 267,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleMoveEffect.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 267,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleLogPanel.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 267,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/CatchEffectOverlay.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 267,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleBagPanel.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 268,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleMainMenu.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 268,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/EnemyBattleCard.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 268,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/battleArenaAssets.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 268,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/battleSceneLayout.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 269,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/PlayerBattleCard.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 269,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleMovesPanel.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 269,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattlePokemonPanel.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 269,
+      "url": "http://127.0.0.181:4301/src/features/game/battle/engine/stageModifiers.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 269,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleStatusPanel.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 272,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerIntroQuotes.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 272,
+      "url": "http://127.0.0.181:4301/src/features/game/utils/battleStatusLabels.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 272,
+      "url": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleSpecialTriggersNearHp.tsx",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 275,
+      "url": "http://127.0.0.181:4301/src/assets/battle/mega-trigger.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 276,
+      "url": "http://127.0.0.181:4301/src/assets/battle/dynamax-trigger.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 276,
+      "url": "http://127.0.0.181:4301/src/assets/battle/tera-trigger.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 276,
+      "url": "http://127.0.0.181:4301/src/assets/battle/zmove-trigger.png?import",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 379,
+      "url": "http://127.0.0.181:4301/src/assets/loading/battle-factory-loading.jpg",
+      "status": 200,
+      "contentType": "image/jpeg"
+    },
+    {
+      "ms": 424,
+      "url": "http://127.0.0.181:4301/api/data/factory-species-index",
+      "status": 200,
+      "contentType": "application/json"
+    },
+    {
+      "ms": 609,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/118/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 1043,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/118/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 1286,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/133.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 1287,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/25.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 1456,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/33/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 1457,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/447.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 1458,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/175.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 1461,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/744.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 1723,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/921.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 2005,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/41/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 2198,
+      "url": "http://127.0.0.181:4301/src/assets/menu/pokedex.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 2198,
+      "url": "http://127.0.0.181:4301/src/assets/menu/clipboard.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 2402,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/31/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 2737,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/mud-shot/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 2739,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/tail-whip/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 2740,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/scale-shot/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 2740,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/horn-attack/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 3124,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/72/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 3464,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/72/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 3633,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/29/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 3895,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/64/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 4003,
+      "url": "http://127.0.0.181:4301/src/assets/loading/battle-factory-loading.jpg",
+      "status": 200,
+      "contentType": "image/jpeg"
+    },
+    {
+      "ms": 4177,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/940/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 4178,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/44/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 4520,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/acid/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 4521,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/940/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 4521,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/safeguard/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 4524,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/knock-off/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 4524,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/frustration/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 4899,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/277/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 4901,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/111/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 5510,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/10/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 5510,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/111/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 5845,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/172/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 5845,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/69/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6095,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/fly/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6216,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/growl/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6217,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/pluck/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6229,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/charge-beam/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6230,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/120/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6468,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/909/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6586,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/bulldoze/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6595,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/rock-polish/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6754,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/909/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6867,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/66/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6876,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/109/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 6892,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/outrage/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 7032,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/ember/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 7033,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/take-down/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 7037,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/flare-blitz/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 7460,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/955/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 7789,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/955/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 7844,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/crush-claw/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 8170,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/107/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 8238,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/69/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 8556,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/119/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 8625,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/69/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 8912,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/3/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 8983,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/34/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 9293,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/trick/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 9294,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/peck/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 9364,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/82/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 9584,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/1012/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 9592,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/swords-dance/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 9592,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/endure/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 9598,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/1012/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 9727,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/cut/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 9732,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/magical-leaf/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 9934,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/301/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 10194,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/85/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 10250,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/104/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 10587,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/104/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 10587,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/life-dew/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 10589,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/energy-ball/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 10590,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/giga-drain/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 10590,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/spite/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 10934,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/948/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 10935,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/4/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 11626,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/mega-kick/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 11627,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/hidden-power/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 11629,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/948/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 11630,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/snore/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 11635,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/mega-punch/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 11998,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/298/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 11998,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/1/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 12368,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/reflect/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 12371,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/sleep-talk/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 12466,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/wrap/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 12468,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/supersonic/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 12468,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/1/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 12901,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/65/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 12962,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/921/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 13157,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/helping-hand/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 13323,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/921/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 13324,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/charm/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 13330,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/sludge-bomb/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 13782,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/9/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 13986,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/30/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 14262,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/89/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 14686,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/sweet-kiss/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 14686,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/metal-claw/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 14688,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/encore/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 14689,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/baton-pass/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 14877,
+      "url": "http://127.0.0.181:4301/src/features/game/config/factoryReferenceSets/chunks/chunk_110_209.ts",
+      "status": 200,
+      "contentType": "text/javascript"
+    },
+    {
+      "ms": 15027,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/940.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15030,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/909.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15032,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/1012.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15032,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/psychic.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15055,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/948.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15057,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/955.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15225,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/grass.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15226,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/electric.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15227,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ghost.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15227,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ground.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15227,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fire.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15402,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/921.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15402,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/flying.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 15500,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/974/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 15803,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/974/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 16179,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/47/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 16364,
+      "url": "http://127.0.0.181:4301/assets/pokerogue/arenas/factory_a.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 16364,
+      "url": "http://127.0.0.181:4301/assets/pokerogue/arenas/factory_bg.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 16368,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/normal.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 16369,
+      "url": "http://127.0.0.181:4301/assets/pokerogue/arenas/factory_b.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 16373,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/back/940.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 16560,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/81/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 16897,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/125/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 17239,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/bounce/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 17240,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/icy-wind/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 17598,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/942/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 17968,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/942/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 18314,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/22/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 19150,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/50/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 19515,
+      "url": "http://127.0.0.181:4301/api/pokeapi/ability/198/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 19643,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/tackle/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 19643,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/headbutt/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 19793,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/payback/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 20375,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon/gimmighoul-roaming/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 21303,
+      "url": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/999/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 21671,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/tera-blast/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 21736,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/nasty-plot/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 21737,
+      "url": "http://127.0.0.181:4301/api/pokeapi/move/night-shade/",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "ms": 21920,
+      "url": "http://127.0.0.181:4301/trainers/reference/front_pics/sailor.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 22859,
+      "url": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ice.png",
+      "status": 200,
+      "contentType": "image/png"
+    },
+    {
+      "ms": 22889,
+      "url": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/974.png",
+      "status": 200,
+      "contentType": "image/png"
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "hmr": [],
+  "beforeMove": {
+    "schema": 14,
+    "generation": [
+      9
+    ],
+    "companion": 744,
+    "status": "READY",
+    "phase": "BATTLE",
+    "stage": 1,
+    "turn": "PLAYER",
+    "wallet": 0,
+    "player": [
+      {
+        "id": 940,
+        "name": "wattrel",
+        "hp": 102,
+        "moves": [
+          {
+            "name": "fly",
+            "power": 90
+          },
+          {
+            "name": "pluck",
+            "power": 60
+          },
+          {
+            "name": "growl",
+            "power": null
+          },
+          {
+            "name": "charge-beam",
+            "power": 50
+          }
+        ]
+      },
+      {
+        "id": 909,
+        "name": "fuecoco",
+        "hp": 129,
+        "moves": [
+          {
+            "name": "ember",
+            "power": 40
+          },
+          {
+            "name": "outrage",
+            "power": 120
+          },
+          {
+            "name": "take-down",
+            "power": 90
+          },
+          {
+            "name": "flare-blitz",
+            "power": 120
+          }
+        ]
+      },
+      {
+        "id": 955,
+        "name": "flittle",
+        "hp": 91,
+        "moves": [
+          {
+            "name": "peck",
+            "power": 35
+          },
+          {
+            "name": "trick",
+            "power": null
+          },
+          {
+            "name": "take-down",
+            "power": 90
+          },
+          {
+            "name": "pluck",
+            "power": 60
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "id": 974,
+        "name": "cetoddle",
+        "hp": 169
+      },
+      {
+        "id": 942,
+        "name": "maschiff",
+        "hp": 121
+      },
+      {
+        "id": 10263,
+        "name": "gimmighoul-roaming",
+        "hp": 106
+      }
+    ],
+    "log": [
+      "对手 派出了 走鲸！"
+    ]
+  },
+  "chosenMove": {
+    "index": 0,
+    "text": "飞翔\n飞行\n威力 90\n命中 95\nPP 15/15"
+  },
+  "failure": "TimeoutError: page.waitForFunction: Timeout 60000ms exceeded.",
+  "failureBody": "0\nBP\n1/7\n轮次\n0\n连胜\n走鲸\n♀\nLV.50\n冰\nHP\n70%\n电海燕\n♀\nLV.50\n电\n飞行\nHP\n102/102\n战斗日志\nFCT-01\n\n对手走鲸的攻击没有命中！\n\n电海燕通过剩饭恢复了体力！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n飞翔\n飞行\n威力 90\n命中 95\nPP 15/15\n啄食\n飞行\n威力 60\n命中 100\nPP 20/20\n叫声\n一般\n威力 --\n命中 100\nPP 40/40\n充电光束\n电\n威力 50\n命中 90\nPP 10/10",
+  "httpErrors": [],
+  "resourceTiming": [
+    {
+      "name": "http://127.0.0.181:4301/@vite/client",
+      "duration": 19.800000000745058,
+      "transferSize": 182851,
+      "decodedBodySize": 182551,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/main.tsx",
+      "duration": 22.299999999813735,
+      "transferSize": 2004,
+      "decodedBodySize": 1704,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/node_modules/vite/dist/client/env.mjs",
+      "duration": 6.300000000745058,
+      "transferSize": 4161,
+      "decodedBodySize": 3861,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=06767bf0",
+      "duration": 6,
+      "transferSize": 12734,
+      "decodedBodySize": 12434,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/node_modules/.vite/deps/react.js?v=06767bf0",
+      "duration": 7.400000000372529,
+      "transferSize": 1024,
+      "decodedBodySize": 724,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/node_modules/.vite/deps/react-dom_client.js?v=4cd110d3",
+      "duration": 20.5,
+      "transferSize": 1005835,
+      "decodedBodySize": 1005535,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/App.tsx",
+      "duration": 14.899999999441206,
+      "transferSize": 2732,
+      "decodedBodySize": 2432,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/index.css",
+      "duration": 25.5,
+      "transferSize": 171209,
+      "decodedBodySize": 170909,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/node_modules/.vite/deps/chunk-ST4CIM76.js?v=47d8bb6e",
+      "duration": 10,
+      "transferSize": 47741,
+      "decodedBodySize": 47441,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/GameView.tsx",
+      "duration": 2.7000000001862645,
+      "transferSize": 49310,
+      "decodedBodySize": 49010,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/LoadingScreen.tsx",
+      "duration": 3,
+      "transferSize": 7572,
+      "decodedBodySize": 7272,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/hooks/usePokeFactoryGame.ts",
+      "duration": 10.700000000186265,
+      "transferSize": 268657,
+      "decodedBodySize": 268357,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/node_modules/.vite/deps/lucide-react.js?v=a932ac03",
+      "duration": 21.800000000745058,
+      "transferSize": 1005306,
+      "decodedBodySize": 1005006,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/loading/battle-factory-loading.jpg?import",
+      "duration": 7.7000000001862645,
+      "transferSize": 778,
+      "decodedBodySize": 478,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/BattleScreen.tsx",
+      "duration": 14.899999999441206,
+      "transferSize": 8496,
+      "decodedBodySize": 8196,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/node_modules/.vite/deps/motion_react.js?v=ef485804",
+      "duration": 20.5,
+      "transferSize": 437644,
+      "decodedBodySize": 437344,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/FactorySwapScreen.tsx",
+      "duration": 17.90000000037253,
+      "transferSize": 66606,
+      "decodedBodySize": 66306,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/FactorySelectScreen.tsx",
+      "duration": 17.09999999962747,
+      "transferSize": 51953,
+      "decodedBodySize": 51653,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/GameOverScreen.tsx",
+      "duration": 18.600000000558794,
+      "transferSize": 13078,
+      "decodedBodySize": 12778,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/RoundResultScreen.tsx",
+      "duration": 23.799999999813735,
+      "transferSize": 23963,
+      "decodedBodySize": 23663,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/PokemonInfoScreen.tsx",
+      "duration": 20.899999999441206,
+      "transferSize": 10703,
+      "decodedBodySize": 10403,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/RewardScreen.tsx",
+      "duration": 23.5,
+      "transferSize": 1998,
+      "decodedBodySize": 1698,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/FactoryHeldItemRepairNotice.tsx",
+      "duration": 24.600000000558794,
+      "transferSize": 6302,
+      "decodedBodySize": 6002,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/SettingsScreen.tsx",
+      "duration": 25.200000000186265,
+      "transferSize": 74391,
+      "decodedBodySize": 74091,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/CreditsScreen.tsx",
+      "duration": 25.299999999813735,
+      "transferSize": 32675,
+      "decodedBodySize": 32375,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/EventsScreen.tsx",
+      "duration": 26.700000000186265,
+      "transferSize": 107034,
+      "decodedBodySize": 106734,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/BootLoadingScreen.tsx",
+      "duration": 26.90000000037253,
+      "transferSize": 13243,
+      "decodedBodySize": 12943,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/CompanionSelectScreen.tsx",
+      "duration": 27.90000000037253,
+      "transferSize": 17950,
+      "decodedBodySize": 17650,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/BaseScreen.tsx",
+      "duration": 27.700000000186265,
+      "transferSize": 1638,
+      "decodedBodySize": 1338,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/StartScreen.tsx",
+      "duration": 28.59999999962747,
+      "transferSize": 66731,
+      "decodedBodySize": 66431,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/TopRecordPanel.tsx",
+      "duration": 29.5,
+      "transferSize": 11509,
+      "decodedBodySize": 11209,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/DeveloperPanel.tsx",
+      "duration": 30.200000000186265,
+      "transferSize": 17500,
+      "decodedBodySize": 17200,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/theme/palette.ts",
+      "duration": 30.5,
+      "transferSize": 13892,
+      "decodedBodySize": 13592,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/components/TypeBadge.tsx",
+      "duration": 30.59999999962747,
+      "transferSize": 9451,
+      "decodedBodySize": 9151,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/services/saveManager.ts",
+      "duration": 36.30000000074506,
+      "transferSize": 297770,
+      "decodedBodySize": 297470,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/node_modules/.vite/deps/chunk-ZNDIUWA6.js?v=47d8bb6e",
+      "duration": 27.40000000037253,
+      "transferSize": 16761,
+      "decodedBodySize": 16461,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveEntryHazards.ts",
+      "duration": 28.09999999962747,
+      "transferSize": 12992,
+      "decodedBodySize": 12692,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryBattle.ts",
+      "duration": 30.5,
+      "transferSize": 10637,
+      "decodedBodySize": 10337,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/uiAppConstants.ts",
+      "duration": 28.299999999813735,
+      "transferSize": 23945,
+      "decodedBodySize": 23645,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/services/pokeApi.ts",
+      "duration": 30.399999999441206,
+      "transferSize": 93321,
+      "decodedBodySize": 93021,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryRewards.ts",
+      "duration": 33.40000000037253,
+      "transferSize": 10808,
+      "decodedBodySize": 10508,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryRewardPool.ts",
+      "duration": 36.200000000186265,
+      "transferSize": 37955,
+      "decodedBodySize": 37655,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/utils/factoryEvolutionShop.ts",
+      "duration": 37.700000000186265,
+      "transferSize": 13315,
+      "decodedBodySize": 13015,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/hooks/useGameLocalization.ts",
+      "duration": 38.60000000055879,
+      "transferSize": 11216,
+      "decodedBodySize": 10916,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/classicFlow.ts",
+      "duration": 38,
+      "transferSize": 5626,
+      "decodedBodySize": 5326,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/events.ts",
+      "duration": 38.30000000074506,
+      "transferSize": 16368,
+      "decodedBodySize": 16068,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/hooks/factoryTrainerHistory.ts",
+      "duration": 46.700000000186265,
+      "transferSize": 1351,
+      "decodedBodySize": 1051,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/hooks/useFactoryFlow.ts",
+      "duration": 46.39999999944121,
+      "transferSize": 216918,
+      "decodedBodySize": 216618,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/hooks/useBattleController.ts",
+      "duration": 57.59999999962747,
+      "transferSize": 377877,
+      "decodedBodySize": 377577,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/hooks/factoryResumeCheckpoint.ts",
+      "duration": 47.5,
+      "transferSize": 2741,
+      "decodedBodySize": 2441,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/utils/eventDispatchRewards.ts",
+      "duration": 49.60000000055879,
+      "transferSize": 8961,
+      "decodedBodySize": 8661,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/utils/battleStatus.ts",
+      "duration": 48.90000000037253,
+      "transferSize": 20833,
+      "decodedBodySize": 20533,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/hooks/useRewardFlow.ts",
+      "duration": 48.299999999813735,
+      "transferSize": 56560,
+      "decodedBodySize": 56260,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryBrain.ts",
+      "duration": 54.799999999813735,
+      "transferSize": 1804,
+      "decodedBodySize": 1504,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerTemplates.ts",
+      "duration": 65.5,
+      "transferSize": 298647,
+      "decodedBodySize": 298347,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryHeldItemRules.ts",
+      "duration": 57.5,
+      "transferSize": 12903,
+      "decodedBodySize": 12603,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/utils/formLedger.ts",
+      "duration": 60,
+      "transferSize": 7282,
+      "decodedBodySize": 6982,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/services/pokeApiEndpoint.ts",
+      "duration": 60.5,
+      "transferSize": 28275,
+      "decodedBodySize": 27975,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/companionCandidates.ts",
+      "duration": 56.799999999813735,
+      "transferSize": 2757,
+      "decodedBodySize": 2457,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/performance/rentalPerformance.ts",
+      "duration": 61.80000000074506,
+      "transferSize": 9580,
+      "decodedBodySize": 9280,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleCommandRegion.tsx",
+      "duration": 40.799999999813735,
+      "transferSize": 2765,
+      "decodedBodySize": 2465,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/TopStatusRegion.tsx",
+      "duration": 42.39999999944121,
+      "transferSize": 2653,
+      "decodedBodySize": 2353,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleViewportRegion.tsx",
+      "duration": 41.09999999962747,
+      "transferSize": 4102,
+      "decodedBodySize": 3802,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/battleLogText.ts",
+      "duration": 41.700000000186265,
+      "transferSize": 13430,
+      "decodedBodySize": 13130,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/reward/FactoryItemRewardScreen.tsx",
+      "duration": 42.200000000186265,
+      "transferSize": 119076,
+      "decodedBodySize": 118776,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/FactoryRentalDetailDialog.tsx",
+      "duration": 39.299999999813735,
+      "transferSize": 24332,
+      "decodedBodySize": 24032,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/PokemonDetailPanel.tsx",
+      "duration": 41.59999999962747,
+      "transferSize": 66385,
+      "decodedBodySize": 66085,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/team/TeamRosterSelector.tsx",
+      "duration": 41.90000000037253,
+      "transferSize": 7983,
+      "decodedBodySize": 7683,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/node_modules/.vite/deps/react-dom.js?v=06767bf0",
+      "duration": 41.299999999813735,
+      "transferSize": 1352,
+      "decodedBodySize": 1052,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/constants.ts",
+      "duration": 41.90000000037253,
+      "transferSize": 16494,
+      "decodedBodySize": 16194,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/services/pokedexClient.ts",
+      "duration": 43.40000000037253,
+      "transferSize": 51601,
+      "decodedBodySize": 51301,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/items/event-hp-up.png?import",
+      "duration": 44.700000000186265,
+      "transferSize": 733,
+      "decodedBodySize": 433,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/items/event-battle-stat-item.png?import",
+      "duration": 46,
+      "transferSize": 788,
+      "decodedBodySize": 488,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/maps/region-map-hoenn.png?import",
+      "duration": 46.40000000037253,
+      "transferSize": 749,
+      "decodedBodySize": 449,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/maps/region-map-kanto.png?import",
+      "duration": 47.09999999962747,
+      "transferSize": 749,
+      "decodedBodySize": 449,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/maps/region-map-sevii123.png?import",
+      "duration": 47.60000000055879,
+      "transferSize": 760,
+      "decodedBodySize": 460,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/maps/region-map-sevii45.png?import",
+      "duration": 48.39999999944121,
+      "transferSize": 755,
+      "decodedBodySize": 455,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/menu/pikachu-anim-front.png?import",
+      "duration": 49.09999999962747,
+      "transferSize": 755,
+      "decodedBodySize": 455,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/menu/pokedex.png?import",
+      "duration": 49.60000000055879,
+      "transferSize": 688,
+      "decodedBodySize": 388,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/menu/clipboard.png?import",
+      "duration": 50,
+      "transferSize": 698,
+      "decodedBodySize": 398,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/components/typeBadgeLabels.ts",
+      "duration": 50.5,
+      "transferSize": 1345,
+      "decodedBodySize": 1045,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/node_modules/.vite/deps/chunk-TTC7QQAV.js?v=47d8bb6e",
+      "duration": 51.10000000055879,
+      "transferSize": 13082,
+      "decodedBodySize": 12782,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryEvolutionRules.ts",
+      "duration": 51.200000000186265,
+      "transferSize": 19478,
+      "decodedBodySize": 19178,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/data/battle/index.ts",
+      "duration": 53.700000000186265,
+      "transferSize": 43168,
+      "decodedBodySize": 42868,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/utils/restoreFactoryParty.ts",
+      "duration": 54.5,
+      "transferSize": 5575,
+      "decodedBodySize": 5275,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryEvolutionItems.ts",
+      "duration": 47.5,
+      "transferSize": 27989,
+      "decodedBodySize": 27689,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryEvolutionRelations.generated.ts",
+      "duration": 48.39999999944121,
+      "transferSize": 45602,
+      "decodedBodySize": 45302,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/uiStrings.ts",
+      "duration": 48.60000000055879,
+      "transferSize": 73898,
+      "decodedBodySize": 73598,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/components/TypeIcon.tsx",
+      "duration": 49.09999999962747,
+      "transferSize": 11223,
+      "decodedBodySize": 10923,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/specialForms.ts",
+      "duration": 50,
+      "transferSize": 41750,
+      "decodedBodySize": 41450,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/utils/pokemonStats.ts",
+      "duration": 50.60000000055879,
+      "transferSize": 15834,
+      "decodedBodySize": 15534,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveTypeEffectiveness.ts",
+      "duration": 54.89999999944121,
+      "transferSize": 12202,
+      "decodedBodySize": 11902,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryReferenceSets.ts",
+      "duration": 49.200000000186265,
+      "transferSize": 10132,
+      "decodedBodySize": 9832,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryDifficultyBands.ts",
+      "duration": 46.799999999813735,
+      "transferSize": 3771,
+      "decodedBodySize": 3471,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryReferenceRanges.ts",
+      "duration": 49.60000000055879,
+      "transferSize": 4585,
+      "decodedBodySize": 4285,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factorySpeciesIndex.ts",
+      "duration": 49.80000000074506,
+      "transferSize": 6384,
+      "decodedBodySize": 6084,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/services/requestTimeout.ts",
+      "duration": 49.59999999962747,
+      "transferSize": 2947,
+      "decodedBodySize": 2647,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factorySpeciesRules.ts",
+      "duration": 50.59999999962747,
+      "transferSize": 1405,
+      "decodedBodySize": 1105,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/hooks/factoryBattleRollback.ts",
+      "duration": 53.60000000055879,
+      "transferSize": 5753,
+      "decodedBodySize": 5453,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerMonSetPools.ts",
+      "duration": 65.40000000037253,
+      "transferSize": 172586,
+      "decodedBodySize": 172286,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/hooks/factoryOpponentCandidates.ts",
+      "duration": 54.09999999962747,
+      "transferSize": 7362,
+      "decodedBodySize": 7062,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/rewardPools.ts",
+      "duration": 54.40000000037253,
+      "transferSize": 5807,
+      "decodedBodySize": 5507,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/hooks/presentEndTurnResolution.ts",
+      "duration": 38.5,
+      "transferSize": 5922,
+      "decodedBodySize": 5622,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/roundTransaction.ts",
+      "duration": 39,
+      "transferSize": 15596,
+      "decodedBodySize": 15296,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryBattleStyle.ts",
+      "duration": 40.200000000186265,
+      "transferSize": 13512,
+      "decodedBodySize": 13212,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/index.ts",
+      "duration": 40.200000000186265,
+      "transferSize": 2669,
+      "decodedBodySize": 2369,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/fieldEffectTransition.ts",
+      "duration": 41,
+      "transferSize": 5062,
+      "decodedBodySize": 4762,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/lib/battleResolution.ts",
+      "duration": 43,
+      "transferSize": 123485,
+      "decodedBodySize": 123185,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleActionPanel.tsx",
+      "duration": 42.90000000037253,
+      "transferSize": 16186,
+      "decodedBodySize": 15886,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleFieldPanel.tsx",
+      "duration": 46.09999999962747,
+      "transferSize": 40423,
+      "decodedBodySize": 40123,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/battleText.ts",
+      "duration": 45.299999999813735,
+      "transferSize": 1940,
+      "decodedBodySize": 1640,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryHeldItemIcons.ts",
+      "duration": 46.60000000055879,
+      "transferSize": 7797,
+      "decodedBodySize": 7497,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/data/battle/abilityEffects.ts",
+      "duration": 30.59999999962747,
+      "transferSize": 16760,
+      "decodedBodySize": 16460,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/data/battle/itemEffects.ts",
+      "duration": 32.10000000055879,
+      "transferSize": 23081,
+      "decodedBodySize": 22781,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/data/battle/moveFlags.ts",
+      "duration": 37.60000000055879,
+      "transferSize": 2359,
+      "decodedBodySize": 2059,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/data/battle/moveEffectTable.ts",
+      "duration": 37,
+      "transferSize": 40173,
+      "decodedBodySize": 39873,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/bug.png?import",
+      "duration": 34.299999999813735,
+      "transferSize": 734,
+      "decodedBodySize": 434,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/dark.png?import",
+      "duration": 38.5,
+      "transferSize": 739,
+      "decodedBodySize": 439,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/dragon.png?import",
+      "duration": 39.40000000037253,
+      "transferSize": 745,
+      "decodedBodySize": 445,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/electric.png?import",
+      "duration": 31.800000000745058,
+      "transferSize": 751,
+      "decodedBodySize": 451,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fairy.png?import",
+      "duration": 42.30000000074506,
+      "transferSize": 740,
+      "decodedBodySize": 440,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fighting.png?import",
+      "duration": 42.89999999944121,
+      "transferSize": 751,
+      "decodedBodySize": 451,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/fire.png?import",
+      "duration": 43.299999999813735,
+      "transferSize": 739,
+      "decodedBodySize": 439,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/grass.png?import",
+      "duration": 41.299999999813735,
+      "transferSize": 740,
+      "decodedBodySize": 440,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/flying.png?import",
+      "duration": 44,
+      "transferSize": 745,
+      "decodedBodySize": 445,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ghost.png?import",
+      "duration": 44.700000000186265,
+      "transferSize": 740,
+      "decodedBodySize": 440,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ground.png?import",
+      "duration": 44.90000000037253,
+      "transferSize": 745,
+      "decodedBodySize": 445,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/ice.png?import",
+      "duration": 45.60000000055879,
+      "transferSize": 734,
+      "decodedBodySize": 434,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/normal.png?import",
+      "duration": 45.799999999813735,
+      "transferSize": 745,
+      "decodedBodySize": 445,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/poison.png?import",
+      "duration": 46.60000000055879,
+      "transferSize": 745,
+      "decodedBodySize": 445,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/rock.png?import",
+      "duration": 48.10000000055879,
+      "transferSize": 739,
+      "decodedBodySize": 439,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/psychic.png?import",
+      "duration": 47.700000000186265,
+      "transferSize": 750,
+      "decodedBodySize": 450,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/water.png?import",
+      "duration": 49.59999999962747,
+      "transferSize": 740,
+      "decodedBodySize": 440,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/icons/types-52poke/steel.png?import",
+      "duration": 49.09999999962747,
+      "transferSize": 740,
+      "decodedBodySize": 440,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveMoveType.ts",
+      "duration": 40.299999999813735,
+      "transferSize": 3384,
+      "decodedBodySize": 3084,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/types.ts",
+      "duration": 32.10000000055879,
+      "transferSize": 300,
+      "decodedBodySize": 0,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveTailwind.ts",
+      "duration": 33.39999999944121,
+      "transferSize": 2283,
+      "decodedBodySize": 1983,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveActionSelection.ts",
+      "duration": 33.59999999962747,
+      "transferSize": 6016,
+      "decodedBodySize": 5716,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveAccuracy.ts",
+      "duration": 45.799999999813735,
+      "transferSize": 11659,
+      "decodedBodySize": 11359,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveBeforeMoveChecks.ts",
+      "duration": 46.700000000186265,
+      "transferSize": 35196,
+      "decodedBodySize": 34896,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveDamage.ts",
+      "duration": 48.40000000037253,
+      "transferSize": 118078,
+      "decodedBodySize": 117778,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/evaluateAiMove.ts",
+      "duration": 49.700000000186265,
+      "transferSize": 32332,
+      "decodedBodySize": 32032,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveMoveStrikes.ts",
+      "duration": 52.09999999962747,
+      "transferSize": 6993,
+      "decodedBodySize": 6693,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveEndTurn.ts",
+      "duration": 50.89999999944121,
+      "transferSize": 69290,
+      "decodedBodySize": 68990,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveProtection.ts",
+      "duration": 54.09999999962747,
+      "transferSize": 11370,
+      "decodedBodySize": 11070,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveSecondaryEffects.ts",
+      "duration": 54.700000000186265,
+      "transferSize": 3572,
+      "decodedBodySize": 3272,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveSwitchState.ts",
+      "duration": 55.700000000186265,
+      "transferSize": 7222,
+      "decodedBodySize": 6922,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveTypeImmunityReaction.ts",
+      "duration": 56.5,
+      "transferSize": 13765,
+      "decodedBodySize": 13465,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/resolveWhiteHerb.ts",
+      "duration": 56.60000000055879,
+      "transferSize": 5426,
+      "decodedBodySize": 5126,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerPresentation.ts",
+      "duration": 48.90000000037253,
+      "transferSize": 13555,
+      "decodedBodySize": 13255,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleMoveEffect.tsx",
+      "duration": 49.299999999813735,
+      "transferSize": 8987,
+      "decodedBodySize": 8687,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleLogPanel.tsx",
+      "duration": 49.59999999962747,
+      "transferSize": 18200,
+      "decodedBodySize": 17900,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/CatchEffectOverlay.tsx",
+      "duration": 50.299999999813735,
+      "transferSize": 15044,
+      "decodedBodySize": 14744,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/EnemyBattleCard.tsx",
+      "duration": 51,
+      "transferSize": 22767,
+      "decodedBodySize": 22467,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/PlayerBattleCard.tsx",
+      "duration": 51.90000000037253,
+      "transferSize": 25327,
+      "decodedBodySize": 25027,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/battleArenaAssets.ts",
+      "duration": 51.60000000055879,
+      "transferSize": 2619,
+      "decodedBodySize": 2319,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/battleSceneLayout.ts",
+      "duration": 52.90000000037253,
+      "transferSize": 14473,
+      "decodedBodySize": 14173,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleBagPanel.tsx",
+      "duration": 53,
+      "transferSize": 8555,
+      "decodedBodySize": 8255,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleMainMenu.tsx",
+      "duration": 54,
+      "transferSize": 13019,
+      "decodedBodySize": 12719,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleMovesPanel.tsx",
+      "duration": 54.200000000186265,
+      "transferSize": 27931,
+      "decodedBodySize": 27631,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattlePokemonPanel.tsx",
+      "duration": 54.5,
+      "transferSize": 24239,
+      "decodedBodySize": 23939,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleStatusPanel.tsx",
+      "duration": 54.799999999813735,
+      "transferSize": 32166,
+      "decodedBodySize": 31866,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/battle/engine/stageModifiers.ts",
+      "duration": 18.399999999441206,
+      "transferSize": 3263,
+      "decodedBodySize": 2963,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/config/factoryTrainerIntroQuotes.ts",
+      "duration": 2.2000000001862645,
+      "transferSize": 21335,
+      "decodedBodySize": 21035,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/utils/battleStatusLabels.ts",
+      "duration": 2.2000000001862645,
+      "transferSize": 8113,
+      "decodedBodySize": 7813,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/features/game/components/game-view/battle/BattleSpecialTriggersNearHp.tsx",
+      "duration": 2.7999999998137355,
+      "transferSize": 16438,
+      "decodedBodySize": 16138,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/battle/mega-trigger.png?import",
+      "duration": 1.7000000001862645,
+      "transferSize": 727,
+      "decodedBodySize": 427,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/battle/dynamax-trigger.png?import",
+      "duration": 2,
+      "transferSize": 738,
+      "decodedBodySize": 438,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/battle/tera-trigger.png?import",
+      "duration": 2.2999999998137355,
+      "transferSize": 727,
+      "decodedBodySize": 427,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/battle/zmove-trigger.png?import",
+      "duration": 2.5,
+      "transferSize": 728,
+      "decodedBodySize": 428,
+      "initiatorType": "script"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/loading/battle-factory-loading.jpg",
+      "duration": 30.59999999962747,
+      "transferSize": 780936,
+      "decodedBodySize": 780636,
+      "initiatorType": "img"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/data/factory-species-index",
+      "duration": 8.400000000372529,
+      "transferSize": 103388,
+      "decodedBodySize": 103088,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon/118/",
+      "duration": 173.8999999994412,
+      "transferSize": 210517,
+      "decodedBodySize": 210217,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/118/",
+      "duration": 411.59999999962747,
+      "transferSize": 43932,
+      "decodedBodySize": 43632,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/33/",
+      "duration": 407.70000000018626,
+      "transferSize": 21904,
+      "decodedBodySize": 21604,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/25.png",
+      "duration": 79.40000000037253,
+      "transferSize": 118357,
+      "decodedBodySize": 118057,
+      "initiatorType": "img"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/133.png",
+      "duration": 77.80000000074506,
+      "transferSize": 142566,
+      "decodedBodySize": 142266,
+      "initiatorType": "img"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/447.png",
+      "duration": 249.30000000074506,
+      "transferSize": 128124,
+      "decodedBodySize": 127824,
+      "initiatorType": "img"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/175.png",
+      "duration": 275.80000000074506,
+      "transferSize": 186466,
+      "decodedBodySize": 186166,
+      "initiatorType": "img"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/744.png",
+      "duration": 253,
+      "transferSize": 119474,
+      "decodedBodySize": 119174,
+      "initiatorType": "img"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi-sprites/pokemon/other/official-artwork/921.png",
+      "duration": 515.8999999994412,
+      "transferSize": 164979,
+      "decodedBodySize": 164679,
+      "initiatorType": "img"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/41/",
+      "duration": 544.1000000005588,
+      "transferSize": 20194,
+      "decodedBodySize": 19894,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/menu/pokedex.png",
+      "duration": 237,
+      "transferSize": 506,
+      "decodedBodySize": 206,
+      "initiatorType": "img"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/menu/clipboard.png",
+      "duration": 237.09999999962747,
+      "transferSize": 490,
+      "decodedBodySize": 190,
+      "initiatorType": "img"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/31/",
+      "duration": 376.90000000037253,
+      "transferSize": 28061,
+      "decodedBodySize": 27761,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/tail-whip/",
+      "duration": 329.1000000005588,
+      "transferSize": 29702,
+      "decodedBodySize": 29402,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/mud-shot/",
+      "duration": 327,
+      "transferSize": 37782,
+      "decodedBodySize": 37482,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/scale-shot/",
+      "duration": 329.29999999981374,
+      "transferSize": 13578,
+      "decodedBodySize": 13278,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/horn-attack/",
+      "duration": 339.1000000005588,
+      "transferSize": 20076,
+      "decodedBodySize": 19776,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon/72/",
+      "duration": 367.59999999962747,
+      "transferSize": 250423,
+      "decodedBodySize": 250123,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/72/",
+      "duration": 306.5,
+      "transferSize": 44575,
+      "decodedBodySize": 44275,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/29/",
+      "duration": 161.6000000005588,
+      "transferSize": 23079,
+      "decodedBodySize": 22779,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/64/",
+      "duration": 258.20000000018626,
+      "transferSize": 21892,
+      "decodedBodySize": 21592,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/44/",
+      "duration": 282.79999999981374,
+      "transferSize": 20392,
+      "decodedBodySize": 20092,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/src/assets/loading/battle-factory-loading.jpg",
+      "duration": 55.700000000186265,
+      "transferSize": 300,
+      "decodedBodySize": 780636,
+      "initiatorType": "img"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon/940/",
+      "duration": 229.20000000018626,
+      "transferSize": 22678,
+      "decodedBodySize": 22378,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/940/",
+      "duration": 339.19999999925494,
+      "transferSize": 3543,
+      "decodedBodySize": 3243,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/knock-off/",
+      "duration": 336.09999999962747,
+      "transferSize": 47238,
+      "decodedBodySize": 46938,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/safeguard/",
+      "duration": 335.40000000037253,
+      "transferSize": 44530,
+      "decodedBodySize": 44230,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/frustration/",
+      "duration": 336.09999999962747,
+      "transferSize": 75640,
+      "decodedBodySize": 75340,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/acid/",
+      "duration": 334.70000000018626,
+      "transferSize": 24031,
+      "decodedBodySize": 23731,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/277/",
+      "duration": 372.79999999981374,
+      "transferSize": 3096,
+      "decodedBodySize": 2796,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon/111/",
+      "duration": 466.20000000018626,
+      "transferSize": 300204,
+      "decodedBodySize": 299904,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/10/",
+      "duration": 609.5,
+      "transferSize": 23182,
+      "decodedBodySize": 22882,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/111/",
+      "duration": 463.79999999981374,
+      "transferSize": 32313,
+      "decodedBodySize": 32013,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/172/",
+      "duration": 330.3999999994412,
+      "transferSize": 18552,
+      "decodedBodySize": 18252,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/69/",
+      "duration": 337.90000000037253,
+      "transferSize": 22191,
+      "decodedBodySize": 21891,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/fly/",
+      "duration": 247.20000000018626,
+      "transferSize": 34352,
+      "decodedBodySize": 34052,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/growl/",
+      "duration": 366.40000000037253,
+      "transferSize": 35486,
+      "decodedBodySize": 35186,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/pluck/",
+      "duration": 366.70000000018626,
+      "transferSize": 27462,
+      "decodedBodySize": 27162,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/charge-beam/",
+      "duration": 379,
+      "transferSize": 38781,
+      "decodedBodySize": 38481,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/120/",
+      "duration": 362.30000000074506,
+      "transferSize": 19888,
+      "decodedBodySize": 19588,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon/909/",
+      "duration": 231.70000000018626,
+      "transferSize": 22208,
+      "decodedBodySize": 21908,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/rock-polish/",
+      "duration": 351.69999999925494,
+      "transferSize": 30139,
+      "decodedBodySize": 29839,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/bulldoze/",
+      "duration": 348.20000000018626,
+      "transferSize": 48132,
+      "decodedBodySize": 47832,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/crush-claw/",
+      "duration": 1604.7000000001863,
+      "transferSize": 23475,
+      "decodedBodySize": 23175,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/909/",
+      "duration": 281.70000000018626,
+      "transferSize": 3456,
+      "decodedBodySize": 3156,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/66/",
+      "duration": 111.20000000018626,
+      "transferSize": 23516,
+      "decodedBodySize": 23216,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/109/",
+      "duration": 5.2999999998137355,
+      "transferSize": 21224,
+      "decodedBodySize": 20924,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/outrage/",
+      "duration": 9.399999999441206,
+      "transferSize": 35607,
+      "decodedBodySize": 35307,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/ember/",
+      "duration": 152.79999999981374,
+      "transferSize": 25908,
+      "decodedBodySize": 25608,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/take-down/",
+      "duration": 152.90000000037253,
+      "transferSize": 69110,
+      "decodedBodySize": 68810,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/flare-blitz/",
+      "duration": 155.1000000005588,
+      "transferSize": 29993,
+      "decodedBodySize": 29693,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon/955/",
+      "duration": 406.3999999994412,
+      "transferSize": 21730,
+      "decodedBodySize": 21430,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/955/",
+      "duration": 326.29999999981374,
+      "transferSize": 3477,
+      "decodedBodySize": 3177,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/107/",
+      "duration": 379.40000000037253,
+      "transferSize": 21587,
+      "decodedBodySize": 21287,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon/69/",
+      "duration": 390,
+      "transferSize": 217500,
+      "decodedBodySize": 217200,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/119/",
+      "duration": 381.80000000074506,
+      "transferSize": 23021,
+      "decodedBodySize": 22721,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/69/",
+      "duration": 361.29999999981374,
+      "transferSize": 25729,
+      "decodedBodySize": 25429,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/3/",
+      "duration": 374.79999999981374,
+      "transferSize": 19409,
+      "decodedBodySize": 19109,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/34/",
+      "duration": 353.40000000037253,
+      "transferSize": 22452,
+      "decodedBodySize": 22152,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/peck/",
+      "duration": 353.09999999962747,
+      "transferSize": 24559,
+      "decodedBodySize": 24259,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/trick/",
+      "duration": 352.80000000074506,
+      "transferSize": 35033,
+      "decodedBodySize": 34733,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/82/",
+      "duration": 377.20000000018626,
+      "transferSize": 24495,
+      "decodedBodySize": 24195,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon/1012/",
+      "duration": 281.09999999962747,
+      "transferSize": 20065,
+      "decodedBodySize": 19765,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/swords-dance/",
+      "duration": 219.5,
+      "transferSize": 44319,
+      "decodedBodySize": 44019,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/cut/",
+      "duration": 358.20000000018626,
+      "transferSize": 37635,
+      "decodedBodySize": 37335,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/magical-leaf/",
+      "duration": 363.5,
+      "transferSize": 29764,
+      "decodedBodySize": 29464,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/endure/",
+      "duration": 222,
+      "transferSize": 93098,
+      "decodedBodySize": 92798,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/1012/",
+      "duration": 8.200000000186265,
+      "transferSize": 3195,
+      "decodedBodySize": 2895,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/301/",
+      "duration": 318.70000000018626,
+      "transferSize": 3000,
+      "decodedBodySize": 2700,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon/104/",
+      "duration": 513.8000000007451,
+      "transferSize": 274363,
+      "decodedBodySize": 274063,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/85/",
+      "duration": 256.79999999981374,
+      "transferSize": 19906,
+      "decodedBodySize": 19606,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/giga-drain/",
+      "duration": 391.90000000037253,
+      "transferSize": 38944,
+      "decodedBodySize": 38644,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/life-dew/",
+      "duration": 390.6000000005588,
+      "transferSize": 8434,
+      "decodedBodySize": 8134,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/spite/",
+      "duration": 391.90000000037253,
+      "transferSize": 35758,
+      "decodedBodySize": 35458,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/move/energy-ball/",
+      "duration": 391.3999999994412,
+      "transferSize": 40803,
+      "decodedBodySize": 40503,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon-species/104/",
+      "duration": 303,
+      "transferSize": 43851,
+      "decodedBodySize": 43551,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/ability/4/",
+      "duration": 339.09999999962747,
+      "transferSize": 21032,
+      "decodedBodySize": 20732,
+      "initiatorType": "fetch"
+    },
+    {
+      "name": "http://127.0.0.181:4301/api/pokeapi/pokemon/948/",
+      "duration": 320,
+      "transferSize": 26136,
+      "decodedBodySize": 25836,
+      "initiatorType": "fetch"
+    }
+  ],
+  "metrics": {
+    "clickToSixCardsMs": 11809,
+    "navigationToMovesMs": 24460,
+    "clickToMovesMs": 21265,
+    "jsonBeforeCards": 95
+  }
+}

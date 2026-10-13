@@ -1,0 +1,70 @@
+{
+  "commit": "2022d20d045404b757b99c908d0d7c22c3655bda",
+  "health": "{\"runtime\":\"go\",\"status\":\"ok\"}\n",
+  "conditions": "Three fresh Chromium processes/contexts; empty browser cache and storage; existing Go disk cache retained, process shared, no network throttle; generation 9 selected through UI; random rentals, no seed or save injection; DPR2 touch simulation; Vite development server HMR disabled.",
+  "runs": [
+    {
+      "n": 1,
+      "timing": {
+        "partnerReady": 1217,
+        "baseReady": 1939,
+        "challengeClick": 3007,
+        "sixCards": 14803,
+        "movesReady": 21788
+      },
+      "metrics": {
+        "clickToSixCardsMs": 11796,
+        "navigationToMovesMs": 21788,
+        "clickToMovesMs": 18781,
+        "jsonBeforeCards": 94
+      },
+      "pageErrors": [],
+      "consoleErrors": [],
+      "httpErrors": [],
+      "failedRequests": [],
+      "hmr": []
+    },
+    {
+      "n": 2,
+      "timing": {
+        "partnerReady": 1869,
+        "baseReady": 2673,
+        "challengeClick": 3935,
+        "sixCards": 12764,
+        "movesReady": 18320
+      },
+      "metrics": {
+        "clickToSixCardsMs": 8829,
+        "navigationToMovesMs": 18320,
+        "clickToMovesMs": 14385,
+        "jsonBeforeCards": 99
+      },
+      "pageErrors": [],
+      "consoleErrors": [],
+      "httpErrors": [],
+      "failedRequests": [],
+      "hmr": []
+    },
+    {
+      "n": 3,
+      "timing": {
+        "partnerReady": 1357,
+        "baseReady": 2105,
+        "challengeClick": 3513,
+        "sixCards": 13418,
+        "movesReady": 20618
+      },
+      "metrics": {
+        "clickToSixCardsMs": 9905,
+        "navigationToMovesMs": 20618,
+        "clickToMovesMs": 17105,
+        "jsonBeforeCards": 99
+      },
+      "pageErrors": [],
+      "consoleErrors": [],
+      "httpErrors": [],
+      "failedRequests": [],
+      "hmr": []
+    }
+  ]
+}

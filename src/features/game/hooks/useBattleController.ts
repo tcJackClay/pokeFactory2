@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { completeEndTurnResolution } from './presentEndTurnResolution';
+import { createCurrentFieldDamageResolver } from './currentFieldDamage';
 import { executeRoundTransaction, roundMatches, startRound } from '../battle/engine/roundTransaction';
 import type { RoundActionResult, RoundTransaction } from '../battle/engine/roundTransaction';
 import type { BattleHazards, BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, TailwindTurns, Weather } from '../../../types';
@@ -13,7 +14,6 @@ import {
 } from '../config/factoryBattleStyle';
 import {
   calculateConfusionSelfHitDamage as resolveConfusionSelfHitDamage,
-  calculateDamage as resolveDamageStep,
   estimateDeterministicDamageWithContext,
   evaluateAiMove,
   getBestTypePressureAgainstTarget,
@@ -552,8 +552,9 @@ export function useBattleController({
   }, []);
 
   const isSleepPreventingFieldActive = useCallback(() => {
-    return fieldState.includes('electric_terrain') || fieldState.includes('misty_terrain');
-  }, [fieldState]);
+    const currentField = liveFieldRef.current.fieldState;
+    return currentField.includes('electric_terrain') || currentField.includes('misty_terrain');
+  }, []);
 
   const isMoveUsableWhileAsleep = useCallback((move?: Move | null) => {
     if (!move) return false;
@@ -913,8 +914,8 @@ export function useBattleController({
       actingSide,
       playerTeam: currentPlayerTeam,
       enemyTeam: currentEnemyTeam,
-      fieldState,
-      weather,
+      fieldState: liveFieldRef.current.fieldState,
+      weather: liveFieldRef.current.weather,
       getLocalized,
       currentLanguage,
       targetHasActedThisTurn,
@@ -931,7 +932,7 @@ export function useBattleController({
     }
 
     return result;
-  }, [addMessagesSequentially, currentLanguage, fieldState, getLocalized, weather]);
+  }, [addMessagesSequentially, currentLanguage, getLocalized]);
 
   const resolvePreTurnStatus = useCallback(async ({
     combatant,
@@ -942,8 +943,8 @@ export function useBattleController({
   }: {
     combatant: GamePokemon;
     isEnemy: boolean;
-    currentPlayerTeam?: GamePokemon[];
-    currentEnemyTeam?: GamePokemon[];
+    currentPlayerTeam: GamePokemon[];
+    currentEnemyTeam: GamePokemon[];
     move?: Move;
   }) => {
     const displayName = isEnemy
@@ -955,13 +956,13 @@ export function useBattleController({
       : getLocalized(combatant);
     const result = resolveBeforeMoveChecksStep({
       snapshot: {
-        playerTeam: [...(currentPlayerTeam ?? playerTeam)],
-        enemyTeam: [...(currentEnemyTeam ?? enemyTeam)],
-        weather,
-        weatherTurns,
-        fieldState,
-        fieldTurns,
-        tailwindTurns,
+        playerTeam: [...currentPlayerTeam],
+        enemyTeam: [...currentEnemyTeam],
+        weather: liveFieldRef.current.weather,
+        weatherTurns: liveFieldRef.current.weatherTurns,
+        fieldState: liveFieldRef.current.fieldState,
+        fieldTurns: liveFieldRef.current.fieldTurns,
+        tailwindTurns: liveFieldRef.current.tailwindTurns,
         hazards: hazardsRef.current,
       },
       side: isEnemy ? 'enemy' : 'player',
@@ -1122,13 +1123,14 @@ export function useBattleController({
   }, [resolveBattleResult]);
 
   const enterBattlefield = useCallback((pokemon: GamePokemon, side: 'player' | 'enemy') => {
-    const result = resolveEntryHazards(clearSwitchingBattleState(pokemon), side, hazardsRef.current, fieldState, weather);
+    const field = liveFieldRef.current;
+    const result = resolveEntryHazards(clearSwitchingBattleState(pokemon), side, hazardsRef.current, field.fieldState, field.weather);
     if (result.hazards !== hazardsRef.current) {
       hazardsRef.current = result.hazards;
       setHazards(result.hazards);
     }
     return result;
-  }, [fieldState, setHazards, weather]);
+  }, [setHazards]);
 
   const reportEntryHazards = useCallback(async (result: ReturnType<typeof resolveEntryHazards>) => {
     for (const event of result.events) {
@@ -1191,29 +1193,7 @@ export function useBattleController({
     return true;
   }, [clearSwitchingBattleState, loseBattle, markAwaitingPlayerReplacement, setBattleMenuTab, setPlayerTeam, setTurn]);
 
-  const calculateDamage = useCallback((
-    move: Move,
-    attacker: GamePokemon,
-    defender: GamePokemon,
-    atkBuff: boolean,
-    defBuff: boolean,
-    options?: {
-      basePowerOverride?: number;
-      skipAccuracyCheck?: boolean;
-    },
-  ) => {
-    return resolveDamageStep({
-      move,
-      attacker,
-      defender,
-      weather,
-      fieldState,
-      atkBuff,
-      defBuff,
-      basePowerOverride: options?.basePowerOverride,
-      skipAccuracyCheck: options?.skipAccuracyCheck,
-    });
-  }, [fieldState, weather]);
+  const calculateDamage = useMemo(() => createCurrentFieldDamageResolver(liveFieldRef), []);
 
   const SPECIAL_ITEM_BY_MODE: Record<BattleSpecialMode, string> = {
     MEGA: 'special_mega_stone',
@@ -1887,7 +1867,7 @@ export function useBattleController({
     }
 
     if (hasMoveBattleEffect(resolvedMove, 'TAILWIND')) {
-      const result = resolveTailwindUse(tailwindTurns, actingSide);
+      const result = resolveTailwindUse(liveFieldRef.current.tailwindTurns, actingSide);
       if (result.succeeded) setTailwindTurns(result.turns);
       await addMessagesSequentially([
         result.succeeded
@@ -2188,7 +2168,7 @@ export function useBattleController({
       if (hitResult.multiplier === 0) {
         updatedActor = { ...updatedActor, factoryConsecutiveMoveCount: 0 };
         syncLeadBySide(actingSide, updatedActor);
-        const immunityReaction = resolveTypeImmunityReaction(resolvedMove, updatedDefender, fieldState, updatedActor, currentLanguage);
+        const immunityReaction = resolveTypeImmunityReaction(resolvedMove, updatedDefender, liveFieldRef.current.fieldState, updatedActor, currentLanguage);
         updatedDefender = immunityReaction.defender;
         syncLeadBySide(defendingSide, updatedDefender);
         if (immunityReaction.message) {
@@ -2334,7 +2314,7 @@ export function useBattleController({
     const moveRecoilPercent = getMoveRecoilPercent(resolvedMove, updatedActor);
     const weatherSuppressedForHealing = hasPrimaryAbilityEffect(updatedActor, 'WEATHER_SUPPRESSION')
       || hasPrimaryAbilityEffect(updatedDefender, 'WEATHER_SUPPRESSION');
-    const moveHealingPercent = getMoveHealingPercent(resolvedMove, weatherSuppressedForHealing ? 'none' : weather);
+    const moveHealingPercent = getMoveHealingPercent(resolvedMove, weatherSuppressedForHealing ? 'none' : liveFieldRef.current.weather);
     if (moveDrainPercent !== 0 && totalDamage > 0) actorHpChange += Math.floor(totalDamage * moveDrainPercent / 100);
     if (moveRecoilPercent !== 0 && totalDamage > 0) actorHpChange -= Math.max(1, Math.floor(totalDamage * moveRecoilPercent / 100));
     if (moveHealingPercent !== 0) actorHpChange += Math.floor(updatedActor.maxHp * moveHealingPercent / 100);
@@ -2454,7 +2434,7 @@ export function useBattleController({
 
     const nextField = getMoveFieldState(resolvedMove);
     if (nextField) {
-      if (isRepeatFieldFailure(fieldState, nextField)) {
+      if (isRepeatFieldFailure(liveFieldRef.current.fieldState, nextField)) {
         await addMessagesSequentially([battleLine(currentLanguage, 'But it failed!', '但是失败了！')]);
       } else {
         applyFieldEffect(nextField);
@@ -2701,6 +2681,7 @@ export function useBattleController({
     const preTurnResult = await resolvePreTurnStatus({
       combatant: actingEnemyLead,
       isEnemy: true,
+      currentPlayerTeam: playerTeamForTurn,
       currentEnemyTeam: enemyTeamForTurn,
       move: decision.selectedMove,
     });

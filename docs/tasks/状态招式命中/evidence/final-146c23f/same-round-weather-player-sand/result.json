@@ -1,0 +1,600 @@
+{
+  "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+  "name": "same-round-weather-player-sand",
+  "origin": "http://127.0.0.116:4302",
+  "controlled": {
+    "save": true,
+    "globalRng": 0.9,
+    "noDevWin": true
+  },
+  "browser": "151.0.7922.34",
+  "errors": [],
+  "http": [],
+  "assertions": {
+    "attack": true,
+    "weather": true,
+    "missMatches": true,
+    "playerPpOnce": true,
+    "enemyPpOnce": true,
+    "eachSideOnce": true
+  },
+  "before": {
+    "phase": "BATTLE",
+    "status": "READY",
+    "turn": "PLAYER",
+    "stage": 3,
+    "weather": "none",
+    "weatherTurns": 0,
+    "fieldState": [],
+    "fieldTurns": {},
+    "checkpointAt": "2026-10-13T15:42:05.906Z",
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "sandstorm",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          }
+        ]
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "rototiller",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "all-pokemon"
+          },
+          {
+            "name": "thunder",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 70,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "sandstorm",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          },
+          {
+            "name": "superpower",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "round",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "constrict",
+            "pp": 35,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "mega-drain",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "rain-dance",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "id": 17,
+        "name": "pidgeotto",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "feather-dance",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 133,
+        "name": "eevee",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "attract",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "flail",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "endure",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      },
+      {
+        "id": 83,
+        "name": "farfetchd",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "slash",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "knock-off",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "swords-dance",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          },
+          {
+            "name": "agility",
+            "pp": 30,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      }
+    ],
+    "log": [
+      "受控状态命中起点"
+    ]
+  },
+  "after": {
+    "phase": "BATTLE",
+    "status": "READY",
+    "turn": "PLAYER",
+    "stage": 3,
+    "weather": "sandstorm",
+    "weatherTurns": 4,
+    "fieldState": [],
+    "fieldTurns": {},
+    "checkpointAt": "2026-10-13T15:42:17.065Z",
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "sandstorm",
+            "pp": 10,
+            "currentPp": 9,
+            "maxPp": 10,
+            "accuracy": null,
+            "target": "entire-field"
+          }
+        ]
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "rototiller",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "all-pokemon"
+          },
+          {
+            "name": "thunder",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 70,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "sandstorm",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          },
+          {
+            "name": "superpower",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "round",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "constrict",
+            "pp": 35,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "mega-drain",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "rain-dance",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "id": 17,
+        "name": "pidgeotto",
+        "hp": 375,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "feather-dance",
+            "pp": 15,
+            "currentPp": 14,
+            "maxPp": 15,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 133,
+        "name": "eevee",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "attract",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "flail",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "endure",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      },
+      {
+        "id": 83,
+        "name": "farfetchd",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "slash",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "knock-off",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "swords-dance",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          },
+          {
+            "name": "agility",
+            "pp": 30,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      }
+    ],
+    "log": [
+      "受控状态命中起点",
+      "呆呆兽 使用了 沙暴！",
+      "对手的 比比鸟 使用了 羽毛舞！",
+      "对手比比鸟的攻击没有命中！",
+      "比比鸟受到了沙暴的伤害！"
+    ]
+  },
+  "uiTrace": [
+    {
+      "ms": 7250.5,
+      "text": "沙暴岩石威力 --命中 --PP 10/10"
+    },
+    {
+      "ms": 8705.099999999627,
+      "text": "沙暴岩石威力 --命中 --PP 9/10"
+    }
+  ],
+  "body": "0\nBP\n3/7\n轮次\n2\n连胜\n比比鸟\n♂\nLV.50\n一般\n飞行\nHP\n94%\n呆呆兽\n♂\nLV.50\n水\n超能\nHP\n400/400\n战斗日志\nFCT-01\n\n对手比比鸟的攻击没有命中！\n\n比比鸟受到了沙暴的伤害！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n沙暴\n岩石\n威力 --\n命中 --\nPP 9/10"
+}

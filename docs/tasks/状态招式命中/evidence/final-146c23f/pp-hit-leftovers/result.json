@@ -1,0 +1,890 @@
+{
+  "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+  "name": "pp-hit-leftovers",
+  "origin": "http://127.0.0.115:4302",
+  "controlled": {
+    "save": true,
+    "globalRng": null,
+    "makesContactInjected": false,
+    "noDevWin": true
+  },
+  "browser": "151.0.7922.34",
+  "errors": [],
+  "http": [],
+  "assertions": {
+    "pp14": true,
+    "hpValid": true,
+    "enemyPp34": true,
+    "playerPpOnce": true,
+    "enemyPpOnce": true,
+    "eachSideOnce": true,
+    "reloadStable": true
+  },
+  "before": {
+    "phase": "BATTLE",
+    "status": "READY",
+    "turn": "PLAYER",
+    "stage": 3,
+    "weather": "none",
+    "weatherTurns": 0,
+    "fieldState": [],
+    "fieldTurns": {},
+    "checkpointAt": "2026-10-13T15:47:04.625Z",
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "hp": 300,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "leftovers",
+        "equipped": "leftovers",
+        "moves": [
+          {
+            "name": "fly",
+            "pp": 15,
+            "currentPp": 15,
+            "maxPp": 15,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "rototiller",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "all-pokemon"
+          },
+          {
+            "name": "thunder",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 70,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "sandstorm",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          },
+          {
+            "name": "superpower",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "round",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "constrict",
+            "pp": 35,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "mega-drain",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "rain-dance",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "id": 17,
+        "name": "pidgeotto",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "tackle",
+            "pp": 35,
+            "currentPp": 35,
+            "maxPp": 35,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 133,
+        "name": "eevee",
+        "hp": 1,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "salac-berry",
+        "equipped": "salac-berry",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "attract",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "flail",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "endure",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      },
+      {
+        "id": 83,
+        "name": "farfetchd",
+        "hp": 1,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "leek",
+        "equipped": "leek",
+        "moves": [
+          {
+            "name": "slash",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "knock-off",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "swords-dance",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          },
+          {
+            "name": "agility",
+            "pp": 30,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      }
+    ],
+    "log": [
+      "受控PP复现起点"
+    ]
+  },
+  "after": {
+    "phase": "BATTLE",
+    "status": "READY",
+    "turn": "PLAYER",
+    "stage": 3,
+    "weather": "none",
+    "weatherTurns": 0,
+    "fieldState": [],
+    "fieldTurns": {},
+    "checkpointAt": "2026-10-13T15:47:16.154Z",
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "hp": 321,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "leftovers",
+        "equipped": "leftovers",
+        "moves": [
+          {
+            "name": "fly",
+            "pp": 15,
+            "currentPp": 14,
+            "maxPp": 15,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "rototiller",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "all-pokemon"
+          },
+          {
+            "name": "thunder",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 70,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "sandstorm",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          },
+          {
+            "name": "superpower",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "round",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "constrict",
+            "pp": 35,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "mega-drain",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "rain-dance",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "id": 17,
+        "name": "pidgeotto",
+        "hp": 384,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "tackle",
+            "pp": 35,
+            "currentPp": 34,
+            "maxPp": 35,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 133,
+        "name": "eevee",
+        "hp": 1,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "salac-berry",
+        "equipped": "salac-berry",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "attract",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "flail",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "endure",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      },
+      {
+        "id": 83,
+        "name": "farfetchd",
+        "hp": 1,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "leek",
+        "equipped": "leek",
+        "moves": [
+          {
+            "name": "slash",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "knock-off",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "swords-dance",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          },
+          {
+            "name": "agility",
+            "pp": 30,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      }
+    ],
+    "log": [
+      "受控PP复现起点",
+      "呆呆兽 使用了 飞翔！",
+      "呆呆兽 造成了 16 点伤害。",
+      "对手的 比比鸟 使用了 撞击！",
+      "对手的 比比鸟 造成了 4 点伤害。",
+      "呆呆兽通过剩饭恢复了体力！"
+    ]
+  },
+  "uiTrace": [
+    {
+      "ms": 6165.5,
+      "text": "飞翔飞行威力 90命中 100PP 15/15"
+    },
+    {
+      "ms": 7606.5999999996275,
+      "text": "飞翔飞行威力 90命中 100PP 14/15"
+    }
+  ],
+  "body": "0\nBP\n3/7\n轮次\n2\n连胜\n比比鸟\n♂\nLV.50\n一般\n飞行\nHP\n96%\n呆呆兽\n♂\nLV.50\n水\n超能\nHP\n321/400\n战斗日志\nFCT-01\n\n对手的 比比鸟 造成了 4 点伤害。\n\n呆呆兽通过剩饭恢复了体力！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n飞翔\n飞行\n威力 90\n命中 100\nPP 14/15",
+  "reloaded": {
+    "phase": "BATTLE",
+    "status": "READY",
+    "turn": "PLAYER",
+    "stage": 3,
+    "weather": "none",
+    "weatherTurns": 0,
+    "fieldState": [],
+    "fieldTurns": {},
+    "checkpointAt": "2026-10-13T15:47:20.687Z",
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "hp": 321,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "leftovers",
+        "equipped": "leftovers",
+        "moves": [
+          {
+            "name": "fly",
+            "pp": 15,
+            "currentPp": 14,
+            "maxPp": 15,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "rototiller",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "all-pokemon"
+          },
+          {
+            "name": "thunder",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 70,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "sandstorm",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          },
+          {
+            "name": "superpower",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "round",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "constrict",
+            "pp": 35,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "mega-drain",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "rain-dance",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "id": 17,
+        "name": "pidgeotto",
+        "hp": 384,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "tackle",
+            "pp": 35,
+            "currentPp": 34,
+            "maxPp": 35,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 133,
+        "name": "eevee",
+        "hp": 1,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "salac-berry",
+        "equipped": "salac-berry",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "attract",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "flail",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "endure",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      },
+      {
+        "id": 83,
+        "name": "farfetchd",
+        "hp": 1,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "leek",
+        "equipped": "leek",
+        "moves": [
+          {
+            "name": "slash",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "knock-off",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "swords-dance",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          },
+          {
+            "name": "agility",
+            "pp": 30,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      }
+    ],
+    "log": [
+      "受控PP复现起点",
+      "呆呆兽 使用了 飞翔！",
+      "呆呆兽 造成了 16 点伤害。",
+      "对手的 比比鸟 使用了 撞击！",
+      "对手的 比比鸟 造成了 4 点伤害。",
+      "呆呆兽通过剩饭恢复了体力！"
+    ]
+  }
+}
