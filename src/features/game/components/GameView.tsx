@@ -9,6 +9,7 @@ import { GameOverScreen } from './game-view/GameOverScreen';
 import { PokemonInfoScreen } from './game-view/PokemonInfoScreen';
 import { RoundResultScreen } from './game-view/RoundResultScreen';
 import { RewardScreen } from './game-view/RewardScreen';
+import { ReplacePokemonModal } from './game-view/reward/ReplacePokemonModal';
 import { FactoryHeldItemRepairNotice } from './game-view/FactoryHeldItemRepairNotice';
 import { SettingsScreen } from './game-view/SettingsScreen';
 import { CreditsScreen } from './game-view/CreditsScreen';
@@ -274,7 +275,12 @@ export function GameView({ viewModel }: { viewModel: GameViewModel }) {
         </div>
       </div>
 
-      {(storedSave.kind === 'none' || storedSave.kind === 'valid') && companionSpeciesId !== null && <DeveloperPanel viewModel={viewModel} />}
+      {(storedSave.kind === 'none' || storedSave.kind === 'valid') && companionSpeciesId !== null && (
+        <>
+          <DeveloperPanel viewModel={viewModel} />
+          {(gameState === 'EVENTS' || (gameState === 'BASE' && currentBaseTab === 'EVENTS')) && <ReplacePokemonModal viewModel={viewModel} />}
+        </>
+      )}
     </div>
     </TypeBadgeLanguageContext.Provider>
   );

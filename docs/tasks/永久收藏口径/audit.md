@@ -51,3 +51,36 @@
 
 - 自然新档无球来源、事件战无完整恢复断点、大师球受 95% 上限影响的旧矛盾维持 implementation 已记录的后续缺口，本审计未更改概率或新增赠球。
 - 修复后需独立 player 验证最终代码，受控派遣/球夹具不能宣称自然流程已可达；模拟浏览器也不等于实体 Android Chrome。
+
+## 返修复审：b2d5863
+
+- 复审日期：2026-10-14。
+- 冻结代码：`b2d58630e8475e4dbbc6d5e3a024b75073ebce1f`，开始复审时工作树干净。
+- 复审差异：`7d6d177..b2d5863`，并核对原任务相关调用链与存档事务。上文 BLOCKED 保留为旧提交历史。
+- **本版裁决：PASS（独立静态审计），可进入 player 最终代码实玩。** 未启动游戏/浏览器、未改业务、未提交。
+
+### 原阻断关闭
+
+1. **A1 已关闭。** 控制器 `setPlayerTeam` 本就同步更新 `liveBattleStateRef`；现在事件结算显式传入该最新队伍快照，`handleSuppressedBattleResolved` 将其继续传给 `awardDispatchTraining`。训练更新同步进入 `eventRuntimeRef`，不再读取投球开始前队伍。新增测试实际执行 `useItem → winBattle → resolveBattleResult → handleSuppressedBattleResolved → awardDispatchTraining`，确认捕获后的成员与训练共存且球消耗一次。
+2. **A2 已关闭。** `dispatchInFlightRef` 改为全局同步布尔门闩，进入异步前设置、`finally` 释放。同一地区及跨地区请求不能同时领取。join 在数据请求返回后取最新 `eventRuntimeRef` 背包/队伍，在收藏提交成功后同步更新资源 ref，再调用 React setter；下一次旧回调也不能再次花同一球或覆盖此前加入成员。
+3. **迟到派遣边界。** 请求返回后检查事件页、当前工厂互斥、事件战 active 状态；遇到已切换场景抛 `StaleDispatchError`，不写收藏、不消费资源，也不将 READY 标成领取完成。新事件战启动在释放领取门闩前同步设置 active。三项迟到结果测试分别覆盖新事件战、工厂及其他页面。
+
+### 回归与未削弱契约
+
+- 六项新增源码回调测试独立运行在全量测试中通过：捕捉完整链、跨地区一球、连续两球以及三个迟到结果边界。依赖使用 mock，不构成浏览器证据。
+- 收藏保存仍先于捕捉扣球/队伍更新；提交失败/重复的 `ItemActionCancelledError` 与轮次同步门闩保持，首条异步日志后 epoch 检查保持。
+- schema15、来源收据、显式导入和旧快照保护无本次改动；对应原有静态回归继续通过。
+- 控制器本轮仅修改事件结算参数；上游命中、天气、当前队伍与场地逻辑无回退。
+- 满队捕捉的永久登记不依赖替换操作，替换弹窗路径仍保留；实际选择/取消、视口与切场景表现交由 player 按原 R7 验证，不能从当前测试推称已经实玩。
+
+### 本版独立门禁
+
+| 命令 | 结果 |
+| --- | --- |
+| `npm.cmd run lint` | PASS，退出码 0 |
+| `npm.cmd test` | PASS，328/328，退出码 0 |
+| `npm.cmd run build` | PASS，退出码 0；既有主 chunk 大于 500 kB 警告 |
+| `go test ./...` | PASS，退出码 0 |
+| `git diff --check` | PASS |
+
+自然球来源、事件战恢复断点与大师球旧上限仍是已声明后续缺口。此次 PASS 只关闭本任务静态质量门，不代表自然获得闭环、实体手机或公开发布验收通过。

@@ -34,3 +34,25 @@
 - 修复A2：跨地区共享领取门闩，读取并同步最新队伍/背包，单球不双花且连续加入不丢成员。异步返回复核页面/工厂/事件战上下文，迟到结果不写回新状态。
 - 新增6项实际源码回调静态回归，包含真实catch→winBattle→resolveBattleResult→事件训练链与跨地区/上下文切换。R7同步补充相应实玩情形。
 - 四门禁：npm run lint PASS；npm test 328/328 PASS；npm run build PASS（既有chunk警告）；go test ./... PASS。未运行游戏，未推送、未合入主线；交独立复审。
+
+# Auditor
+
+- What I checked: 独立复审冻结代码 b2d58630e8475e4dbbc6d5e3a024b75073ebce1f，核对 A1 当前队伍显式传递、A2 全局领取门闩与最新资源同步、页面/工厂/事件战迟到保护，以及原有保存失败/导入/epoch 契约未被削弱。六项真实源码回调回归纳入全量 328/328 通过；lint/build/go test 独立通过。
+- Fixed locally: none；未运行游戏、未改业务、未提交。仅追加审计文档，旧 BLOCKED 历史保留。
+- Found but not fixed (needs lead routing): 本任务无剩余静态阻断；自然球来源、事件战完整断点与大师球旧上限仍按 implementation 记录由后续任务处理。
+- Verdict: PASS（静态）。A1/A2 关闭，可转 player 在本版冻结代码验证原 R1–R8 与捕捉训练、跨地区领取、满队替换/取消；此结论不代替运行验收。
+
+# Player
+
+- 冻结 b2d58630e8475e4dbbc6d5e3a024b75073ebce1f，真实 Go3004/Vite4303、HMR关闭、Chromium手机触控模拟；自然初遇/自然九世代首战与受控派遣、捕捉、存档、三视口UI分开记录，未用DEV Win。
+- PASS子项：R1/R2/R3、租借进化Seen不Owned、初遇同版导入、v14备份/取消/清除、两球连续join、单球跨地区burst、join保存失败重试、item、catch训练、概率失败、catch保存失败重试及刷新永久记录。
+- BLOCKED：满队成功捕捉后showReplaceUI已设但无组件挂载，EVENTS页面无替换或取消入口；full-cancel/full-replace两次复现。证据 evidence/final-b2d5863/r7-catch-full-{cancel,replace}/。
+- 未完成项和harness问题已如实记入runtime.md：换怪检查点等待、迟到派遣返回选择器、部分视觉截图在转场中、派遣来源同版导入与旧档拒绝等，不能合并为R1–R8全部通过。
+- 已按orchestrator要求结束本任务全部浏览器运行，服务保留，等待修复和独立重审后按新SHA重跑。未改业务、未提交、未合入。
+
+# Programmer
+
+- 修复player满队捕捉阻断：GameView在事件结算后挂载ReplacePokemonModal，BATTLE期间不开放；手机短屏可滚动，六名成员与取消按钮可达。
+- 替换/取消使用最新队伍及候选ref并同步清候选；离开事件/开始工厂同步取消待替换，旧点击不覆盖队伍；永久收据、消耗与战斗概率未改变。
+- 新增5项实际回调/父页面SSR回归，全量npm test 333/333、npm run lint、npm run build、go test ./... PASS。build保留既有chunk提示。
+- 已保留b2d5863的独立审计与失败runtime/log历史；证据和harness由player管理，未批量暂存。未运行游戏/推送/合入，冻结交独立审计后player按最终SHA重跑R1–R8。

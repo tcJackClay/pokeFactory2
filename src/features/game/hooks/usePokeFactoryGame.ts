@@ -275,13 +275,31 @@ export function usePokeFactoryGame(): GameViewModel {
   const [eventDispatchPopup, setEventDispatchPopup] = useState<EventDispatchPopup | null>(null);
   const [eventBattleActive, setEventBattleActive] = useState(false);
   const [eventBattleContext, setEventBattleContext] = useState<EventBattleContext | null>(null);
-  const eventRuntimeRef = useRef({ playerTeam, inventory, eventBattleActive, gameState, currentBaseTab });
-  eventRuntimeRef.current = { playerTeam, inventory, eventBattleActive, gameState, currentBaseTab };
+  const eventRuntimeRef = useRef({ playerTeam, inventory, eventBattleActive, gameState, currentBaseTab, showReplaceUI });
+  eventRuntimeRef.current = { playerTeam, inventory, eventBattleActive, gameState, currentBaseTab, showReplaceUI };
   const isDispatchContextCurrent = useCallback(() => {
     const live = eventRuntimeRef.current;
     return !factoryResumeActiveRef.current && !live.eventBattleActive
       && (live.gameState === 'EVENTS' || (live.gameState === 'BASE' && live.currentBaseTab === 'EVENTS'));
   }, []);
+  const cancelReplacePokemon = useCallback(() => {
+    eventRuntimeRef.current.showReplaceUI = null;
+    setShowReplaceUI(null);
+  }, []);
+  const replaceCollectedPokemon = useCallback((index: number) => {
+    const live = eventRuntimeRef.current;
+    if (!isDispatchContextCurrent() || !live.showReplaceUI || !Number.isInteger(index) || !live.playerTeam[index]) return;
+    const nextTeam = live.playerTeam.map((pokemon, teamIndex) => teamIndex === index ? live.showReplaceUI! : pokemon);
+    // The catch receipt and ball consumption already committed before this choice.
+    live.playerTeam = nextTeam;
+    live.showReplaceUI = null;
+    setPlayerTeam(nextTeam);
+    setShowReplaceUI(null);
+  }, [isDispatchContextCurrent]);
+  useEffect(() => {
+    const onEventPage = gameState === 'EVENTS' || (gameState === 'BASE' && currentBaseTab === 'EVENTS');
+    if (showReplaceUI && gameState !== 'BATTLE' && !onEventPage) cancelReplacePokemon();
+  }, [cancelReplacePokemon, currentBaseTab, gameState, showReplaceUI]);
   const [highestStreak, setHighestStreak] = useState(initialSave?.progress.highestStreak ?? 0);
   const [collectionLedger, setCollectionLedger] = useState<CollectionLedger>(() => ({
     seenIds: initialSave?.collection?.seenIds ?? [],
@@ -1156,15 +1174,17 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [buildCurrentSaveData, saveBlocked]);
 
   const enterBase = useCallback(() => {
+    cancelReplacePokemon();
     setCurrentBaseTab('HOME');
     setGameState(companionCommittedRef.current === null ? 'COMPANION_SELECT' : 'BASE');
-  }, []);
+  }, [cancelReplacePokemon]);
 
   const openBaseTab = useCallback((tab: BaseTab) => {
+    if (tab !== 'EVENTS') cancelReplacePokemon();
     if (companionCommittedRef.current === null) { setGameState('COMPANION_SELECT'); return; }
     setCurrentBaseTab(tab);
     setGameState('BASE');
-  }, []);
+  }, [cancelReplacePokemon]);
 
   const closeRunSummary = useCallback(() => {
     setPendingRunSummary((prev) => (prev ? { ...prev, visible: false } : prev));
@@ -1583,6 +1603,7 @@ export function usePokeFactoryGame(): GameViewModel {
   }, [canEnterProject, factoryFlow]);
 
   const startOrResumeFactoryFromBase = useCallback(async () => {
+    cancelReplacePokemon();
     if (companionCommittedRef.current === null) { setGameState('COMPANION_SELECT'); return; }
     setPendingRunSummary(null);
     setCurrentBaseTab('HOME');
@@ -1593,7 +1614,7 @@ export function usePokeFactoryGame(): GameViewModel {
     }
 
     await startGame();
-  }, [hasFactoryRunToResume, nextFactoryStage, startGame]);
+  }, [cancelReplacePokemon, hasFactoryRunToResume, nextFactoryStage, startGame]);
 
   const endPausedFactoryRun = useCallback(() => {
     const runId = walletRef.current.currentRunId;
@@ -2178,7 +2199,8 @@ export function usePokeFactoryGame(): GameViewModel {
     replaceMove: rewardFlow.replaceMove,
     startEvolution: rewardFlow.startEvolution,
     performEvolution: rewardFlow.performEvolution,
-    replacePokemon: rewardFlow.replacePokemon,
+    replacePokemon: replaceCollectedPokemon,
+    cancelReplacePokemon,
     continueAfterRoundResult,
     continueTrainerIntro: factoryFlow.continueTrainerIntro,
     forfeitChallenge: battleController.forfeitChallenge,
