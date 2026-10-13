@@ -53,7 +53,9 @@ provenance 记录源路径、源文件及脚本/项目输入摘要、1076 份映
 
 测试覆盖真实映射逐行与提取器比对、全 1076 × 50 资格查询、全国图鉴边界、10 条形态例外、洛托姆形态差异、零兼容物种、未知/冲突身份、已学排除、队伍资格联集和全部50项不可售。`--check` 用临时文件验证缺失/漂移时不修复、成功时不改 mtime。Node 中禁用 fetch 后按需加载和资格查询仍成功。
 
-换行修正后完整重跑四项门禁，结果仍为上述 PASS。独立检出副本仅位于 ignored `output/tm-checkout-reproduction/`，不作为运行依赖或提交内容。
+换行修正后程序员重跑四项门禁，结果为上述 PASS。此后创建的独立检出副本原位于 ignored `output/tm-checkout-reproduction/`，独立审计发现其不完整的 `generated.ts` 被 TypeScript 扫入，导致审计首次 lint 失败。审计已将该派生目录完整保留并移至工作树外 `D:/Games/pokeFactory2-worktrees/_audit-evidence/fixed-tm-checkout-reproduction`，随后重新执行门禁；最终结果见 `audit.md`。
+
+以后进行 `git checkout-index` 复现时，`--prefix` 必须使用项目及工作树外的专用暂存绝对路径（本次使用上述 `_audit-evidence/` 子目录），不能再放入项目 `output/`。Git ignored 不代表被 TypeScript 排除；不要通过修改 `tsconfig` 掩盖不完整复现副本。
 
 ## 体积与当前构建边界
 

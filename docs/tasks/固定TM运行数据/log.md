@@ -15,3 +15,11 @@
 - 提交前发现 `core.autocrlf=true` 会破坏生成产物的跨工作树字节比较；经 orchestrator 批准加入局部换行规则。项目文本摘要标注并使用 LF 规范化，Rogue 源原始摘要保持不变。
 - 增加 CRLF/LF 等价及正文变化拒绝的直接测试；随后完整重跑静态门禁与11项有源 CJS 测试。
 - 第二轮最终结果：lint/build/go test PASS；npm test302/302；CJS11/11、0 skipped。另从 Git index 在新目录检出真实 CRLF/LF 输入与产物，再运行生成器 --check，PASS；未提交 ignored 复现副本。
+
+# Auditor
+
+- What I checked: 独立审查 `33557de..427130f`、PRD/plan/context 与普通固定源码；另直接读取原始 profile 对比1076身份/9981映射配对。核对严格身份、已学排除、50项pending且价格null、按需加载错误传播和应用层重试、生成器源验证及LF/原始摘要边界。
+- Fixed locally: 首次lint发现已知 `output/tm-checkout-reproduction` 不完整检出副本被tsc扫描；完整保留并移至工作树外 `D:/Games/pokeFactory2-worktrees/_audit-evidence/fixed-tm-checkout-reproduction`。更正implementation复现说明，不改业务代码或tsconfig。
+- Validation: 修正暂存位置后lint/build/go test PASS；npm test302/302；有源CJS11/11、0 skipped。独立错误源CLI与真实--check均保持产物SHA256/mtime不变。详见audit.md。
+- Found but not fixed (needs lead routing): none。TM仍0/50准入；正文/效果/价格/交易/UI与实玩属于后续工作。
+- Verdict: PASS（固定数据模块静态门禁；未运行游戏、未提交）。
