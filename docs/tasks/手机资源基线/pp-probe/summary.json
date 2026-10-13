@@ -1,0 +1,76 @@
+[
+  {
+    "case": "miss-leftovers",
+    "before": [
+      {
+        "name": "fly",
+        "currentPp": 15,
+        "pp": 15,
+        "maxPp": 15
+      }
+    ],
+    "after": [
+      {
+        "name": "fly",
+        "currentPp": 15,
+        "pp": 15,
+        "maxPp": 15
+      }
+    ],
+    "reloaded": [
+      {
+        "name": "fly",
+        "currentPp": 15,
+        "pp": 15,
+        "maxPp": 15
+      }
+    ],
+    "log": [
+      "受控PP复现起点",
+      "呆呆兽 使用了 飞翔！",
+      "呆呆兽 造成了 18 点伤害。",
+      "对手的 比比鸟 使用了 撞击！",
+      "对手比比鸟的攻击没有命中！",
+      "呆呆兽通过剩饭恢复了体力！"
+    ],
+    "errors": [],
+    "http": []
+  },
+  {
+    "case": "hit-leftovers",
+    "before": [
+      {
+        "name": "fly",
+        "currentPp": 15,
+        "pp": 15,
+        "maxPp": 15
+      }
+    ],
+    "after": [
+      {
+        "name": "fly",
+        "currentPp": 14,
+        "pp": 15,
+        "maxPp": 15
+      }
+    ],
+    "reloaded": [
+      {
+        "name": "fly",
+        "currentPp": 14,
+        "pp": 15,
+        "maxPp": 15
+      }
+    ],
+    "log": [
+      "受控PP复现起点",
+      "呆呆兽 使用了 飞翔！",
+      "呆呆兽 造成了 18 点伤害。",
+      "对手的 比比鸟 使用了 撞击！",
+      "对手的 比比鸟 造成了 4 点伤害。",
+      "呆呆兽通过剩饭恢复了体力！"
+    ],
+    "errors": [],
+    "http": []
+  }
+]

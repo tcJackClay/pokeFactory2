@@ -1,0 +1,20 @@
+{
+  "commit": "2022d20d045404b757b99c908d0d7c22c3655bda",
+  "sourceDiff": null,
+  "health": {
+    "runtime": "go",
+    "status": "ok"
+  },
+  "contentVersion": {
+    "cries": "",
+    "csv": "",
+    "pokeapi": "",
+    "sprites": "2026-04-04T00:43:30.784Z"
+  },
+  "factoryIndexSha256": "050CD9359609752A4BA53DA5B54AC03A8967F93DFB0BB9A57056258A622C1DCD",
+  "spriteReportSha256": "3C854C52E8000B66F26B76B24388927E244ED1EA1FD7D3D0FD6D5AFBB9C7935A",
+  "backend": "PORT=3002 go run ./backend/cmd/server",
+  "frontend": "DISABLE_HMR=true GO_BACKEND_URL=http://127.0.0.1:3002 npm run dev -- --port 4301",
+  "cache": "Fresh browser context per run; backend var/ retained and upstream allowed by default",
+  "device": "Chromium simulated touch only, not physical phone"
+}

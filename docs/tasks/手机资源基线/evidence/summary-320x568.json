@@ -1,0 +1,32 @@
+{
+  "commit": "2022d20d045404b757b99c908d0d7c22c3655bda",
+  "health": "{\"runtime\":\"go\",\"status\":\"ok\"}\n",
+  "viewport": [
+    320,
+    568
+  ],
+  "conditions": "Fresh Chromium processes/contexts; empty browser cache and storage; existing Go disk cache retained, process shared, no network throttle; generation 9 selected through UI; random rentals, no seed or save injection; DPR2 touch simulation; Vite development server HMR disabled.",
+  "runs": [
+    {
+      "n": 4,
+      "timing": {
+        "partnerReady": 1262,
+        "baseReady": 2078,
+        "challengeClick": 3275,
+        "sixCards": 8838,
+        "movesReady": 13781
+      },
+      "metrics": {
+        "clickToSixCardsMs": 5563,
+        "navigationToMovesMs": 13781,
+        "clickToMovesMs": 10506,
+        "jsonBeforeCards": 97
+      },
+      "pageErrors": [],
+      "consoleErrors": [],
+      "httpErrors": [],
+      "failedRequests": [],
+      "hmr": []
+    }
+  ]
+}

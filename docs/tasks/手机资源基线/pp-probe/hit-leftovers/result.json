@@ -1,0 +1,422 @@
+{
+  "code": "2022d20d045404b757b99c908d0d7c22c3655bda",
+  "case": {
+    "name": "hit-leftovers",
+    "accuracy": 100
+  },
+  "origin": "http://127.0.0.192:4301",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "errors": [],
+  "http": [],
+  "before": {
+    "phase": "BATTLE",
+    "status": "READY",
+    "turn": "PLAYER",
+    "checkpointAt": "2026-10-13T15:04:48.106Z",
+    "log": [
+      "受控PP复现起点"
+    ],
+    "player": [
+      {
+        "name": "slowpoke",
+        "hp": 300,
+        "held": "leftovers",
+        "moves": [
+          {
+            "name": "fly",
+            "currentPp": 15,
+            "pp": 15,
+            "maxPp": 15
+          }
+        ]
+      },
+      {
+        "name": "rhyhorn",
+        "hp": 400,
+        "held": "quick_claw",
+        "moves": [
+          {
+            "name": "rototiller",
+            "pp": 10
+          },
+          {
+            "name": "thunder",
+            "pp": 10
+          },
+          {
+            "name": "sandstorm",
+            "pp": 10
+          },
+          {
+            "name": "superpower",
+            "pp": 5
+          }
+        ]
+      },
+      {
+        "name": "tentacool",
+        "hp": 400,
+        "held": "kings_rock",
+        "moves": [
+          {
+            "name": "round",
+            "pp": 15
+          },
+          {
+            "name": "constrict",
+            "pp": 35
+          },
+          {
+            "name": "mega-drain",
+            "pp": 15
+          },
+          {
+            "name": "rain-dance",
+            "pp": 5
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "name": "pidgeotto",
+        "hp": 400,
+        "moves": [
+          {
+            "name": "tackle",
+            "currentPp": 35,
+            "accuracy": 100
+          }
+        ]
+      },
+      {
+        "name": "eevee",
+        "hp": 1,
+        "moves": [
+          {
+            "name": "charm",
+            "accuracy": 100
+          },
+          {
+            "name": "attract",
+            "accuracy": 100
+          },
+          {
+            "name": "flail",
+            "accuracy": 100
+          },
+          {
+            "name": "endure",
+            "accuracy": null
+          }
+        ]
+      },
+      {
+        "name": "farfetchd",
+        "hp": 1,
+        "moves": [
+          {
+            "name": "slash",
+            "accuracy": 100
+          },
+          {
+            "name": "knock-off",
+            "accuracy": 100
+          },
+          {
+            "name": "swords-dance",
+            "accuracy": null
+          },
+          {
+            "name": "agility",
+            "accuracy": null
+          }
+        ]
+      }
+    ]
+  },
+  "after": {
+    "phase": "BATTLE",
+    "status": "READY",
+    "turn": "PLAYER",
+    "checkpointAt": "2026-10-13T15:04:58.554Z",
+    "log": [
+      "受控PP复现起点",
+      "呆呆兽 使用了 飞翔！",
+      "呆呆兽 造成了 18 点伤害。",
+      "对手的 比比鸟 使用了 撞击！",
+      "对手的 比比鸟 造成了 4 点伤害。",
+      "呆呆兽通过剩饭恢复了体力！"
+    ],
+    "player": [
+      {
+        "name": "slowpoke",
+        "hp": 321,
+        "held": "leftovers",
+        "moves": [
+          {
+            "name": "fly",
+            "currentPp": 14,
+            "pp": 15,
+            "maxPp": 15
+          }
+        ]
+      },
+      {
+        "name": "rhyhorn",
+        "hp": 400,
+        "held": "quick_claw",
+        "moves": [
+          {
+            "name": "rototiller",
+            "pp": 10
+          },
+          {
+            "name": "thunder",
+            "pp": 10
+          },
+          {
+            "name": "sandstorm",
+            "pp": 10
+          },
+          {
+            "name": "superpower",
+            "pp": 5
+          }
+        ]
+      },
+      {
+        "name": "tentacool",
+        "hp": 400,
+        "held": "kings_rock",
+        "moves": [
+          {
+            "name": "round",
+            "pp": 15
+          },
+          {
+            "name": "constrict",
+            "pp": 35
+          },
+          {
+            "name": "mega-drain",
+            "pp": 15
+          },
+          {
+            "name": "rain-dance",
+            "pp": 5
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "name": "pidgeotto",
+        "hp": 382,
+        "moves": [
+          {
+            "name": "tackle",
+            "currentPp": 34,
+            "accuracy": 100
+          }
+        ]
+      },
+      {
+        "name": "eevee",
+        "hp": 1,
+        "moves": [
+          {
+            "name": "charm",
+            "accuracy": 100
+          },
+          {
+            "name": "attract",
+            "accuracy": 100
+          },
+          {
+            "name": "flail",
+            "accuracy": 100
+          },
+          {
+            "name": "endure",
+            "accuracy": null
+          }
+        ]
+      },
+      {
+        "name": "farfetchd",
+        "hp": 1,
+        "moves": [
+          {
+            "name": "slash",
+            "accuracy": 100
+          },
+          {
+            "name": "knock-off",
+            "accuracy": 100
+          },
+          {
+            "name": "swords-dance",
+            "accuracy": null
+          },
+          {
+            "name": "agility",
+            "accuracy": null
+          }
+        ]
+      }
+    ]
+  },
+  "uiTrace": [
+    {
+      "ms": 5017.9000000003725,
+      "text": "飞翔飞行威力 90命中 100PP 15/15"
+    },
+    {
+      "ms": 6557.200000000186,
+      "text": "飞翔飞行威力 90命中 100PP 14/15"
+    },
+    {
+      "ms": 8006.200000000186,
+      "text": "飞翔飞行威力 90命中 100PP 15/15"
+    },
+    {
+      "ms": 9504.900000000373,
+      "text": "飞翔飞行威力 90命中 100PP 14/15"
+    }
+  ],
+  "body": "0\nBP\n3/7\n轮次\n2\n连胜\n比比鸟\n♂\nLV.50\n一般\n飞行\nHP\n96%\n呆呆兽\n♂\nLV.50\n水\n超能\nHP\n321/400\n战斗日志\nFCT-01\n\n对手的 比比鸟 造成了 4 点伤害。\n\n呆呆兽通过剩饭恢复了体力！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n飞翔\n飞行\n威力 90\n命中 100\nPP 14/15",
+  "reloaded": {
+    "phase": "BATTLE",
+    "status": "READY",
+    "turn": "PLAYER",
+    "checkpointAt": "2026-10-13T15:05:02.849Z",
+    "log": [
+      "受控PP复现起点",
+      "呆呆兽 使用了 飞翔！",
+      "呆呆兽 造成了 18 点伤害。",
+      "对手的 比比鸟 使用了 撞击！",
+      "对手的 比比鸟 造成了 4 点伤害。",
+      "呆呆兽通过剩饭恢复了体力！"
+    ],
+    "player": [
+      {
+        "name": "slowpoke",
+        "hp": 321,
+        "held": "leftovers",
+        "moves": [
+          {
+            "name": "fly",
+            "currentPp": 14,
+            "pp": 15,
+            "maxPp": 15
+          }
+        ]
+      },
+      {
+        "name": "rhyhorn",
+        "hp": 400,
+        "held": "quick_claw",
+        "moves": [
+          {
+            "name": "rototiller",
+            "pp": 10
+          },
+          {
+            "name": "thunder",
+            "pp": 10
+          },
+          {
+            "name": "sandstorm",
+            "pp": 10
+          },
+          {
+            "name": "superpower",
+            "pp": 5
+          }
+        ]
+      },
+      {
+        "name": "tentacool",
+        "hp": 400,
+        "held": "kings_rock",
+        "moves": [
+          {
+            "name": "round",
+            "pp": 15
+          },
+          {
+            "name": "constrict",
+            "pp": 35
+          },
+          {
+            "name": "mega-drain",
+            "pp": 15
+          },
+          {
+            "name": "rain-dance",
+            "pp": 5
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "name": "pidgeotto",
+        "hp": 382,
+        "moves": [
+          {
+            "name": "tackle",
+            "currentPp": 34,
+            "accuracy": 100
+          }
+        ]
+      },
+      {
+        "name": "eevee",
+        "hp": 1,
+        "moves": [
+          {
+            "name": "charm",
+            "accuracy": 100
+          },
+          {
+            "name": "attract",
+            "accuracy": 100
+          },
+          {
+            "name": "flail",
+            "accuracy": 100
+          },
+          {
+            "name": "endure",
+            "accuracy": null
+          }
+        ]
+      },
+      {
+        "name": "farfetchd",
+        "hp": 1,
+        "moves": [
+          {
+            "name": "slash",
+            "accuracy": 100
+          },
+          {
+            "name": "knock-off",
+            "accuracy": 100
+          },
+          {
+            "name": "swords-dance",
+            "accuracy": null
+          },
+          {
+            "name": "agility",
+            "accuracy": null
+          }
+        ]
+      }
+    ]
+  }
+}

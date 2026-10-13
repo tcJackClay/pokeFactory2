@@ -1,0 +1,163 @@
+[
+  {
+    "n": 1,
+    "metrics": {
+      "clickToSixCardsMs": 11796,
+      "navigationToMovesMs": 21788,
+      "clickToMovesMs": 18781,
+      "jsonBeforeCards": 94
+    },
+    "clickJson": 82,
+    "preClickJson": 12,
+    "move": {
+      "index": 1,
+      "text": "惊吓\n幽灵\n威力 30\n命中 100\nPP 15/15"
+    },
+    "pp": [
+      15,
+      14
+    ],
+    "playerIds": [
+      957,
+      953,
+      965
+    ],
+    "enemyHp": [
+      98,
+      84
+    ],
+    "imageProblems": [],
+    "layout": [
+      {
+        "name": "movesReady",
+        "viewport": [
+          390,
+          844
+        ],
+        "document": [
+          390,
+          844
+        ],
+        "minimumWidth": 59.046875,
+        "minimumHeight": 56
+      },
+      {
+        "name": "moves-320x568",
+        "viewport": [
+          320,
+          568
+        ],
+        "document": [
+          320,
+          568
+        ],
+        "minimumWidth": 47.921875,
+        "minimumHeight": 50
+      },
+      {
+        "name": "moves-844x390",
+        "viewport": [
+          844,
+          390
+        ],
+        "document": [
+          844,
+          390
+        ],
+        "minimumWidth": 48.609375,
+        "minimumHeight": 44
+      }
+    ],
+    "http": 0
+  },
+  {
+    "n": 2,
+    "metrics": {
+      "clickToSixCardsMs": 8829,
+      "navigationToMovesMs": 18320,
+      "clickToMovesMs": 14385,
+      "jsonBeforeCards": 99
+    },
+    "clickJson": 86,
+    "preClickJson": 13,
+    "move": {
+      "index": 1,
+      "text": "挖洞\n地面\n威力 80\n命中 100\nPP 10/10"
+    },
+    "pp": [
+      10,
+      9
+    ],
+    "playerIds": [
+      996,
+      960,
+      940
+    ],
+    "enemyHp": [
+      121,
+      107
+    ],
+    "imageProblems": [],
+    "layout": [
+      {
+        "name": "movesReady",
+        "viewport": [
+          390,
+          844
+        ],
+        "document": [
+          390,
+          844
+        ],
+        "minimumWidth": 59.046875,
+        "minimumHeight": 56
+      }
+    ],
+    "http": 0
+  },
+  {
+    "n": 3,
+    "metrics": {
+      "clickToSixCardsMs": 9905,
+      "navigationToMovesMs": 20618,
+      "clickToMovesMs": 17105,
+      "jsonBeforeCards": 99
+    },
+    "clickJson": 75,
+    "preClickJson": 24,
+    "move": {
+      "index": 1,
+      "text": "灵骚\n幽灵\n威力 110\n命中 90\nPP 5/5"
+    },
+    "pp": [
+      5,
+      4
+    ],
+    "playerIds": [
+      1012,
+      940,
+      931
+    ],
+    "enemyHp": [
+      142,
+      142
+    ],
+    "imageProblems": [],
+    "layout": [
+      {
+        "name": "movesReady",
+        "viewport": [
+          390,
+          844
+        ],
+        "document": [
+          390,
+          844
+        ],
+        "minimumWidth": 59.046875,
+        "minimumHeight": 56
+      }
+    ],
+    "http": 0
+  }
+]
