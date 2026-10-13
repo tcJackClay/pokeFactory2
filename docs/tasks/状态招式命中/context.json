@@ -1,0 +1,34 @@
+{
+  "_comment": "architect 拥有；基线 2022d20；本任务状态招式命中闭环。",
+  "inject_config": {
+    "all": [
+      { "file": "AGENTS.md", "reason": "角色与证据边界" },
+      { "file": "docs/tasks/状态招式命中/prd.md", "reason": "产品契约与AC" },
+      { "file": "docs/tasks/状态招式命中/design.md", "reason": "designer目标分类及例外规则" },
+      { "file": "docs/tasks/状态招式命中/plan.md", "reason": "技术方案、状态与逐项验证" }
+    ],
+    "programmer": [
+      { "file": ".agents/roles/programmer.md", "reason": "实现角色边界" },
+      { "file": "src/features/game/battle/engine/resolveDamage.ts", "reason": "状态分支与准确率、防护交互" },
+      { "file": "src/features/game/battle/engine/resolveAccuracy.ts", "reason": "复用现有命中规则，不另设数值" },
+      { "file": "src/features/game/data/battle/index.ts", "reason": "目标读取及正文转换" },
+      { "file": "src/features/game/data/battle/moveEffectTable.ts", "reason": "本地目标与效果override" },
+      { "file": "src/features/game/hooks/useBattleController.ts", "reason": "PP、单一终态、副效果和香草接线" },
+      { "file": "src/features/game/lib/battleResolution.ts", "reason": "实际状态/能力效果" }
+    ],
+    "auditor": [
+      { "file": ".agents/roles/auditor.md", "reason": "只作静态审查、不运行游戏" },
+      { "file": "docs/公开版需求矩阵.md", "reason": "证据等级与尚未验收范围" },
+      { "file": "docs/tasks/奖励商店/plan.md", "reason": "既有香草与未命中缺口边界" },
+      { "file": "src/features/game/battle/engine/resolveAccuracy.ts", "reason": "防止引入命中数值或必中特性回归" },
+      { "file": "src/features/game/lib/battleResolution.ts", "reason": "副效果许可与实际结果一致" }
+    ],
+    "player": [
+      { "file": ".agents/roles/player.md", "reason": "实玩与证据所有权，不改实现" },
+      { "file": "docs/tasks/奖励商店/run-reward-shop-final-browser.mjs", "reason": "隔离来源、原始正文与香草夹具范式" },
+      { "file": "docs/tasks/奖励商店/runtime.md", "reason": "实际服务、视口及受控证据记录范式" },
+      { "file": "src/services/saveManager.ts", "reason": "真实可观察BattleResumeSnapshot字段" },
+      { "file": "src/features/game/utils/restoreFactoryParty.ts", "reason": "下一战返还基准与当前道具区分" }
+    ]
+  }
+}

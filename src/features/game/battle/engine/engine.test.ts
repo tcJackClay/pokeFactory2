@@ -6,6 +6,7 @@ import type { BattleSnapshot } from './types';
 import { resolveBeforeMoveChecks } from './resolveBeforeMoveChecks';
 import { resolveEndTurn } from './resolveEndTurn';
 import { resolveActionSelection } from './resolveActionSelection';
+import { calculateDamage } from './resolveDamage';
 import { isRepeatFieldFailure, nextFieldStates, nextFieldTurns } from './fieldEffectTransition';
 import { completeEndTurnResolution, presentEndTurnResolution } from '../../hooks/presentEndTurnResolution';
 import { setNonVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
@@ -752,4 +753,53 @@ test('resolveEndTurn wakes sleeping battlers during uproar after yawn processing
 
   assert.equal(result.snapshot.playerTeam[0].nonVolatileStatus, undefined);
   assert.equal(result.snapshot.enemyTeam[0].volatileStatuses?.uproar?.turnsRemaining, 2);
+});
+
+test('the second action and end-turn retain the first action snapshot on both hit and miss', () => {
+  for (const accuracy of [0, 100]) {
+    const originalPlayer = createPokemon(1, 'player', {
+      currentHp: 300, maxHp: 400, factoryHeldItemId: 'leftovers', factoryEquippedHeldItemId: 'leftovers',
+      selectedMoves: [createMove({ name: 'fly', pp: 15, currentPp: undefined })],
+    });
+    // This is the complete first-action result delivered to the second action,
+    // including a newly materialized PP field and other changed battle state.
+    const afterFirstAction = {
+      ...originalPlayer,
+      statStages: { ...originalPlayer.statStages, spAtk: 1 },
+      selectedMoves: [{ ...originalPlayer.selectedMoves[0], currentPp: 14 }],
+    };
+    const enemy = createPokemon(2, 'enemy', { currentHp: 382, maxHp: 400, selectedMoves: [createMove({ accuracy })] });
+    const snapshot = createSnapshot({ playerTeam: [afterFirstAction], enemyTeam: [enemy], weather: 'rainy', weatherTurns: 3 });
+    const beforeSecond = resolveBeforeMoveChecks({
+      snapshot, side: 'enemy', combatant: enemy, move: enemy.selectedMoves[0], displayName: enemy.name,
+      hasAbilityEffect: () => false, isMoveUsableWhileAsleep: () => false, getEncoredMove: () => null,
+      getMoveCurrentPp: (move) => move.currentPp ?? move.pp ?? 0,
+      tryConsumeStatusCureBerry: (pokemon) => ({ pokemon, message: null }),
+      tryConsumeMentalHerb: (pokemon) => ({ pokemon, message: null }),
+      calculateConfusionSelfHitDamage: () => 0, random: () => 0.5,
+    });
+    assert.equal(beforeSecond.canAct, true);
+    assert.equal(beforeSecond.snapshot.playerTeam[0].selectedMoves[0].currentPp, 14);
+    const secondHit = calculateDamage({ move: enemy.selectedMoves[0], attacker: beforeSecond.combatant, defender: beforeSecond.snapshot.playerTeam[0], weather: 'rainy', atkBuff: false, defBuff: false, random: () => 0.5 });
+    assert.equal(secondHit.isMiss, accuracy === 0);
+    const beforeEnd = beforeSecond.snapshot;
+    beforeEnd.enemyTeam[0] = { ...beforeSecond.combatant, selectedMoves: [{ ...enemy.selectedMoves[0], currentPp: 34 }] };
+    if (!secondHit.isMiss) beforeEnd.playerTeam[0] = { ...beforeEnd.playerTeam[0], currentHp: beforeEnd.playerTeam[0].currentHp - secondHit.damage };
+    const result = resolveEndTurn({
+      snapshot: beforeEnd, getLocalized: (pokemon) => pokemon.name,
+      formatDynamaxEndMessage: (pokemon) => pokemon.name,
+      getMoveCurrentPp: (move) => move.currentPp ?? move.pp ?? 0,
+      tryActivateSitrusBerry: (pokemon) => ({ pokemon, message: null }),
+      tryActivatePinchStatBerry: (pokemon) => ({ pokemon, message: null }),
+    });
+    assert.equal(result.snapshot.playerTeam[0].selectedMoves[0].currentPp, 14);
+    assert.equal(result.snapshot.enemyTeam[0].selectedMoves[0].currentPp, 34);
+    assert.equal(result.snapshot.playerTeam[0].statStages.spAtk, 1);
+    assert.equal(result.snapshot.playerTeam[0].factoryHeldItemId, 'leftovers');
+    assert.equal(result.snapshot.playerTeam[0].factoryEquippedHeldItemId, 'leftovers');
+    assert.equal(result.snapshot.enemyTeam[0].currentHp, 382);
+    assert.equal(result.snapshot.playerTeam[0].currentHp, 325 - secondHit.damage);
+    assert.equal(result.snapshot.weatherTurns, 2);
+    assert.equal(originalPlayer.selectedMoves[0].currentPp, undefined, 'old input was not mutated to disguise snapshot loss');
+  }
 });

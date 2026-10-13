@@ -942,8 +942,8 @@ export function useBattleController({
   }: {
     combatant: GamePokemon;
     isEnemy: boolean;
-    currentPlayerTeam?: GamePokemon[];
-    currentEnemyTeam?: GamePokemon[];
+    currentPlayerTeam: GamePokemon[];
+    currentEnemyTeam: GamePokemon[];
     move?: Move;
   }) => {
     const displayName = isEnemy
@@ -955,8 +955,8 @@ export function useBattleController({
       : getLocalized(combatant);
     const result = resolveBeforeMoveChecksStep({
       snapshot: {
-        playerTeam: [...(currentPlayerTeam ?? playerTeam)],
-        enemyTeam: [...(currentEnemyTeam ?? enemyTeam)],
+        playerTeam: [...currentPlayerTeam],
+        enemyTeam: [...currentEnemyTeam],
         weather,
         weatherTurns,
         fieldState,
@@ -2701,6 +2701,7 @@ export function useBattleController({
     const preTurnResult = await resolvePreTurnStatus({
       combatant: actingEnemyLead,
       isEnemy: true,
+      currentPlayerTeam: playerTeamForTurn,
       currentEnemyTeam: enemyTeamForTurn,
       move: decision.selectedMove,
     });
