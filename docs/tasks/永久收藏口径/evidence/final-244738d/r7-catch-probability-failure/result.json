@@ -1,0 +1,288 @@
+{
+  "name": "r7-catch-probability-failure",
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "errors": [],
+  "http": [],
+  "steps": [
+    {
+      "label": "01-event-battle",
+      "collection": {
+        "seenIds": [
+          150,
+          744,
+          906,
+          909,
+          921,
+          940,
+          948,
+          951,
+          953,
+          955,
+          957,
+          963,
+          965,
+          969,
+          996,
+          999
+        ],
+        "ownedIds": [
+          744,
+          948
+        ],
+        "formKeys": [
+          "form-v2:150:mewtwo",
+          "form-v2:906:sprigatito",
+          "form-v2:909:fuecoco",
+          "form-v2:921:pawmi",
+          "form-v2:940:wattrel",
+          "form-v2:948:toedscool",
+          "form-v2:951:capsakid",
+          "form-v2:953:rellor",
+          "form-v2:955:flittle",
+          "form-v2:957:tinkatink",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:996:frigibax",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": [
+          {
+            "acquisitionId": "dispatch:paldea:1000",
+            "speciesId": 948,
+            "source": "DISPATCH_JOIN",
+            "regionId": "paldea",
+            "dispatchStartedAt": 1000,
+            "acquiredAt": 2000
+          }
+        ]
+      },
+      "companion": 744,
+      "body": "0\nBP\n1/7\n轮次\n0\n连胜\n超梦\n◇\nLV.68\n超能\nHP\n100%\n原野水母\n♀\nLV.50\n地面\n草\nHP\n101/101\n战斗日志\nFCT-01\n\n等待战斗指令。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n大师球\n绝对能捕捉到宝可梦的终极球\n大师球\n绝对能捕捉到宝可梦的终极球",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "02-probability-failure",
+      "collection": {
+        "seenIds": [
+          150,
+          744,
+          906,
+          909,
+          921,
+          940,
+          948,
+          951,
+          953,
+          955,
+          957,
+          963,
+          965,
+          969,
+          996,
+          999
+        ],
+        "ownedIds": [
+          744,
+          948
+        ],
+        "formKeys": [
+          "form-v2:150:mewtwo",
+          "form-v2:906:sprigatito",
+          "form-v2:909:fuecoco",
+          "form-v2:921:pawmi",
+          "form-v2:940:wattrel",
+          "form-v2:948:toedscool",
+          "form-v2:951:capsakid",
+          "form-v2:953:rellor",
+          "form-v2:955:flittle",
+          "form-v2:957:tinkatink",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:996:frigibax",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": [
+          {
+            "acquisitionId": "dispatch:paldea:1000",
+            "speciesId": 948,
+            "source": "DISPATCH_JOIN",
+            "regionId": "paldea",
+            "dispatchStartedAt": 1000,
+            "acquiredAt": 2000
+          }
+        ]
+      },
+      "companion": 744,
+      "body": "0\nBP\n1/7\n轮次\n0\n连胜\n超梦\n◇\nLV.68\n超能\nHP\n100%\n原野水母\n♀\nLV.50\n地面\n草\nHP\n0/101\n战斗日志\nFCT-01\n\n对手的 超梦 造成了 730 点伤害。\n\n原野水母 倒下了！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n挑衅\n恶\n威力 --\n命中 100\nPP 20/20\n蘑菇孢子\n草\n威力 --\n命中 100\nPP 15/15\n镜面反射\n超能\n威力 --\n命中 100\nPP 20/20\n点穴\n一般\n威力 --\n命中 --\nPP 30/30",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "checks": {
+    "oneBallSpent": true,
+    "noReceipt": true
+  },
+  "before": {
+    "gameState": "BATTLE",
+    "currentBaseTab": "EVENTS",
+    "playerTeam": [
+      {
+        "id": 948,
+        "name": "toedscool",
+        "hp": 101,
+        "maxHp": 101,
+        "evs": {
+          "hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0
+        },
+        "held": "leftovers",
+        "equipped": "leftovers",
+        "moves": [
+          {
+            "name": "taunt",
+            "pp": 20
+          },
+          {
+            "name": "spore",
+            "pp": 15
+          },
+          {
+            "name": "mirror-coat",
+            "pp": 20
+          },
+          {
+            "name": "acupressure",
+            "pp": 30
+          }
+        ]
+      }
+    ],
+    "enemy": {
+      "id": 150,
+      "name": "mewtwo",
+      "hp": 222,
+      "maxHp": 222,
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "moves": [
+        {
+          "name": "mega-punch",
+          "pp": 20
+        },
+        {
+          "name": "pay-day",
+          "pp": 20
+        },
+        {
+          "name": "fire-punch",
+          "pp": 15
+        },
+        {
+          "name": "ice-punch",
+          "pp": 15
+        }
+      ]
+    },
+    "inventory": [
+      {
+        "id": "masterball",
+        "isBall": true
+      },
+      {
+        "id": "masterball",
+        "isBall": true
+      }
+    ],
+    "battleLog": [],
+    "showReplaceUI": null,
+    "owned": [
+      744,
+      948
+    ],
+    "dispatches": {
+      "kanto": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": 1791910684247,
+        "lastResult": "关都: 特殊事件地点 华蓝洞窟，遭遇 超梦"
+      },
+      "johto": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "hoenn": {
+        "status": "READY",
+        "startedAt": 10000,
+        "readyAt": 11000,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "sinnoh": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "unova": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "kalos": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "alola": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "galar": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "paldea": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      }
+    }
+  },
+  "fullResultArchive": "result-detail.json.gz"
+}

@@ -1,0 +1,6 @@
+# Keep recorded evidence and replay inputs byte-exact for SHA256 manifests.
+evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+*.mjs -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+runtime.md -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+evidence/**/*.txt -whitespace
+evidence/*.txt -whitespace

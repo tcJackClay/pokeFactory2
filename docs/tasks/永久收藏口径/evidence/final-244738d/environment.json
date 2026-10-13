@@ -1,0 +1,37 @@
+{
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "date": "2026-10-13T17:08:23.102Z",
+  "cwd": "D:\\Games\\pokeFactory2-worktrees\\permanent-collection",
+  "frontend": "0.0.0.0:4303 DISABLE_HMR=true GO_BACKEND_URL=http://127.0.0.1:3004",
+  "backend": "PORT3004 cwd=D:\\Games\\pokeFactory2-worktrees\\permanent-collection",
+  "browser": "151.0.7922.34",
+  "viewports": [
+    [
+      390,
+      844
+    ],
+    [
+      320,
+      568
+    ],
+    [
+      844,
+      390
+    ]
+  ],
+  "touch": true,
+  "deviceScaleFactor": 2,
+  "physical": false,
+  "production": false,
+  "devWin": false,
+  "health": {
+    "runtime": "go",
+    "status": "ok"
+  },
+  "versions": {
+    "cries": "",
+    "csv": "",
+    "pokeapi": "",
+    "sprites": "2026-04-04T00:43:30.784Z"
+  }
+}

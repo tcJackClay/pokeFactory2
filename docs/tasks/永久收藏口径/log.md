@@ -56,3 +56,17 @@
 - 替换/取消使用最新队伍及候选ref并同步清候选；离开事件/开始工厂同步取消待替换，旧点击不覆盖队伍；永久收据、消耗与战斗概率未改变。
 - 新增5项实际回调/父页面SSR回归，全量npm test 333/333、npm run lint、npm run build、go test ./... PASS。build保留既有chunk提示。
 - 已保留b2d5863的独立审计与失败runtime/log历史；证据和harness由player管理，未批量暂存。未运行游戏/推送/合入，冻结交独立审计后player按最终SHA重跑R1–R8。
+
+# Auditor
+
+- What I checked: 冻结 244738de0f92fdb229aefae35f1d76330a08de9f，复审 GameView 真实事件页挂载、BATTLE 隐藏、六人/取消按钮与滚动约束、最新队伍/候选同步消费、旧回调连点拒绝、离场和工厂启动清理。核对父页面 SSR 测试使用真实 JSX 与真实模态框，未以 stub 代替被验证内容。
+- Fixed locally: none；未运行游戏、未改业务、未提交，未操作 player 未跟踪证据。
+- Found but not fixed (needs lead routing): 本版无剩余静态阻断；实际滚动/动画/触控与满队替换/取消须 player 在新提交重跑。自然球来源、事件战断点、大师球既有边界继续保留。
+- Verdict: PASS（静态）。四门禁独立通过，333/333；原 audit/runtime 历史保留，不能沿用旧截图证明本版通过。
+
+# Player
+
+- 最终244738de0f92fdb229aefae35f1d76330a08de9f重新完成22功能场景与2独立加载观察，真实Go3004/Vite4303、HMR关闭、Chromium手机触控模拟。R1–R8各项证据与限定范围见runtime.md首节与evidence/final-244738d/manifest.json。
+- 原满队阻断关闭：320滚动到底取消，844横屏替换+同按钮同步双击，队伍6/永久收据/球保持正确且候选清空。补齐真实换怪intro、派遣收据UI导入与另一档替换、同ID去重、v14导入拒绝、迟到离场/开工厂、事件并发/捕捉双击、中英三视口稳定渲染。
+- 指定功能范围PASS；无意外pageerror/HTTP失败，存储/旧导入预期错误完整保留。自然新档球来源、事件战完整断点、实体手机/生产和当前hero布局/事件摘要/本地化问题未以该PASS覆盖。
+- 未改业务、未提交、未合入；全部本任务浏览器已结束。服务保留，交orchestrator验收。

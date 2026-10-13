@@ -1,0 +1,98 @@
+{
+  "name": "r4-rental-swap",
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "errors": [],
+  "http": [],
+  "steps": [
+    {
+      "label": "01-before",
+      "collection": {
+        "seenIds": [
+          744,
+          909,
+          921,
+          940,
+          953,
+          957,
+          963,
+          965,
+          969,
+          999
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [
+          "form-v2:909:fuecoco",
+          "form-v2:921:pawmi",
+          "form-v2:940:wattrel",
+          "form-v2:953:rellor",
+          "form-v2:957:tinkatink",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n1/7\n轮次\n0\n连胜\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n虫\n虫滚泥\n我的已选\n电\n飞行\n电海燕\n选我方\n电\n布拨\n选我方\n对手队伍\n待选择\n火\n呆火鳄\n选对手\n钢\n毒\n噗隆隆\n选对手\n妖精\n钢\n小锻匠\n选对手\n当前选择\n虫滚泥\n交换目标\n未选择\n跳过交换\n确认交换",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "02-swapped",
+      "collection": {
+        "seenIds": [
+          744,
+          909,
+          921,
+          926,
+          940,
+          953,
+          957,
+          963,
+          965,
+          969,
+          999,
+          1012,
+          10260
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [
+          "form-v2:1012:poltchageist",
+          "form-v2:10260:squawkabilly-blue-plumage",
+          "form-v2:909:fuecoco",
+          "form-v2:921:pawmi",
+          "form-v2:926:fidough",
+          "form-v2:940:wattrel",
+          "form-v2:953:rellor",
+          "form-v2:957:tinkatink",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n2/7\n轮次\n0\n连胜\n怒鹦哥\n♂\nLV.50\n一般\n飞行\nHP\n100%\n呆火鳄\n♂\nLV.50\n火\nHP\n128/128\n战斗日志\nFCT-01\n\n对手 派出了 怒鹦哥！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n火焰旋涡\n火\n威力 35\n命中 85\nPP 15/15\n挖洞\n地面\n威力 80\n命中 100\nPP 10/10\n硬撑\n一般\n威力 70\n命中 100\nPP 20/20\n种子炸弹\n草\n威力 80\n命中 100\nPP 15/15",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "checks": {
+    "ownedOnlyPartner": true,
+    "seenSwap": true,
+    "swapCount": true
+  },
+  "cardCount": 6
+}

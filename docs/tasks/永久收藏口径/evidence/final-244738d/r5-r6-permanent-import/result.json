@@ -1,0 +1,263 @@
+{
+  "name": "r5-r6-permanent-import",
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "errors": [
+    "Import save failed Error: 旧规则存档不兼容（版本 14），请备份后重新开始。\n    at parseSaveDataFromText (http://127.0.0.201:4303/src/services/saveManager.ts:721:11)\n    at http://127.0.0.201:4303/src/features/game/hooks/usePokeFactoryGame.ts:1786:22\n    at onChange (http://127.0.0.201:4303/src/features/game/components/game-view/SettingsScreen.tsx:358:38)"
+  ],
+  "http": [],
+  "steps": [
+    {
+      "label": "01-permanent-owned",
+      "collection": {
+        "seenIds": [
+          150,
+          744,
+          906,
+          909,
+          921,
+          940,
+          948,
+          951,
+          953,
+          955,
+          957,
+          963,
+          965,
+          969,
+          996,
+          999
+        ],
+        "ownedIds": [
+          150,
+          744,
+          948
+        ],
+        "formKeys": [
+          "form-v2:150:mewtwo",
+          "form-v2:906:sprigatito",
+          "form-v2:909:fuecoco",
+          "form-v2:921:pawmi",
+          "form-v2:940:wattrel",
+          "form-v2:948:toedscool",
+          "form-v2:951:capsakid",
+          "form-v2:953:rellor",
+          "form-v2:955:flittle",
+          "form-v2:957:tinkatink",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:996:frigibax",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": [
+          {
+            "acquisitionId": "dispatch:kanto:10000",
+            "speciesId": 150,
+            "source": "DISPATCH_CATCH",
+            "regionId": "kanto",
+            "dispatchStartedAt": 10000,
+            "acquiredAt": 1791910647561
+          },
+          {
+            "acquisitionId": "dispatch:paldea:1000",
+            "speciesId": 948,
+            "source": "DISPATCH_JOIN",
+            "regionId": "paldea",
+            "dispatchStartedAt": 1000,
+            "acquiredAt": 2000
+          }
+        ]
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n宝可梦图鉴\n返回\n见过 16\n已拥有 3\n属性一\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n属性二\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n全国\n关都\n城都\n丰缘\n神奥\n合众\n卡洛斯\n阿罗拉\n伽勒尔\n帕底亚\n#0150\n档案\n超梦\n超能\nHP\n106\nATK\n110\nDEF\n90\nSPA\n154\nSPD\n90\nSPE\n130\n百万吨重拳\n--\n变化\n--\n聚宝功\n--\n变化\n--\n火焰拳\n--\n变化\n--\n冰冻拳\n--\n变化\n--\n雷电拳\n--\n变化\n--\n百万吨重踢\n--\n变化\n--\n头锤\n--\n变化\n--\n泰山压顶\n--\n变化\n--\n猛撞\n--\n变化\n--\n舍身冲撞\n--\n变化\n--\n定身法\n--\n变化\n--\n喷射火焰\n--\n变化\n--\n白雾\n--\n变化\n--\n水枪\n--\n变化\n--\n冰冻光束\n--\n变化\n--\n暴风雪\n--\n变化\n--\n幻象光线\n--\n变化\n--\n泡沫光线\n--\n变化\n--\n破坏光线\n--\n变化\n--\n地狱翻滚\n--\n变化\n--\n踢倒\n--\n变化\n--\n双倍奉还\n--\n变化\n--\n地球上投\n--\n变化\n--\n怪力\n--\n变化\n--\n日光束\n--\n变化\n--\n十万伏特\n--\n变化\n--\n电磁波\n--\n变化\n--\n打雷\n--\n变化\n--\n地震\n--\n变化\n--\n剧毒\n--\n变化\n--\n念力\n--\n变化\n--\n精神强念\n--\n变化\n--\n高速移动\n--\n变化\n--\n愤怒\n--\n变化\n--\n瞬间移动\n--\n变化\n--\n黑夜魔影\n--\n变化\n--\n模仿\n--\n变化\n--\n影子分身\n--\n变化\n--\n自我再生\n--\n变化\n--\n奇异之光\n--\n变化\n--\n屏障\n--\n变化\n--\n光墙\n--\n变化\n--\n反射壁\n--\n变化\n--\n忍耐\n--\n变化\n--\n挥指\n--\n变化\n--\n自爆\n--\n变化\n--\n大字爆炎\n--\n变化\n--\n高速星星\n--\n变化\n--\n火箭头锤\n--\n变化\n--\n瞬间失忆\n--\n变化\n--\n食梦\n--\n变化\n--\n闪光\n--\n变化\n--\n精神波\n--\n变化\n--\n睡觉\n--\n变化\n--\n岩崩\n--\n变化\n--\n三重攻击\n--\n变化\n--\n替身\n--\n变化\n--\n恶梦\n--\n变化\n--\n打鼾\n--\n变化\n--\n诅咒\n--\n变化\n--\n起死回生\n--\n变化\n--\n怨恨\n--\n变化\n--\n守住\n--\n变化\n--\n鬼面\n--\n变化\n--\n掷泥\n--\n变化\n--\n电磁炮\n--\n变化\n--\n冰冻之风\n--\n变化\n--\n看穿\n--\n变化\n--\n沙暴\n--\n变化\n--\n挺住\n--\n变化\n--\n虚张声势\n--\n变化\n--\n梦话\n--\n变化\n--\n报恩\n--\n变化\n--\n迁怒\n--\n变化\n--\n神秘守护\n--\n变化\n--\n爆裂拳\n--\n变化\n--\n铁尾\n--\n变化\n--\n觉醒力量\n--\n变化\n--\n求雨\n--\n变化\n--\n大晴天\n--\n变化\n--\n自我暗示\n--\n变化\n--\n原始之力\n--\n变化\n--\n暗影球\n--\n变化\n--\n预知未来\n--\n变化\n--\n碎岩\n--\n变化\n--\n冰雹\n--\n变化\n--\n无理取闹\n--\n变化\n--\n鬼火\n--\n变化\n--\n硬撑\n--\n变化\n--\n真气拳\n--\n变化\n--\n挑衅\n--\n变化\n--\n帮助\n--\n变化\n--\n戏法\n--\n变化\n--\n扮演\n--\n变化\n--\n魔法反射\n--\n变化\n--\n回收利用\n--\n变化\n--\n劈瓦\n--\n变化\n--\n拍落\n--\n变化\n--\n特性互换\n--\n变化\n--\n封印\n--\n变化\n--\n抢夺\n--\n变化\n--\n秘密之力\n--\n变化\n--\n潜水\n--\n变化\n--\n气象球\n--\n变化\n--\n岩石封锁\n--\n变化\n--\n信号光束\n--\n变化\n--\n燕返\n--\n变化\n--\n健美\n--\n变化\n--\n冥想\n--\n变化\n--\n电击波\n--\n变化\n--\n水之波动\n--\n变化\n--\n重力\n--\n变化\n--\n奇迹之眼\n--\n变化\n--\n自然之恩\n--\n变化\n--\n查封\n--\n变化\n--\n投掷\n--\n变化\n--\n抢先一步\n--\n变化\n--\n力量互换\n--\n变化\n--\n防守互换\n--\n变化\n--\n波导弹\n--\n变化\n--\n毒击\n--\n变化\n--\n恶之波动\n--\n变化\n--\n水流尾\n--\n变化\n--\n力量宝石\n--\n变化\n--\n吸取拳\n--\n变化\n--\n真气弹\n--\n变化\n--\n能量球\n--\n变化\n--\n大地之力\n--\n变化\n--\n终极冲击\n--\n变化\n--\n诡计\n--\n变化\n--\n雪崩\n--\n变化\n--\n精神利刃\n--\n变化\n--\n意念头锤\n--\n变化\n--\n攀岩\n--\n变化\n--\n戏法空间\n--\n变化\n--\n尖石攻击\n--\n变化\n--\n打草结\n--\n变化\n--\n充电光束\n--\n变化\n--\n奇妙空间\n--\n变化\n--\n精神冲击\n--\n变化\n--\n意念移物\n--\n变化\n--\n魔法空间\n--\n变化\n--\n电球\n--\n变化\n--\n下盘踢\n--\n变化\n--\n欺诈\n--\n变化\n--\n轮唱\n--\n变化\n--\n辅助力量\n--\n变化\n--\n交换场地\n--\n变化\n--\n祸不单行\n--\n变化\n--\n烧尽\n--\n变化\n--\n重踏\n--\n变化\n--\n精神击破\n--\n变化\n--\n暴风\n--\n变化\n--\n密语\n--\n变化\n--\n增强拳\n--\n变化\n--\n磨砺\n--\n变化\n--\n精神场地\n--\n变化\n--\n速度互换\n--\n变化\n--\n狂舞挥打\n--\n变化\n--\n跺脚\n--\n变化\n--\n生命水滴\n--\n变化\n--\n广域战力\n--\n变化\n--\n泄愤\n--\n变化\n--\nTera Blast\n--\n变化\n--\nTrailblaze\n--\n变化\n--\nChilling Water\n--\n变化\n--\nPsychic Noise\n--\n变化\n--",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "02-permanent-import",
+      "collection": {
+        "seenIds": [
+          150,
+          744,
+          906,
+          909,
+          921,
+          940,
+          948,
+          951,
+          953,
+          955,
+          957,
+          963,
+          965,
+          969,
+          996,
+          999
+        ],
+        "ownedIds": [
+          150,
+          744,
+          948
+        ],
+        "formKeys": [
+          "form-v2:150:mewtwo",
+          "form-v2:906:sprigatito",
+          "form-v2:909:fuecoco",
+          "form-v2:921:pawmi",
+          "form-v2:940:wattrel",
+          "form-v2:948:toedscool",
+          "form-v2:951:capsakid",
+          "form-v2:953:rellor",
+          "form-v2:955:flittle",
+          "form-v2:957:tinkatink",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:996:frigibax",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": [
+          {
+            "acquisitionId": "dispatch:kanto:10000",
+            "speciesId": 150,
+            "source": "DISPATCH_CATCH",
+            "regionId": "kanto",
+            "dispatchStartedAt": 10000,
+            "acquiredAt": 1791910647561
+          },
+          {
+            "acquisitionId": "dispatch:paldea:1000",
+            "speciesId": 948,
+            "source": "DISPATCH_JOIN",
+            "regionId": "paldea",
+            "dispatchStartedAt": 1000,
+            "acquiredAt": 2000
+          }
+        ]
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：岩狗狗\n商店\n图鉴\n1\n事件\n设置",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "03-old-import-rejected",
+      "collection": {
+        "seenIds": [
+          150,
+          744,
+          906,
+          909,
+          921,
+          940,
+          948,
+          951,
+          953,
+          955,
+          957,
+          963,
+          965,
+          969,
+          996,
+          999
+        ],
+        "ownedIds": [
+          150,
+          744,
+          948
+        ],
+        "formKeys": [
+          "form-v2:150:mewtwo",
+          "form-v2:906:sprigatito",
+          "form-v2:909:fuecoco",
+          "form-v2:921:pawmi",
+          "form-v2:940:wattrel",
+          "form-v2:948:toedscool",
+          "form-v2:951:capsakid",
+          "form-v2:953:rellor",
+          "form-v2:955:flittle",
+          "form-v2:957:tinkatink",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:996:frigibax",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": [
+          {
+            "acquisitionId": "dispatch:kanto:10000",
+            "speciesId": 150,
+            "source": "DISPATCH_CATCH",
+            "regionId": "kanto",
+            "dispatchStartedAt": 10000,
+            "acquiredAt": 1791910647561
+          },
+          {
+            "acquisitionId": "dispatch:paldea:1000",
+            "speciesId": 948,
+            "source": "DISPATCH_JOIN",
+            "regionId": "paldea",
+            "dispatchStartedAt": 1000,
+            "acquiredAt": 2000
+          }
+        ]
+      },
+      "companion": 744,
+      "body": "设置\n返回\n\n语言\n\n中文\nENGLISH\n\n当前世代\n\n扩展世代随机池：九选一。所选世代决定下一次新挑战中随机出现的宝可梦。\n\n帕底亚\n第九世代\n\n存档管理\n\n导出存档\n导入存档\n旧规则存档不兼容（版本 14），请备份后重新开始。\n\n通知\n\n当前版本暂不提供消息推送与提醒。\n\n版权与素材来源\n\n查看版权说明\n\nDEV 面板\n\n开启\n关闭",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "04-other-save-replaced",
+      "collection": {
+        "seenIds": [
+          133
+        ],
+        "ownedIds": [
+          133
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 133,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：伊布\n商店\n图鉴\n事件\n设置",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "05-other-owned",
+      "collection": {
+        "seenIds": [
+          133
+        ],
+        "ownedIds": [
+          133
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 133,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n宝可梦图鉴\n返回\n见过 1\n已拥有 1\n属性一\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n属性二\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n全国\n关都\n城都\n丰缘\n神奥\n合众\n卡洛斯\n阿罗拉\n伽勒尔\n帕底亚\n#0133\n档案\n伊布\n一般\nHP\n55\nATK\n55\nDEF\n50\nSPA\n45\nSPD\n65\nSPE\n55\n聚宝功\n--\n变化\n--\n二连踢\n--\n变化\n--\n泼沙\n--\n变化\n--\n头锤\n--\n变化\n--\n撞击\n--\n变化\n--\n泰山压顶\n--\n变化\n--\n猛撞\n--\n变化\n--\n舍身冲撞\n--\n变化\n--\n摇尾巴\n--\n变化\n--\n咬住\n--\n变化\n--\n叫声\n--\n变化\n--\n吼叫\n--\n变化\n--\n挖洞\n--\n变化\n--\n剧毒\n--\n变化\n--\n电光一闪\n--\n变化\n--\n愤怒\n--\n变化\n--\n模仿\n--\n变化\n--\n影子分身\n--\n变化\n--\n反射壁\n--\n变化\n--\n聚气\n--\n变化\n--\n忍耐\n--\n变化\n--\n高速星星\n--\n变化\n--\n火箭头锤\n--\n变化\n--\n睡觉\n--\n变化\n--\n替身\n--\n变化\n--\n打鼾\n--\n变化\n--\n诅咒\n--\n变化\n--\n抓狂\n--\n变化\n--\n守住\n--\n变化\n--\n掷泥\n--\n变化\n--\n看穿\n--\n变化\n--\n挺住\n--\n变化\n--\n撒娇\n--\n变化\n--\n虚张声势\n--\n变化\n--\n迷人\n--\n变化\n--\n梦话\n--\n变化\n--\n治愈铃声\n--\n变化\n--\n报恩\n--\n变化\n--\n迁怒\n--\n变化\n--\n接棒\n--\n变化\n--\n铁尾\n--\n变化\n--\n觉醒力量\n--\n变化\n--\n求雨\n--\n变化\n--\n大晴天\n--\n变化\n--\n暗影球\n--\n变化\n--\n硬撑\n--\n变化\n--\n帮助\n--\n变化\n--\n祈愿\n--\n变化\n--\n哈欠\n--\n变化\n--\n焕然一新\n--\n变化\n--\n秘密之力\n--\n变化\n--\n巨声\n--\n变化\n--\n气象球\n--\n变化\n--\n假哭\n--\n变化\n--\n挠痒\n--\n变化\n--\n渴望\n--\n变化\n--\n冥想\n--\n变化\n--\n自然之恩\n--\n变化\n--\n王牌\n--\n变化\n--\n仿效\n--\n变化\n--\n珍藏\n--\n变化\n--\n诱惑\n--\n变化\n--\n同步干扰\n--\n变化\n--\n轮唱\n--\n变化\n--\n回声\n--\n变化\n--\n辅助力量\n--\n变化\n--\n报仇\n--\n变化\n--\n自我激励\n--\n变化\n--\n密语\n--\n变化\n--\n圆瞳\n--\n变化\n--\n磨砺\n--\n变化\n--\nTera Blast\n--\n变化\n--\nTrailblaze\n--\n变化\n--\nAlluring Voice\n--\n变化\n--",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "checks": {
+    "sameReceipts": true,
+    "sameOwned": true,
+    "oldRejected": true,
+    "explicitReplacement": true
+  }
+}

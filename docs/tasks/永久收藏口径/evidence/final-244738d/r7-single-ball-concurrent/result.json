@@ -1,0 +1,479 @@
+{
+  "name": "r7-single-ball-concurrent",
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "errors": [],
+  "http": [],
+  "steps": [
+    {
+      "label": "01-before",
+      "collection": {
+        "seenIds": [
+          744,
+          906,
+          909,
+          921,
+          940,
+          948,
+          951,
+          953,
+          955,
+          957,
+          963,
+          965,
+          969,
+          996,
+          999
+        ],
+        "ownedIds": [
+          744,
+          948
+        ],
+        "formKeys": [
+          "form-v2:906:sprigatito",
+          "form-v2:909:fuecoco",
+          "form-v2:921:pawmi",
+          "form-v2:940:wattrel",
+          "form-v2:948:toedscool",
+          "form-v2:951:capsakid",
+          "form-v2:953:rellor",
+          "form-v2:955:flittle",
+          "form-v2:957:tinkatink",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:996:frigibax",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": [
+          {
+            "acquisitionId": "dispatch:paldea:1000",
+            "speciesId": 948,
+            "source": "DISPATCH_JOIN",
+            "regionId": "paldea",
+            "dispatchStartedAt": 1000,
+            "acquiredAt": 2000
+          }
+        ]
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n事件派遣\nMock模式: 关\n返回主页\n\n开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。\n\n关都\n\n未选择 #948\n\n属性不匹配该地区\n\n选择\n清除\n推荐\n领取结果\n\n城都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n丰缘\n\n未选择 #948\n\n属性不匹配该地区\n\n选择\n清除\n推荐\n领取结果\n\n神奥\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n合众\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n卡洛斯\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n伽勒尔\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n帕底亚\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "03-result",
+      "collection": {
+        "seenIds": [
+          1,
+          744,
+          906,
+          909,
+          921,
+          940,
+          948,
+          951,
+          953,
+          955,
+          957,
+          963,
+          965,
+          969,
+          996,
+          999
+        ],
+        "ownedIds": [
+          1,
+          744,
+          948
+        ],
+        "formKeys": [
+          "form-v2:1:bulbasaur",
+          "form-v2:906:sprigatito",
+          "form-v2:909:fuecoco",
+          "form-v2:921:pawmi",
+          "form-v2:940:wattrel",
+          "form-v2:948:toedscool",
+          "form-v2:951:capsakid",
+          "form-v2:953:rellor",
+          "form-v2:955:flittle",
+          "form-v2:957:tinkatink",
+          "form-v2:963:finizen",
+          "form-v2:965:varoom",
+          "form-v2:969:glimmet",
+          "form-v2:996:frigibax",
+          "form-v2:999:gimmighoul"
+        ],
+        "acquisitions": [
+          {
+            "acquisitionId": "dispatch:kanto:10000",
+            "speciesId": 1,
+            "source": "DISPATCH_JOIN",
+            "regionId": "kanto",
+            "dispatchStartedAt": 10000,
+            "acquiredAt": 1791910688443
+          },
+          {
+            "acquisitionId": "dispatch:paldea:1000",
+            "speciesId": 948,
+            "source": "DISPATCH_JOIN",
+            "regionId": "paldea",
+            "dispatchStartedAt": 1000,
+            "acquiredAt": 2000
+          }
+        ]
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n事件派遣\nMock模式: 关\n返回主页\n\n开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。\n\n关都\n\n未选择 #948\n\n属性不匹配该地区\n\n选择\n清除\n推荐\n开始派遣\n\n关都: 妙蛙种子加入队伍；派遣宝可梦获得 HP +2 努力值\n\n城都\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n丰缘\n\n未选择 #948\n\n属性不匹配该地区\n\n选择\n清除\n推荐\n领取结果\n\n神奥\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n合众\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n卡洛斯\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n伽勒尔\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n帕底亚\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n「妙蛙种子」认可了你的队伍，已加入当前队伍。 派遣宝可梦获得 HP +2 努力值\n\nLv.50",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "checks": {
+    "receiptCount": true,
+    "ballCount": true,
+    "teamCount": true,
+    "secondStillReady": true
+  },
+  "before": {
+    "gameState": "BASE",
+    "currentBaseTab": "EVENTS",
+    "playerTeam": [
+      {
+        "id": 948,
+        "name": "toedscool",
+        "hp": 101,
+        "maxHp": 101,
+        "evs": {
+          "hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0
+        },
+        "held": "leftovers",
+        "equipped": "leftovers",
+        "moves": [
+          {
+            "name": "taunt",
+            "pp": 20
+          },
+          {
+            "name": "spore",
+            "pp": 15
+          },
+          {
+            "name": "mirror-coat",
+            "pp": 20
+          },
+          {
+            "name": "acupressure",
+            "pp": 30
+          }
+        ]
+      }
+    ],
+    "enemy": {
+      "id": 955,
+      "name": "flittle",
+      "hp": 91,
+      "maxHp": 91,
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "held": "white_herb",
+      "equipped": "white_herb",
+      "moves": [
+        {
+          "name": "psyshock",
+          "pp": 10
+        },
+        {
+          "name": "growl",
+          "pp": 40
+        },
+        {
+          "name": "agility",
+          "pp": 30
+        },
+        {
+          "name": "light-screen",
+          "pp": 30
+        }
+      ]
+    },
+    "inventory": [
+      {
+        "id": "masterball",
+        "isBall": true
+      }
+    ],
+    "battleLog": [
+      "对手 派出了 飘飘雏！"
+    ],
+    "showReplaceUI": null,
+    "owned": [
+      744,
+      948
+    ],
+    "dispatches": {
+      "kanto": {
+        "status": "READY",
+        "startedAt": 10000,
+        "readyAt": 11000,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "johto": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "hoenn": {
+        "status": "READY",
+        "startedAt": 10000,
+        "readyAt": 11000,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "sinnoh": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "unova": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "kalos": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "alola": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "galar": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "paldea": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      }
+    }
+  },
+  "controlledBurst": true,
+  "after": {
+    "gameState": "BASE",
+    "currentBaseTab": "EVENTS",
+    "playerTeam": [
+      {
+        "id": 948,
+        "name": "toedscool",
+        "hp": 101,
+        "maxHp": 101,
+        "evs": {
+          "hp": 2,
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0
+        },
+        "held": "leftovers",
+        "equipped": "leftovers",
+        "moves": [
+          {
+            "name": "taunt",
+            "pp": 20
+          },
+          {
+            "name": "spore",
+            "pp": 15
+          },
+          {
+            "name": "mirror-coat",
+            "pp": 20
+          },
+          {
+            "name": "acupressure",
+            "pp": 30
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "name": "bulbasaur",
+        "hp": 105,
+        "maxHp": 105,
+        "evs": {
+          "hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0
+        },
+        "moves": [
+          {
+            "name": "razor-wind",
+            "pp": 10
+          },
+          {
+            "name": "swords-dance",
+            "pp": 20
+          },
+          {
+            "name": "cut",
+            "pp": 30
+          },
+          {
+            "name": "bind",
+            "pp": 20
+          }
+        ]
+      }
+    ],
+    "enemy": {
+      "id": 955,
+      "name": "flittle",
+      "hp": 91,
+      "maxHp": 91,
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "held": "white_herb",
+      "equipped": "white_herb",
+      "moves": [
+        {
+          "name": "psyshock",
+          "pp": 10
+        },
+        {
+          "name": "growl",
+          "pp": 40
+        },
+        {
+          "name": "agility",
+          "pp": 30
+        },
+        {
+          "name": "light-screen",
+          "pp": 30
+        }
+      ]
+    },
+    "inventory": [],
+    "battleLog": [
+      "对手 派出了 飘飘雏！"
+    ],
+    "showReplaceUI": null,
+    "owned": [
+      1,
+      744,
+      948
+    ],
+    "dispatches": {
+      "kanto": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": 1791910688454,
+        "lastResult": "关都: 妙蛙种子加入队伍；派遣宝可梦获得 HP +2 努力值"
+      },
+      "johto": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "hoenn": {
+        "status": "READY",
+        "startedAt": 10000,
+        "readyAt": 11000,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "sinnoh": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "unova": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "kalos": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "alola": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "galar": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "paldea": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      }
+    }
+  },
+  "fullResultArchive": "result-detail.json.gz"
+}

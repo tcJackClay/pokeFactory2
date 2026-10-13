@@ -1,0 +1,300 @@
+{
+  "name": "r5-r8-filter-import-layout",
+  "code": "244738de0f92fdb229aefae35f1d76330a08de9f",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "errors": [],
+  "http": [],
+  "steps": [
+    {
+      "label": "zh-base-390",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：岩狗狗\n商店\n图鉴\n事件\n设置",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "zh-owned-390",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n宝可梦图鉴\n返回\n见过 1\n已拥有 1\n属性一\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n属性二\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n全国\n关都\n城都\n丰缘\n神奥\n合众\n卡洛斯\n阿罗拉\n伽勒尔\n帕底亚\n#0744\n档案\n岩狗狗\n岩石\nHP\n45\nATK\n65\nDEF\n40\nSPA\n30\nSPD\n40\nSPE\n60\n剑舞\n--\n变化\n--\n泼沙\n--\n变化\n--\n撞击\n--\n变化\n--\n泰山压顶\n--\n变化\n--\n猛撞\n--\n变化\n--\n大闹一番\n--\n变化\n--\n舍身冲撞\n--\n变化\n--\n瞪眼\n--\n变化\n--\n咬住\n--\n变化\n--\n吼叫\n--\n变化\n--\n落石\n--\n变化\n--\n挖洞\n--\n变化\n--\n剧毒\n--\n变化\n--\n影子分身\n--\n变化\n--\n睡觉\n--\n变化\n--\n岩崩\n--\n变化\n--\n替身\n--\n变化\n--\n打鼾\n--\n变化\n--\n守住\n--\n变化\n--\n鬼面\n--\n变化\n--\n掷泥\n--\n变化\n--\n沙暴\n--\n变化\n--\n挺住\n--\n变化\n--\n撒娇\n--\n变化\n--\n虚张声势\n--\n变化\n--\n迷人\n--\n变化\n--\n梦话\n--\n变化\n--\n报恩\n--\n变化\n--\n迁怒\n--\n变化\n--\n铁尾\n--\n变化\n--\n觉醒力量\n--\n变化\n--\n咬碎\n--\n变化\n--\n硬撑\n--\n变化\n--\n挑衅\n--\n变化\n--\n帮助\n--\n变化\n--\n蛮干\n--\n变化\n--\n巨声\n--\n变化\n--\n撕裂爪\n--\n变化\n--\n气味侦测\n--\n变化\n--\n岩石封锁\n--\n变化\n--\n铁壁\n--\n变化\n--\n长嚎\n--\n变化\n--\n渴望\n--\n变化\n--\n珍藏\n--\n变化\n--\n突袭\n--\n变化\n--\n岩石打磨\n--\n变化\n--\n大地之力\n--\n变化\n--\n雷电牙\n--\n变化\n--\n火焰牙\n--\n变化\n--\n意念头锤\n--\n变化\n--\n攀岩\n--\n变化\n--\n铁头\n--\n变化\n--\n尖石攻击\n--\n变化\n--\n隐形岩\n--\n变化\n--\n轮唱\n--\n变化\n--\n回声\n--\n变化\n--\n重踏\n--\n变化\n--\n大声咆哮\n--\n变化\n--\n嬉闹\n--\n变化\n--\n密语\n--\n变化\n--\n精神之牙\n--\n变化\n--\n跺脚\n--\n变化\n--\nTera Blast\n--\n变化\n--\nTrailblaze\n--\n变化\n--",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "zh-base-320",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：岩狗狗\n商店\n图鉴\n事件\n设置",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "label": "zh-owned-320",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n宝可梦图鉴\n返回\n见过 1\n已拥有 1\n属性一\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n属性二\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n全国\n关都\n城都\n丰缘\n神奥\n合众\n卡洛斯\n阿罗拉\n伽勒尔\n帕底亚\n#0744\n档案\n岩狗狗\n岩石\nHP\n45\nATK\n65\nDEF\n40\nSPA\n30\nSPD\n40\nSPE\n60\n剑舞\n一般\n变化\n--\n泼沙\n地面\n变化\n--\n撞击\n一般\n物理\n40\n泰山压顶\n一般\n物理\n85\n猛撞\n一般\n物理\n90\n大闹一番\n一般\n物理\n120\n舍身冲撞\n一般\n物理\n120\n瞪眼\n一般\n变化\n--\n咬住\n恶\n物理\n60\n吼叫\n一般\n变化\n--\n落石\n岩石\n物理\n50\n挖洞\n地面\n物理\n80\n剧毒\n毒\n变化\n--\n影子分身\n一般\n变化\n--\n睡觉\n超能\n变化\n--\n岩崩\n岩石\n物理\n75\n替身\n一般\n变化\n--\n打鼾\n一般\n特殊\n50\n守住\n一般\n变化\n--\n鬼面\n一般\n变化\n--\n掷泥\n地面\n特殊\n20\n沙暴\n岩石\n变化\n--\n挺住\n一般\n变化\n--\n撒娇\n妖精\n变化\n--\n虚张声势\n一般\n变化\n--\n迷人\n一般\n变化\n--\n梦话\n一般\n变化\n--\n报恩\n一般\n物理\n--\n迁怒\n一般\n物理\n--\n铁尾\n钢\n物理\n100\n觉醒力量\n一般\n特殊\n60\n咬碎\n恶\n物理\n80\n硬撑\n一般\n物理\n70\n挑衅\n恶\n变化\n--\n帮助\n一般\n变化\n--\n蛮干\n一般\n物理\n--\n巨声\n一般\n特殊\n90\n撕裂爪\n一般\n物理\n75\n气味侦测\n一般\n变化\n--\n岩石封锁\n岩石\n物理\n60\n铁壁\n钢\n变化\n--\n长嚎\n一般\n变化\n--\n渴望\n一般\n物理\n60\n珍藏\n一般\n物理\n140\n突袭\n恶\n物理\n70\n岩石打磨\n岩石\n变化\n--\n大地之力\n地面\n特殊\n90\n雷电牙\n电\n物理\n65\n火焰牙\n火\n物理\n65\n意念头锤\n超能\n物理\n80\n攀岩\n一般\n物理\n90\n铁头\n钢\n物理\n80\n尖石攻击\n岩石\n物理\n100\n隐形岩\n岩石\n变化\n--\n轮唱\n一般\n特殊\n60\n回声\n一般\n特殊\n40\n重踏\n地面\n物理\n60\n大声咆哮\n恶\n特殊\n55\n嬉闹\n妖精\n物理\n90\n密语\n一般\n变化\n--\n精神之牙\n超能\n物理\n85\n跺脚\n地面\n物理\n75\n太晶爆发\n一般\n特殊\n80\n起草\n草\n物理\n50",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "label": "zh-base-844",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：岩狗狗\n商店\n图鉴\n事件\n设置",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "zh-owned-844",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n宝可梦图鉴\n返回\n见过 1\n已拥有 1\n属性一\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n属性二\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n全国\n关都\n城都\n丰缘\n神奥\n合众\n卡洛斯\n阿罗拉\n伽勒尔\n帕底亚\n#0744\n档案\n岩狗狗\n岩石\nHP\n45\nATK\n65\nDEF\n40\nSPA\n30\nSPD\n40\nSPE\n60\n剑舞\n一般\n变化\n--\n泼沙\n地面\n变化\n--\n撞击\n一般\n物理\n40\n泰山压顶\n一般\n物理\n85\n猛撞\n一般\n物理\n90\n大闹一番\n一般\n物理\n120\n舍身冲撞\n一般\n物理\n120\n瞪眼\n一般\n变化\n--\n咬住\n恶\n物理\n60\n吼叫\n一般\n变化\n--\n落石\n岩石\n物理\n50\n挖洞\n地面\n物理\n80\n剧毒\n毒\n变化\n--\n影子分身\n一般\n变化\n--\n睡觉\n超能\n变化\n--\n岩崩\n岩石\n物理\n75\n替身\n一般\n变化\n--\n打鼾\n一般\n特殊\n50\n守住\n一般\n变化\n--\n鬼面\n一般\n变化\n--\n掷泥\n地面\n特殊\n20\n沙暴\n岩石\n变化\n--\n挺住\n一般\n变化\n--\n撒娇\n妖精\n变化\n--\n虚张声势\n一般\n变化\n--\n迷人\n一般\n变化\n--\n梦话\n一般\n变化\n--\n报恩\n一般\n物理\n--\n迁怒\n一般\n物理\n--\n铁尾\n钢\n物理\n100\n觉醒力量\n一般\n特殊\n60\n咬碎\n恶\n物理\n80\n硬撑\n一般\n物理\n70\n挑衅\n恶\n变化\n--\n帮助\n一般\n变化\n--\n蛮干\n一般\n物理\n--\n巨声\n一般\n特殊\n90\n撕裂爪\n一般\n物理\n75\n气味侦测\n一般\n变化\n--\n岩石封锁\n岩石\n物理\n60\n铁壁\n钢\n变化\n--\n长嚎\n一般\n变化\n--\n渴望\n一般\n物理\n60\n珍藏\n一般\n物理\n140\n突袭\n恶\n物理\n70\n岩石打磨\n岩石\n变化\n--\n大地之力\n地面\n特殊\n90\n雷电牙\n电\n物理\n65\n火焰牙\n火\n物理\n65\n意念头锤\n超能\n物理\n80\n攀岩\n一般\n物理\n90\n铁头\n钢\n物理\n80\n尖石攻击\n岩石\n物理\n100\n隐形岩\n岩石\n变化\n--\n轮唱\n一般\n特殊\n60\n回声\n一般\n特殊\n40\n重踏\n地面\n物理\n60\n大声咆哮\n恶\n特殊\n55\n嬉闹\n妖精\n物理\n90\n密语\n一般\n变化\n--\n精神之牙\n超能\n物理\n85\n跺脚\n地面\n物理\n75\n太晶爆发\n一般\n特殊\n80\n起草\n草\n物理\n50",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "filters-match",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n宝可梦图鉴\n返回\n见过 1\n已拥有 1\n属性一\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n属性二\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n全国\n关都\n城都\n丰缘\n神奥\n合众\n卡洛斯\n阿罗拉\n伽勒尔\n帕底亚\n#0744\n档案\n岩狗狗\n岩石\nHP\n45\nATK\n65\nDEF\n40\nSPA\n30\nSPD\n40\nSPE\n60\n剑舞\n一般\n变化\n--\n泼沙\n地面\n变化\n--\n撞击\n一般\n物理\n40\n泰山压顶\n一般\n物理\n85\n猛撞\n一般\n物理\n90\n大闹一番\n一般\n物理\n120\n舍身冲撞\n一般\n物理\n120\n瞪眼\n一般\n变化\n--\n咬住\n恶\n物理\n60\n吼叫\n一般\n变化\n--\n落石\n岩石\n物理\n50\n挖洞\n地面\n物理\n80\n剧毒\n毒\n变化\n--\n影子分身\n一般\n变化\n--\n睡觉\n超能\n变化\n--\n岩崩\n岩石\n物理\n75\n替身\n一般\n变化\n--\n打鼾\n一般\n特殊\n50\n守住\n一般\n变化\n--\n鬼面\n一般\n变化\n--\n掷泥\n地面\n特殊\n20\n沙暴\n岩石\n变化\n--\n挺住\n一般\n变化\n--\n撒娇\n妖精\n变化\n--\n虚张声势\n一般\n变化\n--\n迷人\n一般\n变化\n--\n梦话\n一般\n变化\n--\n报恩\n一般\n物理\n--\n迁怒\n一般\n物理\n--\n铁尾\n钢\n物理\n100\n觉醒力量\n一般\n特殊\n60\n咬碎\n恶\n物理\n80\n硬撑\n一般\n物理\n70\n挑衅\n恶\n变化\n--\n帮助\n一般\n变化\n--\n蛮干\n一般\n物理\n--\n巨声\n一般\n特殊\n90\n撕裂爪\n一般\n物理\n75\n气味侦测\n一般\n变化\n--\n岩石封锁\n岩石\n物理\n60\n铁壁\n钢\n变化\n--\n长嚎\n一般\n变化\n--\n渴望\n一般\n物理\n60\n珍藏\n一般\n物理\n140\n突袭\n恶\n物理\n70\n岩石打磨\n岩石\n变化\n--\n大地之力\n地面\n特殊\n90\n雷电牙\n电\n物理\n65\n火焰牙\n火\n物理\n65\n意念头锤\n超能\n物理\n80\n攀岩\n一般\n物理\n90\n铁头\n钢\n物理\n80\n尖石攻击\n岩石\n物理\n100\n隐形岩\n岩石\n变化\n--\n轮唱\n一般\n特殊\n60\n回声\n一般\n特殊\n40\n重踏\n地面\n物理\n60\n大声咆哮\n恶\n特殊\n55\n嬉闹\n妖精\n物理\n90\n密语\n一般\n变化\n--\n精神之牙\n超能\n物理\n85\n跺脚\n地面\n物理\n75\n太晶爆发\n一般\n特殊\n80\n起草\n草\n物理\n50",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "filters-empty",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\n轮次\n0\n连胜\n宝可梦图鉴\n返回\n见过 1\n已拥有 1\n属性一\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n属性二\n一般\n火\n水\n电\n草\n冰\n格斗\n毒\n地面\n飞行\n超能\n虫\n岩石\n幽灵\n龙\n恶\n钢\n妖精\n全国\n关都\n城都\n丰缘\n神奥\n合众\n卡洛斯\n阿罗拉\n伽勒尔\n帕底亚\n没有匹配结果。\n暂无数据",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "en-base-390",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\nStandby\nBATTLE FACTORY\n\nSTART NEXT RUN\n\nStart Run\nCompanion: Rockruff\nShop\nCollection\nEvents\nSettings",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "en-owned-390",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\nPOKEDEX\nBACK\nSeen 1\nOwned 1\nType 1\nnormal\nfire\nwater\nelectric\ngrass\nice\nfighting\npoison\nground\nflying\npsychic\nbug\nrock\nghost\ndragon\ndark\nsteel\nfairy\nType 2\nnormal\nfire\nwater\nelectric\ngrass\nice\nfighting\npoison\nground\nflying\npsychic\nbug\nrock\nghost\ndragon\ndark\nsteel\nfairy\nNational\nKanto\nJohto\nHoenn\nSinnoh\nUnova\nKalos\nAlola\nGalar\nPaldea\n#0744\nARCHIVE\nROCKRUFF\nROCK\nHP\n45\nATK\n65\nDEF\n40\nSPA\n30\nSPD\n40\nSPE\n60\nSwords Dance\nNORMAL\nStatus\n--\nSand Attack\nGROUND\nStatus\n--\nTackle\nNORMAL\nPhysical\n40\nBody Slam\nNORMAL\nPhysical\n85\nTake Down\nNORMAL\nPhysical\n90\nThrash\nNORMAL\nPhysical\n120\nDouble-Edge\nNORMAL\nPhysical\n120\nLeer\nNORMAL\nStatus\n--\nBite\nDARK\nPhysical\n60\nRoar\nNORMAL\nStatus\n--\nRock Throw\nROCK\nPhysical\n50\nDig\nGROUND\nPhysical\n80\nToxic\nPOISON\nStatus\n--\nDouble Team\nNORMAL\nStatus\n--\nRest\nPSYCHIC\nStatus\n--\nRock Slide\nROCK\nPhysical\n75\nSubstitute\nNORMAL\nStatus\n--\nSnore\nNORMAL\nSpecial\n50\nProtect\nNORMAL\nStatus\n--\nScary Face\nNORMAL\nStatus\n--\nMud-Slap\nGROUND\nSpecial\n20\nSandstorm\nROCK\nStatus\n--\nEndure\nNORMAL\nStatus\n--\nCharm\nFAIRY\nStatus\n--\nSwagger\nNORMAL\nStatus\n--\nAttract\nNORMAL\nStatus\n--\nSleep Talk\nNORMAL\nStatus\n--\nReturn\nNORMAL\nPhysical\n--\nFrustration\nNORMAL\nPhysical\n--\nIron Tail\nSTEEL\nPhysical\n100\nHidden Power\nNORMAL\nSpecial\n60\nCrunch\nDARK\nPhysical\n80\nFacade\nNORMAL\nPhysical\n70\nTaunt\nDARK\nStatus\n--\nHelping Hand\nNORMAL\nStatus\n--\nEndeavor\nNORMAL\nPhysical\n--\nHyper Voice\nNORMAL\nSpecial\n90\nCrush Claw\nNORMAL\nPhysical\n75\nOdor Sleuth\nNORMAL\nStatus\n--\nRock Tomb\nROCK\nPhysical\n60\nIron Defense\nSTEEL\nStatus\n--\nHowl\nNORMAL\nStatus\n--\nCovet\nNORMAL\nPhysical\n60\nLast Resort\nNORMAL\nPhysical\n140\nSucker Punch\nDARK\nPhysical\n70\nRock Polish\nROCK\nStatus\n--\nEarth Power\nGROUND\nSpecial\n90\nThunder Fang\nELECTRIC\nPhysical\n65\nFire Fang\nFIRE\nPhysical\n65\nZen Headbutt\nPSYCHIC\nPhysical\n80\nRock Climb\nNORMAL\nPhysical\n90\nIron Head\nSTEEL\nPhysical\n80\nStone Edge\nROCK\nPhysical\n100\nStealth Rock\nROCK\nStatus\n--\nRound\nNORMAL\nSpecial\n60\nEchoed Voice\nNORMAL\nSpecial\n40\nBulldoze\nGROUND\nPhysical\n60\nSnarl\nDARK\nSpecial\n55\nPlay Rough\nFAIRY\nPhysical\n90\nConfide\nNORMAL\nStatus\n--\nPsychic Fangs\nPSYCHIC\nPhysical\n85\nStomping Tantrum\nGROUND\nPhysical\n75\nTera Blast\nNORMAL\nSpecial\n80\nTrailblaze\nGRASS\nPhysical\n50",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "en-base-320",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\nStandby\nBATTLE FACTORY\n\nSTART NEXT RUN\n\nStart Run\nCompanion: Rockruff\nShop\nCollection\nEvents\nSettings",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "label": "en-owned-320",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\nPOKEDEX\nBACK\nSeen 1\nOwned 1\nType 1\nnormal\nfire\nwater\nelectric\ngrass\nice\nfighting\npoison\nground\nflying\npsychic\nbug\nrock\nghost\ndragon\ndark\nsteel\nfairy\nType 2\nnormal\nfire\nwater\nelectric\ngrass\nice\nfighting\npoison\nground\nflying\npsychic\nbug\nrock\nghost\ndragon\ndark\nsteel\nfairy\nNational\nKanto\nJohto\nHoenn\nSinnoh\nUnova\nKalos\nAlola\nGalar\nPaldea\n#0744\nARCHIVE\nROCKRUFF\nROCK\nHP\n45\nATK\n65\nDEF\n40\nSPA\n30\nSPD\n40\nSPE\n60\nSwords Dance\nNORMAL\nStatus\n--\nSand Attack\nGROUND\nStatus\n--\nTackle\nNORMAL\nPhysical\n40\nBody Slam\nNORMAL\nPhysical\n85\nTake Down\nNORMAL\nPhysical\n90\nThrash\nNORMAL\nPhysical\n120\nDouble-Edge\nNORMAL\nPhysical\n120\nLeer\nNORMAL\nStatus\n--\nBite\nDARK\nPhysical\n60\nRoar\nNORMAL\nStatus\n--\nRock Throw\nROCK\nPhysical\n50\nDig\nGROUND\nPhysical\n80\nToxic\nPOISON\nStatus\n--\nDouble Team\nNORMAL\nStatus\n--\nRest\nPSYCHIC\nStatus\n--\nRock Slide\nROCK\nPhysical\n75\nSubstitute\nNORMAL\nStatus\n--\nSnore\nNORMAL\nSpecial\n50\nProtect\nNORMAL\nStatus\n--\nScary Face\nNORMAL\nStatus\n--\nMud-Slap\nGROUND\nSpecial\n20\nSandstorm\nROCK\nStatus\n--\nEndure\nNORMAL\nStatus\n--\nCharm\nFAIRY\nStatus\n--\nSwagger\nNORMAL\nStatus\n--\nAttract\nNORMAL\nStatus\n--\nSleep Talk\nNORMAL\nStatus\n--\nReturn\nNORMAL\nPhysical\n--\nFrustration\nNORMAL\nPhysical\n--\nIron Tail\nSTEEL\nPhysical\n100\nHidden Power\nNORMAL\nSpecial\n60\nCrunch\nDARK\nPhysical\n80\nFacade\nNORMAL\nPhysical\n70\nTaunt\nDARK\nStatus\n--\nHelping Hand\nNORMAL\nStatus\n--\nEndeavor\nNORMAL\nPhysical\n--\nHyper Voice\nNORMAL\nSpecial\n90\nCrush Claw\nNORMAL\nPhysical\n75\nOdor Sleuth\nNORMAL\nStatus\n--\nRock Tomb\nROCK\nPhysical\n60\nIron Defense\nSTEEL\nStatus\n--\nHowl\nNORMAL\nStatus\n--\nCovet\nNORMAL\nPhysical\n60\nLast Resort\nNORMAL\nPhysical\n140\nSucker Punch\nDARK\nPhysical\n70\nRock Polish\nROCK\nStatus\n--\nEarth Power\nGROUND\nSpecial\n90\nThunder Fang\nELECTRIC\nPhysical\n65\nFire Fang\nFIRE\nPhysical\n65\nZen Headbutt\nPSYCHIC\nPhysical\n80\nRock Climb\nNORMAL\nPhysical\n90\nIron Head\nSTEEL\nPhysical\n80\nStone Edge\nROCK\nPhysical\n100\nStealth Rock\nROCK\nStatus\n--\nRound\nNORMAL\nSpecial\n60\nEchoed Voice\nNORMAL\nSpecial\n40\nBulldoze\nGROUND\nPhysical\n60\nSnarl\nDARK\nSpecial\n55\nPlay Rough\nFAIRY\nPhysical\n90\nConfide\nNORMAL\nStatus\n--\nPsychic Fangs\nPSYCHIC\nPhysical\n85\nStomping Tantrum\nGROUND\nPhysical\n75\nTera Blast\nNORMAL\nSpecial\n80\nTrailblaze\nGRASS\nPhysical\n50",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "label": "en-base-844",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\nStandby\nBATTLE FACTORY\n\nSTART NEXT RUN\n\nStart Run\nCompanion: Rockruff\nShop\nCollection\nEvents\nSettings",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "en-owned-844",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\nPOKEDEX\nBACK\nSeen 1\nOwned 1\nType 1\nnormal\nfire\nwater\nelectric\ngrass\nice\nfighting\npoison\nground\nflying\npsychic\nbug\nrock\nghost\ndragon\ndark\nsteel\nfairy\nType 2\nnormal\nfire\nwater\nelectric\ngrass\nice\nfighting\npoison\nground\nflying\npsychic\nbug\nrock\nghost\ndragon\ndark\nsteel\nfairy\nNational\nKanto\nJohto\nHoenn\nSinnoh\nUnova\nKalos\nAlola\nGalar\nPaldea\n#0744\nARCHIVE\nROCKRUFF\nROCK\nHP\n45\nATK\n65\nDEF\n40\nSPA\n30\nSPD\n40\nSPE\n60\nSwords Dance\nNORMAL\nStatus\n--\nSand Attack\nGROUND\nStatus\n--\nTackle\nNORMAL\nPhysical\n40\nBody Slam\nNORMAL\nPhysical\n85\nTake Down\nNORMAL\nPhysical\n90\nThrash\nNORMAL\nPhysical\n120\nDouble-Edge\nNORMAL\nPhysical\n120\nLeer\nNORMAL\nStatus\n--\nBite\nDARK\nPhysical\n60\nRoar\nNORMAL\nStatus\n--\nRock Throw\nROCK\nPhysical\n50\nDig\nGROUND\nPhysical\n80\nToxic\nPOISON\nStatus\n--\nDouble Team\nNORMAL\nStatus\n--\nRest\nPSYCHIC\nStatus\n--\nRock Slide\nROCK\nPhysical\n75\nSubstitute\nNORMAL\nStatus\n--\nSnore\nNORMAL\nSpecial\n50\nProtect\nNORMAL\nStatus\n--\nScary Face\nNORMAL\nStatus\n--\nMud-Slap\nGROUND\nSpecial\n20\nSandstorm\nROCK\nStatus\n--\nEndure\nNORMAL\nStatus\n--\nCharm\nFAIRY\nStatus\n--\nSwagger\nNORMAL\nStatus\n--\nAttract\nNORMAL\nStatus\n--\nSleep Talk\nNORMAL\nStatus\n--\nReturn\nNORMAL\nPhysical\n--\nFrustration\nNORMAL\nPhysical\n--\nIron Tail\nSTEEL\nPhysical\n100\nHidden Power\nNORMAL\nSpecial\n60\nCrunch\nDARK\nPhysical\n80\nFacade\nNORMAL\nPhysical\n70\nTaunt\nDARK\nStatus\n--\nHelping Hand\nNORMAL\nStatus\n--\nEndeavor\nNORMAL\nPhysical\n--\nHyper Voice\nNORMAL\nSpecial\n90\nCrush Claw\nNORMAL\nPhysical\n75\nOdor Sleuth\nNORMAL\nStatus\n--\nRock Tomb\nROCK\nPhysical\n60\nIron Defense\nSTEEL\nStatus\n--\nHowl\nNORMAL\nStatus\n--\nCovet\nNORMAL\nPhysical\n60\nLast Resort\nNORMAL\nPhysical\n140\nSucker Punch\nDARK\nPhysical\n70\nRock Polish\nROCK\nStatus\n--\nEarth Power\nGROUND\nSpecial\n90\nThunder Fang\nELECTRIC\nPhysical\n65\nFire Fang\nFIRE\nPhysical\n65\nZen Headbutt\nPSYCHIC\nPhysical\n80\nRock Climb\nNORMAL\nPhysical\n90\nIron Head\nSTEEL\nPhysical\n80\nStone Edge\nROCK\nPhysical\n100\nStealth Rock\nROCK\nStatus\n--\nRound\nNORMAL\nSpecial\n60\nEchoed Voice\nNORMAL\nSpecial\n40\nBulldoze\nGROUND\nPhysical\n60\nSnarl\nDARK\nSpecial\n55\nPlay Rough\nFAIRY\nPhysical\n90\nConfide\nNORMAL\nStatus\n--\nPsychic Fangs\nPSYCHIC\nPhysical\n85\nStomping Tantrum\nGROUND\nPhysical\n75\nTera Blast\nNORMAL\nSpecial\n80\nTrailblaze\nGRASS\nPhysical\n50",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "label": "import-reloaded",
+      "collection": {
+        "seenIds": [
+          744
+        ],
+        "ownedIds": [
+          744
+        ],
+        "formKeys": [],
+        "acquisitions": []
+      },
+      "companion": 744,
+      "body": "0\nBP\n0/7\nRound\n0\nStreak\nStandby\nBATTLE FACTORY\n\nSTART NEXT RUN\n\nStart Run\nCompanion: Rockruff\nShop\nCollection\nEvents\nSettings",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "checks": {
+    "importOwned": true,
+    "noEgg": true,
+    "noOverflow": true
+  }
+}
