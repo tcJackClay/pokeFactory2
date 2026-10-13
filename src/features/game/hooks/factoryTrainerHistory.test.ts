@@ -68,7 +68,7 @@ test('trainer history survives rerenders and refresh, excluding a trainer alread
         trainerIdsBySet: [{ setNo: 1, trainerIds: [...usedBySet.get(1)!] }],
         battleResume: createEmptyBattleResume(),
       },
-      collection: { seenIds: [], ownedIds: [], formKeys: [] },
+      collection: { seenIds: [], ownedIds: [], formKeys: [], acquisitions: [] },
       events: { speciesBattleCounts: {}, dispatchPokemonByRegion: {}, dispatches: {} },
     }));
 

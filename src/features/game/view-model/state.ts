@@ -126,7 +126,6 @@ export interface GameViewBaseState {
   hasFactoryRunToResume: boolean;
   highestStreak: number;
   companionSpeciesId: CompanionSpeciesId | null;
-  availableEggCount: number;
   activeEventCount: number;
   seenCount: number;
   ownedCount: number;
@@ -135,7 +134,6 @@ export interface GameViewBaseState {
   collectionOwnedIds: number[];
   collectionFormKeys: string[];
   shopUnlocked: boolean;
-  breedingUnlocked: boolean;
   collectionUnlocked: boolean;
   eventsUnlocked: boolean;
 }

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { Dna, Languages, Lock, Settings2, Store, Swords } from 'lucide-react';
+import { Languages, Lock, Settings2, Store, Swords } from 'lucide-react';
 import type { BaseTab } from '../../view-model';
 import { EVENT_REGIONS } from '../../config/events';
 import type { GameViewSectionProps } from './shared';
@@ -26,10 +26,8 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
   const {
     loading,
     rentalLoadError,
-    availableEggCount,
     eventDispatches,
     shopUnlocked,
-    breedingUnlocked,
     collectionUnlocked,
     eventsUnlocked,
     pendingRunSummary,
@@ -80,7 +78,6 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
       standby: hasFactoryRunToResume ? (isZh ? '继续中' : 'Resume') : (isZh ? '待命' : 'Standby'),
       events: isZh ? '事件' : 'Events',
       shop: isZh ? '商店' : 'Shop',
-      breeding: isZh ? '培育' : 'Breed',
       collection: isZh ? '图鉴' : 'Collection',
       settings: isZh ? '设置' : 'Settings',
     }),
@@ -103,13 +100,6 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
 
   const navItems: StartNavItem[] = [
     { menu: 'SHOP', label: copy.shop, locked: !shopUnlocked, implemented: false },
-    {
-      menu: 'BREEDING',
-      label: copy.breeding,
-      badge: availableEggCount > 0 ? `${availableEggCount}` : undefined,
-      locked: !breedingUnlocked,
-      implemented: false,
-    },
     { menu: 'COLLECTION', label: copy.collection, locked: !collectionUnlocked, implemented: true },
     {
       menu: 'EVENTS',
@@ -295,7 +285,7 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
 
         <div className="pf-start-dock-region px-3 pb-2">
           <div className="pf-dock px-2 py-2">
-            <div className="grid grid-cols-3 gap-1.5 min-[520px]:grid-cols-5 md:gap-2">
+            <div className="grid grid-cols-2 gap-1.5 min-[520px]:grid-cols-4 md:gap-2">
               {navItems.map((item) => {
                 const isLocked = Boolean(item.locked);
                 const state: DockState = isLocked ? 'locked' : item.implemented ? 'ready' : 'soon';
@@ -303,11 +293,9 @@ export function StartScreen({ viewModel }: GameViewSectionProps) {
                 const Icon =
                   item.menu === 'SHOP'
                     ? Store
-                    : item.menu === 'BREEDING'
-                      ? Dna
-                      : item.menu === 'SETTINGS'
-                        ? Settings2
-                        : Languages;
+                    : item.menu === 'SETTINGS'
+                      ? Settings2
+                      : Languages;
 
                 return (
                   <button

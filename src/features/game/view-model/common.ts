@@ -10,7 +10,7 @@ export type BattleAnimation = 'idle' | 'attack' | 'hit';
 export type RoundResult = 'WIN' | 'LOSS' | null;
 export type { FactoryAiTier };
 export type BattleSpecialMode = 'MEGA' | 'DYNAMAX' | 'TERA' | 'ZMOVE';
-export type BaseTab = 'HOME' | 'FACTORY' | 'SHOP' | 'BREEDING' | 'COLLECTION' | 'EVENTS' | 'PROFILE';
+export type BaseTab = 'HOME' | 'FACTORY' | 'SHOP' | 'COLLECTION' | 'EVENTS' | 'PROFILE';
 export type PokemonInfoSource = 'PLAYER' | 'ENEMY' | 'FACTORY';
 
 export interface BaseRunSummary {

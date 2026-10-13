@@ -22,6 +22,7 @@ import { DeveloperPanel } from './game-view/DeveloperPanel';
 import { APP_PALETTE } from '../../../theme/palette';
 import { TypeBadgeLanguageContext } from '../../../components/TypeBadge';
 import { discardInvalidSave, inspectStoredSave, triggerTextDownload, type SaveInspection } from '../../../services/saveManager';
+import uiStrings from '../../../uiStrings';
 
 const CollectionScreen = lazy(async () => import('./game-view/CollectionScreen').then((module) => ({ default: module.CollectionScreen })));
 
@@ -40,6 +41,8 @@ function InvalidSaveScreen({ inspection }: { inspection: Extract<SaveInspection,
   }, [confirmClear]);
   const isLegacy = inspection.kind === 'legacy';
   const needsCompanionSchema = inspection.kind === 'legacy' && inspection.version === 10;
+  const needsCollectionSchema = inspection.kind === 'legacy' && inspection.version === 14;
+  const hasOtherRecentSchema = inspection.kind === 'legacy' && typeof inspection.version === 'number' && inspection.version > 10;
   const isUnreadable = inspection.kind === 'unreadable';
   const filename = isLegacy
     ? 'pokefactory-legacy-backup.json'
@@ -57,14 +60,18 @@ function InvalidSaveScreen({ inspection }: { inspection: Extract<SaveInspection,
           {isLegacy
             ? needsCompanionSchema
               ? '新版存档需要绑定基地伙伴。此旧版存档不能自动指定伙伴，请先备份，再重新开始。'
-              : '新版本按七战整组结算 BP，旧版逐场代币不能转入 BP。请先备份旧存档，再重新开始。'
+              : needsCollectionSchema ? uiStrings['zh-hans'].legacyCollectionSave
+                : hasOtherRecentSchema ? uiStrings['zh-hans'].legacyRecentSave
+                  : '新版本按七战整组结算 BP，旧版逐场代币不能转入 BP。请先备份旧存档，再重新开始。'
             : '保存的挑战记录无法读取，原始存档尚未修改。请先下载备份，再决定是否清除并重新开始。'}
         </p>
         <p className="mt-2 text-sm leading-6 text-slate-700">
           {isLegacy
             ? needsCompanionSchema
               ? 'The new save requires a bound base companion. This older save cannot choose one automatically. Back it up before starting over.'
-              : 'The new BP rules require a fresh save. Old per-battle tokens cannot be carried over.'
+              : needsCollectionSchema ? uiStrings.en.legacyCollectionSave
+                : hasOtherRecentSchema ? uiStrings.en.legacyRecentSave
+                  : 'The new BP rules require a fresh save. Old per-battle tokens cannot be carried over.'
             : 'Your saved challenge cannot be read. The original data is untouched. Download a backup before starting over.'}
         </p>
         <div className="mt-5 flex flex-wrap justify-center gap-3">

@@ -52,6 +52,7 @@ import {
   endFactoryWalletRun,
   adjustWalletBalance,
   commitFactoryGroupSettlement,
+  commitPermanentAcquisition,
   commitFactoryBattleStart,
   commitFactoryRewardPending,
   commitFactoryRewardReady,
@@ -80,6 +81,7 @@ import {
 import { createPokemonFormLedgerKey, normalizeStoredFormKeys } from '../utils/formLedger';
 import { getPokemonSpriteUrl } from '../../../services/pokeApiEndpoint';
 import { rentalDuration, rentalNow, reportRentalPerformance } from '../performance/rentalPerformance';
+import { getDispatchAcquisitionId, normalizePermanentCollection } from '../utils/permanentCollection';
 
 const STREAK_FACTORY_SINGLES_50 = 1 << 8;
 const STREAK_FACTORY_SINGLES_OPEN = 1 << 9;
@@ -102,6 +104,7 @@ interface EventBattleContext {
   selectedPokemonId: number | null;
   targetPokemonId: number;
   specialSiteName?: string;
+  dispatchStartedAt: number;
 }
 
 function hydrateInventoryFromItemIds(itemIds: string[]): Item[] {
@@ -244,10 +247,9 @@ export function usePokeFactoryGame(): GameViewModel {
   const [companionSpeciesId, setCompanionSpeciesId] = useState<CompanionSpeciesId | null>(initialSave?.progress.companionSpeciesId ?? null);
   const companionCommittedRef = useRef<CompanionSpeciesId | null>(initialSave?.progress.companionSpeciesId ?? null);
   const companionConfirmingRef = useRef(false);
-  const [availableEggCount] = useState(0);
+  const dispatchInFlightRef = useRef(new Set<string>());
   const [activeEventCount] = useState(EVENT_REGIONS.length);
   const [shopUnlocked] = useState(true);
-  const [breedingUnlocked] = useState(true);
   const [collectionUnlocked] = useState(true);
   const [eventsUnlocked] = useState(true);
   const [eventDispatches, setEventDispatches] = useState(() => {
@@ -277,6 +279,7 @@ export function usePokeFactoryGame(): GameViewModel {
     seenIds: initialSave?.collection?.seenIds ?? [],
     ownedIds: initialSave?.collection?.ownedIds ?? [],
     formKeys: normalizeStoredFormKeys(initialSave?.collection?.formKeys ?? []),
+    acquisitions: initialSave?.collection.acquisitions ?? [],
   }));
 
   const { t, getLocalized, getLocalizedDesc, getLocalizedNature, getStatName } = useGameLocalization(currentLanguage);
@@ -602,6 +605,34 @@ export function usePokeFactoryGame(): GameViewModel {
     return build();
   }, []);
 
+  const commitCaughtPokemon = useCallback((pokemon: GamePokemon): 'COMMITTED' | 'ALREADY_COMMITTED' | 'FAILED' => {
+    const context = eventBattleContext;
+    if (!eventBattleActive || !context || context.targetPokemonId !== pokemon.id) return 'FAILED';
+    try {
+      const acquiredAt = Date.now();
+      const committed = commitPermanentAcquisition(getCurrentSaveDraft(), {
+        acquisitionId: getDispatchAcquisitionId(context.regionId, context.dispatchStartedAt),
+        speciesId: pokemon.id,
+        source: 'DISPATCH_CATCH',
+        regionId: context.regionId,
+        dispatchStartedAt: context.dispatchStartedAt,
+        acquiredAt,
+      }, {
+        ...createDefaultDispatchState(),
+        lastResolvedAt: acquiredAt,
+        lastResult: t('permanentCollectionCaught', { name: getLocalized(pokemon) }),
+      });
+      setCollectionLedger(committed.save.collection);
+      setEventDispatches(committed.save.events.dispatches);
+      return committed.applied ? 'COMMITTED' : 'ALREADY_COMMITTED';
+    } catch (error) {
+      console.error('Caught Pokemon could not be saved', error);
+      return 'FAILED';
+    }
+  }, [eventBattleActive, eventBattleContext, getCurrentSaveDraft, getLocalized, t]);
+  // Controller integration follows the separately frozen battle task.
+  void commitCaughtPokemon;
+
   const syncWallet = useCallback((wallet: FactoryWallet) => {
     walletRef.current = wallet;
     setCoins(wallet.balance);
@@ -899,7 +930,8 @@ export function usePokeFactoryGame(): GameViewModel {
 
   useEffect(() => {
     const seenIds = new Set<number>(collectionLedger.seenIds);
-    const ownedIds = new Set<number>(collectionLedger.ownedIds);
+    const permanent = normalizePermanentCollection(collectionLedger, companionSpeciesId);
+    permanent.seenIds.forEach((id) => seenIds.add(id));
     const formKeys = new Set<string>(normalizeStoredFormKeys(collectionLedger.formKeys));
 
     const registerSeen = (pokemon: GamePokemon) => {
@@ -911,20 +943,12 @@ export function usePokeFactoryGame(): GameViewModel {
       }
     };
 
-    const registerOwned = (pokemon: GamePokemon) => {
-      if (!Number.isFinite(pokemon.id) || pokemon.id <= 0) return;
-      ownedIds.add(pokemon.id);
-    };
-
     factoryRentals.forEach(registerSeen);
     enemyTeam.forEach(registerSeen);
-    playerTeam.forEach((pokemon) => {
-      registerSeen(pokemon);
-      registerOwned(pokemon);
-    });
+    playerTeam.forEach(registerSeen);
 
     const nextSeenIds = [...seenIds].sort((a, b) => a - b);
-    const nextOwnedIds = [...ownedIds].sort((a, b) => a - b);
+    const nextOwnedIds = permanent.ownedIds;
     const nextFormKeys = [...formKeys].sort((a, b) => a.localeCompare(b));
 
     if (
@@ -939,30 +963,16 @@ export function usePokeFactoryGame(): GameViewModel {
     }
 
     setCollectionLedger({
+      ...collectionLedger,
       seenIds: nextSeenIds,
       ownedIds: nextOwnedIds,
       formKeys: nextFormKeys,
     });
-  }, [collectionLedger.formKeys, collectionLedger.ownedIds, collectionLedger.seenIds, enemyTeam, factoryRentals, playerTeam]);
+  }, [collectionLedger, companionSpeciesId, enemyTeam, factoryRentals, playerTeam]);
 
   const seenCount = collectionLedger.seenIds.length;
   const ownedCount = collectionLedger.ownedIds.length;
   const formCount = collectionLedger.formKeys.length;
-
-  useEffect(() => {
-    if (!eventBattleActive || !catchSuccess || !enemy) return;
-    setCollectionLedger((prev) => {
-      const seen = new Set(prev.seenIds);
-      const owned = new Set(prev.ownedIds);
-      seen.add(enemy.id);
-      owned.add(enemy.id);
-      return {
-        ...prev,
-        seenIds: [...seen].sort((a, b) => Number(a) - Number(b)),
-        ownedIds: [...owned].sort((a, b) => Number(a) - Number(b)),
-      };
-    });
-  }, [catchSuccess, enemy, eventBattleActive]);
 
   useEffect(() => {
     if (saveBlocked || gameState !== 'BOOT') return;
@@ -1122,9 +1132,10 @@ export function usePokeFactoryGame(): GameViewModel {
     if (companionConfirmingRef.current) return false;
     companionConfirmingRef.current = true;
     try {
-      bindCompanionToSave(buildCurrentSaveData(), speciesId);
+      const saved = bindCompanionToSave(buildCurrentSaveData(), speciesId);
       companionCommittedRef.current = speciesId;
       setCompanionSpeciesId(speciesId);
+      setCollectionLedger(saved.collection);
       setCurrentBaseTab('HOME');
       setGameState('BASE');
       return true;
@@ -1646,7 +1657,7 @@ export function usePokeFactoryGame(): GameViewModel {
     return { site, speciesId } as const;
   }, []);
 
-  const resolveDispatchRegion = useCallback(async (regionId: string) => {
+  const resolveDispatchRegion = useCallback(async (regionId: string, dispatchStartedAt: number) => {
     if (factoryResumeActiveRef.current) return '请先继续或结束当前挑战';
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region) return '派遣失败：未知地区';
@@ -1706,38 +1717,43 @@ export function usePokeFactoryGame(): GameViewModel {
       const ballIndex = inventory.findIndex((item) => item.isBall);
       if (ballIndex < 0) return `${region.name}: 背包里没有可用的精灵球`;
 
+      const joinedParty = playerTeam.length < 6;
+      const targetName = getLocalized(targetPokemon);
+      const trainingResult = applyDispatchTrainingToTeam(playerTeam, selectedPokemonId, region);
+      const trainingText = trainingResult.trained
+        ? `派遣宝可梦获得 ${getStatLabel(trainingResult.stat)} +${trainingResult.evGain} 努力值`
+        : '派遣宝可梦不在当前队伍，训练收益已跳过。';
+      const resultText = `${region.name}: ${targetName}${joinedParty ? '加入队伍' : '进入图鉴后备名册'}；${trainingText}`;
+      const acquiredAt = Date.now();
+      const committed = commitPermanentAcquisition(getCurrentSaveDraft(), {
+        acquisitionId: getDispatchAcquisitionId(regionId, dispatchStartedAt),
+        speciesId: targetPokemon.id,
+        source: 'DISPATCH_JOIN',
+        regionId,
+        dispatchStartedAt,
+        acquiredAt,
+      }, { ...createDefaultDispatchState(), lastResolvedAt: acquiredAt, lastResult: resultText });
+      setCollectionLedger(committed.save.collection);
+      setEventDispatches(committed.save.events.dispatches);
+      if (!committed.applied) return committed.save.events.dispatches[regionId].lastResult;
+
       setInventory((prev) => {
         const next = [...prev];
         next.splice(ballIndex, 1);
         return next;
       });
 
-      setCollectionLedger((prev) => {
-        const seen = new Set(prev.seenIds);
-        const owned = new Set(prev.ownedIds);
-        seen.add(targetPokemon.id);
-        owned.add(targetPokemon.id);
-        return {
-          ...prev,
-          seenIds: [...seen].sort((a, b) => Number(a) - Number(b)),
-          ownedIds: [...owned].sort((a, b) => Number(a) - Number(b)),
-        };
-      });
-
-      const joinedParty = playerTeam.length < 6;
-      const training = awardDispatchTraining(region, selectedPokemonId);
-      setPlayerTeam((prev) => (prev.length < 6 ? [...prev, targetPokemon] : prev));
-      const targetName = getLocalized(targetPokemon);
+      setPlayerTeam(joinedParty ? [...trainingResult.team, targetPokemon] : trainingResult.team);
       const rosterText = joinedParty ? '已加入当前队伍。' : '队伍已满，已登记到图鉴后备名册。';
       setEventDispatchPopup({
         kind: 'POKEMON',
         title: `${region.name}奇遇成功`,
-        message: `「${targetName}」认可了你的队伍，${rosterText} ${training.text}`,
+        message: `「${targetName}」认可了你的队伍，${rosterText} ${trainingText}`,
         pokemonName: targetName,
         pokemonSprite: targetPokemon.sprites.front_default ?? '',
         pokemonLevel: targetPokemon.level,
       });
-      return `${region.name}: ${targetName}${joinedParty ? '加入队伍' : '进入图鉴后备名册'}；${training.text}`;
+      return resultText;
     }
 
     if (!inventory.some((item) => item.isBall)) {
@@ -1758,6 +1774,7 @@ export function usePokeFactoryGame(): GameViewModel {
       selectedPokemonId,
       targetPokemonId: targetPokemon.id,
       specialSiteName: specialEncounter?.site.name,
+      dispatchStartedAt,
     });
     setEnemyTeam([targetPokemon]);
     setEnemy(targetPokemon);
@@ -1780,91 +1797,110 @@ export function usePokeFactoryGame(): GameViewModel {
     eventDispatchPokemonByRegion,
     getEventItemLabel,
     getLocalized,
+    getCurrentSaveDraft,
     inventory,
     pickGrowthRewardItem,
     pickSpecialSiteEncounter,
-    playerTeam.length,
+    playerTeam,
     startLevel,
   ]);
   const dispatchEventRegion = useCallback(async (regionId: string) => {
-    if (factoryResumeActiveRef.current) return;
-    const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
-    if (!region) return;
+    if (factoryResumeActiveRef.current || dispatchInFlightRef.current.has(regionId)) return;
+    dispatchInFlightRef.current.add(regionId);
+    try {
+      const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
+      if (!region) return;
 
-    const now = Date.now();
-    const current = eventDispatches[regionId] ?? createDefaultDispatchState();
-    const isReady = current.status === 'READY' || (current.status === 'RUNNING' && current.readyAt !== null && current.readyAt <= now);
+      const now = Date.now();
+      const current = eventDispatches[regionId] ?? createDefaultDispatchState();
+      const isReady = current.status === 'READY' || (current.status === 'RUNNING' && current.readyAt !== null && current.readyAt <= now);
 
-    if (!isReady && current.status === 'RUNNING') return;
+      if (!isReady && current.status === 'RUNNING') return;
 
-    if (!isReady) {
-      const selectedPokemonId = eventDispatchPokemonByRegion[regionId] ?? null;
-      if (!selectedPokemonId) {
-        setEventDispatches((prev) => ({
-          ...prev,
-          [regionId]: {
-            ...current,
-            status: 'IDLE',
-            lastResolvedAt: now,
-            lastResult: `${region.name}: 请先选择派遣宝可梦（可点击“推荐”）`,
-          },
-        }));
-        return;
-      }
-      try {
-        const selectedPokemonData = await fetchPokemon(selectedPokemonId);
-        if (factoryResumeActiveRef.current) return;
-        const selectedTypes = selectedPokemonData.types.map((slot) => slot.type.name);
-        const matched = region.requiredTypes.some((type) => selectedTypes.includes(type));
-        if (!matched) {
+      if (!isReady) {
+        const selectedPokemonId = eventDispatchPokemonByRegion[regionId] ?? null;
+        if (!selectedPokemonId) {
           setEventDispatches((prev) => ({
             ...prev,
             [regionId]: {
               ...current,
               status: 'IDLE',
               lastResolvedAt: now,
-              lastResult: `${region.name}: 当前选择宝可梦属性不匹配地区要求`,
+              lastResult: `${region.name}: 请先选择派遣宝可梦（可点击“推荐”）`,
             },
           }));
           return;
         }
-      } catch {
-        if (factoryResumeActiveRef.current) return;
+        try {
+          const selectedPokemonData = await fetchPokemon(selectedPokemonId);
+          if (factoryResumeActiveRef.current) return;
+          const selectedTypes = selectedPokemonData.types.map((slot) => slot.type.name);
+          const matched = region.requiredTypes.some((type) => selectedTypes.includes(type));
+          if (!matched) {
+            setEventDispatches((prev) => ({
+              ...prev,
+              [regionId]: {
+                ...current,
+                status: 'IDLE',
+                lastResolvedAt: now,
+                lastResult: `${region.name}: 当前选择宝可梦属性不匹配地区要求`,
+              },
+            }));
+            return;
+          }
+        } catch {
+          if (factoryResumeActiveRef.current) return;
+          setEventDispatches((prev) => ({
+            ...prev,
+            [regionId]: {
+              ...current,
+              status: 'IDLE',
+              lastResolvedAt: now,
+              lastResult: `${region.name}: 派遣前校验失败，请重试`,
+            },
+          }));
+          return;
+        }
         setEventDispatches((prev) => ({
           ...prev,
           [regionId]: {
             ...current,
-            status: 'IDLE',
-            lastResolvedAt: now,
-            lastResult: `${region.name}: 派遣前校验失败，请重试`,
+            status: 'RUNNING',
+            startedAt: now,
+            readyAt: now + (region.dispatchHours * 60 * 60 * 1000),
           },
         }));
         return;
       }
+
+      if (current.startedAt === null) throw new Error('Dispatch start time is missing.');
+      const stored = loadSaveData();
+      if (stored?.collection.acquisitions.some((record) => record.acquisitionId === getDispatchAcquisitionId(regionId, current.startedAt!))) {
+        setCollectionLedger(stored.collection);
+        setEventDispatches(stored.events.dispatches);
+        return;
+      }
+      const resultText = await resolveDispatchRegion(regionId, current.startedAt);
+      if (factoryResumeActiveRef.current) return;
+      const resolvedAt = Date.now();
       setEventDispatches((prev) => ({
         ...prev,
         [regionId]: {
-          ...current,
-          status: 'RUNNING',
-          startedAt: now,
-          readyAt: now + (region.dispatchHours * 60 * 60 * 1000),
+          ...createDefaultDispatchState(),
+          lastResolvedAt: resolvedAt,
+          lastResult: resultText,
         },
       }));
-      return;
+    } catch (error) {
+      console.error('Dispatch result could not be saved', error);
+      setEventDispatches((prev) => ({
+        ...prev,
+        [regionId]: { ...(prev[regionId] ?? createDefaultDispatchState()), lastResult: t('permanentCollectionSaveFailed') },
+      }));
+    } finally {
+      dispatchInFlightRef.current.delete(regionId);
     }
-
-    const resultText = await resolveDispatchRegion(regionId);
-    if (factoryResumeActiveRef.current) return;
-    const resolvedAt = Date.now();
-    setEventDispatches((prev) => ({
-      ...prev,
-      [regionId]: {
-        ...createDefaultDispatchState(),
-        lastResolvedAt: resolvedAt,
-        lastResult: resultText,
-      },
-    }));
-  }, [eventDispatchPokemonByRegion, eventDispatches, resolveDispatchRegion]);
+  }, [eventDispatchPokemonByRegion, eventDispatches, resolveDispatchRegion, t]);
 
   const mockEventDispatchResult = useCallback((regionId: string, outcome: 'item' | 'join' | 'battle_special') => {
     if (factoryResumeActiveRef.current) return;
@@ -2063,7 +2099,6 @@ export function usePokeFactoryGame(): GameViewModel {
     hasFactoryRunToResume,
     highestStreak,
     companionSpeciesId,
-    availableEggCount,
     activeEventCount,
     eventDispatches,
     eventDispatchPokemonByRegion,
@@ -2075,7 +2110,6 @@ export function usePokeFactoryGame(): GameViewModel {
     collectionOwnedIds: collectionLedger.ownedIds,
     collectionFormKeys: collectionLedger.formKeys,
     shopUnlocked,
-    breedingUnlocked,
     collectionUnlocked,
     eventsUnlocked,
     t,

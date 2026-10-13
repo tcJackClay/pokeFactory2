@@ -27,6 +27,7 @@ import {
   adjustWalletBalance,
   classifySaveText,
   commitFactoryGroupSettlement,
+  commitPermanentAcquisition,
   commitFactoryBattleStart,
   commitFactoryRewardPending,
   commitFactoryRewardReady,
@@ -169,7 +170,7 @@ function buildLegacyReadyBattleResume(overrides: Record<string, unknown> = {}) {
 
 function draft(runId = 'run:test', balance = 0, settledThrough = 0, stage = 7) {
   return parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 14,
+    schemaVersion: 15, collection: { acquisitions: [] },
     progress: { companionSpeciesId: 25 },
     wallet: { balance, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough },
     runSupply: { runId, tickets: stage - 1, lastCreditedStage: stage - 1 },
@@ -285,13 +286,13 @@ test('battle checkpoint retains both hazard sides and rejects malformed present 
 
 test('new save preserves battle snapshots, including postbattle phase', () => {
   const saved = parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 14,
+    schemaVersion: 15, collection: { acquisitions: [] },
     progress: { companionSpeciesId: 25 },
     wallet: { balance: 3, revision: 1, currentRunId: 'run:one', brainSymbols: 0, settledThrough: 1 },
     runSupply: { runId: 'run:one', tickets: 8, lastCreditedStage: 8 },
     factory: { battleResume: buildLegacyReadyBattleResume({ stage: 8, phase: 'FACTORY_SWAP', roundResult: 'WIN', lastBpGain: 0 }) },
   }));
-  assert.equal(saved.schemaVersion, 14);
+  assert.equal(saved.schemaVersion, 15);
   assert.equal(saved.wallet.balance, 3);
   assert.equal(saved.factory.battleResume.status, 'READY');
   if (saved.factory.battleResume.status !== 'READY') return;
@@ -301,7 +302,7 @@ test('new save preserves battle snapshots, including postbattle phase', () => {
 });
 
 test('old saves are rejected by version, without misclassifying v10 as per-battle currency', () => {
-  for (const version of [6, 7, 8, 9, 10, 11, 12]) {
+  for (const version of [6, 7, 8, 9, 10, 11, 12, 13, 14]) {
     assert.equal(classifySaveText(JSON.stringify({ schemaVersion: version })).kind, 'legacy');
     assert.throws(() => parseSaveDataFromText(JSON.stringify({ schemaVersion: version, wallet: { balance: 500 }, factory: { battleResume: buildLegacyReadyBattleResume({ coins: 500 }) } })), /旧规则存档不兼容/);
   }
@@ -623,7 +624,7 @@ test('battle result keeps unrelated data from a newer persisted wallet revision'
 
 test('companion candidates are fixed and same-version saves require null or one approved ID', () => {
   assert.deepEqual(COMPANION_CANDIDATES.map((candidate) => candidate.id), [25, 133, 175, 447, 744, 921]);
-  const base = { schemaVersion: 14, runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 }, factory: { battleResume: { status: 'EMPTY' } }, settings: { selectedGens: [9] } };
+  const base = { schemaVersion: 15, collection: { acquisitions: [] }, runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 }, factory: { battleResume: { status: 'EMPTY' } }, settings: { selectedGens: [9] } };
   assert.equal(parseSaveDataFromText(JSON.stringify({ ...base, progress: { companionSpeciesId: null } })).progress.companionSpeciesId, null);
   for (const candidate of COMPANION_CANDIDATES) {
     assert.equal(parseSaveDataFromText(JSON.stringify({ ...base, progress: { companionSpeciesId: candidate.id } })).progress.companionSpeciesId, candidate.id);
@@ -648,7 +649,7 @@ test('companion candidates are fixed and same-version saves require null or one 
 test('companion binding writes before use, retries failed writes, and cannot be changed by stale saves', () => {
   withStorage((storage, failNextWrite) => {
     const unbound = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 14,
+      schemaVersion: 15, collection: { acquisitions: [] },
       runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 },
       progress: { companionSpeciesId: null },
       settings: { selectedGens: [1] },
@@ -783,7 +784,7 @@ test('generation setting keeps exactly one valid generation and defaults to Kant
     [[2.5], [1]],
     [['3'], [1]],
   ] as const) {
-    const saved = parseSaveDataFromText(JSON.stringify({ schemaVersion: 14, runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 }, progress: { companionSpeciesId: null }, settings: { selectedGens: raw }, factory: { battleResume: { status: 'EMPTY' } } }));
+    const saved = parseSaveDataFromText(JSON.stringify({ schemaVersion: 15, collection: { acquisitions: [] }, runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 }, progress: { companionSpeciesId: null }, settings: { selectedGens: raw }, factory: { battleResume: { status: 'EMPTY' } } }));
     assert.deepEqual(saved.settings.selectedGens, expected);
   }
 });
@@ -1030,7 +1031,7 @@ test('developer jump to the third set starts a fresh run at the correct group ba
 test('ending a paused completed set keeps earned BP and clears continuation without another settlement', () => {
   withStorage((_storage, failNextWrite) => {
     const saved = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 14,
+      schemaVersion: 15, collection: { acquisitions: [] },
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 14, revision: 4, currentRunId: 'run:pause', brainSymbols: 1, settledThrough: 3 },
       runSupply: { runId: 'run:pause', tickets: 21, lastCreditedStage: 21 },
@@ -1142,7 +1143,7 @@ function rewardSwapSave(options: {
     resume.playerTeam[index] = { ...resume.playerTeam[index], factoryHeldItemId: undefined };
   }
   return parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 14,
+    schemaVersion: 15, collection: { acquisitions: [] },
     progress: { companionSpeciesId: 25 },
     wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: stage },
     runSupply: { runId, tickets, lastCreditedStage: stage },
@@ -1505,7 +1506,7 @@ test('duplicate equipped baselines are rejected wherever they appear', () => {
       rewardCheckpoint: { runId: 'run:unique', stage: 3, status: 'PENDING' },
     });
     const inspection = classifySaveText(JSON.stringify({
-      schemaVersion: 14,
+      schemaVersion: 15, collection: { acquisitions: [] },
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 0, revision: 1, currentRunId: 'run:unique', brainSymbols: 0, settledThrough: 3 },
       runSupply: { runId: 'run:unique', tickets: 0, lastCreditedStage: 3 },
@@ -1817,7 +1818,7 @@ test('importing a save with duplicate baselines recovers with an honest notice i
       rewardCheckpoint: { runId, stage: 3, status: 'PENDING' },
     });
     const text = JSON.stringify({
-      schemaVersion: 14,
+      schemaVersion: 15, collection: { acquisitions: [] },
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: 3 },
       runSupply: { runId, tickets: 3, lastCreditedStage: 3 },
@@ -1881,7 +1882,7 @@ test('a legacy four-card CLAIMED save imports without crashing and migrates to a
       },
     });
     const imported = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 14,
+      schemaVersion: 15, collection: { acquisitions: [] },
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: 3 },
       runSupply: { runId, tickets: 0, lastCreditedStage: 3 },
@@ -1933,7 +1934,7 @@ test('a legacy four-card READY save imports without crashing and re-stocks six p
       },
     });
     const imported = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 14,
+      schemaVersion: 15, collection: { acquisitions: [] },
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: 3 },
       runSupply: { runId, tickets: 3, lastCreditedStage: 3 },
@@ -2006,5 +2007,128 @@ test('ticket conversion is capped together with the group reward at MAX_FACTORY_
     assert.equal(settled.ticketBp, 7);
     assert.equal(settled.amount, 5);
     assert.equal(settled.wallet.balance, MAX_FACTORY_BP);
+  });
+});
+
+
+function permanentBase() {
+  return parseSaveDataFromText(JSON.stringify({
+    schemaVersion: 15,
+    progress: { companionSpeciesId: 25 },
+    collection: { acquisitions: [], seenIds: [7], ownedIds: [7], formKeys: ['7:squirtle'] },
+    wallet: { balance: 3, revision: 0, currentRunId: null, brainSymbols: 0, settledThrough: 0 },
+    runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 },
+    factory: { battleResume: { status: 'EMPTY' } },
+    events: { dispatches: { kanto: { status: 'READY', startedAt: 100, readyAt: 200, lastResolvedAt: null, lastResult: '' } } },
+  }));
+}
+
+const joinReceipt = {
+  acquisitionId: 'dispatch:kanto:100', speciesId: 133, source: 'DISPATCH_JOIN' as const,
+  regionId: 'kanto', dispatchStartedAt: 100, acquiredAt: 300,
+};
+const completedDispatch = { status: 'IDLE' as const, startedAt: null, readyAt: null, lastResolvedAt: 300, lastResult: 'Joined Eevee' };
+
+test('v15 derives Owned from sources and rejects missing or invalid receipts without migrating v14', () => {
+  const base = permanentBase();
+  assert.deepEqual(base.collection.ownedIds, [25]);
+  assert.deepEqual(base.collection.seenIds, [7, 25]);
+  assert.deepEqual(base.collection.formKeys, ['7:squirtle']);
+  const forgedIndex = { ...base, collection: { ...base.collection, ownedIds: [1, 2, 3] } };
+  assert.deepEqual(parseSaveDataFromText(JSON.stringify(forgedIndex)).collection.ownedIds, [25]);
+  assert.equal(classifySaveText(JSON.stringify({ ...base, collection: {} })).kind, 'corrupt');
+  assert.equal(classifySaveText(JSON.stringify({ ...base, collection: { ...base.collection, acquisitions: [{ ...joinReceipt, speciesId: -1 }] } })).kind, 'corrupt');
+  withStorage((storage) => {
+    const raw = JSON.stringify({ ...base, schemaVersion: 14, collection: { ownedIds: [1, 2, 3] } });
+    storage.set('pokefactory_save_v1', raw);
+    assert.equal(inspectStoredSave().kind, 'legacy');
+    assert.throws(() => persistSaveData(base), /backup/);
+    assert.equal(storage.get('pokefactory_save_v1'), raw);
+  });
+});
+
+test('all six companion choices persist only the bound species and survive stale unbound writes', () => {
+  for (const candidate of COMPANION_CANDIDATES) {
+    withStorage((storage, failNextWrite) => {
+      const unbound = parseSaveDataFromText(JSON.stringify({ ...permanentBase(), progress: { companionSpeciesId: null } }));
+      assert.deepEqual(unbound.collection.ownedIds, []);
+      persistSaveData(unbound);
+      const raw = storage.get('pokefactory_save_v1');
+      failNextWrite();
+      assert.throws(() => bindCompanionToSave(unbound, candidate.id), /Quota/);
+      assert.equal(storage.get('pokefactory_save_v1'), raw);
+      const bound = bindCompanionToSave(unbound, candidate.id);
+      assert.deepEqual(bound.collection.ownedIds, [candidate.id]);
+      assert.ok(bound.collection.seenIds.includes(candidate.id));
+      assert.equal(bound.wallet.balance, unbound.wallet.balance);
+      persistSaveData(unbound);
+      assert.deepEqual(loadSaveData()?.collection.ownedIds, [candidate.id]);
+      assert.deepEqual(parseSaveDataFromText(JSON.stringify(loadSaveData())).collection.ownedIds, [candidate.id]);
+    });
+  }
+});
+
+test('dispatch join commits receipt and completion atomically and retries without another grant', () => {
+  withStorage((storage, failNextWrite) => {
+    const base = permanentBase();
+    persistSaveData(base);
+    const raw = storage.get('pokefactory_save_v1');
+    failNextWrite();
+    assert.throws(() => commitPermanentAcquisition(base, joinReceipt, completedDispatch), /Quota/);
+    assert.equal(storage.get('pokefactory_save_v1'), raw);
+    assert.equal(loadSaveData()?.events.dispatches.kanto.status, 'READY');
+    const committed = commitPermanentAcquisition(base, joinReceipt, completedDispatch);
+    assert.equal(committed.applied, true);
+    assert.deepEqual(committed.save.collection.ownedIds, [25, 133]);
+    assert.deepEqual(committed.save.collection.acquisitions, [joinReceipt]);
+    assert.equal(committed.save.events.dispatches.kanto.status, 'IDLE');
+    const once = storage.get('pokefactory_save_v1');
+    const duplicate = commitPermanentAcquisition(base, { ...joinReceipt, acquiredAt: 999 }, completedDispatch);
+    assert.equal(duplicate.applied, false);
+    assert.deepEqual(duplicate.save.collection.acquisitions, [joinReceipt]);
+    assert.equal(storage.get('pokefactory_save_v1'), once);
+    assert.throws(() => commitPermanentAcquisition(base, { ...joinReceipt, speciesId: 26 }, completedDispatch), /Conflicting/);
+    assert.equal(storage.get('pokefactory_save_v1'), once);
+  });
+});
+
+test('stale autosave and wallet writers cannot lose receipts or reopen a completed dispatch', () => {
+  withStorage(() => {
+    const base = permanentBase();
+    persistSaveData(base);
+    commitPermanentAcquisition(base, joinReceipt, completedDispatch);
+    persistSaveData(base);
+    assert.deepEqual(loadSaveData()?.collection.ownedIds, [25, 133]);
+    assert.equal(loadSaveData()?.events.dispatches.kanto.status, 'IDLE');
+    adjustWalletBalance(base, 1);
+    assert.deepEqual(loadSaveData()?.collection.ownedIds, [25, 133]);
+    assert.equal(loadSaveData()?.events.dispatches.kanto.status, 'IDLE');
+    const fresh = loadSaveData()!;
+    fresh.events.dispatches.kanto = { status: 'RUNNING', startedAt: 500, readyAt: 900, lastResolvedAt: null, lastResult: '' };
+    persistSaveData(fresh);
+    assert.equal(loadSaveData()?.events.dispatches.kanto.startedAt, 500);
+  });
+});
+
+test('catch receipts persist independently of event battle resume and same-version import replaces sources', () => {
+  withStorage((storage, failNextWrite) => {
+    const base = permanentBase();
+    base.events.dispatches.kanto = completedDispatch;
+    persistSaveData(base);
+    const receipt = { ...joinReceipt, source: 'DISPATCH_CATCH' as const };
+    const before = storage.get('pokefactory_save_v1');
+    failNextWrite();
+    assert.throws(() => commitPermanentAcquisition(base, receipt, completedDispatch), /Quota/);
+    assert.equal(storage.get('pokefactory_save_v1'), before);
+    const result = commitPermanentAcquisition(base, receipt, completedDispatch);
+    assert.equal(result.save.factory.battleResume.status, 'EMPTY');
+    assert.deepEqual(result.save.collection.ownedIds, [25, 133]);
+    const exported = JSON.stringify(loadSaveData());
+    replaceSaveData(permanentBase());
+    assert.deepEqual(loadSaveData()?.collection.ownedIds, [25]);
+    replaceSaveData(parseSaveDataFromText(exported));
+    assert.deepEqual(loadSaveData()?.collection.acquisitions, [receipt]);
+    assert.deepEqual(loadSaveData()?.collection.ownedIds, [25, 133]);
+    assert.equal(commitPermanentAcquisition(base, { ...receipt, acquiredAt: 700 }, completedDispatch).applied, false);
   });
 });

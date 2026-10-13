@@ -30,10 +30,11 @@ import { hasRecoverableFactoryBaseCheckpoint } from '../features/game/hooks/fact
 import { getItemBattleData, isKnownFactoryHeldItemId } from '../features/game/data/battle';
 import { prepareFactoryPartyForBattle, restoreFactoryParty } from '../features/game/utils/restoreFactoryParty';
 import { createEmptyBattleHazards } from '../features/game/battle/engine/resolveEntryHazards';
+import { normalizePermanentCollection, samePermanentAcquisition, validatePermanentAcquisitions, type PermanentAcquisition } from '../features/game/utils/permanentCollection';
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
 const PENDING_SETTLEMENT_KEY = 'pokefactory_pending_settlement_v1';
-const SAVE_SCHEMA_VERSION = 14 as const;
+const SAVE_SCHEMA_VERSION = 15 as const;
 
 export type SaveInspection =
   | { kind: 'none' }
@@ -201,6 +202,7 @@ export interface CollectionLedger {
   seenIds: number[];
   ownedIds: number[];
   formKeys: string[];
+  acquisitions: PermanentAcquisition[];
 }
 
 export interface GameSaveData {
@@ -755,13 +757,14 @@ function sanitizeLevel(value: unknown, fallback = 50) {
   return Math.max(1, normalized);
 }
 
-function sanitizeCollectionLedger(value: unknown): CollectionLedger {
+function sanitizeCollectionLedger(value: unknown, companionSpeciesId: number | null): CollectionLedger {
   const source = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
-  return {
+  return normalizePermanentCollection({
     seenIds: sanitizeIntArray(source.seenIds),
     ownedIds: sanitizeIntArray(source.ownedIds),
     formKeys: sanitizeStringArray(source.formKeys),
-  };
+    acquisitions: validatePermanentAcquisitions(source.acquisitions),
+  }, companionSpeciesId);
 }
 
 function sanitizeEventBattleCounts(value: unknown): Record<string, number> {
@@ -850,7 +853,7 @@ function normalizeSaveData(value: unknown): GameSaveData {
       trainerIdsBySet: sanitizeTrainerIdsBySet(factory.trainerIdsBySet),
       battleResume,
     },
-    collection: sanitizeCollectionLedger(source.collection),
+    collection: sanitizeCollectionLedger(source.collection, progress.companionSpeciesId as number | null),
     events: sanitizeEvents(source.events),
   };
 }
@@ -1278,6 +1281,40 @@ export function loadSaveData(): GameSaveData | null {
   return inspection.kind === 'valid' ? inspection.save : null;
 }
 
+/** Keep committed acquisition receipts when an older in-memory draft is saved. */
+function serializeSaveData(draft: GameSaveData, replace = false): string {
+  const inspection = inspectStoredSave();
+  if (inspection.kind !== 'none' && inspection.kind !== 'valid') {
+    throw new Error('Stored save requires backup or removal before writing.');
+  }
+  const stored = !replace && inspection.kind === 'valid' ? inspection.save : null;
+  const companionSpeciesId = stored?.progress.companionSpeciesId ?? draft.progress.companionSpeciesId;
+  const acquisitions = validatePermanentAcquisitions([
+    ...(stored?.collection.acquisitions ?? []), ...draft.collection.acquisitions,
+  ]);
+  const collection = normalizePermanentCollection({
+    ...draft.collection,
+    seenIds: [...new Set([...(stored?.collection.seenIds ?? []), ...draft.collection.seenIds])],
+    acquisitions,
+  }, companionSpeciesId);
+  const dispatches = { ...draft.events.dispatches };
+  if (stored) {
+    for (const record of stored.collection.acquisitions) {
+      const stale = dispatches[record.regionId];
+      const committed = stored.events.dispatches[record.regionId];
+      if (stale?.startedAt === record.dispatchStartedAt && committed) {
+        dispatches[record.regionId] = committed;
+      }
+    }
+  }
+  return JSON.stringify({
+    ...draft,
+    collection,
+    progress: { ...draft.progress, companionSpeciesId },
+    events: { ...draft.events, dispatches },
+  });
+}
+
 export function persistSaveData(saveData: GameSaveData) {
   if (typeof window === 'undefined') return;
   const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
@@ -1350,7 +1387,7 @@ export function persistSaveData(saveData: GameSaveData) {
   }
   const storedTotalRents = persistedSameRun?.progress.totalRents ?? 0;
   const checkpointTotalRents = battleResume.status === 'READY' ? battleResume.totalRents : 0;
-  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify({
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serializeSaveData({
     ...saveData,
     wallet,
     runSupply,
@@ -1392,7 +1429,8 @@ export function bindCompanionToSave(draft: GameSaveData, speciesId: number): Gam
   };
   persistSaveData(next);
   const persisted = loadSaveData();
-  if (!persisted || persisted.progress.companionSpeciesId !== speciesId) {
+  if (!persisted || persisted.progress.companionSpeciesId !== speciesId
+    || !persisted.collection.ownedIds.includes(speciesId) || !persisted.collection.seenIds.includes(speciesId)) {
     throw new Error('Companion selection could not be verified after saving.');
   }
   return persisted;
@@ -1400,12 +1438,56 @@ export function bindCompanionToSave(draft: GameSaveData, speciesId: number): Gam
 
 export function replaceSaveData(saveData: GameSaveData) {
   if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
-  normalizeSaveDataSafely(saveData);
+  const normalized = normalizeSaveDataSafely(saveData);
   const inspection = inspectStoredSave();
   if (inspection.kind !== 'none' && inspection.kind !== 'valid') {
     throw new Error('Stored save requires backup or removal before replacement.');
   }
-  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(saveData));
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serializeSaveData(normalized, true));
+}
+
+export function commitPermanentAcquisition(
+  draft: GameSaveData,
+  record: PermanentAcquisition,
+  completedDispatch: GameSaveData['events']['dispatches'][string],
+): { save: GameSaveData; applied: boolean } {
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  const inspection = inspectStoredSave();
+  if (inspection.kind !== 'valid') throw new Error('A valid save is required for a permanent acquisition.');
+  const stored = inspection.save;
+  validatePermanentAcquisitions([record]);
+  if (stored.progress.companionSpeciesId === null) throw new Error('Companion selection is required.');
+  const existing = stored.collection.acquisitions.find((entry) => entry.acquisitionId === record.acquisitionId);
+  if (existing) {
+    if (!samePermanentAcquisition(existing, record)) throw new Error('Conflicting permanent acquisition record.');
+    return { save: stored, applied: false };
+  }
+  if (completedDispatch.status !== 'IDLE' || completedDispatch.startedAt !== null || completedDispatch.readyAt !== null) {
+    throw new Error('Acquisition must complete its dispatch.');
+  }
+  if (record.source === 'DISPATCH_JOIN') {
+    const dispatch = stored.events.dispatches[record.regionId];
+    if (!dispatch || dispatch.startedAt !== record.dispatchStartedAt
+      || (dispatch.status !== 'READY' && !(dispatch.status === 'RUNNING' && dispatch.readyAt !== null && dispatch.readyAt <= Date.now()))) {
+      throw new Error('Dispatch is not ready for this acquisition.');
+    }
+  }
+  const next: GameSaveData = {
+    ...draft,
+    progress: { ...draft.progress, companionSpeciesId: stored.progress.companionSpeciesId },
+    collection: normalizePermanentCollection({
+      ...draft.collection,
+      acquisitions: validatePermanentAcquisitions([...stored.collection.acquisitions, ...draft.collection.acquisitions, record]),
+    }, stored.progress.companionSpeciesId),
+    events: {
+      ...draft.events,
+      dispatches: { ...draft.events.dispatches, [record.regionId]: completedDispatch },
+    },
+  };
+  const serialized = serializeSaveData(next);
+  const committed = parseSaveDataFromText(serialized);
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serialized);
+  return { save: committed, applied: true };
 }
 
 export function loadPendingFactorySettlement(): PendingFactorySettlement | null {
@@ -1459,7 +1541,7 @@ function commitWalletChange(
   const nextWallet = change(wallet);
   if (nextWallet === wallet) return wallet;
   const save = saveForWallet ? saveForWallet(draft, nextWallet) : draft;
-  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify({ ...save, wallet: nextWallet, updatedAt: new Date().toISOString() }));
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serializeSaveData({ ...save, wallet: nextWallet, updatedAt: new Date().toISOString() }));
   return nextWallet;
 }
 
@@ -1670,7 +1752,7 @@ export function commitFactoryGroupSettlement(
       factory: { ...baseSave.factory, battleResume: nextResume },
     };
     normalizeSaveDataSafely(nextSave);
-    window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+    window.localStorage.setItem(SAVE_STORAGE_KEY, serializeSaveData(nextSave));
     clearPendingFactorySettlement();
     return { wallet, runSupply, awarded: completesSet, amount, nominalBp, ticketBp };
   } catch (error) {
@@ -1753,7 +1835,7 @@ export function commitFactoryRewardPending(
     factory: { ...previous.factory, battleResume: nextResume },
   };
   normalizeSaveDataSafely(nextSave);
-  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serializeSaveData(nextSave));
   const confirmed = loadSaveData()?.factory.battleResume;
   if (confirmed?.status !== 'READY' || confirmed.phase !== 'REWARD'
     || confirmed.rewardCheckpoint?.runId !== runId || confirmed.rewardCheckpoint.stage !== stage) {
@@ -1821,7 +1903,7 @@ export function commitFactoryRewardReady(
     factory: { ...previous.factory, battleResume: nextResume },
   };
   normalizeSaveDataSafely(nextSave);
-  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serializeSaveData(nextSave));
   const confirmed = loadSaveData()?.factory.battleResume;
   if (confirmed?.status !== 'READY' || confirmed.phase !== 'REWARD'
     || confirmed.rewardCheckpoint?.status !== 'READY'
@@ -1905,7 +1987,7 @@ export function commitFactoryShopPurchase(
     factory: { ...previous.factory, battleResume: nextResume },
   };
   normalizeSaveDataSafely(nextSave);
-  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serializeSaveData(nextSave));
   const confirmed = loadSaveData();
   const confirmedResume = confirmed?.factory.battleResume;
   const confirmedReward = confirmedResume?.status === 'READY' ? confirmedResume.rewardCheckpoint : undefined;
@@ -2030,7 +2112,7 @@ export function commitFactoryEvolutionPurchase(
     factory: { ...previous.factory, battleResume: nextResume },
   };
   normalizeSaveDataSafely(nextSave);
-  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serializeSaveData(nextSave));
   const confirmed = loadSaveData();
   const confirmedResume = confirmed?.factory.battleResume;
   const confirmedReward = confirmedResume?.status === 'READY' ? confirmedResume.rewardCheckpoint : undefined;
@@ -2088,7 +2170,7 @@ export function commitFactoryRewardContinueIntent(runId: string, stage: number):
     factory: { ...previous.factory, battleResume: nextResume },
   };
   normalizeSaveDataSafely(nextSave);
-  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serializeSaveData(nextSave));
   const confirmed = loadSaveData()?.factory.battleResume;
   if (confirmed?.status !== 'READY' || confirmed.phase !== 'REWARD'
     || confirmed.rewardCheckpoint?.status !== 'CLAIMED'
@@ -2257,7 +2339,7 @@ export function commitFactoryBattleStart(runId: string, start: FactoryBattleStar
     },
   };
   normalizeSaveDataSafely(nextSave);
-  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serializeSaveData(nextSave));
   return nextResume;
 }
 
