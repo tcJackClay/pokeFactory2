@@ -6,6 +6,8 @@ import * as battleLog from '../battleLogText';
 import * as protection from './resolveProtection';
 import * as healBlock from './resolveHealBlock';
 import * as strikes from './resolveMoveStrikes';
+import * as resolution from '../../lib/battleResolution';
+import * as roundSteps from './roundTransaction';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import type { GamePokemon, Move } from '../../../../types';
@@ -387,6 +389,7 @@ function actualControllerCallback(name: string, scope: Record<string, any>, plai
     if (ts.isVariableDeclaration(node) && node.name.getText(tree) === name && node.initializer) {
       expression = !plain && ts.isCallExpression(node.initializer) ? node.initializer.arguments[0].getText(tree) : node.initializer.getText(tree);
     }
+    if (ts.isFunctionDeclaration(node) && node.name?.text === name) expression = node.getText(tree);
     ts.forEachChild(node, visit);
   };
   visit(tree); assert.ok(expression, name);
@@ -449,4 +452,156 @@ test('Real controller Sleep Talk respects Heal Block candidate selection and spe
   assert.ok(mixed.state.enemyTeam[0].currentHp < 200);
   assert.equal(mixed.state.playerTeam[0].currentHp, 80);
   assert.equal(mixed.state.playerTeam[0].selectedMoves[2].currentPp, undefined);
+});
+
+
+async function faintingRound(options: {
+  actingSide: 'player' | 'enemy'; playerReserve: boolean; enemyReserve: boolean;
+  actorHp?: number; targetHp?: number; actorAbility?: string; protect?: boolean; substitute?: boolean;
+  actorItem?: string; targetItem?: string; enemyHazardWipe?: boolean; invalidateOnEnemyEntry?: boolean;
+}) {
+  const exhausted = { ...move(), currentPp: 0 };
+  const actor = pokemon(1, { currentHp: options.actorHp ?? 1, selectedMoves: [exhausted],
+    abilities: ability(options.actorAbility ?? 'run-away'), factoryHeldItemId: options.actorItem });
+  let target = pokemon(2, { currentHp: options.targetHp ?? 1, selectedMoves: [exhausted], factoryHeldItemId: options.targetItem });
+  if (options.protect) target = setVolatileStatus(target, 'protect');
+  if (options.substitute) target = setVolatileStatus(target, 'substitute', { counter: 1 });
+  const state = Object.assign(options.actingSide === 'player' ? snapshot(actor, target) : snapshot(target, actor), { gameState: 'BATTLE' });
+  if (options.playerReserve) state.playerTeam.push(pokemon(3));
+  if (options.enemyReserve) state.enemyTeam.push(pokemon(4, { currentHp: options.enemyHazardWipe ? 1 : 200 }));
+  if (options.enemyHazardWipe) state.hazards.enemy.stealthRock = true;
+  const calls: string[] = []; const messages: string[] = []; const schedules: Array<() => void> = [];
+  const replacements: Promise<unknown>[] = []; const actions: string[] = []; const finals: any[] = []; const actionSnapshots: BattleSnapshot[] = [];
+  const inertItem = (p: GamePokemon) => ({ pokemon: p, message: null });
+  const scope: Record<string, any> = {
+    ...battleData, ...battleStatus, ...battleLog, ...protection, ...healBlock, ...strikes, ...roundSteps, ...resolution,
+    prepareMoveUse, resolveHeldItemHit, struggleRecoil, resolveLegalMoves, resolveControllerProtectionCollision,
+    clearSwitchingBattleState, resolveEntryHazards, resolveBeforeMoveChecksStep: resolveBeforeMoveChecks,
+    activeBuffs: {}, enemyBuffs: {}, currentLanguage: 'zh-hans', playerTeam: state.playerTeam,
+    enemyTeam: state.enemyTeam, enemy: state.enemyTeam[0], gameState: 'BATTLE', turn: 'PLAYER', isMessageProcessing: false,
+    fieldState: [], tailwindTurns: state.tailwindTurns, weather: 'none', enemyAiTier: 0,
+    liveBattleStateRef: { current: state }, liveFieldRef: { current: state }, hazardsRef: { current: state.hazards },
+    battleMountedRef: { current: true }, battleInstanceRef: { current: { epoch: 1 } },
+    roundTransactionRef: { current: null }, roundActionLockedRef: { current: false }, nextRoundIdRef: { current: 0 },
+    replacementWaitRef: { current: null }, pendingPlayerSwitchRef: { current: false }, pendingForcedPlayerTurnRef: { current: null },
+    getLocalized: (p: any) => p.name, getHeldItemLabel: (id: string) => id,
+    t: (key: string) => `${key}:{name}:{move}`, getAiFlagsForTier: () => 0,
+    setPlayerAnim: () => {}, setEnemyAnim: () => {}, setActiveMoveType: () => {}, setActiveBuffs: () => {},
+    setTurn: () => {}, setRoundTransactionActive: () => {},
+    setPlayerTeam: (team: GamePokemon[]) => { state.playerTeam = team; },
+    setEnemyTeam: (team: GamePokemon[]) => { state.enemyTeam = team; },
+    setEnemy: () => {}, setHazards: (hazards: BattleSnapshot['hazards']) => { state.hazards = hazards; },
+    syncEnemyLead: (lead: GamePokemon, team: GamePokemon[]) => { const next = [...team]; next[0] = lead; state.enemyTeam = next; return next; },
+    hasHeldItemEffect: (p: GamePokemon, effect: string) => battleData.hasItemBattleEffect(p.factoryHeldItemId, effect),
+    hasPrimaryAbilityEffect: (p: GamePokemon, effect: string) => battleData.hasAbilityBattleEffect(p.abilities?.[0]?.ability?.name, effect),
+    getMoveCurrentPp: (m: Move) => m.currentPp ?? m.maxPp ?? m.pp ?? 0,
+    getEncoredMove: () => null, isMoveUsableWhileAsleep: () => false,
+    calculateConfusionSelfHitDamage: () => { throw Error('unexpected confusion'); },
+    announceHpChange: async () => {},
+    tryActivateWhiteHerb: inertItem, tryConsumeMentalHerb: inertItem, tryConsumeStatusCureBerry: inertItem,
+    tryActivateSitrusBerry: inertItem, tryActivatePinchStatBerry: inertItem,
+    addMessagesSequentially: async (lines: string[]) => { messages.push(...lines); },
+    calculateDamage: (m: Move, a: GamePokemon, d: GamePokemon) => damage(m, a, d),
+    applyMoveSecondaryEffects: async (o: any) => applyMoveSecondaryEffects({ ...o, teams: { playerTeam: o.playerTeam, enemyTeam: o.enemyTeam }, getLocalized: (p) => p.name, random: () => 0.99 }),
+    resolveBattleResult: async (result: string) => { calls.push(result); state.gameState = 'ROUND_RESULT'; },
+    setTimeout: (fn: () => void) => { schedules.push(fn); return schedules.length; },
+    chooseEnemySwitchIndex: () => -1, shouldQuickClawActivate: () => false,
+    shouldEnemyActFirst: () => options.actingSide === 'enemy',
+    captureRoundStartCheckpoint: () => structuredClone(state),
+    finalizeRoundAttempt: (result: any) => { finals.push(result); },
+    commitRoundEndTurn: async () => { calls.push('END_TURN'); Object.assign(state, end(state).snapshot); return {}; },
+    console: { error: (error: unknown) => { throw error; } }, StaleRoundError: class extends Error {},
+  };
+  scope.setBattleMenuTab = (tab: string) => {
+    if (tab !== 'POKEMON') return;
+    if (!state.playerTeam.some((p, index) => index > 0 && p.currentHp > 0)) return;
+    calls.push('PLAYER_REPLACEMENT');
+    replacements.push(Promise.resolve().then(async () => {
+      scope.playerTeam = state.playerTeam;
+      const index = state.playerTeam.findIndex((p) => p.currentHp > 0);
+      assert.ok(index > 0);
+      await actualControllerCallback('switchPokemon', scope)(index);
+    }));
+  };
+  for (const name of ['winBattle', 'loseBattle', 'markAwaitingPlayerReplacement', 'releasePlayerReplacement', 'setMainBattleTurn',
+    'getForcedLockedMove', 'isProtectLikeMove', 'isTeamWiped', 'enterBattlefield', 'reportEntryHazards', 'sendOutNextPlayer', 'sendOutNextEnemy',
+    'resolvePreTurnStatus', 'chooseEnemyMove']) scope[name] = actualControllerCallback(name, scope);
+  const enemySendOut = scope.sendOutNextEnemy;
+  scope.sendOutNextEnemy = async (...args: any[]) => {
+    calls.push('ENEMY_REPLACEMENT'); const replaced = await enemySendOut(...args);
+    if (options.invalidateOnEnemyEntry) scope.battleInstanceRef.current.epoch += 1;
+    return replaced;
+  };
+  const execute = actualControllerCallback('executeTurn', scope);
+  scope.executeTurn = async (o: any) => { actions.push(o.actingSide); await execute(o); actionSnapshots.push(structuredClone(state)); };
+  scope.runEnemyAutoAction = actualControllerCallback('runEnemyAutoAction', scope);
+  const handleAttack = actualControllerCallback('handleAttack', scope);
+  // One production selection/round. The test chooses a replacement through the actual UI callback.
+  await handleAttack(STRUGGLE_MOVE);
+  await Promise.all(replacements);
+  for (const scheduled of schedules) scheduled();
+  await Promise.resolve();
+  return { state, calls, messages, actions, actionSnapshots, finals, round: scope.roundTransactionRef.current, schedules: schedules.length };
+}
+
+test('Real Struggle round settles all eight symmetric double-faint reserve combinations once', async () => {
+  for (const actingSide of ['player', 'enemy'] as const) for (const playerReserve of [false, true]) for (const enemyReserve of [false, true]) {
+    const result = await faintingRound({ actingSide, playerReserve, enemyReserve });
+    assert.deepEqual(result.actions, [actingSide], JSON.stringify({ actingSide, playerReserve, enemyReserve }));
+    assert.equal(result.finals.length, 1); assert.equal(result.finals[0].failed, false);
+    if (playerReserve && enemyReserve) {
+      assert.equal(result.state.gameState, 'BATTLE');
+      assert.equal(result.state.playerTeam[0].id, 3); assert.equal(result.state.enemyTeam[0].id, 4);
+      assert.deepEqual(result.calls, ['ENEMY_REPLACEMENT', 'PLAYER_REPLACEMENT', 'END_TURN']);
+      assert.equal(result.round.phase, 'DONE'); assert.equal(result.round.endTurnCommitted, true);
+      assert.equal(result.round[actingSide], 'ACTED'); assert.equal(result.round[actingSide === 'player' ? 'enemy' : 'player'], 'SKIPPED');
+    } else {
+      assert.equal(result.state.gameState, 'ROUND_RESULT');
+      assert.deepEqual(result.calls, [playerReserve ? 'WIN' : 'LOSS']);
+      assert.equal(result.schedules, 0);
+    }
+    for (const mon of [...result.state.playerTeam, ...result.state.enemyTeam].filter((p) => p.id <= 2)) assert.equal(mon.selectedMoves[0].currentPp, 0);
+  }
+});
+
+test('Double-faint enemy entry hazards settle once without opening a stale player replacement', async () => {
+  for (const actingSide of ['player', 'enemy'] as const) {
+    const result = await faintingRound({ actingSide, playerReserve: true, enemyReserve: true, enemyHazardWipe: true });
+    assert.deepEqual(result.calls, ['ENEMY_REPLACEMENT', 'WIN']);
+    assert.equal(result.schedules, 1); assert.equal(result.state.gameState, 'ROUND_RESULT');
+    assert.deepEqual(result.actions, [actingSide]); assert.equal(result.round.endTurnCommitted, false);
+    const stale = await faintingRound({ actingSide, playerReserve: true, enemyReserve: true, invalidateOnEnemyEntry: true });
+    assert.deepEqual(stale.calls, ['ENEMY_REPLACEMENT']);
+    assert.equal(stale.schedules, 0); assert.deepEqual(stale.actions, [actingSide]);
+  }
+});
+
+test('Struggle retains single-faint, protection, Magic Guard, substitute and Focus Band recoil boundaries', async () => {
+  for (const actingSide of ['player', 'enemy'] as const) {
+    const opts = { actingSide, playerReserve: false, enemyReserve: false };
+    const actorOnly = await faintingRound({ ...opts, targetHp: 200, actorItem: 'focus_band' });
+    assert.deepEqual(actorOnly.calls.filter((call) => call === 'WIN' || call === 'LOSS'), [actingSide === 'player' ? 'LOSS' : 'WIN']);
+    const targetOnly = await faintingRound({ ...opts, actorHp: 200 });
+    assert.deepEqual(targetOnly.calls.filter((call) => call === 'WIN' || call === 'LOSS'), [actingSide === 'player' ? 'WIN' : 'LOSS']);
+    const magic = await faintingRound({ ...opts, actorAbility: 'magic-guard' });
+    const magicActor = (actingSide === 'player' ? magic.state.playerTeam : magic.state.enemyTeam).find((p) => p.id === 1)!;
+    assert.equal(magicActor.currentHp, 1);
+    assert.deepEqual(magic.calls.filter((call) => call === 'WIN' || call === 'LOSS'), [actingSide === 'player' ? 'WIN' : 'LOSS']);
+    const substitute = await faintingRound({ ...opts, substitute: true });
+    assert.deepEqual(substitute.calls.filter((call) => call === 'WIN' || call === 'LOSS'), [actingSide === 'player' ? 'LOSS' : 'WIN']);
+    const protectedResult = await faintingRound({ ...opts, actorHp: 200, targetHp: 200, protect: true });
+    const protectedActor = (actingSide === 'player' ? protectedResult.state.playerTeam : protectedResult.state.enemyTeam).find((p) => p.id === 1)!;
+    assert.equal(protectedActor.currentHp, 200 - damage(STRUGGLE_MOVE, pokemon(2), pokemon()).damage); // Only the opponent's later successful hit, no recoil from the protected attack.
+    assert.deepEqual(protectedResult.calls, ['END_TURN']);
+    const originalRandom = Math.random;
+    try {
+      Math.random = () => 0.05;
+      const focus = await faintingRound({ ...opts, actorHp: 200, targetItem: 'focus_band' });
+      const first = focus.actionSnapshots[0];
+      const firstActor = (actingSide === 'player' ? first.playerTeam : first.enemyTeam).find((p) => p.id === 1)!;
+      const firstTarget = (actingSide === 'player' ? first.enemyTeam : first.playerTeam).find((p) => p.id === 2)!;
+      assert.equal(firstActor.currentHp, 150); assert.equal(firstTarget.currentHp, 1);
+      assert.equal(firstTarget.factoryHeldItemId, 'focus_band');
+    } finally { Math.random = originalRandom; }
+  }
 });

@@ -153,3 +153,13 @@
 
 - F9 既有调用链补查：项目实际调用入口仅梦话在控制器中将 selectedMove 替换为 calledMove；`chooseSleepTalkMove` 根据固定源 `battle_script_commands.c:13072–13104` 的 `CheckMoveLimitations(..., ~MOVE_LIMITATION_PP)` 先排除受封锁招式。调用确定后再复核封锁资格，呼应 `battle_util.c:3654–3662` 实际攻击 canceller；不能只在随机选中后才失败。保留已使用梦话的单次 PP，被调用槽不扣。没有添加新的挥指/借助/仿效执行器；它们属于更广准入风险。
 - 三组真实控制器 callback 回归直接执行生产 `chooseSleepTalkMove/executeTurn`（AST 提取与本仓已有收藏回调测试一致）：全部回复候选被封锁时失败无副作用；未封锁吸取正常伤害与回血；混合候选只调用合法攻击。只替换呈现 setter/日志等待，真实 builder、伤害、副效果、PP helper 均执行，不用源码字符串断言证明接线。
+
+
+## 9. 独立审计 A1 返修（Route A）
+
+- 冻结 `b068eef` 的独立审计 BLOCKED：既有 `executeTurn` 在反作用致出招者倒下后仅处理本侧补位就 return，漏掉同时倒下目标的整队胜负；在场 HP 都已写入而交易看见全灭便 abort，可能卡 BATTLE 或错误 WIN。
+- 上游固定源四组合已定：目标伤害→反作用→整队统一判定；双方有后备都补位，仅我方有人 WIN，仅敌方有人 LOSS，双方无人 LOSS（参考 DREW→BattleLost）。design S 单文档 `2573e56` 已 cherry-pick 为 `59d744f`。
+- 最小修复仅落于上述出招者倒下分支：若目标也倒下，先检查我方全队（无人即 LOSS，包含双方无人），再敌方全队（无人即 WIN），直接 await 唯一终局。双方有人先用现有 sendOutNextEnemy 完成真实入场陷阱链；只有返回成功、battleMounted、epoch 未变且仍 BATTLE 时才用现有 sendOutNextPlayer 开启补位等待。敌后备被陷阱耗尽已安排 WIN 时立即停止，不重复安排胜負或开无意义菜单。
+- 原单方倒下、现有 sendOut helpers、选择/伤害/RNG、回合末和存档事务算法不改；补 winBattle/loseBattle 的 callback 依赖。新代码不创建 DRAW 或另一个回合执行器。
+- 验证从生产源码 AST 取实际 executeTurn、sendOutNextPlayer/sendOutNextEnemy、switchPokemon、handleAttack、runEnemyAutoAction、resolvePreTurnStatus 等回调；真实伤害/入场陷阱/轮次事务执行，仅呈现与最终 settlement I/O 用观测替身。8 组双方出招×四后备组合要求结果一次、旧在场者不再行动；双后备仍 BATTLE、双方补位且原事务恰一次 END_TURN。额外双方入场岩石耗尽敌后备、异步 epoch 失效，以及单侧倒下/保护/魔法防守/替身/气势头带不免反作用对照。
+- 审计原件 `audit.md`、旧 static-audit 复现与日志保留不覆盖。旧复现脚本是 b068eef 的当时 callback scope，修复候选的可重放回归以 `heldItemEffects.test.ts` 为准。

@@ -2350,6 +2350,26 @@ export function useBattleController({
 
     if (updatedActor.currentHp <= 0) {
       await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedActor))]);
+      if (updatedDefender.currentHp <= 0) {
+        await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedDefender))]);
+        finishActionDisplay();
+        pendingPlayerSwitchRef.current = false;
+        // Resolve both complete teams after target damage and recoil, before either replacement can settle alone.
+        if (!nextPlayerTeam.some((pokemon) => pokemon.currentHp > 0)) {
+          await loseBattle(); // The fixed source maps a double team wipe to defeat.
+          return;
+        }
+        if (!nextEnemyTeam.some((pokemon) => pokemon.currentHp > 0)) {
+          await winBattle();
+          return;
+        }
+        const faintEpoch = battleInstanceRef.current.epoch;
+        const enemyReplaced = await sendOutNextEnemy(nextEnemyTeam, nextEnemyTeam[0].id);
+        if (!enemyReplaced || !battleMountedRef.current || battleInstanceRef.current.epoch !== faintEpoch
+          || liveBattleStateRef.current.gameState !== 'BATTLE') return;
+        await sendOutNextPlayer(nextPlayerTeam, { nextTurnAfterSwitch: isPlayerActing ? 'ENEMY' : 'PLAYER' });
+        return;
+      }
       if (actingSide === 'player') {
         await sendOutNextPlayer(nextPlayerTeam, { nextTurnAfterSwitch: 'ENEMY' });
       } else {
@@ -2455,6 +2475,8 @@ export function useBattleController({
     getMoveMaxPp,
     sendOutNextEnemy,
     sendOutNextPlayer,
+    winBattle,
+    loseBattle,
     setActiveBuffs,
     setActiveMoveType,
     setEnemyAnim,
