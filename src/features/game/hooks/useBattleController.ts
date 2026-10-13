@@ -1055,7 +1055,7 @@ export function useBattleController({
         await addMessagesSequentially([summary]);
       }
     } catch (error) {
-      console.error(error);
+      if (!(error instanceof StaleRoundError)) console.error(error);
     } finally {
       setLoading(false);
     }

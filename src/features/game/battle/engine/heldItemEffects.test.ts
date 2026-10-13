@@ -14,7 +14,7 @@ import type { GamePokemon, Move } from '../../../../types';
 import { buildMoveBattleDataFromPokeApiMove } from '../../data/battle';
 import { applyMoveSecondaryEffects, applyWeatherChipDamage } from '../../lib/battleResolution';
 import { setVolatileStatus, setNonVolatileStatus, hasVolatileStatus } from '../../utils/battleStatus';
-import { prepareFactoryPartyForBattle } from '../../utils/restoreFactoryParty';
+import { prepareFactoryPartyForBattle, restoreFactoryParty } from '../../utils/restoreFactoryParty';
 import { calculateDamage } from './resolveDamage';
 import { resolveActionSelection } from './resolveActionSelection';
 import { resolveFlinch } from './resolveFlinch';
@@ -389,7 +389,7 @@ function actualControllerCallback(name: string, scope: Record<string, any>, plai
     if (ts.isVariableDeclaration(node) && node.name.getText(tree) === name && node.initializer) {
       expression = !plain && ts.isCallExpression(node.initializer) ? node.initializer.arguments[0].getText(tree) : node.initializer.getText(tree);
     }
-    if (ts.isFunctionDeclaration(node) && node.name?.text === name) expression = node.getText(tree);
+    if ((ts.isFunctionDeclaration(node) || ts.isClassDeclaration(node)) && node.name?.text === name) expression = node.getText(tree);
     ts.forEachChild(node, visit);
   };
   visit(tree); assert.ok(expression, name);
@@ -604,4 +604,105 @@ test('Struggle retains single-faint, protection, Magic Guard, substitute and Foc
       assert.equal(firstTarget.factoryHeldItemId, 'focus_band');
     } finally { Math.random = originalRandom; }
   }
+});
+
+
+// Execute both real callbacks. Only React setters, storage and the delay scheduler are
+// controlled; ROUND_RESULT renders during the message await and invalidates its epoch.
+function settlementCallbackHarness(failure?: 'message' | 'storage') {
+  const expectedError = new Error(`${failure ?? 'none'} failure`);
+  const state = {
+    gameState: 'BATTLE', loading: false, settlementError: false, streak: 2,
+    roundResult: null as 'WIN' | 'LOSS' | null, creditedTokens: -1,
+    logs: [] as string[], errors: [] as unknown[][], settlements: [] as unknown[][],
+    playerTeam: [pokemon(1, { currentHp: 0 })],
+  };
+  const roundTransactionRef = { current: { battleEpoch: 1 } };
+  const battleInstanceRef = { current: { epoch: 1 } };
+  const liveBattleStateRef = { current: { playerTeam: state.playerTeam, enemyTeam: [pokemon(2)] } };
+  const pendingSettlementRef: { current: unknown } = { current: null };
+  const scope: Record<string, any> = {
+    StaleRoundError: actualControllerCallback('StaleRoundError', {}, true),
+    roundTransactionRef, battleInstanceRef, liveBattleStateRef, pendingSettlementRef,
+    restoreFactoryParty, factoryRunId: 'settlement-test', stage: 1, streak: 2,
+    isFrontierBrain: false, specialBossBattleActive: false, specialModeUnlocked: false,
+    suppressFactoryBattleResult: false,
+    console: { error: (...args: unknown[]) => state.errors.push(args) },
+    setTimeout: (resume: () => void) => queueMicrotask(resume),
+    setIsMessageProcessing: () => {},
+    setBattleLog: (update: (previous: string[]) => string[]) => {
+      if (failure === 'message') throw expectedError;
+      state.logs = update(state.logs);
+    },
+    setLoading: (value: boolean) => { state.loading = value; },
+    setSettlementError: (value: boolean) => { state.settlementError = value; },
+    setPlayerTeam: (team: GamePokemon[]) => { state.playerTeam = team; },
+    setStreak: (value: number) => { state.streak = value; },
+    setRoundResult: (value: 'WIN' | 'LOSS') => { state.roundResult = value; },
+    setLastTokenGain: (value: number) => { state.creditedTokens = value; },
+    setGameState: (value: string) => {
+      state.gameState = value;
+      queueMicrotask(() => { battleInstanceRef.current.epoch += 1; });
+    },
+    setSpecialModeUnlocked: () => {}, setSpecialBossBattleActive: () => {},
+    getBattleIndexInSet: () => 1, t: (key: string) => key,
+    settleFactoryBattle: (...args: unknown[]) => {
+      state.settlements.push(args);
+      if (failure === 'storage') throw expectedError;
+      return { amount: 3 };
+    },
+  };
+  scope.addMessagesSequentially = actualControllerCallback('addMessagesSequentially', scope);
+  return { state, battleInstanceRef, liveBattleStateRef, pendingSettlementRef, expectedError,
+    resolve: actualControllerCallback('resolveBattleResult', scope) as (result: 'WIN' | 'LOSS') => Promise<void> };
+}
+
+test('actual settlement and message callbacks: ROUND_RESULT epoch cancellation is quiet after one committed result', async () => {
+  for (const result of ['WIN', 'LOSS'] as const) {
+    const harness = settlementCallbackHarness();
+    await harness.resolve(result);
+    const { state } = harness;
+    assert.equal(state.settlements.length, 1);
+    assert.deepEqual(state.settlements[0].slice(0, 4), ['settlement-test', 1, result, false]);
+    assert.equal(state.gameState, 'ROUND_RESULT');
+    assert.equal(state.roundResult, result);
+    assert.equal(state.streak, result === 'WIN' ? 3 : 0);
+    assert.equal(state.creditedTokens, 3);
+    assert.equal(state.playerTeam[0].currentHp, state.playerTeam[0].maxHp);
+    assert.equal(harness.liveBattleStateRef.current.playerTeam, state.playerTeam);
+    assert.equal(harness.battleInstanceRef.current.epoch, 2);
+    assert.equal(state.logs.length, 1);
+    assert.deepEqual(state.errors, []);
+    assert.equal(harness.pendingSettlementRef.current, null);
+    assert.equal(state.settlementError, false);
+    assert.equal(state.loading, false);
+  }
+});
+
+test('actual settlement callback: ordinary message exceptions remain visible and finally releases loading', async () => {
+  const harness = settlementCallbackHarness('message');
+  await harness.resolve('WIN');
+  assert.deepEqual(harness.state.errors, [[harness.expectedError]]);
+  assert.equal(harness.state.settlements.length, 1);
+  assert.equal(harness.state.gameState, 'ROUND_RESULT');
+  assert.equal(harness.pendingSettlementRef.current, null);
+  assert.equal(harness.state.loading, false);
+});
+
+test('actual settlement callback: failed storage retains pending settlement and error without advancing result', async () => {
+  const harness = settlementCallbackHarness('storage');
+  const originalTeam = harness.liveBattleStateRef.current.playerTeam;
+  await harness.resolve('LOSS');
+  assert.deepEqual(harness.state.errors, [['Factory settlement failed', harness.expectedError]]);
+  assert.equal(harness.state.settlements.length, 1);
+  assert.deepEqual(harness.pendingSettlementRef.current,
+    { runId: 'settlement-test', stage: 1, result: 'LOSS', isFrontierBrain: false });
+  assert.equal(harness.state.settlementError, true);
+  assert.equal(harness.state.gameState, 'BATTLE');
+  assert.equal(harness.state.roundResult, null);
+  assert.equal(harness.state.creditedTokens, -1);
+  assert.equal(harness.liveBattleStateRef.current.playerTeam, originalTeam);
+  assert.equal(harness.battleInstanceRef.current.epoch, 1);
+  assert.deepEqual(harness.state.logs, []);
+  assert.equal(harness.state.loading, false);
 });

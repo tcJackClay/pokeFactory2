@@ -77,3 +77,13 @@
 ### A1 返修静态门禁
 
 按要求串行：`npm run lint` PASS → `npm test` **356/356 PASS** → `npm run build` PASS（2253 modules，主包 674.92 kB / gzip 202.93 kB，原大包警告保留）→ `go test ./...` PASS；`git diff --check` PASS。当前未运行游戏，需独立复审；尚未整合另一个待验 UI 分支，整合后门禁另跑。
+
+
+## ROUND_RESULT 正常取消误报返修
+
+- 基线 `272f360cf1adce528d2c17c8b9b260f32cea0c66`；player 已停全部批次后，按 review.md 的局部授权解除源码冻结。
+- 唯一业务改动：`resolveBattleResult` 外层 catch 仅跳过 `StaleRoundError` 的 console.error。结算成功后切换 ROUND_RESULT 使旧消息 epoch 失效属于正常取消；真实 Error 继续记录。内层存储失败、pendingSettlement、finally、消息 epoch guard、结算和轮次账本均未改。
+- 在既有 AST 生产回调测试中增加真实 `StaleRoundError` 类、`addMessagesSequentially` 与 `resolveBattleResult` 的联合执行；React setter/延迟调度/存储 I/O 使用可观测替身，消息等待期间模拟结果页 render 的 epoch 更新。没有复制结算算法，没有运行浏览器。
+- 三组新增回归：WIN/LOSS 均只调用一次结算、保留结果和恢复队伍、epoch 更新后的取消无 console.error；普通消息异常仍记录原 Error 且 finally 释放 loading；存储失败保留 pending/error，留在 BATTLE、不提前提交恢复队伍、不产生结果日志。
+- 串行四门禁：`npm run lint` PASS → `npm test` **371/371 PASS** → `npm run build` PASS（2257 modules，主包 682.04 kB / gzip 205.64 kB，原 >500 kB 警告保留）→ `go test ./...` PASS。
+- 这里只达到静态可审候选；272 的 22 项通过/2 项缺陷/3 项中断是旧尝试，不是最终 PASS。新提交需独立审计和重新冻结实玩；自然七战、实体手机与生产环境证据边界不变。
