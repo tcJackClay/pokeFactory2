@@ -1,3 +1,4 @@
+import { isHealingBlocked } from './resolveHealBlock';
 import type { GamePokemon } from '../../../../types';
 import { battleLine } from '../battleLogText';
 import { hasAbilityBattleEffect, hasItemBattleEffect, getItemEndTurnHealDenominator } from '../../data/battle';
@@ -142,7 +143,7 @@ export function resolveEndTurn({
       if (nextSource.currentHp > 0) {
         if (targetAbility === 'liquid-ooze') {
           nextSource = { ...nextSource, currentHp: Math.max(0, nextSource.currentHp - damage) };
-        } else {
+        } else if (!isHealingBlocked(nextSource)) {
           nextSource = { ...nextSource, currentHp: Math.min(nextSource.maxHp, nextSource.currentHp + damage) };
         }
       }
@@ -168,7 +169,7 @@ export function resolveEndTurn({
       }
     }
 
-    if (nextTarget.currentHp > 0 && hasVolatileStatus(nextTarget, 'ingrain')) {
+    if (nextTarget.currentHp > 0 && !isHealingBlocked(nextTarget) && hasVolatileStatus(nextTarget, 'ingrain')) {
       const heal = Math.max(0, Math.min(Math.max(1, Math.floor(nextTarget.maxHp / 16)), nextTarget.maxHp - nextTarget.currentHp));
       if (heal > 0) {
         nextTarget = { ...nextTarget, currentHp: nextTarget.currentHp + heal };
@@ -331,7 +332,7 @@ export function resolveEndTurn({
   }
 
   const applyGrassyTerrainRecovery = (pokemon: GamePokemon) => {
-    if (!nextSnapshot.fieldState.includes('grassy_terrain') || pokemon.currentHp <= 0 || !isGrounded(pokemon, nextSnapshot.fieldState)) {
+    if (isHealingBlocked(pokemon) || !nextSnapshot.fieldState.includes('grassy_terrain') || pokemon.currentHp <= 0 || !isGrounded(pokemon, nextSnapshot.fieldState)) {
       return { pokemon, message: null as string | null };
     }
     const recover = Math.max(1, Math.min(Math.floor(pokemon.maxHp / 16), pokemon.maxHp - pokemon.currentHp));
@@ -378,7 +379,7 @@ export function resolveEndTurn({
   const applyLeftoversRecovery = (pokemon: GamePokemon) => {
     if (pokemon.currentHp <= 0) return { pokemon, message: null as string | null };
     const healDenominator = getItemEndTurnHealDenominator(pokemon.factoryHeldItemId);
-    if (!hasItemBattleEffect(pokemon.factoryHeldItemId, 'LEFTOVERS') || !healDenominator) {
+    if (isHealingBlocked(pokemon) || !hasItemBattleEffect(pokemon.factoryHeldItemId, 'LEFTOVERS') || !healDenominator) {
       return { pokemon, message: null as string | null };
     }
     const maxRecover = Math.floor(pokemon.maxHp / healDenominator);
@@ -401,6 +402,19 @@ export function resolveEndTurn({
     syncEnemyLead(enemyLeftoversResult.pokemon);
     events.push({ type: 'message', message: enemyLeftoversResult.message });
   }
+
+  // Source expires Heal Block after this round's recovery checks, including the fifth round.
+  const expireHealBlock = (pokemon: GamePokemon) => {
+    const state = getVolatileStatus(pokemon, 'heal_block');
+    const clearedFlinch = clearVolatileStatus(pokemon, 'flinch');
+    if (!state) return clearedFlinch;
+    const remaining = (state.turnsRemaining ?? 1) - 1;
+    if (remaining > 0) return setVolatileStatus(clearedFlinch, 'heal_block', { ...state, turnsRemaining: remaining });
+    events.push({ type: 'message', message: battleLine(currentLanguage, `${getLocalized(pokemon)}'s Heal Block wore off!`, `${getLocalized(pokemon)}的回复封锁解除了！`) });
+    return clearVolatileStatus(clearedFlinch, 'heal_block');
+  };
+  syncPlayerLead(expireHealBlock(playerLead));
+  syncEnemyLead(expireHealBlock(enemyLead));
 
   if (nextSnapshot.weather !== 'none' && nextSnapshot.weatherTurns > 0) {
     const nextTurns = nextSnapshot.weatherTurns - 1;

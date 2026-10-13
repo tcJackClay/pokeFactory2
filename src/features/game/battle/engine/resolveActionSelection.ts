@@ -27,14 +27,13 @@ export function resolveActionSelection({
   enemyQuickClawActivated,
   random = Math.random,
 }: ResolveActionSelectionOptions) {
-  if (enemyQuickClawActivated !== playerQuickClawActivated) {
-    return { enemyActsFirst: enemyQuickClawActivated };
-  }
-
   const playerPriority = getMovePriority(playerMove);
   const enemyPriority = getMovePriority(enemyMove);
   if (enemyPriority !== playerPriority) {
     return { enemyActsFirst: enemyPriority > playerPriority };
+  }
+  if (enemyQuickClawActivated !== playerQuickClawActivated) {
+    return { enemyActsFirst: enemyQuickClawActivated };
   }
 
   const weatherSuppressed = [playerPokemon, enemyPokemon].some((pokemon) => (

@@ -191,6 +191,9 @@ export interface MoveBattleData {
   secondaryEffects: MoveSecondaryEffect[];
   substituteInteraction: 'blocked' | 'bypass';
   makesContact: boolean;
+  ignoresKingsRock?: boolean;
+  sheerForceBoost?: boolean;
+  healBlockBanned?: boolean;
   soundMove: boolean;
   powderMove: boolean;
   ballisticMove: boolean;

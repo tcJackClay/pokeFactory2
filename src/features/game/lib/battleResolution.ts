@@ -15,6 +15,10 @@ import {
   setVolatileStatus,
 } from '../utils/battleStatus';
 
+import { resolveFlinch } from '../battle/engine/resolveFlinch';
+import { isHealingBlocked, getTargetMoveHealing, isTargetHealingMove } from '../battle/engine/resolveHealBlock';
+import { HEAL_BLOCK_TURNS } from '../config/heldItemRules';
+
 export type BattleSide = 'player' | 'enemy';
 
 export interface BattleTeams {
@@ -43,6 +47,7 @@ interface BattleMessageResult {
 
 export interface ApplyMoveSecondaryEffectsResult extends BattleTeams, BattleMessageResult {
   flinched: boolean;
+  kingsRockFlinched?: boolean;
 }
 
 export interface ApplyResidualDamageResult extends BattleMessageResult {
@@ -203,6 +208,7 @@ export function applyWeatherChipDamage({
     || ((weather === 'hail' || weather === 'snow') && ability === 'ice-body')
   );
   if (healForWeather) {
+    if (isHealingBlocked(pokemon)) return { pokemon, messages: [], fainted: false };
     const denominator = ability === 'dry-skin' ? 8 : 16;
     const heal = Math.max(0, Math.min(Math.floor(pokemon.maxHp / denominator), pokemon.maxHp - pokemon.currentHp));
     const updatedPokemon = heal > 0 ? { ...pokemon, currentHp: pokemon.currentHp + heal } : pokemon;
@@ -262,7 +268,7 @@ export function applyStatusResidualDamage(pokemon: GamePokemon, getLocalized: Lo
     hasAbilityBattleEffect(abilityName, 'POISON_HEAL')
     && (statusId === 'poison' || statusId === 'bad_poison')
   ) {
-    const healAmount = Math.max(1, Math.min(Math.floor(pokemon.maxHp / 8), pokemon.maxHp - pokemon.currentHp));
+    const healAmount = isHealingBlocked(pokemon) ? 0 : Math.max(0, Math.min(Math.max(1, Math.floor(pokemon.maxHp / 8)), pokemon.maxHp - pokemon.currentHp));
     let updatedPokemon = healAmount > 0
       ? { ...pokemon, currentHp: pokemon.currentHp + healAmount }
       : pokemon;
@@ -435,6 +441,22 @@ export function applyMoveSecondaryEffects({
 
   let targetPokemon = { ...originalTarget };
   const messages: string[] = [];
+
+  if (hasMoveBattleEffect(move, 'HEAL_BLOCK') && allowTargetEffects) {
+    if (!hasVolatileStatus(targetPokemon, 'heal_block') && (targetPokemon.abilities?.[0]?.ability?.name !== 'aroma-veil' || ignoresDefenderAbility(actorPokemon))) {
+      targetPokemon = setVolatileStatus(targetPokemon, 'heal_block', { turnsRemaining: HEAL_BLOCK_TURNS, sourceMoveName: move.name });
+      messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)} can no longer restore HP!`, `${getLocalized(targetPokemon)}的回复被封锁了！`));
+    } else {
+      messages.push(battleLine(currentLanguage, 'But it failed!', '但是失败了！'));
+    }
+  }
+  if (isTargetHealingMove(move) && allowTargetEffects) {
+    const healing = getTargetMoveHealing(move, actorPokemon, targetPokemon, Boolean(fieldState?.includes('grassy_terrain')));
+    if (healing > 0) {
+      targetPokemon = { ...targetPokemon, currentHp: targetPokemon.currentHp + healing };
+      messages.push(battleLine(currentLanguage, `${getLocalized(targetPokemon)} regained health!`, `${getLocalized(targetPokemon)}恢复了体力！`));
+    } else messages.push(battleLine(currentLanguage, 'But it failed!', '但是失败了！'));
+  }
 
   if (hasMoveBattleEffect(move, 'SAFEGUARD')) {
     const protectedTeam = (actingSide === 'player' ? playerTeam : enemyTeam).map((pokemon) => setVolatileStatus(
@@ -853,28 +875,13 @@ export function applyMoveSecondaryEffects({
     }
   }
 
-  const actorAbility = actorPokemon?.abilities?.[0]?.ability?.name;
-  const targetAbility = targetPokemon?.abilities?.[0]?.ability?.name;
-  const flinchChanceMultiplier = hasAbilityBattleEffect(actorAbility, 'SERENE_GRACE') ? 2 : 1;
-  const moveFlinchChance = hasAbilityBattleEffect(actorAbility, 'SHEER_FORCE')
-    ? 0
-    : Math.min(100, baseFlinchChance * flinchChanceMultiplier);
-  const combinedFlinchChance = !ignoresDefenderAbility(actorPokemon) && hasAbilityBattleEffect(targetAbility, 'SHIELD_DUST')
-    ? 0
-    : Math.max(0, moveFlinchChance, Math.min(100, extraFlinchChance * flinchChanceMultiplier));
-  if (
-    allowTargetEffects
-    && !targetHasActedThisTurn
-    && combinedFlinchChance > 0
-    && !flinched
-    && (ignoresDefenderAbility(actorPokemon) || !hasAbilityBattleEffect(targetPokemon?.abilities?.[0]?.ability?.name, 'INNER_FOCUS'))
-    && random() * 100 < combinedFlinchChance
-  ) {
+  const flinchResult = resolveFlinch({ move, actor: actorPokemon, target: targetPokemon,
+    nativeChance: baseFlinchChance, itemChance: extraFlinchChance,
+    targetHasActed: targetHasActedThisTurn, allowTargetEffects, random });
+  if (flinchResult.flinched) {
     flinched = true;
     targetPokemon = setVolatileStatus(targetPokemon, 'flinch', {
-      turnsRemaining: 1,
-      sourceMoveName: move.name,
-      linkedPokemonId: actorPokemon?.id,
+      turnsRemaining: 1, sourceMoveName: move.name, linkedPokemonId: actorPokemon?.id,
     });
   }
 
@@ -897,5 +904,6 @@ export function applyMoveSecondaryEffects({
     enemyTeam,
     messages,
     flinched,
+    kingsRockFlinched: flinchResult.kingsRockFlinched,
   };
 }

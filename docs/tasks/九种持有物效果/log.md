@@ -1,0 +1,9 @@
+
+# Programmer
+
+- Route A approved with 0 substantive plan returns; actual implementation base d4a17b6. Designer source clarification 053708f cherry-picked as 97e762e. No game run, push or dev merge.
+- Files: controller, BattleMovesPanel, battleResolution, shared action/accuracy-adjacent damage/type/end-turn helpers, MoveBattleData builder/types, heldItemRules, itemEffects/moveEffectTable/uiStrings; new resolveFlinch/resolveHeldItemHit/resolveMentalHerb/resolveHealBlock/resolveHealingItem/resolveLegalMoves/prepareMoveUse and heldItemEffects.test.ts. Metadata programmer supplied only the agreed extraction script/tests, generated table/tests and provenance manifest.
+- Implemented: priority before Quick Claw; independent King’s Rock; non-consuming Focus Band; shared legal selection and minimal Struggle; all six Mental Herb restrictions plus natural Heal Block chain; natural contact and source eligibility flags. Correct Scope Lens/Boots/Loaded Dice/White Herb paths retained and verified.
+- Source-reviewed adjacent findings accepted by orchestrator: target-healing ratios (floral grassy 2/3), Poison Heal withholding recovery while preserving poison immunity, Sleep Talk filtering plus called-move check. Production callback tests cover denied healing candidates, real allowed drain and mixed candidates, with only Sleep Talk PP deducted.
+- Validation after final code freeze: npm run lint PASS; npm test 353/353 PASS; npm run build PASS (existing >500kB warning); go test ./... PASS. Parser 7/7 and pinned-source --check PASS. git diff --check PASS.
+- Remaining: independent auditor and final-SHA player V1–V10 pending. No natural seven-battle, physical-phone or production acceptance. 35 source identities explicitly unmapped; raw.moves admission, Wish/Baton Pass and other unsupported special interactions remain later release blockers. See implementation.md and plan.md for exact evidence boundaries.

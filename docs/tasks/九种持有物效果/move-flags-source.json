@@ -1,0 +1,4827 @@
+{
+  "sha": "a6adfcf18d7eaf99c2803e4b0bc04eca7af2f014",
+  "sourceSha256": "ae86f6c1ef686d0d006a543993aaf057c977c00ae5f26c98e31f377e4b90830a",
+  "configSha256": "1b09c5987a0a9f1bb5379b9f8f21480068eea6ab20c67339e612d27956e9d8c7",
+  "profile": "normal",
+  "generations": {
+    "GEN_1": 0,
+    "GEN_2": 1,
+    "GEN_3": 2,
+    "GEN_4": 3,
+    "GEN_5": 4,
+    "GEN_6": 5,
+    "GEN_7": 6,
+    "GEN_8": 7,
+    "GEN_9": 8,
+    "GEN_LATEST": 8,
+    "B_UPDATED_MOVE_DATA": 8,
+    "B_UPDATED_MOVE_TYPES": 8,
+    "B_UPDATED_MOVE_FLAGS": 8,
+    "B_GROWTH_STAT_RAISE": 8,
+    "B_HEAL_BLOCKING": 8
+  },
+  "repository": "https://github.com/Pokabbie/pokeemerald-rogue",
+  "generatorVersion": 1,
+  "hashEncoding": "UTF-8 with CRLF normalized to LF; hashes match pinned git blobs",
+  "files": {
+    "src/data/battle_moves.h": "ae86f6c1ef686d0d006a543993aaf057c977c00ae5f26c98e31f377e4b90830a",
+    "include/config.h": "61d097bd53b92dbb4f8b37b437a91f8c02dc26868a750cf9fe73742d4f002d15",
+    "include/config/battle.h": "60ffd9c880da2f409e781b26f893e476c5ca735da88225d3852df4b095b48d5d",
+    "include/constants/moves.h": "a9f338c30d45bc4c4daff9c6f4cd5aa099b235bb0bf9985481d117a4a3049398"
+  },
+  "generationValueEncoding": "C constants are zero-based: GEN_1 = 0 through GEN_9 = 8; selected profile is generation 9.",
+  "identifierSource": {
+    "repository": "PokeAPI/pokeapi",
+    "sha": "81d20919845b6a445969b9265aab5cec6b04cece",
+    "url": "https://raw.githubusercontent.com/PokeAPI/pokeapi/81d20919845b6a445969b9265aab5cec6b04cece/data/v2/csv/moves.csv",
+    "sha256": "8aafd37bf78f19471495c05b201545180f50f0a08a2a2a844d69f9837dd39ac9"
+  },
+  "coverage": {
+    "sourceRows": 936,
+    "mappedSourceRows": 901,
+    "generatedSlugs": 919,
+    "excludedSourceRows": 35
+  },
+  "flagCounts": {
+    "makesContact": 271,
+    "ignoresKingsRock": 0,
+    "sheerForceBoost": 193,
+    "healBlockBanned": 36
+  },
+  "defaultSemantics": "Omitted C aggregate fields are zero; unknown move identities remain absent, never synthesized as all-false.",
+  "boundary": "Four flags only. No numeric move body, gameplay implementation, or sale admission is certified. Generic Z physical/special identities share the four fixed-source flags.",
+  "excluded": [
+    {
+      "symbol": "MOVE_NONE",
+      "sourceId": 0,
+      "reason": "Sentinel, not a move"
+    },
+    {
+      "symbol": "MOVE_G_MAX_VINE_LASH",
+      "sourceId": 903,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_WILDFIRE",
+      "sourceId": 904,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_CANNONADE",
+      "sourceId": 905,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_BEFUDDLE",
+      "sourceId": 906,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_VOLT_CRASH",
+      "sourceId": 907,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_GOLD_RUSH",
+      "sourceId": 908,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_CHI_STRIKE",
+      "sourceId": 909,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_TERROR",
+      "sourceId": 910,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_FOAM_BURST",
+      "sourceId": 911,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_RESONANCE",
+      "sourceId": 912,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_CUDDLE",
+      "sourceId": 913,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_REPLENISH",
+      "sourceId": 914,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_MALODOR",
+      "sourceId": 915,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_MELTDOWN",
+      "sourceId": 916,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_DRUM_SOLO",
+      "sourceId": 917,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_FIREBALL",
+      "sourceId": 918,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_HYDROSNIPE",
+      "sourceId": 919,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_WIND_RAGE",
+      "sourceId": 920,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_GRAVITAS",
+      "sourceId": 921,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_STONESURGE",
+      "sourceId": 922,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_VOLCALITH",
+      "sourceId": 923,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_TARTNESS",
+      "sourceId": 924,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_SWEETNESS",
+      "sourceId": 925,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_SANDBLAST",
+      "sourceId": 926,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_STUN_SHOCK",
+      "sourceId": 927,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_CENTIFERNO",
+      "sourceId": 928,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_SMITE",
+      "sourceId": 929,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_SNOOZE",
+      "sourceId": 930,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_FINALE",
+      "sourceId": 931,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_STEELSURGE",
+      "sourceId": 932,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_DEPLETION",
+      "sourceId": 933,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_ONE_BLOW",
+      "sourceId": 934,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_G_MAX_RAPID_FLOW",
+      "sourceId": 935,
+      "reason": "G-Max has no move identity in pinned PokeAPI moves.csv"
+    },
+    {
+      "symbol": "MOVE_SWIRLING_BLADE",
+      "sourceId": 848,
+      "reason": "Rogue-only custom move, no PokeAPI identity"
+    }
+  ],
+  "identities": [
+    {
+      "symbol": "MOVE_POUND",
+      "sourceId": 1,
+      "slug": "pound"
+    },
+    {
+      "symbol": "MOVE_KARATE_CHOP",
+      "sourceId": 2,
+      "slug": "karate-chop"
+    },
+    {
+      "symbol": "MOVE_DOUBLE_SLAP",
+      "sourceId": 3,
+      "slug": "double-slap"
+    },
+    {
+      "symbol": "MOVE_COMET_PUNCH",
+      "sourceId": 4,
+      "slug": "comet-punch"
+    },
+    {
+      "symbol": "MOVE_MEGA_PUNCH",
+      "sourceId": 5,
+      "slug": "mega-punch"
+    },
+    {
+      "symbol": "MOVE_PAY_DAY",
+      "sourceId": 6,
+      "slug": "pay-day"
+    },
+    {
+      "symbol": "MOVE_FIRE_PUNCH",
+      "sourceId": 7,
+      "slug": "fire-punch"
+    },
+    {
+      "symbol": "MOVE_ICE_PUNCH",
+      "sourceId": 8,
+      "slug": "ice-punch"
+    },
+    {
+      "symbol": "MOVE_THUNDER_PUNCH",
+      "sourceId": 9,
+      "slug": "thunder-punch"
+    },
+    {
+      "symbol": "MOVE_SCRATCH",
+      "sourceId": 10,
+      "slug": "scratch"
+    },
+    {
+      "symbol": "MOVE_VISE_GRIP",
+      "sourceId": 11,
+      "slug": "vice-grip"
+    },
+    {
+      "symbol": "MOVE_GUILLOTINE",
+      "sourceId": 12,
+      "slug": "guillotine"
+    },
+    {
+      "symbol": "MOVE_RAZOR_WIND",
+      "sourceId": 13,
+      "slug": "razor-wind"
+    },
+    {
+      "symbol": "MOVE_SWORDS_DANCE",
+      "sourceId": 14,
+      "slug": "swords-dance"
+    },
+    {
+      "symbol": "MOVE_CUT",
+      "sourceId": 15,
+      "slug": "cut"
+    },
+    {
+      "symbol": "MOVE_GUST",
+      "sourceId": 16,
+      "slug": "gust"
+    },
+    {
+      "symbol": "MOVE_WING_ATTACK",
+      "sourceId": 17,
+      "slug": "wing-attack"
+    },
+    {
+      "symbol": "MOVE_WHIRLWIND",
+      "sourceId": 18,
+      "slug": "whirlwind"
+    },
+    {
+      "symbol": "MOVE_FLY",
+      "sourceId": 19,
+      "slug": "fly"
+    },
+    {
+      "symbol": "MOVE_BIND",
+      "sourceId": 20,
+      "slug": "bind"
+    },
+    {
+      "symbol": "MOVE_SLAM",
+      "sourceId": 21,
+      "slug": "slam"
+    },
+    {
+      "symbol": "MOVE_VINE_WHIP",
+      "sourceId": 22,
+      "slug": "vine-whip"
+    },
+    {
+      "symbol": "MOVE_STOMP",
+      "sourceId": 23,
+      "slug": "stomp"
+    },
+    {
+      "symbol": "MOVE_DOUBLE_KICK",
+      "sourceId": 24,
+      "slug": "double-kick"
+    },
+    {
+      "symbol": "MOVE_MEGA_KICK",
+      "sourceId": 25,
+      "slug": "mega-kick"
+    },
+    {
+      "symbol": "MOVE_JUMP_KICK",
+      "sourceId": 26,
+      "slug": "jump-kick"
+    },
+    {
+      "symbol": "MOVE_ROLLING_KICK",
+      "sourceId": 27,
+      "slug": "rolling-kick"
+    },
+    {
+      "symbol": "MOVE_SAND_ATTACK",
+      "sourceId": 28,
+      "slug": "sand-attack"
+    },
+    {
+      "symbol": "MOVE_HEADBUTT",
+      "sourceId": 29,
+      "slug": "headbutt"
+    },
+    {
+      "symbol": "MOVE_HORN_ATTACK",
+      "sourceId": 30,
+      "slug": "horn-attack"
+    },
+    {
+      "symbol": "MOVE_FURY_ATTACK",
+      "sourceId": 31,
+      "slug": "fury-attack"
+    },
+    {
+      "symbol": "MOVE_HORN_DRILL",
+      "sourceId": 32,
+      "slug": "horn-drill"
+    },
+    {
+      "symbol": "MOVE_TACKLE",
+      "sourceId": 33,
+      "slug": "tackle"
+    },
+    {
+      "symbol": "MOVE_BODY_SLAM",
+      "sourceId": 34,
+      "slug": "body-slam"
+    },
+    {
+      "symbol": "MOVE_WRAP",
+      "sourceId": 35,
+      "slug": "wrap"
+    },
+    {
+      "symbol": "MOVE_TAKE_DOWN",
+      "sourceId": 36,
+      "slug": "take-down"
+    },
+    {
+      "symbol": "MOVE_THRASH",
+      "sourceId": 37,
+      "slug": "thrash"
+    },
+    {
+      "symbol": "MOVE_DOUBLE_EDGE",
+      "sourceId": 38,
+      "slug": "double-edge"
+    },
+    {
+      "symbol": "MOVE_TAIL_WHIP",
+      "sourceId": 39,
+      "slug": "tail-whip"
+    },
+    {
+      "symbol": "MOVE_POISON_STING",
+      "sourceId": 40,
+      "slug": "poison-sting"
+    },
+    {
+      "symbol": "MOVE_TWINEEDLE",
+      "sourceId": 41,
+      "slug": "twineedle"
+    },
+    {
+      "symbol": "MOVE_PIN_MISSILE",
+      "sourceId": 42,
+      "slug": "pin-missile"
+    },
+    {
+      "symbol": "MOVE_LEER",
+      "sourceId": 43,
+      "slug": "leer"
+    },
+    {
+      "symbol": "MOVE_BITE",
+      "sourceId": 44,
+      "slug": "bite"
+    },
+    {
+      "symbol": "MOVE_GROWL",
+      "sourceId": 45,
+      "slug": "growl"
+    },
+    {
+      "symbol": "MOVE_ROAR",
+      "sourceId": 46,
+      "slug": "roar"
+    },
+    {
+      "symbol": "MOVE_SING",
+      "sourceId": 47,
+      "slug": "sing"
+    },
+    {
+      "symbol": "MOVE_SUPERSONIC",
+      "sourceId": 48,
+      "slug": "supersonic"
+    },
+    {
+      "symbol": "MOVE_SONIC_BOOM",
+      "sourceId": 49,
+      "slug": "sonic-boom"
+    },
+    {
+      "symbol": "MOVE_DISABLE",
+      "sourceId": 50,
+      "slug": "disable"
+    },
+    {
+      "symbol": "MOVE_ACID",
+      "sourceId": 51,
+      "slug": "acid"
+    },
+    {
+      "symbol": "MOVE_EMBER",
+      "sourceId": 52,
+      "slug": "ember"
+    },
+    {
+      "symbol": "MOVE_FLAMETHROWER",
+      "sourceId": 53,
+      "slug": "flamethrower"
+    },
+    {
+      "symbol": "MOVE_MIST",
+      "sourceId": 54,
+      "slug": "mist"
+    },
+    {
+      "symbol": "MOVE_WATER_GUN",
+      "sourceId": 55,
+      "slug": "water-gun"
+    },
+    {
+      "symbol": "MOVE_HYDRO_PUMP",
+      "sourceId": 56,
+      "slug": "hydro-pump"
+    },
+    {
+      "symbol": "MOVE_SURF",
+      "sourceId": 57,
+      "slug": "surf"
+    },
+    {
+      "symbol": "MOVE_ICE_BEAM",
+      "sourceId": 58,
+      "slug": "ice-beam"
+    },
+    {
+      "symbol": "MOVE_BLIZZARD",
+      "sourceId": 59,
+      "slug": "blizzard"
+    },
+    {
+      "symbol": "MOVE_PSYBEAM",
+      "sourceId": 60,
+      "slug": "psybeam"
+    },
+    {
+      "symbol": "MOVE_BUBBLE_BEAM",
+      "sourceId": 61,
+      "slug": "bubble-beam"
+    },
+    {
+      "symbol": "MOVE_AURORA_BEAM",
+      "sourceId": 62,
+      "slug": "aurora-beam"
+    },
+    {
+      "symbol": "MOVE_HYPER_BEAM",
+      "sourceId": 63,
+      "slug": "hyper-beam"
+    },
+    {
+      "symbol": "MOVE_PECK",
+      "sourceId": 64,
+      "slug": "peck"
+    },
+    {
+      "symbol": "MOVE_DRILL_PECK",
+      "sourceId": 65,
+      "slug": "drill-peck"
+    },
+    {
+      "symbol": "MOVE_SUBMISSION",
+      "sourceId": 66,
+      "slug": "submission"
+    },
+    {
+      "symbol": "MOVE_LOW_KICK",
+      "sourceId": 67,
+      "slug": "low-kick"
+    },
+    {
+      "symbol": "MOVE_COUNTER",
+      "sourceId": 68,
+      "slug": "counter"
+    },
+    {
+      "symbol": "MOVE_SEISMIC_TOSS",
+      "sourceId": 69,
+      "slug": "seismic-toss"
+    },
+    {
+      "symbol": "MOVE_STRENGTH",
+      "sourceId": 70,
+      "slug": "strength"
+    },
+    {
+      "symbol": "MOVE_ABSORB",
+      "sourceId": 71,
+      "slug": "absorb"
+    },
+    {
+      "symbol": "MOVE_MEGA_DRAIN",
+      "sourceId": 72,
+      "slug": "mega-drain"
+    },
+    {
+      "symbol": "MOVE_LEECH_SEED",
+      "sourceId": 73,
+      "slug": "leech-seed"
+    },
+    {
+      "symbol": "MOVE_GROWTH",
+      "sourceId": 74,
+      "slug": "growth"
+    },
+    {
+      "symbol": "MOVE_RAZOR_LEAF",
+      "sourceId": 75,
+      "slug": "razor-leaf"
+    },
+    {
+      "symbol": "MOVE_SOLAR_BEAM",
+      "sourceId": 76,
+      "slug": "solar-beam"
+    },
+    {
+      "symbol": "MOVE_POISON_POWDER",
+      "sourceId": 77,
+      "slug": "poison-powder"
+    },
+    {
+      "symbol": "MOVE_STUN_SPORE",
+      "sourceId": 78,
+      "slug": "stun-spore"
+    },
+    {
+      "symbol": "MOVE_SLEEP_POWDER",
+      "sourceId": 79,
+      "slug": "sleep-powder"
+    },
+    {
+      "symbol": "MOVE_PETAL_DANCE",
+      "sourceId": 80,
+      "slug": "petal-dance"
+    },
+    {
+      "symbol": "MOVE_STRING_SHOT",
+      "sourceId": 81,
+      "slug": "string-shot"
+    },
+    {
+      "symbol": "MOVE_DRAGON_RAGE",
+      "sourceId": 82,
+      "slug": "dragon-rage"
+    },
+    {
+      "symbol": "MOVE_FIRE_SPIN",
+      "sourceId": 83,
+      "slug": "fire-spin"
+    },
+    {
+      "symbol": "MOVE_THUNDER_SHOCK",
+      "sourceId": 84,
+      "slug": "thunder-shock"
+    },
+    {
+      "symbol": "MOVE_THUNDERBOLT",
+      "sourceId": 85,
+      "slug": "thunderbolt"
+    },
+    {
+      "symbol": "MOVE_THUNDER_WAVE",
+      "sourceId": 86,
+      "slug": "thunder-wave"
+    },
+    {
+      "symbol": "MOVE_THUNDER",
+      "sourceId": 87,
+      "slug": "thunder"
+    },
+    {
+      "symbol": "MOVE_ROCK_THROW",
+      "sourceId": 88,
+      "slug": "rock-throw"
+    },
+    {
+      "symbol": "MOVE_EARTHQUAKE",
+      "sourceId": 89,
+      "slug": "earthquake"
+    },
+    {
+      "symbol": "MOVE_FISSURE",
+      "sourceId": 90,
+      "slug": "fissure"
+    },
+    {
+      "symbol": "MOVE_DIG",
+      "sourceId": 91,
+      "slug": "dig"
+    },
+    {
+      "symbol": "MOVE_TOXIC",
+      "sourceId": 92,
+      "slug": "toxic"
+    },
+    {
+      "symbol": "MOVE_CONFUSION",
+      "sourceId": 93,
+      "slug": "confusion"
+    },
+    {
+      "symbol": "MOVE_PSYCHIC",
+      "sourceId": 94,
+      "slug": "psychic"
+    },
+    {
+      "symbol": "MOVE_HYPNOSIS",
+      "sourceId": 95,
+      "slug": "hypnosis"
+    },
+    {
+      "symbol": "MOVE_MEDITATE",
+      "sourceId": 96,
+      "slug": "meditate"
+    },
+    {
+      "symbol": "MOVE_AGILITY",
+      "sourceId": 97,
+      "slug": "agility"
+    },
+    {
+      "symbol": "MOVE_QUICK_ATTACK",
+      "sourceId": 98,
+      "slug": "quick-attack"
+    },
+    {
+      "symbol": "MOVE_RAGE",
+      "sourceId": 99,
+      "slug": "rage"
+    },
+    {
+      "symbol": "MOVE_TELEPORT",
+      "sourceId": 100,
+      "slug": "teleport"
+    },
+    {
+      "symbol": "MOVE_NIGHT_SHADE",
+      "sourceId": 101,
+      "slug": "night-shade"
+    },
+    {
+      "symbol": "MOVE_MIMIC",
+      "sourceId": 102,
+      "slug": "mimic"
+    },
+    {
+      "symbol": "MOVE_SCREECH",
+      "sourceId": 103,
+      "slug": "screech"
+    },
+    {
+      "symbol": "MOVE_DOUBLE_TEAM",
+      "sourceId": 104,
+      "slug": "double-team"
+    },
+    {
+      "symbol": "MOVE_RECOVER",
+      "sourceId": 105,
+      "slug": "recover"
+    },
+    {
+      "symbol": "MOVE_HARDEN",
+      "sourceId": 106,
+      "slug": "harden"
+    },
+    {
+      "symbol": "MOVE_MINIMIZE",
+      "sourceId": 107,
+      "slug": "minimize"
+    },
+    {
+      "symbol": "MOVE_SMOKESCREEN",
+      "sourceId": 108,
+      "slug": "smokescreen"
+    },
+    {
+      "symbol": "MOVE_CONFUSE_RAY",
+      "sourceId": 109,
+      "slug": "confuse-ray"
+    },
+    {
+      "symbol": "MOVE_WITHDRAW",
+      "sourceId": 110,
+      "slug": "withdraw"
+    },
+    {
+      "symbol": "MOVE_DEFENSE_CURL",
+      "sourceId": 111,
+      "slug": "defense-curl"
+    },
+    {
+      "symbol": "MOVE_BARRIER",
+      "sourceId": 112,
+      "slug": "barrier"
+    },
+    {
+      "symbol": "MOVE_LIGHT_SCREEN",
+      "sourceId": 113,
+      "slug": "light-screen"
+    },
+    {
+      "symbol": "MOVE_HAZE",
+      "sourceId": 114,
+      "slug": "haze"
+    },
+    {
+      "symbol": "MOVE_REFLECT",
+      "sourceId": 115,
+      "slug": "reflect"
+    },
+    {
+      "symbol": "MOVE_FOCUS_ENERGY",
+      "sourceId": 116,
+      "slug": "focus-energy"
+    },
+    {
+      "symbol": "MOVE_BIDE",
+      "sourceId": 117,
+      "slug": "bide"
+    },
+    {
+      "symbol": "MOVE_METRONOME",
+      "sourceId": 118,
+      "slug": "metronome"
+    },
+    {
+      "symbol": "MOVE_MIRROR_MOVE",
+      "sourceId": 119,
+      "slug": "mirror-move"
+    },
+    {
+      "symbol": "MOVE_SELF_DESTRUCT",
+      "sourceId": 120,
+      "slug": "self-destruct"
+    },
+    {
+      "symbol": "MOVE_EGG_BOMB",
+      "sourceId": 121,
+      "slug": "egg-bomb"
+    },
+    {
+      "symbol": "MOVE_LICK",
+      "sourceId": 122,
+      "slug": "lick"
+    },
+    {
+      "symbol": "MOVE_SMOG",
+      "sourceId": 123,
+      "slug": "smog"
+    },
+    {
+      "symbol": "MOVE_SLUDGE",
+      "sourceId": 124,
+      "slug": "sludge"
+    },
+    {
+      "symbol": "MOVE_BONE_CLUB",
+      "sourceId": 125,
+      "slug": "bone-club"
+    },
+    {
+      "symbol": "MOVE_FIRE_BLAST",
+      "sourceId": 126,
+      "slug": "fire-blast"
+    },
+    {
+      "symbol": "MOVE_WATERFALL",
+      "sourceId": 127,
+      "slug": "waterfall"
+    },
+    {
+      "symbol": "MOVE_CLAMP",
+      "sourceId": 128,
+      "slug": "clamp"
+    },
+    {
+      "symbol": "MOVE_SWIFT",
+      "sourceId": 129,
+      "slug": "swift"
+    },
+    {
+      "symbol": "MOVE_SKULL_BASH",
+      "sourceId": 130,
+      "slug": "skull-bash"
+    },
+    {
+      "symbol": "MOVE_SPIKE_CANNON",
+      "sourceId": 131,
+      "slug": "spike-cannon"
+    },
+    {
+      "symbol": "MOVE_CONSTRICT",
+      "sourceId": 132,
+      "slug": "constrict"
+    },
+    {
+      "symbol": "MOVE_AMNESIA",
+      "sourceId": 133,
+      "slug": "amnesia"
+    },
+    {
+      "symbol": "MOVE_KINESIS",
+      "sourceId": 134,
+      "slug": "kinesis"
+    },
+    {
+      "symbol": "MOVE_SOFT_BOILED",
+      "sourceId": 135,
+      "slug": "soft-boiled"
+    },
+    {
+      "symbol": "MOVE_HIGH_JUMP_KICK",
+      "sourceId": 136,
+      "slug": "high-jump-kick"
+    },
+    {
+      "symbol": "MOVE_GLARE",
+      "sourceId": 137,
+      "slug": "glare"
+    },
+    {
+      "symbol": "MOVE_DREAM_EATER",
+      "sourceId": 138,
+      "slug": "dream-eater"
+    },
+    {
+      "symbol": "MOVE_POISON_GAS",
+      "sourceId": 139,
+      "slug": "poison-gas"
+    },
+    {
+      "symbol": "MOVE_BARRAGE",
+      "sourceId": 140,
+      "slug": "barrage"
+    },
+    {
+      "symbol": "MOVE_LEECH_LIFE",
+      "sourceId": 141,
+      "slug": "leech-life"
+    },
+    {
+      "symbol": "MOVE_LOVELY_KISS",
+      "sourceId": 142,
+      "slug": "lovely-kiss"
+    },
+    {
+      "symbol": "MOVE_SKY_ATTACK",
+      "sourceId": 143,
+      "slug": "sky-attack"
+    },
+    {
+      "symbol": "MOVE_TRANSFORM",
+      "sourceId": 144,
+      "slug": "transform"
+    },
+    {
+      "symbol": "MOVE_BUBBLE",
+      "sourceId": 145,
+      "slug": "bubble"
+    },
+    {
+      "symbol": "MOVE_DIZZY_PUNCH",
+      "sourceId": 146,
+      "slug": "dizzy-punch"
+    },
+    {
+      "symbol": "MOVE_SPORE",
+      "sourceId": 147,
+      "slug": "spore"
+    },
+    {
+      "symbol": "MOVE_FLASH",
+      "sourceId": 148,
+      "slug": "flash"
+    },
+    {
+      "symbol": "MOVE_PSYWAVE",
+      "sourceId": 149,
+      "slug": "psywave"
+    },
+    {
+      "symbol": "MOVE_SPLASH",
+      "sourceId": 150,
+      "slug": "splash"
+    },
+    {
+      "symbol": "MOVE_ACID_ARMOR",
+      "sourceId": 151,
+      "slug": "acid-armor"
+    },
+    {
+      "symbol": "MOVE_CRABHAMMER",
+      "sourceId": 152,
+      "slug": "crabhammer"
+    },
+    {
+      "symbol": "MOVE_EXPLOSION",
+      "sourceId": 153,
+      "slug": "explosion"
+    },
+    {
+      "symbol": "MOVE_FURY_SWIPES",
+      "sourceId": 154,
+      "slug": "fury-swipes"
+    },
+    {
+      "symbol": "MOVE_BONEMERANG",
+      "sourceId": 155,
+      "slug": "bonemerang"
+    },
+    {
+      "symbol": "MOVE_REST",
+      "sourceId": 156,
+      "slug": "rest"
+    },
+    {
+      "symbol": "MOVE_ROCK_SLIDE",
+      "sourceId": 157,
+      "slug": "rock-slide"
+    },
+    {
+      "symbol": "MOVE_HYPER_FANG",
+      "sourceId": 158,
+      "slug": "hyper-fang"
+    },
+    {
+      "symbol": "MOVE_SHARPEN",
+      "sourceId": 159,
+      "slug": "sharpen"
+    },
+    {
+      "symbol": "MOVE_CONVERSION",
+      "sourceId": 160,
+      "slug": "conversion"
+    },
+    {
+      "symbol": "MOVE_TRI_ATTACK",
+      "sourceId": 161,
+      "slug": "tri-attack"
+    },
+    {
+      "symbol": "MOVE_SUPER_FANG",
+      "sourceId": 162,
+      "slug": "super-fang"
+    },
+    {
+      "symbol": "MOVE_SLASH",
+      "sourceId": 163,
+      "slug": "slash"
+    },
+    {
+      "symbol": "MOVE_SUBSTITUTE",
+      "sourceId": 164,
+      "slug": "substitute"
+    },
+    {
+      "symbol": "MOVE_STRUGGLE",
+      "sourceId": 165,
+      "slug": "struggle"
+    },
+    {
+      "symbol": "MOVE_SKETCH",
+      "sourceId": 166,
+      "slug": "sketch"
+    },
+    {
+      "symbol": "MOVE_TRIPLE_KICK",
+      "sourceId": 167,
+      "slug": "triple-kick"
+    },
+    {
+      "symbol": "MOVE_THIEF",
+      "sourceId": 168,
+      "slug": "thief"
+    },
+    {
+      "symbol": "MOVE_SPIDER_WEB",
+      "sourceId": 169,
+      "slug": "spider-web"
+    },
+    {
+      "symbol": "MOVE_MIND_READER",
+      "sourceId": 170,
+      "slug": "mind-reader"
+    },
+    {
+      "symbol": "MOVE_NIGHTMARE",
+      "sourceId": 171,
+      "slug": "nightmare"
+    },
+    {
+      "symbol": "MOVE_FLAME_WHEEL",
+      "sourceId": 172,
+      "slug": "flame-wheel"
+    },
+    {
+      "symbol": "MOVE_SNORE",
+      "sourceId": 173,
+      "slug": "snore"
+    },
+    {
+      "symbol": "MOVE_CURSE",
+      "sourceId": 174,
+      "slug": "curse"
+    },
+    {
+      "symbol": "MOVE_FLAIL",
+      "sourceId": 175,
+      "slug": "flail"
+    },
+    {
+      "symbol": "MOVE_CONVERSION_2",
+      "sourceId": 176,
+      "slug": "conversion-2"
+    },
+    {
+      "symbol": "MOVE_AEROBLAST",
+      "sourceId": 177,
+      "slug": "aeroblast"
+    },
+    {
+      "symbol": "MOVE_COTTON_SPORE",
+      "sourceId": 178,
+      "slug": "cotton-spore"
+    },
+    {
+      "symbol": "MOVE_REVERSAL",
+      "sourceId": 179,
+      "slug": "reversal"
+    },
+    {
+      "symbol": "MOVE_SPITE",
+      "sourceId": 180,
+      "slug": "spite"
+    },
+    {
+      "symbol": "MOVE_POWDER_SNOW",
+      "sourceId": 181,
+      "slug": "powder-snow"
+    },
+    {
+      "symbol": "MOVE_PROTECT",
+      "sourceId": 182,
+      "slug": "protect"
+    },
+    {
+      "symbol": "MOVE_MACH_PUNCH",
+      "sourceId": 183,
+      "slug": "mach-punch"
+    },
+    {
+      "symbol": "MOVE_SCARY_FACE",
+      "sourceId": 184,
+      "slug": "scary-face"
+    },
+    {
+      "symbol": "MOVE_FEINT_ATTACK",
+      "sourceId": 185,
+      "slug": "feint-attack"
+    },
+    {
+      "symbol": "MOVE_SWEET_KISS",
+      "sourceId": 186,
+      "slug": "sweet-kiss"
+    },
+    {
+      "symbol": "MOVE_BELLY_DRUM",
+      "sourceId": 187,
+      "slug": "belly-drum"
+    },
+    {
+      "symbol": "MOVE_SLUDGE_BOMB",
+      "sourceId": 188,
+      "slug": "sludge-bomb"
+    },
+    {
+      "symbol": "MOVE_MUD_SLAP",
+      "sourceId": 189,
+      "slug": "mud-slap"
+    },
+    {
+      "symbol": "MOVE_OCTAZOOKA",
+      "sourceId": 190,
+      "slug": "octazooka"
+    },
+    {
+      "symbol": "MOVE_SPIKES",
+      "sourceId": 191,
+      "slug": "spikes"
+    },
+    {
+      "symbol": "MOVE_ZAP_CANNON",
+      "sourceId": 192,
+      "slug": "zap-cannon"
+    },
+    {
+      "symbol": "MOVE_FORESIGHT",
+      "sourceId": 193,
+      "slug": "foresight"
+    },
+    {
+      "symbol": "MOVE_DESTINY_BOND",
+      "sourceId": 194,
+      "slug": "destiny-bond"
+    },
+    {
+      "symbol": "MOVE_PERISH_SONG",
+      "sourceId": 195,
+      "slug": "perish-song"
+    },
+    {
+      "symbol": "MOVE_ICY_WIND",
+      "sourceId": 196,
+      "slug": "icy-wind"
+    },
+    {
+      "symbol": "MOVE_DETECT",
+      "sourceId": 197,
+      "slug": "detect"
+    },
+    {
+      "symbol": "MOVE_BONE_RUSH",
+      "sourceId": 198,
+      "slug": "bone-rush"
+    },
+    {
+      "symbol": "MOVE_LOCK_ON",
+      "sourceId": 199,
+      "slug": "lock-on"
+    },
+    {
+      "symbol": "MOVE_OUTRAGE",
+      "sourceId": 200,
+      "slug": "outrage"
+    },
+    {
+      "symbol": "MOVE_SANDSTORM",
+      "sourceId": 201,
+      "slug": "sandstorm"
+    },
+    {
+      "symbol": "MOVE_GIGA_DRAIN",
+      "sourceId": 202,
+      "slug": "giga-drain"
+    },
+    {
+      "symbol": "MOVE_ENDURE",
+      "sourceId": 203,
+      "slug": "endure"
+    },
+    {
+      "symbol": "MOVE_CHARM",
+      "sourceId": 204,
+      "slug": "charm"
+    },
+    {
+      "symbol": "MOVE_ROLLOUT",
+      "sourceId": 205,
+      "slug": "rollout"
+    },
+    {
+      "symbol": "MOVE_FALSE_SWIPE",
+      "sourceId": 206,
+      "slug": "false-swipe"
+    },
+    {
+      "symbol": "MOVE_SWAGGER",
+      "sourceId": 207,
+      "slug": "swagger"
+    },
+    {
+      "symbol": "MOVE_MILK_DRINK",
+      "sourceId": 208,
+      "slug": "milk-drink"
+    },
+    {
+      "symbol": "MOVE_SPARK",
+      "sourceId": 209,
+      "slug": "spark"
+    },
+    {
+      "symbol": "MOVE_FURY_CUTTER",
+      "sourceId": 210,
+      "slug": "fury-cutter"
+    },
+    {
+      "symbol": "MOVE_STEEL_WING",
+      "sourceId": 211,
+      "slug": "steel-wing"
+    },
+    {
+      "symbol": "MOVE_MEAN_LOOK",
+      "sourceId": 212,
+      "slug": "mean-look"
+    },
+    {
+      "symbol": "MOVE_ATTRACT",
+      "sourceId": 213,
+      "slug": "attract"
+    },
+    {
+      "symbol": "MOVE_SLEEP_TALK",
+      "sourceId": 214,
+      "slug": "sleep-talk"
+    },
+    {
+      "symbol": "MOVE_HEAL_BELL",
+      "sourceId": 215,
+      "slug": "heal-bell"
+    },
+    {
+      "symbol": "MOVE_RETURN",
+      "sourceId": 216,
+      "slug": "return"
+    },
+    {
+      "symbol": "MOVE_PRESENT",
+      "sourceId": 217,
+      "slug": "present"
+    },
+    {
+      "symbol": "MOVE_FRUSTRATION",
+      "sourceId": 218,
+      "slug": "frustration"
+    },
+    {
+      "symbol": "MOVE_SAFEGUARD",
+      "sourceId": 219,
+      "slug": "safeguard"
+    },
+    {
+      "symbol": "MOVE_PAIN_SPLIT",
+      "sourceId": 220,
+      "slug": "pain-split"
+    },
+    {
+      "symbol": "MOVE_SACRED_FIRE",
+      "sourceId": 221,
+      "slug": "sacred-fire"
+    },
+    {
+      "symbol": "MOVE_MAGNITUDE",
+      "sourceId": 222,
+      "slug": "magnitude"
+    },
+    {
+      "symbol": "MOVE_DYNAMIC_PUNCH",
+      "sourceId": 223,
+      "slug": "dynamic-punch"
+    },
+    {
+      "symbol": "MOVE_MEGAHORN",
+      "sourceId": 224,
+      "slug": "megahorn"
+    },
+    {
+      "symbol": "MOVE_DRAGON_BREATH",
+      "sourceId": 225,
+      "slug": "dragon-breath"
+    },
+    {
+      "symbol": "MOVE_BATON_PASS",
+      "sourceId": 226,
+      "slug": "baton-pass"
+    },
+    {
+      "symbol": "MOVE_ENCORE",
+      "sourceId": 227,
+      "slug": "encore"
+    },
+    {
+      "symbol": "MOVE_PURSUIT",
+      "sourceId": 228,
+      "slug": "pursuit"
+    },
+    {
+      "symbol": "MOVE_RAPID_SPIN",
+      "sourceId": 229,
+      "slug": "rapid-spin"
+    },
+    {
+      "symbol": "MOVE_SWEET_SCENT",
+      "sourceId": 230,
+      "slug": "sweet-scent"
+    },
+    {
+      "symbol": "MOVE_IRON_TAIL",
+      "sourceId": 231,
+      "slug": "iron-tail"
+    },
+    {
+      "symbol": "MOVE_METAL_CLAW",
+      "sourceId": 232,
+      "slug": "metal-claw"
+    },
+    {
+      "symbol": "MOVE_VITAL_THROW",
+      "sourceId": 233,
+      "slug": "vital-throw"
+    },
+    {
+      "symbol": "MOVE_MORNING_SUN",
+      "sourceId": 234,
+      "slug": "morning-sun"
+    },
+    {
+      "symbol": "MOVE_SYNTHESIS",
+      "sourceId": 235,
+      "slug": "synthesis"
+    },
+    {
+      "symbol": "MOVE_MOONLIGHT",
+      "sourceId": 236,
+      "slug": "moonlight"
+    },
+    {
+      "symbol": "MOVE_HIDDEN_POWER",
+      "sourceId": 237,
+      "slug": "hidden-power"
+    },
+    {
+      "symbol": "MOVE_CROSS_CHOP",
+      "sourceId": 238,
+      "slug": "cross-chop"
+    },
+    {
+      "symbol": "MOVE_TWISTER",
+      "sourceId": 239,
+      "slug": "twister"
+    },
+    {
+      "symbol": "MOVE_RAIN_DANCE",
+      "sourceId": 240,
+      "slug": "rain-dance"
+    },
+    {
+      "symbol": "MOVE_SUNNY_DAY",
+      "sourceId": 241,
+      "slug": "sunny-day"
+    },
+    {
+      "symbol": "MOVE_CRUNCH",
+      "sourceId": 242,
+      "slug": "crunch"
+    },
+    {
+      "symbol": "MOVE_MIRROR_COAT",
+      "sourceId": 243,
+      "slug": "mirror-coat"
+    },
+    {
+      "symbol": "MOVE_PSYCH_UP",
+      "sourceId": 244,
+      "slug": "psych-up"
+    },
+    {
+      "symbol": "MOVE_EXTREME_SPEED",
+      "sourceId": 245,
+      "slug": "extreme-speed"
+    },
+    {
+      "symbol": "MOVE_ANCIENT_POWER",
+      "sourceId": 246,
+      "slug": "ancient-power"
+    },
+    {
+      "symbol": "MOVE_SHADOW_BALL",
+      "sourceId": 247,
+      "slug": "shadow-ball"
+    },
+    {
+      "symbol": "MOVE_FUTURE_SIGHT",
+      "sourceId": 248,
+      "slug": "future-sight"
+    },
+    {
+      "symbol": "MOVE_ROCK_SMASH",
+      "sourceId": 249,
+      "slug": "rock-smash"
+    },
+    {
+      "symbol": "MOVE_WHIRLPOOL",
+      "sourceId": 250,
+      "slug": "whirlpool"
+    },
+    {
+      "symbol": "MOVE_BEAT_UP",
+      "sourceId": 251,
+      "slug": "beat-up"
+    },
+    {
+      "symbol": "MOVE_FAKE_OUT",
+      "sourceId": 252,
+      "slug": "fake-out"
+    },
+    {
+      "symbol": "MOVE_UPROAR",
+      "sourceId": 253,
+      "slug": "uproar"
+    },
+    {
+      "symbol": "MOVE_STOCKPILE",
+      "sourceId": 254,
+      "slug": "stockpile"
+    },
+    {
+      "symbol": "MOVE_SPIT_UP",
+      "sourceId": 255,
+      "slug": "spit-up"
+    },
+    {
+      "symbol": "MOVE_SWALLOW",
+      "sourceId": 256,
+      "slug": "swallow"
+    },
+    {
+      "symbol": "MOVE_HEAT_WAVE",
+      "sourceId": 257,
+      "slug": "heat-wave"
+    },
+    {
+      "symbol": "MOVE_HAIL",
+      "sourceId": 258,
+      "slug": "hail"
+    },
+    {
+      "symbol": "MOVE_TORMENT",
+      "sourceId": 259,
+      "slug": "torment"
+    },
+    {
+      "symbol": "MOVE_FLATTER",
+      "sourceId": 260,
+      "slug": "flatter"
+    },
+    {
+      "symbol": "MOVE_WILL_O_WISP",
+      "sourceId": 261,
+      "slug": "will-o-wisp"
+    },
+    {
+      "symbol": "MOVE_MEMENTO",
+      "sourceId": 262,
+      "slug": "memento"
+    },
+    {
+      "symbol": "MOVE_FACADE",
+      "sourceId": 263,
+      "slug": "facade"
+    },
+    {
+      "symbol": "MOVE_FOCUS_PUNCH",
+      "sourceId": 264,
+      "slug": "focus-punch"
+    },
+    {
+      "symbol": "MOVE_SMELLING_SALTS",
+      "sourceId": 265,
+      "slug": "smelling-salts"
+    },
+    {
+      "symbol": "MOVE_FOLLOW_ME",
+      "sourceId": 266,
+      "slug": "follow-me"
+    },
+    {
+      "symbol": "MOVE_NATURE_POWER",
+      "sourceId": 267,
+      "slug": "nature-power"
+    },
+    {
+      "symbol": "MOVE_CHARGE",
+      "sourceId": 268,
+      "slug": "charge"
+    },
+    {
+      "symbol": "MOVE_TAUNT",
+      "sourceId": 269,
+      "slug": "taunt"
+    },
+    {
+      "symbol": "MOVE_HELPING_HAND",
+      "sourceId": 270,
+      "slug": "helping-hand"
+    },
+    {
+      "symbol": "MOVE_TRICK",
+      "sourceId": 271,
+      "slug": "trick"
+    },
+    {
+      "symbol": "MOVE_ROLE_PLAY",
+      "sourceId": 272,
+      "slug": "role-play"
+    },
+    {
+      "symbol": "MOVE_WISH",
+      "sourceId": 273,
+      "slug": "wish"
+    },
+    {
+      "symbol": "MOVE_ASSIST",
+      "sourceId": 274,
+      "slug": "assist"
+    },
+    {
+      "symbol": "MOVE_INGRAIN",
+      "sourceId": 275,
+      "slug": "ingrain"
+    },
+    {
+      "symbol": "MOVE_SUPERPOWER",
+      "sourceId": 276,
+      "slug": "superpower"
+    },
+    {
+      "symbol": "MOVE_MAGIC_COAT",
+      "sourceId": 277,
+      "slug": "magic-coat"
+    },
+    {
+      "symbol": "MOVE_RECYCLE",
+      "sourceId": 278,
+      "slug": "recycle"
+    },
+    {
+      "symbol": "MOVE_REVENGE",
+      "sourceId": 279,
+      "slug": "revenge"
+    },
+    {
+      "symbol": "MOVE_BRICK_BREAK",
+      "sourceId": 280,
+      "slug": "brick-break"
+    },
+    {
+      "symbol": "MOVE_YAWN",
+      "sourceId": 281,
+      "slug": "yawn"
+    },
+    {
+      "symbol": "MOVE_KNOCK_OFF",
+      "sourceId": 282,
+      "slug": "knock-off"
+    },
+    {
+      "symbol": "MOVE_ENDEAVOR",
+      "sourceId": 283,
+      "slug": "endeavor"
+    },
+    {
+      "symbol": "MOVE_ERUPTION",
+      "sourceId": 284,
+      "slug": "eruption"
+    },
+    {
+      "symbol": "MOVE_SKILL_SWAP",
+      "sourceId": 285,
+      "slug": "skill-swap"
+    },
+    {
+      "symbol": "MOVE_IMPRISON",
+      "sourceId": 286,
+      "slug": "imprison"
+    },
+    {
+      "symbol": "MOVE_REFRESH",
+      "sourceId": 287,
+      "slug": "refresh"
+    },
+    {
+      "symbol": "MOVE_GRUDGE",
+      "sourceId": 288,
+      "slug": "grudge"
+    },
+    {
+      "symbol": "MOVE_SNATCH",
+      "sourceId": 289,
+      "slug": "snatch"
+    },
+    {
+      "symbol": "MOVE_SECRET_POWER",
+      "sourceId": 290,
+      "slug": "secret-power"
+    },
+    {
+      "symbol": "MOVE_DIVE",
+      "sourceId": 291,
+      "slug": "dive"
+    },
+    {
+      "symbol": "MOVE_ARM_THRUST",
+      "sourceId": 292,
+      "slug": "arm-thrust"
+    },
+    {
+      "symbol": "MOVE_CAMOUFLAGE",
+      "sourceId": 293,
+      "slug": "camouflage"
+    },
+    {
+      "symbol": "MOVE_TAIL_GLOW",
+      "sourceId": 294,
+      "slug": "tail-glow"
+    },
+    {
+      "symbol": "MOVE_LUSTER_PURGE",
+      "sourceId": 295,
+      "slug": "luster-purge"
+    },
+    {
+      "symbol": "MOVE_MIST_BALL",
+      "sourceId": 296,
+      "slug": "mist-ball"
+    },
+    {
+      "symbol": "MOVE_FEATHER_DANCE",
+      "sourceId": 297,
+      "slug": "feather-dance"
+    },
+    {
+      "symbol": "MOVE_TEETER_DANCE",
+      "sourceId": 298,
+      "slug": "teeter-dance"
+    },
+    {
+      "symbol": "MOVE_BLAZE_KICK",
+      "sourceId": 299,
+      "slug": "blaze-kick"
+    },
+    {
+      "symbol": "MOVE_MUD_SPORT",
+      "sourceId": 300,
+      "slug": "mud-sport"
+    },
+    {
+      "symbol": "MOVE_ICE_BALL",
+      "sourceId": 301,
+      "slug": "ice-ball"
+    },
+    {
+      "symbol": "MOVE_NEEDLE_ARM",
+      "sourceId": 302,
+      "slug": "needle-arm"
+    },
+    {
+      "symbol": "MOVE_SLACK_OFF",
+      "sourceId": 303,
+      "slug": "slack-off"
+    },
+    {
+      "symbol": "MOVE_HYPER_VOICE",
+      "sourceId": 304,
+      "slug": "hyper-voice"
+    },
+    {
+      "symbol": "MOVE_POISON_FANG",
+      "sourceId": 305,
+      "slug": "poison-fang"
+    },
+    {
+      "symbol": "MOVE_CRUSH_CLAW",
+      "sourceId": 306,
+      "slug": "crush-claw"
+    },
+    {
+      "symbol": "MOVE_BLAST_BURN",
+      "sourceId": 307,
+      "slug": "blast-burn"
+    },
+    {
+      "symbol": "MOVE_HYDRO_CANNON",
+      "sourceId": 308,
+      "slug": "hydro-cannon"
+    },
+    {
+      "symbol": "MOVE_METEOR_MASH",
+      "sourceId": 309,
+      "slug": "meteor-mash"
+    },
+    {
+      "symbol": "MOVE_ASTONISH",
+      "sourceId": 310,
+      "slug": "astonish"
+    },
+    {
+      "symbol": "MOVE_WEATHER_BALL",
+      "sourceId": 311,
+      "slug": "weather-ball"
+    },
+    {
+      "symbol": "MOVE_AROMATHERAPY",
+      "sourceId": 312,
+      "slug": "aromatherapy"
+    },
+    {
+      "symbol": "MOVE_FAKE_TEARS",
+      "sourceId": 313,
+      "slug": "fake-tears"
+    },
+    {
+      "symbol": "MOVE_AIR_CUTTER",
+      "sourceId": 314,
+      "slug": "air-cutter"
+    },
+    {
+      "symbol": "MOVE_OVERHEAT",
+      "sourceId": 315,
+      "slug": "overheat"
+    },
+    {
+      "symbol": "MOVE_ODOR_SLEUTH",
+      "sourceId": 316,
+      "slug": "odor-sleuth"
+    },
+    {
+      "symbol": "MOVE_ROCK_TOMB",
+      "sourceId": 317,
+      "slug": "rock-tomb"
+    },
+    {
+      "symbol": "MOVE_SILVER_WIND",
+      "sourceId": 318,
+      "slug": "silver-wind"
+    },
+    {
+      "symbol": "MOVE_METAL_SOUND",
+      "sourceId": 319,
+      "slug": "metal-sound"
+    },
+    {
+      "symbol": "MOVE_GRASS_WHISTLE",
+      "sourceId": 320,
+      "slug": "grass-whistle"
+    },
+    {
+      "symbol": "MOVE_TICKLE",
+      "sourceId": 321,
+      "slug": "tickle"
+    },
+    {
+      "symbol": "MOVE_COSMIC_POWER",
+      "sourceId": 322,
+      "slug": "cosmic-power"
+    },
+    {
+      "symbol": "MOVE_WATER_SPOUT",
+      "sourceId": 323,
+      "slug": "water-spout"
+    },
+    {
+      "symbol": "MOVE_SIGNAL_BEAM",
+      "sourceId": 324,
+      "slug": "signal-beam"
+    },
+    {
+      "symbol": "MOVE_SHADOW_PUNCH",
+      "sourceId": 325,
+      "slug": "shadow-punch"
+    },
+    {
+      "symbol": "MOVE_EXTRASENSORY",
+      "sourceId": 326,
+      "slug": "extrasensory"
+    },
+    {
+      "symbol": "MOVE_SKY_UPPERCUT",
+      "sourceId": 327,
+      "slug": "sky-uppercut"
+    },
+    {
+      "symbol": "MOVE_SAND_TOMB",
+      "sourceId": 328,
+      "slug": "sand-tomb"
+    },
+    {
+      "symbol": "MOVE_SHEER_COLD",
+      "sourceId": 329,
+      "slug": "sheer-cold"
+    },
+    {
+      "symbol": "MOVE_MUDDY_WATER",
+      "sourceId": 330,
+      "slug": "muddy-water"
+    },
+    {
+      "symbol": "MOVE_BULLET_SEED",
+      "sourceId": 331,
+      "slug": "bullet-seed"
+    },
+    {
+      "symbol": "MOVE_AERIAL_ACE",
+      "sourceId": 332,
+      "slug": "aerial-ace"
+    },
+    {
+      "symbol": "MOVE_ICICLE_SPEAR",
+      "sourceId": 333,
+      "slug": "icicle-spear"
+    },
+    {
+      "symbol": "MOVE_IRON_DEFENSE",
+      "sourceId": 334,
+      "slug": "iron-defense"
+    },
+    {
+      "symbol": "MOVE_BLOCK",
+      "sourceId": 335,
+      "slug": "block"
+    },
+    {
+      "symbol": "MOVE_HOWL",
+      "sourceId": 336,
+      "slug": "howl"
+    },
+    {
+      "symbol": "MOVE_DRAGON_CLAW",
+      "sourceId": 337,
+      "slug": "dragon-claw"
+    },
+    {
+      "symbol": "MOVE_FRENZY_PLANT",
+      "sourceId": 338,
+      "slug": "frenzy-plant"
+    },
+    {
+      "symbol": "MOVE_BULK_UP",
+      "sourceId": 339,
+      "slug": "bulk-up"
+    },
+    {
+      "symbol": "MOVE_BOUNCE",
+      "sourceId": 340,
+      "slug": "bounce"
+    },
+    {
+      "symbol": "MOVE_MUD_SHOT",
+      "sourceId": 341,
+      "slug": "mud-shot"
+    },
+    {
+      "symbol": "MOVE_POISON_TAIL",
+      "sourceId": 342,
+      "slug": "poison-tail"
+    },
+    {
+      "symbol": "MOVE_COVET",
+      "sourceId": 343,
+      "slug": "covet"
+    },
+    {
+      "symbol": "MOVE_VOLT_TACKLE",
+      "sourceId": 344,
+      "slug": "volt-tackle"
+    },
+    {
+      "symbol": "MOVE_MAGICAL_LEAF",
+      "sourceId": 345,
+      "slug": "magical-leaf"
+    },
+    {
+      "symbol": "MOVE_WATER_SPORT",
+      "sourceId": 346,
+      "slug": "water-sport"
+    },
+    {
+      "symbol": "MOVE_CALM_MIND",
+      "sourceId": 347,
+      "slug": "calm-mind"
+    },
+    {
+      "symbol": "MOVE_LEAF_BLADE",
+      "sourceId": 348,
+      "slug": "leaf-blade"
+    },
+    {
+      "symbol": "MOVE_DRAGON_DANCE",
+      "sourceId": 349,
+      "slug": "dragon-dance"
+    },
+    {
+      "symbol": "MOVE_ROCK_BLAST",
+      "sourceId": 350,
+      "slug": "rock-blast"
+    },
+    {
+      "symbol": "MOVE_SHOCK_WAVE",
+      "sourceId": 351,
+      "slug": "shock-wave"
+    },
+    {
+      "symbol": "MOVE_WATER_PULSE",
+      "sourceId": 352,
+      "slug": "water-pulse"
+    },
+    {
+      "symbol": "MOVE_DOOM_DESIRE",
+      "sourceId": 353,
+      "slug": "doom-desire"
+    },
+    {
+      "symbol": "MOVE_PSYCHO_BOOST",
+      "sourceId": 354,
+      "slug": "psycho-boost"
+    },
+    {
+      "symbol": "MOVE_ROOST",
+      "sourceId": 355,
+      "slug": "roost"
+    },
+    {
+      "symbol": "MOVE_GRAVITY",
+      "sourceId": 356,
+      "slug": "gravity"
+    },
+    {
+      "symbol": "MOVE_MIRACLE_EYE",
+      "sourceId": 357,
+      "slug": "miracle-eye"
+    },
+    {
+      "symbol": "MOVE_WAKE_UP_SLAP",
+      "sourceId": 358,
+      "slug": "wake-up-slap"
+    },
+    {
+      "symbol": "MOVE_HAMMER_ARM",
+      "sourceId": 359,
+      "slug": "hammer-arm"
+    },
+    {
+      "symbol": "MOVE_GYRO_BALL",
+      "sourceId": 360,
+      "slug": "gyro-ball"
+    },
+    {
+      "symbol": "MOVE_HEALING_WISH",
+      "sourceId": 361,
+      "slug": "healing-wish"
+    },
+    {
+      "symbol": "MOVE_BRINE",
+      "sourceId": 362,
+      "slug": "brine"
+    },
+    {
+      "symbol": "MOVE_NATURAL_GIFT",
+      "sourceId": 363,
+      "slug": "natural-gift"
+    },
+    {
+      "symbol": "MOVE_FEINT",
+      "sourceId": 364,
+      "slug": "feint"
+    },
+    {
+      "symbol": "MOVE_PLUCK",
+      "sourceId": 365,
+      "slug": "pluck"
+    },
+    {
+      "symbol": "MOVE_TAILWIND",
+      "sourceId": 366,
+      "slug": "tailwind"
+    },
+    {
+      "symbol": "MOVE_ACUPRESSURE",
+      "sourceId": 367,
+      "slug": "acupressure"
+    },
+    {
+      "symbol": "MOVE_METAL_BURST",
+      "sourceId": 368,
+      "slug": "metal-burst"
+    },
+    {
+      "symbol": "MOVE_U_TURN",
+      "sourceId": 369,
+      "slug": "u-turn"
+    },
+    {
+      "symbol": "MOVE_CLOSE_COMBAT",
+      "sourceId": 370,
+      "slug": "close-combat"
+    },
+    {
+      "symbol": "MOVE_PAYBACK",
+      "sourceId": 371,
+      "slug": "payback"
+    },
+    {
+      "symbol": "MOVE_ASSURANCE",
+      "sourceId": 372,
+      "slug": "assurance"
+    },
+    {
+      "symbol": "MOVE_EMBARGO",
+      "sourceId": 373,
+      "slug": "embargo"
+    },
+    {
+      "symbol": "MOVE_FLING",
+      "sourceId": 374,
+      "slug": "fling"
+    },
+    {
+      "symbol": "MOVE_PSYCHO_SHIFT",
+      "sourceId": 375,
+      "slug": "psycho-shift"
+    },
+    {
+      "symbol": "MOVE_TRUMP_CARD",
+      "sourceId": 376,
+      "slug": "trump-card"
+    },
+    {
+      "symbol": "MOVE_HEAL_BLOCK",
+      "sourceId": 377,
+      "slug": "heal-block"
+    },
+    {
+      "symbol": "MOVE_WRING_OUT",
+      "sourceId": 378,
+      "slug": "wring-out"
+    },
+    {
+      "symbol": "MOVE_POWER_TRICK",
+      "sourceId": 379,
+      "slug": "power-trick"
+    },
+    {
+      "symbol": "MOVE_GASTRO_ACID",
+      "sourceId": 380,
+      "slug": "gastro-acid"
+    },
+    {
+      "symbol": "MOVE_LUCKY_CHANT",
+      "sourceId": 381,
+      "slug": "lucky-chant"
+    },
+    {
+      "symbol": "MOVE_ME_FIRST",
+      "sourceId": 382,
+      "slug": "me-first"
+    },
+    {
+      "symbol": "MOVE_COPYCAT",
+      "sourceId": 383,
+      "slug": "copycat"
+    },
+    {
+      "symbol": "MOVE_POWER_SWAP",
+      "sourceId": 384,
+      "slug": "power-swap"
+    },
+    {
+      "symbol": "MOVE_GUARD_SWAP",
+      "sourceId": 385,
+      "slug": "guard-swap"
+    },
+    {
+      "symbol": "MOVE_PUNISHMENT",
+      "sourceId": 386,
+      "slug": "punishment"
+    },
+    {
+      "symbol": "MOVE_LAST_RESORT",
+      "sourceId": 387,
+      "slug": "last-resort"
+    },
+    {
+      "symbol": "MOVE_WORRY_SEED",
+      "sourceId": 388,
+      "slug": "worry-seed"
+    },
+    {
+      "symbol": "MOVE_SUCKER_PUNCH",
+      "sourceId": 389,
+      "slug": "sucker-punch"
+    },
+    {
+      "symbol": "MOVE_TOXIC_SPIKES",
+      "sourceId": 390,
+      "slug": "toxic-spikes"
+    },
+    {
+      "symbol": "MOVE_HEART_SWAP",
+      "sourceId": 391,
+      "slug": "heart-swap"
+    },
+    {
+      "symbol": "MOVE_AQUA_RING",
+      "sourceId": 392,
+      "slug": "aqua-ring"
+    },
+    {
+      "symbol": "MOVE_MAGNET_RISE",
+      "sourceId": 393,
+      "slug": "magnet-rise"
+    },
+    {
+      "symbol": "MOVE_FLARE_BLITZ",
+      "sourceId": 394,
+      "slug": "flare-blitz"
+    },
+    {
+      "symbol": "MOVE_FORCE_PALM",
+      "sourceId": 395,
+      "slug": "force-palm"
+    },
+    {
+      "symbol": "MOVE_AURA_SPHERE",
+      "sourceId": 396,
+      "slug": "aura-sphere"
+    },
+    {
+      "symbol": "MOVE_ROCK_POLISH",
+      "sourceId": 397,
+      "slug": "rock-polish"
+    },
+    {
+      "symbol": "MOVE_POISON_JAB",
+      "sourceId": 398,
+      "slug": "poison-jab"
+    },
+    {
+      "symbol": "MOVE_DARK_PULSE",
+      "sourceId": 399,
+      "slug": "dark-pulse"
+    },
+    {
+      "symbol": "MOVE_NIGHT_SLASH",
+      "sourceId": 400,
+      "slug": "night-slash"
+    },
+    {
+      "symbol": "MOVE_AQUA_TAIL",
+      "sourceId": 401,
+      "slug": "aqua-tail"
+    },
+    {
+      "symbol": "MOVE_SEED_BOMB",
+      "sourceId": 402,
+      "slug": "seed-bomb"
+    },
+    {
+      "symbol": "MOVE_AIR_SLASH",
+      "sourceId": 403,
+      "slug": "air-slash"
+    },
+    {
+      "symbol": "MOVE_X_SCISSOR",
+      "sourceId": 404,
+      "slug": "x-scissor"
+    },
+    {
+      "symbol": "MOVE_BUG_BUZZ",
+      "sourceId": 405,
+      "slug": "bug-buzz"
+    },
+    {
+      "symbol": "MOVE_DRAGON_PULSE",
+      "sourceId": 406,
+      "slug": "dragon-pulse"
+    },
+    {
+      "symbol": "MOVE_DRAGON_RUSH",
+      "sourceId": 407,
+      "slug": "dragon-rush"
+    },
+    {
+      "symbol": "MOVE_POWER_GEM",
+      "sourceId": 408,
+      "slug": "power-gem"
+    },
+    {
+      "symbol": "MOVE_DRAIN_PUNCH",
+      "sourceId": 409,
+      "slug": "drain-punch"
+    },
+    {
+      "symbol": "MOVE_VACUUM_WAVE",
+      "sourceId": 410,
+      "slug": "vacuum-wave"
+    },
+    {
+      "symbol": "MOVE_FOCUS_BLAST",
+      "sourceId": 411,
+      "slug": "focus-blast"
+    },
+    {
+      "symbol": "MOVE_ENERGY_BALL",
+      "sourceId": 412,
+      "slug": "energy-ball"
+    },
+    {
+      "symbol": "MOVE_BRAVE_BIRD",
+      "sourceId": 413,
+      "slug": "brave-bird"
+    },
+    {
+      "symbol": "MOVE_EARTH_POWER",
+      "sourceId": 414,
+      "slug": "earth-power"
+    },
+    {
+      "symbol": "MOVE_SWITCHEROO",
+      "sourceId": 415,
+      "slug": "switcheroo"
+    },
+    {
+      "symbol": "MOVE_GIGA_IMPACT",
+      "sourceId": 416,
+      "slug": "giga-impact"
+    },
+    {
+      "symbol": "MOVE_NASTY_PLOT",
+      "sourceId": 417,
+      "slug": "nasty-plot"
+    },
+    {
+      "symbol": "MOVE_BULLET_PUNCH",
+      "sourceId": 418,
+      "slug": "bullet-punch"
+    },
+    {
+      "symbol": "MOVE_AVALANCHE",
+      "sourceId": 419,
+      "slug": "avalanche"
+    },
+    {
+      "symbol": "MOVE_ICE_SHARD",
+      "sourceId": 420,
+      "slug": "ice-shard"
+    },
+    {
+      "symbol": "MOVE_SHADOW_CLAW",
+      "sourceId": 421,
+      "slug": "shadow-claw"
+    },
+    {
+      "symbol": "MOVE_THUNDER_FANG",
+      "sourceId": 422,
+      "slug": "thunder-fang"
+    },
+    {
+      "symbol": "MOVE_ICE_FANG",
+      "sourceId": 423,
+      "slug": "ice-fang"
+    },
+    {
+      "symbol": "MOVE_FIRE_FANG",
+      "sourceId": 424,
+      "slug": "fire-fang"
+    },
+    {
+      "symbol": "MOVE_SHADOW_SNEAK",
+      "sourceId": 425,
+      "slug": "shadow-sneak"
+    },
+    {
+      "symbol": "MOVE_MUD_BOMB",
+      "sourceId": 426,
+      "slug": "mud-bomb"
+    },
+    {
+      "symbol": "MOVE_PSYCHO_CUT",
+      "sourceId": 427,
+      "slug": "psycho-cut"
+    },
+    {
+      "symbol": "MOVE_ZEN_HEADBUTT",
+      "sourceId": 428,
+      "slug": "zen-headbutt"
+    },
+    {
+      "symbol": "MOVE_MIRROR_SHOT",
+      "sourceId": 429,
+      "slug": "mirror-shot"
+    },
+    {
+      "symbol": "MOVE_FLASH_CANNON",
+      "sourceId": 430,
+      "slug": "flash-cannon"
+    },
+    {
+      "symbol": "MOVE_ROCK_CLIMB",
+      "sourceId": 431,
+      "slug": "rock-climb"
+    },
+    {
+      "symbol": "MOVE_DEFOG",
+      "sourceId": 432,
+      "slug": "defog"
+    },
+    {
+      "symbol": "MOVE_TRICK_ROOM",
+      "sourceId": 433,
+      "slug": "trick-room"
+    },
+    {
+      "symbol": "MOVE_DRACO_METEOR",
+      "sourceId": 434,
+      "slug": "draco-meteor"
+    },
+    {
+      "symbol": "MOVE_DISCHARGE",
+      "sourceId": 435,
+      "slug": "discharge"
+    },
+    {
+      "symbol": "MOVE_LAVA_PLUME",
+      "sourceId": 436,
+      "slug": "lava-plume"
+    },
+    {
+      "symbol": "MOVE_LEAF_STORM",
+      "sourceId": 437,
+      "slug": "leaf-storm"
+    },
+    {
+      "symbol": "MOVE_POWER_WHIP",
+      "sourceId": 438,
+      "slug": "power-whip"
+    },
+    {
+      "symbol": "MOVE_ROCK_WRECKER",
+      "sourceId": 439,
+      "slug": "rock-wrecker"
+    },
+    {
+      "symbol": "MOVE_CROSS_POISON",
+      "sourceId": 440,
+      "slug": "cross-poison"
+    },
+    {
+      "symbol": "MOVE_GUNK_SHOT",
+      "sourceId": 441,
+      "slug": "gunk-shot"
+    },
+    {
+      "symbol": "MOVE_IRON_HEAD",
+      "sourceId": 442,
+      "slug": "iron-head"
+    },
+    {
+      "symbol": "MOVE_MAGNET_BOMB",
+      "sourceId": 443,
+      "slug": "magnet-bomb"
+    },
+    {
+      "symbol": "MOVE_STONE_EDGE",
+      "sourceId": 444,
+      "slug": "stone-edge"
+    },
+    {
+      "symbol": "MOVE_CAPTIVATE",
+      "sourceId": 445,
+      "slug": "captivate"
+    },
+    {
+      "symbol": "MOVE_STEALTH_ROCK",
+      "sourceId": 446,
+      "slug": "stealth-rock"
+    },
+    {
+      "symbol": "MOVE_GRASS_KNOT",
+      "sourceId": 447,
+      "slug": "grass-knot"
+    },
+    {
+      "symbol": "MOVE_CHATTER",
+      "sourceId": 448,
+      "slug": "chatter"
+    },
+    {
+      "symbol": "MOVE_JUDGMENT",
+      "sourceId": 449,
+      "slug": "judgment"
+    },
+    {
+      "symbol": "MOVE_BUG_BITE",
+      "sourceId": 450,
+      "slug": "bug-bite"
+    },
+    {
+      "symbol": "MOVE_CHARGE_BEAM",
+      "sourceId": 451,
+      "slug": "charge-beam"
+    },
+    {
+      "symbol": "MOVE_WOOD_HAMMER",
+      "sourceId": 452,
+      "slug": "wood-hammer"
+    },
+    {
+      "symbol": "MOVE_AQUA_JET",
+      "sourceId": 453,
+      "slug": "aqua-jet"
+    },
+    {
+      "symbol": "MOVE_ATTACK_ORDER",
+      "sourceId": 454,
+      "slug": "attack-order"
+    },
+    {
+      "symbol": "MOVE_DEFEND_ORDER",
+      "sourceId": 455,
+      "slug": "defend-order"
+    },
+    {
+      "symbol": "MOVE_HEAL_ORDER",
+      "sourceId": 456,
+      "slug": "heal-order"
+    },
+    {
+      "symbol": "MOVE_HEAD_SMASH",
+      "sourceId": 457,
+      "slug": "head-smash"
+    },
+    {
+      "symbol": "MOVE_DOUBLE_HIT",
+      "sourceId": 458,
+      "slug": "double-hit"
+    },
+    {
+      "symbol": "MOVE_ROAR_OF_TIME",
+      "sourceId": 459,
+      "slug": "roar-of-time"
+    },
+    {
+      "symbol": "MOVE_SPACIAL_REND",
+      "sourceId": 460,
+      "slug": "spacial-rend"
+    },
+    {
+      "symbol": "MOVE_LUNAR_DANCE",
+      "sourceId": 461,
+      "slug": "lunar-dance"
+    },
+    {
+      "symbol": "MOVE_CRUSH_GRIP",
+      "sourceId": 462,
+      "slug": "crush-grip"
+    },
+    {
+      "symbol": "MOVE_MAGMA_STORM",
+      "sourceId": 463,
+      "slug": "magma-storm"
+    },
+    {
+      "symbol": "MOVE_DARK_VOID",
+      "sourceId": 464,
+      "slug": "dark-void"
+    },
+    {
+      "symbol": "MOVE_SEED_FLARE",
+      "sourceId": 465,
+      "slug": "seed-flare"
+    },
+    {
+      "symbol": "MOVE_OMINOUS_WIND",
+      "sourceId": 466,
+      "slug": "ominous-wind"
+    },
+    {
+      "symbol": "MOVE_SHADOW_FORCE",
+      "sourceId": 467,
+      "slug": "shadow-force"
+    },
+    {
+      "symbol": "MOVE_HONE_CLAWS",
+      "sourceId": 468,
+      "slug": "hone-claws"
+    },
+    {
+      "symbol": "MOVE_WIDE_GUARD",
+      "sourceId": 469,
+      "slug": "wide-guard"
+    },
+    {
+      "symbol": "MOVE_GUARD_SPLIT",
+      "sourceId": 470,
+      "slug": "guard-split"
+    },
+    {
+      "symbol": "MOVE_POWER_SPLIT",
+      "sourceId": 471,
+      "slug": "power-split"
+    },
+    {
+      "symbol": "MOVE_WONDER_ROOM",
+      "sourceId": 472,
+      "slug": "wonder-room"
+    },
+    {
+      "symbol": "MOVE_PSYSHOCK",
+      "sourceId": 473,
+      "slug": "psyshock"
+    },
+    {
+      "symbol": "MOVE_VENOSHOCK",
+      "sourceId": 474,
+      "slug": "venoshock"
+    },
+    {
+      "symbol": "MOVE_AUTOTOMIZE",
+      "sourceId": 475,
+      "slug": "autotomize"
+    },
+    {
+      "symbol": "MOVE_RAGE_POWDER",
+      "sourceId": 476,
+      "slug": "rage-powder"
+    },
+    {
+      "symbol": "MOVE_TELEKINESIS",
+      "sourceId": 477,
+      "slug": "telekinesis"
+    },
+    {
+      "symbol": "MOVE_MAGIC_ROOM",
+      "sourceId": 478,
+      "slug": "magic-room"
+    },
+    {
+      "symbol": "MOVE_SMACK_DOWN",
+      "sourceId": 479,
+      "slug": "smack-down"
+    },
+    {
+      "symbol": "MOVE_STORM_THROW",
+      "sourceId": 480,
+      "slug": "storm-throw"
+    },
+    {
+      "symbol": "MOVE_FLAME_BURST",
+      "sourceId": 481,
+      "slug": "flame-burst"
+    },
+    {
+      "symbol": "MOVE_SLUDGE_WAVE",
+      "sourceId": 482,
+      "slug": "sludge-wave"
+    },
+    {
+      "symbol": "MOVE_QUIVER_DANCE",
+      "sourceId": 483,
+      "slug": "quiver-dance"
+    },
+    {
+      "symbol": "MOVE_HEAVY_SLAM",
+      "sourceId": 484,
+      "slug": "heavy-slam"
+    },
+    {
+      "symbol": "MOVE_SYNCHRONOISE",
+      "sourceId": 485,
+      "slug": "synchronoise"
+    },
+    {
+      "symbol": "MOVE_ELECTRO_BALL",
+      "sourceId": 486,
+      "slug": "electro-ball"
+    },
+    {
+      "symbol": "MOVE_SOAK",
+      "sourceId": 487,
+      "slug": "soak"
+    },
+    {
+      "symbol": "MOVE_FLAME_CHARGE",
+      "sourceId": 488,
+      "slug": "flame-charge"
+    },
+    {
+      "symbol": "MOVE_COIL",
+      "sourceId": 489,
+      "slug": "coil"
+    },
+    {
+      "symbol": "MOVE_LOW_SWEEP",
+      "sourceId": 490,
+      "slug": "low-sweep"
+    },
+    {
+      "symbol": "MOVE_ACID_SPRAY",
+      "sourceId": 491,
+      "slug": "acid-spray"
+    },
+    {
+      "symbol": "MOVE_FOUL_PLAY",
+      "sourceId": 492,
+      "slug": "foul-play"
+    },
+    {
+      "symbol": "MOVE_SIMPLE_BEAM",
+      "sourceId": 493,
+      "slug": "simple-beam"
+    },
+    {
+      "symbol": "MOVE_ENTRAINMENT",
+      "sourceId": 494,
+      "slug": "entrainment"
+    },
+    {
+      "symbol": "MOVE_AFTER_YOU",
+      "sourceId": 495,
+      "slug": "after-you"
+    },
+    {
+      "symbol": "MOVE_ROUND",
+      "sourceId": 496,
+      "slug": "round"
+    },
+    {
+      "symbol": "MOVE_ECHOED_VOICE",
+      "sourceId": 497,
+      "slug": "echoed-voice"
+    },
+    {
+      "symbol": "MOVE_CHIP_AWAY",
+      "sourceId": 498,
+      "slug": "chip-away"
+    },
+    {
+      "symbol": "MOVE_CLEAR_SMOG",
+      "sourceId": 499,
+      "slug": "clear-smog"
+    },
+    {
+      "symbol": "MOVE_STORED_POWER",
+      "sourceId": 500,
+      "slug": "stored-power"
+    },
+    {
+      "symbol": "MOVE_QUICK_GUARD",
+      "sourceId": 501,
+      "slug": "quick-guard"
+    },
+    {
+      "symbol": "MOVE_ALLY_SWITCH",
+      "sourceId": 502,
+      "slug": "ally-switch"
+    },
+    {
+      "symbol": "MOVE_SCALD",
+      "sourceId": 503,
+      "slug": "scald"
+    },
+    {
+      "symbol": "MOVE_SHELL_SMASH",
+      "sourceId": 504,
+      "slug": "shell-smash"
+    },
+    {
+      "symbol": "MOVE_HEAL_PULSE",
+      "sourceId": 505,
+      "slug": "heal-pulse"
+    },
+    {
+      "symbol": "MOVE_HEX",
+      "sourceId": 506,
+      "slug": "hex"
+    },
+    {
+      "symbol": "MOVE_SKY_DROP",
+      "sourceId": 507,
+      "slug": "sky-drop"
+    },
+    {
+      "symbol": "MOVE_SHIFT_GEAR",
+      "sourceId": 508,
+      "slug": "shift-gear"
+    },
+    {
+      "symbol": "MOVE_CIRCLE_THROW",
+      "sourceId": 509,
+      "slug": "circle-throw"
+    },
+    {
+      "symbol": "MOVE_INCINERATE",
+      "sourceId": 510,
+      "slug": "incinerate"
+    },
+    {
+      "symbol": "MOVE_QUASH",
+      "sourceId": 511,
+      "slug": "quash"
+    },
+    {
+      "symbol": "MOVE_ACROBATICS",
+      "sourceId": 512,
+      "slug": "acrobatics"
+    },
+    {
+      "symbol": "MOVE_REFLECT_TYPE",
+      "sourceId": 513,
+      "slug": "reflect-type"
+    },
+    {
+      "symbol": "MOVE_RETALIATE",
+      "sourceId": 514,
+      "slug": "retaliate"
+    },
+    {
+      "symbol": "MOVE_FINAL_GAMBIT",
+      "sourceId": 515,
+      "slug": "final-gambit"
+    },
+    {
+      "symbol": "MOVE_BESTOW",
+      "sourceId": 516,
+      "slug": "bestow"
+    },
+    {
+      "symbol": "MOVE_INFERNO",
+      "sourceId": 517,
+      "slug": "inferno"
+    },
+    {
+      "symbol": "MOVE_WATER_PLEDGE",
+      "sourceId": 518,
+      "slug": "water-pledge"
+    },
+    {
+      "symbol": "MOVE_FIRE_PLEDGE",
+      "sourceId": 519,
+      "slug": "fire-pledge"
+    },
+    {
+      "symbol": "MOVE_GRASS_PLEDGE",
+      "sourceId": 520,
+      "slug": "grass-pledge"
+    },
+    {
+      "symbol": "MOVE_VOLT_SWITCH",
+      "sourceId": 521,
+      "slug": "volt-switch"
+    },
+    {
+      "symbol": "MOVE_STRUGGLE_BUG",
+      "sourceId": 522,
+      "slug": "struggle-bug"
+    },
+    {
+      "symbol": "MOVE_BULLDOZE",
+      "sourceId": 523,
+      "slug": "bulldoze"
+    },
+    {
+      "symbol": "MOVE_FROST_BREATH",
+      "sourceId": 524,
+      "slug": "frost-breath"
+    },
+    {
+      "symbol": "MOVE_DRAGON_TAIL",
+      "sourceId": 525,
+      "slug": "dragon-tail"
+    },
+    {
+      "symbol": "MOVE_WORK_UP",
+      "sourceId": 526,
+      "slug": "work-up"
+    },
+    {
+      "symbol": "MOVE_ELECTROWEB",
+      "sourceId": 527,
+      "slug": "electroweb"
+    },
+    {
+      "symbol": "MOVE_WILD_CHARGE",
+      "sourceId": 528,
+      "slug": "wild-charge"
+    },
+    {
+      "symbol": "MOVE_DRILL_RUN",
+      "sourceId": 529,
+      "slug": "drill-run"
+    },
+    {
+      "symbol": "MOVE_DUAL_CHOP",
+      "sourceId": 530,
+      "slug": "dual-chop"
+    },
+    {
+      "symbol": "MOVE_HEART_STAMP",
+      "sourceId": 531,
+      "slug": "heart-stamp"
+    },
+    {
+      "symbol": "MOVE_HORN_LEECH",
+      "sourceId": 532,
+      "slug": "horn-leech"
+    },
+    {
+      "symbol": "MOVE_SACRED_SWORD",
+      "sourceId": 533,
+      "slug": "sacred-sword"
+    },
+    {
+      "symbol": "MOVE_RAZOR_SHELL",
+      "sourceId": 534,
+      "slug": "razor-shell"
+    },
+    {
+      "symbol": "MOVE_HEAT_CRASH",
+      "sourceId": 535,
+      "slug": "heat-crash"
+    },
+    {
+      "symbol": "MOVE_LEAF_TORNADO",
+      "sourceId": 536,
+      "slug": "leaf-tornado"
+    },
+    {
+      "symbol": "MOVE_STEAMROLLER",
+      "sourceId": 537,
+      "slug": "steamroller"
+    },
+    {
+      "symbol": "MOVE_COTTON_GUARD",
+      "sourceId": 538,
+      "slug": "cotton-guard"
+    },
+    {
+      "symbol": "MOVE_NIGHT_DAZE",
+      "sourceId": 539,
+      "slug": "night-daze"
+    },
+    {
+      "symbol": "MOVE_PSYSTRIKE",
+      "sourceId": 540,
+      "slug": "psystrike"
+    },
+    {
+      "symbol": "MOVE_TAIL_SLAP",
+      "sourceId": 541,
+      "slug": "tail-slap"
+    },
+    {
+      "symbol": "MOVE_HURRICANE",
+      "sourceId": 542,
+      "slug": "hurricane"
+    },
+    {
+      "symbol": "MOVE_HEAD_CHARGE",
+      "sourceId": 543,
+      "slug": "head-charge"
+    },
+    {
+      "symbol": "MOVE_GEAR_GRIND",
+      "sourceId": 544,
+      "slug": "gear-grind"
+    },
+    {
+      "symbol": "MOVE_SEARING_SHOT",
+      "sourceId": 545,
+      "slug": "searing-shot"
+    },
+    {
+      "symbol": "MOVE_TECHNO_BLAST",
+      "sourceId": 546,
+      "slug": "techno-blast"
+    },
+    {
+      "symbol": "MOVE_RELIC_SONG",
+      "sourceId": 547,
+      "slug": "relic-song"
+    },
+    {
+      "symbol": "MOVE_SECRET_SWORD",
+      "sourceId": 548,
+      "slug": "secret-sword"
+    },
+    {
+      "symbol": "MOVE_GLACIATE",
+      "sourceId": 549,
+      "slug": "glaciate"
+    },
+    {
+      "symbol": "MOVE_BOLT_STRIKE",
+      "sourceId": 550,
+      "slug": "bolt-strike"
+    },
+    {
+      "symbol": "MOVE_BLUE_FLARE",
+      "sourceId": 551,
+      "slug": "blue-flare"
+    },
+    {
+      "symbol": "MOVE_FIERY_DANCE",
+      "sourceId": 552,
+      "slug": "fiery-dance"
+    },
+    {
+      "symbol": "MOVE_FREEZE_SHOCK",
+      "sourceId": 553,
+      "slug": "freeze-shock"
+    },
+    {
+      "symbol": "MOVE_ICE_BURN",
+      "sourceId": 554,
+      "slug": "ice-burn"
+    },
+    {
+      "symbol": "MOVE_SNARL",
+      "sourceId": 555,
+      "slug": "snarl"
+    },
+    {
+      "symbol": "MOVE_ICICLE_CRASH",
+      "sourceId": 556,
+      "slug": "icicle-crash"
+    },
+    {
+      "symbol": "MOVE_V_CREATE",
+      "sourceId": 557,
+      "slug": "v-create"
+    },
+    {
+      "symbol": "MOVE_FUSION_FLARE",
+      "sourceId": 558,
+      "slug": "fusion-flare"
+    },
+    {
+      "symbol": "MOVE_FUSION_BOLT",
+      "sourceId": 559,
+      "slug": "fusion-bolt"
+    },
+    {
+      "symbol": "MOVE_FLYING_PRESS",
+      "sourceId": 560,
+      "slug": "flying-press"
+    },
+    {
+      "symbol": "MOVE_MAT_BLOCK",
+      "sourceId": 561,
+      "slug": "mat-block"
+    },
+    {
+      "symbol": "MOVE_BELCH",
+      "sourceId": 562,
+      "slug": "belch"
+    },
+    {
+      "symbol": "MOVE_ROTOTILLER",
+      "sourceId": 563,
+      "slug": "rototiller"
+    },
+    {
+      "symbol": "MOVE_STICKY_WEB",
+      "sourceId": 564,
+      "slug": "sticky-web"
+    },
+    {
+      "symbol": "MOVE_FELL_STINGER",
+      "sourceId": 565,
+      "slug": "fell-stinger"
+    },
+    {
+      "symbol": "MOVE_PHANTOM_FORCE",
+      "sourceId": 566,
+      "slug": "phantom-force"
+    },
+    {
+      "symbol": "MOVE_TRICK_OR_TREAT",
+      "sourceId": 567,
+      "slug": "trick-or-treat"
+    },
+    {
+      "symbol": "MOVE_NOBLE_ROAR",
+      "sourceId": 568,
+      "slug": "noble-roar"
+    },
+    {
+      "symbol": "MOVE_ION_DELUGE",
+      "sourceId": 569,
+      "slug": "ion-deluge"
+    },
+    {
+      "symbol": "MOVE_PARABOLIC_CHARGE",
+      "sourceId": 570,
+      "slug": "parabolic-charge"
+    },
+    {
+      "symbol": "MOVE_FORESTS_CURSE",
+      "sourceId": 571,
+      "slug": "forests-curse"
+    },
+    {
+      "symbol": "MOVE_PETAL_BLIZZARD",
+      "sourceId": 572,
+      "slug": "petal-blizzard"
+    },
+    {
+      "symbol": "MOVE_FREEZE_DRY",
+      "sourceId": 573,
+      "slug": "freeze-dry"
+    },
+    {
+      "symbol": "MOVE_DISARMING_VOICE",
+      "sourceId": 574,
+      "slug": "disarming-voice"
+    },
+    {
+      "symbol": "MOVE_PARTING_SHOT",
+      "sourceId": 575,
+      "slug": "parting-shot"
+    },
+    {
+      "symbol": "MOVE_TOPSY_TURVY",
+      "sourceId": 576,
+      "slug": "topsy-turvy"
+    },
+    {
+      "symbol": "MOVE_DRAINING_KISS",
+      "sourceId": 577,
+      "slug": "draining-kiss"
+    },
+    {
+      "symbol": "MOVE_CRAFTY_SHIELD",
+      "sourceId": 578,
+      "slug": "crafty-shield"
+    },
+    {
+      "symbol": "MOVE_FLOWER_SHIELD",
+      "sourceId": 579,
+      "slug": "flower-shield"
+    },
+    {
+      "symbol": "MOVE_GRASSY_TERRAIN",
+      "sourceId": 580,
+      "slug": "grassy-terrain"
+    },
+    {
+      "symbol": "MOVE_MISTY_TERRAIN",
+      "sourceId": 581,
+      "slug": "misty-terrain"
+    },
+    {
+      "symbol": "MOVE_ELECTRIFY",
+      "sourceId": 582,
+      "slug": "electrify"
+    },
+    {
+      "symbol": "MOVE_PLAY_ROUGH",
+      "sourceId": 583,
+      "slug": "play-rough"
+    },
+    {
+      "symbol": "MOVE_FAIRY_WIND",
+      "sourceId": 584,
+      "slug": "fairy-wind"
+    },
+    {
+      "symbol": "MOVE_MOONBLAST",
+      "sourceId": 585,
+      "slug": "moonblast"
+    },
+    {
+      "symbol": "MOVE_BOOMBURST",
+      "sourceId": 586,
+      "slug": "boomburst"
+    },
+    {
+      "symbol": "MOVE_FAIRY_LOCK",
+      "sourceId": 587,
+      "slug": "fairy-lock"
+    },
+    {
+      "symbol": "MOVE_KINGS_SHIELD",
+      "sourceId": 588,
+      "slug": "kings-shield"
+    },
+    {
+      "symbol": "MOVE_PLAY_NICE",
+      "sourceId": 589,
+      "slug": "play-nice"
+    },
+    {
+      "symbol": "MOVE_CONFIDE",
+      "sourceId": 590,
+      "slug": "confide"
+    },
+    {
+      "symbol": "MOVE_DIAMOND_STORM",
+      "sourceId": 591,
+      "slug": "diamond-storm"
+    },
+    {
+      "symbol": "MOVE_STEAM_ERUPTION",
+      "sourceId": 592,
+      "slug": "steam-eruption"
+    },
+    {
+      "symbol": "MOVE_HYPERSPACE_HOLE",
+      "sourceId": 593,
+      "slug": "hyperspace-hole"
+    },
+    {
+      "symbol": "MOVE_WATER_SHURIKEN",
+      "sourceId": 594,
+      "slug": "water-shuriken"
+    },
+    {
+      "symbol": "MOVE_MYSTICAL_FIRE",
+      "sourceId": 595,
+      "slug": "mystical-fire"
+    },
+    {
+      "symbol": "MOVE_SPIKY_SHIELD",
+      "sourceId": 596,
+      "slug": "spiky-shield"
+    },
+    {
+      "symbol": "MOVE_AROMATIC_MIST",
+      "sourceId": 597,
+      "slug": "aromatic-mist"
+    },
+    {
+      "symbol": "MOVE_EERIE_IMPULSE",
+      "sourceId": 598,
+      "slug": "eerie-impulse"
+    },
+    {
+      "symbol": "MOVE_VENOM_DRENCH",
+      "sourceId": 599,
+      "slug": "venom-drench"
+    },
+    {
+      "symbol": "MOVE_POWDER",
+      "sourceId": 600,
+      "slug": "powder"
+    },
+    {
+      "symbol": "MOVE_GEOMANCY",
+      "sourceId": 601,
+      "slug": "geomancy"
+    },
+    {
+      "symbol": "MOVE_MAGNETIC_FLUX",
+      "sourceId": 602,
+      "slug": "magnetic-flux"
+    },
+    {
+      "symbol": "MOVE_HAPPY_HOUR",
+      "sourceId": 603,
+      "slug": "happy-hour"
+    },
+    {
+      "symbol": "MOVE_ELECTRIC_TERRAIN",
+      "sourceId": 604,
+      "slug": "electric-terrain"
+    },
+    {
+      "symbol": "MOVE_DAZZLING_GLEAM",
+      "sourceId": 605,
+      "slug": "dazzling-gleam"
+    },
+    {
+      "symbol": "MOVE_CELEBRATE",
+      "sourceId": 606,
+      "slug": "celebrate"
+    },
+    {
+      "symbol": "MOVE_HOLD_HANDS",
+      "sourceId": 607,
+      "slug": "hold-hands"
+    },
+    {
+      "symbol": "MOVE_BABY_DOLL_EYES",
+      "sourceId": 608,
+      "slug": "baby-doll-eyes"
+    },
+    {
+      "symbol": "MOVE_NUZZLE",
+      "sourceId": 609,
+      "slug": "nuzzle"
+    },
+    {
+      "symbol": "MOVE_HOLD_BACK",
+      "sourceId": 610,
+      "slug": "hold-back"
+    },
+    {
+      "symbol": "MOVE_INFESTATION",
+      "sourceId": 611,
+      "slug": "infestation"
+    },
+    {
+      "symbol": "MOVE_POWER_UP_PUNCH",
+      "sourceId": 612,
+      "slug": "power-up-punch"
+    },
+    {
+      "symbol": "MOVE_OBLIVION_WING",
+      "sourceId": 613,
+      "slug": "oblivion-wing"
+    },
+    {
+      "symbol": "MOVE_THOUSAND_ARROWS",
+      "sourceId": 614,
+      "slug": "thousand-arrows"
+    },
+    {
+      "symbol": "MOVE_THOUSAND_WAVES",
+      "sourceId": 615,
+      "slug": "thousand-waves"
+    },
+    {
+      "symbol": "MOVE_LANDS_WRATH",
+      "sourceId": 616,
+      "slug": "lands-wrath"
+    },
+    {
+      "symbol": "MOVE_LIGHT_OF_RUIN",
+      "sourceId": 617,
+      "slug": "light-of-ruin"
+    },
+    {
+      "symbol": "MOVE_ORIGIN_PULSE",
+      "sourceId": 618,
+      "slug": "origin-pulse"
+    },
+    {
+      "symbol": "MOVE_PRECIPICE_BLADES",
+      "sourceId": 619,
+      "slug": "precipice-blades"
+    },
+    {
+      "symbol": "MOVE_DRAGON_ASCENT",
+      "sourceId": 620,
+      "slug": "dragon-ascent"
+    },
+    {
+      "symbol": "MOVE_HYPERSPACE_FURY",
+      "sourceId": 621,
+      "slug": "hyperspace-fury"
+    },
+    {
+      "symbol": "MOVE_SHORE_UP",
+      "sourceId": 622,
+      "slug": "shore-up"
+    },
+    {
+      "symbol": "MOVE_FIRST_IMPRESSION",
+      "sourceId": 623,
+      "slug": "first-impression"
+    },
+    {
+      "symbol": "MOVE_BANEFUL_BUNKER",
+      "sourceId": 624,
+      "slug": "baneful-bunker"
+    },
+    {
+      "symbol": "MOVE_SPIRIT_SHACKLE",
+      "sourceId": 625,
+      "slug": "spirit-shackle"
+    },
+    {
+      "symbol": "MOVE_DARKEST_LARIAT",
+      "sourceId": 626,
+      "slug": "darkest-lariat"
+    },
+    {
+      "symbol": "MOVE_SPARKLING_ARIA",
+      "sourceId": 627,
+      "slug": "sparkling-aria"
+    },
+    {
+      "symbol": "MOVE_ICE_HAMMER",
+      "sourceId": 628,
+      "slug": "ice-hammer"
+    },
+    {
+      "symbol": "MOVE_FLORAL_HEALING",
+      "sourceId": 629,
+      "slug": "floral-healing"
+    },
+    {
+      "symbol": "MOVE_HIGH_HORSEPOWER",
+      "sourceId": 630,
+      "slug": "high-horsepower"
+    },
+    {
+      "symbol": "MOVE_STRENGTH_SAP",
+      "sourceId": 631,
+      "slug": "strength-sap"
+    },
+    {
+      "symbol": "MOVE_SOLAR_BLADE",
+      "sourceId": 632,
+      "slug": "solar-blade"
+    },
+    {
+      "symbol": "MOVE_LEAFAGE",
+      "sourceId": 633,
+      "slug": "leafage"
+    },
+    {
+      "symbol": "MOVE_SPOTLIGHT",
+      "sourceId": 634,
+      "slug": "spotlight"
+    },
+    {
+      "symbol": "MOVE_TOXIC_THREAD",
+      "sourceId": 635,
+      "slug": "toxic-thread"
+    },
+    {
+      "symbol": "MOVE_LASER_FOCUS",
+      "sourceId": 636,
+      "slug": "laser-focus"
+    },
+    {
+      "symbol": "MOVE_GEAR_UP",
+      "sourceId": 637,
+      "slug": "gear-up"
+    },
+    {
+      "symbol": "MOVE_THROAT_CHOP",
+      "sourceId": 638,
+      "slug": "throat-chop"
+    },
+    {
+      "symbol": "MOVE_POLLEN_PUFF",
+      "sourceId": 639,
+      "slug": "pollen-puff"
+    },
+    {
+      "symbol": "MOVE_ANCHOR_SHOT",
+      "sourceId": 640,
+      "slug": "anchor-shot"
+    },
+    {
+      "symbol": "MOVE_PSYCHIC_TERRAIN",
+      "sourceId": 641,
+      "slug": "psychic-terrain"
+    },
+    {
+      "symbol": "MOVE_LUNGE",
+      "sourceId": 642,
+      "slug": "lunge"
+    },
+    {
+      "symbol": "MOVE_FIRE_LASH",
+      "sourceId": 643,
+      "slug": "fire-lash"
+    },
+    {
+      "symbol": "MOVE_POWER_TRIP",
+      "sourceId": 644,
+      "slug": "power-trip"
+    },
+    {
+      "symbol": "MOVE_BURN_UP",
+      "sourceId": 645,
+      "slug": "burn-up"
+    },
+    {
+      "symbol": "MOVE_SPEED_SWAP",
+      "sourceId": 646,
+      "slug": "speed-swap"
+    },
+    {
+      "symbol": "MOVE_SMART_STRIKE",
+      "sourceId": 647,
+      "slug": "smart-strike"
+    },
+    {
+      "symbol": "MOVE_PURIFY",
+      "sourceId": 648,
+      "slug": "purify"
+    },
+    {
+      "symbol": "MOVE_REVELATION_DANCE",
+      "sourceId": 649,
+      "slug": "revelation-dance"
+    },
+    {
+      "symbol": "MOVE_CORE_ENFORCER",
+      "sourceId": 650,
+      "slug": "core-enforcer"
+    },
+    {
+      "symbol": "MOVE_TROP_KICK",
+      "sourceId": 651,
+      "slug": "trop-kick"
+    },
+    {
+      "symbol": "MOVE_INSTRUCT",
+      "sourceId": 652,
+      "slug": "instruct"
+    },
+    {
+      "symbol": "MOVE_BEAK_BLAST",
+      "sourceId": 653,
+      "slug": "beak-blast"
+    },
+    {
+      "symbol": "MOVE_CLANGING_SCALES",
+      "sourceId": 654,
+      "slug": "clanging-scales"
+    },
+    {
+      "symbol": "MOVE_DRAGON_HAMMER",
+      "sourceId": 655,
+      "slug": "dragon-hammer"
+    },
+    {
+      "symbol": "MOVE_BRUTAL_SWING",
+      "sourceId": 656,
+      "slug": "brutal-swing"
+    },
+    {
+      "symbol": "MOVE_AURORA_VEIL",
+      "sourceId": 657,
+      "slug": "aurora-veil"
+    },
+    {
+      "symbol": "MOVE_SHELL_TRAP",
+      "sourceId": 658,
+      "slug": "shell-trap"
+    },
+    {
+      "symbol": "MOVE_FLEUR_CANNON",
+      "sourceId": 659,
+      "slug": "fleur-cannon"
+    },
+    {
+      "symbol": "MOVE_PSYCHIC_FANGS",
+      "sourceId": 660,
+      "slug": "psychic-fangs"
+    },
+    {
+      "symbol": "MOVE_STOMPING_TANTRUM",
+      "sourceId": 661,
+      "slug": "stomping-tantrum"
+    },
+    {
+      "symbol": "MOVE_SHADOW_BONE",
+      "sourceId": 662,
+      "slug": "shadow-bone"
+    },
+    {
+      "symbol": "MOVE_ACCELEROCK",
+      "sourceId": 663,
+      "slug": "accelerock"
+    },
+    {
+      "symbol": "MOVE_LIQUIDATION",
+      "sourceId": 664,
+      "slug": "liquidation"
+    },
+    {
+      "symbol": "MOVE_PRISMATIC_LASER",
+      "sourceId": 665,
+      "slug": "prismatic-laser"
+    },
+    {
+      "symbol": "MOVE_SPECTRAL_THIEF",
+      "sourceId": 666,
+      "slug": "spectral-thief"
+    },
+    {
+      "symbol": "MOVE_SUNSTEEL_STRIKE",
+      "sourceId": 667,
+      "slug": "sunsteel-strike"
+    },
+    {
+      "symbol": "MOVE_MOONGEIST_BEAM",
+      "sourceId": 668,
+      "slug": "moongeist-beam"
+    },
+    {
+      "symbol": "MOVE_TEARFUL_LOOK",
+      "sourceId": 669,
+      "slug": "tearful-look"
+    },
+    {
+      "symbol": "MOVE_ZING_ZAP",
+      "sourceId": 670,
+      "slug": "zing-zap"
+    },
+    {
+      "symbol": "MOVE_NATURES_MADNESS",
+      "sourceId": 671,
+      "slug": "natures-madness"
+    },
+    {
+      "symbol": "MOVE_MULTI_ATTACK",
+      "sourceId": 672,
+      "slug": "multi-attack"
+    },
+    {
+      "symbol": "MOVE_MIND_BLOWN",
+      "sourceId": 673,
+      "slug": "mind-blown"
+    },
+    {
+      "symbol": "MOVE_PLASMA_FISTS",
+      "sourceId": 674,
+      "slug": "plasma-fists"
+    },
+    {
+      "symbol": "MOVE_PHOTON_GEYSER",
+      "sourceId": 675,
+      "slug": "photon-geyser"
+    },
+    {
+      "symbol": "MOVE_ZIPPY_ZAP",
+      "sourceId": 676,
+      "slug": "zippy-zap"
+    },
+    {
+      "symbol": "MOVE_SPLISHY_SPLASH",
+      "sourceId": 677,
+      "slug": "splishy-splash"
+    },
+    {
+      "symbol": "MOVE_FLOATY_FALL",
+      "sourceId": 678,
+      "slug": "floaty-fall"
+    },
+    {
+      "symbol": "MOVE_PIKA_PAPOW",
+      "sourceId": 679,
+      "slug": "pika-papow"
+    },
+    {
+      "symbol": "MOVE_BOUNCY_BUBBLE",
+      "sourceId": 680,
+      "slug": "bouncy-bubble"
+    },
+    {
+      "symbol": "MOVE_BUZZY_BUZZ",
+      "sourceId": 681,
+      "slug": "buzzy-buzz"
+    },
+    {
+      "symbol": "MOVE_SIZZLY_SLIDE",
+      "sourceId": 682,
+      "slug": "sizzly-slide"
+    },
+    {
+      "symbol": "MOVE_GLITZY_GLOW",
+      "sourceId": 683,
+      "slug": "glitzy-glow"
+    },
+    {
+      "symbol": "MOVE_BADDY_BAD",
+      "sourceId": 684,
+      "slug": "baddy-bad"
+    },
+    {
+      "symbol": "MOVE_SAPPY_SEED",
+      "sourceId": 685,
+      "slug": "sappy-seed"
+    },
+    {
+      "symbol": "MOVE_FREEZY_FROST",
+      "sourceId": 686,
+      "slug": "freezy-frost"
+    },
+    {
+      "symbol": "MOVE_SPARKLY_SWIRL",
+      "sourceId": 687,
+      "slug": "sparkly-swirl"
+    },
+    {
+      "symbol": "MOVE_VEEVEE_VOLLEY",
+      "sourceId": 688,
+      "slug": "veevee-volley"
+    },
+    {
+      "symbol": "MOVE_DOUBLE_IRON_BASH",
+      "sourceId": 689,
+      "slug": "double-iron-bash"
+    },
+    {
+      "symbol": "MOVE_DYNAMAX_CANNON",
+      "sourceId": 690,
+      "slug": "dynamax-cannon"
+    },
+    {
+      "symbol": "MOVE_SNIPE_SHOT",
+      "sourceId": 691,
+      "slug": "snipe-shot"
+    },
+    {
+      "symbol": "MOVE_JAW_LOCK",
+      "sourceId": 692,
+      "slug": "jaw-lock"
+    },
+    {
+      "symbol": "MOVE_STUFF_CHEEKS",
+      "sourceId": 693,
+      "slug": "stuff-cheeks"
+    },
+    {
+      "symbol": "MOVE_NO_RETREAT",
+      "sourceId": 694,
+      "slug": "no-retreat"
+    },
+    {
+      "symbol": "MOVE_TAR_SHOT",
+      "sourceId": 695,
+      "slug": "tar-shot"
+    },
+    {
+      "symbol": "MOVE_MAGIC_POWDER",
+      "sourceId": 696,
+      "slug": "magic-powder"
+    },
+    {
+      "symbol": "MOVE_DRAGON_DARTS",
+      "sourceId": 697,
+      "slug": "dragon-darts"
+    },
+    {
+      "symbol": "MOVE_TEATIME",
+      "sourceId": 698,
+      "slug": "teatime"
+    },
+    {
+      "symbol": "MOVE_OCTOLOCK",
+      "sourceId": 699,
+      "slug": "octolock"
+    },
+    {
+      "symbol": "MOVE_BOLT_BEAK",
+      "sourceId": 700,
+      "slug": "bolt-beak"
+    },
+    {
+      "symbol": "MOVE_FISHIOUS_REND",
+      "sourceId": 701,
+      "slug": "fishious-rend"
+    },
+    {
+      "symbol": "MOVE_COURT_CHANGE",
+      "sourceId": 702,
+      "slug": "court-change"
+    },
+    {
+      "symbol": "MOVE_CLANGOROUS_SOUL",
+      "sourceId": 703,
+      "slug": "clangorous-soul"
+    },
+    {
+      "symbol": "MOVE_BODY_PRESS",
+      "sourceId": 704,
+      "slug": "body-press"
+    },
+    {
+      "symbol": "MOVE_DECORATE",
+      "sourceId": 705,
+      "slug": "decorate"
+    },
+    {
+      "symbol": "MOVE_DRUM_BEATING",
+      "sourceId": 706,
+      "slug": "drum-beating"
+    },
+    {
+      "symbol": "MOVE_SNAP_TRAP",
+      "sourceId": 707,
+      "slug": "snap-trap"
+    },
+    {
+      "symbol": "MOVE_PYRO_BALL",
+      "sourceId": 708,
+      "slug": "pyro-ball"
+    },
+    {
+      "symbol": "MOVE_BEHEMOTH_BLADE",
+      "sourceId": 709,
+      "slug": "behemoth-blade"
+    },
+    {
+      "symbol": "MOVE_BEHEMOTH_BASH",
+      "sourceId": 710,
+      "slug": "behemoth-bash"
+    },
+    {
+      "symbol": "MOVE_AURA_WHEEL",
+      "sourceId": 711,
+      "slug": "aura-wheel"
+    },
+    {
+      "symbol": "MOVE_BREAKING_SWIPE",
+      "sourceId": 712,
+      "slug": "breaking-swipe"
+    },
+    {
+      "symbol": "MOVE_BRANCH_POKE",
+      "sourceId": 713,
+      "slug": "branch-poke"
+    },
+    {
+      "symbol": "MOVE_OVERDRIVE",
+      "sourceId": 714,
+      "slug": "overdrive"
+    },
+    {
+      "symbol": "MOVE_APPLE_ACID",
+      "sourceId": 715,
+      "slug": "apple-acid"
+    },
+    {
+      "symbol": "MOVE_GRAV_APPLE",
+      "sourceId": 716,
+      "slug": "grav-apple"
+    },
+    {
+      "symbol": "MOVE_SPIRIT_BREAK",
+      "sourceId": 717,
+      "slug": "spirit-break"
+    },
+    {
+      "symbol": "MOVE_STRANGE_STEAM",
+      "sourceId": 718,
+      "slug": "strange-steam"
+    },
+    {
+      "symbol": "MOVE_LIFE_DEW",
+      "sourceId": 719,
+      "slug": "life-dew"
+    },
+    {
+      "symbol": "MOVE_OBSTRUCT",
+      "sourceId": 720,
+      "slug": "obstruct"
+    },
+    {
+      "symbol": "MOVE_FALSE_SURRENDER",
+      "sourceId": 721,
+      "slug": "false-surrender"
+    },
+    {
+      "symbol": "MOVE_METEOR_ASSAULT",
+      "sourceId": 722,
+      "slug": "meteor-assault"
+    },
+    {
+      "symbol": "MOVE_ETERNABEAM",
+      "sourceId": 723,
+      "slug": "eternabeam"
+    },
+    {
+      "symbol": "MOVE_STEEL_BEAM",
+      "sourceId": 724,
+      "slug": "steel-beam"
+    },
+    {
+      "symbol": "MOVE_EXPANDING_FORCE",
+      "sourceId": 725,
+      "slug": "expanding-force"
+    },
+    {
+      "symbol": "MOVE_STEEL_ROLLER",
+      "sourceId": 726,
+      "slug": "steel-roller"
+    },
+    {
+      "symbol": "MOVE_SCALE_SHOT",
+      "sourceId": 727,
+      "slug": "scale-shot"
+    },
+    {
+      "symbol": "MOVE_METEOR_BEAM",
+      "sourceId": 728,
+      "slug": "meteor-beam"
+    },
+    {
+      "symbol": "MOVE_SHELL_SIDE_ARM",
+      "sourceId": 729,
+      "slug": "shell-side-arm"
+    },
+    {
+      "symbol": "MOVE_MISTY_EXPLOSION",
+      "sourceId": 730,
+      "slug": "misty-explosion"
+    },
+    {
+      "symbol": "MOVE_GRASSY_GLIDE",
+      "sourceId": 731,
+      "slug": "grassy-glide"
+    },
+    {
+      "symbol": "MOVE_RISING_VOLTAGE",
+      "sourceId": 732,
+      "slug": "rising-voltage"
+    },
+    {
+      "symbol": "MOVE_TERRAIN_PULSE",
+      "sourceId": 733,
+      "slug": "terrain-pulse"
+    },
+    {
+      "symbol": "MOVE_SKITTER_SMACK",
+      "sourceId": 734,
+      "slug": "skitter-smack"
+    },
+    {
+      "symbol": "MOVE_BURNING_JEALOUSY",
+      "sourceId": 735,
+      "slug": "burning-jealousy"
+    },
+    {
+      "symbol": "MOVE_LASH_OUT",
+      "sourceId": 736,
+      "slug": "lash-out"
+    },
+    {
+      "symbol": "MOVE_POLTERGEIST",
+      "sourceId": 737,
+      "slug": "poltergeist"
+    },
+    {
+      "symbol": "MOVE_CORROSIVE_GAS",
+      "sourceId": 738,
+      "slug": "corrosive-gas"
+    },
+    {
+      "symbol": "MOVE_COACHING",
+      "sourceId": 739,
+      "slug": "coaching"
+    },
+    {
+      "symbol": "MOVE_FLIP_TURN",
+      "sourceId": 740,
+      "slug": "flip-turn"
+    },
+    {
+      "symbol": "MOVE_TRIPLE_AXEL",
+      "sourceId": 741,
+      "slug": "triple-axel"
+    },
+    {
+      "symbol": "MOVE_DUAL_WINGBEAT",
+      "sourceId": 742,
+      "slug": "dual-wingbeat"
+    },
+    {
+      "symbol": "MOVE_SCORCHING_SANDS",
+      "sourceId": 743,
+      "slug": "scorching-sands"
+    },
+    {
+      "symbol": "MOVE_JUNGLE_HEALING",
+      "sourceId": 744,
+      "slug": "jungle-healing"
+    },
+    {
+      "symbol": "MOVE_WICKED_BLOW",
+      "sourceId": 745,
+      "slug": "wicked-blow"
+    },
+    {
+      "symbol": "MOVE_SURGING_STRIKES",
+      "sourceId": 746,
+      "slug": "surging-strikes"
+    },
+    {
+      "symbol": "MOVE_THUNDER_CAGE",
+      "sourceId": 747,
+      "slug": "thunder-cage"
+    },
+    {
+      "symbol": "MOVE_DRAGON_ENERGY",
+      "sourceId": 748,
+      "slug": "dragon-energy"
+    },
+    {
+      "symbol": "MOVE_FREEZING_GLARE",
+      "sourceId": 749,
+      "slug": "freezing-glare"
+    },
+    {
+      "symbol": "MOVE_FIERY_WRATH",
+      "sourceId": 750,
+      "slug": "fiery-wrath"
+    },
+    {
+      "symbol": "MOVE_THUNDEROUS_KICK",
+      "sourceId": 751,
+      "slug": "thunderous-kick"
+    },
+    {
+      "symbol": "MOVE_GLACIAL_LANCE",
+      "sourceId": 752,
+      "slug": "glacial-lance"
+    },
+    {
+      "symbol": "MOVE_ASTRAL_BARRAGE",
+      "sourceId": 753,
+      "slug": "astral-barrage"
+    },
+    {
+      "symbol": "MOVE_EERIE_SPELL",
+      "sourceId": 754,
+      "slug": "eerie-spell"
+    },
+    {
+      "symbol": "MOVE_DIRE_CLAW",
+      "sourceId": 755,
+      "slug": "dire-claw"
+    },
+    {
+      "symbol": "MOVE_PSYSHIELD_BASH",
+      "sourceId": 756,
+      "slug": "psyshield-bash"
+    },
+    {
+      "symbol": "MOVE_POWER_SHIFT",
+      "sourceId": 757,
+      "slug": "power-shift"
+    },
+    {
+      "symbol": "MOVE_STONE_AXE",
+      "sourceId": 758,
+      "slug": "stone-axe"
+    },
+    {
+      "symbol": "MOVE_SPRINGTIDE_STORM",
+      "sourceId": 759,
+      "slug": "springtide-storm"
+    },
+    {
+      "symbol": "MOVE_MYSTICAL_POWER",
+      "sourceId": 760,
+      "slug": "mystical-power"
+    },
+    {
+      "symbol": "MOVE_RAGING_FURY",
+      "sourceId": 761,
+      "slug": "raging-fury"
+    },
+    {
+      "symbol": "MOVE_WAVE_CRASH",
+      "sourceId": 762,
+      "slug": "wave-crash"
+    },
+    {
+      "symbol": "MOVE_CHLOROBLAST",
+      "sourceId": 763,
+      "slug": "chloroblast"
+    },
+    {
+      "symbol": "MOVE_MOUNTAIN_GALE",
+      "sourceId": 764,
+      "slug": "mountain-gale"
+    },
+    {
+      "symbol": "MOVE_VICTORY_DANCE",
+      "sourceId": 765,
+      "slug": "victory-dance"
+    },
+    {
+      "symbol": "MOVE_HEADLONG_RUSH",
+      "sourceId": 766,
+      "slug": "headlong-rush"
+    },
+    {
+      "symbol": "MOVE_BARB_BARRAGE",
+      "sourceId": 767,
+      "slug": "barb-barrage"
+    },
+    {
+      "symbol": "MOVE_ESPER_WING",
+      "sourceId": 768,
+      "slug": "esper-wing"
+    },
+    {
+      "symbol": "MOVE_BITTER_MALICE",
+      "sourceId": 769,
+      "slug": "bitter-malice"
+    },
+    {
+      "symbol": "MOVE_SHELTER",
+      "sourceId": 770,
+      "slug": "shelter"
+    },
+    {
+      "symbol": "MOVE_TRIPLE_ARROWS",
+      "sourceId": 771,
+      "slug": "triple-arrows"
+    },
+    {
+      "symbol": "MOVE_INFERNAL_PARADE",
+      "sourceId": 772,
+      "slug": "infernal-parade"
+    },
+    {
+      "symbol": "MOVE_CEASELESS_EDGE",
+      "sourceId": 773,
+      "slug": "ceaseless-edge"
+    },
+    {
+      "symbol": "MOVE_BLEAKWIND_STORM",
+      "sourceId": 774,
+      "slug": "bleakwind-storm"
+    },
+    {
+      "symbol": "MOVE_WILDBOLT_STORM",
+      "sourceId": 775,
+      "slug": "wildbolt-storm"
+    },
+    {
+      "symbol": "MOVE_SANDSEAR_STORM",
+      "sourceId": 776,
+      "slug": "sandsear-storm"
+    },
+    {
+      "symbol": "MOVE_LUNAR_BLESSING",
+      "sourceId": 777,
+      "slug": "lunar-blessing"
+    },
+    {
+      "symbol": "MOVE_TAKE_HEART",
+      "sourceId": 778,
+      "slug": "take-heart"
+    },
+    {
+      "symbol": "MOVE_TERA_BLAST",
+      "sourceId": 779,
+      "slug": "tera-blast"
+    },
+    {
+      "symbol": "MOVE_SILK_TRAP",
+      "sourceId": 780,
+      "slug": "silk-trap"
+    },
+    {
+      "symbol": "MOVE_AXE_KICK",
+      "sourceId": 781,
+      "slug": "axe-kick"
+    },
+    {
+      "symbol": "MOVE_LAST_RESPECTS",
+      "sourceId": 782,
+      "slug": "last-respects"
+    },
+    {
+      "symbol": "MOVE_LUMINA_CRASH",
+      "sourceId": 783,
+      "slug": "lumina-crash"
+    },
+    {
+      "symbol": "MOVE_ORDER_UP",
+      "sourceId": 784,
+      "slug": "order-up"
+    },
+    {
+      "symbol": "MOVE_JET_PUNCH",
+      "sourceId": 785,
+      "slug": "jet-punch"
+    },
+    {
+      "symbol": "MOVE_SPICY_EXTRACT",
+      "sourceId": 786,
+      "slug": "spicy-extract"
+    },
+    {
+      "symbol": "MOVE_SPIN_OUT",
+      "sourceId": 787,
+      "slug": "spin-out"
+    },
+    {
+      "symbol": "MOVE_POPULATION_BOMB",
+      "sourceId": 788,
+      "slug": "population-bomb"
+    },
+    {
+      "symbol": "MOVE_ICE_SPINNER",
+      "sourceId": 789,
+      "slug": "ice-spinner"
+    },
+    {
+      "symbol": "MOVE_GLAIVE_RUSH",
+      "sourceId": 790,
+      "slug": "glaive-rush"
+    },
+    {
+      "symbol": "MOVE_REVIVAL_BLESSING",
+      "sourceId": 791,
+      "slug": "revival-blessing"
+    },
+    {
+      "symbol": "MOVE_SALT_CURE",
+      "sourceId": 792,
+      "slug": "salt-cure"
+    },
+    {
+      "symbol": "MOVE_TRIPLE_DIVE",
+      "sourceId": 793,
+      "slug": "triple-dive"
+    },
+    {
+      "symbol": "MOVE_MORTAL_SPIN",
+      "sourceId": 794,
+      "slug": "mortal-spin"
+    },
+    {
+      "symbol": "MOVE_DOODLE",
+      "sourceId": 795,
+      "slug": "doodle"
+    },
+    {
+      "symbol": "MOVE_FILLET_AWAY",
+      "sourceId": 796,
+      "slug": "fillet-away"
+    },
+    {
+      "symbol": "MOVE_KOWTOW_CLEAVE",
+      "sourceId": 797,
+      "slug": "kowtow-cleave"
+    },
+    {
+      "symbol": "MOVE_FLOWER_TRICK",
+      "sourceId": 798,
+      "slug": "flower-trick"
+    },
+    {
+      "symbol": "MOVE_TORCH_SONG",
+      "sourceId": 799,
+      "slug": "torch-song"
+    },
+    {
+      "symbol": "MOVE_AQUA_STEP",
+      "sourceId": 800,
+      "slug": "aqua-step"
+    },
+    {
+      "symbol": "MOVE_RAGING_BULL",
+      "sourceId": 801,
+      "slug": "raging-bull"
+    },
+    {
+      "symbol": "MOVE_MAKE_IT_RAIN",
+      "sourceId": 802,
+      "slug": "make-it-rain"
+    },
+    {
+      "symbol": "MOVE_RUINATION",
+      "sourceId": 803,
+      "slug": "ruination"
+    },
+    {
+      "symbol": "MOVE_COLLISION_COURSE",
+      "sourceId": 804,
+      "slug": "collision-course"
+    },
+    {
+      "symbol": "MOVE_ELECTRO_DRIFT",
+      "sourceId": 805,
+      "slug": "electro-drift"
+    },
+    {
+      "symbol": "MOVE_SHED_TAIL",
+      "sourceId": 806,
+      "slug": "shed-tail"
+    },
+    {
+      "symbol": "MOVE_CHILLY_RECEPTION",
+      "sourceId": 807,
+      "slug": "chilly-reception"
+    },
+    {
+      "symbol": "MOVE_TIDY_UP",
+      "sourceId": 808,
+      "slug": "tidy-up"
+    },
+    {
+      "symbol": "MOVE_SNOWSCAPE",
+      "sourceId": 809,
+      "slug": "snowscape"
+    },
+    {
+      "symbol": "MOVE_POUNCE",
+      "sourceId": 810,
+      "slug": "pounce"
+    },
+    {
+      "symbol": "MOVE_TRAILBLAZE",
+      "sourceId": 811,
+      "slug": "trailblaze"
+    },
+    {
+      "symbol": "MOVE_CHILLING_WATER",
+      "sourceId": 812,
+      "slug": "chilling-water"
+    },
+    {
+      "symbol": "MOVE_HYPER_DRILL",
+      "sourceId": 813,
+      "slug": "hyper-drill"
+    },
+    {
+      "symbol": "MOVE_TWIN_BEAM",
+      "sourceId": 814,
+      "slug": "twin-beam"
+    },
+    {
+      "symbol": "MOVE_RAGE_FIST",
+      "sourceId": 815,
+      "slug": "rage-fist"
+    },
+    {
+      "symbol": "MOVE_ARMOR_CANNON",
+      "sourceId": 816,
+      "slug": "armor-cannon"
+    },
+    {
+      "symbol": "MOVE_BITTER_BLADE",
+      "sourceId": 817,
+      "slug": "bitter-blade"
+    },
+    {
+      "symbol": "MOVE_DOUBLE_SHOCK",
+      "sourceId": 818,
+      "slug": "double-shock"
+    },
+    {
+      "symbol": "MOVE_GIGATON_HAMMER",
+      "sourceId": 819,
+      "slug": "gigaton-hammer"
+    },
+    {
+      "symbol": "MOVE_COMEUPPANCE",
+      "sourceId": 820,
+      "slug": "comeuppance"
+    },
+    {
+      "symbol": "MOVE_AQUA_CUTTER",
+      "sourceId": 821,
+      "slug": "aqua-cutter"
+    },
+    {
+      "symbol": "MOVE_BLAZING_TORQUE",
+      "sourceId": 822,
+      "slug": "blazing-torque"
+    },
+    {
+      "symbol": "MOVE_WICKED_TORQUE",
+      "sourceId": 823,
+      "slug": "wicked-torque"
+    },
+    {
+      "symbol": "MOVE_NOXIOUS_TORQUE",
+      "sourceId": 824,
+      "slug": "noxious-torque"
+    },
+    {
+      "symbol": "MOVE_COMBAT_TORQUE",
+      "sourceId": 825,
+      "slug": "combat-torque"
+    },
+    {
+      "symbol": "MOVE_MAGICAL_TORQUE",
+      "sourceId": 826,
+      "slug": "magical-torque"
+    },
+    {
+      "symbol": "MOVE_PSYBLADE",
+      "sourceId": 827,
+      "slug": "psyblade"
+    },
+    {
+      "symbol": "MOVE_HYDRO_STEAM",
+      "sourceId": 828,
+      "slug": "hydro-steam"
+    },
+    {
+      "symbol": "MOVE_BLOOD_MOON",
+      "sourceId": 829,
+      "slug": "blood-moon"
+    },
+    {
+      "symbol": "MOVE_MATCHA_GOTCHA",
+      "sourceId": 830,
+      "slug": "matcha-gotcha"
+    },
+    {
+      "symbol": "MOVE_SYRUP_BOMB",
+      "sourceId": 831,
+      "slug": "syrup-bomb"
+    },
+    {
+      "symbol": "MOVE_IVY_CUDGEL",
+      "sourceId": 832,
+      "slug": "ivy-cudgel"
+    },
+    {
+      "symbol": "MOVE_ELECTRO_SHOT",
+      "sourceId": 833,
+      "slug": "electro-shot"
+    },
+    {
+      "symbol": "MOVE_TERA_STARSTORM",
+      "sourceId": 834,
+      "slug": "tera-starstorm"
+    },
+    {
+      "symbol": "MOVE_FICKLE_BEAM",
+      "sourceId": 835,
+      "slug": "fickle-beam"
+    },
+    {
+      "symbol": "MOVE_BURNING_BULWARK",
+      "sourceId": 836,
+      "slug": "burning-bulwark"
+    },
+    {
+      "symbol": "MOVE_THUNDERCLAP",
+      "sourceId": 837,
+      "slug": "thunderclap"
+    },
+    {
+      "symbol": "MOVE_MIGHTY_CLEAVE",
+      "sourceId": 838,
+      "slug": "mighty-cleave"
+    },
+    {
+      "symbol": "MOVE_TACHYON_CUTTER",
+      "sourceId": 839,
+      "slug": "tachyon-cutter"
+    },
+    {
+      "symbol": "MOVE_HARD_PRESS",
+      "sourceId": 840,
+      "slug": "hard-press"
+    },
+    {
+      "symbol": "MOVE_DRAGON_CHEER",
+      "sourceId": 841,
+      "slug": "dragon-cheer"
+    },
+    {
+      "symbol": "MOVE_ALLURING_VOICE",
+      "sourceId": 842,
+      "slug": "alluring-voice"
+    },
+    {
+      "symbol": "MOVE_TEMPER_FLARE",
+      "sourceId": 843,
+      "slug": "temper-flare"
+    },
+    {
+      "symbol": "MOVE_SUPERCELL_SLAM",
+      "sourceId": 844,
+      "slug": "supercell-slam"
+    },
+    {
+      "symbol": "MOVE_PSYCHIC_NOISE",
+      "sourceId": 845,
+      "slug": "psychic-noise"
+    },
+    {
+      "symbol": "MOVE_UPPER_HAND",
+      "sourceId": 846,
+      "slug": "upper-hand"
+    },
+    {
+      "symbol": "MOVE_MALIGNANT_CHAIN",
+      "sourceId": 847,
+      "slug": "malignant-chain"
+    },
+    {
+      "symbol": "MOVE_BREAKNECK_BLITZ",
+      "sourceId": 849,
+      "slug": "breakneck-blitz--physical"
+    },
+    {
+      "symbol": "MOVE_BREAKNECK_BLITZ",
+      "sourceId": 849,
+      "slug": "breakneck-blitz--special"
+    },
+    {
+      "symbol": "MOVE_ALL_OUT_PUMMELING",
+      "sourceId": 850,
+      "slug": "all-out-pummeling--physical"
+    },
+    {
+      "symbol": "MOVE_ALL_OUT_PUMMELING",
+      "sourceId": 850,
+      "slug": "all-out-pummeling--special"
+    },
+    {
+      "symbol": "MOVE_SUPERSONIC_SKYSTRIKE",
+      "sourceId": 851,
+      "slug": "supersonic-skystrike--physical"
+    },
+    {
+      "symbol": "MOVE_SUPERSONIC_SKYSTRIKE",
+      "sourceId": 851,
+      "slug": "supersonic-skystrike--special"
+    },
+    {
+      "symbol": "MOVE_ACID_DOWNPOUR",
+      "sourceId": 852,
+      "slug": "acid-downpour--physical"
+    },
+    {
+      "symbol": "MOVE_ACID_DOWNPOUR",
+      "sourceId": 852,
+      "slug": "acid-downpour--special"
+    },
+    {
+      "symbol": "MOVE_TECTONIC_RAGE",
+      "sourceId": 853,
+      "slug": "tectonic-rage--physical"
+    },
+    {
+      "symbol": "MOVE_TECTONIC_RAGE",
+      "sourceId": 853,
+      "slug": "tectonic-rage--special"
+    },
+    {
+      "symbol": "MOVE_CONTINENTAL_CRUSH",
+      "sourceId": 854,
+      "slug": "continental-crush--physical"
+    },
+    {
+      "symbol": "MOVE_CONTINENTAL_CRUSH",
+      "sourceId": 854,
+      "slug": "continental-crush--special"
+    },
+    {
+      "symbol": "MOVE_SAVAGE_SPIN_OUT",
+      "sourceId": 855,
+      "slug": "savage-spin-out--physical"
+    },
+    {
+      "symbol": "MOVE_SAVAGE_SPIN_OUT",
+      "sourceId": 855,
+      "slug": "savage-spin-out--special"
+    },
+    {
+      "symbol": "MOVE_NEVER_ENDING_NIGHTMARE",
+      "sourceId": 856,
+      "slug": "never-ending-nightmare--physical"
+    },
+    {
+      "symbol": "MOVE_NEVER_ENDING_NIGHTMARE",
+      "sourceId": 856,
+      "slug": "never-ending-nightmare--special"
+    },
+    {
+      "symbol": "MOVE_CORKSCREW_CRASH",
+      "sourceId": 857,
+      "slug": "corkscrew-crash--physical"
+    },
+    {
+      "symbol": "MOVE_CORKSCREW_CRASH",
+      "sourceId": 857,
+      "slug": "corkscrew-crash--special"
+    },
+    {
+      "symbol": "MOVE_INFERNO_OVERDRIVE",
+      "sourceId": 858,
+      "slug": "inferno-overdrive--physical"
+    },
+    {
+      "symbol": "MOVE_INFERNO_OVERDRIVE",
+      "sourceId": 858,
+      "slug": "inferno-overdrive--special"
+    },
+    {
+      "symbol": "MOVE_HYDRO_VORTEX",
+      "sourceId": 859,
+      "slug": "hydro-vortex--physical"
+    },
+    {
+      "symbol": "MOVE_HYDRO_VORTEX",
+      "sourceId": 859,
+      "slug": "hydro-vortex--special"
+    },
+    {
+      "symbol": "MOVE_BLOOM_DOOM",
+      "sourceId": 860,
+      "slug": "bloom-doom--physical"
+    },
+    {
+      "symbol": "MOVE_BLOOM_DOOM",
+      "sourceId": 860,
+      "slug": "bloom-doom--special"
+    },
+    {
+      "symbol": "MOVE_GIGAVOLT_HAVOC",
+      "sourceId": 861,
+      "slug": "gigavolt-havoc--physical"
+    },
+    {
+      "symbol": "MOVE_GIGAVOLT_HAVOC",
+      "sourceId": 861,
+      "slug": "gigavolt-havoc--special"
+    },
+    {
+      "symbol": "MOVE_SHATTERED_PSYCHE",
+      "sourceId": 862,
+      "slug": "shattered-psyche--physical"
+    },
+    {
+      "symbol": "MOVE_SHATTERED_PSYCHE",
+      "sourceId": 862,
+      "slug": "shattered-psyche--special"
+    },
+    {
+      "symbol": "MOVE_SUBZERO_SLAMMER",
+      "sourceId": 863,
+      "slug": "subzero-slammer--physical"
+    },
+    {
+      "symbol": "MOVE_SUBZERO_SLAMMER",
+      "sourceId": 863,
+      "slug": "subzero-slammer--special"
+    },
+    {
+      "symbol": "MOVE_DEVASTATING_DRAKE",
+      "sourceId": 864,
+      "slug": "devastating-drake--physical"
+    },
+    {
+      "symbol": "MOVE_DEVASTATING_DRAKE",
+      "sourceId": 864,
+      "slug": "devastating-drake--special"
+    },
+    {
+      "symbol": "MOVE_BLACK_HOLE_ECLIPSE",
+      "sourceId": 865,
+      "slug": "black-hole-eclipse--physical"
+    },
+    {
+      "symbol": "MOVE_BLACK_HOLE_ECLIPSE",
+      "sourceId": 865,
+      "slug": "black-hole-eclipse--special"
+    },
+    {
+      "symbol": "MOVE_TWINKLE_TACKLE",
+      "sourceId": 866,
+      "slug": "twinkle-tackle--physical"
+    },
+    {
+      "symbol": "MOVE_TWINKLE_TACKLE",
+      "sourceId": 866,
+      "slug": "twinkle-tackle--special"
+    },
+    {
+      "symbol": "MOVE_CATASTROPIKA",
+      "sourceId": 867,
+      "slug": "catastropika"
+    },
+    {
+      "symbol": "MOVE_10000000_VOLT_THUNDERBOLT",
+      "sourceId": 868,
+      "slug": "10-000-000-volt-thunderbolt"
+    },
+    {
+      "symbol": "MOVE_STOKED_SPARKSURFER",
+      "sourceId": 869,
+      "slug": "stoked-sparksurfer"
+    },
+    {
+      "symbol": "MOVE_EXTREME_EVOBOOST",
+      "sourceId": 870,
+      "slug": "extreme-evoboost"
+    },
+    {
+      "symbol": "MOVE_PULVERIZING_PANCAKE",
+      "sourceId": 871,
+      "slug": "pulverizing-pancake"
+    },
+    {
+      "symbol": "MOVE_GENESIS_SUPERNOVA",
+      "sourceId": 872,
+      "slug": "genesis-supernova"
+    },
+    {
+      "symbol": "MOVE_SINISTER_ARROW_RAID",
+      "sourceId": 873,
+      "slug": "sinister-arrow-raid"
+    },
+    {
+      "symbol": "MOVE_MALICIOUS_MOONSAULT",
+      "sourceId": 874,
+      "slug": "malicious-moonsault"
+    },
+    {
+      "symbol": "MOVE_OCEANIC_OPERETTA",
+      "sourceId": 875,
+      "slug": "oceanic-operetta"
+    },
+    {
+      "symbol": "MOVE_SPLINTERED_STORMSHARDS",
+      "sourceId": 876,
+      "slug": "splintered-stormshards"
+    },
+    {
+      "symbol": "MOVE_LETS_SNUGGLE_FOREVER",
+      "sourceId": 877,
+      "slug": "lets-snuggle-forever"
+    },
+    {
+      "symbol": "MOVE_CLANGOROUS_SOULBLAZE",
+      "sourceId": 878,
+      "slug": "clangorous-soulblaze"
+    },
+    {
+      "symbol": "MOVE_GUARDIAN_OF_ALOLA",
+      "sourceId": 879,
+      "slug": "guardian-of-alola"
+    },
+    {
+      "symbol": "MOVE_SEARING_SUNRAZE_SMASH",
+      "sourceId": 880,
+      "slug": "searing-sunraze-smash"
+    },
+    {
+      "symbol": "MOVE_MENACING_MOONRAZE_MAELSTROM",
+      "sourceId": 881,
+      "slug": "menacing-moonraze-maelstrom"
+    },
+    {
+      "symbol": "MOVE_LIGHT_THAT_BURNS_THE_SKY",
+      "sourceId": 882,
+      "slug": "light-that-burns-the-sky"
+    },
+    {
+      "symbol": "MOVE_SOUL_STEALING_7_STAR_STRIKE",
+      "sourceId": 883,
+      "slug": "soul-stealing-7-star-strike"
+    },
+    {
+      "symbol": "MOVE_MAX_GUARD",
+      "sourceId": 884,
+      "slug": "max-guard"
+    },
+    {
+      "symbol": "MOVE_MAX_FLARE",
+      "sourceId": 894,
+      "slug": "max-flare"
+    },
+    {
+      "symbol": "MOVE_MAX_FLUTTERBY",
+      "sourceId": 891,
+      "slug": "max-flutterby"
+    },
+    {
+      "symbol": "MOVE_MAX_LIGHTNING",
+      "sourceId": 897,
+      "slug": "max-lightning"
+    },
+    {
+      "symbol": "MOVE_MAX_STRIKE",
+      "sourceId": 885,
+      "slug": "max-strike"
+    },
+    {
+      "symbol": "MOVE_MAX_KNUCKLE",
+      "sourceId": 886,
+      "slug": "max-knuckle"
+    },
+    {
+      "symbol": "MOVE_MAX_PHANTASM",
+      "sourceId": 892,
+      "slug": "max-phantasm"
+    },
+    {
+      "symbol": "MOVE_MAX_HAILSTORM",
+      "sourceId": 899,
+      "slug": "max-hailstorm"
+    },
+    {
+      "symbol": "MOVE_MAX_OOZE",
+      "sourceId": 888,
+      "slug": "max-ooze"
+    },
+    {
+      "symbol": "MOVE_MAX_GEYSER",
+      "sourceId": 895,
+      "slug": "max-geyser"
+    },
+    {
+      "symbol": "MOVE_MAX_AIRSTREAM",
+      "sourceId": 887,
+      "slug": "max-airstream"
+    },
+    {
+      "symbol": "MOVE_MAX_STARFALL",
+      "sourceId": 902,
+      "slug": "max-starfall"
+    },
+    {
+      "symbol": "MOVE_MAX_WYRMWIND",
+      "sourceId": 900,
+      "slug": "max-wyrmwind"
+    },
+    {
+      "symbol": "MOVE_MAX_MINDSTORM",
+      "sourceId": 898,
+      "slug": "max-mindstorm"
+    },
+    {
+      "symbol": "MOVE_MAX_ROCKFALL",
+      "sourceId": 890,
+      "slug": "max-rockfall"
+    },
+    {
+      "symbol": "MOVE_MAX_QUAKE",
+      "sourceId": 889,
+      "slug": "max-quake"
+    },
+    {
+      "symbol": "MOVE_MAX_DARKNESS",
+      "sourceId": 901,
+      "slug": "max-darkness"
+    },
+    {
+      "symbol": "MOVE_MAX_OVERGROWTH",
+      "sourceId": 896,
+      "slug": "max-overgrowth"
+    },
+    {
+      "symbol": "MOVE_MAX_STEELSPIKE",
+      "sourceId": 893,
+      "slug": "max-steelspike"
+    }
+  ]
+}

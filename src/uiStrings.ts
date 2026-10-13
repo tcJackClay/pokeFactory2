@@ -1,5 +1,6 @@
 const uiStrings: Record<string, Record<string, string>> = {
   'zh-hans': {
+    struggle: '挣扎',
     legacyCollectionSave: '新版图鉴只统计有正式获得来源的永久收藏。旧版把租借队登记为已拥有，无法可靠转换。请先备份旧存档，再重新开始。',
     legacyRecentSave: '此存档版本与当前规则不兼容。请先下载原始备份，再重新开始。',
     permanentCollectionSaveFailed: '收藏保存失败，未消耗精灵球或发放宝可梦，请重试。',
@@ -161,6 +162,7 @@ const uiStrings: Record<string, Record<string, string>> = {
     enemySentOut: '对手 派出了 {name}！',
   },
   'zh-hant': {
+    struggle: '掙扎',
     legacyCollectionSave: '新版圖鑑只統計有正式獲得來源的永久收藏。舊版把租借隊登記為已擁有，無法可靠轉換。請先備份舊存檔，再重新開始。',
     legacyRecentSave: '此存檔版本與目前規則不相容。請先下載原始備份，再重新開始。',
     permanentCollectionSaveFailed: '收藏儲存失敗，未消耗精靈球或發放寶可夢，請重試。',
@@ -322,6 +324,7 @@ const uiStrings: Record<string, Record<string, string>> = {
     enemySentOut: '對手 派出了 {name}！',
   },
   'en': {
+    struggle: 'Struggle',
     legacyCollectionSave: 'The new Pokedex counts permanent acquisitions. This older save recorded rentals as owned and cannot be converted reliably. Download a backup before starting over.',
     legacyRecentSave: 'This save version is incompatible with the current rules. Download the original backup before starting over.',
     permanentCollectionSaveFailed: 'Could not save the collection. No ball was spent or Pokemon awarded. Please retry.',

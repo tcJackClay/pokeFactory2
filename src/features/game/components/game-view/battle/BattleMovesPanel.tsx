@@ -1,9 +1,9 @@
+import { resolveLegalMoves } from '../../../battle/engine/resolveLegalMoves';
 import { motion, useReducedMotion } from 'motion/react';
 import { Circle, CircleDot, Triangle, X } from 'lucide-react';
 import { TYPE_CHART } from '../../../../../constants';
 import TypeBadge from '../../../../../components/TypeBadge';
 import { TYPE_COLORS } from '../../../../../uiAppConstants';
-import { hasItemBattleEffect } from '../../../data/battle';
 import type { GameViewSectionProps } from '../shared';
 
 const LIGHT_MOVE_TYPES = new Set(['normal', 'electric', 'ground', 'flying', 'ice', 'steel', 'rock']);
@@ -16,10 +16,8 @@ export function BattleMovesPanel({ viewModel }: GameViewSectionProps) {
 
   if (!player) return null;
 
-  // 讲究头带锁招：已锁定时除被锁招式外其余按钮禁用（与控制器拦截互为兜底）。
-  const choiceLockedMoveName = hasItemBattleEffect(player.factoryHeldItemId, 'CHOICE_BAND')
-    ? player.factoryChoiceLockedMoveName ?? null
-    : null;
+  const legal = resolveLegalMoves(player);
+  const displayedMoves = legal.struggle ? legal.moves : player.selectedMoves;
 
   const powerLabel = currentLanguage.startsWith('zh') ? t('power') : 'Pow';
   const accuracyLabel = currentLanguage.startsWith('zh') ? t('accuracy') : 'Acc';
@@ -53,14 +51,12 @@ export function BattleMovesPanel({ viewModel }: GameViewSectionProps) {
     >
       <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-1">
         <div className="pf-battle-moves-grid grid grid-cols-2 gap-1.5 sm:gap-2">
-          {player.selectedMoves.map((move, index) => {
+          {displayedMoves.map((move, index) => {
             const isLightType = LIGHT_MOVE_TYPES.has(move.type);
-            const EffectivenessIcon = getMoveEffectivenessIcon(move.type);
+            const EffectivenessIcon = move.name === 'struggle' ? Circle : getMoveEffectivenessIcon(move.type);
             const totalPp = move.maxPp ?? move.pp ?? 0;
             const currentPp = move.currentPp ?? totalPp;
-            const isExhausted = totalPp > 0 && currentPp <= 0;
-            const isChoiceLocked = Boolean(choiceLockedMoveName && choiceLockedMoveName !== move.name);
-            const disabled = isExhausted || mustChooseReplacement || isChoiceLocked;
+            const disabled = mustChooseReplacement || !legal.moves.some((candidate) => candidate.name === move.name);
 
             return (
               <button
@@ -84,7 +80,7 @@ export function BattleMovesPanel({ viewModel }: GameViewSectionProps) {
                 <div className="pf-battle-move-main relative z-10 grid min-h-[34px] grid-cols-[minmax(0,1fr)_22px] items-start gap-1 sm:min-h-[42px] sm:grid-cols-[minmax(0,1fr)_26px]">
                   <div className="grid min-h-0 min-w-0 content-start gap-1">
                     <div className={`pf-battle-move-name min-h-[18px] line-clamp-2 text-[12px] font-black leading-[1.05] ${isLightType ? 'text-slate-950' : 'text-white'} sm:min-h-[22px] sm:text-[15px]`}>
-                      {getLocalized(move)}
+                      {move.name === 'struggle' ? t('struggle') : getLocalized(move)}
                     </div>
 
                     <div className="pf-battle-move-type h-3.5 origin-left scale-75 sm:h-4 sm:scale-90">

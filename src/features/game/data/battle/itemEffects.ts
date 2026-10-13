@@ -134,7 +134,7 @@ export const ITEM_BATTLE_DATA: Record<string, ItemBattleData> = {
     id: 'mental_herb',
     effectId: 'MENTAL_HERB',
     hooks: ['clear-mental-statuses'],
-    mentalStatuses: ['attract', 'infatuation', 'taunt', 'encore', 'torment', 'disable'],
+    mentalStatuses: ['attract', 'infatuation', 'taunt', 'encore', 'torment', 'disable', 'heal_block'],
   },
   thick_club: {
     id: 'thick_club',
