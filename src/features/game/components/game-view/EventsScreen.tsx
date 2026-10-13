@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { CheckCircle2, Sparkles, Trash2, UserPlus, X } from 'lucide-react';
 import type { GameViewSectionProps } from './shared';
 import { EVENT_REGIONS } from '../../config/events';
 import { TYPE_COLORS, TYPE_ICONS } from '../../../../uiAppConstants';
-import { fetchDexSnapshots, type DexSnapshot } from '../../../../services/pokedexClient';
+import type { DexSnapshot } from '../../../../services/pokedexClient';
+import { TYPE_ZH } from '../../../../constants';
+import { useEventDisplaySnapshots } from '../../hooks/useEventDisplaySnapshots';
+import { createEventDisplayActionGuard } from '../../utils/eventDisplaySnapshots';
+import { getBaseEventCopy, getEventRegionName } from './baseEventCopy';
+import './baseEventUi.css';
 import { getPokemonSpriteUrl } from '../../../../services/pokeApiEndpoint';
 import eventHpUpIcon from '../../../../assets/items/event-hp-up.png';
 import eventBattleStatItemIcon from '../../../../assets/items/event-battle-stat-item.png';
@@ -14,12 +19,6 @@ import mapSevii123 from '../../../../assets/maps/region-map-sevii123.png';
 import mapSevii45 from '../../../../assets/maps/region-map-sevii45.png';
 
 const REGION_CARD_BACKGROUNDS = [mapKanto, mapHoenn, mapSevii123, mapSevii45];
-const POKEMON_JOIN_LINES = [
-  (pokemonName: string) => `「${pokemonName}」确认了派遣报告，已经准备加入后续行动。`,
-  (pokemonName: string) => `「${pokemonName}」看起来很想加入，连站位都已经挑好了。`,
-  (pokemonName: string) => `「${pokemonName}」认真观察了队伍，最后选择留在你的名册里。`,
-  (pokemonName: string) => `派遣队顺利带回了「${pokemonName}」的同行申请。`,
-];
 
 function getEventItemIcon(itemId?: string): string {
   if (itemId === 'hp_up') return eventHpUpIcon;
@@ -34,11 +33,6 @@ function formatRemain(ms: number) {
   return `${hh}:${mm}:${ss}`;
 }
 
-function getRandomPokemonJoinLine(pokemonName: string) {
-  const randomIndex = Math.floor(Math.random() * POKEMON_JOIN_LINES.length);
-  return POKEMON_JOIN_LINES[randomIndex](pokemonName);
-}
-
 export function EventsScreen({ viewModel }: GameViewSectionProps) {
   const {
     devToolsAvailable,
@@ -49,62 +43,59 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
     eventDispatchPokemonByRegion,
     eventDispatchPopup,
     hasFactoryRunToResume,
+    gameState,
     getLocalized,
     setEventDispatchPokemon,
     dispatchEventRegion,
     mockEventDispatchResult,
     closeEventDispatchPopup,
-    toggleDeveloperMode,
     enterBase,
   } = viewModel;
 
   const [now, setNow] = useState(() => Date.now());
-  const [pokemonJoinLine, setPokemonJoinLine] = useState('');
   const [pickerRegionId, setPickerRegionId] = useState<string | null>(null);
-  const [pickerLoading, setPickerLoading] = useState(false);
   const [pickerSearch, setPickerSearch] = useState('');
-  const [snapshotById, setSnapshotById] = useState<Record<number, DexSnapshot>>({});
+  const [recommendation, setRecommendation] = useState<{ regionId: string; status: 'loading' | 'error' | 'empty' } | null>(null);
+  const actionGuard = useRef(createEventDisplayActionGuard());
+  const mounted = useRef(true);
+  const contextKey = JSON.stringify([collectionOwnedIds.slice().sort((a, b) => a - b), Object.entries(eventDispatchPokemonByRegion).sort()]);
+  const latest = useRef({ contextKey, hasFactoryRunToResume, gameState });
+  latest.current = { contextKey, hasFactoryRunToResume, gameState };
+  const selectedIds = Object.values(eventDispatchPokemonByRegion).filter((id): id is number => id !== null);
+  const { records, ensure } = useEventDisplaySnapshots(pickerRegionId ? [...selectedIds, ...collectionOwnedIds] : selectedIds);
+  const snapshotById: Record<number, DexSnapshot> = {};
+  Object.keys(records).forEach((key) => {
+    const id = Number(key);
+    const record = records[id];
+    if (record.phase === 'ready') snapshotById[id] = record.snapshot;
+  });
+  const pickerLoading = collectionOwnedIds.some((id) => !records[id] || records[id].phase === 'loading');
+  const pickerFailedIds = collectionOwnedIds.filter((id) => records[id]?.phase === 'error');
 
   const isZh = currentLanguage.startsWith('zh');
+  const copy = getBaseEventCopy(currentLanguage);
+  const typeLabel = (type: string) => isZh ? TYPE_ZH[type] ?? type : type;
+
+  const cancelRecommendation = () => {
+    actionGuard.current.cancel();
+    setRecommendation(null);
+  };
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; actionGuard.current.cancel(); };
+  }, []);
 
   useEffect(() => {
     if (hasFactoryRunToResume) setPickerRegionId(null);
-  }, [hasFactoryRunToResume]);
+    actionGuard.current.cancel();
+    setRecommendation(null);
+  }, [hasFactoryRunToResume, contextKey, gameState]);
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    if (!eventDispatchPopup || eventDispatchPopup.kind === 'ITEM') {
-      setPokemonJoinLine('');
-      return;
-    }
-
-    setPokemonJoinLine(eventDispatchPopup.message || getRandomPokemonJoinLine(eventDispatchPopup.pokemonName));
-  }, [eventDispatchPopup]);
-
-  useEffect(() => {
-    if (!pickerRegionId) return;
-    const missingIds = collectionOwnedIds.filter((pokemonId) => !snapshotById[pokemonId]);
-    if (missingIds.length === 0) return;
-
-    let cancelled = false;
-    setPickerLoading(true);
-    void fetchDexSnapshots(missingIds)
-      .then((snapshots) => {
-        if (cancelled) return;
-        setSnapshotById((prev) => ({ ...prev, ...snapshots }));
-      })
-      .finally(() => {
-        if (!cancelled) setPickerLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [collectionOwnedIds, pickerRegionId, snapshotById]);
 
   const openPicker = (regionId: string) => {
     if (hasFactoryRunToResume) return;
@@ -118,7 +109,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
   };
 
   const getSnapshotDisplayName = (snapshot: DexSnapshot | undefined) => {
-    if (!snapshot) return isZh ? '未知宝可梦' : 'Unknown Pokemon';
+    if (!snapshot) return copy.loading;
     const localized = getLocalized({
       name: snapshot.apiName,
       names: snapshot.names,
@@ -127,36 +118,32 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
     return localized?.trim() || snapshot.apiName;
   };
 
-  const ensureSnapshots = async (pokemonIds: number[]) => {
-    const missingIds = pokemonIds.filter((pokemonId) => !snapshotById[pokemonId]);
-    if (missingIds.length === 0) return snapshotById;
-    setPickerLoading(true);
-    try {
-      const snapshots = await fetchDexSnapshots(missingIds);
-      const merged = { ...snapshotById, ...snapshots };
-      setSnapshotById(merged);
-      return merged;
-    } finally {
-      setPickerLoading(false);
-    }
-  };
-
   const pickRecommendedPokemon = async (regionId: string) => {
     if (hasFactoryRunToResume) return;
     const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
     if (!region || collectionOwnedIds.length === 0) return;
 
-    const snapshots = await ensureSnapshots(collectionOwnedIds);
-    if (hasFactoryRunToResume) return;
+    const token = actionGuard.current.begin();
+    const initialContext = contextKey;
+    setRecommendation({ regionId, status: 'loading' });
+    const loaded = await ensure(collectionOwnedIds, true);
+    if (!mounted.current || !actionGuard.current.isCurrent(token, initialContext, latest.current.contextKey,
+      latest.current.hasFactoryRunToResume || latest.current.gameState !== 'EVENTS')) return;
+    if (collectionOwnedIds.some((id) => loaded[id]?.phase !== 'ready')) {
+      setRecommendation({ regionId, status: 'error' });
+      return;
+    }
     const candidates = collectionOwnedIds.filter((pokemonId) => {
-      const snapshot = snapshots[pokemonId];
+      const record = loaded[pokemonId];
+      const snapshot = record?.phase === 'ready' ? record.snapshot : undefined;
       if (!snapshot) return false;
       return region.requiredTypes.some((requiredType) => snapshot.types.includes(requiredType));
     });
 
-    if (candidates.length === 0) return;
+    if (candidates.length === 0) { setRecommendation({ regionId, status: 'empty' }); return; }
     const recommendedId = candidates[Math.floor(Math.random() * candidates.length)];
     if (!recommendedId) return;
+    setRecommendation(null);
     setEventDispatchPokemon(regionId, recommendedId);
   };
 
@@ -195,43 +182,24 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 8 }}
-      className="flex-1 min-h-0 overflow-y-auto px-2 py-2 md:px-4 md:py-3"
+      className="pf-base-event-events flex-1 min-h-0 overflow-y-auto px-2 py-2 md:px-4 md:py-3"
     >
       <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-md space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-black tracking-wide">事件派遣</h2>
+        <div className="pf-event-header flex items-center justify-between">
+          <h2 className="text-xl font-black tracking-wide">{copy.eventTitle}</h2>
           <div className="flex items-center gap-2">
-            {devToolsAvailable && (
-              <button
-                onClick={toggleDeveloperMode}
-                className={`text-xs font-black px-3 py-1.5 rounded-lg border transition-colors ${
-                  developerMode
-                    ? 'bg-cyan-500 text-slate-950 border-cyan-500'
-                    : 'bg-slate-100 text-slate-700 border-slate-300'
-                }`}
-                title="Toggle event mock mode"
-              >
-                {developerMode ? 'Mock模式: 开' : 'Mock模式: 关'}
-              </button>
-            )}
             <button
-              onClick={enterBase}
+              onClick={() => { cancelRecommendation(); enterBase(); }}
               className="text-xs font-black px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200"
             >
-              返回主页
+              {copy.back}
             </button>
           </div>
         </div>
 
-        {devToolsAvailable && !developerMode && (
-          <p className="text-[11px] text-slate-500">
-            开启 Mock 模式后，可以使用每个地区下方的 Mock 道具、加入、特殊按钮预览结果弹窗。
-          </p>
-        )}
-
         {hasFactoryRunToResume && (
           <p role="status" className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-bold text-amber-900">
-            {isZh ? '当前连胜可继续。请先回基地继续或结束挑战，再派遣或领取事件结果。' : 'Your Factory run can continue. Resume or end it at Base before dispatching or claiming event results.'}
+            {copy.resumeWarning}
           </p>
         )}
 
@@ -243,20 +211,22 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
             const canResolve = dispatch?.status === 'READY' || (dispatch?.status === 'RUNNING' && readyAt !== null && readyAt <= now);
             const cardBackground = REGION_CARD_BACKGROUNDS[index % REGION_CARD_BACKGROUNDS.length];
             const selectedPokemonId = eventDispatchPokemonByRegion[region.id] ?? null;
+            const loadState = selectedPokemonId === null ? 'unselected' : records[selectedPokemonId]?.phase ?? 'loading';
             const selectedSnapshot = selectedPokemonId ? snapshotById[selectedPokemonId] : undefined;
-            const selectedName = selectedSnapshot ? getSnapshotDisplayName(selectedSnapshot) : (isZh ? '未选择' : 'Not selected');
+            const selectedName = selectedSnapshot ? getSnapshotDisplayName(selectedSnapshot) : loadState === 'error' ? copy.loadFailed : copy.loading;
             const matchCount = getMatchedTypeCount(region.id, selectedPokemonId);
             const matches = selectedPokemonId !== null && selectedSnapshot ? matchCount > 0 : false;
 
             const buttonLabel = isRunning
-              ? `派遣中 ${formatRemain((readyAt ?? now) - now)}`
+              ? `${copy.running} ${formatRemain((readyAt ?? now) - now)}`
               : canResolve
-                ? '领取结果'
-                : '开始派遣';
+                ? copy.claim
+                : copy.dispatch;
 
             return (
               <div
                 key={region.id}
+                data-region-id={region.id}
                 className="relative overflow-hidden rounded-xl border border-slate-200 p-2"
                 style={{
                   backgroundImage: `linear-gradient(rgba(248,250,252,0.94), rgba(248,250,252,0.9)), url(${cardBackground})`,
@@ -265,7 +235,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                 }}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <p className="text-sm font-black">{region.name}</p>
+                  <p className="text-sm font-black">{getEventRegionName(region, currentLanguage)}</p>
                   <div className="flex items-center gap-1.5">
                     {region.requiredTypes.map((type) => {
                       const TypeIcon = TYPE_ICONS[type];
@@ -273,7 +243,8 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                       return TypeIcon ? (
                         <span
                           key={`${region.id}-${type}`}
-                          title={type}
+                          title={typeLabel(type)}
+                          aria-label={typeLabel(type)}
                           className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-slate-300 bg-white"
                         >
                           <TypeIcon size={14} color={color} />
@@ -283,7 +254,8 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                   </div>
                 </div>
 
-                <div className="mt-2 rounded-lg border border-slate-200 bg-white/85 p-2">
+                <p className="mt-1 text-[10px] font-semibold text-slate-600">{copy.duration}: {region.dispatchHours} {copy.hours}</p>
+                <div data-selected-id={selectedPokemonId ?? ''} data-load-state={loadState} className="mt-2 rounded-lg border border-slate-200 bg-white/85 p-2">
                   <div className="flex items-center gap-2">
                     <img
                       src={selectedPokemonId ? (selectedSnapshot?.sprite || getPokemonSpriteUrl(selectedPokemonId)) : getPokemonSpriteUrl(25)}
@@ -293,16 +265,19 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                       referrerPolicy="no-referrer"
                     />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[11px] font-black text-slate-700">
-                        {selectedPokemonId ? `${selectedName} #${selectedPokemonId}` : (isZh ? '未选择派遣宝可梦' : 'No dispatched Pokemon selected')}
+                      <p className="pf-event-selected-name text-[11px] font-black text-slate-700">
+                        {selectedPokemonId ? `${selectedName} #${selectedPokemonId}` : copy.noSelection}
                       </p>
-                      <p className={`text-[10px] font-bold ${selectedPokemonId ? (matches ? 'text-emerald-700' : 'text-rose-600') : 'text-slate-400'}`}>
-                        {selectedPokemonId
-                          ? (matches
-                            ? (isZh ? `已匹配地区属性（${matchCount}）` : `Region type matched (${matchCount})`)
-                            : (isZh ? '属性不匹配该地区' : 'Type does not match region requirement'))
-                          : (isZh ? '请选择一只图鉴已拥有的宝可梦' : 'Pick one owned Pokedex Pokemon')}
+                      {selectedSnapshot && <p className="text-[10px] text-slate-600">{selectedSnapshot.types.map(typeLabel).join(' / ')}</p>}
+                      <p role="status" className={`text-[10px] font-bold ${loadState === 'ready' ? (matches ? 'text-emerald-700' : 'text-rose-600') : 'text-slate-500'}`}>
+                        {loadState === 'unselected' ? copy.chooseOwned
+                          : loadState === 'loading' ? copy.loadingDetails
+                          : loadState === 'error' ? copy.unknownEligibility
+                          : matches ? `${copy.matched} (${matchCount})` : copy.mismatch}
                       </p>
+                      {loadState === 'error' && selectedPokemonId !== null && (
+                        <button type="button" onClick={() => void ensure([selectedPokemonId], true)} className="mt-1 rounded border border-slate-300 px-3 py-2 text-xs font-bold">{copy.retry}</button>
+                      )}
                     </div>
                   </div>
 
@@ -312,25 +287,28 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                       disabled={hasFactoryRunToResume}
                       className="rounded bg-slate-800 px-2 py-1 text-[10px] font-black text-white"
                     >
-                      {isZh ? '选择' : 'Pick'}
+                      {copy.pick}
                     </button>
                     <button
-                      onClick={() => setEventDispatchPokemon(region.id, null)}
+                      onClick={() => { cancelRecommendation(); setEventDispatchPokemon(region.id, null); }}
                       disabled={hasFactoryRunToResume}
                       className="inline-flex items-center justify-center gap-1 rounded bg-slate-200 px-2 py-1 text-[10px] font-black text-slate-700"
                     >
                       <Trash2 size={11} />
-                      {isZh ? '清除' : 'Clear'}
+                      {copy.clear}
                     </button>
                     <button
                       onClick={() => void pickRecommendedPokemon(region.id)}
-                      disabled={hasFactoryRunToResume || pickerLoading || collectionOwnedIds.length === 0}
+                      disabled={hasFactoryRunToResume || collectionOwnedIds.length === 0 || recommendation?.status === 'loading'}
                       className="inline-flex items-center justify-center gap-1 rounded bg-emerald-600 px-2 py-1 text-[10px] font-black text-white disabled:opacity-50"
                     >
                       <Sparkles size={11} />
-                      {isZh ? '推荐' : 'Auto'}
+                      {recommendation?.regionId === region.id && recommendation.status === 'loading' ? copy.loading : copy.auto}
                     </button>
                   </div>
+                  {recommendation?.regionId === region.id && recommendation.status !== 'loading' && (
+                    <p role="status" className="mt-2 text-xs text-slate-700">{recommendation.status === 'error' ? copy.autoFailed : copy.noMatch}</p>
+                  )}
                 </div>
 
                 <button
@@ -342,33 +320,33 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                 </button>
 
                 {dispatch?.lastResult && (
-                  <p className="mt-1 line-clamp-2 text-[10px] font-semibold text-slate-600">
+                  <p className="pf-event-result-text mt-1 text-[10px] font-semibold text-slate-600">
                     {dispatch.lastResult}
                   </p>
                 )}
 
-                {developerMode && (
+                {devToolsAvailable && developerMode && (
                   <div className="mt-1 grid grid-cols-3 gap-1">
                     <button
                       onClick={() => mockEventDispatchResult(region.id, 'item')}
                       disabled={hasFactoryRunToResume}
                       className="px-1.5 py-1 rounded bg-emerald-600 text-white text-[10px] font-black"
                     >
-                      Mock道具
+                      {copy.devItem}
                     </button>
                     <button
                       onClick={() => mockEventDispatchResult(region.id, 'join')}
                       disabled={hasFactoryRunToResume}
                       className="px-1.5 py-1 rounded bg-sky-600 text-white text-[10px] font-black"
                     >
-                      Mock加入
+                      {copy.devJoin}
                     </button>
                     <button
                       onClick={() => mockEventDispatchResult(region.id, 'battle_special')}
                       disabled={hasFactoryRunToResume}
                       className="px-1.5 py-1 rounded bg-amber-600 text-white text-[10px] font-black"
                     >
-                      Mock特殊
+                      {copy.devSpecial}
                     </button>
                   </div>
                 )}
@@ -392,9 +370,15 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 12, scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              className="w-[min(72vw,260px)] rounded-2xl border-4 border-slate-900 bg-white shadow-2xl"
+              role="dialog"
+              aria-modal="true"
+              aria-label={eventDispatchPopup.title}
+              className="pf-event-modal w-[min(86vw,320px)] rounded-2xl border-4 border-slate-900 bg-white shadow-2xl"
               onClick={(event) => event.stopPropagation()}
             >
+              <div className="flex justify-end p-2">
+                <button type="button" onClick={closeEventDispatchPopup} aria-label={copy.closeResult} className="rounded bg-slate-100 p-2"><X size={18} /></button>
+              </div>
               {eventDispatchPopup.kind === 'ITEM' ? (
                 <>
                   <div className="flex aspect-square items-center justify-center">
@@ -406,7 +390,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                   </div>
                   <div className="px-4 pb-4 text-center">
                     <p className="text-[13px] font-black leading-tight text-emerald-800">
-                      获得道具「{eventDispatchPopup.itemName}」
+                      {copy.receivedItem}: {eventDispatchPopup.itemName}
                     </p>
                     <p className="mt-1 text-[11px] font-semibold leading-snug text-slate-600">
                       {eventDispatchPopup.message}
@@ -431,7 +415,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                   </div>
                   <div className="px-4 pb-4 text-center">
                     <p className="text-[13px] font-black leading-tight text-sky-800">
-                      {pokemonJoinLine || `「${eventDispatchPopup.pokemonName}」加入名册`}
+                      {eventDispatchPopup.message || `${eventDispatchPopup.pokemonName} — ${copy.joined}`}
                     </p>
                     <p className="mt-1 text-[11px] font-semibold text-slate-500">
                       Lv.{eventDispatchPopup.pokemonLevel}
@@ -458,24 +442,25 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 18, scale: 0.98 }}
               transition={{ duration: 0.16 }}
-              className="w-full max-w-[760px] rounded-2xl border-2 border-slate-900 bg-white shadow-2xl"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="event-picker-title"
+              className="pf-event-modal w-full max-w-[760px] rounded-2xl border-2 border-slate-900 bg-white shadow-2xl"
               onClick={(event) => event.stopPropagation()}
             >
               <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
                 <div>
-                  <p className="text-sm font-black text-slate-900">
-                    {isZh ? `${pickerRegion.name} 派遣宝可梦` : `${pickerRegion.name} Dispatch Pokemon`}
+                  <p id="event-picker-title" className="text-sm font-black text-slate-900">
+                    {getEventRegionName(pickerRegion, currentLanguage)} — {copy.dispatchPokemon}
                   </p>
                   <p className="text-[11px] font-semibold text-slate-500">
-                    {isZh
-                      ? `优先选择属性匹配：${pickerRegion.requiredTypes.join(' / ')}`
-                      : `Type preferred: ${pickerRegion.requiredTypes.join(' / ')}`}
+                    {copy.requiredTypes}: {pickerRegion.requiredTypes.map(typeLabel).join(' / ')}
                   </p>
                 </div>
                 <button
                   onClick={closePicker}
                   className="rounded bg-slate-100 p-1.5 text-slate-700 hover:bg-slate-200"
-                  aria-label={isZh ? '关闭选择器' : 'Close picker'}
+                  aria-label={copy.closePicker}
                 >
                   <X size={16} />
                 </button>
@@ -485,21 +470,29 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                 <input
                   value={pickerSearch}
                   onChange={(event) => setPickerSearch(event.target.value)}
-                  placeholder={isZh ? '搜索名称 / 编号' : 'Search name / id'}
+                  placeholder={copy.search}
+                  aria-label={copy.search}
                   className="w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 outline-none focus:border-blue-500 focus:bg-white"
                 />
               </div>
 
               <div className="max-h-[56vh] overflow-y-auto p-3">
-                {pickerLoading && pickerCandidates.length === 0 && (
-                  <div className="flex h-28 items-center justify-center text-sm font-semibold text-slate-500">
-                    {isZh ? '加载图鉴数据中...' : 'Loading Pokedex snapshots...'}
+                {pickerLoading && (
+                  <div role="status" className="flex min-h-16 items-center justify-center text-sm font-semibold text-slate-500">
+                    {copy.loadingDex}
                   </div>
                 )}
 
-                {!pickerLoading && pickerCandidates.length === 0 && (
+                {pickerFailedIds.length > 0 && (
+                  <div role="status" className="mb-2 rounded-lg border border-amber-300 p-2 text-sm">
+                    <p>{copy.missingDetails} ({pickerFailedIds.length})</p>
+                    <button type="button" onClick={() => void ensure(pickerFailedIds, true)} className="mt-1 rounded border border-slate-300 px-3 py-2 font-bold">{copy.retry}</button>
+                  </div>
+                )}
+
+                {!pickerLoading && pickerFailedIds.length === 0 && pickerCandidates.length === 0 && (
                   <div className="flex h-28 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-slate-50 text-sm font-semibold text-slate-500">
-                    {isZh ? '没有可选择的宝可梦。' : 'No available Pokemon.'}
+                    {collectionOwnedIds.length === 0 ? copy.noOwned : copy.noSearchResults}
                   </div>
                 )}
 
@@ -514,6 +507,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                           key={`${pickerRegion.id}-${pokemonId}`}
                           onClick={() => {
                             if (hasFactoryRunToResume) return;
+                            cancelRecommendation();
                             setEventDispatchPokemon(pickerRegion.id, pokemonId);
                             closePicker();
                           }}
@@ -535,7 +529,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                               referrerPolicy="no-referrer"
                             />
                             <div className="min-w-0 flex-1">
-                              <p className="truncate text-xs font-black text-slate-800">
+                              <p className="pf-event-selected-name text-xs font-black text-slate-800">
                                 {getSnapshotDisplayName(snapshot)} #{pokemonId}
                               </p>
                               <div className="mt-0.5 flex items-center gap-1">
@@ -546,7 +540,8 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                                     <span
                                       key={`${pokemonId}-${type}`}
                                       className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-300 bg-white"
-                                      title={type}
+                                      title={typeLabel(type)}
+                                      aria-label={typeLabel(type)}
                                     >
                                       <TypeIcon size={11} color={color} />
                                     </span>
@@ -558,15 +553,15 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                               {isSelected ? (
                                 <span className="inline-flex items-center gap-1 rounded-full bg-blue-600 px-2 py-0.5 text-[10px] font-black text-white">
                                   <CheckCircle2 size={11} />
-                                  {isZh ? '已选' : 'Selected'}
+                                  {copy.selected}
                                 </span>
                               ) : match ? (
                                 <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-black text-white">
-                                  {isZh ? '匹配' : 'Match'}
+                                  {copy.match}
                                 </span>
                               ) : (
                                 <span className="rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-black text-slate-600">
-                                  {isZh ? '可选' : 'Available'}
+                                  {copy.available}
                                 </span>
                               )}
                             </div>
