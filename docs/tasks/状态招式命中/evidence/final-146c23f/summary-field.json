@@ -1,0 +1,62 @@
+[
+  {
+    "name": "same-round-weather-player-sand",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "same-round-weather-player-none",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "same-round-weather-enemy-sand",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "same-round-weather-enemy-none",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "same-round-misty-player-grounded",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "same-round-misty-player-no-field",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "same-round-misty-player-flying",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "same-round-misty-enemy-grounded",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "same-round-misty-enemy-no-field",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  },
+  {
+    "name": "same-round-misty-enemy-flying",
+    "failedAssertions": [],
+    "errors": [],
+    "http": []
+  }
+]

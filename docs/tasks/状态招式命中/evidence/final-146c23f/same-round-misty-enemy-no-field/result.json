@@ -1,0 +1,604 @@
+{
+  "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+  "name": "same-round-misty-enemy-no-field",
+  "origin": "http://127.0.0.124:4302",
+  "controlled": {
+    "save": true,
+    "globalRng": 0.5,
+    "noDevWin": true
+  },
+  "browser": "151.0.7922.34",
+  "errors": [],
+  "http": [],
+  "assertions": {
+    "status": true,
+    "field": true,
+    "playerPpOnce": true,
+    "enemyPpOnce": true,
+    "eachSideOnce": true
+  },
+  "before": {
+    "phase": "BATTLE",
+    "status": "READY",
+    "turn": "PLAYER",
+    "stage": 3,
+    "weather": "none",
+    "weatherTurns": 0,
+    "fieldState": [],
+    "fieldTurns": {},
+    "checkpointAt": "2026-10-13T15:44:47.061Z",
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "toxic",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 90,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "rototiller",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "all-pokemon"
+          },
+          {
+            "name": "thunder",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 70,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "sandstorm",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          },
+          {
+            "name": "superpower",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "round",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "constrict",
+            "pp": 35,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "mega-drain",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "rain-dance",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "id": 17,
+        "name": "pidgeotto",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "calm-mind",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      },
+      {
+        "id": 133,
+        "name": "eevee",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "attract",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "flail",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "endure",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      },
+      {
+        "id": 83,
+        "name": "farfetchd",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "slash",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "knock-off",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "swords-dance",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          },
+          {
+            "name": "agility",
+            "pp": 30,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      }
+    ],
+    "log": [
+      "受控状态命中起点"
+    ]
+  },
+  "after": {
+    "phase": "BATTLE",
+    "status": "READY",
+    "turn": "PLAYER",
+    "stage": 3,
+    "weather": "none",
+    "weatherTurns": 0,
+    "fieldState": [],
+    "fieldTurns": {},
+    "checkpointAt": "2026-10-13T15:44:59.339Z",
+    "player": [
+      {
+        "id": 79,
+        "name": "slowpoke",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "toxic",
+            "pp": 10,
+            "currentPp": 9,
+            "maxPp": 10,
+            "accuracy": 90,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 111,
+        "name": "rhyhorn",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "rototiller",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "all-pokemon"
+          },
+          {
+            "name": "thunder",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 70,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "sandstorm",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          },
+          {
+            "name": "superpower",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          }
+        ]
+      },
+      {
+        "id": 72,
+        "name": "tentacool",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "round",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "constrict",
+            "pp": 35,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "mega-drain",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "rain-dance",
+            "pp": 5,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "entire-field"
+          }
+        ]
+      }
+    ],
+    "enemy": [
+      {
+        "id": 17,
+        "name": "pidgeotto",
+        "hp": 375,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 1,
+          "spDef": 1,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": {
+          "id": "bad_poison",
+          "toxicCounter": 2
+        },
+        "volatile": {},
+        "held": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "moves": [
+          {
+            "name": "calm-mind",
+            "pp": 20,
+            "currentPp": 19,
+            "maxPp": 20,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      },
+      {
+        "id": 133,
+        "name": "eevee",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "quick_claw",
+        "equipped": "quick_claw",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "attract",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "flail",
+            "pp": 15,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "endure",
+            "pp": 10,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      },
+      {
+        "id": 83,
+        "name": "farfetchd",
+        "hp": 400,
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        },
+        "status": null,
+        "volatile": {},
+        "held": "kings_rock",
+        "equipped": "kings_rock",
+        "moves": [
+          {
+            "name": "slash",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "knock-off",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": 100,
+            "target": "selected-pokemon"
+          },
+          {
+            "name": "swords-dance",
+            "pp": 20,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          },
+          {
+            "name": "agility",
+            "pp": 30,
+            "currentPp": null,
+            "maxPp": null,
+            "accuracy": null,
+            "target": "user"
+          }
+        ]
+      }
+    ],
+    "log": [
+      "受控状态命中起点",
+      "对手的 比比鸟 使用了 冥想！",
+      "比比鸟的特攻提高了！",
+      "比比鸟的特防提高了！",
+      "呆呆兽 使用了 剧毒！",
+      "比比鸟陷入了剧毒状态！",
+      "比比鸟受到了剧毒伤害！"
+    ]
+  },
+  "uiTrace": [
+    {
+      "ms": 5247.299999998882,
+      "text": "剧毒毒威力 --命中 90PP 10/10"
+    },
+    {
+      "ms": 11245.400000000373,
+      "text": "剧毒毒威力 --命中 90PP 9/10"
+    }
+  ],
+  "body": "0\nBP\n3/7\n轮次\n2\n连胜\n比比鸟\n♂\nLV.50\n一般\n剧毒\nHP\n94%\n呆呆兽\n♂\nLV.50\n水\n超能\nHP\n400/400\n战斗日志\nFCT-01\n\n比比鸟陷入了剧毒状态！\n\n比比鸟受到了剧毒伤害！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n剧毒\n毒\n威力 --\n命中 90\nPP 9/10"
+}

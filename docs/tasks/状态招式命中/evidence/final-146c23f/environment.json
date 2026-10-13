@@ -1,0 +1,17 @@
+{
+  "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+  "root": "D:/Games/pokeFactory2-worktrees/status-accuracy",
+  "health": {
+    "runtime": "go",
+    "status": "ok"
+  },
+  "versions": {
+    "cries": "",
+    "csv": "",
+    "pokeapi": "",
+    "sprites": "2026-04-04T00:43:30.784Z"
+  },
+  "frontend": "Vite4302 DISABLE_HMR=true GO_BACKEND_URL=http://127.0.0.1:3003",
+  "backend": "PORT3003 Go cwd=D:/Games/pokeFactory2-worktrees/status-accuracy",
+  "device": "Chromium simulated touch DPR2; no physical phone; controlled saves; no DEV Win"
+}

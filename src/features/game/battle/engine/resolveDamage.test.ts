@@ -9,6 +9,8 @@ import { calculateConfusionSelfHitDamage, calculateDamage, getEffectiveBattleSpe
 import { getResolvedMoveAccuracy } from './resolveAccuracy';
 import { clearSwitchingBattleState } from './resolveSwitchState';
 import { setNonVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
+import { applyMoveSecondaryEffects } from '../../lib/battleResolution';
+import { planWhiteHerbActivation } from './resolveWhiteHerb';
 
 const DEFAULT_NATURE: Nature = {
   name: 'hardy',
@@ -1038,4 +1040,146 @@ test('speed applies Pokerogue Quick Feet and weather ability modifiers', () => {
   assert.equal(getEffectiveBattleSpeed(quickFeet), 150);
   assert.equal(getEffectiveBattleSpeed(swiftSwim, 'rainy'), 200);
   assert.equal(getEffectiveBattleSpeed(surgeSurfer, 'none', ['electric_terrain']), 200);
+});
+
+function convertedStatusMove(name = 'feather-dance', accuracy: number | null = 100, target = 'selected-pokemon'): Move {
+  const data = {
+    name, accuracy, pp: 15, power: null, target: { name: target },
+    damage_class: { name: 'status' }, type: { name: 'normal' },
+    stat_changes: name === 'feather-dance'
+      ? [{ stat: { name: 'attack' }, change: -2 }]
+      : name === 'calm-mind' ? [{ stat: { name: 'special-attack' }, change: 1 }] : [],
+    meta: { stat_chance: 0, ailment: { name: 'none' } },
+  };
+  return createMove({ name, accuracy, damage_class: 'status', power: 0, battleData: buildMoveBattleDataFromPokeApiMove(data) });
+}
+
+function statusResult(move: Move, attacker = createPokemon(1, ['normal']), defender = createPokemon(2, ['normal']), random = () => 0.5) {
+  return calculateDamage({ move, attacker, defender, weather: 'none', atkBuff: false, defBuff: false, random });
+}
+
+const unexpectedAccuracyRoll = () => { throw new Error('This path must not consume an accuracy roll'); };
+
+test('opponent status accuracy controls real stat effects and White Herb for either acting side', () => {
+  for (const actingSide of ['player', 'enemy'] as const) {
+    for (const accuracy of [0, 100]) {
+      const move = convertedStatusMove('feather-dance', accuracy);
+      const actor = createPokemon(1, ['normal']);
+      const target = createPokemon(2, ['normal'], { factoryHeldItemId: 'white_herb', factoryEquippedHeldItemId: 'white_herb' });
+      const hit = statusResult(move, actor, target);
+      assert.equal(hit.isMiss, accuracy === 0);
+      assert.equal(hit.applyUserSecondaryEffects, accuracy !== 0);
+      assert.equal(hit.applyTargetSecondaryEffects, accuracy !== 0);
+      const result = applyMoveSecondaryEffects({
+        move, actingSide,
+        teams: actingSide === 'player' ? { playerTeam: [actor], enemyTeam: [target] } : { playerTeam: [target], enemyTeam: [actor] },
+        getLocalized: (pokemon) => pokemon.name,
+        allowUserEffects: hit.applyUserSecondaryEffects, allowTargetEffects: hit.applyTargetSecondaryEffects,
+        random: () => 0,
+      });
+      const affected = actingSide === 'player' ? result.enemyTeam[0] : result.playerTeam[0];
+      assert.equal(affected.statStages.attack, accuracy === 0 ? 0 : -2);
+      const herb = planWhiteHerbActivation(affected.factoryHeldItemId, affected.statStages);
+      assert.equal(herb.shouldActivate, accuracy !== 0);
+      assert.equal(herb.statStages.attack, 0);
+      assert.equal(affected.factoryEquippedHeldItemId, 'white_herb');
+    }
+  }
+});
+
+test('numeric status accuracy uses stages and strict integer comparison while null and abilities skip rolls', () => {
+  const actor = createPokemon(1, ['normal']);
+  const defender = createPokemon(2, ['normal']);
+  const move = convertedStatusMove();
+  defender.statStages.evasion = 1;
+  assert.equal(statusResult(move, actor, defender, () => 0.74).isMiss, false);
+  assert.equal(statusResult(move, actor, defender, () => 0.75).isMiss, true);
+  assert.equal(statusResult(convertedStatusMove('feather-dance', null), actor, defender, unexpectedAccuracyRoll).isMiss, false);
+  const explicit = convertedStatusMove('feather-dance', 0);
+  explicit.battleData!.ignoreAccuracyCheck = true;
+  assert.equal(statusResult(explicit, actor, defender, unexpectedAccuracyRoll).isMiss, false);
+  actor.abilities = [{ ability: { name: 'no-guard', url: '' } }];
+  assert.equal(statusResult(move, actor, defender, unexpectedAccuracyRoll).isMiss, false);
+  actor.abilities = [];
+  actor.types = [{ type: { name: 'poison' } }];
+  assert.equal(statusResult(convertedStatusMove('toxic', 90), actor, defender, unexpectedAccuracyRoll).isMiss, false);
+  actor.types = [{ type: { name: 'normal' } }];
+  assert.equal(statusResult(convertedStatusMove('toxic', 90), actor, defender, () => 0.99).isMiss, true);
+});
+
+test('status protection and substitute remain terminal before RNG and explicit bypasses retain accuracy', () => {
+  const actor = createPokemon(1, ['normal']);
+  for (const protection of ['protect', 'substitute'] as const) {
+    const target = setVolatileStatus(createPokemon(2, ['normal']), protection, { counter: 40 });
+    for (const accuracy of [0, null]) {
+      const result = statusResult(convertedStatusMove('feather-dance', accuracy), actor, target, unexpectedAccuracyRoll);
+      assert.equal(result.isMiss, false);
+      assert.equal(result.blockedByProtect, protection === 'protect');
+      assert.equal(result.blockedBySubstitute, protection === 'substitute');
+      assert.equal(result.applyTargetSecondaryEffects, false);
+    }
+    const bypass = convertedStatusMove('feather-dance', 0);
+    bypass.battleData!.bypassProtect = true;
+    bypass.battleData!.substituteInteraction = 'bypass';
+    const missed = statusResult(bypass, actor, target);
+    assert.equal(missed.isMiss, true);
+    assert.equal(missed.blockedByProtect, false);
+    assert.equal(missed.blockedBySubstitute, false);
+    assert.equal(missed.applyTargetSecondaryEffects, false);
+  }
+});
+
+test('self and field status effects ignore opponent defenses but keep their own effect conditions', () => {
+  const actor = createPokemon(1, ['normal']);
+  actor.statStages.accuracy = -6;
+  const target = setVolatileStatus(setVolatileStatus(createPokemon(2, ['normal']), 'protect'), 'substitute', { counter: 40 });
+  target.statStages.evasion = 6;
+  for (const [name, targetName] of [['calm-mind', 'user'], ['rain-dance', 'entire-field'], ['trick-room', 'entire-field'], ['mist', 'users-field']]) {
+    const move = convertedStatusMove(name, 0, targetName);
+    const hit = statusResult(move, actor, target, unexpectedAccuracyRoll);
+    assert.equal(hit.isMiss, false, name);
+    assert.equal(hit.blockedByProtect, false, name);
+    assert.equal(hit.blockedBySubstitute, false, name);
+    if (name === 'calm-mind') {
+      for (const initial of [0, 6]) {
+        actor.statStages.spAtk = initial;
+        const result = applyMoveSecondaryEffects({ move, actingSide: 'player', teams: { playerTeam: [actor], enemyTeam: [target] }, getLocalized: (pokemon) => pokemon.name, allowUserEffects: hit.applyUserSecondaryEffects, allowTargetEffects: hit.applyTargetSecondaryEffects });
+        assert.equal(result.playerTeam[0].statStages.spAtk, initial === 6 ? 6 : 1);
+        assert.equal(result.enemyTeam[0].statStages.spAtk, 0);
+      }
+    }
+  }
+});
+
+test('Haze clears both sides despite defenses but all-pokemon Teeter Dance still checks the individual', () => {
+  const actor = createPokemon(1, ['normal']);
+  actor.statStages.attack = 2;
+  const target = setVolatileStatus(setVolatileStatus(createPokemon(2, ['normal']), 'protect'), 'substitute', { counter: 40 });
+  target.statStages.defense = -2;
+  const haze = convertedStatusMove('haze', null, 'all-pokemon');
+  haze.battleData!.target = 'all-pokemon';
+  const hit = statusResult(haze, actor, target, unexpectedAccuracyRoll);
+  assert.equal(hit.blockedByProtect, false);
+  assert.equal(hit.blockedBySubstitute, false);
+  const result = applyMoveSecondaryEffects({ move: haze, actingSide: 'player', teams: { playerTeam: [actor], enemyTeam: [target] }, getLocalized: (pokemon) => pokemon.name, allowUserEffects: hit.applyUserSecondaryEffects, allowTargetEffects: hit.applyTargetSecondaryEffects });
+  assert.equal(result.playerTeam[0].statStages.attack, 0);
+  assert.equal(result.enemyTeam[0].statStages.defense, 0);
+  const dance = convertedStatusMove('teeter-dance', 0, 'all-pokemon');
+  assert.equal(statusResult(dance, actor, target, unexpectedAccuracyRoll).blockedByProtect, true);
+  assert.equal(statusResult(dance, actor, createPokemon(3, ['normal'])).isMiss, true);
+});
+
+test('Poison-user Toxic bypasses an accuracy roll without bypassing target status immunity', () => {
+  const actor = createPokemon(1, ['poison']);
+  const target = createPokemon(2, ['steel']);
+  const toxic = { ...convertedStatusMove('toxic', 90), type: 'poison' };
+  const hit = statusResult(toxic, actor, target, unexpectedAccuracyRoll);
+  assert.equal(hit.isMiss, false);
+  const result = applyMoveSecondaryEffects({
+    move: toxic, actingSide: 'player', teams: { playerTeam: [actor], enemyTeam: [target] },
+    getLocalized: (pokemon) => pokemon.name,
+    allowUserEffects: hit.applyUserSecondaryEffects, allowTargetEffects: hit.applyTargetSecondaryEffects,
+    random: () => 0,
+  });
+  assert.equal(result.enemyTeam[0].nonVolatileStatus, undefined);
 });

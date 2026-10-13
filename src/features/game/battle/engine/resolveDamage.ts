@@ -17,6 +17,7 @@ import { resolveAccuracy } from './resolveAccuracy';
 import { getStatStageModifier } from './stageModifiers';
 import { getMoveTypeMultiplier as resolveTypeEffectiveness } from './resolveTypeEffectiveness';
 import { resolveBattleMoveType } from './resolveMoveType';
+import { isNonOpponentStatusMove } from './resolveMoveTargeting';
 
 type DamageGimmickMode = BattleSpecialMode | 'NONE';
 type PokemonTypeSlots = Pokemon['types'];
@@ -497,7 +498,8 @@ export function calculateDamage({
       applyTargetSecondaryEffects: false,
     };
   }
-  const moveTargetsUser = getMoveTarget(move) === 'user';
+  const nonOpponentStatusMove = isNonOpponentStatusMove(move);
+  const moveTargetsUser = getMoveTarget(move) === 'user' || nonOpponentStatusMove;
   const blockedByProtect = (
     !moveTargetsUser
     && Boolean(getVolatileStatus(defender, 'protect'))
@@ -528,6 +530,28 @@ export function calculateDamage({
   }
 
   if (move.damage_class === 'status') {
+    // Preserve protection/substitute terminal results before checking accuracy.
+    // Only effects on an opponent use its evasion; null/explicit必中 is handled
+    // by the same resolver as damaging moves without consuming a random roll.
+    if (!nonOpponentStatusMove && !blockedBySubstitute && !skipAccuracyCheck) {
+      const accuracyResult = resolveAccuracy({ move, attacker, defender, weather: effectiveWeather, random });
+      if (!accuracyResult.didHit) {
+        return {
+          damage: 0,
+          multiplier: 0,
+          isMiss: true,
+          isCrit: false,
+          blockedByProtect: false,
+          protectReducedDamage: false,
+          blockedBySubstitute: false,
+          substituteDamage: 0,
+          substituteHpRemaining: null,
+          substituteBroke: false,
+          applyUserSecondaryEffects: false,
+          applyTargetSecondaryEffects: false,
+        };
+      }
+    }
     return {
       damage: 0,
       multiplier: 1,

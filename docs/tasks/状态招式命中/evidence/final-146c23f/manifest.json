@@ -1,0 +1,482 @@
+{
+  "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+  "count": 26,
+  "passing": 26,
+  "cases": [
+    {
+      "name": "complete-round-refresh",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "makesContactInjected": false,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png",
+        "reload.png"
+      ]
+    },
+    {
+      "name": "field-rain",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "makesContactInjected": false,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "pp-hit-leftovers",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "makesContactInjected": false,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png",
+        "reload.png"
+      ]
+    },
+    {
+      "name": "pp-miss-leftovers",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "makesContactInjected": false,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png",
+        "reload.png"
+      ]
+    },
+    {
+      "name": "same-round-misty-enemy-flying",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": 0.5,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "same-round-misty-enemy-grounded",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": 0.5,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "same-round-misty-enemy-no-field",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": 0.5,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "same-round-misty-player-flying",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": 0.5,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "same-round-misty-player-grounded",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": 0.5,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "same-round-misty-player-no-field",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": 0.5,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "same-round-weather-enemy-none",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": 0.9,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "same-round-weather-enemy-sand",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": 0.9,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "same-round-weather-player-none",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": 0.9,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "same-round-weather-player-sand",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": 0.9,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "self-calm-mind",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "makesContactInjected": false,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "self-cap",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "makesContactInjected": false,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "status-enemy-hit",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "status-enemy-miss",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after-320x568.png",
+        "after-844x390.png",
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "status-hit-no-herb",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "status-player-hit",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "status-player-miss",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after-320x568.png",
+        "after-844x390.png",
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "status-protect",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "makesContactInjected": false,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after-320x568.png",
+        "after-844x390.png",
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "status-substitute",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "makesContactInjected": false,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after-320x568.png",
+        "after-844x390.png",
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "white-herb-kings-shield",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "makesContactInjected": true,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after-320x568.png",
+        "after-844x390.png",
+        "after.png",
+        "before.png"
+      ]
+    },
+    {
+      "name": "white-herb-next-battle",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "stage": 3,
+        "enemyCurrentHp": 1,
+        "save": true,
+        "globalRng": null,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "before.png",
+        "next-battle.png",
+        "shop.png",
+        "swap.png",
+        "turn-1.png",
+        "turn-2.png",
+        "turn-3.png",
+        "victory.png"
+      ]
+    },
+    {
+      "name": "white-herb-self",
+      "code": "146c23f35cacd9511b6c05e36edf551959c09075",
+      "failure": null,
+      "failedAssertions": [],
+      "errors": [],
+      "http": [],
+      "controlled": {
+        "save": true,
+        "globalRng": null,
+        "makesContactInjected": false,
+        "noDevWin": true
+      },
+      "screenshots": [
+        "after-320x568.png",
+        "after-844x390.png",
+        "after.png",
+        "before.png"
+      ]
+    }
+  ]
+}
