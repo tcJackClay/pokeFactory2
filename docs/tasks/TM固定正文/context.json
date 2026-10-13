@@ -1,0 +1,53 @@
+{
+  "_comment": "Architect planning only at dev 82a98ef. Implement only after permanent collection and held-item-effects integration, refreshed plan and explicit authorization. Do not edit the completed compatibility matrix or shop admission.",
+  "inject_config": {
+    "all": [
+      { "file": "AGENTS.md", "reason": "Role ownership, serial builder/controller work and evidence boundaries" },
+      { "file": "docs/tasks/TM固定正文/prd.md", "reason": "Fixed 50 body scope; current authorization is plan only" },
+      { "file": "docs/tasks/TM固定正文/plan.md", "reason": "Source extraction, precedence, production reading and V1-V8 contract" },
+      { "file": "docs/tasks/工厂内容准入/tm50固定正文与档位提案.md", "reason": "Designer source facts and effective configuration; prices and friendship choices are not approved" },
+      { "file": "docs/公开版规则定稿.md", "reason": "Current product source priority and no auto admission" }
+    ],
+    "programmer": [
+      { "file": ".agents/roles/programmer.md", "reason": "No runtime play; four gates and append-only handoff log" },
+      { "file": "docs/tasks/固定TM运行数据/implementation.md", "reason": "Reuse fixed names and strict identity without changing 1076 identities/9981 pairs" },
+      { "file": "src/features/game/data/fixedTm/query.ts", "reason": "Existing qualification API, not a body or admission API" },
+      { "file": "src/features/game/data/fixedTm/admission.ts", "reason": "Keep all 50 pending, no price and no sale eligibility" },
+      { "file": "backend/config/rogue-tm-moves.json", "reason": "Pinned ordered 50 project Move.name keys" },
+      { "file": "src/services/pokeApi.ts", "reason": "Both body constructors, caches and actual member generation" },
+      { "file": "src/services/pokedexClient.ts", "reason": "Separate dex detail/name reading path must agree with battle" },
+      { "file": "src/features/game/data/battle/index.ts", "reason": "Re-read after held item merge; preserve source item metadata and effect adapter behavior" },
+      { "file": "src/features/game/data/battle/moveEffectTable.ts", "reason": "Existing adapters include conflicting Overheat thaw flag; avoid blind override merges" },
+      { "file": "src/features/game/hooks/useGameLocalization.ts", "reason": "Flavor text has priority over zhDescription; fixed bilingual copy must actually be consumed" },
+      { "file": "src/features/game/components/game-view/battle/BattleMovesPanel.tsx", "reason": "Numeric and semantic move display; held-item fallback UI must remain intact" },
+      { "file": "src/features/game/components/game-view/PokemonDetailPanel.tsx", "reason": "Move detail power/accuracy display" },
+      { "file": "src/features/game/components/game-view/CollectionScreen.tsx", "reason": "Dex power display and permanent collection changes must be preserved" },
+      { "file": "D:/Games/pokeFactory2-worktrees/held-item-effects/docs/tasks/九种持有物效果/plan.md", "reason": "Read-only prerequisite plan until merged; ordinary-source contact/item flags and new legal action rules" },
+      { "file": "D:/Games/pokeFactory2-worktrees/held-item-effects/docs/tasks/九种持有物效果/context.json", "reason": "Prerequisite interfaces and source files; replace with merged relative document on implementation" }
+    ],
+    "auditor": [
+      { "file": ".agents/roles/auditor.md", "reason": "Independent source and static review; no game running" },
+      { "file": "docs/tasks/TM固定正文/source-expectations.json", "reason": "Create from independent manual source review, never generated-output self comparison" },
+      { "file": "docs/tasks/TM固定正文/provenance.json", "reason": "Raw source hashes, effective config, normalized project text hashes and output hashes" },
+      { "file": "docs/tasks/TM固定正文/effect-dependencies.md", "reason": "Full 50 ledger; data coverage cannot erase missing behavior" },
+      { "file": "docs/tasks/固定TM运行数据/audit.md", "reason": "Completed compatibility scope and zero-admission boundary" }
+    ],
+    "player": [
+      { "file": ".agents/roles/player.md", "reason": "Real frontend/backend, frozen code, no implementation edits" },
+      { "file": "docs/tasks/TM固定正文/implementation.md", "reason": "Final APIs, commit and static evidence before controlled runtime scenes" },
+      { "file": "docs/tasks/状态招式命中/runtime.md", "reason": "Current target/protection/PP evidence discipline" },
+      { "file": "docs/手机端试玩验收记录.md", "reason": "Three viewport coverage is separate from actual Android Chrome" }
+    ]
+  },
+  "fixed_reference": {
+    "root": "D:/Games/pokeFactory2/output/rogue-expansion-reference",
+    "commit": "a6adfcf18d7eaf99c2803e4b0bc04eca7af2f014",
+    "profileMode": "ordinary",
+    "moveTable": "gBattleMoves_Mainline",
+    "files": [
+      "src/data/battle_moves.h", "src/data/party_menu.h", "include/config.h",
+      "include/config/battle.h", "include/constants/moves.h", "data/battle_scripts_1.s",
+      "src/battle_util.c", "src/battle_script_commands.c"
+    ]
+  }
+}
