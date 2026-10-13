@@ -630,8 +630,6 @@ export function usePokeFactoryGame(): GameViewModel {
       return 'FAILED';
     }
   }, [eventBattleActive, eventBattleContext, getCurrentSaveDraft, getLocalized, t]);
-  // Controller integration follows the separately frozen battle task.
-  void commitCaughtPokemon;
 
   const syncWallet = useCallback((wallet: FactoryWallet) => {
     walletRef.current = wallet;
@@ -711,6 +709,7 @@ export function usePokeFactoryGame(): GameViewModel {
     battleSpecialUsage,
     enemySpecialUsage,
     allowWildCatch: eventBattleActive,
+    commitCaughtPokemon,
     suppressFactoryBattleResult: eventBattleActive,
     onSuppressBattleResolved: handleSuppressedBattleResolved,
     factoryRunId: walletRef.current.currentRunId,

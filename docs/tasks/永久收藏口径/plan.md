@@ -1,6 +1,6 @@
 # 永久收藏口径：技术方案与验证计划
 
-状态：修订一次，新增派遣来源契约待审阅；已获准独立实施生蛋占位移除与图鉴筛选。基线 `0fd19eb`，工作树 `D:/Games/pokeFactory2-worktrees/permanent-collection`。
+状态：一次实质修订后获准Route A完整实施；已整合dev `a317686`，捕捉接线按串行授权完成，待独立auditor/player。起点 `0fd19eb`，工作树 `D:/Games/pokeFactory2-worktrees/permanent-collection`。
 
 ## 1. PRD 一致性与调研结论
 
@@ -41,7 +41,7 @@ F1–F4 可追溯至规则定稿末节及局外规则提案。后续用户明确
 - 保留事件入口、选择/计时、现有item/join/battle概率、地区物种池、球消耗、训练与队伍容量行为。取消上一稿所有关闭入口、事后空领取或说明未开放的方案。
 - 新增 `commitPermanentAcquisition(draft, record, completedDispatch)` 存档事务：回读有效当前档，以acquisitionId查收据；已存在且内容一致返回 `applied:false`，不发第二次；冲突拒绝。新收据与对应派遣完成态在同次主档setItem中写入并返回完整collection/events。失败抛出且原文未变。
 - join：每地区领取加同步in-flight门闩覆盖异步取数据、抽签与提交。先准备既有目标、验证球，生成稳定收据；事务成功后同步collection/dispatch，再扣球、更新队伍与训练、播放原成功弹窗。失败仍READY、显示保存失败可重试，不扣球、不训练、不加队、不得显示成功。重复提交不重复消耗与副作用；完成后刷新/重开同次不再领取。
-- catch：EventBattleContext新增来源派遣键/startedAt。控制器在判定成功后、扣球/改队/成功文本之前调用 `commitCaughtPokemon(enemy)` 回调。回调成功保存收据后控制器沿原成功路径；失败或重复返回false，保持敌方/球/队伍并展示保存失败/已登记提示，阻止第二次成功副作用。控制器捕捉分支加同步进行中门闩覆盖首条异步日志，避免连点双重抛球。
+- catch：EventBattleContext新增来源派遣键/startedAt。控制器在判定成功后、扣球/改队/成功文本之前调用 `commitCaughtPokemon(enemy)` 回调。回调返回COMMITTED/ALREADY_COMMITTED/FAILED，后两者保持敌方/球/队伍并展示保存失败/已登记提示，终止该简单轮次而不让敌方出手。复用现有runSimplePlayerRound同步进行中门闩覆盖首条异步日志，避免连点双重抛球；日志后复查epoch。已提交成功在成功文本后同步结束当前事件战，避免无epoch保护的延迟回调。
 - 正常概率判定为捕捉失败时不产生收据，仍按现有规则消耗球并显示挣脱；保存失败不是捕捉概率失败，不消耗球。满队成功时永久登记照常，后续替换UI取消不撤销已成功捕捉的收藏，队伍容量逻辑维持现状。
 - 派遣捕捉来源在成功保存后即持久；本次不宣称保存事件战的完整敌队/背包/回合。事件战中途刷新尚无断点是既有缺口，记录在implementation/runtime中。已成功收藏离场、刷新及导入须保留。
 - 开发者Mock只预览弹窗，不产生正式收据；普通工厂禁捕捉不变。join/catch来源取得的个体进入现有基地队伍不等于带入工厂；工厂启动仍六选三。

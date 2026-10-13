@@ -12,3 +12,11 @@
 - 已准备commitCaughtPokemon回调，但尚未接入控制器；旧捕捉事后Owned effect已移除，因此当前分支是未完成中间态，不可合并或实玩验收为完成。
 - 自测：npm run lint PASS；npm test 301/301 PASS；npm run build PASS（既有大chunk警告）；go test ./... PASS。
 - 没有运行游戏。控制器接线仍等待状态任务合入，再整合并全量重跑门禁，随后独立auditor/player。
+
+# Programmer
+
+- 上游状态任务完成实玩并合入后，获准串行捕捉接线。先保留WIP bff64de，再merge dev@a317686为ee65ed6，无冲突，无reset。
+- 已连接commitCaughtPokemon：成功提交后才扣球/加队；存储失败/重复收据取消简单轮次，无敌方行动。复用上游roundActionLockedRef同步门闩，补捕捉日志后的epoch检查，移除原先无epoch保护的延迟胜利回调。
+- 最终完整代码四门禁：npm run lint PASS；npm test 322/322 PASS；npm run build PASS（既有chunk警告）；go test ./... PASS；git diff --check PASS。
+- 全src核对现有球定义/初始化/所有背包增加入口后，确认自然新档暂无球获得来源；R7需受控球/队伍夹具，不能宣称自然可达。详细证据、事件战断点缺口与旧大师球95%上限矛盾见implementation.md。
+- 没有运行游戏；交独立auditor，再由player以冻结最终代码验收。未推送，未合入主线。

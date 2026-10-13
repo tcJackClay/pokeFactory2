@@ -115,6 +115,7 @@ interface UseBattleControllerParams {
   battleSpecialUsage: BattleSpecialUsageState;
   enemySpecialUsage: BattleSpecialUsageState;
   allowWildCatch: boolean;
+  commitCaughtPokemon: (pokemon: GamePokemon) => 'COMMITTED' | 'ALREADY_COMMITTED' | 'FAILED';
   suppressFactoryBattleResult: boolean;
   onSuppressBattleResolved: (result: 'WIN' | 'LOSS') => void;
   factoryRunId: string | null;
@@ -160,6 +161,7 @@ interface UseBattleControllerParams {
 }
 
 class StaleRoundError extends Error {}
+class ItemActionCancelledError extends Error {}
 
 // 战斗结束的唯一判据：一方队伍全灭。合法失败（换人被拦、道具/极巨化石提示等）不得据此判定结束。
 /** The controller's shared White Herb resolution, used after secondary effects and protection collisions. */
@@ -382,6 +384,7 @@ export function useBattleController({
   battleSpecialUsage,
   enemySpecialUsage,
   allowWildCatch,
+  commitCaughtPokemon,
   suppressFactoryBattleResult,
   onSuppressBattleResolved,
   factoryRunId,
@@ -1553,8 +1556,13 @@ export function useBattleController({
 
   const useItem = useCallback(async (item: Item, index: number) => {
     if (gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing || !enemy || playerTeam[0]?.currentHp <= 0) return;
+    if (item.isBall && inventory[index]?.id !== item.id) throw new ItemActionCancelledError();
+    const epoch = battleInstanceRef.current.epoch;
+    const isCurrent = () => battleMountedRef.current && battleInstanceRef.current.epoch === epoch
+      && liveBattleStateRef.current.gameState === 'BATTLE' && liveBattleStateRef.current.enemy?.id === enemy.id;
 
     await addMessagesSequentially([t('youUsed').replace('{name}', getLocalized(item))]);
+    if (item.isBall && !isCurrent()) throw new StaleRoundError();
 
     if (item.isSpecialTriggerItem) {
       await addMessagesSequentially([t('specialUseMenuHint')]);
@@ -1571,6 +1579,16 @@ export function useBattleController({
       const hpFactor = 1 - (enemy.currentHp / Math.max(1, enemy.maxHp));
       const catchRate = Math.max(0.08, Math.min(0.95, 0.25 + hpFactor * 0.55 + ((item.catchRate ?? 1) - 1) * 0.18));
       const caught = Math.random() < catchRate;
+      if (caught) {
+        const committed = commitCaughtPokemon(enemy);
+        if (committed !== 'COMMITTED') {
+          setIsCatching(false);
+          setCatchSuccess(null);
+          await addMessagesSequentially([t(committed === 'FAILED' ? 'permanentCollectionSaveFailed' : 'permanentCollectionAlreadySaved')]);
+          // No action was committed: do not spend a ball or let the opponent act.
+          throw new ItemActionCancelledError();
+        }
+      }
       const newInventory = [...inventory];
       newInventory.splice(index, 1);
       setInventory(newInventory);
@@ -1592,8 +1610,12 @@ export function useBattleController({
           next[0] = { ...next[0], currentHp: 0 };
           return next;
         });
-        await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(enemy)} was caught!`, `收服了${getLocalized(enemy)}！`)]);
-        setTimeout(() => void winBattle(), 300);
+        try {
+          await addMessagesSequentially([t('permanentCollectionCaught', { name: getLocalized(enemy) })]);
+        } finally {
+          // A committed acquisition cannot be rolled back by a later message failure.
+          if (isCurrent()) await winBattle();
+        }
       } else {
         await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(enemy)} broke free!`, `${getLocalized(enemy)}挣脱了！`)]);
       }
@@ -1612,6 +1634,7 @@ export function useBattleController({
   }, [
     addMessagesSequentially,
     allowWildCatch,
+    commitCaughtPokemon,
     currentLanguage,
     enemy,
     gameState,
@@ -3019,7 +3042,7 @@ export function useBattleController({
       });
       failed = isCurrent() && finalRound.phase !== 'DONE';
     } catch (error) {
-      if (!(error instanceof StaleRoundError)) {
+      if (!(error instanceof StaleRoundError) && !(error instanceof ItemActionCancelledError)) {
         failed = true;
         console.error('Battle round failed', error);
       }
