@@ -1,0 +1,1046 @@
+{
+  "evidenceKind": "Natural UI run, readonly extraction; raw Go response fetched after run on unchanged cached service",
+  "before": "103-before-attack.json.gz",
+  "after": "104-after-turn.json.gz",
+  "actor": {
+    "id": 120,
+    "name": "staryu",
+    "speedBefore": 0,
+    "speedAfter": 0
+  },
+  "target": {
+    "id": 74,
+    "name": "geodude",
+    "speedBefore": 0,
+    "speedAfter": 1
+  },
+  "naturalBuiltMove": {
+    "name": "rapid-spin",
+    "names": [
+      {
+        "name": "こうそくスピン",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        }
+      },
+      {
+        "name": "고속스핀",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        }
+      },
+      {
+        "name": "高速旋轉",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        }
+      },
+      {
+        "name": "Tour Rapide",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        }
+      },
+      {
+        "name": "Turbodreher",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        }
+      },
+      {
+        "name": "Giro Rápido",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        }
+      },
+      {
+        "name": "Rapigiro",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        }
+      },
+      {
+        "name": "Rapid Spin",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        }
+      },
+      {
+        "name": "こうそくスピン",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        }
+      },
+      {
+        "name": "高速旋转",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        }
+      },
+      {
+        "name": "Giro Rápido",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        }
+      }
+    ],
+    "zhName": "高速旋转",
+    "power": 50,
+    "accuracy": 100,
+    "type": "normal",
+    "damage_class": "physical",
+    "pp": 40,
+    "zhDescription": "通过旋转来攻击对手。\n还可以摆脱绑紧、紧束、\n寄生种子和撒菱等招式。",
+    "flavor_text_entries": [
+      {
+        "flavor_text": "A high-speed\nspinning attack.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "gold-silver",
+          "url": "/api/pokeapi/version-group/3/"
+        }
+      },
+      {
+        "flavor_text": "A high-speed\nspinning attack.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "crystal",
+          "url": "/api/pokeapi/version-group/4/"
+        }
+      },
+      {
+        "flavor_text": "Spins the body at high\nspeed to strike the foe.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "ruby-sapphire",
+          "url": "/api/pokeapi/version-group/5/"
+        }
+      },
+      {
+        "flavor_text": "Spins the body at high\nspeed to strike the foe.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "emerald",
+          "url": "/api/pokeapi/version-group/6/"
+        }
+      },
+      {
+        "flavor_text": "An attack that\nfrees the user from\nBIND, WRAP, LEECH\nSEED, and SPIKES.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "firered-leafgreen",
+          "url": "/api/pokeapi/version-group/7/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that\ncan also eliminate\nsuch moves as Bind,\nWrap, Leech Seed,\nand Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "diamond-pearl",
+          "url": "/api/pokeapi/version-group/8/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that\ncan also eliminate\nsuch moves as Bind,\nWrap, Leech Seed,\nand Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "platinum",
+          "url": "/api/pokeapi/version-group/9/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that\ncan also eliminate\nsuch moves as Bind,\nWrap, Leech Seed,\nand Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "heartgold-soulsilver",
+          "url": "/api/pokeapi/version-group/10/"
+        }
+      },
+      {
+        "flavor_text": "Une attaque tournoyante pouvant aussi\nannuler par ex. Étreinte, Ligotage,\nVampigraine ou Picots.",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        },
+        "version_group": {
+          "name": "black-white",
+          "url": "/api/pokeapi/version-group/11/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that can also eliminate\nsuch moves as Bind, Wrap, Leech Seed,\nand Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "black-white",
+          "url": "/api/pokeapi/version-group/11/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that can also eliminate\nsuch moves as Bind, Wrap, Leech Seed,\nand Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "black-2-white-2",
+          "url": "/api/pokeapi/version-group/14/"
+        }
+      },
+      {
+        "flavor_text": "かいてんして　あいてを　こうげきする。\nしめつける　まきつく　やどりぎのタネ\nまきびし　なども　ふきとばせる。",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        },
+        "version_group": {
+          "name": "x-y",
+          "url": "/api/pokeapi/version-group/15/"
+        }
+      },
+      {
+        "flavor_text": "회전해서 상대를 공격한다.\n조이기, 김밥말이, 씨뿌리기,\n압정뿌리기 등도 날려버린다.",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        },
+        "version_group": {
+          "name": "x-y",
+          "url": "/api/pokeapi/version-group/15/"
+        }
+      },
+      {
+        "flavor_text": "Une attaque tournoyante pouvant aussi annuler\npar exemple Étreinte, Ligotage, Vampigraine ou\nPicots.",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        },
+        "version_group": {
+          "name": "x-y",
+          "url": "/api/pokeapi/version-group/15/"
+        }
+      },
+      {
+        "flavor_text": "Trifft das Ziel mit einer Dreh-Attacke.\nBefreit sich unter anderem von Wickel,\nKlammergriff, Egelsamen und Stachler.",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        },
+        "version_group": {
+          "name": "x-y",
+          "url": "/api/pokeapi/version-group/15/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos\ncomo Atadura, Constricción, Drenadoras y Púas.",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        },
+        "version_group": {
+          "name": "x-y",
+          "url": "/api/pokeapi/version-group/15/"
+        }
+      },
+      {
+        "flavor_text": "Attacco rotante che elimina gli effetti di\nmosse come Legatutto, Avvolgibotta, Punte\ne Parassiseme.",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        },
+        "version_group": {
+          "name": "x-y",
+          "url": "/api/pokeapi/version-group/15/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that can also eliminate\nsuch moves as Bind, Wrap, Leech Seed,\nand Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "x-y",
+          "url": "/api/pokeapi/version-group/15/"
+        }
+      },
+      {
+        "flavor_text": "回転して　相手を　攻撃する。\nしめつける　まきつく　やどりぎのタネ\nまきびし　なども　吹きとばせる。",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        },
+        "version_group": {
+          "name": "x-y",
+          "url": "/api/pokeapi/version-group/15/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos\ncomo Atadura, Constricción, Drenadoras y Púas.",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        },
+        "version_group": {
+          "name": "x-y",
+          "url": "/api/pokeapi/version-group/15/"
+        }
+      },
+      {
+        "flavor_text": "かいてんして　あいてを　こうげきする。\nしめつける　まきつく　やどりぎのタネ\nまきびし　なども　ふきとばせる。",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        },
+        "version_group": {
+          "name": "omega-ruby-alpha-sapphire",
+          "url": "/api/pokeapi/version-group/16/"
+        }
+      },
+      {
+        "flavor_text": "회전해서 상대를 공격한다.\n조이기, 김밥말이, 씨뿌리기,\n압정뿌리기 등도 날려버린다.",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        },
+        "version_group": {
+          "name": "omega-ruby-alpha-sapphire",
+          "url": "/api/pokeapi/version-group/16/"
+        }
+      },
+      {
+        "flavor_text": "Une attaque tournoyante pouvant aussi annuler\npar exemple Étreinte, Ligotage, Vampigraine ou\nPicots.",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        },
+        "version_group": {
+          "name": "omega-ruby-alpha-sapphire",
+          "url": "/api/pokeapi/version-group/16/"
+        }
+      },
+      {
+        "flavor_text": "Trifft das Ziel mit einer Dreh-Attacke. Befreit\nden Anwender unter anderem von Wickel,\nKlammergriff, Egelsamen und Stachler.",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        },
+        "version_group": {
+          "name": "omega-ruby-alpha-sapphire",
+          "url": "/api/pokeapi/version-group/16/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos\ncomo Atadura, Constricción, Drenadoras y Púas.",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        },
+        "version_group": {
+          "name": "omega-ruby-alpha-sapphire",
+          "url": "/api/pokeapi/version-group/16/"
+        }
+      },
+      {
+        "flavor_text": "Attacco rotante che elimina gli effetti di\nmosse come Legatutto, Avvolgibotta, Punte\ne Parassiseme.",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        },
+        "version_group": {
+          "name": "omega-ruby-alpha-sapphire",
+          "url": "/api/pokeapi/version-group/16/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that can also eliminate\nsuch moves as Bind, Wrap, Leech Seed,\nand Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "omega-ruby-alpha-sapphire",
+          "url": "/api/pokeapi/version-group/16/"
+        }
+      },
+      {
+        "flavor_text": "回転して　相手を　攻撃する。\nしめつける　まきつく　やどりぎのタネ\nまきびし　なども　吹きとばせる。",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        },
+        "version_group": {
+          "name": "omega-ruby-alpha-sapphire",
+          "url": "/api/pokeapi/version-group/16/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos\ncomo Atadura, Constricción, Drenadoras y Púas.",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        },
+        "version_group": {
+          "name": "omega-ruby-alpha-sapphire",
+          "url": "/api/pokeapi/version-group/16/"
+        }
+      },
+      {
+        "flavor_text": "かいてんして　あいてを　こうげきする。\nしめつける　まきつく　やどりぎのタネ\nまきびし　なども　ふきとばせる。",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "회전해서 상대를 공격한다.\n조이기, 김밥말이, 씨뿌리기,\n압정뿌리기 등도 날려버린다.",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "利用旋轉來攻擊對手。\n也可以擺脫綁緊、緊束，\n以及解除寄生種子和撒菱等招式。",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "Une attaque tournoyante pouvant aussi annuler\npar exemple Étreinte, Ligotage, Vampigraine ou\nPicots.",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "Trifft das Ziel mit einer Dreh-Attacke. Befreit den\nAnwender unter anderem von Wickel, Klammergriff,\nEgelsamen und Stachler.",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos\ncomo Atadura, Constricción, Drenadoras y Púas.",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "Attacco rotante che elimina gli effetti di\nmosse come Legatutto, Avvolgibotta, Punte\ne Parassiseme.",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that can also eliminate such moves as\nBind, Wrap, Leech Seed, and Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "回転して　相手を　攻撃する。\nしめつける　まきつく　やどりぎのタネ\nまきびし　なども　吹きとばせる。",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "通过旋转来攻击对手。\n还可以摆脱绑紧、紧束、\n寄生种子和撒菱等招式。",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos\ncomo Atadura, Constricción, Drenadoras y Púas.",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        },
+        "version_group": {
+          "name": "sun-moon",
+          "url": "/api/pokeapi/version-group/17/"
+        }
+      },
+      {
+        "flavor_text": "かいてんして　あいてを　こうげきする。\nしめつける　まきつく　やどりぎのタネ\nまきびし　なども　ふきとばせる。",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "회전해서 상대를 공격한다.\n조이기, 김밥말이, 씨뿌리기,\n압정뿌리기 등도 날려버린다.",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "利用旋轉來攻擊對手。\n也可以擺脫綁緊、緊束，\n以及解除寄生種子和撒菱等招式。",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "Une attaque tournoyante pouvant aussi annuler\npar exemple Étreinte, Ligotage, Vampigraine ou\nPicots.",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "Trifft das Ziel mit einer Dreh-Attacke. Befreit den\nAnwender unter anderem von Wickel, Klammergriff,\nEgelsamen und Stachler.",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos\ncomo Atadura, Constricción, Drenadoras y Púas.",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "Attacco rotante che elimina gli effetti di\nmosse come Legatutto, Avvolgibotta, Punte\ne Parassiseme.",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that can also eliminate such moves as\nBind, Wrap, Leech Seed, and Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "回転して　相手を　攻撃する。\nしめつける　まきつく　やどりぎのタネ\nまきびし　なども　吹きとばせる。",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "通过旋转来攻击对手。\n还可以摆脱绑紧、紧束、\n寄生种子和撒菱等招式。",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos\ncomo Atadura, Constricción, Drenadoras y Púas.",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        },
+        "version_group": {
+          "name": "ultra-sun-ultra-moon",
+          "url": "/api/pokeapi/version-group/18/"
+        }
+      },
+      {
+        "flavor_text": "かいてんして　あいてを　こうげきする。\nしめつける　まきつく　やどりぎのタネ\nまきびし　なども　ふきとばせる。",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "회전해서 상대를 공격한다.\n조이기, 김밥말이, 씨뿌리기,\n압정뿌리기 등도 날려버린다.",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "利用旋轉來攻擊對手。\n也可以擺脫綁緊、緊束，\n以及解除寄生種子和撒菱等招式。",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "Une attaque tournoyante pouvant aussi annuler\npar exemple Étreinte, Ligotage, Vampigraine\nou Picots.",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "Trifft das Ziel mit einer Dreh-Attacke. Befreit den\nAnwender unter anderem von Wickel, Klammergriff,\nEgelsamen und Stachler.",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos\ncomo Atadura, Constricción, Drenadoras y Púas.",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "Attacco rotante che elimina gli effetti di\nmosse come Legatutto, Avvolgibotta, Punte\ne Parassiseme.",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that can also eliminate such moves as\nBind, Wrap, Leech Seed, and Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "回転して　相手を　攻撃する。\nしめつける　まきつく　やどりぎのタネ\nまきびし　なども　吹きとばせる。",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "通过旋转来攻击对手。\n还可以摆脱绑紧、紧束、\n寄生种子和撒菱等招式。",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos\ncomo Atadura, Constricción, Drenadoras y Púas.",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        },
+        "version_group": {
+          "name": "lets-go-pikachu-lets-go-eevee",
+          "url": "/api/pokeapi/version-group/19/"
+        }
+      },
+      {
+        "flavor_text": "かいてんして　あいてを　こうげきする。\nしめつける　まきつく　やどりぎのタネ　など\nふきとばす。じぶんの　すばやさも　あがる。",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "회전해서 상대를 공격한다.\n조이기, 김밥말이, 씨뿌리기 등을\n날려버린다. 자신의 스피드도 오른다.",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "藉由旋轉來攻擊對手。\n也可以擺脫綁緊、緊束、寄生種子等招式。\n自己的速度也會提高。",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "Une attaque tournoyante pouvant aussi annuler,\npar exemple, Étreinte, Ligotage ou Vampigraine.\nAugmente également la Vitesse du lanceur.",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "Trifft das Ziel mit einer Dreh-Attacke. Befreit den\nAnwender unter anderem von Wickel, Klammergriff\nund Egelsamen. Erhöht die Initiative des Anwenders.",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos como\nAtadura, Constricción y Drenadoras. También aumenta\nla Velocidad del usuario.",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "Attacco rotante che elimina gli effetti di mosse come\nLegatutto, Avvolgibotta e Parassiseme. Aumenta anche\nla Velocità di chi la usa.",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that can also eliminate such moves as\nBind, Wrap, and Leech Seed. This also raises the user’s\nSpeed stat.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "回転して　相手を　攻撃する。\nしめつける　まきつく　やどりぎのタネ　など\n吹きとばす。自分の　素早さも　あがる。",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "通过旋转来攻击对手。\n可以摆脱绑紧、紧束、寄生种子\n等招式。还能提高自己的速度。",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "Ataque giratorio que puede eliminar movimientos como\nAtadura, Constricción y Drenadoras. También aumenta\nla Velocidad del usuario.",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        },
+        "version_group": {
+          "name": "sword-shield",
+          "url": "/api/pokeapi/version-group/20/"
+        }
+      },
+      {
+        "flavor_text": "A spin attack that can also eliminate such moves as Bind, Wrap, and Leech Seed. This also raises the user's Speed stat.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "legends-arceus",
+          "url": "/api/pokeapi/version-group/24/"
+        }
+      },
+      {
+        "flavor_text": "The user performs a spin attack that can also eliminate the effects of such moves as Bind, Wrap, and Leech Seed. This also boosts the user's Speed stat.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        },
+        "version_group": {
+          "name": "scarlet-violet",
+          "url": "/api/pokeapi/version-group/25/"
+        }
+      }
+    ],
+    "ailmentChance": 0,
+    "flinchChance": 0,
+    "statChanges": [
+      {
+        "change": 1,
+        "stat": "speed"
+      }
+    ],
+    "drain": 0,
+    "healing": 0,
+    "critRate": 0,
+    "target": "selected-pokemon",
+    "battleData": {
+      "effectId": "NONE",
+      "priority": 0,
+      "target": "selected-pokemon",
+      "flags": [],
+      "critStage": 0,
+      "drainPercent": 0,
+      "recoilPercent": 0,
+      "healingPercent": 0,
+      "strikeMode": "single",
+      "minHits": 1,
+      "maxHits": 1,
+      "secondaryEffects": [
+        {
+          "kind": "stat-stage",
+          "chance": 100,
+          "group": "stat-stage",
+          "appliesTo": "target",
+          "isPrimary": false,
+          "requiresHit": true,
+          "blockedBySubstitute": true,
+          "stat": "speed",
+          "change": 1
+        }
+      ],
+      "substituteInteraction": "blocked",
+      "makesContact": false,
+      "soundMove": false,
+      "powderMove": false,
+      "ballisticMove": false,
+      "punchMove": false,
+      "bypassProtect": false,
+      "ignoreAccuracyCheck": false,
+      "thawsUser": false,
+      "thawsTarget": false
+    },
+    "currentPp": 40
+  },
+  "goRaw": {
+    "id": 229,
+    "name": "rapid-spin",
+    "stat_changes": [
+      {
+        "change": 1,
+        "stat": {
+          "name": "speed",
+          "url": "/api/pokeapi/stat/6/"
+        }
+      }
+    ],
+    "meta": {
+      "ailment": {
+        "name": "none",
+        "url": "/api/pokeapi/move-ailment/0/"
+      },
+      "category": {
+        "name": "damage-raise",
+        "url": "/api/pokeapi/move-category/7/"
+      },
+      "min_hits": null,
+      "max_hits": null,
+      "min_turns": null,
+      "max_turns": null,
+      "drain": 0,
+      "healing": 0,
+      "crit_rate": 0,
+      "ailment_chance": 0,
+      "flinch_chance": 0,
+      "stat_chance": 100
+    },
+    "target": {
+      "name": "selected-pokemon",
+      "url": "/api/pokeapi/move-target/10/"
+    },
+    "effect_entries": [
+      {
+        "effect": "Inflige des dégâts réguliers.  Supprime Vampigraine du lanceur, libère le lanceur de Étreinte, Claquoir, Danse Flammes, Vortex Magma, Tourbi-Sable, Siphon, et Ligotage, et balaye Picots, Piège de Roc, et Pics Toxik du côté du terrain du lanceur.  Si cette capacité manque sa cible ou a aucun effet, son effet ne s'active pas.",
+        "short_effect": "Libère le lanceur des capacités ligotantes, supprime Vampigraine, et retire les Picots.",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        }
+      },
+      {
+        "effect": "Inflicts regular damage.  Removes Leech Seed from the user, frees the user from Bind, Clamp, Fire Spin, Magma Storm, Sand Tomb, Whirlpool, and Wrap, and clears Spikes, Stealth Rock, and Toxic Spikes from the user’s side of the field.  If this move misses or has no effect, its effect doesn’t activate.",
+        "short_effect": "Frees the user from binding moves, removes Leech Seed, and blows away Spikes.",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        }
+      }
+    ]
+  },
+  "log": [
+    "海星星的先制之爪生效了！",
+    "海星星 使用了 高速旋转！",
+    "小拳石的速度提高了！",
+    "这一击收效甚微...",
+    "海星星 造成了 4 点伤害。",
+    "对手的 小拳石 使用了 影子分身！",
+    "小拳石的闪避提高了！"
+  ]
+}

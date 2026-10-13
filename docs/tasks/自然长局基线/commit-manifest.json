@@ -1,0 +1,3164 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Explicit proposed Git commit subset. No files have been staged or committed by this script.",
+  "provenance": {
+    "codeBaseline": "c4a7db1fa1c22a27291a12e6d7898e6c32eb80f2",
+    "startHead": "6bd0352546f6cfbfeb37278613817ac310841fa2",
+    "endHead": "82a98efecd263f1f788d7425456b086e64cc7a4c",
+    "evidenceKind": "Natural new-save UI run; one authorized retry after harness error; touch emulation 390x844; no game-state/RNG injection or DEV Win",
+    "unverified": [
+      "natural third/sixth-win shops",
+      "complete seven-battle set",
+      "physical phone",
+      "production environment"
+    ],
+    "productDefect": "Natural Rapid Spin increases defender speed; see runtime and 103/104/139 evidence"
+  },
+  "archivePolicy": "All original artifacts remain untouched on disk. Commit only files[] plus this manifest. localOnly[] is an inventory, not files to stage. Complete result.json input/log/state-summary traces are committed losslessly as result.json.gz; continuous full-save snapshots/screenshots outside selected IDs and browser storage exports remain local only.",
+  "self": {
+    "path": "docs/tasks/自然长局基线/commit-manifest.json",
+    "commit": true,
+    "note": "Self is excluded from files[] hashes and byte totals to avoid circular hashing; exact manifest SHA256, size and inclusive total are printed by this script and reported at handoff."
+  },
+  "keyIds": {
+    "firstAttempt": [
+      "000",
+      "001",
+      "002",
+      "003",
+      "019",
+      "020"
+    ],
+    "secondAttempt": [
+      "000",
+      "001",
+      "002",
+      "003",
+      "023",
+      "024",
+      "037",
+      "038",
+      "039",
+      "093",
+      "094",
+      "101",
+      "102",
+      "103",
+      "104",
+      "139",
+      "141"
+    ]
+  },
+  "compressedResults": [
+    {
+      "source": "docs/tasks/自然长局基线/evidence/result.json",
+      "sourceBytes": 168307,
+      "sourceSha256": "982066a6b503f7c258f056fdcdb79473504645111b689021e74de624be330f21",
+      "committedCopy": "docs/tasks/自然长局基线/evidence/result.json.gz",
+      "compressedBytes": 9159,
+      "sha256": "edb269e88cfcf14481e6ab34f9c0c327cd2913f357a57399016a0e264ac69fc8",
+      "decompressionVerifiedByteIdentical": true
+    },
+    {
+      "source": "docs/tasks/自然长局基线/evidence/attempt-2/result.json",
+      "sourceBytes": 1406557,
+      "sourceSha256": "edfcb7c81cdbc5fb61df9c0da8d8db7cabaa65eadb998524265bce9bb2d8497f",
+      "committedCopy": "docs/tasks/自然长局基线/evidence/attempt-2/result.json.gz",
+      "compressedBytes": 24841,
+      "sha256": "40293df20640fdb159005069ceccef2af603baba06633b4142fca758ba8077dc",
+      "decompressionVerifiedByteIdentical": true
+    }
+  ],
+  "summary": {
+    "filesExcludingManifest": 221,
+    "bytesExcludingManifest": 13921085,
+    "bySuffix": {
+      ".png": {
+        "files": 23,
+        "bytes": 10751898
+      },
+      ".json.gz": {
+        "files": 25,
+        "bytes": 2991403
+      },
+      ".json": {
+        "files": 5,
+        "bytes": 73634
+      },
+      ".txt": {
+        "files": 163,
+        "bytes": 65485
+      },
+      ".md": {
+        "files": 2,
+        "bytes": 14760
+      },
+      ".mjs": {
+        "files": 3,
+        "bytes": 23905
+      }
+    },
+    "localOnlyFiles": 284,
+    "localOnlyBytes": 100986602,
+    "localOnlyBySuffix": {
+      ".png": {
+        "files": 140,
+        "bytes": 66779873
+      },
+      ".json.gz": {
+        "files": 140,
+        "bytes": 24363297
+      },
+      ".json": {
+        "files": 4,
+        "bytes": 9843432
+      },
+      ".txt": {
+        "files": 0,
+        "bytes": 0
+      },
+      ".md": {
+        "files": 0,
+        "bytes": 0
+      },
+      ".mjs": {
+        "files": 0,
+        "bytes": 0
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "docs/tasks/自然长局基线/evidence/000-fresh-partner.json.gz",
+      "bytes": 600,
+      "sha256": "ec6ce25e0188392a7565d201eebd8724ff1aa4b3ef5c9111c9630d1d8219f7d2",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/000-fresh-partner.png",
+      "bytes": 386532,
+      "sha256": "1ea5646689204e3aa7ef284c4187005842d4e878c6510070fb7313304482d616",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/000-fresh-partner.txt",
+      "bytes": 313,
+      "sha256": "abeafdab17766fcc6650d88027463e74e036907a440bb75cc79edf235a4dcf94",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/001-base.json.gz",
+      "bytes": 603,
+      "sha256": "a8f64ea945e1afbf952afa96498aae7a39bff8d236a23aa15d792aab0c8f1aac",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/001-base.png",
+      "bytes": 616569,
+      "sha256": "55eb914ff032619f879b0bb97739f1660a02d39bbcda9058a849e0b9795ab943",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/001-base.txt",
+      "bytes": 135,
+      "sha256": "1472cd30bc559fab209e08ce2eb39cc5ed64170cd26c3dde724ad445615bc167",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/002-six-rentals.json.gz",
+      "bytes": 720,
+      "sha256": "fd4950cf273c863f523024d0558e80c28ac2b4ef8c693ee7ae5abb3984bfe3dc",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/002-six-rentals.png",
+      "bytes": 461143,
+      "sha256": "f40a15e3772ca1d53b092b0e03d66ecf37ee5d4509d9f70e9ccf1d8f3824785c",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/002-six-rentals.txt",
+      "bytes": 198,
+      "sha256": "b59b4c23b25cfc33439750c86580572bc6c882700a97088120d6c99ce78f05e6",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/003-before-attack.json.gz",
+      "bytes": 168714,
+      "sha256": "c8c03a51a1b758e8e7da8ddbaa6f9b037e5d8b0dd4b05f1211909f9c3a921b89",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/003-before-attack.png",
+      "bytes": 503422,
+      "sha256": "58dbf33363508c01c7f405111df862d918079e519823b597dfd60e2ff5f5a45a",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/003-before-attack.txt",
+      "bytes": 369,
+      "sha256": "3adc1d41e400ac4bc7cc17a42e36c424c75f348eadd5ccf49024073561de56f7",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/004-after-turn.txt",
+      "bytes": 425,
+      "sha256": "68a2b6d4ea90cfd96f8706bd4005ff4ba28a37bfcd28cc0ef161ca15d1258b4e",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/005-before-attack.txt",
+      "bytes": 425,
+      "sha256": "68a2b6d4ea90cfd96f8706bd4005ff4ba28a37bfcd28cc0ef161ca15d1258b4e",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/006-after-turn.txt",
+      "bytes": 424,
+      "sha256": "935dbdeb886080d001bf71afa4bb27ea449e6b0aa243d5682e4086dd96a24c0c",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/007-before-attack.txt",
+      "bytes": 424,
+      "sha256": "935dbdeb886080d001bf71afa4bb27ea449e6b0aa243d5682e4086dd96a24c0c",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/008-after-turn.txt",
+      "bytes": 424,
+      "sha256": "494055967046066949d34050f3654d6e21a01762a707ffb3f2e3817a02f7aa4c",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/009-before-attack.txt",
+      "bytes": 424,
+      "sha256": "494055967046066949d34050f3654d6e21a01762a707ffb3f2e3817a02f7aa4c",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/010-after-turn.txt",
+      "bytes": 388,
+      "sha256": "c5394a4ba02ccccd7d44af762d7cd40b67d4ccdf8fa70226bade342cbd8ec3f3",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/011-before-attack.txt",
+      "bytes": 388,
+      "sha256": "c5394a4ba02ccccd7d44af762d7cd40b67d4ccdf8fa70226bade342cbd8ec3f3",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/012-after-turn.txt",
+      "bytes": 403,
+      "sha256": "146ce451eb690b39479c6c7aa5d90cc8bd4fca952400032533e2db12b886e9b2",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/013-before-attack.txt",
+      "bytes": 403,
+      "sha256": "146ce451eb690b39479c6c7aa5d90cc8bd4fca952400032533e2db12b886e9b2",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/014-after-turn.txt",
+      "bytes": 402,
+      "sha256": "a4ee6656c0c4528a345ef0c688d93ac56be62a893e104dcce3cda5d5d3be7ded",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/015-before-attack.txt",
+      "bytes": 402,
+      "sha256": "a4ee6656c0c4528a345ef0c688d93ac56be62a893e104dcce3cda5d5d3be7ded",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/016-after-turn.txt",
+      "bytes": 384,
+      "sha256": "e11879b6bd8c0ccac1da247b3f0c16dadc2d9e5c91ac0c1f0577bf91c26d09fc",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/017-before-attack.txt",
+      "bytes": 384,
+      "sha256": "e11879b6bd8c0ccac1da247b3f0c16dadc2d9e5c91ac0c1f0577bf91c26d09fc",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/018-after-turn.txt",
+      "bytes": 421,
+      "sha256": "603e857d099c50ebfbd05f72fd764cb325047c7e09bb7324b8672f5cc1efc281",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/019-before-attack.json.gz",
+      "bytes": 169180,
+      "sha256": "581bc2979ce50af9b1420fe9506136cbafc9b20e1bae49789f34537675c74a22",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/019-before-attack.png",
+      "bytes": 489298,
+      "sha256": "b0b0215178694f6dc8e3ff999dcdb40f15300b5103e3f544463ed3a02a68fa61",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/019-before-attack.txt",
+      "bytes": 421,
+      "sha256": "603e857d099c50ebfbd05f72fd764cb325047c7e09bb7324b8672f5cc1efc281",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/020-stopped-failure.json.gz",
+      "bytes": 169184,
+      "sha256": "4b3b9b72f8dddb0b82a143fabb76d1575d02806d9a1cd799adc719130afb3b47",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/020-stopped-failure.png",
+      "bytes": 394717,
+      "sha256": "6111a202c8dd7a48c36a9626404dca039f83abdf977b88ea9d4b62666433563c",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/020-stopped-failure.txt",
+      "bytes": 388,
+      "sha256": "8984bdbc9555a489635e0d31c1f5814ef4522b5da0a47f098f1470a562cba704",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/000-fresh-partner.json.gz",
+      "bytes": 600,
+      "sha256": "72dd93d21719fc57393d23c075afef8a0e504eaddee9e04fca04c89186a0d726",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/000-fresh-partner.png",
+      "bytes": 401029,
+      "sha256": "5a4ace4e2fb48aaf77cac3e3968321514b94b5f9d9e4154c4ce9e6c6c29deb25",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/000-fresh-partner.txt",
+      "bytes": 313,
+      "sha256": "abeafdab17766fcc6650d88027463e74e036907a440bb75cc79edf235a4dcf94",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/001-base.json.gz",
+      "bytes": 603,
+      "sha256": "5dfc785fd98cbddd060e0a6fa4197fb487fa1d31be9efc5e97b18ed385bbf4d6",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/001-base.png",
+      "bytes": 615521,
+      "sha256": "c2d8fb4fe53bfd77fd036b3dc8114229574174ee775fdb091961ce2876571925",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/001-base.txt",
+      "bytes": 135,
+      "sha256": "1472cd30bc559fab209e08ce2eb39cc5ed64170cd26c3dde724ad445615bc167",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/002-six-rentals.json.gz",
+      "bytes": 725,
+      "sha256": "d1f3dde2536b04ac02cdc8fe12ea27e8fdbc324ee01cb7adddd4dad92158d948",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/002-six-rentals.png",
+      "bytes": 364828,
+      "sha256": "d22b034e1de21b56b52370d1481c66280e16ec1f861cbed70331f2ddb55905a1",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/002-six-rentals.txt",
+      "bytes": 196,
+      "sha256": "0a2f4664cc550c983dfbd2fb32564756805c66306a27fa03e6bea31fd3585c39",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/003-before-attack.json.gz",
+      "bytes": 174497,
+      "sha256": "fb1cb31ced76aac8f944d0d38842d11a061b04e440468342f2ab31ff0296b958",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/003-before-attack.png",
+      "bytes": 450147,
+      "sha256": "0bedd9d528c4a84b3abf58ed32d85fd57dd0c0117b605a58fd7875f76f4966e5",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/003-before-attack.txt",
+      "bytes": 362,
+      "sha256": "b2acd6b529739a1afcd4c2d85b5d848b185c36b232c214867714991517819421",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/004-after-turn.txt",
+      "bytes": 408,
+      "sha256": "b39da8e5f5503f4517a98059da47cc18d6a03ec59c1d3e1e4875bd56b919c9c4",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/005-before-attack.txt",
+      "bytes": 408,
+      "sha256": "b39da8e5f5503f4517a98059da47cc18d6a03ec59c1d3e1e4875bd56b919c9c4",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/006-after-turn.txt",
+      "bytes": 408,
+      "sha256": "3865c7ef43d29e951fdaf8ad3c6dfa05db16970cf31785783c1c7c87f3198d84",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/007-before-attack.txt",
+      "bytes": 408,
+      "sha256": "3865c7ef43d29e951fdaf8ad3c6dfa05db16970cf31785783c1c7c87f3198d84",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/008-after-turn.txt",
+      "bytes": 408,
+      "sha256": "27746c73df2791871f054f8e480ec061cbf5b06c76de686f6508cd7858b4539a",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/009-before-attack.txt",
+      "bytes": 408,
+      "sha256": "27746c73df2791871f054f8e480ec061cbf5b06c76de686f6508cd7858b4539a",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/010-after-turn.txt",
+      "bytes": 386,
+      "sha256": "94a3a7d609d14381ce38cba044953a21b2096e162a14d2b7da653243a8917660",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/011-before-attack.txt",
+      "bytes": 386,
+      "sha256": "94a3a7d609d14381ce38cba044953a21b2096e162a14d2b7da653243a8917660",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/012-after-turn.txt",
+      "bytes": 401,
+      "sha256": "0b6c76a646703d43b3eb32f86b2f5e442bdfa786d1d8f78f5b0a73478744e2f0",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/013-before-attack.txt",
+      "bytes": 401,
+      "sha256": "0b6c76a646703d43b3eb32f86b2f5e442bdfa786d1d8f78f5b0a73478744e2f0",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/014-after-turn.txt",
+      "bytes": 401,
+      "sha256": "f609f8d72f72d78ffc726f2cf0263cbc5b3205362f8dbd35b440f17efdae2b92",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/015-before-attack.txt",
+      "bytes": 401,
+      "sha256": "f609f8d72f72d78ffc726f2cf0263cbc5b3205362f8dbd35b440f17efdae2b92",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/016-after-turn.txt",
+      "bytes": 401,
+      "sha256": "aeebeacb92b47667020b55f21de290a070adaa30e52b3622a979f8e67aa4d662",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/017-before-attack.txt",
+      "bytes": 401,
+      "sha256": "aeebeacb92b47667020b55f21de290a070adaa30e52b3622a979f8e67aa4d662",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/018-after-turn.txt",
+      "bytes": 401,
+      "sha256": "e6353105cf8c66d22be61838cf9898d00b2ba51a193fbd9c245544594bde409d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/019-before-attack.txt",
+      "bytes": 401,
+      "sha256": "e6353105cf8c66d22be61838cf9898d00b2ba51a193fbd9c245544594bde409d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/020-after-turn.txt",
+      "bytes": 399,
+      "sha256": "64b2f0b8295d0cb786c9dff49d0f2b32925569bfb9ddd62cf5f39f3cb6d49744",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/021-before-attack.txt",
+      "bytes": 399,
+      "sha256": "64b2f0b8295d0cb786c9dff49d0f2b32925569bfb9ddd62cf5f39f3cb6d49744",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/022-after-turn.txt",
+      "bytes": 387,
+      "sha256": "89b1bf0c11f0fafb8d4729b2347256558683f3ddaf9168f024dd60bff6b6607e",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/023-forced-replacement.json.gz",
+      "bytes": 174920,
+      "sha256": "728ad5ef4cf2e05a7f6c6f24403746392399c739d2e985dd8969c0b132baca6d",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/023-forced-replacement.png",
+      "bytes": 381111,
+      "sha256": "793cb98d18293bf98c4b1de6bb35a3acaa39a16bdc0475823037e6327ec04af3",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/023-forced-replacement.txt",
+      "bytes": 387,
+      "sha256": "89b1bf0c11f0fafb8d4729b2347256558683f3ddaf9168f024dd60bff6b6607e",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/024-replacement-complete.json.gz",
+      "bytes": 174984,
+      "sha256": "2d47c8565523ee07b18fe47904f48de9e4bc48784ca47929d33457508511ad97",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/024-replacement-complete.png",
+      "bytes": 483342,
+      "sha256": "182ad38a7263e4d7cac396d7f75bdfbd15c253ae98c5d3eb3c81716abf45ecdc",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/024-replacement-complete.txt",
+      "bytes": 385,
+      "sha256": "1f1cd7501c233953e6dc8a25e0c2cdb4089d0656ee7ae8c3e3ede2a212580c30",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/025-before-attack.txt",
+      "bytes": 385,
+      "sha256": "1f1cd7501c233953e6dc8a25e0c2cdb4089d0656ee7ae8c3e3ede2a212580c30",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/026-after-turn.txt",
+      "bytes": 394,
+      "sha256": "310803887849188258e2ed53a9306742f4029cc355e62e8353c22cb37a95b8cd",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/027-before-attack.txt",
+      "bytes": 394,
+      "sha256": "310803887849188258e2ed53a9306742f4029cc355e62e8353c22cb37a95b8cd",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/028-after-turn.txt",
+      "bytes": 434,
+      "sha256": "db8785ace505796e00c151ea49030a990b6dc79acf0d70f068676b88bf1c8548",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/029-before-attack.txt",
+      "bytes": 434,
+      "sha256": "db8785ace505796e00c151ea49030a990b6dc79acf0d70f068676b88bf1c8548",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/030-after-turn.txt",
+      "bytes": 426,
+      "sha256": "04159d17b020e5820ffbe36a340a9a8701f3a75ea541c3a5af5c857858a19142",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/031-before-attack.txt",
+      "bytes": 426,
+      "sha256": "04159d17b020e5820ffbe36a340a9a8701f3a75ea541c3a5af5c857858a19142",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/032-after-turn.txt",
+      "bytes": 428,
+      "sha256": "82498c5c0438ce397232146fb6fc5fc8361fde64603cfbb193966f025657ff61",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/033-before-attack.txt",
+      "bytes": 428,
+      "sha256": "82498c5c0438ce397232146fb6fc5fc8361fde64603cfbb193966f025657ff61",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/034-after-turn.txt",
+      "bytes": 426,
+      "sha256": "3fe3b64d2eead0ee82049cb70bebab2bfa66f7f878c6d798b3ec9967bbf9ee8d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/035-before-attack.txt",
+      "bytes": 426,
+      "sha256": "3fe3b64d2eead0ee82049cb70bebab2bfa66f7f878c6d798b3ec9967bbf9ee8d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/036-after-turn.txt",
+      "bytes": 205,
+      "sha256": "d43048d9394d4936f8cb7eaa8b04477baab0033410dca414191bda26c5a6aefb",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/037-battle-result.json.gz",
+      "bytes": 175478,
+      "sha256": "58839144f840b65084f1c0d10078be5293777b8b6ea0cc6858c06cbe53a462cf",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/037-battle-result.png",
+      "bytes": 540999,
+      "sha256": "bf6d4d8d8df5152b1506cd674f633af29bde8c5ac60cbdb215928dc2a08df300",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/037-battle-result.txt",
+      "bytes": 205,
+      "sha256": "d43048d9394d4936f8cb7eaa8b04477baab0033410dca414191bda26c5a6aefb",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/038-swap.json.gz",
+      "bytes": 175479,
+      "sha256": "56ab6ad0cd192aab638da9d858801e0bd3c498e162d5b616badfcce91d94505b",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/038-swap.png",
+      "bytes": 485080,
+      "sha256": "7baf5ba7a99d8fb7ad7576557cec6e881f1458d8c8de7a696c075a8b5074a726",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/038-swap.txt",
+      "bytes": 425,
+      "sha256": "baa0eefae7108d42339d7ed916797f0073535658c4ad8a6027cceedeac315e4b",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/039-before-attack.json.gz",
+      "bytes": 173856,
+      "sha256": "f0e7753ed617144edf365ddf721caa2e5c000aaa8a6a5a8ea4eccd2018d53528",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/039-before-attack.png",
+      "bytes": 480382,
+      "sha256": "6bbb678e2fe899d94b76d56665a2b1ab84253ce50b57be4c2ae1be8c994434d1",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/039-before-attack.txt",
+      "bytes": 371,
+      "sha256": "ab04b78f3527748fd2205b595e2e763935b1390aae256e8c14cdef631dab8131",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/040-after-turn.txt",
+      "bytes": 423,
+      "sha256": "568ed17985d73986bdb8ad942dfe63e2082a2f7dbba0ccd39caa8421768ca858",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/041-before-attack.txt",
+      "bytes": 423,
+      "sha256": "568ed17985d73986bdb8ad942dfe63e2082a2f7dbba0ccd39caa8421768ca858",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/042-after-turn.txt",
+      "bytes": 394,
+      "sha256": "c87d0105abe3ad3619d564205dbad18d1caac91e386af2ea08343102a9229d04",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/043-before-attack.txt",
+      "bytes": 394,
+      "sha256": "c87d0105abe3ad3619d564205dbad18d1caac91e386af2ea08343102a9229d04",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/044-after-turn.txt",
+      "bytes": 408,
+      "sha256": "6f0695d0f9726ebc340ad51232f7b420fb82b142eb6b973319f908eabcfa5f90",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/045-before-attack.txt",
+      "bytes": 408,
+      "sha256": "6f0695d0f9726ebc340ad51232f7b420fb82b142eb6b973319f908eabcfa5f90",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/046-after-turn.txt",
+      "bytes": 404,
+      "sha256": "d00214d858e7feef1fac65f2b90aa0f510eb93c8b53661b39f5a44025f22d25a",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/047-before-attack.txt",
+      "bytes": 404,
+      "sha256": "d00214d858e7feef1fac65f2b90aa0f510eb93c8b53661b39f5a44025f22d25a",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/048-after-turn.txt",
+      "bytes": 404,
+      "sha256": "23f8b96f1971666489899cd635269e5495ac5da87fa81fede1f1a9ca099c7a68",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/049-before-attack.txt",
+      "bytes": 404,
+      "sha256": "23f8b96f1971666489899cd635269e5495ac5da87fa81fede1f1a9ca099c7a68",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/050-after-turn.txt",
+      "bytes": 404,
+      "sha256": "8a85bc1cc566738a92e7a35bb8533ac4e3eec04c48e06bcd8b7e5d8432c2e52d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/051-before-attack.txt",
+      "bytes": 404,
+      "sha256": "8a85bc1cc566738a92e7a35bb8533ac4e3eec04c48e06bcd8b7e5d8432c2e52d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/052-after-turn.txt",
+      "bytes": 404,
+      "sha256": "a02f4b98e42f44c9334ceb5d3bf639d86d4d2d8c8862ebcb4168391245acaebd",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/053-before-attack.txt",
+      "bytes": 404,
+      "sha256": "a02f4b98e42f44c9334ceb5d3bf639d86d4d2d8c8862ebcb4168391245acaebd",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/054-after-turn.txt",
+      "bytes": 404,
+      "sha256": "fb7d9c79648e9faf8b9b31864acb1a488d763ff8934d775ea64d7c235a8e023d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/055-before-attack.txt",
+      "bytes": 404,
+      "sha256": "fb7d9c79648e9faf8b9b31864acb1a488d763ff8934d775ea64d7c235a8e023d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/056-after-turn.txt",
+      "bytes": 404,
+      "sha256": "fdbeae1a2e18a03949359b4178abcfc8d6ce91df16d68a8eb7ac4e15b8f9bde9",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/057-before-attack.txt",
+      "bytes": 404,
+      "sha256": "fdbeae1a2e18a03949359b4178abcfc8d6ce91df16d68a8eb7ac4e15b8f9bde9",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/058-after-turn.txt",
+      "bytes": 404,
+      "sha256": "972b2d72a02a565ed16d2179378517ffac48425c85bb4152cff47c4447131597",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/059-before-attack.txt",
+      "bytes": 404,
+      "sha256": "972b2d72a02a565ed16d2179378517ffac48425c85bb4152cff47c4447131597",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/060-after-turn.txt",
+      "bytes": 403,
+      "sha256": "814628778ef295b2fe4a82a0106f64666ece6e248076b2a1a67906ce6a072205",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/061-before-attack.txt",
+      "bytes": 403,
+      "sha256": "814628778ef295b2fe4a82a0106f64666ece6e248076b2a1a67906ce6a072205",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/062-after-turn.txt",
+      "bytes": 400,
+      "sha256": "99621c6282286ded0e7ff2615a9b52ad4c66eff7dba979638bdd9e7078adc766",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/063-before-attack.txt",
+      "bytes": 400,
+      "sha256": "99621c6282286ded0e7ff2615a9b52ad4c66eff7dba979638bdd9e7078adc766",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/064-after-turn.txt",
+      "bytes": 423,
+      "sha256": "82974ea8c672fada49a3842299459ccccb0fd09d2830670d677030cabda6c540",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/065-before-attack.txt",
+      "bytes": 423,
+      "sha256": "82974ea8c672fada49a3842299459ccccb0fd09d2830670d677030cabda6c540",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/066-after-turn.txt",
+      "bytes": 423,
+      "sha256": "02b38a32369c679958f251766ecb48ee49b12407ab8c4983f52cc5873b19738a",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/067-before-attack.txt",
+      "bytes": 423,
+      "sha256": "02b38a32369c679958f251766ecb48ee49b12407ab8c4983f52cc5873b19738a",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/068-after-turn.txt",
+      "bytes": 425,
+      "sha256": "1a81ded880dbd14ad35f9ed81622f15a9838fce0f697a2d19566304540ba94af",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/069-before-attack.txt",
+      "bytes": 425,
+      "sha256": "1a81ded880dbd14ad35f9ed81622f15a9838fce0f697a2d19566304540ba94af",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/070-after-turn.txt",
+      "bytes": 423,
+      "sha256": "078253253f4b869d1ecc06ddded2153221ea7c96be0ce4d62c0ffc8ddefc30ee",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/071-before-attack.txt",
+      "bytes": 423,
+      "sha256": "078253253f4b869d1ecc06ddded2153221ea7c96be0ce4d62c0ffc8ddefc30ee",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/072-after-turn.txt",
+      "bytes": 423,
+      "sha256": "3f6dc2163c0acf9b9eabbef4f4fd4b93cbfd26c36487d36d0fad7acbc08e9d39",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/073-before-attack.txt",
+      "bytes": 423,
+      "sha256": "3f6dc2163c0acf9b9eabbef4f4fd4b93cbfd26c36487d36d0fad7acbc08e9d39",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/074-after-turn.txt",
+      "bytes": 423,
+      "sha256": "e40b9a4035fc1706624dab284e826f4d58db5707ecdde29eaf5872691f0d4354",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/075-before-attack.txt",
+      "bytes": 423,
+      "sha256": "e40b9a4035fc1706624dab284e826f4d58db5707ecdde29eaf5872691f0d4354",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/076-after-turn.txt",
+      "bytes": 423,
+      "sha256": "c62d886f6865a389d3ddb72a625a75f3dee19f3b89e89b27b97fd70ad8c989c7",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/077-before-attack.txt",
+      "bytes": 423,
+      "sha256": "c62d886f6865a389d3ddb72a625a75f3dee19f3b89e89b27b97fd70ad8c989c7",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/078-after-turn.txt",
+      "bytes": 425,
+      "sha256": "cd4d97948fd85f0be9a358e33f6745043f9152936c921467a633a19bb9232c2a",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/079-before-attack.txt",
+      "bytes": 425,
+      "sha256": "cd4d97948fd85f0be9a358e33f6745043f9152936c921467a633a19bb9232c2a",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/080-after-turn.txt",
+      "bytes": 437,
+      "sha256": "865ae7326c9f94f5248567914f76fe0a6b7d5334a6885f3c91f5a6e0f55a6572",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/081-before-attack.txt",
+      "bytes": 437,
+      "sha256": "865ae7326c9f94f5248567914f76fe0a6b7d5334a6885f3c91f5a6e0f55a6572",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/082-after-turn.txt",
+      "bytes": 431,
+      "sha256": "4506d9f4ed623901b238c1465dd2f8fd509cac74e3dc5af0a25a13b27a61e5e8",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/083-before-attack.txt",
+      "bytes": 431,
+      "sha256": "4506d9f4ed623901b238c1465dd2f8fd509cac74e3dc5af0a25a13b27a61e5e8",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/084-after-turn.txt",
+      "bytes": 437,
+      "sha256": "9da37e19a42ebe14ba7cdfc6f9f89905284423a90a2c6791f5c722aedab73ae8",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/085-before-attack.txt",
+      "bytes": 437,
+      "sha256": "9da37e19a42ebe14ba7cdfc6f9f89905284423a90a2c6791f5c722aedab73ae8",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/086-after-turn.txt",
+      "bytes": 422,
+      "sha256": "d836c9e652ec596e0ca1bd446c6c8baa122eae936532fdfa085abecef062efe1",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/087-before-attack.txt",
+      "bytes": 422,
+      "sha256": "d836c9e652ec596e0ca1bd446c6c8baa122eae936532fdfa085abecef062efe1",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/088-after-turn.txt",
+      "bytes": 416,
+      "sha256": "996cfd40be1981da5f83664370aeaf1ae7bce340ed75cdf7cf890dcc24bd4ff7",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/089-before-attack.txt",
+      "bytes": 416,
+      "sha256": "996cfd40be1981da5f83664370aeaf1ae7bce340ed75cdf7cf890dcc24bd4ff7",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/090-after-turn.txt",
+      "bytes": 436,
+      "sha256": "48689c27332586c2814de60d19eab5290e84b794cec0ca142590933335cefab4",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/091-before-attack.txt",
+      "bytes": 436,
+      "sha256": "48689c27332586c2814de60d19eab5290e84b794cec0ca142590933335cefab4",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/092-after-turn.txt",
+      "bytes": 404,
+      "sha256": "f92a4f3f020a32f97b764c9300a0926c28b68530589d5a3fd8c2b38e0faaddb8",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/093-forced-replacement.json.gz",
+      "bytes": 174500,
+      "sha256": "2246fee76a5c7ccfed7a738ed004066832d4210dc2ab0cc749bd1aa98dd53260",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/093-forced-replacement.png",
+      "bytes": 393373,
+      "sha256": "52a61103a79272d6d6a475d543d8fecbf67eb88c5bf62e260e6e307979987a3b",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/093-forced-replacement.txt",
+      "bytes": 404,
+      "sha256": "f92a4f3f020a32f97b764c9300a0926c28b68530589d5a3fd8c2b38e0faaddb8",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/094-replacement-complete.json.gz",
+      "bytes": 174451,
+      "sha256": "1ea9559433f0bb13af17af7109e496e299e7f2ee3608729371b3b1fabf647812",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/094-replacement-complete.png",
+      "bytes": 458259,
+      "sha256": "7665ac55d930ec01cf3c4430356fcbf903d1e4e13654df9bc16fd4e08cd04240",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/094-replacement-complete.txt",
+      "bytes": 394,
+      "sha256": "119ed83658569a960e5cb72d7302edf6a0721a7fdac33cf50a08095c087bcf8d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/095-before-attack.txt",
+      "bytes": 394,
+      "sha256": "119ed83658569a960e5cb72d7302edf6a0721a7fdac33cf50a08095c087bcf8d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/096-after-turn.txt",
+      "bytes": 416,
+      "sha256": "e8a0312e15be2ce64728e20412080aab821513e70e20702eb05d8468205a6349",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/097-before-attack.txt",
+      "bytes": 416,
+      "sha256": "e8a0312e15be2ce64728e20412080aab821513e70e20702eb05d8468205a6349",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/098-after-turn.txt",
+      "bytes": 416,
+      "sha256": "265fe932a030b58dc77fc6fa65516da1b7635628240edf5f85171265a9e3dc29",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/099-before-attack.txt",
+      "bytes": 416,
+      "sha256": "265fe932a030b58dc77fc6fa65516da1b7635628240edf5f85171265a9e3dc29",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/100-after-turn.txt",
+      "bytes": 396,
+      "sha256": "5c91118e66476ecf29e1e8d5ad0759bc27d00e502181cce448ddc5899d0224fb",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/101-forced-replacement.json.gz",
+      "bytes": 174513,
+      "sha256": "20846ec356a8b5a7ac8f5abab9a523aefbef00e7c1b40820d9b01967e378b106",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/101-forced-replacement.png",
+      "bytes": 382760,
+      "sha256": "f0d1292e9abdf7d926bf6400d37a579b2a4269a0e4ccda6dc1d48973dd5e4f31",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/101-forced-replacement.txt",
+      "bytes": 396,
+      "sha256": "5c91118e66476ecf29e1e8d5ad0759bc27d00e502181cce448ddc5899d0224fb",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/102-replacement-complete.json.gz",
+      "bytes": 174634,
+      "sha256": "ccc3a8c86fe94e9bf192800136d89fc6bff45d6e68a2db1a97519918c54c108c",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/102-replacement-complete.png",
+      "bytes": 477863,
+      "sha256": "48167d1904fd7c594b1e63e618dae8969187800fc1020ab40147aedde667b240",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/102-replacement-complete.txt",
+      "bytes": 395,
+      "sha256": "ee7ec80e3a60717266bf176b5891126b6a95a2279929954e4159c028dde168f6",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/103-before-attack.json.gz",
+      "bytes": 174634,
+      "sha256": "ccc3a8c86fe94e9bf192800136d89fc6bff45d6e68a2db1a97519918c54c108c",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/103-before-attack.png",
+      "bytes": 479318,
+      "sha256": "5dde7eb049ac76199515cc39e304cdacde782766cb65fb6e2640d6c7028ef3ee",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/103-before-attack.txt",
+      "bytes": 395,
+      "sha256": "ee7ec80e3a60717266bf176b5891126b6a95a2279929954e4159c028dde168f6",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/104-after-turn.json.gz",
+      "bytes": 174704,
+      "sha256": "fbb5bec640a02e4e365356bc76c7c3db8e0a773639dc47e2f9d73056fedb3bf6",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/104-after-turn.png",
+      "bytes": 480582,
+      "sha256": "4657e38b1d4ad03074cb4c4fba73b9beaedd8547dbaafc9cb73623f75bc764a0",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/104-after-turn.txt",
+      "bytes": 423,
+      "sha256": "632ab23ab37fbc0cca3e7c21083311b40d14c3b1db51b02d910a8934fdbd13fa",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/105-before-attack.txt",
+      "bytes": 423,
+      "sha256": "632ab23ab37fbc0cca3e7c21083311b40d14c3b1db51b02d910a8934fdbd13fa",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/106-after-turn.txt",
+      "bytes": 423,
+      "sha256": "283ba3dad665cd3932c523bd9497d5e3a21d3ccfc65473b1f2ccb428185660d6",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/107-before-attack.txt",
+      "bytes": 423,
+      "sha256": "283ba3dad665cd3932c523bd9497d5e3a21d3ccfc65473b1f2ccb428185660d6",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/108-after-turn.txt",
+      "bytes": 417,
+      "sha256": "beaa0184e7eafa2ea66bb00a2109de3193f2274b95668ea50181f3566cfac404",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/109-before-attack.txt",
+      "bytes": 417,
+      "sha256": "beaa0184e7eafa2ea66bb00a2109de3193f2274b95668ea50181f3566cfac404",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/110-after-turn.txt",
+      "bytes": 426,
+      "sha256": "8bda821146ca4db57de86c4de866a30fd86481c1683b5a09ee7b152e6d404360",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/111-before-attack.txt",
+      "bytes": 426,
+      "sha256": "8bda821146ca4db57de86c4de866a30fd86481c1683b5a09ee7b152e6d404360",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/112-after-turn.txt",
+      "bytes": 427,
+      "sha256": "19cba1bc68385877983649b092fff27cfed96f3007eaac17e975039ca1f447ff",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/113-before-attack.txt",
+      "bytes": 427,
+      "sha256": "19cba1bc68385877983649b092fff27cfed96f3007eaac17e975039ca1f447ff",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/114-after-turn.txt",
+      "bytes": 426,
+      "sha256": "62ac401d25c6ad0064d275c586eb6da0a6c865cefc672e1366c227c1c09ef7a8",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/115-before-attack.txt",
+      "bytes": 426,
+      "sha256": "62ac401d25c6ad0064d275c586eb6da0a6c865cefc672e1366c227c1c09ef7a8",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/116-after-turn.txt",
+      "bytes": 417,
+      "sha256": "050649f6d7fec4d50387ac73e53b268fb6b14daa24b72621386db8f60cbb3569",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/117-before-attack.txt",
+      "bytes": 417,
+      "sha256": "050649f6d7fec4d50387ac73e53b268fb6b14daa24b72621386db8f60cbb3569",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/118-after-turn.txt",
+      "bytes": 417,
+      "sha256": "121231c2150f69942952139bee8f73b45d3805e2f1c59fb6f25c9fa9a966912d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/119-before-attack.txt",
+      "bytes": 417,
+      "sha256": "121231c2150f69942952139bee8f73b45d3805e2f1c59fb6f25c9fa9a966912d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/120-after-turn.txt",
+      "bytes": 420,
+      "sha256": "eec1cf9a064722a0cc6fef39ef1c8ba21678c68b00a8b5056007a5a0f690307f",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/121-before-attack.txt",
+      "bytes": 420,
+      "sha256": "eec1cf9a064722a0cc6fef39ef1c8ba21678c68b00a8b5056007a5a0f690307f",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/122-after-turn.txt",
+      "bytes": 433,
+      "sha256": "855e904465d225800104b146d347838152443917b7165f580d8c6ccdca0a8292",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/123-before-attack.txt",
+      "bytes": 433,
+      "sha256": "855e904465d225800104b146d347838152443917b7165f580d8c6ccdca0a8292",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/124-after-turn.txt",
+      "bytes": 433,
+      "sha256": "88a731f81b6f6670c95af0ede47f20075d67596eae362a03351779fd846bea39",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/125-before-attack.txt",
+      "bytes": 433,
+      "sha256": "88a731f81b6f6670c95af0ede47f20075d67596eae362a03351779fd846bea39",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/126-after-turn.txt",
+      "bytes": 433,
+      "sha256": "84bd7192c4cfbf1827e7ade80227f8c6ea7291cc34650badcf41122d752368ce",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/127-before-attack.txt",
+      "bytes": 433,
+      "sha256": "84bd7192c4cfbf1827e7ade80227f8c6ea7291cc34650badcf41122d752368ce",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/128-after-turn.txt",
+      "bytes": 426,
+      "sha256": "a7fb8b294db425b207e35fe8ea9f0073a086b416830fb562b9c134ee9c5fbb4b",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/129-before-attack.txt",
+      "bytes": 426,
+      "sha256": "a7fb8b294db425b207e35fe8ea9f0073a086b416830fb562b9c134ee9c5fbb4b",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/130-after-turn.txt",
+      "bytes": 432,
+      "sha256": "0ff8459257708040a67fea5635e61f351d40e95fc4586cdc22ba6ccd19dab68d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/131-before-attack.txt",
+      "bytes": 432,
+      "sha256": "0ff8459257708040a67fea5635e61f351d40e95fc4586cdc22ba6ccd19dab68d",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/132-after-turn.txt",
+      "bytes": 432,
+      "sha256": "7710ff02f9d1340ba2f7854d549c1a300b2270677f6d67924cccfa1ccb34aa02",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/133-before-attack.txt",
+      "bytes": 432,
+      "sha256": "7710ff02f9d1340ba2f7854d549c1a300b2270677f6d67924cccfa1ccb34aa02",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/134-after-turn.txt",
+      "bytes": 432,
+      "sha256": "549a90ababe8dfb98ce3f3456e206e6bd8fbec04876f3d7bf10d3d7cd0ef093a",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/135-before-attack.txt",
+      "bytes": 432,
+      "sha256": "549a90ababe8dfb98ce3f3456e206e6bd8fbec04876f3d7bf10d3d7cd0ef093a",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/136-after-turn.txt",
+      "bytes": 420,
+      "sha256": "90206a91bd5271d5bd433e3669500b4fadee6a887f97faa9cd5a20b55f56ec44",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/137-before-attack.txt",
+      "bytes": 420,
+      "sha256": "90206a91bd5271d5bd433e3669500b4fadee6a887f97faa9cd5a20b55f56ec44",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/138-after-turn.txt",
+      "bytes": 431,
+      "sha256": "a09e9686f597072c8abd6938dda8acbc37ed72271bb3bddea06ab02603112f37",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/139-before-attack.json.gz",
+      "bytes": 174896,
+      "sha256": "03d34fdc714f575a347d89ae9c542d82a84e9d2201c615e656bef86eb38f811a",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/139-before-attack.png",
+      "bytes": 481771,
+      "sha256": "33647e5ae9b74c9128f168755716eda3f714d7ebe4039db29905c1d16a557b9a",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/139-before-attack.txt",
+      "bytes": 431,
+      "sha256": "a09e9686f597072c8abd6938dda8acbc37ed72271bb3bddea06ab02603112f37",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/140-after-turn.txt",
+      "bytes": 259,
+      "sha256": "d219a691a4b16b78c594fa69453ae6c67f0d70666406cf00eaa5d66cafb30fc7",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/141-battle-result.json.gz",
+      "bytes": 174928,
+      "sha256": "e9dc3c09195053fb900a93288e679e86c7b5b8e9aca00e88c0889254b5209fb1",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/141-battle-result.png",
+      "bytes": 543852,
+      "sha256": "ca54b44f741b3c3a8706fb89f3a7018190521f560dacc5ca4f2d3060cbed1994",
+      "reason": "key natural-flow checkpoint or harness-failure/RapidSpin evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/141-battle-result.txt",
+      "bytes": 259,
+      "sha256": "d219a691a4b16b78c594fa69453ae6c67f0d70666406cf00eaa5d66cafb30fc7",
+      "reason": "all original observed page text"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/rapid-spin-go-raw.json",
+      "bytes": 38249,
+      "sha256": "1bce4729f5f4f42569301b5d10fae66290599547e21ae72673ede7844175dc3d",
+      "reason": "environment, natural selection instruction or original move evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/rapid-spin-target-observation.json",
+      "bytes": 34617,
+      "sha256": "2d96013875b6b0565185a2330fe13b47d79830c232152705eadfdd18bf5605f7",
+      "reason": "environment, natural selection instruction or original move evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/result.json.gz",
+      "bytes": 24841,
+      "sha256": "40293df20640fdb159005069ceccef2af603baba06633b4142fca758ba8077dc",
+      "reason": "complete input/state-summary/log/console/network trace, losslessly compressed"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/selection.json",
+      "bytes": 172,
+      "sha256": "d19f7c4083c49df8843397ae5540377458dc7665a6f530f9ae07c7be7e83b680",
+      "reason": "environment, natural selection instruction or original move evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/environment.json",
+      "bytes": 449,
+      "sha256": "2193a5e03606cf8112b5efc1e5b41d8a747939e8e534b2fd440f0ddfb027a8d7",
+      "reason": "environment, natural selection instruction or original move evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/result.json.gz",
+      "bytes": 9159,
+      "sha256": "edb269e88cfcf14481e6ab34f9c0c327cd2913f357a57399016a0e264ac69fc8",
+      "reason": "complete input/state-summary/log/console/network trace, losslessly compressed"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/selection.json",
+      "bytes": 147,
+      "sha256": "18717ebdeac9229f95af6288d204d684d94966b83242159a92131b73bc9ca82f",
+      "reason": "environment, natural selection instruction or original move evidence"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/log.md",
+      "bytes": 2061,
+      "sha256": "91595b2d2ead6bf2566a0dd75b70982f48c3075431fe524ef3775552a9f1d0b2",
+      "reason": "player report or reproducible harness"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/prepare-commit-manifest.mjs",
+      "bytes": 6105,
+      "sha256": "eba361deb389fe71f1908c8ddbae76e57479868ac925a87bbf39593d37fabc6f",
+      "reason": "player report or reproducible harness"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/run-natural-attempt1-original.mjs",
+      "bytes": 8708,
+      "sha256": "061891190940ed1b930d80399f7ad949572c7765aa50414a451340b72f30b18e",
+      "reason": "player report or reproducible harness"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/run-natural.mjs",
+      "bytes": 9092,
+      "sha256": "d16ba5c2cad8da7124d5ad4c50b3c082bbb1207ee674ca0d0e9867f2baf1b5fa",
+      "reason": "player report or reproducible harness"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/runtime.md",
+      "bytes": 12699,
+      "sha256": "a95160d21bf0cb4a65098defc7180e1c3be60b425389c92067f33ba503953bb2",
+      "reason": "player report or reproducible harness"
+    }
+  ],
+  "localOnly": [
+    {
+      "path": "docs/tasks/自然长局基线/evidence/004-after-turn.json.gz",
+      "bytes": 168905,
+      "sha256": "6f614254d72ef662bc4088e7a879d3abcc945d5907c12595eec31f6484021722",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/004-after-turn.png",
+      "bytes": 494482,
+      "sha256": "6de33c1691326d38bde0ba83d5fea061741f7f750496caa457c87cc96e640eea",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/005-before-attack.json.gz",
+      "bytes": 168905,
+      "sha256": "6f614254d72ef662bc4088e7a879d3abcc945d5907c12595eec31f6484021722",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/005-before-attack.png",
+      "bytes": 491177,
+      "sha256": "735d5e297757ad245fd9fbbe71f02412fd8130024ff0891574d94c8720b18875",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/006-after-turn.json.gz",
+      "bytes": 168913,
+      "sha256": "4ae512a66272ef15f0199f2f956363bb69075967b50fb3b30ef7380fd334cccd",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/006-after-turn.png",
+      "bytes": 495814,
+      "sha256": "57f8dac218b7e9cf4bb7995e80bf74af1069f4475533b572ee9bae0468333c26",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/007-before-attack.json.gz",
+      "bytes": 168913,
+      "sha256": "4ae512a66272ef15f0199f2f956363bb69075967b50fb3b30ef7380fd334cccd",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/007-before-attack.png",
+      "bytes": 494357,
+      "sha256": "fdd5831cbe37bf4a27ca9e20f2005811efdb7f436970608d7975e5c5beeeb6ad",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/008-after-turn.json.gz",
+      "bytes": 168919,
+      "sha256": "2a0d527e3b97630e0b89139b523efde46d12b5630b5211a6189e15feb856f221",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/008-after-turn.png",
+      "bytes": 498569,
+      "sha256": "d775732801fa700e684ba7e6cb4d52682d348326fb6a6da63b0259abff25e182",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/009-before-attack.json.gz",
+      "bytes": 168919,
+      "sha256": "2a0d527e3b97630e0b89139b523efde46d12b5630b5211a6189e15feb856f221",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/009-before-attack.png",
+      "bytes": 492608,
+      "sha256": "b3a83194e381d713b81a5f69c38a5df58d1ac805ff3ba668926fa2505ae18b48",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/010-after-turn.json.gz",
+      "bytes": 169008,
+      "sha256": "dfda3c17ed6a0a8b504b028c13b508f4a09e202e833f87a7bb3af3247d534479",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/010-after-turn.png",
+      "bytes": 488992,
+      "sha256": "48c2c18034a9249d9282a6ce598516c9ca3bee13f55644341c3694244e14933c",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/011-before-attack.json.gz",
+      "bytes": 169008,
+      "sha256": "dfda3c17ed6a0a8b504b028c13b508f4a09e202e833f87a7bb3af3247d534479",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/011-before-attack.png",
+      "bytes": 481440,
+      "sha256": "8508ff4279b7b7512cfd9b76d1fc67360d6808b021751051d341095aa06c16c1",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/012-after-turn.json.gz",
+      "bytes": 169061,
+      "sha256": "f73ba5b1c1abb6dbef70a07e750da7fcc4016f320547bba8bb2ff6a1727359e7",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/012-after-turn.png",
+      "bytes": 488131,
+      "sha256": "eebb1120185f617158584e7ca3cb828173e98f329fb71c00132bfc76d428a3fa",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/013-before-attack.json.gz",
+      "bytes": 169061,
+      "sha256": "f73ba5b1c1abb6dbef70a07e750da7fcc4016f320547bba8bb2ff6a1727359e7",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/013-before-attack.png",
+      "bytes": 480492,
+      "sha256": "bc931f0e18f93fda110efd22ab9a3f16ea4ca676ca1ac7630d4a8e4d7441529c",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/014-after-turn.json.gz",
+      "bytes": 169080,
+      "sha256": "45e4653072ed2addbef670257154b36e169b48b4abb6da0f7c70851835853271",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/014-after-turn.png",
+      "bytes": 485627,
+      "sha256": "ba257aadf23272ab9511cbf43e43efec0f2f3b00e7897c8d671efe206d04f526",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/015-before-attack.json.gz",
+      "bytes": 169080,
+      "sha256": "45e4653072ed2addbef670257154b36e169b48b4abb6da0f7c70851835853271",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/015-before-attack.png",
+      "bytes": 488814,
+      "sha256": "2400a5d9c96e1d38becf9db29d4e3b597694db96324fd2bfebc0eb4f1029bfcb",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/016-after-turn.json.gz",
+      "bytes": 169118,
+      "sha256": "f9bbcad453abe2b6e442969f609894cc8932025880b5ce65bc08fd8279e4130e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/016-after-turn.png",
+      "bytes": 494757,
+      "sha256": "bcc9cb14446457d20d8c75250cc4255fc4525bb2c9951de6be16c4027295a32e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/017-before-attack.json.gz",
+      "bytes": 169118,
+      "sha256": "f9bbcad453abe2b6e442969f609894cc8932025880b5ce65bc08fd8279e4130e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/017-before-attack.png",
+      "bytes": 492425,
+      "sha256": "7598cfc197cc69cf65feac4da3f61e3df5d3bf04a3fe4133d283ada6d1305f3d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/018-after-turn.json.gz",
+      "bytes": 169180,
+      "sha256": "581bc2979ce50af9b1420fe9506136cbafc9b20e1bae49789f34537675c74a22",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/018-after-turn.png",
+      "bytes": 496820,
+      "sha256": "a1a11eb5084cdc47f9f155168cef518f79011b894e0605c5cf26aec925d00742",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/actual-browser-storage.json",
+      "bytes": 4060453,
+      "sha256": "8c27ef3c0d188713757adfdf72a023df2016b272ac1b102185610a521789adb4",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/004-after-turn.json.gz",
+      "bytes": 174666,
+      "sha256": "0c429ed3b7c9e6f704fb636f5242b7f7524778089bfd6991a30bef75c21231e4",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/004-after-turn.png",
+      "bytes": 460265,
+      "sha256": "b6df0d87afeb1595337aba2dcfa6c7717b5bfbe41fc9626ac39cffce54ad7396",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/005-before-attack.json.gz",
+      "bytes": 174666,
+      "sha256": "0c429ed3b7c9e6f704fb636f5242b7f7524778089bfd6991a30bef75c21231e4",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/005-before-attack.png",
+      "bytes": 458833,
+      "sha256": "a42b5d4ac4585cd30a40a851be37fde05c5b219465768c92ac43b2d79ff8f7c8",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/006-after-turn.json.gz",
+      "bytes": 174743,
+      "sha256": "f4fc708a8bff64c5e2d6caf0f6226a2344e627e9ad571f14b3f7cdc70232ae4d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/006-after-turn.png",
+      "bytes": 457932,
+      "sha256": "e63a1599b6f664f4f441f365e60d6182c7c5dccb9c2f33c03b4da6aa9bdb68f3",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/007-before-attack.json.gz",
+      "bytes": 174743,
+      "sha256": "f4fc708a8bff64c5e2d6caf0f6226a2344e627e9ad571f14b3f7cdc70232ae4d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/007-before-attack.png",
+      "bytes": 457884,
+      "sha256": "6385ac73f1c9510d2c3cd55f1051ae2bba9ca2ba0036d3c03add223639945e60",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/008-after-turn.json.gz",
+      "bytes": 174756,
+      "sha256": "63911eafae78aaca4585d428792f6a2e93f89fefed82820d85f1d28a78d3562a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/008-after-turn.png",
+      "bytes": 457155,
+      "sha256": "f065046b222b5e8beaa4e327d08c7e2014cb69945164f8c491114a49cd3ee616",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/009-before-attack.json.gz",
+      "bytes": 174756,
+      "sha256": "63911eafae78aaca4585d428792f6a2e93f89fefed82820d85f1d28a78d3562a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/009-before-attack.png",
+      "bytes": 454050,
+      "sha256": "5ca0d7422ef2939c57b19a1a46e952147be177fee054c197fabe8bbfb09c3dd3",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/010-after-turn.json.gz",
+      "bytes": 174833,
+      "sha256": "0abdb97e8825a978760ac0bc41b73e6080c8753a44cb160c5300309c6dd9b681",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/010-after-turn.png",
+      "bytes": 455877,
+      "sha256": "75d557ace5f205295aff4c5bd1edf79f3cb7381d5fa090c9eb2e71a5f5fb3e77",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/011-before-attack.json.gz",
+      "bytes": 174833,
+      "sha256": "0abdb97e8825a978760ac0bc41b73e6080c8753a44cb160c5300309c6dd9b681",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/011-before-attack.png",
+      "bytes": 457182,
+      "sha256": "abf9538c170066c1100797b6bfe5c9beee5748c03bdea07b58f207b36496071d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/012-after-turn.json.gz",
+      "bytes": 174895,
+      "sha256": "c0384a77e7787a913b9ea1c2b098c43373f26d0e884c5a4902147b6602d698ba",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/012-after-turn.png",
+      "bytes": 455534,
+      "sha256": "f2094e402254b740389c373b2e376466f9a471c597f1247587884d25af99a317",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/013-before-attack.json.gz",
+      "bytes": 174895,
+      "sha256": "c0384a77e7787a913b9ea1c2b098c43373f26d0e884c5a4902147b6602d698ba",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/013-before-attack.png",
+      "bytes": 453681,
+      "sha256": "9a4cdd90e3365fc813dc9541c37003dfc84016282d1a5ded601600541b88f969",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/014-after-turn.json.gz",
+      "bytes": 174904,
+      "sha256": "0cbe5d8f1e105abd46927a15cbf26483cc05a3ed1b4ca5cc9676069b47c6041e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/014-after-turn.png",
+      "bytes": 462505,
+      "sha256": "fa31d7f5158a13d69faae26121197a8c1b95753b6f513f9a3e421b02f5fe7b69",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/015-before-attack.json.gz",
+      "bytes": 174904,
+      "sha256": "0cbe5d8f1e105abd46927a15cbf26483cc05a3ed1b4ca5cc9676069b47c6041e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/015-before-attack.png",
+      "bytes": 453930,
+      "sha256": "d7706a4a7e534c2133cad40d74504f7827bb28a688d38d9d8f11e7fd2e89b37d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/016-after-turn.json.gz",
+      "bytes": 174903,
+      "sha256": "d7a2191e28bab711838616eda4e97b433249f7536a51193ceb1c53bfb7ced6da",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/016-after-turn.png",
+      "bytes": 457514,
+      "sha256": "073e3a4e81ed85ff1e79bda18e40b533b58a38e1813099cde2dd06191348d428",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/017-before-attack.json.gz",
+      "bytes": 174903,
+      "sha256": "d7a2191e28bab711838616eda4e97b433249f7536a51193ceb1c53bfb7ced6da",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/017-before-attack.png",
+      "bytes": 454402,
+      "sha256": "49a520c5b43cc53f6a711a14fb0ca0025c3a5badc86a9a74fe4c9e882d040adf",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/018-after-turn.json.gz",
+      "bytes": 174906,
+      "sha256": "98354e613275a826a7461cdb1fd6b87ffd2ecb92f41bbe7cadcbf561d64062ff",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/018-after-turn.png",
+      "bytes": 458151,
+      "sha256": "fd0e4bfd230aba32b8958ca2946a3afc4a4233e405a5625ede36e90800c4dd1d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/019-before-attack.json.gz",
+      "bytes": 174906,
+      "sha256": "98354e613275a826a7461cdb1fd6b87ffd2ecb92f41bbe7cadcbf561d64062ff",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/019-before-attack.png",
+      "bytes": 453146,
+      "sha256": "ac2a3a1b3b2ca3604bc4d1782980d1293e78524c9a6a0fa1124786c87c732711",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/020-after-turn.json.gz",
+      "bytes": 174913,
+      "sha256": "40076ea07237155ad0faf7b1225deb5bd40d0526fa9002ebee1cc7ce9840d826",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/020-after-turn.png",
+      "bytes": 457208,
+      "sha256": "b637a97d85183d8d56e1739c3dee4e2ef0a443b6695fc826e1e1db590560e1c8",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/021-before-attack.json.gz",
+      "bytes": 174913,
+      "sha256": "40076ea07237155ad0faf7b1225deb5bd40d0526fa9002ebee1cc7ce9840d826",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/021-before-attack.png",
+      "bytes": 455496,
+      "sha256": "a0a9bf2864a728f56306b5ab0e87f9526c84778a74e9f469f113013c0d188448",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/022-after-turn.json.gz",
+      "bytes": 174920,
+      "sha256": "728ad5ef4cf2e05a7f6c6f24403746392399c739d2e985dd8969c0b132baca6d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/022-after-turn.png",
+      "bytes": 387000,
+      "sha256": "b4660743fefef50628cf0908d1c23965edb18aff975971aed630b188690f4fcd",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/025-before-attack.json.gz",
+      "bytes": 174984,
+      "sha256": "2d47c8565523ee07b18fe47904f48de9e4bc48784ca47929d33457508511ad97",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/025-before-attack.png",
+      "bytes": 482379,
+      "sha256": "d28bfa5214a752954957f3cc34dca3025532958b496ee97c80feea343a601219",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/026-after-turn.json.gz",
+      "bytes": 175190,
+      "sha256": "3fbb77045538da5a50a531b8fcfc7e38d14f6f76d3a19f8bd60b8246e1d4ba38",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/026-after-turn.png",
+      "bytes": 482051,
+      "sha256": "96bb3353ff3bd3251b3f5f7924751fa6a172ef85d782dcb020b147dc3db062e9",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/027-before-attack.json.gz",
+      "bytes": 175190,
+      "sha256": "3fbb77045538da5a50a531b8fcfc7e38d14f6f76d3a19f8bd60b8246e1d4ba38",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/027-before-attack.png",
+      "bytes": 476010,
+      "sha256": "6fe742582c3f53a5ca302b6d32c95a4a1529b85160bb269dc069824b0ddbc6bf",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/028-after-turn.json.gz",
+      "bytes": 175317,
+      "sha256": "2fa93206086c55b5d940b6b411508f8a84bfc559c239d09a143ecb4be66a6e64",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/028-after-turn.png",
+      "bytes": 486593,
+      "sha256": "407b925a06cd47a67bf3dc99285027de272f8d877728bdd998ba079b9492f1a9",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/029-before-attack.json.gz",
+      "bytes": 175317,
+      "sha256": "2fa93206086c55b5d940b6b411508f8a84bfc559c239d09a143ecb4be66a6e64",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/029-before-attack.png",
+      "bytes": 481286,
+      "sha256": "d7316641fe96b1ce79a621af7dcea574a65fe1887bfc572d65216d3240ee1d1b",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/030-after-turn.json.gz",
+      "bytes": 175391,
+      "sha256": "acdc7e8884fb249d4cb7e546a502827d1d5d9ddc35858a234bd597c91ae066b9",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/030-after-turn.png",
+      "bytes": 486250,
+      "sha256": "524b9ca3f937e38258c6bfa9bedbebaf70018520511278819db7af91529cc3b5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/031-before-attack.json.gz",
+      "bytes": 175391,
+      "sha256": "acdc7e8884fb249d4cb7e546a502827d1d5d9ddc35858a234bd597c91ae066b9",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/031-before-attack.png",
+      "bytes": 484163,
+      "sha256": "531e0aef4f33398590101fa0096a953ead0edc472168106ea73048016d8fb3d0",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/032-after-turn.json.gz",
+      "bytes": 175404,
+      "sha256": "8874424ad8cff259895fd170394aca31ac4d6e3cdd24d147eb4773a02abb9a77",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/032-after-turn.png",
+      "bytes": 486611,
+      "sha256": "dfc22076ec684e74589603df3c01df055c8200ffe711260a718f464b0e5ba2b5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/033-before-attack.json.gz",
+      "bytes": 175404,
+      "sha256": "8874424ad8cff259895fd170394aca31ac4d6e3cdd24d147eb4773a02abb9a77",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/033-before-attack.png",
+      "bytes": 479035,
+      "sha256": "dcb203b40d6fb8f1374227536dda4f93fc6c6a1660d751cbf1b0ab4e24ffaada",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/034-after-turn.json.gz",
+      "bytes": 175418,
+      "sha256": "e4bdd0080a7a62ec6d5189cd19472c8ab5e3fe8bd482349e44a2a41638fe73f5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/034-after-turn.png",
+      "bytes": 483893,
+      "sha256": "ca743c1f63dc33fe6a59ef7451ede80fc644a4c6966e2cc6f2932e6995cb4c7b",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/035-before-attack.json.gz",
+      "bytes": 175418,
+      "sha256": "e4bdd0080a7a62ec6d5189cd19472c8ab5e3fe8bd482349e44a2a41638fe73f5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/035-before-attack.png",
+      "bytes": 480504,
+      "sha256": "0f44526594f78a013b45d67c7030767686d79a08121a5287eb3bb598f5cc7e04",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/036-after-turn.json.gz",
+      "bytes": 175457,
+      "sha256": "aa44557835a946b8fb6fbe8942e9244acec250683fefcef1e5d9d7fa55ec6ee9",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/036-after-turn.png",
+      "bytes": 541270,
+      "sha256": "2c96436f2869dd104a527805388dc9aeeffcf13a9533d864c1171f8bcff53eb5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/040-after-turn.json.gz",
+      "bytes": 174040,
+      "sha256": "d30b72307c75eef6c5e2070ffa8d04ef6a0121e80c8d908d04026e3491f92076",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/040-after-turn.png",
+      "bytes": 486693,
+      "sha256": "e278b2c36e0adfc302e6e04b025a587d95c80b57deebde69aeee44b1f1e2309d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/041-before-attack.json.gz",
+      "bytes": 174040,
+      "sha256": "d30b72307c75eef6c5e2070ffa8d04ef6a0121e80c8d908d04026e3491f92076",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/041-before-attack.png",
+      "bytes": 478894,
+      "sha256": "254a9774314fd8c4e19c0db425af74a1e4cf2c6b2bc820f32d61cc1a74ac5b25",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/042-after-turn.json.gz",
+      "bytes": 174047,
+      "sha256": "fe69782575ebe38871201013fb216c0b5ca22959dbfe33ef6d57e9a5d68681d8",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/042-after-turn.png",
+      "bytes": 481814,
+      "sha256": "66e3353160664ffd484eda89eb3724d50d5a2e26358c0c5db874bdcd0e86c5b2",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/043-before-attack.json.gz",
+      "bytes": 174047,
+      "sha256": "fe69782575ebe38871201013fb216c0b5ca22959dbfe33ef6d57e9a5d68681d8",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/043-before-attack.png",
+      "bytes": 477913,
+      "sha256": "380a44cf7d7e7a513b1f3019188442754351e5c98d5828a46d7fd522a48ccbbc",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/044-after-turn.json.gz",
+      "bytes": 174117,
+      "sha256": "26de4c7143992961bf83296081d939c7b7ec709b388b439c66d35fd9462fa537",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/044-after-turn.png",
+      "bytes": 481321,
+      "sha256": "d7fe14ebd605e9bc1b8cefeb9ddc4989605654f24c2544503070536fa3d9e04e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/045-before-attack.json.gz",
+      "bytes": 174117,
+      "sha256": "26de4c7143992961bf83296081d939c7b7ec709b388b439c66d35fd9462fa537",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/045-before-attack.png",
+      "bytes": 481173,
+      "sha256": "b5d4491c0996e6efc010067b39602304fbe4b803b1b6c179ae682e85461f6ca9",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/046-after-turn.json.gz",
+      "bytes": 174155,
+      "sha256": "feb691d14afd1f994e6bcbdf95238a8d6459ab25f93f2adbfecf258a9dc4cf24",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/046-after-turn.png",
+      "bytes": 482786,
+      "sha256": "5227aa908c3030115f8dae65d045526799792e1b241ba8092855d78938622b53",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/047-before-attack.json.gz",
+      "bytes": 174155,
+      "sha256": "feb691d14afd1f994e6bcbdf95238a8d6459ab25f93f2adbfecf258a9dc4cf24",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/047-before-attack.png",
+      "bytes": 481048,
+      "sha256": "f9504f1dd668dfd830037a266c9dacb0120d89d2b5385c1b35181128220e1630",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/048-after-turn.json.gz",
+      "bytes": 174159,
+      "sha256": "7147fe8319cc5cef7e8397689340a935c6c6962a7243667d52b07274eb384281",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/048-after-turn.png",
+      "bytes": 483786,
+      "sha256": "5faa509aec38a68fb89a7c6f38f9d9c36d4c2a2b632325c40f92797b515a8e9e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/049-before-attack.json.gz",
+      "bytes": 174159,
+      "sha256": "7147fe8319cc5cef7e8397689340a935c6c6962a7243667d52b07274eb384281",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/049-before-attack.png",
+      "bytes": 477275,
+      "sha256": "e0d3f6fe5cff0c82a71cc4903a3624dce611a31192c1c8dd4d5e02c1db3d695f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/050-after-turn.json.gz",
+      "bytes": 174162,
+      "sha256": "6d2e8b445d33342437f5d55423e2ebe5e6cf55560317ffdb8a8746dc60653387",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/050-after-turn.png",
+      "bytes": 483979,
+      "sha256": "99946f116a933df68628f80cc66ae9c7dcebd9d65d28900bed74a1882c31bc92",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/051-before-attack.json.gz",
+      "bytes": 174162,
+      "sha256": "6d2e8b445d33342437f5d55423e2ebe5e6cf55560317ffdb8a8746dc60653387",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/051-before-attack.png",
+      "bytes": 476345,
+      "sha256": "85a137425b48d7508224fbb0eee536335081d8f710e3a8840c76bf53b7c25cad",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/052-after-turn.json.gz",
+      "bytes": 174165,
+      "sha256": "99a8441ee1629987f2fa58826d10c96ee7072ce96a4748d6c4856028692a4bed",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/052-after-turn.png",
+      "bytes": 481375,
+      "sha256": "1c7976adef00d39022364a6a88bfffc1992455aef21dde5ce82d5a5bfecac1c8",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/053-before-attack.json.gz",
+      "bytes": 174165,
+      "sha256": "99a8441ee1629987f2fa58826d10c96ee7072ce96a4748d6c4856028692a4bed",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/053-before-attack.png",
+      "bytes": 483283,
+      "sha256": "0c8103304982c35bae79a5f4837d4ffcb5637ab4e4087ecdb0b57e6385f233d9",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/054-after-turn.json.gz",
+      "bytes": 174171,
+      "sha256": "4451228fa5d6213acb7016bc21768696463aefd9e9bcc30d57735267725d4209",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/054-after-turn.png",
+      "bytes": 481072,
+      "sha256": "7946529e9618a6c29c8e3874ae168929ed54bdfca8ab6e6b5fe2813366ba562f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/055-before-attack.json.gz",
+      "bytes": 174171,
+      "sha256": "4451228fa5d6213acb7016bc21768696463aefd9e9bcc30d57735267725d4209",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/055-before-attack.png",
+      "bytes": 480648,
+      "sha256": "ccd69d9e04b5e3b06fd4feccc8e5d0add82e26e0570219ab2f33410f9779a8ab",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/056-after-turn.json.gz",
+      "bytes": 174170,
+      "sha256": "3571ccf7f63fc57d8d2f84ce3bc1c3b79610735241c82285d64b0ac71ac93476",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/056-after-turn.png",
+      "bytes": 482019,
+      "sha256": "3dd8e1930701212ac3fa18d97b1a29ead8767507aa435139be21f6f966bc167a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/057-before-attack.json.gz",
+      "bytes": 174170,
+      "sha256": "3571ccf7f63fc57d8d2f84ce3bc1c3b79610735241c82285d64b0ac71ac93476",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/057-before-attack.png",
+      "bytes": 479560,
+      "sha256": "c3b1b2fe2209f38eadbacb5df3d0ae7e6dd1a734bd013709013ab43dfb008f0d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/058-after-turn.json.gz",
+      "bytes": 174179,
+      "sha256": "6b37d9e0919987d932285a475f896d43e231c44b2f68230cac276f64f98198a7",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/058-after-turn.png",
+      "bytes": 482446,
+      "sha256": "06a5ccc6d4aa2d35316d34a7f0e6d57bf0cdb1542ede3c2194e6e417344de6e7",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/059-before-attack.json.gz",
+      "bytes": 174179,
+      "sha256": "6b37d9e0919987d932285a475f896d43e231c44b2f68230cac276f64f98198a7",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/059-before-attack.png",
+      "bytes": 477335,
+      "sha256": "5226211ae8e0f21c9b3276ef467989158b0aaafa292d64aba2d12f955d072e31",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/060-after-turn.json.gz",
+      "bytes": 174179,
+      "sha256": "607c5c228b4107cf1bc570db36e675a26f20ed10bbeddea7d9a804941b96d465",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/060-after-turn.png",
+      "bytes": 482843,
+      "sha256": "4825d5834917572f81187a25cd5f3bd26c9e0e773ef2ee293554c7731ce20a03",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/061-before-attack.json.gz",
+      "bytes": 174179,
+      "sha256": "607c5c228b4107cf1bc570db36e675a26f20ed10bbeddea7d9a804941b96d465",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/061-before-attack.png",
+      "bytes": 478611,
+      "sha256": "216f93962216563f44d75e7bc3a08e3f800fa388bd1456d1e4681fa3f2d3072d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/062-after-turn.json.gz",
+      "bytes": 174250,
+      "sha256": "febc470e5b8ce7d85615036a6a3f5e59e48209fac010ef8671e1c9081edfa21b",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/062-after-turn.png",
+      "bytes": 481669,
+      "sha256": "fcb827cec91cd846e11f939b12d3310d638c9903aea7c0b174a810501ca3e776",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/063-before-attack.json.gz",
+      "bytes": 174250,
+      "sha256": "febc470e5b8ce7d85615036a6a3f5e59e48209fac010ef8671e1c9081edfa21b",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/063-before-attack.png",
+      "bytes": 477391,
+      "sha256": "9a083163e0b9a8ba9231d7d3ba9b47c313c21cd5ffd28dc0debe8137f72be8a5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/064-after-turn.json.gz",
+      "bytes": 174312,
+      "sha256": "6b7eeada1602193d2d300b4ebc1e0839a1afb50c99edd00291933a09d2115e7c",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/064-after-turn.png",
+      "bytes": 484722,
+      "sha256": "e3a40174011d870c00fd9bd2c15eb6c77b2f1d4bdbf826a56c53e04395c1b01b",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/065-before-attack.json.gz",
+      "bytes": 174312,
+      "sha256": "6b7eeada1602193d2d300b4ebc1e0839a1afb50c99edd00291933a09d2115e7c",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/065-before-attack.png",
+      "bytes": 479727,
+      "sha256": "73d12699d3ca7a16fe5cdc7eb8071114a5082615ea02afa266037b7bb6898f7e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/066-after-turn.json.gz",
+      "bytes": 174322,
+      "sha256": "43fa2e18e357250963075872130a7a6632e14057b62272b00531e5814866771c",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/066-after-turn.png",
+      "bytes": 483541,
+      "sha256": "2417db0f7755ca03c6fff04778df5c0cea9d5bbceae42cc40e2b355f034a895e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/067-before-attack.json.gz",
+      "bytes": 174322,
+      "sha256": "43fa2e18e357250963075872130a7a6632e14057b62272b00531e5814866771c",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/067-before-attack.png",
+      "bytes": 480990,
+      "sha256": "a0a486298ada8cf3d91c63193e50e95fc7a730d615b0a3f7345dd23490682680",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/068-after-turn.json.gz",
+      "bytes": 174355,
+      "sha256": "c09359fa79fd51e10b2fab0efd93ed4c406232828b7eaf6ac0abb99772ac3f60",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/068-after-turn.png",
+      "bytes": 483003,
+      "sha256": "7980e56bd15486b2f910868d5b6865720a204b58521acd117ea2b6b0a04df310",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/069-before-attack.json.gz",
+      "bytes": 174355,
+      "sha256": "c09359fa79fd51e10b2fab0efd93ed4c406232828b7eaf6ac0abb99772ac3f60",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/069-before-attack.png",
+      "bytes": 479756,
+      "sha256": "9314611fcbd3752982896c7e42e1ed783947a4674f14e64437882234114e9075",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/070-after-turn.json.gz",
+      "bytes": 174359,
+      "sha256": "32fabbc1441e7d48ef1eb916c08f0233dbd7db5653324e86e3fa09a6ef7b1ed2",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/070-after-turn.png",
+      "bytes": 482782,
+      "sha256": "db42325df67dec8b8df3424469d1f1ff6dfa94b329a641242d8e51dbdd049916",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/071-before-attack.json.gz",
+      "bytes": 174359,
+      "sha256": "32fabbc1441e7d48ef1eb916c08f0233dbd7db5653324e86e3fa09a6ef7b1ed2",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/071-before-attack.png",
+      "bytes": 479621,
+      "sha256": "c146b20dfd09a17ea8a060ac8cf793d674cd3108393eabbfd771d15f0b0bf8f7",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/072-after-turn.json.gz",
+      "bytes": 174370,
+      "sha256": "4a20ce0f377fce7de82200c3380d3dee01bd858f3cc4030cb727a3969b498f0d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/072-after-turn.png",
+      "bytes": 484036,
+      "sha256": "600fdece3dd6e6c72b385ae0d2d0878ecd031b47d5386466a978874104befef9",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/073-before-attack.json.gz",
+      "bytes": 174370,
+      "sha256": "4a20ce0f377fce7de82200c3380d3dee01bd858f3cc4030cb727a3969b498f0d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/073-before-attack.png",
+      "bytes": 481107,
+      "sha256": "2b2745075e0551a1d7f1887d71ba35e9c92225c7a83c3f6858943fd77fc66900",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/074-after-turn.json.gz",
+      "bytes": 174377,
+      "sha256": "1576c24cde5790cc6e528dc5eeb2c862ac6458410323336d3da64543d86d96c5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/074-after-turn.png",
+      "bytes": 484797,
+      "sha256": "43549ccd2ee86b5703cddbdc1444b9f65e148f57500180fc02ae5b2a8e1ad15a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/075-before-attack.json.gz",
+      "bytes": 174377,
+      "sha256": "1576c24cde5790cc6e528dc5eeb2c862ac6458410323336d3da64543d86d96c5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/075-before-attack.png",
+      "bytes": 484406,
+      "sha256": "4bb93762df042dca7f8e3f0a213115f5bc894d7b704517acf2235fb180215884",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/076-after-turn.json.gz",
+      "bytes": 174378,
+      "sha256": "d993b6e4a940211ad706ce30d60cfbc1ac6178a58bf7002b2a81327013668fea",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/076-after-turn.png",
+      "bytes": 483263,
+      "sha256": "a122d5ff872635a51115fd99d9f8aaf5e55e5c7b85653fd31dd61f9112695d45",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/077-before-attack.json.gz",
+      "bytes": 174378,
+      "sha256": "d993b6e4a940211ad706ce30d60cfbc1ac6178a58bf7002b2a81327013668fea",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/077-before-attack.png",
+      "bytes": 481630,
+      "sha256": "9d05672ab7833781337026a21aa9bfb457a553dfd03214d50da5c7376e2fcafa",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/078-after-turn.json.gz",
+      "bytes": 174389,
+      "sha256": "172115407b78fbcb475f995c2159e418f297703c3318e1eb1612fac424f57d32",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/078-after-turn.png",
+      "bytes": 484356,
+      "sha256": "4b5be684609312dae3585a40d85b6857370faf22e6c35bd08c1ade4c6437f446",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/079-before-attack.json.gz",
+      "bytes": 174389,
+      "sha256": "172115407b78fbcb475f995c2159e418f297703c3318e1eb1612fac424f57d32",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/079-before-attack.png",
+      "bytes": 479469,
+      "sha256": "7be5e698f2399feec30dc18f03ba55fcc2dace01c10957924fe8065360d346d1",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/080-after-turn.json.gz",
+      "bytes": 174410,
+      "sha256": "fd272a19c4be52321f1e611b59a547d15fd9755b79fb585db0957dcee85243ce",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/080-after-turn.png",
+      "bytes": 487227,
+      "sha256": "952136abe2d106d85a658e52936b9514bea1c950661d885d798a15880fe4618d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/081-before-attack.json.gz",
+      "bytes": 174410,
+      "sha256": "fd272a19c4be52321f1e611b59a547d15fd9755b79fb585db0957dcee85243ce",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/081-before-attack.png",
+      "bytes": 483398,
+      "sha256": "b56206ac25e84818196ee53af7eacba0dcbe4d15911175a2eb96066fbb4a1ba3",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/082-after-turn.json.gz",
+      "bytes": 174470,
+      "sha256": "40066fe84a69fb87d4f2455cbd5ecc7f257ba9b9bafc4b70240f057deb50ae5f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/082-after-turn.png",
+      "bytes": 488960,
+      "sha256": "a8085abe2a87d342c343f455a9d48bef09b79dafae47fe8f61f7adfc7d1dd477",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/083-before-attack.json.gz",
+      "bytes": 174470,
+      "sha256": "40066fe84a69fb87d4f2455cbd5ecc7f257ba9b9bafc4b70240f057deb50ae5f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/083-before-attack.png",
+      "bytes": 481782,
+      "sha256": "6811795d20ddb376a32071b4f15b3286b2a355f0c54e8c69dfd3f9ca0005e251",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/084-after-turn.json.gz",
+      "bytes": 174473,
+      "sha256": "e89cd11c85fe5ba07a4bcda7ef8b18009cf82c9938a9bf2827a63cbfd0fd9c76",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/084-after-turn.png",
+      "bytes": 487157,
+      "sha256": "e1fbbea8130058aeb0d48ced6aca5cb4ec17e31ee15870fc150f977f237499a8",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/085-before-attack.json.gz",
+      "bytes": 174473,
+      "sha256": "e89cd11c85fe5ba07a4bcda7ef8b18009cf82c9938a9bf2827a63cbfd0fd9c76",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/085-before-attack.png",
+      "bytes": 482571,
+      "sha256": "d25587c00bd2b9244df43f289a21bfcb372fad7150ace8441c6c9c8119ffb703",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/086-after-turn.json.gz",
+      "bytes": 174477,
+      "sha256": "cc19aa910dc5252b77b8d0257ad56c3e1c0e8354b34144baab996d0c84e2ced5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/086-after-turn.png",
+      "bytes": 484484,
+      "sha256": "9e25705b7b768a4b88fdd37b458d98773397b5e6fc689a4e372349d55cf8de28",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/087-before-attack.json.gz",
+      "bytes": 174477,
+      "sha256": "cc19aa910dc5252b77b8d0257ad56c3e1c0e8354b34144baab996d0c84e2ced5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/087-before-attack.png",
+      "bytes": 481958,
+      "sha256": "dbe3ad0abb65b4fe934e603f2c3a7e55d571d307dd832203f0ce43c2f9282710",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/088-after-turn.json.gz",
+      "bytes": 174489,
+      "sha256": "ffce05b9f51bfffb1c469c00f64912b9427b5af46b09972140d5669f8877fa8b",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/088-after-turn.png",
+      "bytes": 483898,
+      "sha256": "0529387ecac21561c14e9483de82acab3c038a9bb15fd36924eddafd05493c81",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/089-before-attack.json.gz",
+      "bytes": 174489,
+      "sha256": "ffce05b9f51bfffb1c469c00f64912b9427b5af46b09972140d5669f8877fa8b",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/089-before-attack.png",
+      "bytes": 481743,
+      "sha256": "6814166e7091c5e6cdad5f4fc1df770991ad6801f949ffaaf556e95d1ff80344",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/090-after-turn.json.gz",
+      "bytes": 174492,
+      "sha256": "ef1bf0e41c5c084286a6a3ee57823cfdaf4e8643503055e744be65aa001b83d8",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/090-after-turn.png",
+      "bytes": 486508,
+      "sha256": "c0fb600ed5ca55624d4bf111e1cd5d978fbf168e485f99303bbcffaf1992f4fd",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/091-before-attack.json.gz",
+      "bytes": 174492,
+      "sha256": "ef1bf0e41c5c084286a6a3ee57823cfdaf4e8643503055e744be65aa001b83d8",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/091-before-attack.png",
+      "bytes": 486436,
+      "sha256": "f5f7ca452b65851f4ba571c06cdcff7e16b276a7185e7c7007bf995d977f8fe5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/092-after-turn.json.gz",
+      "bytes": 174500,
+      "sha256": "2246fee76a5c7ccfed7a738ed004066832d4210dc2ab0cc749bd1aa98dd53260",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/092-after-turn.png",
+      "bytes": 391074,
+      "sha256": "242e75886090ce75686903e528fff76a617f506f4ebe957710c04e2f7f5ea024",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/095-before-attack.json.gz",
+      "bytes": 174451,
+      "sha256": "1ea9559433f0bb13af17af7109e496e299e7f2ee3608729371b3b1fabf647812",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/095-before-attack.png",
+      "bytes": 453914,
+      "sha256": "1e667d30fe7908cce34f74e076fa83eab66e7ff25851deaac2109f00efcbaf07",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/096-after-turn.json.gz",
+      "bytes": 174473,
+      "sha256": "491fe0b4acce4eff5504768371be8e3fd9b5fe3b6312580f3c2554b86bf049ac",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/096-after-turn.png",
+      "bytes": 459487,
+      "sha256": "c3006ebf8c751bdf65e8f8931d694506c63a6883410028ed81f79c96d84ee039",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/097-before-attack.json.gz",
+      "bytes": 174473,
+      "sha256": "491fe0b4acce4eff5504768371be8e3fd9b5fe3b6312580f3c2554b86bf049ac",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/097-before-attack.png",
+      "bytes": 455195,
+      "sha256": "c87e4845ac8b6eb062235a544b0094fa9f64df6e03b827dbae08e58df08546b3",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/098-after-turn.json.gz",
+      "bytes": 174504,
+      "sha256": "05d362949fbe95773a372ee7d0f5e7182ab1e0eb796177d6a764ac338dd5a82e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/098-after-turn.png",
+      "bytes": 456679,
+      "sha256": "f4eb0acfacce9db17015c5950bee443a816a0b9ed375931d2e723b48e882152b",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/099-before-attack.json.gz",
+      "bytes": 174504,
+      "sha256": "05d362949fbe95773a372ee7d0f5e7182ab1e0eb796177d6a764ac338dd5a82e",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/099-before-attack.png",
+      "bytes": 452826,
+      "sha256": "12deeeb3cd30196c5415c4c014b2486d52b5834c2ff4e0cd10a2e64c5737ea89",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/100-after-turn.json.gz",
+      "bytes": 174513,
+      "sha256": "20846ec356a8b5a7ac8f5abab9a523aefbef00e7c1b40820d9b01967e378b106",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/100-after-turn.png",
+      "bytes": 382793,
+      "sha256": "b632d2dcbf91cf5b2b9588c8aac00703a32e390bb49055da1a0f81eb9291a505",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/105-before-attack.json.gz",
+      "bytes": 174704,
+      "sha256": "fbb5bec640a02e4e365356bc76c7c3db8e0a773639dc47e2f9d73056fedb3bf6",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/105-before-attack.png",
+      "bytes": 476147,
+      "sha256": "917b0aedc3b7828c123932191546772805faf19f0a8d52f34cd9212f001f14b8",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/106-after-turn.json.gz",
+      "bytes": 174710,
+      "sha256": "1cfcd1751e27d8e1ff2c2b6973f2a1c12db642f9598130637f68b745148ba6c5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/106-after-turn.png",
+      "bytes": 482091,
+      "sha256": "cba8b0da757acbaa443efdef27df481dd79dddb24ba61f6192a3569e96fdfb79",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/107-before-attack.json.gz",
+      "bytes": 174710,
+      "sha256": "1cfcd1751e27d8e1ff2c2b6973f2a1c12db642f9598130637f68b745148ba6c5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/107-before-attack.png",
+      "bytes": 474532,
+      "sha256": "6709eb0b1344304bff24d0f3071c43b4859ecf280f42fc34f33d9a224eab837a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/108-after-turn.json.gz",
+      "bytes": 174730,
+      "sha256": "2a6ddaff81e063b983b643acc378f24a372b7413b48847948c5622ae41c9b3bb",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/108-after-turn.png",
+      "bytes": 479280,
+      "sha256": "16d0ed9e0ae367e710355e6a0ee75fb50ac1b3f7b5682c0bfc058e92fe35df60",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/109-before-attack.json.gz",
+      "bytes": 174730,
+      "sha256": "2a6ddaff81e063b983b643acc378f24a372b7413b48847948c5622ae41c9b3bb",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/109-before-attack.png",
+      "bytes": 476406,
+      "sha256": "da69233c1744d16cdfedd332684290cc205b31fc94a4f83088c5d7e0ec494e23",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/110-after-turn.json.gz",
+      "bytes": 174730,
+      "sha256": "202016d58022dbb3e3d5c858e520397e47bb3403ab9b61688d1e4531690288b1",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/110-after-turn.png",
+      "bytes": 478379,
+      "sha256": "f90a4fd4ec62b9d69f09a1b70be668bca419839aa681ca04afa63865962c1be5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/111-before-attack.json.gz",
+      "bytes": 174730,
+      "sha256": "202016d58022dbb3e3d5c858e520397e47bb3403ab9b61688d1e4531690288b1",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/111-before-attack.png",
+      "bytes": 476247,
+      "sha256": "be5da8ecf024c7c233531fc067d5afa76d4e5dd2546cd7e3f60fbb36d3478e11",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/112-after-turn.json.gz",
+      "bytes": 174733,
+      "sha256": "74e727e6c1d28a04f8752416bff382f91749c0fc38f8ee04460a89c12b705b82",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/112-after-turn.png",
+      "bytes": 481538,
+      "sha256": "474275893747e19dae723df01652fc5435fe7e3d045546a342ba109331da6916",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/113-before-attack.json.gz",
+      "bytes": 174733,
+      "sha256": "74e727e6c1d28a04f8752416bff382f91749c0fc38f8ee04460a89c12b705b82",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/113-before-attack.png",
+      "bytes": 474211,
+      "sha256": "73e008fec386c888448251daafe9f4a183a6e0aec9782364cc4453fc44b2f150",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/114-after-turn.json.gz",
+      "bytes": 174735,
+      "sha256": "8c95fdcc97da018d10353ed687d2aa2d120a25bab2c8ef05ebda127f72a0675c",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/114-after-turn.png",
+      "bytes": 482261,
+      "sha256": "4f4ff0d313055375eb3cd3c3f91ac8ce7d2ac2736d8b5ca808b68b5ea210e9eb",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/115-before-attack.json.gz",
+      "bytes": 174735,
+      "sha256": "8c95fdcc97da018d10353ed687d2aa2d120a25bab2c8ef05ebda127f72a0675c",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/115-before-attack.png",
+      "bytes": 474718,
+      "sha256": "aace36dbb949055cc22d46bcfff06661cc50adc1e5b451ffe6b79b9e0401099a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/116-after-turn.json.gz",
+      "bytes": 174738,
+      "sha256": "6f22d59dfe004376fb3be14f928a30e9178ee2b8d716a9b6eb15f7492472c56a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/116-after-turn.png",
+      "bytes": 480400,
+      "sha256": "68e5971eeffb4501ea3eb2fd2e7f095860288065ac3d6ef96123d0de04697530",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/117-before-attack.json.gz",
+      "bytes": 174738,
+      "sha256": "6f22d59dfe004376fb3be14f928a30e9178ee2b8d716a9b6eb15f7492472c56a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/117-before-attack.png",
+      "bytes": 480493,
+      "sha256": "db6da9f444557155c3e6e83c85eab0dfe588d58987a4bfc1b2cfa7cb665ab95f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/118-after-turn.json.gz",
+      "bytes": 174740,
+      "sha256": "8e77d1f0c40e185364778db6a1fab4a2231b4c6c0be87812da7767af634d75c1",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/118-after-turn.png",
+      "bytes": 484750,
+      "sha256": "6c3bedc90386a9324b870146c260bec3f146e366a8ed5614363317f494abc11a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/119-before-attack.json.gz",
+      "bytes": 174740,
+      "sha256": "8e77d1f0c40e185364778db6a1fab4a2231b4c6c0be87812da7767af634d75c1",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/119-before-attack.png",
+      "bytes": 474891,
+      "sha256": "fb3283bda5153484d64cbbc6c9b29361ce5a96ca47597392fe047e73227831aa",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/120-after-turn.json.gz",
+      "bytes": 174747,
+      "sha256": "ed5f606874dbb862b23e02f86ce02c812dd438bce27b7cf84492612eebedb3ae",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/120-after-turn.png",
+      "bytes": 477146,
+      "sha256": "dc1bba44ab6660b3595254476c372741a179a889b3295c668a8fed0c92c26542",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/121-before-attack.json.gz",
+      "bytes": 174747,
+      "sha256": "ed5f606874dbb862b23e02f86ce02c812dd438bce27b7cf84492612eebedb3ae",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/121-before-attack.png",
+      "bytes": 474016,
+      "sha256": "9601432f74bbf99c094f5b85e3504315f3a3a1fe19eae6d62f584ab3a83682bf",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/122-after-turn.json.gz",
+      "bytes": 174830,
+      "sha256": "9e69b2d20624b808a40bb9668feaf4c76d391ec41d1da409cb3669fba4c7a544",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/122-after-turn.png",
+      "bytes": 482134,
+      "sha256": "8d2b1fe1dec75920db4a60186ed9e9b1ebe1d4ddf99678b3a7188cf7e8329607",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/123-before-attack.json.gz",
+      "bytes": 174830,
+      "sha256": "9e69b2d20624b808a40bb9668feaf4c76d391ec41d1da409cb3669fba4c7a544",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/123-before-attack.png",
+      "bytes": 477293,
+      "sha256": "807b9aa193cd4fd601f258f59e664b904ff9f914316d464c86f62e7aee3fa49d",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/124-after-turn.json.gz",
+      "bytes": 174832,
+      "sha256": "ce46b4565767a3626f5ce5b7b509a55ba1c5c8f4363bf015a7c0d3326cb3e4c2",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/124-after-turn.png",
+      "bytes": 481526,
+      "sha256": "a9c27256a62fe9607e7fc744f94d7719a83cbd31bd9ad91b79a5323382d2aeb7",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/125-before-attack.json.gz",
+      "bytes": 174832,
+      "sha256": "ce46b4565767a3626f5ce5b7b509a55ba1c5c8f4363bf015a7c0d3326cb3e4c2",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/125-before-attack.png",
+      "bytes": 477515,
+      "sha256": "831dbc955f6c11683679e4ff87e1db76843802a6c287abebe8222561e2485c69",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/126-after-turn.json.gz",
+      "bytes": 174838,
+      "sha256": "e39326dda9b560058fb322896bddbac21943281de0c6a246c1e572d0ecdced2f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/126-after-turn.png",
+      "bytes": 481445,
+      "sha256": "8802ff84253c1fa46d5eb42418117983dc6203fd1c89715a2db798219f4976e1",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/127-before-attack.json.gz",
+      "bytes": 174838,
+      "sha256": "e39326dda9b560058fb322896bddbac21943281de0c6a246c1e572d0ecdced2f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/127-before-attack.png",
+      "bytes": 479109,
+      "sha256": "7eddc002d4929da8a1ee0ed7af9515d0eeac31c645e98b03d9358b85b0bd4599",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/128-after-turn.json.gz",
+      "bytes": 174854,
+      "sha256": "13a2bd0e639302ad63c2fd4782f9c2245ed2fe4d1c36bf67de3774c500ec6d0f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/128-after-turn.png",
+      "bytes": 483501,
+      "sha256": "1bb5d9ecc1e80f87c24198479d38c728105c5f9b7d3e494af2264f2e6b8e5d6a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/129-before-attack.json.gz",
+      "bytes": 174854,
+      "sha256": "13a2bd0e639302ad63c2fd4782f9c2245ed2fe4d1c36bf67de3774c500ec6d0f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/129-before-attack.png",
+      "bytes": 481032,
+      "sha256": "f77e763c5a36a800e984bc37b9a19513835b1d746f81d8ee7536bdf72e22d169",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/130-after-turn.json.gz",
+      "bytes": 174857,
+      "sha256": "21086ce356a0eb4e7d6f4bcda3c997a5b230c197847811981a104f97532c2801",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/130-after-turn.png",
+      "bytes": 484910,
+      "sha256": "0929b810066fae978705e1c0280f63f187ea538a728aed08cfe5eaa724f52b9f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/131-before-attack.json.gz",
+      "bytes": 174857,
+      "sha256": "21086ce356a0eb4e7d6f4bcda3c997a5b230c197847811981a104f97532c2801",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/131-before-attack.png",
+      "bytes": 478292,
+      "sha256": "1c974008d2289c3041584ee811ec19868c3560dd4758bb571fb9bd7b7e931400",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/132-after-turn.json.gz",
+      "bytes": 174872,
+      "sha256": "96ffdf963c4168e31b63b0db31b4c385a458a8b4cf3f2d829f4d69fb05db3326",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/132-after-turn.png",
+      "bytes": 480494,
+      "sha256": "48649c9b6104e5b099b60a698c596ea29d36b50654b4b3880e64b8880ee897b4",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/133-before-attack.json.gz",
+      "bytes": 174872,
+      "sha256": "96ffdf963c4168e31b63b0db31b4c385a458a8b4cf3f2d829f4d69fb05db3326",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/133-before-attack.png",
+      "bytes": 475486,
+      "sha256": "7434ea405a3ba2c1c9dd55aa15a4f15e175b1a25e68e793c46c974a3f6504b4b",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/134-after-turn.json.gz",
+      "bytes": 174875,
+      "sha256": "e62fe33e50f5da5fed873c587a7968f6de17e67f060f43cd6781ed975b79c237",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/134-after-turn.png",
+      "bytes": 481176,
+      "sha256": "34f6094c46c9606aa29b008fab76b7f575f11fcd1f97bfcb6c7e15f096a8b496",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/135-before-attack.json.gz",
+      "bytes": 174875,
+      "sha256": "e62fe33e50f5da5fed873c587a7968f6de17e67f060f43cd6781ed975b79c237",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/135-before-attack.png",
+      "bytes": 476370,
+      "sha256": "89ac1a3a03ac0e5bd2aab3e47eb1766c794a219d889d9ff5d4e93fe08b0f752c",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/136-after-turn.json.gz",
+      "bytes": 174888,
+      "sha256": "8c4946cd6b86d27a8a1b83e6b1d41814cd5f8eacba59f07faba6cd30f21d94bd",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/136-after-turn.png",
+      "bytes": 478632,
+      "sha256": "6314c9917fef9dc503e51ac9338b4bcfe17b44a979978116c2eedfa2fbcb965a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/137-before-attack.json.gz",
+      "bytes": 174888,
+      "sha256": "8c4946cd6b86d27a8a1b83e6b1d41814cd5f8eacba59f07faba6cd30f21d94bd",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/137-before-attack.png",
+      "bytes": 476894,
+      "sha256": "cac9f677739f09952db67420ec6d36ad5f7d805cfa853e1c7ab707e22e8511fd",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/138-after-turn.json.gz",
+      "bytes": 174896,
+      "sha256": "03d34fdc714f575a347d89ae9c542d82a84e9d2201c615e656bef86eb38f811a",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/138-after-turn.png",
+      "bytes": 481363,
+      "sha256": "19f4c0f48fa3bad04cc23872f42faf7cd4e8eb6a8ba049d4ba6dc8b54a01b6a6",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/140-after-turn.json.gz",
+      "bytes": 174900,
+      "sha256": "674b54cccc4e5c0c397d3297c11272f5375217a98c3e88f4f7de5405fc711cb5",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/140-after-turn.png",
+      "bytes": 546325,
+      "sha256": "5e72c57d4134b77b8cb9520f6ac61c9fc9f1ea09d3a7f317a5eef16c7992ec66",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/actual-browser-storage.json",
+      "bytes": 4208115,
+      "sha256": "f4e6f8b638094d4eb9ddb1d449678209dc54bd06a2d4e6806b4f9c19206247a7",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/attempt-2/result.json",
+      "bytes": 1406557,
+      "sha256": "edfcb7c81cdbc5fb61df9c0da8d8db7cabaa65eadb998524265bce9bb2d8497f",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    },
+    {
+      "path": "docs/tasks/自然长局基线/evidence/result.json",
+      "bytes": 168307,
+      "sha256": "982066a6b503f7c258f056fdcdb79473504645111b689021e74de624be330f21",
+      "reason": "original retained locally; intentionally excluded from commit subset"
+    }
+  ]
+}

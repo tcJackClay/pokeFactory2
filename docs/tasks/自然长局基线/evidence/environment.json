@@ -1,0 +1,22 @@
+{
+  "codeDiff": [],
+  "head": "d24ce6217a0f3b92b3759d274930910b60d4eb39",
+  "workingCodeDiff": [],
+  "capturedAt": "2026-10-14T00:33:34.5010407+08:00",
+  "listening": [
+    {
+      "LocalPort": 3005,
+      "OwningProcess": 28616
+    },
+    {
+      "LocalPort": 4304,
+      "OwningProcess": 8812
+    }
+  ],
+  "contentVersion": {
+    "cries": "",
+    "csv": "",
+    "pokeapi": "",
+    "sprites": "2026-04-04T00:43:30.784Z"
+  }
+}

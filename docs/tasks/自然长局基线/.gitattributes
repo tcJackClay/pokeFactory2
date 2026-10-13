@@ -1,0 +1,5 @@
+# Preserve raw evidence bytes for the SHA256 commit manifest on every checkout.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Raw page text keeps observed whitespace and is evidence, not formatted source.
+evidence/**/*.txt -whitespace
+evidence/*.txt -whitespace
