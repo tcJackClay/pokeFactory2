@@ -101,3 +101,65 @@
 - **S1–S6 全部实现**；AC-1/2/3/4/5/10/11/13 浏览器验收 14/14 用例全绿；AC-14 门禁全绿（go test 既有 2 项 Windows 符号链接失败如实记录）。
 - **未做/未验（下一阶段）**：AC-6 全量（选队员→确认替换的浏览器取证仅在 full-flow-purchase 中覆盖主要链路，SSR 单测覆盖其余）、AC-7/8/9（进化道具、白色香草战斗效果——F4/F6 明确不在本阶段）、AC-12 进化道具文案部分（F5 仅两香草已验）；「下一组从 0 重攒」的跨组浏览器取证成本过高，由 `commitFactoryGroupSettlement` 单测（第二/三组逐组断言 ticketBp 与券清零重攒）覆盖。
 - **提请 orchestrator 知悉**：(a) 离开商店直接起下一战（无中间关闭屏），关闭屏仅恢复路径可达；(b) 9999 上限受控验证采用了 9995 余额合成档（真实玩家到不了 9995+ 的概率极低，合成档等价覆盖钳位分支）；(c) 旧档 RAW 校验在迁移前运行——违反旧格式自身不变量的伪旧档会被拒收，属防御性正确行为。
+
+# Programmer
+
+## 第二阶段实现（F4/F5/F6）
+
+- 保留第一阶段未提交 WIP；补齐固定 Rogue expansion 进化关系的生成脚本与 39 件/94 条静态映射。运行时只用该映射决定可上架关系，PokeAPI 仅提供物种与形态资料。逐条资源审计脚本经本工作树 Go 代理验证 94/94 条关系所需的 175 个源/目标资源，其中 9 个形态只有 `pokemon-form` 资源；`pokeApi` 复用项目已有的形态加载路径，精确匹配形态名和基础资源。
+- 商店六件货架可以混合持有物与进化道具；进化商品冻结合法队员、源物种/形态、目标物种/形态。进化兑换先构造目标成员，再由存档事务验证保留契约并在一次写盘内扣券、进化和追加购买记录；重复请求幂等，失败不扣券。多次购买历史按同队员最后一次持有物或进化效果核验，旧记录仍保持货架、价格、目标校验。
+- 补齐目标预览、选择与确认；目标资源缺失时逐条留痕并安全排除。白色香草在持有者出现任一负能力等级时触发，含自身招式造成的下降，清除全部负等级并消耗本场道具；下一场按本局装备基准返还。
+- 清除旧的 PokeAPI `evolution_details` 商店准入函数，避免第二数据源。异色不是现有 `GamePokemon` 字段，本阶段没有可保留值，也没有声称已验证异色。
+
+## 静态验证
+
+- `python scripts/generate_factory_evolution_relations.py --check`：PASS，39 件/94 条。
+- `python scripts/audit_factory_evolution_resources.py`：PASS，Go 服务 `/api/health` 200；175/175 个资源可读，94/94 条源与目标均可映射，9 个形态走 `pokemon-form`。公网直连 PokeAPI 曾返回 403；该结果不代表游戏同源代理失败。
+- `npm run lint`：PASS。
+- `npm test`：PASS，286/286。
+- `npm run build`：PASS，仅既有大 chunk 提示。
+- `go test ./...`：PASS。
+
+## 审计与实玩交接
+
+- 本段仅是代码与服务资源核验；**尚无本次代码的浏览器实玩证据**。旧第一阶段截图不证明本阶段。
+- 独立 auditor 请重点核对固定关系生成器及 9 个形态映射、商店候选/购买事务、连续购买后的存档回读、进化保留契约、白色香草自降与对手下降、异步配货期间存档变化。
+- 玩家验收需以本次最终提交为对象重跑真实 Go+Vite 服务、手机模拟视口与受控场景，特别是进化购买、刷新恢复、跨组返还和白色香草战斗触发。本阶段未提交，待独立审计与实玩完成后定稿。
+
+# Auditor
+
+- What I checked: 对照现行 `prd.md` F1–F7 与 `plan.md` §7，审查固定 Rogue 关系生成器、39 件进化道具配置、94 条运行时映射、9 个仅有 `pokemon-form` 的资源加载路径、六件货架混合抽样与冻结、进化目标和多次购买的存档校验、兑换原子性/幂等、异步配货后的队伍和 runId 重核、进化保留契约、战斗白色香草入口、商店 UI 及本次 diff。`python scripts/generate_factory_evolution_relations.py --check` 通过（39 件、94 条），本地固定参考源码 HEAD 为 `a6adfcf18d7eaf99c2803e4b0bc04eca7af2f014`，与生成文件标注一致。`npm run lint` 通过；`npm test` 286/286 通过；`npm run build` 通过（仅既有大 chunk 提示）；`go test ./...` 通过；`git diff --check` 通过（仅 LF/CRLF 提示）。
+- Fixed locally: none。未修改实现代码，也未启动游戏、Vite、Go 服务或 Playwright。
+- Found but not fixed (needs lead routing):
+  - **F6 / AC-9 阻断**：`src/features/game/battle/engine/resolveProtection.ts:91-105` 的王者盾牌接触分支可直接将攻击等级降低 2；`src/features/game/hooks/useBattleController.ts:2122-2142` 将其写回后提前结束行动，完全绕过 `tryActivateWhiteHerb`（该检查只在约 2033 行的 `resolvePostHitSecondaryEffects` 内）。持有白色香草的攻击者因此会保留负攻击等级且香草不消耗，违反“任一负能力等级触发”（包含自身与对手造成的下降）。需在该写入路径补触发、消费与一次日志，并增加确定性控制器/战斗路径测试；现有 `resolveWhiteHerb.test.ts` 仅证明纯函数，不证明所有实际入口。
+  - **F5 文案问题**：`src/features/game/components/game-view/reward/FactoryItemRewardScreen.tsx:175-177` 的关闭商店清单对进化商品也写“已装备给”，而进化道具实际当场消耗并使队员进化；应按商品种类说明真实结果。
+  - **94/94 资源独立复核未完成**：`scripts/audit_factory_evolution_resources.py` 需要本地 Go 内容代理。审计时 `127.0.0.1:3001` 未监听，脚本得到 175/175 连接拒绝、94 条均不可判定；这不是资源本身的 404 结论。Programmer 段报告过 175/175 资源及 94/94 关系可用，但该报告不是本次独立复核。后续在真实 Go 服务可用时应重跑并留原始输出。
+  - **数据契约边界**：`GamePokemon` 没有可观察的异色字段，因此 PRD F4.3 的“异色保留”目前无法证明；依 plan §7.4.5 仅能标记不适用／未验证，不能写作已通过。`plan.md` §7.2 提到的 `ignored` 状态未见于 `buildFactoryEvolutionShopProducts` 的返回值，当前只有 `products/degraded`；若 player 要据此断言，应先修订状态契约或显式提供该字段。
+- Verdict: **BLOCKED**。静态门禁全过，但 F6 存在可复现的规格缺口；修复并重跑静态门禁、随后由 player 对最终代码取运行证据前，不能判定任务完成或合入 `dev`。
+
+# Programmer
+
+## 第二阶段独立审计阻断修复
+
+- 战斗控制器将白色香草的实际结算提成同一控制器函数，`applyMoveSecondaryEffects` 后和王者盾牌接触碰撞的提前结束路径都调用它。王者盾牌造成攻击 -2 后立即复原负等级、消耗本战当前持有物并输出一次日志，再同步战斗队伍；玩家与敌方两侧共用同一路径。新增确定性控制器测试：真实次要效果分别让玩家/敌方受对手降能力和自身招式降能力，均验证复原、单次消费与日志；另用真实 `resolveProtectionCollision` 验证双方接触王者盾牌后在提前返回前触发。
+- 商店关闭后的逐笔清单按商品类型分文案：进化商品显示“使队员进化为目标形态”，持有物仍显示“装备给队员”。新增 SSR 回归断言。
+- `plan.md` §7.2 的观测契约改为现行 `products/degraded[]`，明确王者之证排除由生成器和映射测试审计，不再声称存在运行时 `ignored` 字段。
+- 复核所有当前能力等级写入入口：普通次要效果、王者盾牌接触、正向的属性免疫反应与树果提升；负向战斗入口均已接入白色香草。DEV Win 直接改能力等级是受控注入工具，不是战斗行动入口。
+
+## 修复后静态门禁
+
+- `npm run lint`：PASS。
+- `npm test`：PASS，289/289。
+- `npm run build`：PASS，仅既有大 chunk 提示。
+- `go test ./...`：PASS。
+- `git diff --check`：PASS，仅本机 LF/CRLF 提示。
+
+本修复未提交、未运行游戏实玩；请独立 auditor 对最终 diff 复审，再由 player 对最终代码取运行证据。
+
+# Auditor
+
+- What I checked: 复审 Programmer 的王者盾牌修复与新增 `useBattleController.whiteHerb.test.ts`：测试真实调用 `resolveProtectionCollision`，再调用**控制器实际使用**的 `resolveControllerWhiteHerb`；控制器在 `hitResult.blockedByProtect` 的提前返回前通过同一 `resolveControllerProtectionCollision` 同步成员状态、先播碰撞再播香草消息。普通招式的玩家/敌方×自身/对手降级测试调用真实 `applyMoveSecondaryEffects`，再走同一控制器处理函数，断言负等级归零、正等级保留、本战当前持有物单次消费、基准不变和仅一次日志。全库能力等级写入再核：负向的普通次要效果与王者盾牌接触均可到达香草处理；`PSYCH_UP` 复制负等级在普通次要效果路径内；其他能力写入为正向提升、归零或战间重置。关闭页进化文案按商品类型分流，并有 SSR 回归；`plan.md` 状态契约改为实际 `products/degraded[]`。复核最终 diff 中商店配货、持有物唯一性、进化购买原子/幂等与多次购买读档、固定 39 件/94 条数据源和形态加载路径，无新增不一致。
+- Fixed locally: none。未修改实现代码，未运行游戏、Vite、Go 服务或 Playwright。
+- Static gate: `npm run lint` PASS；`npm test` PASS（289/289）；`npm run build` PASS（既有大 chunk 提示）；`go test ./...` PASS；`python scripts/generate_factory_evolution_relations.py --check` PASS（39 件/94 条）；`git diff --check` PASS（仅 LF/CRLF 提示）。
+- Found but not fixed (needs lead routing): 本次静态复审不产生新的代码阻断。`scripts/audit_factory_evolution_resources.py` 的独立在线资源复验仍需 Go 内容代理（此前本机 3001 未监听）；Programmer 已记录 175/175 资源与 94/94 关系通过，但该结论应在 player 启动最终代码服务时连同 `/api/health` 再核并留原始输出。`GamePokemon` 无异色状态字段，异色保留仍按 plan 标记不适用／未验证。模拟浏览器、实体手机和生产环境均不属本静态裁决。
+- Verdict: **PASS（独立静态审计）**。先前 F6 阻断和 F5 文案问题在最终 diff 中已修复；可转交 player 对最终代码取得运行证据。此结论不等于运行验收或任务完成。

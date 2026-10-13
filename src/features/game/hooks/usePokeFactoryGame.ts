@@ -7,10 +7,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { BattleHazards, BattleMenuTab, FieldState, FieldTurns, GamePokemon, GameState, Item, Move, Pokemon, TailwindTurns, Weather } from '../../../types';
 import { createEmptyBattleHazards } from '../battle/engine/resolveEntryHazards';
 import { ALL_ITEMS } from '../../../uiAppConstants';
-import { fetchPokemon, getProcessedPokemon, isEvolutionChainBaseSpecies } from '../../../services/pokeApi';
+import { buildEvolvedFactoryPokemon, fetchPokemon, getProcessedPokemon, isEvolutionChainBaseSpecies } from '../../../services/pokeApi';
 import { getAiTier } from '../config/factoryBattle';
 import { FACTORY_REWARD_CONFIG, shouldEnterRewardAfterWinning } from '../config/factoryRewards';
 import { drawFactoryShopShelf, type FactoryRewardHeldItemId } from '../config/factoryRewardPool';
+import { buildFactoryEvolutionShopProducts } from '../utils/factoryEvolutionShop';
+import type { FactoryEvolutionItemId } from '../config/factoryEvolutionItems';
 import { canAdvanceClassicStage, createClassicActionGate, getClassicPostBattleDestination } from '../config/classicFlow';
 import { EVENT_REGIONS, IV_TRAIN_BATTLE_THRESHOLD, RARE_SPECIES_POOL, createDefaultDispatchState } from '../config/events';
 import { useGameLocalization } from './useGameLocalization';
@@ -54,6 +56,7 @@ import {
   commitFactoryRewardPending,
   commitFactoryRewardReady,
   commitFactoryShopPurchase,
+  commitFactoryEvolutionPurchase,
   commitFactoryRewardContinueIntent,
   getFactorySwapEquippedItemConflict,
   createEmptyBattleResume,
@@ -425,9 +428,25 @@ export function usePokeFactoryGame(): GameViewModel {
     if (!runId) return;
     rewardPrepareInFlightRef.current = true;
     const isZh = currentLanguage.startsWith('zh');
+    void (async () => {
     try {
       const shelfSize = getFactoryShelfSize();
-      const drawn = drawFactoryShopShelf(snapshot.playerTeam.map((pokemon) => pokemon.factoryEquippedHeldItemId));
+      const evolution = await buildFactoryEvolutionShopProducts(snapshot.playerTeam);
+      const current = battleResumeSnapshotRef.current;
+      if (walletRef.current.currentRunId !== runId || current?.phase !== 'REWARD'
+        || current.rewardCheckpoint?.status !== 'PENDING'
+        || current.rewardCheckpoint.runId !== runId
+        || current.rewardCheckpoint.stage !== snapshot.rewardCheckpoint.stage) return;
+      if (JSON.stringify(current.playerTeam) !== JSON.stringify(snapshot.playerTeam)) {
+        setRewardPrepareError(isZh
+          ? '队伍在货架生成时发生变化，请重试。'
+          : 'The team changed while preparing the shelf. Please retry.');
+        return;
+      }
+      const drawn = drawFactoryShopShelf({
+        equippedItemIds: current.playerTeam.map((pokemon) => pokemon.factoryEquippedHeldItemId),
+        evolutionProducts: evolution.products,
+      });
       if (drawn.ok === false) {
         // 边界（正常路径不可达）：候选不足是缺陷，明确上报而不静默补位。
         setRewardPrepareError(isZh
@@ -435,10 +454,15 @@ export function usePokeFactoryGame(): GameViewModel {
           : `Not enough shop candidates (${drawn.candidateCount}/${shelfSize}). This is a defect: no padding or duplicate products. Please retry or report.`);
         return;
       }
-      const ready = commitFactoryRewardReady(runId, snapshot.rewardCheckpoint.stage, drawn.shelf);
+      const ready = commitFactoryRewardReady(runId, current.rewardCheckpoint.stage, drawn.shelf);
       battleResumeSnapshotRef.current = ready;
       setRewardCheckpoint(ready.rewardCheckpoint ?? null);
-      setRewardPrepareError(null);
+      if (evolution.degraded.length > 0) {
+        console.warn('Some fixed Rogue evolution targets could not be loaded', evolution.degraded);
+        setRewardPrepareError(isZh
+          ? `部分进化商品资料未能读取（${evolution.degraded.length} 条），本次货架已安全排除这些商品。`
+          : `${evolution.degraded.length} evolution targets could not be loaded and were omitted from this shelf.`);
+      } else setRewardPrepareError(null);
     } catch (error) {
       console.error('Factory reward shelf preparation failed', error);
       // 候选货架可能已被同版导入/其它标签页冻结：采用已落盘结果，绝不重抽。
@@ -455,6 +479,7 @@ export function usePokeFactoryGame(): GameViewModel {
     } finally {
       rewardPrepareInFlightRef.current = false;
     }
+    })();
   }, [canEnterProject, currentLanguage, gameState, rewardPrepareAttempt]);
 
   /**
@@ -1440,6 +1465,47 @@ export function usePokeFactoryGame(): GameViewModel {
     }
   }, [currentLanguage, gameState, stage, syncRunSupply]);
 
+  const purchaseFactoryEvolutionItem = useCallback(async (
+    itemId: FactoryEvolutionItemId, targetIndex: number, toSpeciesId: number, toPokeApiName: string,
+  ): Promise<boolean> => {
+    const snapshot = battleResumeSnapshotRef.current;
+    if (rewardClaimInFlightRef.current || gameState !== 'REWARD' || snapshot?.phase !== 'REWARD'
+      || snapshot.rewardCheckpoint?.status !== 'READY') return false;
+    const product = snapshot.rewardCheckpoint.shelf.find((entry) => entry.kind === 'EVOLUTION_ITEM' && entry.itemId === itemId);
+    const target = product?.kind === 'EVOLUTION_ITEM'
+      ? product.targets.find((entry) => entry.targetIndex === targetIndex && entry.toSpeciesId === toSpeciesId
+        && entry.toPokeApiName === toPokeApiName)
+      : undefined;
+    if (!target) return false;
+    rewardClaimInFlightRef.current = true;
+    setRewardClaimBusy(true);
+    try {
+      const evolved = await buildEvolvedFactoryPokemon(snapshot.playerTeam[targetIndex], toSpeciesId, target.toPokeApiName);
+      if (battleResumeSnapshotRef.current !== snapshot || walletRef.current.currentRunId !== snapshot.rewardCheckpoint.runId) {
+        throw new Error('Shop changed while evolution resources were loading.');
+      }
+      const evolvedTeam = snapshot.playerTeam.map((pokemon, index) => index === targetIndex ? evolved : pokemon);
+      const { resume, runSupply } = commitFactoryEvolutionPurchase(
+        snapshot.rewardCheckpoint.runId, snapshot.rewardCheckpoint.stage, itemId, targetIndex, toSpeciesId, toPokeApiName, evolvedTeam,
+      );
+      battleResumeSnapshotRef.current = resume;
+      setPlayerTeam(resume.playerTeam);
+      setRewardCheckpoint(resume.rewardCheckpoint ?? null);
+      syncRunSupply(runSupply);
+      setRewardClaimError(null);
+      return true;
+    } catch (error) {
+      console.error('Factory evolution purchase failed', error);
+      setRewardClaimError(currentLanguage.startsWith('zh')
+        ? '进化兑换失败，进度与兑换券未改变。请检查目标或网络后重试。'
+        : 'Evolution purchase failed. No tickets or progress changed. Check the target or network and retry.');
+      return false;
+    } finally {
+      rewardClaimInFlightRef.current = false;
+      setRewardClaimBusy(false);
+    }
+  }, [currentLanguage, gameState, syncRunSupply]);
+
   const clearFactoryItemRewardError = useCallback(() => setRewardClaimError(null), []);
 
   /** 离开商店（可一件不买）→ 落盘「继续意图」（幂等）→ 起下一战。 */
@@ -2058,6 +2124,7 @@ export function usePokeFactoryGame(): GameViewModel {
     nextStage: gameState === 'REWARD' ? async () => {} : rewardFlow.nextStage,
     selectReward: gameState === 'REWARD' ? () => {} : rewardFlow.selectReward,
     purchaseFactoryShopItem,
+    purchaseFactoryEvolutionItem,
     continueAfterFactoryReward,
     clearFactoryItemRewardError,
     retryFactoryItemRewardPrepare,

@@ -4,6 +4,8 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import type { GamePokemon, MoveBattleData } from '../../../../../types';
 import type { GameViewModel } from '../../../view-model';
+import type { FactoryShopProduct } from '../../../config/factoryRewardPool';
+import type { FactoryShopPurchase } from '../../../../../services/saveManager';
 import { FactoryItemRewardScreen } from './FactoryItemRewardScreen';
 import { RewardScreen } from '../RewardScreen';
 
@@ -62,13 +64,15 @@ function makePokemon(id: number, name: string, itemId: string | null, moves: Gam
 }
 
 interface RenderOptions {
-  purchases?: Array<{ itemId: string; targetIndex: number; ticketsSpent: number }>;
+  purchases?: FactoryShopPurchase[];
   tickets?: number;
   continueRequested?: boolean;
   continueError?: string;
   prepareError?: string;
   loadedDiceTeammateMoves?: GamePokemon['selectedMoves'];
   withCheckpoint?: boolean;
+  shelf?: FactoryShopProduct[];
+  playerTeam?: GamePokemon[];
 }
 
 function renderReward(
@@ -82,7 +86,7 @@ function renderReward(
         runId: 'run:ui',
         stage: 3,
         status,
-        shelf: SHELF.map((itemId) => ({ kind: 'HELD_ITEM', itemId })),
+        shelf: options.shelf ?? SHELF.map((itemId) => ({ kind: 'HELD_ITEM', itemId })),
         purchases,
         ...(status === 'CLAIMED' && options.continueRequested ? { continueRequested: true as const } : {}),
       };
@@ -101,7 +105,7 @@ function renderReward(
     continueAfterFactoryReward: async () => {},
     clearFactoryItemRewardError: () => {},
     retryFactoryItemRewardPrepare: () => {},
-    playerTeam: [
+    playerTeam: options.playerTeam ?? [
       makePokemon(25, '皮卡丘', 'sitrus_berry', options.loadedDiceTeammateMoves ?? []),
       makePokemon(133, '伊布', 'lum_berry'),
       makePokemon(175, '波克比', 'leftovers'),
@@ -114,6 +118,26 @@ test('pending reward screen keeps the player at the checkpoint without old rewar
   const html = renderReward('PENDING');
   assert.match(html, /奖励待准备/);
   assert.doesNotMatch(html, /继续挑战|重抽|确认领取|兑换/);
+});
+
+test('evolution product shows exact teammate and resulting form with a purchase price', () => {
+  const eevee = { ...makePokemon(133, '伊布', 'lum_berry'), speciesId: 133, pokeApiName: 'eevee', formLedgerSlug: 'eevee' };
+  const shelf: FactoryShopProduct[] = [
+    { kind: 'EVOLUTION_ITEM', itemId: 'fire_stone', targets: [{
+      targetIndex: 1, fromSpeciesId: 133, fromPokeApiName: 'eevee',
+      toSpeciesId: 136, toPokeApiName: 'flareon', toNameZh: '火伊布', toNameEn: 'Flareon',
+    }] },
+    ...SHELF.slice(0, 5).map((itemId) => ({ kind: 'HELD_ITEM' as const, itemId })),
+  ];
+  const html = renderReward('READY', {
+    shelf,
+    playerTeam: [makePokemon(25, '皮卡丘', 'sitrus_berry'), eevee, makePokemon(175, '波克比', 'leftovers')],
+  });
+  assert.match(html, /火之石/);
+  assert.match(html, /伊布 → 火伊布/);
+  assert.match(html, /3 券/);
+  assert.match(html, /data-kind="EVOLUTION_ITEM"/);
+  assert.match(html, /shop-redeem-button/);
 });
 
 test('a failed preparation is reported as a defect with a retry, never padded', () => {
@@ -205,8 +229,8 @@ test('product honesty: loaded dice names the teammates that can actually trigger
 
 test('product honesty: both herbs are CONDITIONAL and never claim unconditional value', () => {
   const html = renderReward('READY');
-  // 白色香草：条件性说明（对手降低过能力等级才有收益）。
-  assert.match(html, /条件性：只有对手降低过持有者的能力等级才有收益/);
+  // 白色香草：自身或对手造成的下降都触发，但没有下降时没有收益。
+  assert.match(html, /条件性：持有者能力等级下降才有收益；自身招式造成的下降也会触发/);
   // 心灵香草不在本货架夹具里，改由 factoryRewardPool.test.ts 的三态判定覆盖。
   assert.doesNotMatch(html, /白色香草[^<]*无条件/);
 });
@@ -219,6 +243,23 @@ test('closed shop restores the purchase summary and offers a retry after refresh
   assert.match(html, /焦点镜已装备给皮卡丘（花费 2 券）/);
   assert.match(html, /继续挑战/);
   assert.doesNotMatch(html, /离开商店|重试兑换/);
+});
+
+test('closed shop describes an evolution as consumed and completed, not equipped', () => {
+  const shelf: FactoryShopProduct[] = [
+    { kind: 'EVOLUTION_ITEM', itemId: 'fire_stone', targets: [{
+      targetIndex: 1, fromSpeciesId: 133, fromPokeApiName: 'eevee',
+      toSpeciesId: 136, toPokeApiName: 'flareon', toNameZh: '火伊布', toNameEn: 'Flareon',
+    }] },
+    ...SHELF.slice(0, 5).map((itemId) => ({ kind: 'HELD_ITEM' as const, itemId })),
+  ];
+  const html = renderReward('CLAIMED', {
+    shelf,
+    purchases: [{ kind: 'EVOLUTION_ITEM', itemId: 'fire_stone', targetIndex: 1,
+      fromSpeciesId: 133, fromPokeApiName: 'eevee', toSpeciesId: 136, toPokeApiName: 'flareon', ticketsSpent: 3 }],
+  });
+  assert.match(html, /火之石已使队员进化为火伊布（花费 3 券）/);
+  assert.doesNotMatch(html, /火之石已装备给/);
 });
 
 test('closed shop without purchases states that nothing was bought and tickets carry to settlement', () => {

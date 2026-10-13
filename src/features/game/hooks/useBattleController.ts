@@ -33,6 +33,7 @@ import {
   resolveSecondaryEffectsStep,
   resolveTypeImmunityReaction,
   clearSwitchingBattleState,
+  planWhiteHerbActivation,
 } from '../battle/engine';
 import { isRepeatFieldFailure, nextFieldStates, nextFieldTurns } from '../battle/engine/fieldEffectTransition';
 import {
@@ -161,6 +162,37 @@ interface UseBattleControllerParams {
 class StaleRoundError extends Error {}
 
 // 战斗结束的唯一判据：一方队伍全灭。合法失败（换人被拦、道具/极巨化石提示等）不得据此判定结束。
+/** The controller's shared White Herb resolution, used after secondary effects and protection collisions. */
+export function resolveControllerWhiteHerb(
+  pokemon: GamePokemon,
+  language: string,
+  pokemonLabel: (pokemon: GamePokemon) => string,
+  itemLabel: (itemId: string) => string,
+): { pokemon: GamePokemon; message: string | null } {
+  const heldId = (pokemon.factoryHeldItemId ?? '').toLowerCase().replace(/-/g, '_');
+  const plan = planWhiteHerbActivation(heldId, pokemon.statStages);
+  if (!plan.shouldActivate) return { pokemon, message: null };
+  const restored = { ...pokemon, factoryHeldItemId: undefined, statStages: plan.statStages };
+  return {
+    pokemon: restored,
+    message: battleItemMessage(language, 'restoreStats', pokemonLabel(restored), itemLabel(heldId)),
+  };
+}
+
+/** Resolve a protected contact hit and its immediate held-item response before the action exits. */
+export function resolveControllerProtectionCollision(
+  attacker: GamePokemon,
+  defender: GamePokemon,
+  move: Move,
+  language: string,
+  pokemonLabel: (pokemon: GamePokemon) => string,
+  itemLabel: (itemId: string) => string,
+): { attacker: GamePokemon; collisionMessages: string[]; whiteHerbMessage: string | null } {
+  const collision = resolveProtectionCollision(attacker, defender, move, language);
+  const herb = resolveControllerWhiteHerb(collision.attacker, language, pokemonLabel, itemLabel);
+  return { attacker: herb.pokemon, collisionMessages: collision.messages, whiteHerbMessage: herb.message };
+}
+
 function isTeamWiped(playerTeam: GamePokemon[], enemyTeam: GamePokemon[]): boolean {
   return playerTeam.every((pokemon) => pokemon.currentHp <= 0)
     || enemyTeam.every((pokemon) => pokemon.currentHp <= 0);
@@ -672,28 +704,16 @@ export function useBattleController({
     };
   }, [consumeHeldItem, currentLanguage, getHeldItemLabel, getLocalized, normalizeHeldItemId]);
 
-  const tryActivateWhiteHerb = useCallback((before: GamePokemon | null | undefined, after: GamePokemon | null | undefined) => {
-    if (!before || !after) return { pokemon: after, message: null as string | null };
-    if (!hasHeldItem(after, 'white_herb')) return { pokemon: after, message: null as string | null };
+  /**
+   * 白色香草（PRD 奖励商店 F6）：持有者身上存在低于 0 的能力等级时，全部复原为 0 并消耗道具。
+   * 触发与复原范围由 `data/battle` 的声明（`WHITE_HERB` + `restore-lowered-stats`）经
+   * `planWhiteHerbActivation` 决定，逻辑里不再出现道具 ID 字面量（与 `tryConsumeMentalHerb` 同风格）。
+   */
+  const tryActivateWhiteHerb = useCallback((pokemon: GamePokemon | null | undefined) => {
+    if (!pokemon) return { pokemon, message: null as string | null };
+    return resolveControllerWhiteHerb(pokemon, currentLanguage, getLocalized, getHeldItemLabel);
+  }, [currentLanguage, getHeldItemLabel, getLocalized]);
 
-    const keys: (keyof GamePokemon['statStages'])[] = ['attack', 'defense', 'spAtk', 'spDef', 'speed', 'accuracy', 'evasion'];
-    let shouldRestore = false;
-    const restoredStages = { ...after.statStages };
-    for (const key of keys) {
-      if (after.statStages[key] < before.statStages[key]) {
-        restoredStages[key] = before.statStages[key];
-        shouldRestore = true;
-      }
-    }
-    if (!shouldRestore) return { pokemon: after, message: null as string | null };
-
-    const consumed = consumeHeldItem(after, 'white_herb');
-    const nextPokemon = { ...consumed, statStages: restoredStages };
-    return {
-      pokemon: nextPokemon,
-      message: battleItemMessage(currentLanguage, 'restoreStats', getLocalized(nextPokemon), getHeldItemLabel('white_herb')),
-    };
-  }, [consumeHeldItem, currentLanguage, getHeldItemLabel, getLocalized, hasHeldItem]);
 
   const tryConsumeMentalHerb = useCallback((pokemon: GamePokemon | null | undefined) => {
     if (!pokemon) return { pokemon, message: null as string | null };
@@ -2018,8 +2038,6 @@ export function useBattleController({
       allowTargetEffects: boolean;
     }) => {
       if (!allowUserEffects && !allowTargetEffects) return;
-      const preSecondaryPlayerLead = nextPlayerTeam[0];
-      const preSecondaryEnemyLead = nextEnemyTeam[0];
       const secondaryEffects = await applyMoveSecondaryEffects({
         move: resolvedMove,
         actingSide,
@@ -2034,13 +2052,13 @@ export function useBattleController({
       nextPlayerTeam = secondaryEffects.playerTeam;
       nextEnemyTeam = secondaryEffects.enemyTeam;
       const itemResolutionMessages: string[] = [];
-      const playerWhiteHerbResult = tryActivateWhiteHerb(preSecondaryPlayerLead, nextPlayerTeam[0]);
+      const playerWhiteHerbResult = tryActivateWhiteHerb(nextPlayerTeam[0]);
       if (playerWhiteHerbResult.message && playerWhiteHerbResult.pokemon) {
         nextPlayerTeam = [...nextPlayerTeam];
         nextPlayerTeam[0] = playerWhiteHerbResult.pokemon;
         itemResolutionMessages.push(playerWhiteHerbResult.message);
       }
-      const enemyWhiteHerbResult = tryActivateWhiteHerb(preSecondaryEnemyLead, nextEnemyTeam[0]);
+      const enemyWhiteHerbResult = tryActivateWhiteHerb(nextEnemyTeam[0]);
       if (enemyWhiteHerbResult.message && enemyWhiteHerbResult.pokemon) {
         nextEnemyTeam = [...nextEnemyTeam];
         nextEnemyTeam[0] = enemyWhiteHerbResult.pokemon;
@@ -2127,12 +2145,15 @@ export function useBattleController({
         await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)} protected itself!`, `${getLocalized(updatedDefender)}保护了自己！`)]);
         if (!hitResult.protectReducedDamage) {
           updatedActor = { ...updatedActor, factoryConsecutiveMoveCount: 0 };
-          const protectionCollisionResult = resolveProtectionCollision(updatedActor, updatedDefender, resolvedMove, currentLanguage);
+          const protectionCollisionResult = resolveControllerProtectionCollision(
+            updatedActor, updatedDefender, resolvedMove, currentLanguage, getLocalized, getHeldItemLabel,
+          );
           updatedActor = protectionCollisionResult.attacker;
           syncLeadBySide(actingSide, updatedActor);
-          if (protectionCollisionResult.messages.length > 0) {
-            await addMessagesSequentially(protectionCollisionResult.messages.map((message) => message.replace(updatedActor.name, actorLabel)));
+          if (protectionCollisionResult.collisionMessages.length > 0) {
+            await addMessagesSequentially(protectionCollisionResult.collisionMessages.map((message) => message.replace(updatedActor.name, actorLabel)));
           }
+          if (protectionCollisionResult.whiteHerbMessage) await addMessagesSequentially([protectionCollisionResult.whiteHerbMessage]);
           if (updatedActor.currentHp <= 0) {
             await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedActor))]);
             if (actingSide === 'player') {

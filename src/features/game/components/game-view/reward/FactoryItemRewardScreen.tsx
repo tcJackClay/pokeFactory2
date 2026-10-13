@@ -4,14 +4,17 @@ import type { GamePokemon } from '../../../../../types';
 import type { FactoryRewardHeldItemId, FactoryShopProduct } from '../../../config/factoryRewardPool';
 import {
   getFactoryHeldItemShopPrice,
+  getFactoryShopProductPrice,
   getRewardApplicability,
   isFactoryRewardHeldItemId,
   normalizeFactoryHeldItemId,
   type FactoryRewardApplicability,
 } from '../../../config/factoryRewardPool';
+import { getFactoryEvolutionItemDefinition, getFactoryEvolutionItemIcon, type FactoryEvolutionItemId } from '../../../config/factoryEvolutionItems';
+import { getActiveEvolutionTargets } from '../../../utils/factoryEvolutionShop';
 import { getFactoryHeldItemIcon } from '../../../config/factoryHeldItemIcons';
 import { battleHeldItemName } from '../../../battle/battleLogText';
-import { canEquipRewardItem } from '../../../../../services/saveManager';
+import { canEquipRewardItem, type FactoryEvolutionItemPurchase } from '../../../../../services/saveManager';
 import type { GameViewSectionProps } from '../shared';
 
 const ITEM_NAME_EN: Record<FactoryRewardHeldItemId, string> = {
@@ -26,6 +29,16 @@ const ITEM_NAME_EN: Record<FactoryRewardHeldItemId, string> = {
   mental_herb: 'Mental Herb',
 };
 
+function evolutionPurchaseTargetName(
+  shelf: readonly FactoryShopProduct[], purchase: FactoryEvolutionItemPurchase, isZh: boolean,
+): string {
+  const product = shelf.find((entry) => entry.kind === 'EVOLUTION_ITEM' && entry.itemId === purchase.itemId);
+  const target = product?.kind === 'EVOLUTION_ITEM'
+    ? product.targets.find((entry) => entry.targetIndex === purchase.targetIndex && entry.toSpeciesId === purchase.toSpeciesId)
+    : undefined;
+  return (isZh ? target?.toNameZh : target?.toNameEn) ?? purchase.toPokeApiName;
+}
+
 /**
  * 商品功能一句话说明（数据源：`data/battle/itemEffects.ts` 的 effectId / hooks 与数值，
  * 文案须与其保持一致；档位价格另由 `factoryRewardPool.getFactoryHeldItemShopPrice` 驱动）。
@@ -38,7 +51,7 @@ const ITEM_EFFECT_ZH: Record<FactoryRewardHeldItemId, string> = {
   focus_band: '受到致命一击时，有 10% 概率以 1 HP 挺住；本场不消耗，可反复判定。',
   heavy_duty_boots: '免疫入场陷阱（隐形岩、毒菱）的伤害与状态。',
   loaded_dice: '提高 2–5 次连续攻击招式的命中次数。',
-  white_herb: '复原被对手降低的能力等级，随后消耗掉自己。',
+  white_herb: '复原持有者低于初始值的能力等级，随后消耗；自身招式造成的下降也有效。',
   mental_herb: '解除挑衅、再来一次、定身法等妨碍状态，随后消耗掉自己。',
 };
 
@@ -99,6 +112,14 @@ function HeldItemIcon({ itemId, isZh }: { itemId: string; isZh: boolean }) {
   );
 }
 
+function EvolutionItemIcon({ itemId, isZh }: { itemId: FactoryEvolutionItemId; isZh: boolean }) {
+  const [failed, setFailed] = useState(false);
+  const iconUrl = getFactoryEvolutionItemIcon(itemId);
+  const name = getFactoryEvolutionItemDefinition(itemId)?.[isZh ? 'zhName' : 'enName'] ?? itemId;
+  if (!iconUrl || failed) return <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-slate-100 text-[10px] font-black text-slate-600">{name.slice(0, 2)}</span>;
+  return <img src={iconUrl} alt="" aria-hidden="true" className="h-9 w-9 object-contain" onError={() => setFailed(true)} />;
+}
+
 export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
   const {
     rewardCheckpoint,
@@ -112,11 +133,14 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
     currentLanguage,
     getLocalized,
     purchaseFactoryShopItem,
+    purchaseFactoryEvolutionItem,
     clearFactoryItemRewardError,
     continueAfterFactoryReward,
     retryFactoryItemRewardPrepare,
   } = viewModel;
   const [selectedItem, setSelectedItem] = useState<FactoryRewardHeldItemId | null>(null);
+  const [selectedEvolutionItem, setSelectedEvolutionItem] = useState<FactoryEvolutionItemId | null>(null);
+  const [selectedEvolutionTargetSlug, setSelectedEvolutionTargetSlug] = useState<string | null>(null);
   const [selectedTarget, setSelectedTarget] = useState<number | null>(null);
   const [confirming, setConfirming] = useState(false);
   const confirmButtonRef = useRef<HTMLButtonElement>(null);
@@ -130,14 +154,16 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
     retryPrepare: isZh ? '重新准备货架' : 'Prepare the shop shelf again',
     shopHeading: isZh ? '交换商店' : 'Exchange shop',
     shopHint: isZh
-      ? '用兑换券兑换持有物。一次可买多件，也可以一件不买直接离开。'
-      : 'Spend tickets on held items. Buy several, or leave without buying anything.',
+      ? '用兑换券兑换持有物或进化道具。可买多件，也可直接离开。'
+      : 'Spend tickets on held or evolution items. Buy several, or leave.',
     ticketBalance: (tickets: number) => (isZh ? `兑换券余额：${tickets} 张` : `Tickets: ${tickets}`),
     shelfLabel: isZh ? '货架' : 'Shelf',
     priceLabel: (price: number) => (isZh ? `${price} 券` : `${price} ticket${price === 1 ? '' : 's'}`),
     insufficient: isZh ? '券不足' : 'Not enough tickets',
     purchasedLabel: isZh ? '已兑换' : 'Purchased',
-    noTarget: isZh ? '无可装备队员' : 'No legal teammate',
+    noTarget: isZh ? '当前无可用队员' : 'No eligible teammate',
+    evolutionTarget: isZh ? '选择进化目标' : 'Choose an evolution target',
+    evolutionUnavailable: isZh ? '进化目标已失效' : 'Evolution target unavailable',
     redeem: isZh ? '兑换' : 'Redeem',
     teammateHeading: isZh ? '选择装备队员' : 'Choose a teammate',
     pickProductFirst: isZh ? '先选择一件要兑换的商品。' : 'Choose a product to redeem first.',
@@ -159,6 +185,9 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
     closedBody: (item: string, recipient: string, price: number) => (isZh
       ? `${item}已装备给${recipient}（花费 ${price} 券）。结果已保存。`
       : `${item} is equipped to ${recipient} (${price} ticket${price === 1 ? '' : 's'} spent). Your choice is saved.`),
+    closedEvolutionBody: (item: string, target: string, price: number) => (isZh
+      ? `${item}已使队员进化为${target}（花费 ${price} 券）。结果已保存。`
+      : `${item} evolved a teammate into ${target} (${price} ticket${price === 1 ? '' : 's'} spent). Your choice is saved.`),
     continue: isZh ? '继续挑战' : 'Continue challenge',
     retryContinue: isZh ? '重试进入下一战' : 'Retry next battle',
     continuing: isZh ? '正在进入下一战…' : 'Loading next battle…',
@@ -204,11 +233,17 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
           <ul className="max-w-md list-disc space-y-1 pl-5 text-left text-sm text-slate-700">
             {rewardCheckpoint.purchases.map((purchase) => (
               <li key={purchase.itemId}>
-                {copy.closedBody(
-                  itemName(purchase.itemId, isZh),
-                  localizedPokemonName(playerTeam[purchase.targetIndex], getLocalized),
-                  purchase.ticketsSpent,
-                )}
+                {purchase.kind === 'EVOLUTION_ITEM'
+                  ? copy.closedEvolutionBody(
+                    getFactoryEvolutionItemDefinition(purchase.itemId)?.[isZh ? 'zhName' : 'enName'] ?? purchase.itemId,
+                    evolutionPurchaseTargetName(rewardCheckpoint.shelf, purchase, isZh),
+                    purchase.ticketsSpent,
+                  )
+                  : copy.closedBody(
+                    itemName(purchase.itemId, isZh),
+                    localizedPokemonName(playerTeam[purchase.targetIndex], getLocalized),
+                    purchase.ticketsSpent,
+                  )}
               </li>
             ))}
           </ul>
@@ -226,6 +261,16 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
   // READY：商店（货架 6 件，一次可买多件，也可一件不买直接离开）。
   const shelf: FactoryShopProduct[] = rewardCheckpoint.shelf;
   const purchasedItemIds = new Set(rewardCheckpoint.purchases.map((purchase) => purchase.itemId));
+  const activeEvolution = selectedEvolutionItem
+    ? shelf.find((product): product is Extract<FactoryShopProduct, { kind: 'EVOLUTION_ITEM' }> => (
+      product.kind === 'EVOLUTION_ITEM' && product.itemId === selectedEvolutionItem
+    ))
+    : null;
+  const activeEvolutionTargets = activeEvolution?.kind === 'EVOLUTION_ITEM'
+    ? getActiveEvolutionTargets(activeEvolution, playerTeam) : [];
+  const selectedEvolutionTarget = activeEvolutionTargets.find((target) => (
+    target.targetIndex === selectedTarget && target.toPokeApiName === selectedEvolutionTargetSlug
+  ));
   const activeItem = selectedItem && shelf.some((product) => product.kind === 'HELD_ITEM' && product.itemId === selectedItem)
     && !purchasedItemIds.has(selectedItem) ? selectedItem : null;
   const activeTarget = activeItem !== null && selectedTarget !== null
@@ -234,6 +279,16 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
   const chooseProduct = (itemId: FactoryRewardHeldItemId) => {
     clearFactoryItemRewardError();
     setSelectedItem(itemId);
+    setSelectedEvolutionItem(null);
+    setSelectedEvolutionTargetSlug(null);
+    setSelectedTarget(null);
+    setConfirming(false);
+  };
+  const chooseEvolutionProduct = (itemId: FactoryEvolutionItemId) => {
+    clearFactoryItemRewardError();
+    setSelectedItem(null);
+    setSelectedEvolutionItem(itemId);
+    setSelectedEvolutionTargetSlug(null);
     setSelectedTarget(null);
     setConfirming(false);
   };
@@ -274,8 +329,8 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
     }
     if (itemId === 'white_herb') {
       return isZh
-        ? '条件性：只有对手降低过持有者的能力等级才有收益；没人降你能力就是白装。'
-        : 'Conditional: only pays off when the foe lowers the holder\'s stat stages; nothing to restore otherwise.';
+        ? '条件性：持有者能力等级下降才有收益；自身招式造成的下降也会触发。'
+        : 'Conditional: activates when the holder has lowered stat stages, including self-inflicted drops.';
     }
     if (itemId === 'mental_herb') {
       return isZh
@@ -315,10 +370,46 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
             {copy.ticketBalance(ticketBalance)}
           </p>
         </div>
+        {rewardPrepareError && <p role="status" className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-900">{rewardPrepareError}</p>}
 
         <div className="grid grid-cols-2 gap-2" role="group" aria-label={copy.shelfLabel}>
           {shelf.map((product) => {
-            if (product.kind !== 'HELD_ITEM') return null;
+            if (product.kind === 'EVOLUTION_ITEM') {
+              const definition = getFactoryEvolutionItemDefinition(product.itemId);
+              const name = (isZh ? definition?.zhName : definition?.enName) ?? product.itemId;
+              const price = getFactoryShopProductPrice(product) ?? 0;
+              const purchased = purchasedItemIds.has(product.itemId);
+              const activeTargets = getActiveEvolutionTargets(product, playerTeam);
+              const unavailable = activeTargets.length === 0;
+              const insufficientTickets = !purchased && ticketBalance < price;
+              const redeemable = !purchased && !unavailable && !insufficientTickets;
+              const summary = activeTargets.map((target) => (
+                `${localizedPokemonName(playerTeam[target.targetIndex], getLocalized)} → ${isZh ? target.toNameZh : target.toNameEn}`
+              )).join(isZh ? '；' : '; ');
+              return (
+                <div key={product.itemId} data-testid="shop-product" data-kind="EVOLUTION_ITEM"
+                  data-state={purchased ? 'purchased' : insufficientTickets ? 'insufficient' : unavailable ? 'no-target' : 'available'}
+                  aria-label={name}
+                  className={`pf-panel flex min-h-28 flex-col gap-1.5 rounded-2xl border-2 px-2.5 py-3 text-center ${selectedEvolutionItem === product.itemId ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white'}`}>
+                  <div className="flex items-center justify-center gap-2">
+                    <EvolutionItemIcon itemId={product.itemId} isZh={isZh} />
+                    <span className="text-sm font-bold text-slate-900">{name}</span>
+                  </div>
+                  <p className={`text-lg font-black ${insufficientTickets ? 'text-red-600 line-through' : 'text-amber-700'}`}>{copy.priceLabel(price)}</p>
+                  <p className="text-[10px] font-semibold leading-tight text-slate-600">
+                    {summary || copy.evolutionUnavailable}
+                  </p>
+                  {purchased ? <p data-testid="shop-product-purchased" className="mt-auto text-xs font-black text-emerald-700">{copy.purchasedLabel}</p> : (
+                    <button type="button" disabled={!redeemable || rewardClaimBusy}
+                      onClick={() => chooseEvolutionProduct(product.itemId)}
+                      className={`pf-action-button mt-auto min-h-10 w-full justify-center px-3 py-2 text-sm ${insufficientTickets ? 'cursor-not-allowed opacity-50 grayscale' : ''}`}
+                      data-tone={redeemable ? 'primary' : undefined} data-testid="shop-redeem-button">
+                      {insufficientTickets ? copy.insufficient : unavailable ? copy.evolutionUnavailable : copy.redeem}
+                    </button>
+                  )}
+                </div>
+              );
+            }
             const itemId = product.itemId;
             const price = getFactoryHeldItemShopPrice(itemId) ?? 0;
             const purchased = purchasedItemIds.has(itemId);
@@ -374,7 +465,8 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
           <h3 className="mb-2 text-sm font-black text-slate-900">{copy.teammateHeading}</h3>
           <div className="grid gap-2 sm:grid-cols-3">
             {playerTeam.map((pokemon, index) => {
-              const eligible = activeItem !== null && canEquipRewardItem(playerTeam, activeItem, index);
+              const eligible = (activeItem !== null && canEquipRewardItem(playerTeam, activeItem, index))
+                || (activeEvolution !== null && activeEvolutionTargets.some((target) => target.targetIndex === index));
               const teammateNoTrigger = activeItem === 'loaded_dice'
                 && getRewardApplicability(pokemon, 'loaded_dice') === 'NO_TRIGGER';
               return (
@@ -382,9 +474,9 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
                   key={`${pokemon.id}-${index}`}
                   type="button"
                   disabled={!eligible || rewardClaimBusy}
-                  aria-pressed={activeTarget === index}
-                  onClick={() => { clearFactoryItemRewardError(); setSelectedTarget(index); setConfirming(true); }}
-                  className={`flex min-h-14 items-center justify-between gap-2 rounded-xl border-2 px-3 py-2 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${activeTarget === index ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white'} disabled:opacity-50`}
+                  aria-pressed={selectedTarget === index}
+                  onClick={() => { clearFactoryItemRewardError(); setSelectedTarget(index); setSelectedEvolutionTargetSlug(null); setConfirming(activeItem !== null); }}
+                  className={`flex min-h-14 items-center justify-between gap-2 rounded-xl border-2 px-3 py-2 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${selectedTarget === index ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white'} disabled:opacity-50`}
                 >
                   <span className="min-w-0 truncate text-sm font-bold text-slate-900">{localizedPokemonName(pokemon, getLocalized)}</span>
                   <span className="shrink-0 text-right text-[11px] text-slate-600">
@@ -399,9 +491,46 @@ export function FactoryItemRewardScreen({ viewModel }: GameViewSectionProps) {
               );
             })}
           </div>
-          {!activeItem && <p className="mt-2 text-xs text-slate-500">{copy.pickProductFirst}</p>}
+          {!activeItem && !activeEvolution && <p className="mt-2 text-xs text-slate-500">{copy.pickProductFirst}</p>}
           {activeItem && activeTarget === null && <p className="mt-2 text-xs text-slate-500">{copy.targetBlocked}</p>}
         </div>
+
+        {activeEvolution && selectedTarget !== null && (
+          <div className="pf-panel px-3 py-3" role="group" aria-label={copy.evolutionTarget}>
+            <h3 className="mb-2 text-sm font-black text-slate-900">{copy.evolutionTarget}</h3>
+            <div className="flex flex-wrap gap-2">
+              {activeEvolutionTargets.filter((target) => target.targetIndex === selectedTarget).map((target) => (
+                <button key={`${target.targetIndex}:${target.toPokeApiName}`} type="button"
+                  data-testid="shop-evolution-target" aria-pressed={selectedEvolutionTargetSlug === target.toPokeApiName}
+                  onClick={() => { setSelectedEvolutionTargetSlug(target.toPokeApiName); setConfirming(true); }}
+                  className="pf-action-button min-h-11 px-3 py-2" data-tone={selectedEvolutionTargetSlug === target.toPokeApiName ? 'primary' : undefined}>
+                  {`${localizedPokemonName(playerTeam[target.targetIndex], getLocalized)} → ${isZh ? target.toNameZh : target.toNameEn}`}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {confirming && activeEvolution && selectedEvolutionTarget && (
+          <div className="pf-panel border-amber-300 bg-amber-50 px-4 py-3" role="group" aria-label={copy.confirmHeading}>
+            <h3 className="text-sm font-black text-slate-900">{copy.confirmHeading}</h3>
+            <p className="mt-1 text-sm text-slate-700">
+              {`${localizedPokemonName(playerTeam[selectedEvolutionTarget.targetIndex], getLocalized)} → ${isZh ? selectedEvolutionTarget.toNameZh : selectedEvolutionTarget.toNameEn}（${copy.priceLabel(getFactoryShopProductPrice(activeEvolution) ?? 0)}）`}
+            </p>
+            {rewardClaimError && <p role="alert" className="mt-2 rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">{rewardClaimError}</p>}
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button type="button" disabled={rewardClaimBusy} data-testid="shop-confirm-evolution"
+                onClick={async () => {
+                  const ok = await purchaseFactoryEvolutionItem(activeEvolution.itemId,
+                    selectedEvolutionTarget.targetIndex, selectedEvolutionTarget.toSpeciesId, selectedEvolutionTarget.toPokeApiName);
+                  if (ok) { setConfirming(false); setSelectedTarget(null); setSelectedEvolutionItem(null); setSelectedEvolutionTargetSlug(null); }
+                }} className="pf-action-button min-h-11 px-4 py-2" data-tone="primary">
+                {copy.confirmPurchase(getFactoryShopProductPrice(activeEvolution) ?? 0)}
+              </button>
+              <button type="button" disabled={rewardClaimBusy} onClick={cancelConfirmation} className="pf-action-button min-h-11 px-4 py-2">{copy.backToShop}</button>
+            </div>
+          </div>
+        )}
 
         {confirming && activeItem && targetPokemon ? (
           <div className="pf-panel border-amber-300 bg-amber-50 px-4 py-3" role="group" aria-label={copy.confirmHeading}>

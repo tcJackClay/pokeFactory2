@@ -10,6 +10,7 @@ import {
   enumerateFactoryRewardCandidates,
   getFactoryHeldItemShopPrice,
   type FactoryRewardHeldItemId,
+  type FactoryShopHeldItemProduct,
   type FactoryShopProduct,
 } from '../features/game/config/factoryRewardPool';
 import {
@@ -30,6 +31,7 @@ import {
   commitFactoryRewardPending,
   commitFactoryRewardReady,
   commitFactoryShopPurchase,
+  commitFactoryEvolutionPurchase,
   commitFactoryRewardContinueIntent,
   createEmptyBattleResume,
   discardInvalidSave,
@@ -1100,7 +1102,7 @@ function baselinesOf(team: readonly GamePokemon[]): Array<string | null> {
 }
 
 /** 由候选前 N 件构建货架商品（kind 显式标注，价格由配置驱动）。 */
-function shelfOf(itemIds: readonly (string | null)[]): FactoryShopProduct[] {
+function shelfOf(itemIds: readonly (string | null)[]): FactoryShopHeldItemProduct[] {
   const shelf = itemIds.map((itemId) => ({
     kind: 'HELD_ITEM' as const,
     itemId: itemId as FactoryRewardHeldItemId,
@@ -1357,6 +1359,72 @@ test('a shop purchase is atomic, single-shot, idempotent, and the replaced item 
     // 券不足时再买任何一件都被拒，且券不变（不为负、不少给、不重复给）。
     assert.throws(() => commitFactoryShopPurchase('run:claim', 3, shelf[1].itemId, 0), /Not enough reward tickets/);
     assert.equal(loadSaveData()!.runSupply.tickets, 0);
+  });
+});
+
+test('evolution purchase is atomic, survives reload, and keeps earlier purchases valid', () => {
+  withStorage((_storage, failNextWrite) => {
+    const runId = 'run:evolution';
+    const saved = rewardSwapSave({ runId, stage: 6, tickets: 6 });
+    if (saved.factory.battleResume.status !== 'READY') throw new Error('Expected READY save.');
+    saved.factory.battleResume.playerTeam[0] = {
+      ...saved.factory.battleResume.playerTeam[0],
+      speciesId: 133,
+      pokeApiName: 'eevee',
+      formLedgerSlug: 'eevee',
+      name: 'eevee',
+    };
+    persistSaveData(saved);
+    const swap = storedResume();
+    commitFactoryRewardPending(runId, 6, swap.playerTeam, false);
+    const held = shelfOf(['scope_lens', 'quick_claw', 'heavy_duty_boots', 'focus_band', 'choice_band', 'leftovers']);
+    const shelf: FactoryShopProduct[] = [
+      {
+        kind: 'EVOLUTION_ITEM',
+        itemId: 'fire_stone',
+        targets: [{
+          targetIndex: 0,
+          fromSpeciesId: 133,
+          fromPokeApiName: 'eevee',
+          toSpeciesId: 136,
+          toPokeApiName: 'flareon',
+          toNameZh: '火伊布',
+          toNameEn: 'flareon',
+        }],
+      },
+      ...held.slice(0, 5),
+    ];
+    commitFactoryRewardReady(runId, 6, shelf);
+
+    // Two distinct earlier purchases may target one teammate; the latest held item is its baseline.
+    commitFactoryShopPurchase(runId, 6, 'scope_lens', 1);
+    commitFactoryShopPurchase(runId, 6, 'heavy_duty_boots', 1);
+    assert.equal(storedResume().playerTeam[1].factoryEquippedHeldItemId, 'heavy_duty_boots');
+    assert.equal(storedResume().rewardCheckpoint?.status, 'READY');
+    const before = storedResume();
+    const evolvedTeam = before.playerTeam.map((pokemon, index) => index === 0
+      ? { ...pokemon, speciesId: 136, pokeApiName: 'flareon', formLedgerSlug: 'flareon', name: 'flareon' }
+      : pokemon);
+    const beforeTickets = loadSaveData()!.runSupply.tickets;
+    failNextWrite();
+    assert.throws(() => commitFactoryEvolutionPurchase(runId, 6, 'fire_stone', 0, 136, 'flareon', evolvedTeam), /Quota/);
+    assert.equal(loadSaveData()!.runSupply.tickets, beforeTickets);
+    assert.equal(storedResume().playerTeam[0].speciesId, 133);
+
+    const purchased = commitFactoryEvolutionPurchase(runId, 6, 'fire_stone', 0, 136, 'flareon', evolvedTeam);
+    assert.equal(purchased.runSupply.tickets, beforeTickets - 3);
+    assert.equal(purchased.resume.playerTeam[0].speciesId, 136);
+    assert.equal(purchased.resume.playerTeam[0].formLedgerSlug, 'flareon');
+    assert.equal(purchased.resume.playerTeam[1].factoryEquippedHeldItemId, 'heavy_duty_boots');
+    const reward = purchased.resume.rewardCheckpoint;
+    if (reward?.status !== 'READY') throw new Error('Expected READY reward.');
+    assert.deepEqual(reward.purchases.map((entry) => entry.itemId), ['scope_lens', 'heavy_duty_boots', 'fire_stone']);
+
+    replaceSaveData(parseSaveDataFromText(JSON.stringify(loadSaveData())));
+    const replay = commitFactoryEvolutionPurchase(runId, 6, 'fire_stone', 0, 136, 'flareon', evolvedTeam);
+    assert.equal(replay.runSupply.tickets, beforeTickets - 3);
+    assert.equal(replay.resume.rewardCheckpoint?.status, 'READY');
+    assert.throws(() => commitFactoryEvolutionPurchase(runId, 6, 'fire_stone', 1, 136, 'flareon', evolvedTeam), /already claimed/);
   });
 });
 

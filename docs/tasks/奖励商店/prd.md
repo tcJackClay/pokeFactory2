@@ -70,9 +70,9 @@ heavy_duty_boots, loaded_dice, white_herb, mental_herb
 - **一组七战打完**：组末结算时把剩余券按 **1 券 = 1 BP** 并入本次结算，**计入 `MAX_FACTORY_BP`(9999) 上限**；随后券清零，下一组从 0 张重攒。
 - **一组中途败退**：券直接清零，**不折算、不给 BP**（`createEmptyRunSupply()` 现有行为，保持不变）。
 
-### 2.6 进化道具的 39 种与 91 条关系
+### 2.6 进化道具的 39 种与 94 条关系
 
-- **完整逐条映射**（哪只宝可梦用哪件道具进化成什么）已生成：`docs/tasks/扩池规则/evolution-items.generated.md`。
+- **完整逐条映射**（哪只宝可梦用哪件道具进化成什么）已从指定 Rogue `expansion` 固定源码重新生成：`docs/tasks/扩池规则/evolution-items.generated.md`。94 条包括觉醒之石的性别限定关系；王者之证首版只作持有道具，其两条进化关系不计入。
 - 数据来源是用户指定的参考项目 `Pokabbie/pokeemerald-rogue`（及其上游 `reference/pokeemerald-expansion`）。**不得自行编造**参考项目里没有的进化关系或道具。
 - 该参考项目把「通讯交换进化」实现为**使用连接线道具**（`include/constants/pokemon.h` 把 `EVO_TRADE` 与 `EVO_ITEM, ITEM_LINKING_CORD` 并列写在同一批宝可梦上）。本项目照此口径：**连接线就是一件普通道具，用它进化，不需要真的交换。**
 - **王者之证 `kings_rock` 双重身份的处理（已定）**：它在参考项目里既是持有道具，又是**蚊香君 → 蚊香蛙皇、呆呆兽 → 呆呆王**的道具进化条件。本项目里它已是商店的持有道具（2 券），**首版只当持有道具**，这两个进化**换不到**。实现时必须在候选枚举里显式排除，不得让它同时以两种身份出现。
@@ -128,14 +128,14 @@ heavy_duty_boots, loaded_dice, white_herb, mental_herb
 
 1. 允许摆出「能装但这一局用不上」的持有道具，但**说明必须如实**。
 2. 已有的三态判定 `getRewardApplicability` → `APPLICABLE` / `CONDITIONAL` / `NO_TRIGGER` 必须继续驱动文案，且扩展到新增的两种香草：
-   - **白色香草**：只有对手降低过持有者的能力等级才有收益 → `NO_TRIGGER`（当前无触发场景）或 `CONDITIONAL`，**不得**标成无条件有效。
+   - **白色香草**：持有者任一能力等级低于初始值时才有收益，下降可由对手或自身招式造成 → `NO_TRIGGER`（当前确无下降场景）或 `CONDITIONAL`，**不得**标成无条件有效。
    - **心灵香草**：只有对手造成过妨碍状态（挑衅、再来一次等）才有收益 → 同上。
 3. **进化道具**的说明必须是**具体**的：至少写出「用它把谁进化成谁」。多名队员可用时列全。不得写「可以进化宝可梦」这类空话。
 
 ### F6 · 白色香草的战斗效果（目标 D，当前缺失）
 
 - 现状：`src/features/game/data/battle/itemEffects.ts` 声明了 `white_herb`（`effectId: 'WHITE_HERB'`，`hooks: ['restore-lowered-stats']`），但**全库没有任何一处战斗逻辑响应它**（对比：`mental_herb` 已在 `useBattleController.ts` 接好）。
-- 要实现的行为：**持有者被对手降低能力等级后，复原被降低的能力等级，并消耗掉白色香草**。
+- 要实现的行为：**持有者任一能力等级降至初始值以下时，复原所有低于初始值的能力等级，并消耗掉白色香草**。自身招式造成的下降也触发，正值不变；没有负值则不消耗。
 - 判定口径、触发时机、消耗语义必须与参考项目一致；要与 `mental_herb` 的现有实现风格保持一致。
 - 必须有确定性单元测试；并且**在浏览器实玩里真的触发过一次**（见验收 AC-9）。
 
