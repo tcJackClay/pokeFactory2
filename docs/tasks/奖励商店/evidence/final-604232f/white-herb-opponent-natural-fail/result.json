@@ -1,0 +1,106 @@
+{
+  "codeSha": "604232f49a2d4bc13c37d6a52bcb8ce3a7326b36",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "Playwright Chromium simulated mobile viewport; controlled save injection; UI touch",
+  "steps": [
+    {
+      "name": "01-before-turn",
+      "phase": "BATTLE",
+      "stage": 3,
+      "tickets": 2,
+      "status": null
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "assertions": {},
+  "before": {
+    "member": {
+      "id": 79,
+      "speciesId": 79,
+      "pokeApiName": "slowpoke",
+      "level": 50,
+      "ivs": {
+        "hp": 2,
+        "attack": 3,
+        "defense": 5,
+        "spAtk": 2,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "brave",
+        "zhName": "勇敢",
+        "plus": "attack",
+        "minus": "speed"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "tackle",
+          "pp": 20
+        },
+        {
+          "name": "tackle",
+          "pp": 35
+        },
+        {
+          "name": "take-down",
+          "pp": 20
+        },
+        {
+          "name": "belly-drum",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 90,
+        "attack": 65,
+        "defense": 65,
+        "spAtk": 40,
+        "spDef": 40,
+        "speed": 15
+      },
+      "calculatedStats": {
+        "hp": 400,
+        "attack": 130,
+        "defense": 300,
+        "spAtk": 46,
+        "spDef": 300,
+        "speed": 220
+      },
+      "original": "leftovers",
+      "equipped": "white_herb",
+      "current": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    },
+    "log": []
+  },
+  "moveTexts": [
+    "撞击\n一般\n威力 1\n命中 100\nPP 20/20",
+    "撞击\n一般\n威力 40\n命中 100\nPP 35/35",
+    "猛撞\n一般\n威力 90\n命中 85\nPP 20/20",
+    "腹鼓\n一般\n威力 --\n命中 --\nPP 10/10"
+  ],
+  "failure": "TimeoutError: page.waitForFunction: Timeout 30000ms exceeded.",
+  "bodyTail": "0 BP 3/7 轮次 2 连胜 比比鸟 ♂ LV.50 一般 飞行 HP 86% 呆呆兽 ♂ LV.50 水 超能 HP 400/400 战斗日志 FCT-01 呆呆兽 造成了 56 点伤害。 对手的 比比鸟 使用了 羽毛舞！ 战斗 变化 背包 宝可梦 逃跑 撞击 一般 威力 1 命中 100 PP 19/20 撞击 一般 威力 40 命中 100 PP 35/35 猛撞 一般 威力 90 命中 85 PP 20/20 腹鼓 一般 威力 -- 命中 -- PP 10/10"
+}

@@ -1,0 +1,73 @@
+{
+  "name": "settle-9999-cap",
+  "octet": 53,
+  "fixture": "fx-shop-stage7-battle-cap.json",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "受控存档注入 + 真实 UI 触控 + 存档断言",
+  "steps": [
+    {
+      "name": "01-settle-capped",
+      "phase": "ROUND_RESULT",
+      "stage": 7,
+      "tickets": 0,
+      "status": null
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "before": {
+    "tickets": 6,
+    "balance": 9995
+  },
+  "win": {
+    "ok": true,
+    "turns": [
+      {
+        "turn": 0,
+        "action": "move",
+        "pick": 0,
+        "moveText": "撞击 一般 威力 150 命中 100 PP 20/20"
+      },
+      {
+        "turn": 1,
+        "action": "move",
+        "pick": 0,
+        "moveText": "撞击 一般 威力 150 命中 100 PP 19/20"
+      },
+      {
+        "turn": 2,
+        "action": "move",
+        "pick": 0,
+        "moveText": "撞击 一般 威力 150 命中 100 PP 18/20"
+      },
+      {
+        "turn": 3,
+        "action": "move",
+        "pick": 0,
+        "moveText": "撞击 一般 威力 150 命中 100 PP 17/20"
+      }
+    ]
+  },
+  "settlement": {
+    "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+    "setNo": 1,
+    "stage": 7,
+    "result": "WIN",
+    "isFrontierBrain": false,
+    "nominalBp": 3,
+    "ticketBp": 7,
+    "amount": 4,
+    "settledAt": "2026-10-13T11:09:49.596Z"
+  },
+  "assertions": {
+    "balanceClampedTo9999": true,
+    "nominalBpIsThree": true,
+    "ticketBpStillSeven": true,
+    "amountClampedToFour": true,
+    "ticketsCleared": true
+  },
+  "codeSha": "4072de03eb7ecfc2277bd9b473407f272a2875d6"
+}

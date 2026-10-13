@@ -1,0 +1,295 @@
+{
+  "codeSha": "4072de03eb7ecfc2277bd9b473407f272a2875d6",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "Playwright Chromium simulated mobile viewport; controlled save injection; UI touch",
+  "steps": [
+    {
+      "name": "01-before-failure",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "02-write-failed",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "03-retry-success",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "READY"
+    }
+  ],
+  "errors": [
+    "console Factory evolution purchase failed Error: injected quota failure (failNextWrite)\n    at proto.setItem (eval at evaluate (:311:30), <anonymous>:11:15)\n    at commitFactoryEvolutionPurchase (http://127.0.0.73:4300/src/services/saveManager.ts:1345:23)\n    at http://127.0.0.73:4300/src/features/game/hooks/usePokeFactoryGame.ts:1306:37\n    at async onClick (http://127.0.0.73:4300/src/features/game/components/game-view/reward/FactoryItemRewardScreen.tsx:715:26)"
+  ],
+  "httpErrors": [],
+  "assertions": {
+    "failedWriteWasIntercepted": true,
+    "failedWriteNoDeduction": true,
+    "failedWriteNoEvolution": true,
+    "retrySingleSuccess": true
+  },
+  "before": {
+    "tickets": 3,
+    "member": {
+      "id": 133,
+      "speciesId": 133,
+      "pokeApiName": "eevee",
+      "level": 50,
+      "ivs": {
+        "hp": 3,
+        "attack": 3,
+        "defense": 3,
+        "spAtk": 3,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "gentle",
+        "zhName": "温顺",
+        "plus": "spDef",
+        "minus": "defense"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "charm",
+          "pp": 20
+        },
+        {
+          "name": "attract",
+          "pp": 15
+        },
+        {
+          "name": "flail",
+          "pp": 15
+        },
+        {
+          "name": "endure",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 55,
+        "attack": 55,
+        "defense": 50,
+        "spAtk": 45,
+        "spDef": 65,
+        "speed": 55
+      },
+      "calculatedStats": {
+        "hp": 1,
+        "attack": 2,
+        "defense": 1,
+        "spAtk": 51,
+        "spDef": 1,
+        "speed": 5
+      },
+      "original": "leftovers",
+      "equipped": "heavy_duty_boots",
+      "current": "heavy_duty_boots",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    },
+    "itemId": "ice_stone"
+  },
+  "failed": {
+    "tickets": 3,
+    "member": {
+      "id": 133,
+      "speciesId": 133,
+      "pokeApiName": "eevee",
+      "level": 50,
+      "ivs": {
+        "hp": 3,
+        "attack": 3,
+        "defense": 3,
+        "spAtk": 3,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "gentle",
+        "zhName": "温顺",
+        "plus": "spDef",
+        "minus": "defense"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "charm",
+          "pp": 20
+        },
+        {
+          "name": "attract",
+          "pp": 15
+        },
+        {
+          "name": "flail",
+          "pp": 15
+        },
+        {
+          "name": "endure",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 55,
+        "attack": 55,
+        "defense": 50,
+        "spAtk": 45,
+        "spDef": 65,
+        "speed": 55
+      },
+      "calculatedStats": {
+        "hp": 1,
+        "attack": 2,
+        "defense": 1,
+        "spAtk": 51,
+        "spDef": 1,
+        "speed": 5
+      },
+      "original": "leftovers",
+      "equipped": "heavy_duty_boots",
+      "current": "heavy_duty_boots",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    },
+    "purchases": [],
+    "status": "READY",
+    "failWrite": {
+      "armed": false,
+      "hits": 1
+    },
+    "body": "0 BP 3/7 轮次 2 连胜 交换商店 用兑换券兑换持有物或进化道具。可买多件，也可直接离开。 兑换券余额：3 张 焦点镜 2 券 命中要害等级 +1，稳定提高暴击概率。 兑换 冰之石 3 券 伊布 → 冰伊布 兑换 水之石 3 券 伊布 → 水伊布 兑换 叶之石 3 券 伊布 → 叶伊布 兑换 机变 机变骰子 2 券 提高 2–5 次连续攻击招式的命中次数。 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 兑换 气势头带 2 券 受到致命一击时，有 10% 概率以 1 HP 挺住；本场不消耗，可反复判定。 兑换 选择装备队员 伊布 厚底靴 独角犀牛 先制之爪 玛瑙水母 王者之证 选择进化目标 伊布 → 冰伊布 确认兑换 伊布 → 冰伊布（3 券） 进化兑换失败，进度与兑换券未改变。请检查目标或网络后重试。 扣 3 券兑换 返回商店 离开商店"
+  },
+  "after": {
+    "tickets": 0,
+    "member": {
+      "id": 133,
+      "speciesId": 471,
+      "pokeApiName": "glaceon",
+      "level": 50,
+      "ivs": {
+        "hp": 3,
+        "attack": 3,
+        "defense": 3,
+        "spAtk": 3,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "gentle",
+        "zhName": "温顺",
+        "plus": "spDef",
+        "minus": "defense"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "charm",
+          "pp": 20
+        },
+        {
+          "name": "attract",
+          "pp": 15
+        },
+        {
+          "name": "flail",
+          "pp": 15
+        },
+        {
+          "name": "endure",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 65,
+        "attack": 60,
+        "defense": 110,
+        "spAtk": 130,
+        "spDef": 95,
+        "speed": 65
+      },
+      "calculatedStats": {
+        "hp": 126,
+        "attack": 66,
+        "defense": 104,
+        "spAtk": 136,
+        "spDef": 111,
+        "speed": 71
+      },
+      "original": "leftovers",
+      "equipped": "heavy_duty_boots",
+      "current": "heavy_duty_boots",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    },
+    "purchases": [
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "ice_stone",
+        "targetIndex": 0,
+        "fromSpeciesId": 133,
+        "fromPokeApiName": "eevee",
+        "toSpeciesId": 471,
+        "toPokeApiName": "glaceon",
+        "ticketsSpent": 3
+      }
+    ]
+  }
+}

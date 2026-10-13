@@ -1,0 +1,62 @@
+{
+  "name": "rapid-click-purchase",
+  "octet": 45,
+  "fixture": "fx-shop-pending-t3.json",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "受控存档注入 + 真实 UI 触控 + 存档断言",
+  "steps": [
+    {
+      "name": "01-confirm-armed",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "02-after-burst",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "READY"
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "before": {
+    "tickets": 3
+  },
+  "burst": {
+    "clicked": 8,
+    "disabled": false
+  },
+  "purchaseCommits": 1,
+  "after": {
+    "tickets": 0,
+    "purchases": [
+      {
+        "itemId": "choice_band",
+        "targetIndex": 0,
+        "ticketsSpent": 3
+      }
+    ],
+    "equipped": [
+      "choice_band",
+      "quick_claw",
+      "kings_rock"
+    ]
+  },
+  "assertions": {
+    "burstDispatchedEight": true,
+    "singleCommit": true,
+    "chargedOnce": true,
+    "ticketsExactlyThree": true,
+    "equippedOnce": true,
+    "othersUntouched": true,
+    "stillInShop": true,
+    "stageNotAdvanced": true
+  },
+  "codeSha": "4072de03eb7ecfc2277bd9b473407f272a2875d6"
+}

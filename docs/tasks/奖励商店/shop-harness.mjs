@@ -5,8 +5,8 @@ import { chromium } from 'file:///C:/Users/45186/.codex/skills/develop-web-game/
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 
 export const TASK_DIR = 'D:/Games/pokeFactory2-worktrees/reward-shop/docs/tasks/奖励商店';
-export const EVIDENCE_DIR = `${TASK_DIR}/evidence`;
-export const FIXTURE_DIR = `${EVIDENCE_DIR}/fixtures`;
+export const EVIDENCE_DIR = process.env.PF_SHOP_EVIDENCE_DIR || `${TASK_DIR}/evidence`;
+export const FIXTURE_DIR = `${TASK_DIR}/evidence/fixtures`;
 
 // 数值源为 src/features/game/config/factoryRewardPool.ts 的档位表（唯一真值源；单测已断言一致）。
 export const ZH = {

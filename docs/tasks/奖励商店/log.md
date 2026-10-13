@@ -196,3 +196,11 @@
 - Static gate: `npm run lint` PASS；`npm test` PASS（293/293）；`npm run build` PASS（既有大 chunk 提示）；`go test ./...` PASS；`git diff --check` PASS（仅 LF/CRLF 提示）。
 - Found but not fixed (needs lead routing): 既有状态招式命中率分支在命中判定前返回，`plan.md` §7.5 已明确列为独立未验问题；本裁决不声称羽毛舞未命中会正确阻止降级。旧 `604232f` 的浏览器截图不能证明本次修改后的行为，Player 须按新代码重新取 AC-9 的真实 UI 证据。前次审计所列异色字段不可观测、实体手机和生产环境边界不变。
 - Verdict: **PASS（本次最小修复的独立静态审计）**。概率语义、保护/替身阻断和双方香草接线符合已批准的技术计划；运行验收仍由 Player 完成。
+
+# Player
+
+- 新代码运行对象：`4072de03eb7ecfc2277bd9b473407f272a2875d6`。已停止上一提交服务，从本工作树重启 Go 3001 / Vite 4300（禁 HMR）；健康检查 200，Go 代理资源审计原始结果 175/175 资源、94/94 关系、9 个 form-only。证据独立放在 `evidence/final-4072de0/`，每个 `result.json` 标完整 SHA；旧 `final-604232f` 仅是历史。
+- 模拟浏览器：Playwright Chromium 触控、DPR 2，320×568 / 390×844 / 844×390；受控检查点，未用 DEV Win。旧商店 14/14 回归通过；进化正反例、觉醒石性别、两名伊布择一、交易字段保留、八连点、写盘失败重试、刷新/冷重开、设置 UI 同版导出导入、受控第 7 战到第 8 战跨组、零购离店均通过，状态与截图在各用例目录。
+- 原始羽毛舞缺陷在本 SHA 修复后经真实 UI 复验：`white-herb-feather-dance-raw/result.json` 保存 `isPrimary:true,chance:0,change:-2`，日志明确降攻击→白色香草复原；负等级归零，当前道具消耗一次，装备基准保留。对手冰冻之风、自身蛮力与下一战返还也通过。首轮脚本曾因 localStorage 异步落盘读到上一回合而误多按；只改 player harness 等待落盘后重跑，最终结果全通过。
+- 一次自身蛮力运行同时出现 `502 /api/pokeapi/move/iron-head/`；同 SHA 同夹具清洁重跑无 HTTP/console 错误，异常如实留在 `evidence/final-4072de0/transient-502.md`。进化写盘失败和旧故障语义用例中的 console error 是预期受控注入。
+- Verdict：**PASS（指定模拟浏览器受控场景）**。`runtime.md` 按 AC-1–14 逐项列证据和未验证边界。实体手机、生产环境、自然完整七战、目标资源失败浏览器路径、异色字段、王者盾牌浏览器路径，以及既有状态招式命中率问题均不在本次运行结论内。未改业务代码、PRD 或 plan，未提交。

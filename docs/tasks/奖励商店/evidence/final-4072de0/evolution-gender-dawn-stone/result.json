@@ -1,0 +1,592 @@
+{
+  "codeSha": "4072de03eb7ecfc2277bd9b473407f272a2875d6",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "Playwright Chromium simulated mobile viewport; controlled save injection; UI touch",
+  "steps": [
+    {
+      "name": "01-dawn-stone-gender-targets",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "02-gender-filtered-team-picker",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "03-female-snorunt-evolved",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "READY"
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "assertions": {
+    "genderFiltersTargets": true,
+    "cardNamesBothAllowed": true,
+    "onlyEligibleTeamChoices": true,
+    "femaleSnoruntEvolvedOnly": true
+  },
+  "before": {
+    "tickets": 3,
+    "team": [
+      {
+        "id": 281,
+        "speciesId": 281,
+        "pokeApiName": "kirlia",
+        "level": 50,
+        "ivs": {
+          "hp": 3,
+          "attack": 3,
+          "defense": 3,
+          "spAtk": 3,
+          "spDef": 3,
+          "speed": 3
+        },
+        "evs": {
+          "hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0
+        },
+        "nature": {
+          "name": "gentle",
+          "zhName": "温顺",
+          "plus": "spDef",
+          "minus": "defense"
+        },
+        "gender": "male",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20
+          },
+          {
+            "name": "attract",
+            "pp": 15
+          },
+          {
+            "name": "flail",
+            "pp": 15
+          },
+          {
+            "name": "endure",
+            "pp": 10
+          }
+        ],
+        "baseStats": {
+          "hp": 38,
+          "attack": 35,
+          "defense": 35,
+          "spAtk": 65,
+          "spDef": 55,
+          "speed": 50
+        },
+        "calculatedStats": {
+          "hp": 1,
+          "attack": 2,
+          "defense": 1,
+          "spAtk": 51,
+          "spDef": 1,
+          "speed": 5
+        },
+        "original": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "current": "heavy_duty_boots",
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        }
+      },
+      {
+        "id": 281,
+        "speciesId": 281,
+        "pokeApiName": "kirlia",
+        "level": 50,
+        "ivs": {
+          "hp": 3,
+          "attack": 3,
+          "defense": 3,
+          "spAtk": 3,
+          "spDef": 3,
+          "speed": 3
+        },
+        "evs": {
+          "hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0
+        },
+        "nature": {
+          "name": "gentle",
+          "zhName": "温顺",
+          "plus": "spDef",
+          "minus": "defense"
+        },
+        "gender": "female",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20
+          },
+          {
+            "name": "attract",
+            "pp": 15
+          },
+          {
+            "name": "flail",
+            "pp": 15
+          },
+          {
+            "name": "endure",
+            "pp": 10
+          }
+        ],
+        "baseStats": {
+          "hp": 38,
+          "attack": 35,
+          "defense": 35,
+          "spAtk": 65,
+          "spDef": 55,
+          "speed": 50
+        },
+        "calculatedStats": {
+          "hp": 1,
+          "attack": 2,
+          "defense": 1,
+          "spAtk": 51,
+          "spDef": 1,
+          "speed": 5
+        },
+        "original": "quick_claw",
+        "equipped": "quick_claw",
+        "current": "quick_claw",
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        }
+      },
+      {
+        "id": 361,
+        "speciesId": 361,
+        "pokeApiName": "snorunt",
+        "level": 50,
+        "ivs": {
+          "hp": 3,
+          "attack": 3,
+          "defense": 3,
+          "spAtk": 3,
+          "spDef": 3,
+          "speed": 3
+        },
+        "evs": {
+          "hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0
+        },
+        "nature": {
+          "name": "gentle",
+          "zhName": "温顺",
+          "plus": "spDef",
+          "minus": "defense"
+        },
+        "gender": "female",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20
+          },
+          {
+            "name": "attract",
+            "pp": 15
+          },
+          {
+            "name": "flail",
+            "pp": 15
+          },
+          {
+            "name": "endure",
+            "pp": 10
+          }
+        ],
+        "baseStats": {
+          "hp": 50,
+          "attack": 50,
+          "defense": 50,
+          "spAtk": 50,
+          "spDef": 50,
+          "speed": 50
+        },
+        "calculatedStats": {
+          "hp": 1,
+          "attack": 2,
+          "defense": 1,
+          "spAtk": 51,
+          "spDef": 1,
+          "speed": 5
+        },
+        "original": "kings_rock",
+        "equipped": "kings_rock",
+        "current": "kings_rock",
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        }
+      }
+    ],
+    "shelf": [
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "choice_band"
+      },
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "loaded_dice"
+      },
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "focus_band"
+      },
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "dawn_stone",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "fromSpeciesId": 281,
+            "fromPokeApiName": "kirlia",
+            "toSpeciesId": 475,
+            "toPokeApiName": "gallade",
+            "toNameZh": "艾路雷朵",
+            "toNameEn": "gallade"
+          },
+          {
+            "targetIndex": 2,
+            "fromSpeciesId": 361,
+            "fromPokeApiName": "snorunt",
+            "toSpeciesId": 478,
+            "toPokeApiName": "froslass",
+            "toNameZh": "雪妖女",
+            "toNameEn": "froslass"
+          }
+        ]
+      },
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "white_herb"
+      },
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "mental_herb"
+      }
+    ]
+  },
+  "dawn": {
+    "kind": "EVOLUTION_ITEM",
+    "itemId": "dawn_stone",
+    "targets": [
+      {
+        "targetIndex": 0,
+        "fromSpeciesId": 281,
+        "fromPokeApiName": "kirlia",
+        "toSpeciesId": 475,
+        "toPokeApiName": "gallade",
+        "toNameZh": "艾路雷朵",
+        "toNameEn": "gallade"
+      },
+      {
+        "targetIndex": 2,
+        "fromSpeciesId": 361,
+        "fromPokeApiName": "snorunt",
+        "toSpeciesId": 478,
+        "toPokeApiName": "froslass",
+        "toNameZh": "雪妖女",
+        "toNameEn": "froslass"
+      }
+    ]
+  },
+  "cardText": "觉醒之石\n\n3 券\n\n奇鲁莉安 → 艾路雷朵；雪童子 → 雪妖女\n\n兑换",
+  "choices": [
+    "奇鲁莉安\n厚底靴",
+    "奇鲁莉安\n先制之爪",
+    "雪童子\n王者之证"
+  ],
+  "choiceDisabled": [
+    false,
+    true,
+    false
+  ],
+  "after": {
+    "tickets": 0,
+    "team": [
+      {
+        "id": 281,
+        "speciesId": 281,
+        "pokeApiName": "kirlia",
+        "level": 50,
+        "ivs": {
+          "hp": 3,
+          "attack": 3,
+          "defense": 3,
+          "spAtk": 3,
+          "spDef": 3,
+          "speed": 3
+        },
+        "evs": {
+          "hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0
+        },
+        "nature": {
+          "name": "gentle",
+          "zhName": "温顺",
+          "plus": "spDef",
+          "minus": "defense"
+        },
+        "gender": "male",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20
+          },
+          {
+            "name": "attract",
+            "pp": 15
+          },
+          {
+            "name": "flail",
+            "pp": 15
+          },
+          {
+            "name": "endure",
+            "pp": 10
+          }
+        ],
+        "baseStats": {
+          "hp": 38,
+          "attack": 35,
+          "defense": 35,
+          "spAtk": 65,
+          "spDef": 55,
+          "speed": 50
+        },
+        "calculatedStats": {
+          "hp": 1,
+          "attack": 2,
+          "defense": 1,
+          "spAtk": 51,
+          "spDef": 1,
+          "speed": 5
+        },
+        "original": "heavy_duty_boots",
+        "equipped": "heavy_duty_boots",
+        "current": "heavy_duty_boots",
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        }
+      },
+      {
+        "id": 281,
+        "speciesId": 281,
+        "pokeApiName": "kirlia",
+        "level": 50,
+        "ivs": {
+          "hp": 3,
+          "attack": 3,
+          "defense": 3,
+          "spAtk": 3,
+          "spDef": 3,
+          "speed": 3
+        },
+        "evs": {
+          "hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0
+        },
+        "nature": {
+          "name": "gentle",
+          "zhName": "温顺",
+          "plus": "spDef",
+          "minus": "defense"
+        },
+        "gender": "female",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20
+          },
+          {
+            "name": "attract",
+            "pp": 15
+          },
+          {
+            "name": "flail",
+            "pp": 15
+          },
+          {
+            "name": "endure",
+            "pp": 10
+          }
+        ],
+        "baseStats": {
+          "hp": 38,
+          "attack": 35,
+          "defense": 35,
+          "spAtk": 65,
+          "spDef": 55,
+          "speed": 50
+        },
+        "calculatedStats": {
+          "hp": 1,
+          "attack": 2,
+          "defense": 1,
+          "spAtk": 51,
+          "spDef": 1,
+          "speed": 5
+        },
+        "original": "quick_claw",
+        "equipped": "quick_claw",
+        "current": "quick_claw",
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        }
+      },
+      {
+        "id": 361,
+        "speciesId": 478,
+        "pokeApiName": "froslass",
+        "level": 50,
+        "ivs": {
+          "hp": 3,
+          "attack": 3,
+          "defense": 3,
+          "spAtk": 3,
+          "spDef": 3,
+          "speed": 3
+        },
+        "evs": {
+          "hp": 0,
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0
+        },
+        "nature": {
+          "name": "gentle",
+          "zhName": "温顺",
+          "plus": "spDef",
+          "minus": "defense"
+        },
+        "gender": "female",
+        "moves": [
+          {
+            "name": "charm",
+            "pp": 20
+          },
+          {
+            "name": "attract",
+            "pp": 15
+          },
+          {
+            "name": "flail",
+            "pp": 15
+          },
+          {
+            "name": "endure",
+            "pp": 10
+          }
+        ],
+        "baseStats": {
+          "hp": 70,
+          "attack": 80,
+          "defense": 70,
+          "spAtk": 80,
+          "spDef": 70,
+          "speed": 110
+        },
+        "calculatedStats": {
+          "hp": 131,
+          "attack": 86,
+          "defense": 68,
+          "spAtk": 86,
+          "spDef": 83,
+          "speed": 116
+        },
+        "original": "kings_rock",
+        "equipped": "kings_rock",
+        "current": "kings_rock",
+        "statStages": {
+          "attack": 0,
+          "defense": 0,
+          "spAtk": 0,
+          "spDef": 0,
+          "speed": 0,
+          "accuracy": 0,
+          "evasion": 0
+        }
+      }
+    ],
+    "purchases": [
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "dawn_stone",
+        "targetIndex": 2,
+        "fromSpeciesId": 361,
+        "fromPokeApiName": "snorunt",
+        "toSpeciesId": 478,
+        "toPokeApiName": "froslass",
+        "ticketsSpent": 3
+      }
+    ]
+  }
+}

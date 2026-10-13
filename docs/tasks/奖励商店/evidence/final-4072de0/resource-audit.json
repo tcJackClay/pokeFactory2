@@ -1,0 +1,18 @@
+{
+  "relations": 94,
+  "usableRelations": 94,
+  "resources": 175,
+  "passedResources": 175,
+  "formOnly": [
+    "flabebe-white",
+    "poltchageist-artisan",
+    "poltchageist-counterfeit",
+    "polteageist-antique",
+    "polteageist-phony",
+    "sinistcha-masterpiece",
+    "sinistcha-unremarkable",
+    "sinistea-antique",
+    "sinistea-phony"
+  ],
+  "failed": []
+}

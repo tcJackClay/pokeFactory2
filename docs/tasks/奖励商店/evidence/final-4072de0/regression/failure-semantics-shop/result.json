@@ -1,0 +1,108 @@
+{
+  "name": "failure-semantics-shop",
+  "octet": 52,
+  "fixture": "fx-shop-pending-t2.json",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "受控存档注入 + 真实 UI 触控 + 存档断言",
+  "steps": [
+    {
+      "name": "01-prepare-write-failed",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 2,
+      "status": "PENDING"
+    },
+    {
+      "name": "02-retry-prepared",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 2,
+      "status": "READY"
+    },
+    {
+      "name": "03-purchase-write-failed",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 2,
+      "status": "READY"
+    },
+    {
+      "name": "04-purchase-retried",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "READY"
+    }
+  ],
+  "errors": [
+    "console Factory reward shelf preparation failed Error: injected quota failure (prepare)\n    at proto.setItem (<anonymous>:10:15)\n    at commitFactoryRewardReady (http://127.0.0.52:4300/src/services/saveManager.ts:1200:23)\n    at http://127.0.0.52:4300/src/features/game/hooks/usePokeFactoryGame.ts:390:23",
+    "console Factory shop purchase failed Error: injected quota failure (failNextWrite)\n    at proto.setItem (eval at evaluate (:311:30), <anonymous>:11:15)\n    at commitFactoryShopPurchase (http://127.0.0.52:4300/src/services/saveManager.ts:1260:23)\n    at http://127.0.0.52:4300/src/features/game/hooks/usePokeFactoryGame.ts:1276:37\n    at onClick (http://127.0.0.52:4300/src/features/game/components/game-view/reward/FactoryItemRewardScreen.tsx:785:41)\n    at executeDispatch (http://127.0.0.52:4300/node_modules/.vite/deps/react-dom_client.js?v=7efa0fcb:13620:11)\n    at runWithFiberInDEV (http://127.0.0.52:4300/node_modules/.vite/deps/react-dom_client.js?v=7efa0fcb:995:72)\n    at processDispatchQueue (http://127.0.0.52:4300/node_modules/.vite/deps/react-dom_client.js?v=7efa0fcb:13656:37)\n    at http://127.0.0.52:4300/node_modules/.vite/deps/react-dom_client.js?v=7efa0fcb:14069:11\n    at batchedUpdates$1 (http://127.0.0.52:4300/node_modules/.vite/deps/react-dom_client.js?v=7efa0fcb:2624:42)\n    at dispatchEventForPluginEventSystem (http://127.0.0.52:4300/node_modules/.vite/deps/react-dom_client.js?v=7efa0fcb:13761:9)"
+  ],
+  "httpErrors": [],
+  "prepareFailure": {
+    "status": "PENDING",
+    "stage": 3,
+    "prepareFailures": 1,
+    "errorVisible": true,
+    "bodyTail": "0 BP 3/7 轮次 2 连胜 奖励待准备 换怪结果已保存，货架尚未准备完成。请保留存档，稍后继续。 货架保存失败，进度未改变。请检查存储空间后重试。 重新准备货架"
+  },
+  "prepareRecovered": {
+    "status": "READY",
+    "shelf": [
+      "mental_herb",
+      "choice_band",
+      "loaded_dice",
+      "white_herb",
+      "focus_band",
+      "scope_lens"
+    ],
+    "tickets": 2,
+    "domProducts": [
+      "心灵香草",
+      "讲究头带",
+      "机变骰子",
+      "白色香草",
+      "气势头带",
+      "焦点镜"
+    ]
+  },
+  "purchaseFailure": {
+    "status": "READY",
+    "ticketsUnchanged": true,
+    "purchasesEmpty": true,
+    "equipUnchanged": true,
+    "errorVisible": true,
+    "failWriteStats": {
+      "armed": false,
+      "hits": 1
+    },
+    "bodyTail": "0 BP 3/7 轮次 2 连胜 交换商店 用兑换券兑换持有物或进化道具。可买多件，也可直接离开。 兑换券余额：2 张 心灵香草 2 券 解除挑衅、再来一次、定身法等妨碍状态，随后消耗掉自己。 条件性：只有对手造成过挑衅、再来一次等妨碍状态才有收益；对手不放就是白装。 兑换 讲究头带 3 券 物理招式威力 ×1.5，代价是只能连续使用同一招式。 券不足 机变 机变骰子 2 券 提高 2–5 次连续攻击招式的命中次数。 可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。 兑换 白色香草 1 券 复原持有者低于初始值的能力等级，随后消耗；自身招式造成的下降也有效。 条件性：持有者能力等级下降才有收益；自身招式造成的下降也会触发。 兑换 气势头带 2 券 受到致命一击时，有 10% 概率以 1 HP 挺住；本场不消耗，可反复判定。 兑换 焦点镜 2 券 命中要害等级 +1，稳定提高暴击概率。 兑换 选择装备队员 呆呆兽 厚底靴 独角犀牛 先制之爪 玛瑙水母 王者之证 确认兑换 呆呆兽：厚底靴 → 焦点镜（2 券） 先扣券、再装备；原装备会被替换，不会放入背包。 兑换失败：券不足、队员不合法或保存出错。未扣券、未装备，请重试。 重试兑换 返回商店 离开商店"
+  },
+  "purchaseRecovered": {
+    "status": "READY",
+    "tickets": 0,
+    "purchases": [
+      {
+        "itemId": "scope_lens",
+        "targetIndex": 0,
+        "ticketsSpent": 2
+      }
+    ],
+    "equipped": "scope_lens"
+  },
+  "assertions": {
+    "prepareFailureStayedPending": true,
+    "prepareFailureHonestError": true,
+    "retryProducedSixDistinct": true,
+    "purchaseFailureStayedReady": true,
+    "purchaseFailureNoDeduction": true,
+    "purchaseFailureNoDelivery": true,
+    "purchaseFailureHonestError": true,
+    "purchaseRetrySucceeded": true,
+    "stageNotAdvanced": true
+  },
+  "codeSha": "4072de03eb7ecfc2277bd9b473407f272a2875d6"
+}

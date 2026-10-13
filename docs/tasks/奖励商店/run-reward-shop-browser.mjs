@@ -14,6 +14,7 @@ import {
 } from './shop-harness.mjs';
 
 const results = { cases: {}, errors: [] };
+const codeSha = process.env.PF_SHOP_CODE_SHA || null;
 const browser = await launch();
 
 const shelfIds = (state) => (state.rewardCheckpoint?.shelf ?? []).map((p) => p.itemId);
@@ -60,7 +61,7 @@ const shelfAssertions = (dom) => {
 };
 
 const runCase = async (name, { octet, fixture, viewport = { width: 390, height: 844 }, initPage, body }) => {
-  const record = { name, octet, fixture, viewport, means: '受控存档注入 + 真实 UI 触控 + 存档断言', steps: [], errors: [], httpErrors: [] };
+  const record = { codeSha, name, octet, fixture, viewport, means: '受控存档注入 + 真实 UI 触控 + 存档断言', steps: [], errors: [], httpErrors: [] };
   results.cases[name] = record;
   const dir = await ensureDirs(name);
   const saveText = fixture ? await loadFixture(fixture) : undefined;
