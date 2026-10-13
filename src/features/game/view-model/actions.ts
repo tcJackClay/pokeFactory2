@@ -1,6 +1,7 @@
 import type { GamePokemon, Item, Move } from '../../../types';
 import type { BaseTab, BattleSpecialMode, GameReward } from './common';
 import type { FactoryRewardHeldItemId } from '../config/factoryRewardPool';
+import type { FactoryEvolutionItemId } from '../config/factoryEvolutionItems';
 
 export interface SaveImportResult {
   ok: boolean;
@@ -29,7 +30,8 @@ export interface GameViewActions {
   rerollRewards: () => Promise<void>;
   nextStage: () => Promise<void>;
   selectReward: (reward: GameReward) => void;
-  claimFactoryItemReward: (itemId: FactoryRewardHeldItemId, targetIndex: number) => Promise<boolean>;
+  purchaseFactoryShopItem: (itemId: FactoryRewardHeldItemId, targetIndex: number) => Promise<boolean>;
+  purchaseFactoryEvolutionItem: (itemId: FactoryEvolutionItemId, targetIndex: number, toSpeciesId: number, toPokeApiName: string) => Promise<boolean>;
   continueAfterFactoryReward: () => Promise<void>;
   clearFactoryItemRewardError: () => void;
   retryFactoryItemRewardPrepare: () => void;

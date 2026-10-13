@@ -1,6 +1,31 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fetchAbilityNames, getSpeciesBaseFriendship } from './pokeApi';
+import { fetchAbilityNames, fetchPokemonLite, getSpeciesBaseFriendship } from './pokeApi';
+
+test('form-only evolution target resolves its exact form and base Pokemon resource', async () => {
+  const originalFetch = globalThis.fetch;
+  const requested: string[] = [];
+  try {
+    globalThis.fetch = (async (input) => {
+      const url = String(input);
+      requested.push(url);
+      const resourceUrl = url.replace(/\/$/, '');
+      const payload = resourceUrl.endsWith('/pokemon-form/polteageist-antique')
+        ? { name: 'polteageist-antique', pokemon: { name: 'polteageist' }, sprites: { front_default: '/antique.png' } }
+        : resourceUrl.endsWith('/pokemon/polteageist')
+          ? { id: 855, name: 'polteageist', species: { url: '/api/pokeapi/pokemon-species/855/' }, sprites: { front_default: '/base.png', back_default: '/back.png' }, stats: [], types: [], abilities: [], moves: [] }
+          : null;
+      return { ok: Boolean(payload), status: payload ? 200 : 404, json: async () => payload } as Response;
+    }) as typeof fetch;
+    const result = await fetchPokemonLite('polteageist-antique');
+    assert.equal(result.name, 'polteageist-antique');
+    assert.equal(result.sprites.front_default, '/antique.png');
+    assert.equal(result.sprites.back_default, '/back.png');
+    assert.deepEqual(requested.map((url) => url.replace(/\/$/, '')), ['/api/pokeapi/pokemon-form/polteageist-antique', '/api/pokeapi/pokemon/polteageist']);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
 
 test('rental and reference-set friendship starts at species base happiness', () => {
   assert.equal(getSpeciesBaseFriendship({ base_happiness: 0 }), 0);

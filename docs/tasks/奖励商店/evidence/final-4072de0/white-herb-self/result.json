@@ -1,0 +1,337 @@
+{
+  "codeSha": "4072de03eb7ecfc2277bd9b473407f272a2875d6",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "Playwright Chromium simulated mobile viewport; controlled save injection; UI touch",
+  "steps": [
+    {
+      "name": "01-before-turn",
+      "phase": "BATTLE",
+      "stage": 3,
+      "tickets": 2,
+      "status": null
+    },
+    {
+      "name": "02-after-trigger",
+      "phase": "BATTLE",
+      "stage": 3,
+      "tickets": 2,
+      "status": null
+    },
+    {
+      "name": "03-next-battle-herb-restored",
+      "phase": "BATTLE",
+      "stage": 4,
+      "tickets": 3,
+      "status": null
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "assertions": {
+    "currentHerbConsumed": true,
+    "baselineHerbRetained": true,
+    "negativeStagesRestored": true,
+    "herbLogOnce": true,
+    "herbRestoredNextBattle": true
+  },
+  "before": {
+    "member": {
+      "id": 79,
+      "speciesId": 79,
+      "pokeApiName": "slowpoke",
+      "level": 50,
+      "ivs": {
+        "hp": 2,
+        "attack": 3,
+        "defense": 5,
+        "spAtk": 2,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "brave",
+        "zhName": "勇敢",
+        "plus": "attack",
+        "minus": "speed"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "superpower",
+          "pp": 5
+        },
+        {
+          "name": "tackle",
+          "pp": 35
+        },
+        {
+          "name": "take-down",
+          "pp": 20
+        },
+        {
+          "name": "belly-drum",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 90,
+        "attack": 65,
+        "defense": 65,
+        "spAtk": 40,
+        "spDef": 40,
+        "speed": 15
+      },
+      "calculatedStats": {
+        "hp": 400,
+        "attack": 130,
+        "defense": 300,
+        "spAtk": 46,
+        "spDef": 300,
+        "speed": 220
+      },
+      "original": "leftovers",
+      "equipped": "white_herb",
+      "current": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    },
+    "log": []
+  },
+  "moveTexts": [
+    "蛮力\n格斗\n威力 120\n命中 100\nPP 5/5",
+    "撞击\n一般\n威力 40\n命中 100\nPP 35/35",
+    "猛撞\n一般\n威力 90\n命中 85\nPP 20/20",
+    "腹鼓\n一般\n威力 --\n命中 --\nPP 10/10"
+  ],
+  "turnAttempts": [
+    {
+      "attempt": 1,
+      "heldItem": null,
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      },
+      "log": [
+        "呆呆兽 使用了 蛮力！",
+        "呆呆兽的攻击降低了！",
+        "呆呆兽的防御降低了！",
+        "呆呆兽使用白色香草恢复了降低的能力！",
+        "呆呆兽 造成了 6591 点伤害。",
+        "比比鸟 倒下了！",
+        "对手 派出了 伊布！"
+      ],
+      "body": "0 BP 3/7 轮次 2 连胜 伊布 ♂ LV.50 一般 HP 100% 呆呆兽 ♂ LV.50 水 超能 HP 400/400 战斗日志 FCT-01 比比鸟 倒下了！ 对手 派出了 伊布！ 战斗 变化 背包 宝可梦 逃跑 蛮力 格斗 威力 120 命中 100 PP 4/5 撞击 一般 威力 40 命中 100 PP 35/35 猛撞 一般 威力 90 命中 85 PP 20/20 腹鼓 一般 威力 -- 命中 -- PP 10/10"
+    }
+  ],
+  "after": {
+    "member": {
+      "id": 79,
+      "speciesId": 79,
+      "pokeApiName": "slowpoke",
+      "level": 50,
+      "ivs": {
+        "hp": 2,
+        "attack": 3,
+        "defense": 5,
+        "spAtk": 2,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "brave",
+        "zhName": "勇敢",
+        "plus": "attack",
+        "minus": "speed"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "superpower",
+          "pp": 5
+        },
+        {
+          "name": "tackle",
+          "pp": 35
+        },
+        {
+          "name": "take-down",
+          "pp": 20
+        },
+        {
+          "name": "belly-drum",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 90,
+        "attack": 65,
+        "defense": 65,
+        "spAtk": 40,
+        "spDef": 40,
+        "speed": 15
+      },
+      "calculatedStats": {
+        "hp": 400,
+        "attack": 130,
+        "defense": 300,
+        "spAtk": 46,
+        "spDef": 300,
+        "speed": 220
+      },
+      "original": "leftovers",
+      "equipped": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    },
+    "log": [
+      "呆呆兽 使用了 蛮力！",
+      "呆呆兽的攻击降低了！",
+      "呆呆兽的防御降低了！",
+      "呆呆兽使用白色香草恢复了降低的能力！",
+      "呆呆兽 造成了 6591 点伤害。",
+      "比比鸟 倒下了！",
+      "对手 派出了 伊布！"
+    ]
+  },
+  "win": {
+    "ok": true,
+    "turns": [
+      {
+        "turn": 0,
+        "action": "move",
+        "pick": 0,
+        "moveText": "蛮力 格斗 威力 120 命中 100 PP 4/5"
+      },
+      {
+        "turn": 1,
+        "action": "not-ready"
+      },
+      {
+        "turn": 2,
+        "action": "move",
+        "pick": 0,
+        "moveText": "蛮力 格斗 威力 120 命中 100 PP 3/5"
+      },
+      {
+        "turn": 3,
+        "action": "no-damaging-move"
+      }
+    ]
+  },
+  "nextBattle": {
+    "stage": 4,
+    "member": {
+      "id": 79,
+      "speciesId": 79,
+      "pokeApiName": "slowpoke",
+      "level": 50,
+      "ivs": {
+        "hp": 2,
+        "attack": 3,
+        "defense": 5,
+        "spAtk": 2,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "brave",
+        "zhName": "勇敢",
+        "plus": "attack",
+        "minus": "speed"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "superpower",
+          "pp": 5
+        },
+        {
+          "name": "tackle",
+          "pp": 35
+        },
+        {
+          "name": "take-down",
+          "pp": 20
+        },
+        {
+          "name": "belly-drum",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 90,
+        "attack": 65,
+        "defense": 65,
+        "spAtk": 40,
+        "spDef": 40,
+        "speed": 15
+      },
+      "calculatedStats": {
+        "hp": 151,
+        "attack": 78,
+        "defense": 72,
+        "spAtk": 46,
+        "spDef": 46,
+        "speed": 18
+      },
+      "original": "leftovers",
+      "equipped": "white_herb",
+      "current": "white_herb",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    }
+  }
+}

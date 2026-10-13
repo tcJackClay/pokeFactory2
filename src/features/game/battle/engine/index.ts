@@ -13,3 +13,4 @@ export * from './resolveSecondaryEffects';
 export * from './resolveSwitchState';
 export * from './resolveTypeImmunityReaction';
 export * from './resolveMoveType';
+export * from './resolveWhiteHerb';

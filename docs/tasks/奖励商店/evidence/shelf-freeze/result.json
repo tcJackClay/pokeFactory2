@@ -1,0 +1,69 @@
+{
+  "name": "shelf-freeze",
+  "octet": 43,
+  "fixture": "fx-shop-pending-t2.json",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "受控存档注入 + 真实 UI 触控 + 存档断言",
+  "steps": [
+    {
+      "name": "01-ready",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 2,
+      "status": "READY"
+    },
+    {
+      "name": "02-after-reload",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 2,
+      "status": "READY"
+    },
+    {
+      "name": "03-cold-reopen",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 2,
+      "status": "READY"
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "shelves": {
+    "ready": [
+      "loaded_dice",
+      "focus_band",
+      "white_herb",
+      "choice_band",
+      "mental_herb",
+      "scope_lens"
+    ],
+    "reload": [
+      "loaded_dice",
+      "focus_band",
+      "white_herb",
+      "choice_band",
+      "mental_herb",
+      "scope_lens"
+    ],
+    "coldReopen": [
+      "loaded_dice",
+      "focus_band",
+      "white_herb",
+      "choice_band",
+      "mental_herb",
+      "scope_lens"
+    ]
+  },
+  "assertions": {
+    "readyHasSixDistinct": true,
+    "reloadIdentical": true,
+    "coldReopenIdentical": true,
+    "reloadKeptReady": true,
+    "coldReopenKeptReady": true,
+    "noRedrawAnyPath": true
+  }
+}

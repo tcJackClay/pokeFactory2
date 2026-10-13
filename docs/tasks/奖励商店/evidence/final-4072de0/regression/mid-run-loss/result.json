@@ -1,0 +1,53 @@
+{
+  "name": "mid-run-loss",
+  "octet": 49,
+  "fixture": "fx-shop-stage3-battle.json",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "受控存档注入 + 真实 UI 触控 + 存档断言",
+  "steps": [
+    {
+      "name": "01-battle-ready",
+      "phase": "BATTLE",
+      "stage": 3,
+      "tickets": 2,
+      "status": null
+    },
+    {
+      "name": "02-loss-settle",
+      "phase": "ROUND_RESULT",
+      "stage": 3,
+      "tickets": 0,
+      "status": null
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "before": {
+    "tickets": 2,
+    "balance": 0
+  },
+  "settlement": {
+    "runId": "run:298b019c-ad08-40a9-82dd-f2d1321d79b9",
+    "setNo": 1,
+    "stage": 3,
+    "result": "LOSS",
+    "isFrontierBrain": false,
+    "nominalBp": 0,
+    "ticketBp": 0,
+    "amount": 0,
+    "settledAt": "2026-10-13T11:09:58.210Z"
+  },
+  "assertions": {
+    "lossRecorded": true,
+    "ticketBpIsZero": true,
+    "amountIsZero": true,
+    "noBpGranted": true,
+    "ticketsCleared": true,
+    "settledThroughAdvanced": true,
+    "settlementResultLoss": true
+  },
+  "codeSha": "4072de03eb7ecfc2277bd9b473407f272a2875d6"
+}

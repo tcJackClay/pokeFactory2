@@ -1,0 +1,122 @@
+{
+  "codeSha": "4072de03eb7ecfc2277bd9b473407f272a2875d6",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "Playwright Chromium simulated mobile viewport; controlled save injection; UI touch",
+  "steps": [
+    {
+      "name": "01-ineligible-390x844",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "assertions": {
+    "onlyHeldItems": true
+  },
+  "shelf": [
+    {
+      "kind": "HELD_ITEM",
+      "itemId": "choice_band"
+    },
+    {
+      "kind": "HELD_ITEM",
+      "itemId": "white_herb"
+    },
+    {
+      "kind": "HELD_ITEM",
+      "itemId": "focus_band"
+    },
+    {
+      "kind": "HELD_ITEM",
+      "itemId": "mental_herb"
+    },
+    {
+      "kind": "HELD_ITEM",
+      "itemId": "loaded_dice"
+    },
+    {
+      "kind": "HELD_ITEM",
+      "itemId": "scope_lens"
+    }
+  ],
+  "dom": [
+    {
+      "label": "讲究头带",
+      "state": "available",
+      "price": "3 券",
+      "priceLineThrough": false,
+      "effect": "物理招式威力 ×1.5，代价是只能连续使用同一招式。",
+      "note": null,
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    },
+    {
+      "label": "白色香草",
+      "state": "available",
+      "price": "1 券",
+      "priceLineThrough": false,
+      "effect": "复原持有者低于初始值的能力等级，随后消耗；自身招式造成的下降也有效。",
+      "note": "条件性：持有者能力等级下降才有收益；自身招式造成的下降也会触发。",
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    },
+    {
+      "label": "气势头带",
+      "state": "available",
+      "price": "2 券",
+      "priceLineThrough": false,
+      "effect": "受到致命一击时，有 10% 概率以 1 HP 挺住；本场不消耗，可反复判定。",
+      "note": null,
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    },
+    {
+      "label": "心灵香草",
+      "state": "available",
+      "price": "2 券",
+      "priceLineThrough": false,
+      "effect": "解除挑衅、再来一次、定身法等妨碍状态，随后消耗掉自己。",
+      "note": "条件性：只有对手造成过挑衅、再来一次等妨碍状态才有收益；对手不放就是白装。",
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    },
+    {
+      "label": "机变骰子",
+      "state": "available",
+      "price": "2 券",
+      "priceLineThrough": false,
+      "effect": "提高 2–5 次连续攻击招式的命中次数。",
+      "note": "可装备，但当前无对应触发场景：队伍中没有 2–5 次连续攻击招式，或持有该招式的队员已有「连续攻击」特性（此时骰子不改变命中次数）。",
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    },
+    {
+      "label": "焦点镜",
+      "state": "available",
+      "price": "2 券",
+      "priceLineThrough": false,
+      "effect": "命中要害等级 +1，稳定提高暴击概率。",
+      "note": null,
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    }
+  ]
+}

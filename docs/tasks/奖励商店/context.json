@@ -1,0 +1,57 @@
+{
+  "_comment": "architect 拥有。列出下游各角色应读的文件。路径相对实际执行的工作树 D:/Games/pokeFactory2-worktrees/reward-shop，分支 codex/reward-shop。第一阶段基线 a8ade80；第二阶段 WIP 尚未提交或验收。",
+  "inject_config": {
+    "all": [
+      { "file": "docs/tasks/奖励商店/prd.md", "reason": "本任务完整产品契约：F1–F7 与 AC-1–14，第二阶段须补 F4/F5 进化说明/F6 并在最终代码回归全部验收条件" },
+      { "file": "docs/tasks/奖励商店/plan.md", "reason": "第一阶段历史方案与第二阶段 §7 技术方案：固定 39/94 关系源、进化事务、白色香草、最终验证计划" },
+      { "file": "docs/tasks/扩池规则/decisions.md", "reason": "产品口径真相来源：第一节组末券折算、第二节/第四节三档定价、第三节 9 件名单、第八节第 9 项两香草" },
+      { "file": "docs/公开版规则定稿.md", "reason": "现行规则定稿：六件货架、三档定价、组末折算、固定 Rogue 的 39 件/94 条关系与白色香草触发口径" },
+      { "file": "docs/tasks/扩池规则/evolution-items.generated.md", "reason": "固定 Rogue expansion 源码生成的 39 件/94 条参考进化关系，含性别限定；运行时关系数据须与它逐条相同" },
+      { "file": "docs/tasks/奖励商店/log.md", "reason": "运行日志：只追加，programmer/auditor/player 依次写入" },
+      { "file": "AGENTS.md", "reason": "协作章程：静态门禁命令、五种证据不可互相替代、禁止事项与工作树操作禁忌" }
+    ],
+    "programmer": [
+      { "file": ".agents/roles/programmer.md", "reason": "编码规则与本角色边界" },
+      { "file": ".agents/templates/plan.md", "reason": "plan 模板（本任务 plan 的组织方式）" },
+      { "file": "src/features/game/config/factoryRewards.ts", "reason": "shelfSize 替换 freeRewardChoiceCount、三档价格表、FACTORY_TICKETS_TO_BP_RATE 的唯一数值源" },
+      { "file": "src/features/game/config/factoryRewardPool.ts", "reason": "9 件持有道具名单、档位表、drawFactoryShopShelf 抽样、getRewardApplicability 三态判定" },
+      { "file": "src/services/saveManager.ts", "reason": "检查点事务层：FactoryRewardCheckpoint 新语义、commitFactoryShopPurchase、commitFactoryGroupSettlement 券折算、legacy 迁移" },
+      { "file": "src/features/game/hooks/usePokeFactoryGame.ts", "reason": "奖励接线：配货 effect、purchaseFactoryShopItem、continueAfterFactoryReward、syncRunSupply" },
+      { "file": "src/features/game/components/game-view/reward/FactoryItemRewardScreen.tsx", "reason": "商店 UI：券余额、6 商品卡、券不足视觉区分、队员选择→确认兑换、离开按钮" },
+      { "file": "src/features/game/data/battle/itemEffects.ts", "reason": "两香草的战斗元数据（effectId/hooks），商品功能说明与 CONDITIONAL 判定的事实依据" },
+      { "file": "src/features/game/config/factoryEvolutionItems.ts", "reason": "第二阶段 WIP：39 件名单、价格、王者之证排除及图标兜底；现有 PokeAPI slug 路径不能充当 Rogue 关系源" },
+      { "file": "docs/tasks/_gen_evolution_appendix.py", "reason": "现行 39/94 附录的生成器；新增运行时静态关系数据须与同一固定源码输入一致" },
+      { "file": "D:/Games/pokeFactory2/output/rogue-expansion-reference/src/data/pokemon/species_info", "reason": "工作树之外的固定 Rogue expansion 物种源码；EVO_ITEM/Male/Female 是关系权威来源" },
+      { "file": "src/features/game/config/factoryEvolutionRules.ts", "reason": "第二阶段 WIP：进化前后保留属性的纯函数断言" },
+      { "file": "src/features/game/utils/factoryEvolutionShop.ts", "reason": "第二阶段 WIP：按当前三人队聚合可进化道具与目标，记录数据降级" },
+      { "file": "src/services/pokeApi.ts", "reason": "第二阶段 WIP：取进化链明细、构造保留四招与持有物的进化后队员；须核对形态与参考关系" },
+      { "file": "src/features/game/battle/engine/resolveWhiteHerb.ts", "reason": "第二阶段 WIP：白色香草复原任一负能力等级；对手与自身造成的下降均应触发" },
+      { "file": "src/features/game/hooks/useBattleController.ts", "reason": "第二阶段 WIP：白色香草在双方战斗回合中的触发与消耗接线" },
+      { "file": "docs/tasks/四卡生成/four-card-harness.mjs", "reason": "既有浏览器验收范式（本任务 shop-harness.mjs 照此写）" },
+      { "file": "docs/tasks/奖励商店/probe-shop-fixtures.mjs", "reason": "夹具派生脚本：从四卡基档生成商店验收存档（券余额/legacy 检查点/9999 上限）" },
+      { "file": "docs/tasks/奖励商店/run-reward-shop-browser.mjs", "reason": "本阶段浏览器验收脚本：AC-1~5/10/11/13 + F3 失败语义" }
+    ],
+    "auditor": [
+      { "file": ".agents/roles/auditor.md", "reason": "静态审查边界：不运行游戏" },
+      { "file": "docs/公开版需求矩阵.md", "reason": "验收条件与证据等级口径，回填时对齐" },
+      { "file": "src/services/saveManager.test.ts", "reason": "检查点/折算/迁移的既有用例（含 legacy READY/CLAIMED、上限钳位、败退）" },
+      { "file": "src/features/game/config/factoryRewardPool.test.ts", "reason": "84 组三人组合全枚举、档位表、9 件名单的确定性夹具" },
+      { "file": "src/features/game/components/game-view/reward/FactoryItemRewardScreen.test.ts", "reason": "商店 SSR 断言：券不足、已购、香草诚实文案、破图兜底" },
+      { "file": "docs/tasks/四卡生成/plan.md", "reason": "上一阶段状态机契约（PENDING/READY/CLAIMED 骨架）——本阶段是其语义扩展，审查时对照不回归" },
+      { "file": "src/features/game/config/factoryEvolutionRules.ts", "reason": "逐项校验进化后等级、IV/EV、性格、性别、四招、持有物及其他队员" },
+      { "file": "src/features/game/utils/factoryEvolutionShop.ts", "reason": "检查可用目标、降级原因与无人可用时不上架" },
+      { "file": "src/services/pokeApi.ts", "reason": "检查其仅承担目标物种资料与资源加载；不得用 evolution_details 决定固定 Rogue 39 件/94 条上架关系" },
+      { "file": "D:/Games/pokeFactory2/reference/pokeemerald-expansion/src/battle_hold_effects.c", "reason": "未纳入 reward-shop 工作树的本地参考源码：核对白色香草触发时机与负等级复原范围" }
+    ],
+    "player": [
+      { "file": ".agents/roles/player.md", "reason": "实玩边界：不写实现代码；证据类型与记录格式" },
+      { "file": "docs/手机端试玩验收记录.md", "reason": "视口矩阵（390x844 / 844x390）与记录格式" },
+      { "file": "docs/tasks/四卡生成/run-four-card-reward-browser.mjs", "reason": "既有奖励节点浏览器脚本范式（来源隔离/受控注入/真实触控）" },
+      { "file": "docs/tasks/奖励商店/shop-harness.mjs", "reason": "本任务共享驱动库：readShopDom 断言锚点（shop-product/shop-redeem-button/shop-ticket-balance/shop-leave-button）" },
+      { "file": "docs/tasks/奖励商店/evidence/", "reason": "已产出的验收证据根：14 个用例目录 + fixtures + result.json；只代表第一阶段旧代码" },
+      { "file": "src/features/game/config/factoryEvolutionItems.ts", "reason": "进化道具中文名、价格、图标兜底与被排除项" },
+      { "file": "src/features/game/utils/factoryEvolutionShop.ts", "reason": "进化商品可用目标与失效目标判定，支撑浏览器断言" },
+      { "file": "src/features/game/battle/engine/resolveWhiteHerb.ts", "reason": "白色香草能力等级恢复口径，用于受控战斗实玩" }
+    ]
+  }
+}

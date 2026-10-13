@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { fetchAvailableEvolutionChain, fetchPokemon, getLearnableMoves, getProcessedPokemon, getRandomPokemonIdentifier } from '../../../services/pokeApi';
 import type { GamePokemon, GameState, Item, Move, Pokemon } from '../../../types';
-import { getFactoryRewardChoiceCount } from '../config/factoryRewards';
+import { getFactoryShelfSize } from '../config/factoryRewards';
 import { FREE_REWARD_TYPE_WEIGHTS, getFreeRewardItemPool, pickWeightedRewardType } from '../config/rewardPools';
 import type { GameReward, LocalizeFn, RewardAction, SelectedEvolutionPokemon, TranslateFn } from '../view-model';
 
@@ -205,7 +205,7 @@ export function useRewardFlow({
     const usedPokemonIds = new Set<number>();
     const usedItems = new Set<string>();
     const freeRewardItemPool = getFreeRewardItemPool(canGainTeamCapacity);
-    const rewardChoiceCount = getFactoryRewardChoiceCount();
+    const rewardChoiceCount = getFactoryShelfSize();
     if (freeRewardItemPool.length === 0) return newRewards;
     const evolvableIndices = await getEvolvableIndices();
     const tmReward = await buildTmReward();

@@ -4,17 +4,26 @@ import type { GamePokemon, Move, MoveBattleData } from '../../../types';
 import { ITEM_BATTLE_DATA } from '../data/battle/itemEffects';
 import {
   FACTORY_REWARD_HELD_ITEM_IDS,
+  FACTORY_HELD_ITEM_SHOP_RARITY,
   canEquipFactoryRewardItem,
-  drawFactoryRewardCards,
+  drawFactoryShopShelf,
   enumerateFactoryRewardCandidates,
+  getFactoryHeldItemShopPrice,
   getFactoryRewardEquippedItemIds,
   getRewardApplicability,
   hasLoadedDiceTrigger,
   isFactoryRewardHeldItemId,
+  isFactoryShopProduct,
   normalizeFactoryHeldItemId,
   type FactoryRewardHeldItemId,
 } from './factoryRewardPool';
-import { isFactoryRewardPreBattle, shouldEnterRewardAfterWinning } from './factoryRewards';
+import {
+  FACTORY_SHOP_RARITY_PRICES,
+  FACTORY_TICKETS_TO_BP_RATE,
+  getFactoryShelfSize,
+  isFactoryRewardPreBattle,
+  shouldEnterRewardAfterWinning,
+} from './factoryRewards';
 
 const ALL_ITEM_IDS = Object.keys(ITEM_BATTLE_DATA);
 const UNIVERSE: (string | null)[] = [...ALL_ITEM_IDS, null];
@@ -56,7 +65,7 @@ function makePokemon(id: number, itemId: string | null): GamePokemon {
     evs: stats,
     baseStats: stats,
     calculatedStats: stats,
-    statStages: { attack: 0, defense: 0, spAtk: 0, spDef: 0, speed: 0, accuracy: 0, evasion: 0 },
+    statStages: { attack: 0, defense: 0, spDef: 0, spAtk: 0, speed: 0, accuracy: 0, evasion: 0 },
     factoryOriginalHeldItemId: itemId,
     factoryEquippedHeldItemId: itemId,
     factoryHeldItemId: itemId ?? undefined,
@@ -96,14 +105,18 @@ function makeMove(name: string, battleData: Partial<MoveBattleData>): Move {
   };
 }
 
-/** 抽取四张卡的确定性夹具：不足即视为测试失败（本任务的保底下界不允许候选不足）。 */
-function drawFull(
+/** 抽满货架的确定性夹具：不足即视为测试失败（货架必须恰好 6 件，不允许候选不足）。 */
+function drawFullShelf(
   equippedItemIds: readonly (string | null | undefined)[],
   random: () => number,
 ): FactoryRewardHeldItemId[] {
-  const result = drawFactoryRewardCards(equippedItemIds, 4, random);
-  if (result.ok === false) throw new Error(`Expected a full draw but got ${result.candidateCount} candidates.`);
-  return result.cards;
+  const result = drawFactoryShopShelf(equippedItemIds, getFactoryShelfSize(), random);
+  if (result.ok === false) throw new Error(`Expected a full shelf but got ${result.candidateCount} candidates.`);
+  return result.shelf.map((product) => {
+    assert.equal(isFactoryShopProduct(product), true);
+    assert.equal(product.kind, 'HELD_ITEM');
+    return product.itemId;
+  });
 }
 
 test('reward anchor is the single numeric source: battle 4/7 pre-battle == won battle 3/6', () => {
@@ -117,12 +130,42 @@ test('reward anchor is the single numeric source: battle 4/7 pre-battle == won b
   for (const stage of [4, 7, 11, 14]) assert.equal(isFactoryRewardPreBattle(stage), true);
 });
 
-test('seven approved held items are the only approved reward ids', () => {
-  assert.equal(FACTORY_REWARD_HELD_ITEM_IDS.length, 7);
+test('shelf size is 6 and ticket-to-BP conversion rate is 1:1 from config', () => {
+  assert.equal(getFactoryShelfSize(), 6);
+  assert.equal(FACTORY_TICKETS_TO_BP_RATE, 1);
+  assert.deepEqual(FACTORY_SHOP_RARITY_PRICES, { 1: 1, 2: 2, 3: 3 });
+});
+
+test('nine approved held items are the only approved reward ids', () => {
+  assert.equal(FACTORY_REWARD_HELD_ITEM_IDS.length, 9);
+  const ordered = ['scope_lens', 'quick_claw', 'kings_rock', 'choice_band', 'focus_band', 'heavy_duty_boots', 'loaded_dice', 'white_herb', 'mental_herb'];
+  assert.deepEqual([...FACTORY_REWARD_HELD_ITEM_IDS], ordered);
   for (const itemId of FACTORY_REWARD_HELD_ITEM_IDS) assert.equal(isFactoryRewardHeldItemId(itemId), true);
+  // 光粉明确排除（decisions.md 第 5 条）。
   for (const itemId of ['leftovers', 'bright_powder', 'battle_atk', 'battle_def', '', 7, null]) {
     assert.equal(isFactoryRewardHeldItemId(itemId), false);
   }
+});
+
+test('rarity tiers match the PRD §2.3 finalized table and price = tier number', () => {
+  const expected: Record<FactoryRewardHeldItemId, 1 | 2 | 3> = {
+    scope_lens: 2,
+    quick_claw: 1,
+    kings_rock: 2,
+    choice_band: 3,
+    focus_band: 2,
+    heavy_duty_boots: 1,
+    loaded_dice: 2,
+    white_herb: 1,
+    mental_herb: 2,
+  };
+  assert.deepEqual(FACTORY_HELD_ITEM_SHOP_RARITY, expected);
+  for (const itemId of FACTORY_REWARD_HELD_ITEM_IDS) {
+    assert.equal(getFactoryHeldItemShopPrice(itemId), expected[itemId]);
+  }
+  // 未知道具不默认免费。
+  assert.equal(getFactoryHeldItemShopPrice('leftovers'), null);
+  assert.equal(getFactoryHeldItemShopPrice('bright_powder'), null);
 });
 
 test('equipped baseline ids normalize dashes and drop empty slots', () => {
@@ -132,85 +175,85 @@ test('equipped baseline ids normalize dashes and drop empty slots', () => {
   assert.equal(normalizeFactoryHeldItemId(''), null);
 });
 
-test('exhaustive: any three of the seven equipped items still yields four legal cards', () => {
+test('exhaustive: any three of the nine equipped items still yields a full six-item shelf', () => {
   const triples = combinations(FACTORY_REWARD_HELD_ITEM_IDS, 3);
-  assert.equal(triples.length, 35);
+  assert.equal(triples.length, 84);
   for (const equipped of triples) {
     const candidates = enumerateFactoryRewardCandidates(equipped);
-    // 三人占七件中的三件 ⇒ |H \ E| = 4
-    assert.equal(candidates.length, 4, `${equipped.join(',')} -> ${candidates.join(',')}`);
+    // 三人占九件中的三件 ⇒ |H \ E| = 6，持有道具一类自己就够摆满货架。
+    assert.equal(candidates.length, 6, `${equipped.join(',')} -> ${candidates.join(',')}`);
     assert.deepEqual(
       [...candidates].sort(),
       FACTORY_REWARD_HELD_ITEM_IDS.filter((itemId) => !equipped.includes(itemId)).sort(),
     );
-    assert.equal(new Set(candidates).size, 4);
+    assert.equal(new Set(candidates).size, 6);
     for (const itemId of candidates) {
-      // PRD §3.2 代码断言：每张候选至少一个合法装备对象
+      // PRD F2 代码断言：每件候选至少一个合法装备对象
       assert.ok(
         [0, 1, 2].some((index) => canEquipFactoryRewardItem(equipped, itemId, index)),
         `${itemId} has no legal teammate for ${equipped.join(',')}`,
       );
     }
-    const cards = drawFull(equipped, () => 0);
-    assert.equal(cards.length, 4);
-    assert.equal(new Set(cards).size, 4);
-    for (const itemId of cards) {
+    const shelf = drawFullShelf(equipped, () => 0);
+    assert.equal(shelf.length, 6);
+    assert.equal(new Set(shelf).size, 6);
+    for (const itemId of shelf) {
       assert.ok([0, 1, 2].some((index) => canEquipFactoryRewardItem(equipped, itemId, index)));
     }
   }
 });
 
-test('sweep: every baseline combination from the whole item table keeps the four-card floor', () => {
+test('sweep: every baseline combination from the whole item table keeps the six-item shelf full', () => {
   let checked = 0;
   for (const size of [1, 2, 3]) {
     for (const equipped of combinations(UNIVERSE, size)) {
       checked += 1;
       const candidates = enumerateFactoryRewardCandidates(equipped);
       const equippedInPool = equipped.filter((itemId) => isFactoryRewardHeldItemId(itemId));
-      assert.equal(candidates.length, 7 - equippedInPool.length, equipped.join(','));
-      assert.ok(candidates.length >= 4, `${equipped.join(',')} -> ${candidates.length}`);
+      assert.equal(candidates.length, 9 - equippedInPool.length, equipped.join(','));
+      assert.ok(candidates.length >= 6, `${equipped.join(',')} -> ${candidates.length}`);
       for (const itemId of candidates) {
         assert.ok(
           equipped.some((_, index) => canEquipFactoryRewardItem(equipped, itemId, index)),
           `${itemId} has no legal teammate for ${equipped.join(',')}`,
         );
       }
-      const drawn = drawFull(equipped, () => 0.999999);
-      assert.equal(new Set(drawn).size, 4);
+      const drawn = drawFullShelf(equipped, () => 0.999999);
+      assert.equal(new Set(drawn).size, 6);
     }
   }
   assert.ok(checked >= 18400, `sweep covered ${checked} combinations`);
 });
 
-test('a claimed reward recycles the replaced item into the next candidate pool with unique baselines', () => {
-  // 三人：sitrus_berry / white_herb / leftovers（均不在七件内）⇒ 候选 = 七件全部
-  const start = ['sitrus_berry', 'white_herb', 'leftovers'];
-  assert.equal(enumerateFactoryRewardCandidates(start).length, 7);
-  // 领取 focus_band 装备给 0 号：旧物 sitrus_berry 未进入七件，但 0 号基准改为 focus_band
-  const afterClaim = ['focus_band', 'white_herb', 'leftovers'];
-  const candidates = enumerateFactoryRewardCandidates(afterClaim);
-  assert.equal(candidates.length, 6);
+test('a purchased reward recycles the replaced item into the next candidate pool with unique baselines', () => {
+  // 三人：sitrus_berry / lum_berry / leftovers（均不在九件内）⇒ 候选 = 九件全部
+  const start = ['sitrus_berry', 'lum_berry', 'leftovers'];
+  assert.equal(enumerateFactoryRewardCandidates(start).length, 9);
+  // 购买 focus_band 装备给 0 号：旧物 sitrus_berry 未进入九件，但 0 号基准改为 focus_band
+  const afterPurchase = ['focus_band', 'lum_berry', 'leftovers'];
+  const candidates = enumerateFactoryRewardCandidates(afterPurchase);
+  assert.equal(candidates.length, 8);
   assert.ok(!candidates.includes('focus_band'));
   assert.ok(candidates.includes('scope_lens'));
-  // 再领取 scope_lens 给 1 号：focus_band 的候选立即回池
-  const afterSecondClaim = ['focus_band', 'scope_lens', 'leftovers'];
-  const recycled = enumerateFactoryRewardCandidates(afterSecondClaim);
+  // 再购买 scope_lens 给 1 号：focus_band 的候选立即回池
+  const afterSecondPurchase = ['focus_band', 'scope_lens', 'leftovers'];
+  const recycled = enumerateFactoryRewardCandidates(afterSecondPurchase);
   assert.ok(recycled.includes('quick_claw'));
-  assert.equal(new Set(afterSecondClaim).size, 3);
+  assert.equal(new Set(afterSecondPurchase).size, 3);
 });
 
 test('candidate shortage is reported instead of padded', () => {
   // 只有三名队员时结构上不可能发生；此处直接注入超员基准以证明「不补位」的边界语义。
   const overfull = ['scope_lens', 'quick_claw', 'kings_rock', 'choice_band'];
-  const drawn = drawFactoryRewardCards(overfull, 4, () => 0);
+  const drawn = drawFactoryShopShelf(overfull, getFactoryShelfSize(), () => 0);
   if (drawn.ok !== false) throw new Error('Expected an INSUFFICIENT draw.');
   assert.equal(drawn.reason, 'INSUFFICIENT');
-  assert.equal(drawn.candidateCount, 3);
+  assert.equal(drawn.candidateCount, 5);
 });
 
 test('the defensive "no legal teammate" assertion is reachable and rejects a three-way duplicate', () => {
   // 三名队员持同一件时，任何候选替换到任一位置都会留下重复 ⇒ 无合法装备对象。
-  // 该分支是**代码断言**（PRD §3.2）而非默认假设，本用例直接构造入口证明它真的会抛错。
+  // 该分支是**代码断言**（PRD F2）而非默认假设，本用例直接构造入口证明它真的会抛错。
   assert.throws(
     () => enumerateFactoryRewardCandidates(['scope_lens', 'scope_lens', 'scope_lens']),
     /no legal teammate/,
@@ -223,22 +266,22 @@ test('the defensive "no legal teammate" assertion is reachable and rejects a thr
 });
 
 test('sampling is uniform without replacement and honors the injected random source', () => {
-  const equipped = ['sitrus_berry', 'white_herb', 'leftovers'];
-  const first = drawFull(equipped, () => 0);
-  const last = drawFull(equipped, () => 0.999999);
-  // random()=0 ⇒ 依次取候选前四件（可确定性复现）
-  assert.deepEqual(first, [...FACTORY_REWARD_HELD_ITEM_IDS].slice(0, 4));
-  assert.equal(new Set(last).size, 4);
+  const equipped = ['sitrus_berry', 'lum_berry', 'leftovers'];
+  const first = drawFullShelf(equipped, () => 0);
+  const last = drawFullShelf(equipped, () => 0.999999);
+  // random()=0 ⇒ 依次取候选前六件（可确定性复现）
+  assert.deepEqual(first, [...FACTORY_REWARD_HELD_ITEM_IDS].slice(0, 6));
+  assert.equal(new Set(last).size, 6);
   last.forEach((itemId) => assert.equal(isFactoryRewardHeldItemId(itemId), true));
   assert.notDeepEqual([...last].sort(), [...first].sort());
   for (let run = 0; run < 500; run += 1) {
-    const drawn = drawFull(equipped, Math.random);
-    assert.equal(new Set(drawn).size, 4);
+    const drawn = drawFullShelf(equipped, Math.random);
+    assert.equal(new Set(drawn).size, 6);
   }
-  // 默认张数取自 freeRewardChoiceCount
-  const defaults = drawFactoryRewardCards(equipped, undefined, () => 0);
+  // 默认件数取自 shelfSize
+  const defaults = drawFactoryShopShelf(equipped, undefined, () => 0);
   if (defaults.ok === false) throw new Error('Expected a full default draw.');
-  assert.equal(defaults.cards.length, 4);
+  assert.equal(defaults.shelf.length, 6);
 });
 
 test('loaded dice applicability stays isomorphic with the engine LOADED_DICE gate, including SKILL_LINK', () => {
@@ -272,4 +315,16 @@ test('loaded dice applicability stays isomorphic with the engine LOADED_DICE gat
   assert.equal(getRewardApplicability(qualifying, 'heavy_duty_boots'), 'CONDITIONAL');
   assert.equal(getRewardApplicability(qualifying, 'scope_lens'), 'APPLICABLE');
   assert.equal(getRewardApplicability(qualifying, 'scope-lens'), 'APPLICABLE');
+});
+
+test('white herb and mental herb are CONDITIONAL, never APPLICABLE (honesty)', () => {
+  const pokemon = makePokemon(1, null);
+  // 两件香草的收益取决于对手行为（降低能力 / 妨碍状态），奖励时刻不可判定 ⇒ 条件性，
+  // 不得标成无条件有效（PRD F5）。
+  assert.equal(getRewardApplicability(pokemon, 'white_herb'), 'CONDITIONAL');
+  assert.equal(getRewardApplicability(pokemon, 'white-herb'), 'CONDITIONAL');
+  assert.equal(getRewardApplicability(pokemon, 'mental_herb'), 'CONDITIONAL');
+  assert.equal(getRewardApplicability(pokemon, 'mental-herb'), 'CONDITIONAL');
+  assert.notEqual(getRewardApplicability(pokemon, 'white_herb'), 'APPLICABLE');
+  assert.notEqual(getRewardApplicability(pokemon, 'mental_herb'), 'APPLICABLE');
 });

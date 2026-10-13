@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """从 pokeemerald-expansion（rogue 的上游）抽取「道具 → 进化」完整映射，生成中文附录。"""
 import re, glob, os
+from pathlib import Path
 
-REF = 'D:/Games/pokeFactory2/reference/pokeemerald-expansion/src/data/pokemon/species_info'
-OUT = 'D:/Games/pokeFactory2/docs/tasks/扩池规则/evolution-items.generated.md'
+REF = 'D:/Games/pokeFactory2/output/rogue-expansion-reference/src/data/pokemon/species_info'
+OUT = Path(__file__).parent / '扩池规则' / 'evolution-items.generated.md'
 
 ITEM_ZH = {
     'ITEM_FIRE_STONE': '火之石', 'ITEM_WATER_STONE': '水之石', 'ITEM_THUNDER_STONE': '雷之石',
@@ -86,13 +87,25 @@ SPECIES_ZH = {
     'CETODDLE': '走鲸', 'CETITAN': '浩大鲸',
     'POLTCHAGEIST_COUNTERFEIT': '斯魔茶（冒牌）', 'SINISTCHA_UNREMARKABLE': '来杯茶（凡作）',
     'POLTCHAGEIST_ARTISAN': '斯魔茶（高档）', 'SINISTCHA_MASTERPIECE': '来杯茶（杰作）',
+    'ARCANINE_HISUIAN': '洗翠风速狗', 'DARMANITAN_GALARIAN_STANDARD_MODE': '伽勒尔达摩狒狒',
+    'DARUMAKA_GALARIAN': '伽勒尔火红不倒翁', 'ELECTRODE_HISUIAN': '洗翠顽皮雷弹',
+    'EXEGGCUTE': '蛋蛋', 'EXEGGUTOR': '椰蛋树', 'FLABEBE_WHITE_FLOWER': '白花蓓蓓',
+    'FLORGES_': '花洁夫人', 'FROSLASS': '雪妖女', 'GALLADE': '艾路雷朵',
+    'GOLEM_ALOLAN': '阿罗拉隆隆岩', 'GRAVELER_ALOLAN': '阿罗拉隆隆石',
+    'GROWLITHE_HISUIAN': '洗翠卡蒂狗', 'KIRLIA': '奇鲁莉安',
+    'LILLIGANT': '裙儿小姐', 'NINETALES_ALOLAN': '阿罗拉九尾',
+    'PETILIL': '百合根娃娃', 'PIKACHU': '皮卡丘', 'RAICHU': '雷丘',
+    'SANDSHREW_ALOLAN': '阿罗拉穿山鼠', 'SANDSLASH_ALOLAN': '阿罗拉穿山王',
+    'SLOWBRO_GALARIAN': '伽勒尔呆壳兽', 'SLOWKING_GALARIAN': '伽勒尔呆呆王',
+    'SLOWPOKE_GALARIAN': '伽勒尔呆呆兽', 'SNORUNT': '雪童子',
+    'URSHIFU_RAPID_STRIKE_STYLE': '武道熊师（连击流）',
+    'URSHIFU_SINGLE_STRIKE_STYLE': '武道熊师（一击流）',
+    'VOLTORB_HISUIAN': '洗翠霹雳电球', 'VULPIX_ALOLAN': '阿罗拉六尾',
 }
-
-GEN_OF_SPECIES = {}
 
 
 def zh_species(const):
-    key = re.sub(r'\s*##.*$', '', const).replace('SPECIES_', '').strip().rstrip('_')
+    key = re.sub(r'\s*##.*$', '', const).replace('SPECIES_', '').strip()
     return SPECIES_ZH.get(key, key)
 
 
@@ -101,32 +114,45 @@ def zh_item(const):
 
 
 rows = []
-for f in sorted(glob.glob(os.path.join(REF, 'gen_*_families.h'))):
+source_files = sorted(glob.glob(os.path.join(REF, 'gen_*.h')))
+if len(source_files) != 9:
+    raise RuntimeError(f'Expected 9 fixed Rogue species files, got {len(source_files)}: {REF}')
+for f in source_files:
     text = open(f, encoding='utf-8', errors='replace').read()
     blocks = re.split(r'\n\s*\[(SPECIES_[A-Z0-9_]+)\]\s*=\s*', text)
     for i in range(1, len(blocks), 2):
         sp, body = blocks[i], blocks[i + 1]
-        m = re.search(r'\.evolutions\s*=\s*EVOLUTION\((.*?)\)\s*,', body, re.S)
-        if not m:
-            continue
-        for item in re.finditer(r'\{([^{}]*)\}', m.group(1)):
-            parts = [p.strip() for p in item.group(1).split(',')]
-            if len(parts) >= 3:
-                rows.append((sp, parts[0], parts[1], parts[2]))
+        for kind, item, target in re.findall(
+            r'\{(EVO_ITEM(?:_MALE|_FEMALE)?),\s*(ITEM_[A-Z0-9_]+),\s*(SPECIES_[A-Z0-9_]+)',
+            body,
+        ):
+            if item in ITEM_ZH and item != 'ITEM_KINGS_ROCK':
+                rows.append((sp, kind, item, target))
 
 by_item = {}
 for sp, kind, arg, tgt in rows:
-    if kind == 'EVO_ITEM':
-        by_item.setdefault(arg, []).append((sp, tgt))
-    elif kind == 'EVO_TRADE':
-        by_item.setdefault('ITEM_LINKING_CORD', []).append((sp, tgt))
+    by_item.setdefault(arg, []).append((sp, kind, tgt))
+
+expected_items = set(ITEM_ZH) - {'ITEM_KINGS_ROCK'}
+if set(by_item) != expected_items:
+    raise RuntimeError(f'Item mismatch: missing={expected_items - set(by_item)}, extra={set(by_item) - expected_items}')
+if sum(len(set(v)) for v in by_item.values()) != 94:
+    raise RuntimeError('Rogue evolution relation count changed; inspect source before regenerating')
+untranslated_species = {
+    species.replace('SPECIES_', '')
+    for pairs in by_item.values()
+    for source, _, target in pairs
+    for species in (source, target)
+    if species.replace('SPECIES_', '') not in SPECIES_ZH
+}
+if untranslated_species:
+    raise RuntimeError(f'Untranslated species: {sorted(untranslated_species)}')
 
 lines = []
 lines.append('# 附录：进化道具完整映射（自动生成，请勿手改）')
 lines.append('')
-lines.append('> 数据来源：`reference/pokeemerald-expansion/src/data/pokemon/species_info/gen_*_families.h`。')
-lines.append('> 该仓库是用户指定的参考项目 [Pokabbie/pokeemerald-rogue](https://github.com/Pokabbie/pokeemerald-rogue) 的上游；')
-lines.append('> rogue 分支把「通讯进化」实现为使用 `ITEM_LINKING_CORD`（连接线）的道具进化，本表已合并该口径。')
+lines.append('> 数据来源：用户指定的 [Pokabbie/pokeemerald-rogue](https://github.com/Pokabbie/pokeemerald-rogue) `expansion` 固定提交 `a6adfcf18d7eaf99c2803e4b0bc04eca7af2f014`，本地 `output/rogue-expansion-reference/src/data/pokemon/species_info/gen_*.h`。')
+lines.append('> 只收录首版允许作为进化商品的 39 种道具及 `EVO_ITEM` / `EVO_ITEM_MALE` / `EVO_ITEM_FEMALE` 关系；王者之证首版只作持有道具，排除其两条进化关系。')
 lines.append('> 重新生成：`python docs/tasks/_gen_evolution_appendix.py`。')
 lines.append('')
 lines.append('| 道具 | 英文常量 | 用它的宝可梦 → 进化成 | 条数 |')
@@ -134,12 +160,16 @@ lines.append('| --- | --- | --- | --- |')
 for item in sorted(by_item, key=lambda k: (not k.endswith('_STONE') and k != 'ITEM_LINKING_CORD', k)):
     pairs = by_item[item]
     pairs = sorted(set(pairs))
-    listing = '；'.join('%s → %s' % (zh_species(a), zh_species(b)) for a, b in pairs)
+    listing = '；'.join('%s%s → %s' % (
+        zh_species(a),
+        '（雄性）' if kind == 'EVO_ITEM_MALE' else '（雌性）' if kind == 'EVO_ITEM_FEMALE' else '',
+        zh_species(b),
+    ) for a, kind, b in pairs)
     lines.append('| %s | `%s` | %s | %d |' % (zh_item(item), item.replace('ITEM_', '').lower(), listing, len(pairs)))
 
 lines.append('')
 lines.append('合计：**%d** 种道具、**%d** 条进化关系。' % (len(by_item), sum(len(set(v)) for v in by_item.values())))
 
-open(OUT, 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
+OUT.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 print('wrote', OUT)
 print('items', len(by_item), 'relations', sum(len(set(v)) for v in by_item.values()))

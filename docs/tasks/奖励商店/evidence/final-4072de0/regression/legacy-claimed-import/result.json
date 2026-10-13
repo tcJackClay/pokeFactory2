@@ -1,0 +1,91 @@
+{
+  "name": "legacy-claimed-import",
+  "octet": 51,
+  "fixture": "fx-shop-legacy-claimed.json",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "means": "受控存档注入 + 真实 UI 触控 + 存档断言",
+  "steps": [
+    {
+      "name": "01-migrated-shop-390x844",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "02-migrated-shop-844x390",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "bootState": {
+    "phase": "REWARD",
+    "status": "READY",
+    "rawIsLegacy": false
+  },
+  "teamBaselines": [
+    "scope_lens",
+    "quick_claw",
+    "kings_rock"
+  ],
+  "dom": {
+    "ticketBalance": "兑换券余额：3 张",
+    "products": [
+      {
+        "label": "心灵香草",
+        "state": "available"
+      },
+      {
+        "label": "白色香草",
+        "state": "available"
+      },
+      {
+        "label": "厚底靴",
+        "state": "available"
+      },
+      {
+        "label": "机变骰子",
+        "state": "available"
+      },
+      {
+        "label": "气势头带",
+        "state": "available"
+      },
+      {
+        "label": "讲究头带",
+        "state": "available"
+      }
+    ]
+  },
+  "migratedCheckpoint": {
+    "status": "READY",
+    "shelf": [
+      "mental_herb",
+      "white_herb",
+      "heavy_duty_boots",
+      "loaded_dice",
+      "focus_band",
+      "choice_band"
+    ]
+  },
+  "assertions": {
+    "noCrash": true,
+    "noIncompatibleScreen": true,
+    "migratedToPendingThenReady": true,
+    "noLegacyCardIds": true,
+    "hasNewShelf": true,
+    "sixDistinctAfterMigration": true,
+    "matchesExpectedSet": true,
+    "pricesMatchTierTable": true,
+    "everyProductHasEffect": true,
+    "noBrokenImages": true
+  },
+  "codeSha": "4072de03eb7ecfc2277bd9b473407f272a2875d6"
+}

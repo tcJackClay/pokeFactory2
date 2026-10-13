@@ -1,0 +1,717 @@
+{
+  "codeSha": "4072de03eb7ecfc2277bd9b473407f272a2875d6",
+  "viewport": {
+    "width": 320,
+    "height": 568
+  },
+  "means": "Playwright Chromium simulated mobile viewport; controlled save injection; UI touch",
+  "steps": [
+    {
+      "name": "01-eligible-320x568",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "02-eligible-390x844",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "03-eligible-844x390",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "04-evolution-confirm",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 3,
+      "status": "READY"
+    },
+    {
+      "name": "05-after-evolution-844x390",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "READY"
+    },
+    {
+      "name": "06-reload-390x844",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "READY"
+    },
+    {
+      "name": "06b-cold-reopen-390x844",
+      "phase": "REWARD",
+      "stage": 3,
+      "tickets": 0,
+      "status": "READY"
+    },
+    {
+      "name": "07-next-battle-390x844",
+      "phase": "BATTLE",
+      "stage": 4,
+      "tickets": 0,
+      "status": null
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "assertions": {
+    "sixDistinct": true,
+    "evolutionAppears": true,
+    "descriptionNamesForms": true,
+    "evolvedToFrozenTarget": true,
+    "ticketSpentThree": true,
+    "purchaseSingle": true,
+    "movesIdentical": true,
+    "identityAndHeldRetained": true,
+    "otherMembersIdentical": true,
+    "shelfFrozenAfterPurchase": true,
+    "reloadKeepsEvolution": true,
+    "coldReopenKeepsEvolution": true,
+    "nextBattleKeepsEvolution": true
+  },
+  "before": {
+    "tickets": 3,
+    "member": {
+      "id": 133,
+      "speciesId": 133,
+      "pokeApiName": "eevee",
+      "level": 50,
+      "ivs": {
+        "hp": 3,
+        "attack": 3,
+        "defense": 3,
+        "spAtk": 3,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "gentle",
+        "zhName": "温顺",
+        "plus": "spDef",
+        "minus": "defense"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "charm",
+          "pp": 20
+        },
+        {
+          "name": "attract",
+          "pp": 15
+        },
+        {
+          "name": "flail",
+          "pp": 15
+        },
+        {
+          "name": "endure",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 55,
+        "attack": 55,
+        "defense": 50,
+        "spAtk": 45,
+        "spDef": 65,
+        "speed": 55
+      },
+      "calculatedStats": {
+        "hp": 1,
+        "attack": 2,
+        "defense": 1,
+        "spAtk": 51,
+        "spDef": 1,
+        "speed": 5
+      },
+      "original": "leftovers",
+      "equipped": "heavy_duty_boots",
+      "current": "heavy_duty_boots",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    },
+    "shelf": [
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "mental_herb"
+      },
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "leaf_stone",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "fromSpeciesId": 133,
+            "fromPokeApiName": "eevee",
+            "toSpeciesId": 470,
+            "toPokeApiName": "leafeon",
+            "toNameZh": "叶伊布",
+            "toNameEn": "leafeon"
+          }
+        ]
+      },
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "focus_band"
+      },
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "choice_band"
+      },
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "ice_stone",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "fromSpeciesId": 133,
+            "fromPokeApiName": "eevee",
+            "toSpeciesId": 471,
+            "toPokeApiName": "glaceon",
+            "toNameZh": "冰伊布",
+            "toNameEn": "glaceon"
+          }
+        ]
+      },
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "fire_stone",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "fromSpeciesId": 133,
+            "fromPokeApiName": "eevee",
+            "toSpeciesId": 136,
+            "toPokeApiName": "flareon",
+            "toNameZh": "火伊布",
+            "toNameEn": "flareon"
+          }
+        ]
+      }
+    ]
+  },
+  "domBefore": [
+    {
+      "label": "心灵香草",
+      "state": "available",
+      "price": "2 券",
+      "priceLineThrough": false,
+      "effect": "解除挑衅、再来一次、定身法等妨碍状态，随后消耗掉自己。",
+      "note": "条件性：只有对手造成过挑衅、再来一次等妨碍状态才有收益；对手不放就是白装。",
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    },
+    {
+      "label": "叶之石",
+      "state": "available",
+      "price": "3 券",
+      "priceLineThrough": false,
+      "effect": null,
+      "note": null,
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    },
+    {
+      "label": "气势头带",
+      "state": "available",
+      "price": "2 券",
+      "priceLineThrough": false,
+      "effect": "受到致命一击时，有 10% 概率以 1 HP 挺住；本场不消耗，可反复判定。",
+      "note": null,
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    },
+    {
+      "label": "讲究头带",
+      "state": "available",
+      "price": "3 券",
+      "priceLineThrough": false,
+      "effect": "物理招式威力 ×1.5，代价是只能连续使用同一招式。",
+      "note": null,
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    },
+    {
+      "label": "冰之石",
+      "state": "available",
+      "price": "3 券",
+      "priceLineThrough": false,
+      "effect": null,
+      "note": null,
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    },
+    {
+      "label": "火之石",
+      "state": "available",
+      "price": "3 券",
+      "priceLineThrough": false,
+      "effect": null,
+      "note": null,
+      "purchased": false,
+      "buttonText": "兑换",
+      "buttonDisabled": false,
+      "buttonGrayscale": false
+    }
+  ],
+  "selectedProduct": {
+    "itemId": "leaf_stone",
+    "targets": [
+      {
+        "targetIndex": 0,
+        "fromSpeciesId": 133,
+        "fromPokeApiName": "eevee",
+        "toSpeciesId": 470,
+        "toPokeApiName": "leafeon",
+        "toNameZh": "叶伊布",
+        "toNameEn": "leafeon"
+      }
+    ]
+  },
+  "confirmText": "确认兑换\n\n伊布 → 叶伊布（3 券）\n\n扣 3 券兑换\n返回商店",
+  "after": {
+    "tickets": 0,
+    "member": {
+      "id": 133,
+      "speciesId": 470,
+      "pokeApiName": "leafeon",
+      "level": 50,
+      "ivs": {
+        "hp": 3,
+        "attack": 3,
+        "defense": 3,
+        "spAtk": 3,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "gentle",
+        "zhName": "温顺",
+        "plus": "spDef",
+        "minus": "defense"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "charm",
+          "pp": 20
+        },
+        {
+          "name": "attract",
+          "pp": 15
+        },
+        {
+          "name": "flail",
+          "pp": 15
+        },
+        {
+          "name": "endure",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 65,
+        "attack": 110,
+        "defense": 130,
+        "spAtk": 60,
+        "spDef": 65,
+        "speed": 95
+      },
+      "calculatedStats": {
+        "hp": 126,
+        "attack": 116,
+        "defense": 122,
+        "spAtk": 66,
+        "spDef": 78,
+        "speed": 101
+      },
+      "original": "leftovers",
+      "equipped": "heavy_duty_boots",
+      "current": "heavy_duty_boots",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    },
+    "purchases": [
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "leaf_stone",
+        "targetIndex": 0,
+        "fromSpeciesId": 133,
+        "fromPokeApiName": "eevee",
+        "toSpeciesId": 470,
+        "toPokeApiName": "leafeon",
+        "ticketsSpent": 3
+      }
+    ],
+    "shelf": [
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "mental_herb"
+      },
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "leaf_stone",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "fromSpeciesId": 133,
+            "fromPokeApiName": "eevee",
+            "toSpeciesId": 470,
+            "toPokeApiName": "leafeon",
+            "toNameZh": "叶伊布",
+            "toNameEn": "leafeon"
+          }
+        ]
+      },
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "focus_band"
+      },
+      {
+        "kind": "HELD_ITEM",
+        "itemId": "choice_band"
+      },
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "ice_stone",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "fromSpeciesId": 133,
+            "fromPokeApiName": "eevee",
+            "toSpeciesId": 471,
+            "toPokeApiName": "glaceon",
+            "toNameZh": "冰伊布",
+            "toNameEn": "glaceon"
+          }
+        ]
+      },
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "fire_stone",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "fromSpeciesId": 133,
+            "fromPokeApiName": "eevee",
+            "toSpeciesId": 136,
+            "toPokeApiName": "flareon",
+            "toNameZh": "火伊布",
+            "toNameEn": "flareon"
+          }
+        ]
+      }
+    ]
+  },
+  "afterReload": {
+    "tickets": 0,
+    "member": {
+      "id": 133,
+      "speciesId": 470,
+      "pokeApiName": "leafeon",
+      "level": 50,
+      "ivs": {
+        "hp": 3,
+        "attack": 3,
+        "defense": 3,
+        "spAtk": 3,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "gentle",
+        "zhName": "温顺",
+        "plus": "spDef",
+        "minus": "defense"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "charm",
+          "pp": 20
+        },
+        {
+          "name": "attract",
+          "pp": 15
+        },
+        {
+          "name": "flail",
+          "pp": 15
+        },
+        {
+          "name": "endure",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 65,
+        "attack": 110,
+        "defense": 130,
+        "spAtk": 60,
+        "spDef": 65,
+        "speed": 95
+      },
+      "calculatedStats": {
+        "hp": 126,
+        "attack": 116,
+        "defense": 122,
+        "spAtk": 66,
+        "spDef": 78,
+        "speed": 101
+      },
+      "original": "leftovers",
+      "equipped": "heavy_duty_boots",
+      "current": "heavy_duty_boots",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    },
+    "purchases": [
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "leaf_stone",
+        "targetIndex": 0,
+        "fromSpeciesId": 133,
+        "fromPokeApiName": "eevee",
+        "toSpeciesId": 470,
+        "toPokeApiName": "leafeon",
+        "ticketsSpent": 3
+      }
+    ]
+  },
+  "coldReopen": {
+    "tickets": 0,
+    "member": {
+      "id": 133,
+      "speciesId": 470,
+      "pokeApiName": "leafeon",
+      "level": 50,
+      "ivs": {
+        "hp": 3,
+        "attack": 3,
+        "defense": 3,
+        "spAtk": 3,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "gentle",
+        "zhName": "温顺",
+        "plus": "spDef",
+        "minus": "defense"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "charm",
+          "pp": 20
+        },
+        {
+          "name": "attract",
+          "pp": 15
+        },
+        {
+          "name": "flail",
+          "pp": 15
+        },
+        {
+          "name": "endure",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 65,
+        "attack": 110,
+        "defense": 130,
+        "spAtk": 60,
+        "spDef": 65,
+        "speed": 95
+      },
+      "calculatedStats": {
+        "hp": 126,
+        "attack": 116,
+        "defense": 122,
+        "spAtk": 66,
+        "spDef": 78,
+        "speed": 101
+      },
+      "original": "leftovers",
+      "equipped": "heavy_duty_boots",
+      "current": "heavy_duty_boots",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    },
+    "purchases": [
+      {
+        "kind": "EVOLUTION_ITEM",
+        "itemId": "leaf_stone",
+        "targetIndex": 0,
+        "fromSpeciesId": 133,
+        "fromPokeApiName": "eevee",
+        "toSpeciesId": 470,
+        "toPokeApiName": "leafeon",
+        "ticketsSpent": 3
+      }
+    ]
+  },
+  "nextBattle": {
+    "stage": 4,
+    "phase": "BATTLE",
+    "member": {
+      "id": 133,
+      "speciesId": 470,
+      "pokeApiName": "leafeon",
+      "level": 50,
+      "ivs": {
+        "hp": 3,
+        "attack": 3,
+        "defense": 3,
+        "spAtk": 3,
+        "spDef": 3,
+        "speed": 3
+      },
+      "evs": {
+        "hp": 0,
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0
+      },
+      "nature": {
+        "name": "gentle",
+        "zhName": "温顺",
+        "plus": "spDef",
+        "minus": "defense"
+      },
+      "gender": "male",
+      "moves": [
+        {
+          "name": "charm",
+          "pp": 20
+        },
+        {
+          "name": "attract",
+          "pp": 15
+        },
+        {
+          "name": "flail",
+          "pp": 15
+        },
+        {
+          "name": "endure",
+          "pp": 10
+        }
+      ],
+      "baseStats": {
+        "hp": 65,
+        "attack": 110,
+        "defense": 130,
+        "spAtk": 60,
+        "spDef": 65,
+        "speed": 95
+      },
+      "calculatedStats": {
+        "hp": 126,
+        "attack": 116,
+        "defense": 122,
+        "spAtk": 66,
+        "spDef": 78,
+        "speed": 101
+      },
+      "original": "leftovers",
+      "equipped": "heavy_duty_boots",
+      "current": "heavy_duty_boots",
+      "statStages": {
+        "attack": 0,
+        "defense": 0,
+        "spAtk": 0,
+        "spDef": 0,
+        "speed": 0,
+        "accuracy": 0,
+        "evasion": 0
+      }
+    }
+  }
+}

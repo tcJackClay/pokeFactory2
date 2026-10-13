@@ -1,6 +1,7 @@
 import { Pokemon, Move, GamePokemon, Stats, Nature, PokemonGender } from '../types';
 import { GENERATIONS, NATURES } from '../constants';
 import { DIRECT_SPECIAL_FORMS, SPECIAL_FORM_RANDOM_RATE } from '../features/game/config/specialForms';
+import { recalculatePokemonStats } from '../features/game/utils/pokemonStats';
 import type { FactoryReferenceSet } from '../features/game/config/factoryReferenceSets';
 import { buildMoveBattleDataFromPokeApiMove } from '../features/game/data/battle';
 import {
@@ -18,6 +19,14 @@ const pokemonSpeciesCache = new Map<number, any>();
 const abilityNamesCache = new Map<string, any[]>();
 const abilityNamesInFlightCache = new Map<string, Promise<any[]>>();
 const UNOWN_FORM_IDENTIFIER_REGEX = /^unown-(?:[a-z]|question|exclamation)$/;
+// These Rogue evolution forms exist as pokemon-form resources; /pokemon/<form> returns 404.
+const FORM_ONLY_FACTORY_EVOLUTION_POKEMON = new Set([
+  'flabebe-white',
+  'poltchageist-artisan', 'poltchageist-counterfeit',
+  'polteageist-antique', 'polteageist-phony',
+  'sinistcha-masterpiece', 'sinistcha-unremarkable',
+  'sinistea-antique', 'sinistea-phony',
+]);
 
 export function getSpeciesBaseFriendship(speciesData: { base_happiness?: number } | null | undefined): number {
   return Number.isFinite(speciesData?.base_happiness) ? Number(speciesData?.base_happiness) : 70;
@@ -96,9 +105,15 @@ function resolvePokemonGender(genderRate: number | undefined, random: () => numb
 
 async function loadPokemonBase(identifier: PokemonIdentifier): Promise<Pokemon> {
   const normalizedIdentifier = typeof identifier === 'string' ? identifier.trim().toLowerCase() : '';
-  if (UNOWN_FORM_IDENTIFIER_REGEX.test(normalizedIdentifier)) {
+  if (UNOWN_FORM_IDENTIFIER_REGEX.test(normalizedIdentifier) || FORM_ONLY_FACTORY_EVOLUTION_POKEMON.has(normalizedIdentifier)) {
     const formData = await fetchPokeApiJson(`pokemon-form/${normalizedIdentifier}`);
+    if (formData?.name !== normalizedIdentifier || typeof formData?.pokemon?.name !== 'string') {
+      throw new Error(`Pokemon form resource does not match ${normalizedIdentifier}.`);
+    }
     const baseData = await fetchPokeApiJson(`pokemon/${formData.pokemon.name}`);
+    if (baseData?.name !== formData.pokemon.name) {
+      throw new Error(`Pokemon base resource does not match ${normalizedIdentifier}.`);
+    }
     return {
       ...baseData,
       name: formData.name ?? normalizedIdentifier,
@@ -262,7 +277,7 @@ export async function fetchMove(url: string): Promise<Move> {
 export async function fetchEvolutionChain(pokemonId: number): Promise<number[]> {
   try {
     const speciesData = await fetchPokemonSpeciesById(pokemonId);
-    const evolutionData = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(speciesData.evolution_chain.url));
+    const evolutionData = await fetchEvolutionChainData(speciesData.evolution_chain.url);
     
     const evolutions: number[] = [];
     let current = evolutionData.chain;
@@ -295,6 +310,120 @@ export async function fetchPokemonSpeciesById(id: number): Promise<any> {
   const data = await fetchPokeApiJson(`pokemon-species/${id}`);
   pokemonSpeciesCache.set(id, data);
   return data;
+}
+
+/**
+ * 进化链取数缓存（`/evolution-chain/{id}`）：键为链资源 URL。
+ * `fetchEvolutionChain` 与 `fetchPokemonEvolutionOptions` 共用，避免同一物种重复取数。
+ */
+const evolutionChainCache = new Map<string, any>();
+const evolutionChainInFlightCache = new Map<string, Promise<any>>();
+
+async function fetchEvolutionChainData(chainUrl: string): Promise<any> {
+  const cached = evolutionChainCache.get(chainUrl);
+  if (cached) return cached;
+  const inFlight = evolutionChainInFlightCache.get(chainUrl);
+  if (inFlight) return inFlight;
+  const request = (async () => {
+    try {
+      const data = await fetchPokeApiJsonByResourceUrl(normalizePokeApiResourceUrl(chainUrl));
+      evolutionChainCache.set(chainUrl, data);
+      return data;
+    } finally {
+      evolutionChainInFlightCache.delete(chainUrl);
+    }
+  })();
+  evolutionChainInFlightCache.set(chainUrl, request);
+  return request;
+}
+
+/**
+ * 进化变换（PRD 奖励商店 F4.3）：**只换物种**，不重新生成一只宝可梦。
+ *
+ * 契约：
+ * - 换：物种身份（`speciesId` / `speciesName` / `pokeApiName` / `formLedgerSlug`）、图鉴数据
+ *   （`sprites` / `types` / `abilities` / 图鉴数值 `stats` / 中文名）、物种基础值 `baseStats`；
+ * - **不变**：`id`（队员身份）、等级、个体值、努力值、性格、性别、亲密度、太晶属性、
+ *   **原来的四招（逐招且顺序一致）**、以及两个持有道具字段
+ *   （`factoryEquippedHeldItemId` / `factoryHeldItemId` / `factoryOriginalHeldItemId`）；
+ * - 能力值由 `recalculatePokemonStats` 依「新物种基础值 + 上述既有属性」**重算**，
+ *   而不是重新随机。**严禁**走 `getProcessedPokemon` 那条「重新随机抽四招」的路径。
+ */
+export async function buildEvolvedFactoryPokemon(pokemon: GamePokemon, toSpeciesId: number, toPokeApiName: string): Promise<GamePokemon> {
+  if (!Number.isSafeInteger(toSpeciesId) || toSpeciesId <= 0) {
+    throw new Error('Invalid evolution target species.');
+  }
+  if (toSpeciesId === pokemon.speciesId) {
+    throw new Error('Evolution target is the same species.');
+  }
+  const targetSlug = toPokeApiName.trim().toLowerCase();
+  if (!targetSlug) throw new Error('Evolution target form is missing.');
+  const raw = await fetchPokemon(targetSlug, false);
+  if (raw.name.toLowerCase() !== targetSlug) throw new Error('Evolution target form does not match the frozen shelf.');
+  const speciesId = parsePokeApiNumericId((raw as any)?.species?.url) ?? toSpeciesId;
+  if (speciesId !== toSpeciesId) throw new Error('Evolution target species does not match the frozen shelf.');
+  const speciesData = await fetchPokemonSpeciesById(speciesId);
+  const speciesFromRaw = typeof (raw as any)?.species?.name === 'string'
+    ? String((raw as any).species.name).toLowerCase()
+    : '';
+  const speciesName = speciesFromRaw || String(raw.name ?? '').toLowerCase();
+  const pokeApiName = String(raw.name ?? '').toLowerCase();
+
+  const baseStats: Stats = {
+    hp: raw.stats.find((s) => s.stat.name === 'hp')?.base_stat || 50,
+    attack: raw.stats.find((s) => s.stat.name === 'attack')?.base_stat || 50,
+    defense: raw.stats.find((s) => s.stat.name === 'defense')?.base_stat || 50,
+    spAtk: raw.stats.find((s) => s.stat.name === 'special-attack')?.base_stat || 50,
+    spDef: raw.stats.find((s) => s.stat.name === 'special-defense')?.base_stat || 50,
+    speed: raw.stats.find((s) => s.stat.name === 'speed')?.base_stat || 50,
+  };
+
+  return recalculatePokemonStats({
+    // 新物种的图鉴数据打底。
+    ...raw,
+    // 队员身份不变。
+    id: pokemon.id,
+    level: pokemon.level,
+    speciesId,
+    speciesName,
+    pokeApiName,
+    formLedgerSlug: pokeApiName,
+    zhName: getZhName(speciesData?.names) || raw.name,
+    names: speciesData?.names ?? raw.names,
+    baseTypes: raw.types.map((slot) => ({ type: { name: slot.type.name } })),
+    baseStats,
+    // 既有属性逐项沿用（顺序即契约，见上文）。
+    nature: pokemon.nature,
+    ivs: pokemon.ivs,
+    evs: pokemon.evs,
+    gender: pokemon.gender,
+    teraType: pokemon.teraType,
+    friendship: pokemon.friendship,
+    isGym: pokemon.isGym,
+    selectedMoves: pokemon.selectedMoves,
+    // 体力与能力值只作占位：`recalculatePokemonStats` 用它们算「保留当前体力比例」，
+    // 随后用新物种基础值 + 既有 IV/EV/性格/等级整体重算（而非重新随机）。
+    currentHp: pokemon.currentHp,
+    maxHp: pokemon.maxHp,
+    calculatedStats: pokemon.calculatedStats,
+    factoryHeldItemId: pokemon.factoryHeldItemId,
+    factoryEquippedHeldItemId: pokemon.factoryEquippedHeldItemId,
+    factoryOriginalHeldItemId: pokemon.factoryOriginalHeldItemId,
+    factoryPlannedSpecialMode: pokemon.factoryPlannedSpecialMode,
+    nonVolatileStatus: pokemon.nonVolatileStatus,
+    volatileStatuses: pokemon.volatileStatuses,
+    statStages: { ...pokemon.statStages },
+    specialBoostActive: pokemon.specialBoostActive,
+    specialBoostMode: pokemon.specialBoostMode,
+    dynamaxTurnsLeft: pokemon.dynamaxTurnsLeft,
+    factoryChoiceLockedMoveName: pokemon.factoryChoiceLockedMoveName,
+    factoryLastUsedMoveName: pokemon.factoryLastUsedMoveName,
+    factoryConsecutiveMoveCount: pokemon.factoryConsecutiveMoveCount,
+    factoryLastDamageReceived: pokemon.factoryLastDamageReceived,
+    factoryLastDamageCategory: pokemon.factoryLastDamageCategory,
+    factoryDamagedThisTurn: pokemon.factoryDamagedThisTurn,
+    factoryStockpileCount: pokemon.factoryStockpileCount,
+  }, true);
 }
 
 export async function isEvolutionChainBaseSpecies(id: number): Promise<boolean> {

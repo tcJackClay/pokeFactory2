@@ -1,0 +1,3 @@
+# Transient service response during first 4072de0 self-Superpower replay
+
+The first replay of `white-herb-self` completed all gameplay assertions but Playwright recorded one `502 http://127.0.0.63:4300/api/pokeapi/move/iron-head/` and the browser console emitted `Failed to load resource: the server responded with a status of 502 (Bad Gateway)`. This request was unrelated to the equipped White Herb and was not reproduced by a same-SHA, same-fixture rerun. The clean rerun is the current `white-herb-self/result.json` and screenshots, with zero HTTP or console errors. The first runner stdout is retained in the task conversation; its JSON was overwritten by the deterministic rerun.

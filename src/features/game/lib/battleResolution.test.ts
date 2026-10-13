@@ -143,6 +143,75 @@ test('applyMoveSecondaryEffects keeps user-side drops when the target is behind 
   assert.equal(result.enemyTeam[0].statStages.spAtk, 0);
 });
 
+test('legacy Feather Dance primary chance 0 resolves on hit, but blocked and non-primary zeros do not', () => {
+  const legacyEffect = {
+    kind: 'stat-stage' as const, chance: 0, group: 'stat-stage', appliesTo: 'target' as const,
+    isPrimary: true, requiresHit: false, blockedBySubstitute: true, stat: 'attack', change: -2,
+  };
+  const move = createMove({
+    name: 'feather-dance', power: null, damage_class: 'status',
+    battleData: createBattleData({ secondaryEffects: [legacyEffect] }),
+  });
+  for (const actingSide of ['player', 'enemy'] as const) {
+    for (const roll of [0, 0.99]) {
+      const result = applyMoveSecondaryEffects({
+        move, actingSide,
+        teams: { playerTeam: [createPokemon(1, 'player')], enemyTeam: [createPokemon(2, 'enemy')] },
+        getLocalized: (pokemon) => pokemon.name, random: () => roll,
+      });
+      const target = actingSide === 'player' ? result.enemyTeam[0] : result.playerTeam[0];
+      assert.equal(target.statStages.attack, -2, `${actingSide} at random roll ${roll}`);
+      assert.equal(result.messages.filter((message) => message.includes('Attack')).length, 1);
+    }
+  }
+  for (const status of ['protect', 'substitute'] as const) {
+    const player = createPokemon(1, 'player');
+    const enemy = setVolatileStatus(createPokemon(2, 'enemy'), status, status === 'substitute' ? { counter: 25 } : {});
+    const hit = calculateDamage({ move, attacker: player, defender: enemy, weather: 'none', atkBuff: false, defBuff: false });
+    assert.equal(status === 'protect' ? hit.blockedByProtect : hit.blockedBySubstitute, true);
+    const blocked = applyMoveSecondaryEffects({
+      move, actingSide: 'player', teams: { playerTeam: [player], enemyTeam: [enemy] },
+      getLocalized: (pokemon) => pokemon.name,
+      allowUserEffects: hit.applyUserSecondaryEffects,
+      allowTargetEffects: hit.applyTargetSecondaryEffects,
+      random: () => 0,
+    });
+    assert.equal(blocked.enemyTeam[0].statStages.attack, 0, status);
+    assert.equal(blocked.messages.length, 0, status);
+  }
+
+  for (const [damageClass, isPrimary] of [['status', false], ['special', true]] as const) {
+    const zeroMove = createMove({
+      name: `zero-${damageClass}-${isPrimary}`, damage_class: damageClass,
+      battleData: createBattleData({ secondaryEffects: [{ ...legacyEffect, isPrimary }] }),
+    });
+    const result = applyMoveSecondaryEffects({
+      move: zeroMove, actingSide: 'player',
+      teams: { playerTeam: [createPokemon(1, 'player')], enemyTeam: [createPokemon(2, 'enemy')] },
+      getLocalized: (pokemon) => pokemon.name, random: () => 0,
+    });
+    assert.equal(result.enemyTeam[0].statStages.attack, 0, `${damageClass}/${isPrimary} must stay inactive`);
+  }
+});
+
+test('probabilistic stat effects retain their 10% threshold', () => {
+  const move = createMove({
+    name: 'psychic', damage_class: 'special',
+    battleData: createBattleData({ secondaryEffects: [{
+      kind: 'stat-stage', chance: 10, group: 'stat-stage', appliesTo: 'target', isPrimary: false,
+      requiresHit: true, blockedBySubstitute: true, stat: 'spDef', change: -1,
+    }] }),
+  });
+  for (const [roll, expected] of [[0.099, -1], [0.1, 0], [0.99, 0]] as const) {
+    const result = applyMoveSecondaryEffects({
+      move, actingSide: 'player',
+      teams: { playerTeam: [createPokemon(1, 'player')], enemyTeam: [createPokemon(2, 'enemy')] },
+      getLocalized: (pokemon) => pokemon.name, random: () => roll,
+    });
+    assert.equal(result.enemyTeam[0].statStages.spDef, expected);
+  }
+});
+
 test('Rogue Overheat family lowers only the attacker after a hit, never on a miss or Protect', () => {
   for (const name of ['overheat', 'leaf-storm', 'draco-meteor']) {
     for (const actingSide of ['player', 'enemy'] as const) {

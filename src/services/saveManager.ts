@@ -2,17 +2,24 @@ import type { BattleHazards, FieldState, FieldTurns, GamePokemon, TailwindTurns 
 import {
   getBattleIndexInSet,
   getFactoryGroupBp,
-  getFactoryRewardChoiceCount,
+  getFactoryShelfSize,
+  FACTORY_TICKETS_TO_BP_RATE,
   getSetNoByStage,
   MAX_FACTORY_BP,
   shouldEnterRewardAfterWinning,
 } from '../features/game/config/factoryRewards';
 import {
   canEquipFactoryRewardItem,
+  getFactoryShopProductPrice,
   isFactoryRewardHeldItemId,
+  isFactoryShopProduct,
+  isFactoryShopProductUsable,
   normalizeFactoryHeldItemId,
   type FactoryRewardHeldItemId,
+  type FactoryShopProduct,
 } from '../features/game/config/factoryRewardPool';
+import { isFactoryEvolutionItemId, type FactoryEvolutionItemId } from '../features/game/config/factoryEvolutionItems';
+import { assertFactoryEvolutionPreserved } from '../features/game/config/factoryEvolutionRules';
 import {
   repairFactoryHeldItemBaselines,
   type FactoryHeldItemTeamMember,
@@ -48,6 +55,8 @@ export interface FactoryWallet {
     result: 'WIN' | 'LOSS';
     isFrontierBrain: boolean;
     nominalBp: number;
+    /** 本次结算里来自「组末券折算」的 BP（1 券 = FACTORY_TICKETS_TO_BP_RATE BP）。 */
+    ticketBp: number;
     amount: number;
     settledAt: string;
   } | null;
@@ -82,18 +91,61 @@ export interface EmptyBattleResume {
 }
 
 /**
- * 奖励节点检查点（PRD §3.4/§3.5、plan §2.2/§3）。
- * `PENDING` 只记锚点；`READY` 冻结四张候选；`CLAIMED` 记领取结果与「已请求继续」意图。
+ * 一次成功兑换的入账记录（PRD 奖励商店 F3）：先扣券、再交货的原子结果。
+ * `ticketsSpent` 为购买时的实际扣券数（档位价），用于审计「恰好按档位减少」。
+ *
+ * 第一阶段（merge a8ade80）落盘的记录**没有** `kind` 字段：读取时按 `HELD_ITEM` 处理，
+ * 不做写盘迁移（PRD 奖励商店 S6「旧档读入必须兼容」）。
+ */
+export interface FactoryHeldItemPurchase {
+  kind?: 'HELD_ITEM';
+  itemId: FactoryRewardHeldItemId;
+  targetIndex: number;
+  ticketsSpent: number;
+}
+
+/**
+ * 进化道具兑换记录（PRD 奖励商店 F4）：`fromSpeciesId` / `toSpeciesId` 一并留痕，
+ * 既用于审计「换的是货架冻结的那个目标」，也让读档校验能证明进化确实发生过。
+ * 进化**当场消耗**该道具，故不写入任何持有物字段、不进背包。
+ */
+export interface FactoryEvolutionItemPurchase {
+  kind: 'EVOLUTION_ITEM';
+  itemId: FactoryEvolutionItemId;
+  targetIndex: number;
+  fromSpeciesId: number;
+  fromPokeApiName: string;
+  toSpeciesId: number;
+  toPokeApiName: string;
+  ticketsSpent: number;
+}
+
+export type FactoryShopPurchase = FactoryHeldItemPurchase | FactoryEvolutionItemPurchase;
+
+/** `kind === 'EVOLUTION_ITEM'` 才是进化记录；缺省（旧档）按持有道具处理。 */
+export function isFactoryEvolutionPurchase(purchase: unknown): purchase is FactoryEvolutionItemPurchase {
+  return isRecord(purchase) && purchase.kind === 'EVOLUTION_ITEM';
+}
+
+function isFactoryHeldItemPurchase(purchase: unknown): purchase is FactoryHeldItemPurchase {
+  return isRecord(purchase) && (purchase.kind === undefined || purchase.kind === 'HELD_ITEM');
+}
+
+/**
+ * 奖励商店节点检查点（PRD 奖励商店 F2/F3/F4、plan §2）。
+ * `PENDING` 只记锚点；`READY` 冻结六件货架并累积兑换记录（`purchases` 可多次追加）；
+ * `CLAIMED` = 商店已关闭（玩家离开，无论是否买过），`continueRequested` 记「已请求继续」意图。
+ * 旧「四卡免费领」格式（`cardItemIds` / `claim`）读取时迁移为 `PENDING`（重新配货），不得崩溃。
  */
 export type FactoryRewardCheckpoint =
   | { runId: string; stage: number; status: 'PENDING' }
-  | { runId: string; stage: number; status: 'READY'; cardItemIds: FactoryRewardHeldItemId[] }
+  | { runId: string; stage: number; status: 'READY'; shelf: FactoryShopProduct[]; purchases: FactoryShopPurchase[] }
   | {
       runId: string;
       stage: number;
       status: 'CLAIMED';
-      cardItemIds: FactoryRewardHeldItemId[];
-      claim: { itemId: FactoryRewardHeldItemId; targetIndex: number };
+      shelf: FactoryShopProduct[];
+      purchases: FactoryShopPurchase[];
       continueRequested?: true;
     };
 
@@ -276,6 +328,7 @@ function sanitizeWallet(value: unknown): FactoryWallet {
         result: settlement.result as 'WIN' | 'LOSS',
         isFrontierBrain: settlement.isFrontierBrain === true,
         nominalBp: sanitizeSafeNonNegativeInt(settlement.nominalBp),
+        ticketBp: sanitizeSafeNonNegativeInt(settlement.ticketBp),
         amount: sanitizeSafeNonNegativeInt(settlement.amount),
         settledAt: typeof settlement.settledAt === 'string' ? settlement.settledAt : '',
       }
@@ -625,12 +678,15 @@ function sanitizeBattleResume(value: unknown): FactoryBattleResume {
     ? source.phase
     : 'BATTLE';
   // 奖励检查点只在 REWARD 相位存在；其余相位一律丢弃（PRD 边界「阶段切换」）。
-  const rewardCheckpoint = source.phase === 'REWARD' && isRecord(source.rewardCheckpoint)
-    ? source.rewardCheckpoint as unknown as FactoryRewardCheckpoint
+  // 旧「四卡免费领」格式在此迁移为 PENDING（重新配货，不崩溃）；新格式损坏则丢弃（整档按既有策略拒收）。
+  const rewardCheckpoint = source.phase === 'REWARD'
+    ? sanitizeFactoryRewardCheckpoint(source.rewardCheckpoint, stage)
     : undefined;
   // 不变量修复（裁决补遗一）：load / 旧档迁移 / 同版导入都必须让三人返还基准回到互不重复。
-  // 已落盘的 CLAIMED 领取目标优先保留，避免修复把「刚领到的装备」改判掉。
-  const claimedTargetIndex = phase === 'REWARD' ? resolveRewardClaimTargetIndex(rewardCheckpoint) : [];
+  // 已落盘的兑换（新 purchases / 旧 claim）目标优先保留，避免修复把「刚换到的装备」改判掉。
+  // 注意：keepIndices 必须取自**迁移前**的原始记录——旧 CLAIMED 的 claim 目标才能在被迁移成
+  // PENDING 之前参与保位。
+  const claimedTargetIndex = phase === 'REWARD' ? resolveRewardKeepIndices(source.rewardCheckpoint) : [];
   const baselineRepair = repairFactoryHeldItemBaselines(playerTeam, { keepIndices: claimedTargetIndex });
 
   return {
@@ -839,6 +895,16 @@ function pokemonEquippedItemId(pokemon: unknown): string | null {
   return isRecord(pokemon) ? normalizeFactoryHeldItemId(pokemon.factoryEquippedHeldItemId as string | null) : null;
 }
 
+function pokemonSpeciesId(pokemon: unknown): number | undefined {
+  return isRecord(pokemon) && Number.isSafeInteger(pokemon.speciesId) ? pokemon.speciesId as number : undefined;
+}
+
+function pokemonFormSlug(pokemon: unknown): string | null {
+  if (!isRecord(pokemon)) return null;
+  const slug = pokemon.formLedgerSlug || pokemon.pokeApiName || pokemon.name;
+  return typeof slug === 'string' ? slug.trim().toLowerCase() : null;
+}
+
 /** 三人（或整队）「本局返还基准」互不重复 —— 本任务的不变量。 */
 function hasUniqueEquippedItems(team: readonly unknown[]): boolean {
   const equipped = team
@@ -873,40 +939,166 @@ export function canEquipRewardItem(team: readonly unknown[], itemId: FactoryRewa
   return canEquipFactoryRewardItem(team.map(pokemonEquippedItemId), itemId, targetIndex);
 }
 
+/**
+ * 检查点合法性（新「奖励商店」格式 + 旧「四卡免费领」格式兼容读，PRD 奖励商店 S6）。
+ * `playerTeam` 为 `null` 时跳过队伍级校验（仅结构校验）。
+ */
 function hasValidFactoryRewardCheckpoint(value: unknown, runId: unknown, stage: unknown, playerTeam: unknown): boolean {
   if (!isRecord(value) || value.runId !== runId || value.stage !== stage) return false;
+  const team = Array.isArray(playerTeam) ? playerTeam : null;
+
   if (value.status === 'PENDING') {
-    return value.cardItemIds === undefined && value.claim === undefined && value.continueRequested === undefined;
+    return value.shelf === undefined && value.cardItemIds === undefined && value.claim === undefined
+      && value.purchases === undefined && value.continueRequested === undefined;
   }
+
+  // ---- 新格式：奖励商店（shelf + purchases）----
+  if (value.shelf !== undefined || value.purchases !== undefined) {
+    const shelf = value.shelf;
+    const shelfSize = getFactoryShelfSize();
+    if (!Array.isArray(shelf) || shelf.length !== shelfSize || !shelf.every(isFactoryShopProduct)) return false;
+    const shelfItemIds = shelf.map((product) => product.itemId);
+    if (new Set(shelfItemIds).size !== shelfSize) return false;
+    // 进化商品的冻结目标必须落在队内（店员只会摆出「队里用得上」的进化道具）。
+    if (team !== null && !shelf.every((product) => product.kind === 'HELD_ITEM'
+      || product.targets.every((target) => target.targetIndex < team.length))) return false;
+    const productByItemId = new Map<string, FactoryShopProduct>(shelf.map((product) => [product.itemId, product]));
+    const purchases = value.purchases;
+    if (!Array.isArray(purchases)) return false;
+    // 逐条兑换记录：必须命中架上的那件商品、付出该商品的确切价格，且按 `kind` 校验各自字段。
+    if (purchases.some((purchase) => {
+      if (!isRecord(purchase)) return true;
+      const product = productByItemId.get(purchase.itemId as string);
+      if (!product) return true;
+      const targetIndex = purchase.targetIndex;
+      const ticketsSpent = purchase.ticketsSpent;
+      if (!Number.isSafeInteger(targetIndex) || (targetIndex as number) < 0) return true;
+      if (team !== null && (targetIndex as number) >= team.length) return true;
+      if (!Number.isSafeInteger(ticketsSpent) || (ticketsSpent as number) < 1) return true;
+      if ((ticketsSpent as number) !== getFactoryShopProductPrice(product)) return true;
+      if (product.kind === 'HELD_ITEM') {
+        // 第一阶段旧档没有 `kind` 字段：`isFactoryHeldItemPurchase` 接受缺省值（不写盘迁移）。
+        return !isFactoryHeldItemPurchase(purchase);
+      }
+      // 进化道具：必须精确命中货架冻结的 (队员, 进化前物种, 进化后物种) 三元组，不得改写任何一项。
+      if (!isFactoryEvolutionPurchase(purchase)) return true;
+      const fromSpeciesId = purchase.fromSpeciesId;
+      const toSpeciesId = purchase.toSpeciesId;
+      if (!Number.isSafeInteger(fromSpeciesId) || (fromSpeciesId as number) <= 0) return true;
+      if (!Number.isSafeInteger(toSpeciesId) || (toSpeciesId as number) <= 0) return true;
+      if (typeof purchase.fromPokeApiName !== 'string' || typeof purchase.toPokeApiName !== 'string') return true;
+      return !product.targets.some((target) => (
+        target.targetIndex === targetIndex
+        && target.fromSpeciesId === fromSpeciesId
+        && target.toSpeciesId === toSpeciesId
+        && target.fromPokeApiName === purchase.fromPokeApiName
+        && target.toPokeApiName === purchase.toPokeApiName
+      ));
+    })) return false;
+    // 同一件商品只能兑换成功一次：已购商品不得重复入账。
+    const purchasedIds = purchases.map((purchase) => (isRecord(purchase) ? purchase.itemId : null));
+    if (purchasedIds.some((itemId, index) => itemId !== null && purchasedIds.indexOf(itemId) !== index)) return false;
+    if (value.cardItemIds !== undefined || value.claim !== undefined) return false;
+    // 历史兑换可以被后续购买覆盖：按队员/类别只校验最后一笔的当前效果。
+    // 每笔的合法货架目标、价格与唯一性已在上面逐条验过。
+    const latestHeld = new Map<number, FactoryHeldItemPurchase>();
+    const latestEvolution = new Map<number, FactoryEvolutionItemPurchase>();
+    for (const purchase of purchases) {
+      if (isFactoryEvolutionPurchase(purchase)) latestEvolution.set(purchase.targetIndex, purchase);
+      else latestHeld.set(purchase.targetIndex, purchase as FactoryHeldItemPurchase);
+    }
+    if (team !== null && purchases.length > 0
+      && (![...latestHeld.values()].every((purchase) => (
+        isRecord(team[purchase.targetIndex])
+        && (team[purchase.targetIndex] as Record<string, unknown>).factoryEquippedHeldItemId === purchase.itemId
+      )) || ![...latestEvolution.values()].every((purchase) => (
+        pokemonSpeciesId(team[purchase.targetIndex]) === purchase.toSpeciesId
+        && pokemonFormSlug(team[purchase.targetIndex]) === purchase.toPokeApiName
+      )) || !hasUniqueEquippedItems(team))) {
+      return false;
+    }
+    if (value.status === 'READY') {
+      return value.continueRequested === undefined;
+    }
+    if (value.status !== 'CLAIMED' || (value.continueRequested !== undefined && value.continueRequested !== true)) {
+      return false;
+    }
+    return true;
+  }
+
+  // ---- 旧格式：四卡免费领（cardItemIds [+ claim]），读入不崩溃，由 sanitize 迁移 ----
   const cards = value.cardItemIds;
-  // 张数联动 `FACTORY_REWARD_CONFIG.freeRewardChoiceCount`（不再硬编码 4）。
-  const choiceCount = getFactoryRewardChoiceCount();
-  if (!Array.isArray(cards) || cards.length !== choiceCount || !cards.every(isFactoryRewardHeldItemId)
-    || new Set(cards).size !== choiceCount || !Array.isArray(playerTeam)) return false;
+  if (value.status !== 'READY' && value.status !== 'CLAIMED') return false;
+  if (!Array.isArray(cards) || cards.length === 0 || !cards.every(isFactoryRewardHeldItemId)
+    || new Set(cards).size !== cards.length) return false;
   if (value.status === 'READY') {
-    return value.claim === undefined && value.continueRequested === undefined
-      && cards.every((itemId) => playerTeam.some((_, index) => canEquipRewardItem(playerTeam, itemId, index)));
+    if (value.claim !== undefined || value.continueRequested !== undefined) return false;
+    return team === null
+      || cards.every((itemId) => team.some((_, index) => canEquipRewardItem(team, itemId, index)));
   }
-  if (value.status !== 'CLAIMED' || (value.continueRequested !== undefined && value.continueRequested !== true)
-    || !isRecord(value.claim)
+  if (value.continueRequested !== undefined && value.continueRequested !== true) return false;
+  if (!isRecord(value.claim)
     || !isFactoryRewardHeldItemId(value.claim.itemId)
     || !cards.includes(value.claim.itemId)
     || !Number.isSafeInteger(value.claim.targetIndex)
     || (value.claim.targetIndex as number) < 0
-    || (value.claim.targetIndex as number) >= playerTeam.length) return false;
-  const target = playerTeam[value.claim.targetIndex as number];
+    || (team !== null && (value.claim.targetIndex as number) >= team.length)) return false;
+  if (team === null) return true;
+  const target = team[value.claim.targetIndex as number];
   return isRecord(target) && target.factoryEquippedHeldItemId === value.claim.itemId
-    && target.factoryHeldItemId === value.claim.itemId && hasUniqueEquippedItems(playerTeam);
+    && target.factoryHeldItemId === value.claim.itemId && hasUniqueEquippedItems(team);
 }
 
 /**
- * `CLAIMED` 检查点的领取目标下标（作为 `repairFactoryHeldItemBaselines` 的 `keepIndices` 输入）。
- * 领取目标必须优先保住自己的基准，否则读档修复会把「刚领到的装备」改判掉。
+ * `CLAIMED` / `READY` 检查点须优先保住基准的队员下标（`repairFactoryHeldItemBaselines` 的 `keepIndices` 输入）。
+ * 新格式取全部兑换目标；旧格式取旧领取目标。已购 / 已领装备必须优先保住，否则读档修复会把它们改判掉。
  */
-function resolveRewardClaimTargetIndex(rewardCheckpoint: unknown): number[] {
-  if (!isRecord(rewardCheckpoint) || rewardCheckpoint.status !== 'CLAIMED' || !isRecord(rewardCheckpoint.claim)) return [];
-  const targetIndex = rewardCheckpoint.claim.targetIndex;
-  return Number.isSafeInteger(targetIndex) ? [targetIndex as number] : [];
+function resolveRewardKeepIndices(rewardCheckpoint: unknown): number[] {
+  if (!isRecord(rewardCheckpoint)) return [];
+  const purchases = rewardCheckpoint.purchases;
+  if (Array.isArray(purchases)) {
+    return purchases
+      .map((purchase) => (isRecord(purchase) ? purchase.targetIndex : null))
+      .filter((targetIndex): targetIndex is number => Number.isSafeInteger(targetIndex));
+  }
+  if (rewardCheckpoint.status === 'CLAIMED' && isRecord(rewardCheckpoint.claim)) {
+    const targetIndex = rewardCheckpoint.claim.targetIndex;
+    return Number.isSafeInteger(targetIndex) ? [targetIndex as number] : [];
+  }
+  return [];
+}
+
+/**
+ * 旧「四卡免费领」检查点（`cardItemIds`，无 `shelf`/`purchases`）识别。
+ * 这些是上一阶段（merge f6518c3）落盘的合法旧档，读入必须迁移而非崩溃。
+ */
+function isLegacyFourCardRewardCheckpoint(value: Record<string, unknown>): boolean {
+  if (value.shelf !== undefined || value.purchases !== undefined) return false;
+  if (value.status === 'PENDING') return value.cardItemIds === undefined && value.claim === undefined;
+  if (value.status !== 'READY' && value.status !== 'CLAIMED') return false;
+  return Array.isArray(value.cardItemIds)
+    && value.cardItemIds.length > 0
+    && value.cardItemIds.every(isFactoryRewardHeldItemId);
+}
+
+/**
+ * 奖励检查点读取归一（PRD 奖励商店 S6 存档兼容）：
+ * - 新格式：结构完整则原样保留（货架冻结，不得重抽）；
+ * - 旧四卡格式：迁移为 `PENDING`（重新配货摆满 6 件；旧档无已购记录、无扣券，迁移不构成重复给）；
+ * - 损坏：返回 `undefined`，整档按既有策略拒收。
+ */
+function sanitizeFactoryRewardCheckpoint(value: unknown, stage: number): FactoryRewardCheckpoint | undefined {
+  if (!isRecord(value)) return undefined;
+  const runId = typeof value.runId === 'string' && value.runId.length > 0 ? value.runId : null;
+  if (runId === null || value.stage !== stage) return undefined;
+  // 旧四卡格式优先识别：一律迁移为 PENDING（重新配货），不得按新格式保留。
+  if (isLegacyFourCardRewardCheckpoint(value)) {
+    return { runId, stage, status: 'PENDING' };
+  }
+  if (hasValidFactoryRewardCheckpoint(value, runId, stage, null)) {
+    return value as unknown as FactoryRewardCheckpoint;
+  }
+  return undefined;
 }
 
 function assertCurrentSaveRecoverability(value: unknown): void {
@@ -950,7 +1142,7 @@ function assertCurrentSaveRecoverability(value: unknown): void {
     // 因此奖励检查点按**规整后**的队伍校验，且已落盘的 CLAIMED 领取目标优先保留。
     const rewardPhaseTeam = repairFactoryHeldItemBaselines(
       (playerTeam as readonly FactoryHeldItemTeamMember[] | undefined) ?? [],
-      { keepIndices: resolveRewardClaimTargetIndex(resume.rewardCheckpoint) },
+      { keepIndices: resolveRewardKeepIndices(resume.rewardCheckpoint) },
     ).team;
     if (resume.battleKind !== 'FACTORY' || !Number.isSafeInteger(resume.stage) || (resume.stage as number) < 1
       || !validPhase || !Array.isArray(playerTeam) || playerTeam.length === 0
@@ -1139,7 +1331,7 @@ export function persistSaveData(saveData: GameSaveData) {
   // 否则兜底路径会把玩家刚领到的装备挤掉，还会让这份存档在下一次加载时被判 corrupt。
   if (battleResume.status === 'READY') {
     const baselineRepair = repairFactoryHeldItemBaselines(battleResume.playerTeam, {
-      keepIndices: resolveRewardClaimTargetIndex(battleResume.rewardCheckpoint),
+      keepIndices: resolveRewardKeepIndices(battleResume.rewardCheckpoint),
     });
     if (baselineRepair.repaired) {
       battleResume = {
@@ -1386,7 +1578,7 @@ export function commitFactoryGroupSettlement(
   result: 'WIN' | 'LOSS',
   isFrontierBrain: boolean,
   finalTeams?: { playerTeam: GamePokemon[]; enemyTeam: GamePokemon[] },
-): { wallet: FactoryWallet; runSupply: FactoryRunSupply; awarded: boolean; amount: number; nominalBp: number } {
+): { wallet: FactoryWallet; runSupply: FactoryRunSupply; awarded: boolean; amount: number; nominalBp: number; ticketBp: number } {
   if (!Number.isSafeInteger(stage) || stage < 1) throw new Error('Invalid factory settlement.');
   const setNo = getSetNoByStage(stage);
   const completesSet = result === 'LOSS' || getBattleIndexInSet(stage) === 7;
@@ -1411,6 +1603,9 @@ export function commitFactoryGroupSettlement(
         awarded: false,
         amount: committed.lastBpGain,
         nominalBp,
+        ticketBp: current.lastSettlement?.runId === runId && current.lastSettlement.stage === stage
+          ? current.lastSettlement.ticketBp ?? 0
+          : 0,
       };
     }
     if (committed.status === 'READY' && committed.stage > stage) throw new Error('A newer factory battle is already saved.');
@@ -1432,12 +1627,20 @@ export function commitFactoryGroupSettlement(
     if (result === 'WIN' && currentSupply.tickets >= Number.MAX_SAFE_INTEGER) {
       throw new Error('Factory supply ticket overflow.');
     }
+    // 组末券折算 BP（PRD F7 / decisions.md 第一节）：七战整组获胜的结算环节，
+    // 剩余券（含本战刚攒到的第 7 张）按 1 券 = FACTORY_TICKETS_TO_BP_RATE BP 并入同一次结算，
+    // 折算后券清零，下一组从 0 张重攒；中途败退不折算（createEmptyRunSupply 现行为保持不变）。
+    const ticketBp = result === 'WIN' && completesSet
+      ? (currentSupply.tickets + 1) * FACTORY_TICKETS_TO_BP_RATE
+      : 0;
     const runSupply: FactoryRunSupply = result === 'WIN'
-      ? { runId, tickets: currentSupply.tickets + 1, lastCreditedStage: stage }
+      ? completesSet
+        ? { runId, tickets: 0, lastCreditedStage: stage }
+        : { runId, tickets: currentSupply.tickets + 1, lastCreditedStage: stage }
       : createEmptyRunSupply();
     const playerTeam = restoreFactoryParty(finalTeams?.playerTeam ?? sourceResume.playerTeam);
     const enemyTeam = finalTeams?.enemyTeam ?? sourceResume.enemyTeam;
-    const amount = completesSet ? Math.min(nominalBp, MAX_FACTORY_BP - current.balance) : 0;
+    const amount = completesSet ? Math.min(nominalBp + ticketBp, MAX_FACTORY_BP - current.balance) : 0;
     const wallet: FactoryWallet = {
       ...current,
       balance: current.balance + amount,
@@ -1445,7 +1648,7 @@ export function commitFactoryGroupSettlement(
       revision: nextWalletRevision(current),
       settledThrough: completesSet ? setNo : current.settledThrough,
       lastSettlement: completesSet
-        ? { runId, setNo, stage, result, isFrontierBrain, nominalBp, amount, settledAt: new Date().toISOString() }
+        ? { runId, setNo, stage, result, isFrontierBrain, nominalBp, ticketBp, amount, settledAt: new Date().toISOString() }
         : current.lastSettlement,
     };
     const nextResume: BattleResumeSnapshot = {
@@ -1469,7 +1672,7 @@ export function commitFactoryGroupSettlement(
     normalizeSaveDataSafely(nextSave);
     window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
     clearPendingFactorySettlement();
-    return { wallet, runSupply, awarded: completesSet, amount, nominalBp };
+    return { wallet, runSupply, awarded: completesSet, amount, nominalBp, ticketBp };
   } catch (error) {
     rememberPendingFactorySettlement(pending);
     throw error;
@@ -1560,13 +1763,13 @@ export function commitFactoryRewardPending(
 }
 
 /**
- * 持久化点②：冻结四张候选（`PENDING → READY`）。
- * 同锚点二次调用同卡幂等返回；不同卡抛错 ⇒ 刷新/重开/导入**不重抽**（PRD §3.4）。
+ * 持久化点②：冻结货架（`PENDING → READY`，六件商品）。
+ * 同锚点二次调用同货架幂等返回；不同货架抛错 ⇒ 刷新/重开/导入**不重抽**（PRD F2.4）。
  */
 export function commitFactoryRewardReady(
   runId: string,
   stage: number,
-  cardItemIds: readonly FactoryRewardHeldItemId[],
+  shelf: readonly FactoryShopProduct[],
 ): BattleResumeSnapshot {
   if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
   const inspection = inspectStoredSave();
@@ -1578,16 +1781,34 @@ export function commitFactoryRewardReady(
     || checkpoint.rewardCheckpoint?.runId !== runId || checkpoint.rewardCheckpoint.stage !== stage) {
     throw new Error('Factory reward changed before cards were saved.');
   }
-  const cards = [...cardItemIds];
+  const frozenShelf = [...shelf];
+  const shelfSize = getFactoryShelfSize();
+  if (!Array.isArray(frozenShelf) || frozenShelf.length !== shelfSize
+    || !frozenShelf.every(isFactoryShopProduct)
+    || new Set(frozenShelf.map((product) => product.itemId)).size !== shelfSize) {
+    throw new Error('Reward shelf must be distinct approved shop products.');
+  }
   if (checkpoint.rewardCheckpoint.status !== 'PENDING') {
-    if (JSON.stringify(checkpoint.rewardCheckpoint.cardItemIds) !== JSON.stringify(cards)) {
+    if (JSON.stringify(checkpoint.rewardCheckpoint.shelf) !== JSON.stringify(frozenShelf)) {
       throw new Error('Different reward cards are already saved.');
     }
     return checkpoint;
   }
-  const candidate: FactoryRewardCheckpoint = { runId, stage, status: 'READY', cardItemIds: cards };
+  // 冻结不变量：每件商品此刻至少有一个可用对象（与候选枚举的断言同口径）——
+  // 持有道具 = 至少一个合法装备位；进化道具 = 至少一个冻结目标尚未失效。
+  const baselineItemIds = checkpoint.playerTeam.map(pokemonEquippedItemId);
+  if (!frozenShelf.every((product) => isFactoryShopProductUsable(baselineItemIds, checkpoint.playerTeam, product))) {
+    throw new Error('Reward shelf products must each have a legal teammate.');
+  }
+  const candidate: FactoryRewardCheckpoint = {
+    runId,
+    stage,
+    status: 'READY',
+    shelf: frozenShelf,
+    purchases: [],
+  };
   if (!hasValidFactoryRewardCheckpoint(candidate, runId, stage, checkpoint.playerTeam)) {
-    throw new Error('Reward cards must be four distinct approved and claimable held items.');
+    throw new Error('Reward cards must be distinct approved and claimable held items.');
   }
   const nextResume: BattleResumeSnapshot = {
     ...checkpoint,
@@ -1604,24 +1825,26 @@ export function commitFactoryRewardReady(
   const confirmed = loadSaveData()?.factory.battleResume;
   if (confirmed?.status !== 'READY' || confirmed.phase !== 'REWARD'
     || confirmed.rewardCheckpoint?.status !== 'READY'
-    || JSON.stringify(confirmed.rewardCheckpoint.cardItemIds) !== JSON.stringify(cards)) {
+    || JSON.stringify(confirmed.rewardCheckpoint.shelf) !== JSON.stringify(frozenShelf)) {
     throw new Error('Reward cards could not be verified after saving.');
   }
   return confirmed;
 }
 
 /**
- * 持久化点③：领取（`READY → CLAIMED`，原子）。
- * - 同 `(itemId, targetIndex)` 二次调用幂等返回同一检查点 ⇒ 双击/连点只领一次；
- * - 不同参数抛错且不写盘 ⇒ 不产生第二次 `CLAIMED`；
+ * 持久化点③：兑换（`READY` 上原子追加一条 `purchases`，先扣券、再交货，要么全成、要么全不做）。
+ * - 券扣减（`runSupply.tickets`）与装备改写在**同一次**落盘里完成 ⇒ 无半兑换态；
+ * - 同 `(itemId, targetIndex)` 二次调用幂等返回同一检查点 ⇒ 双击/连点只扣一次券；
+ * - 同一件商品换目标 / 不同商品已购：抛错且不写盘；
+ * - 券不足、目标不合法：抛错且不写盘，留在商店可重试（不推进战次、不少给、不重复给）；
  * - 旧装备**直接移除、不进背包**（`inventoryItemIds` 不变），并因基准字段改写而立即回池。
  */
-export function commitFactoryItemRewardClaim(
+export function commitFactoryShopPurchase(
   runId: string,
   stage: number,
   itemId: FactoryRewardHeldItemId,
   targetIndex: number,
-): BattleResumeSnapshot {
+): { resume: BattleResumeSnapshot; runSupply: FactoryRunSupply } {
   if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
   const inspection = inspectStoredSave();
   if (inspection.kind !== 'valid') throw new Error('Saved reward cards are required.');
@@ -1633,17 +1856,33 @@ export function commitFactoryItemRewardClaim(
     throw new Error('Factory reward changed before the item was claimed.');
   }
   const reward = checkpoint.rewardCheckpoint;
-  if (reward.status === 'CLAIMED') {
-    if (reward.claim.itemId !== itemId || reward.claim.targetIndex !== targetIndex) {
-      throw new Error('A different reward was already claimed.');
-    }
-    return checkpoint;
+  if (reward.status !== 'READY') {
+    // 商店已关闭：兑换路径不复存在（防御性，正常 UI 不可达）。
+    throw new Error('The reward shop is closed.');
   }
-  if (reward.status !== 'READY' || !isFactoryRewardHeldItemId(itemId)
-    || !reward.cardItemIds.includes(itemId)
+  const existingPurchase = reward.purchases.find((purchase) => (
+    isFactoryHeldItemPurchase(purchase) && purchase.itemId === itemId
+  ));
+  if (existingPurchase) {
+    if (existingPurchase.targetIndex !== targetIndex) {
+      throw new Error('This reward was already claimed.');
+    }
+    return { resume: checkpoint, runSupply: previous.runSupply };
+  }
+  const shelfProduct = reward.shelf.find((product) => product.kind === 'HELD_ITEM' && product.itemId === itemId);
+  const price = shelfProduct ? getFactoryShopProductPrice(shelfProduct) : null;
+  if (price === null || !shelfProduct
     || !canEquipRewardItem(checkpoint.playerTeam, itemId, targetIndex)) {
     throw new Error('Item reward or target is not claimable.');
   }
+  const supply = previous.runSupply;
+  if (supply.runId !== runId) {
+    throw new Error('Factory supply does not match the reward run.');
+  }
+  if (!Number.isSafeInteger(supply.tickets) || supply.tickets < price) {
+    throw new Error('Not enough reward tickets.');
+  }
+  const nextTickets = supply.tickets - price;
   const nextTeam = checkpoint.playerTeam.map((pokemon, index) => (index === targetIndex
     ? { ...pokemon, factoryEquippedHeldItemId: itemId, factoryHeldItemId: itemId }
     : pokemon));
@@ -1654,30 +1893,165 @@ export function commitFactoryItemRewardClaim(
     rewardCheckpoint: {
       runId,
       stage,
-      status: 'CLAIMED',
-      cardItemIds: reward.cardItemIds,
-      claim: { itemId, targetIndex },
+      status: 'READY',
+      shelf: reward.shelf,
+      purchases: [...reward.purchases, { itemId, targetIndex, ticketsSpent: price }],
     },
   };
   const nextSave: GameSaveData = {
     ...previous,
     updatedAt: new Date().toISOString(),
+    runSupply: { ...supply, tickets: nextTickets },
     factory: { ...previous.factory, battleResume: nextResume },
   };
   normalizeSaveDataSafely(nextSave);
   window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
-  const confirmed = loadSaveData()?.factory.battleResume;
-  if (confirmed?.status !== 'READY' || confirmed.phase !== 'REWARD'
-    || confirmed.rewardCheckpoint?.status !== 'CLAIMED'
-    || confirmed.rewardCheckpoint.claim.itemId !== itemId
-    || confirmed.rewardCheckpoint.claim.targetIndex !== targetIndex) {
+  const confirmed = loadSaveData();
+  const confirmedResume = confirmed?.factory.battleResume;
+  const confirmedReward = confirmedResume?.status === 'READY' ? confirmedResume.rewardCheckpoint : undefined;
+  if (confirmed?.runSupply.runId !== runId || confirmed.runSupply.tickets !== nextTickets
+    || confirmedResume?.status !== 'READY' || confirmedResume.phase !== 'REWARD'
+    || confirmedReward?.status !== 'READY'
+    || !confirmedReward.purchases.some((purchase) => (
+      purchase.itemId === itemId && purchase.targetIndex === targetIndex && purchase.ticketsSpent === price
+    ))) {
     throw new Error('Item reward could not be verified after saving.');
   }
-  return confirmed;
+  return { resume: confirmedResume, runSupply: confirmed.runSupply };
 }
 
 /**
- * 持久化点④：`CLAIMED` 后请求进入下一战。幂等 ⇒ 刷新/重开后可再次点击而不重复起战。
+ * 持久化点③′：兑换进化道具（PRD 奖励商店 F4，`READY` 上原子追加一条进化记录）。
+ *
+ * 与持有道具兑换同构（先扣券、再交货，要么全成、要么全不做），但「交货」= **当场进化**：
+ * - 道具当场消耗（不进背包、不写任何持有物字段）；
+ * - `evolvedTeam` 由调用方用 `pokeApi.buildEvolvedFactoryPokemon` 产生，本函数在落盘前用
+ *   `assertFactoryEvolutionPreserved` **证明**保留契约（等级 / 个体值 / 努力值 / 性格 / 性别 /
+ *   四招逐招且顺序 / 三个持有物字段 / 其余队员逐字段不变），任一被破坏即抛错不写盘；
+ * - 目标必须精确命中货架冻结的三元组 `(targetIndex, fromSpeciesId, toSpeciesId)`，
+ *   且队员当前物种仍等于 `fromSpeciesId`（先被别件道具进化过则本件失效，**不得**静默顶替）；
+ * - 同一件商品二次调用同参数幂等返回同一检查点；换目标 / 换物种抛错且不写盘；
+ * - 券不足、参数不合法：抛错且不写盘，留在商店可重试（不推进战次、不少给、不重复给）。
+ */
+export function commitFactoryEvolutionPurchase(
+  runId: string,
+  stage: number,
+  itemId: FactoryEvolutionItemId,
+  targetIndex: number,
+  toSpeciesId: number,
+  toPokeApiName: string,
+  evolvedTeam: readonly GamePokemon[],
+): { resume: BattleResumeSnapshot; runSupply: FactoryRunSupply } {
+  if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
+  const inspection = inspectStoredSave();
+  if (inspection.kind !== 'valid') throw new Error('Saved reward cards are required.');
+  const previous = inspection.save;
+  const checkpoint = previous.factory.battleResume;
+  if (!runId || previous.wallet.currentRunId !== runId || checkpoint.status !== 'READY'
+    || checkpoint.stage !== stage || checkpoint.phase !== 'REWARD'
+    || checkpoint.rewardCheckpoint?.runId !== runId || checkpoint.rewardCheckpoint.stage !== stage) {
+    throw new Error('Factory reward changed before the item was claimed.');
+  }
+  const reward = checkpoint.rewardCheckpoint;
+  if (reward.status !== 'READY') {
+    throw new Error('The reward shop is closed.');
+  }
+  const existingPurchase = reward.purchases.find((purchase) => isFactoryEvolutionPurchase(purchase) && purchase.itemId === itemId) ?? null;
+  if (existingPurchase && existingPurchase.itemId === itemId) {
+    if (existingPurchase.targetIndex !== targetIndex || existingPurchase.toSpeciesId !== toSpeciesId
+      || existingPurchase.toPokeApiName !== toPokeApiName) {
+      throw new Error('This reward was already claimed.');
+    }
+    return { resume: checkpoint, runSupply: previous.runSupply };
+  }
+  const shelfProduct = reward.shelf.find((product) => (
+    product.kind === 'EVOLUTION_ITEM' && product.itemId === itemId
+  )) ?? null;
+  const evolutionProduct = shelfProduct && shelfProduct.kind === 'EVOLUTION_ITEM' ? shelfProduct : null;
+  const price = evolutionProduct ? getFactoryShopProductPrice(evolutionProduct) : null;
+  const target = evolutionProduct?.targets.find((entry) => (
+    entry.targetIndex === targetIndex && entry.toSpeciesId === toSpeciesId
+      && entry.toPokeApiName === toPokeApiName
+  ));
+  if (!evolutionProduct || price === null || !target) {
+    throw new Error('Evolution reward or target is not claimable.');
+  }
+  // 货架冻结的是「这只队员当时的物种」：队员若已被别件道具进化过，本件即失效。
+  if (pokemonSpeciesId(checkpoint.playerTeam[targetIndex]) !== target.fromSpeciesId
+    || pokemonFormSlug(checkpoint.playerTeam[targetIndex]) !== target.fromPokeApiName) {
+    throw new Error('Evolution target is no longer available.');
+  }
+  if (!Array.isArray(evolvedTeam) || evolvedTeam.length !== checkpoint.playerTeam.length
+    || !evolvedTeam.every((pokemon) => hasRecoverablePokemonCore(pokemon) && hasValidFactoryHeldItemState(pokemon))
+    || !hasUniqueEquippedItems(evolvedTeam)) {
+    throw new Error('Evolved factory team is invalid.');
+  }
+  // 保留契约（等级 / 个体值 / 努力值 / 性格 / 性别 / 四招顺序 / 持有物 / 其余队员）必须成立。
+  assertFactoryEvolutionPreserved(checkpoint.playerTeam, evolvedTeam, targetIndex, toSpeciesId);
+  if (pokemonFormSlug(evolvedTeam[targetIndex]) !== toPokeApiName) {
+    throw new Error('Evolved form does not match the frozen shelf.');
+  }
+  const supply = previous.runSupply;
+  if (supply.runId !== runId) {
+    throw new Error('Factory supply does not match the reward run.');
+  }
+  if (!Number.isSafeInteger(supply.tickets) || supply.tickets < price) {
+    throw new Error('Not enough reward tickets.');
+  }
+  const nextTickets = supply.tickets - price;
+  const nextResume: BattleResumeSnapshot = {
+    ...checkpoint,
+    checkpointAt: new Date().toISOString(),
+    playerTeam: [...evolvedTeam],
+    rewardCheckpoint: {
+      runId,
+      stage,
+      status: 'READY',
+      shelf: reward.shelf,
+      purchases: [
+        ...reward.purchases,
+        {
+          kind: 'EVOLUTION_ITEM',
+          itemId,
+          targetIndex,
+          fromSpeciesId: target.fromSpeciesId,
+          fromPokeApiName: target.fromPokeApiName,
+          toSpeciesId,
+          toPokeApiName: target.toPokeApiName,
+          ticketsSpent: price,
+        },
+      ],
+    },
+  };
+  const nextSave: GameSaveData = {
+    ...previous,
+    updatedAt: new Date().toISOString(),
+    runSupply: { ...supply, tickets: nextTickets },
+    factory: { ...previous.factory, battleResume: nextResume },
+  };
+  normalizeSaveDataSafely(nextSave);
+  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(nextSave));
+  const confirmed = loadSaveData();
+  const confirmedResume = confirmed?.factory.battleResume;
+  const confirmedReward = confirmedResume?.status === 'READY' ? confirmedResume.rewardCheckpoint : undefined;
+  if (confirmed?.runSupply.runId !== runId || confirmed.runSupply.tickets !== nextTickets
+    || confirmedResume?.status !== 'READY' || confirmedResume.phase !== 'REWARD'
+    || pokemonSpeciesId(confirmedResume.playerTeam[targetIndex]) !== toSpeciesId
+    || pokemonFormSlug(confirmedResume.playerTeam[targetIndex]) !== target.toPokeApiName
+    || confirmedReward?.status !== 'READY'
+    || !confirmedReward.purchases.some((purchase) => (
+      isFactoryEvolutionPurchase(purchase)
+      && purchase.itemId === itemId && purchase.targetIndex === targetIndex
+      && purchase.toSpeciesId === toSpeciesId && purchase.ticketsSpent === price
+    ))) {
+    throw new Error('Evolution reward could not be verified after saving.');
+  }
+  return { resume: confirmedResume, runSupply: confirmed.runSupply };
+}
+
+/**
+ * 持久化点④：离开商店（`READY → CLAIMED`，无论是否买过）并请求进入下一战。
+ * 幂等 ⇒ 刷新/重开后可再次点击而不重复起战。买过与否由 `purchases` 留痕，不另设标志。
  */
 export function commitFactoryRewardContinueIntent(runId: string, stage: number): BattleResumeSnapshot {
   if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');
@@ -1687,15 +2061,26 @@ export function commitFactoryRewardContinueIntent(runId: string, stage: number):
   const checkpoint = previous.factory.battleResume;
   if (!runId || previous.wallet.currentRunId !== runId || checkpoint.status !== 'READY'
     || checkpoint.phase !== 'REWARD' || checkpoint.stage !== stage
-    || checkpoint.rewardCheckpoint?.status !== 'CLAIMED'
-    || checkpoint.rewardCheckpoint.runId !== runId || checkpoint.rewardCheckpoint.stage !== stage) {
+    || checkpoint.rewardCheckpoint?.runId !== runId || checkpoint.rewardCheckpoint.stage !== stage) {
     throw new Error('A claimed reward is required before continuing.');
   }
-  if (checkpoint.rewardCheckpoint.continueRequested) return checkpoint;
+  const reward = checkpoint.rewardCheckpoint;
+  if (reward.status === 'CLAIMED') {
+    if (reward.continueRequested) return checkpoint;
+  } else if (reward.status !== 'READY') {
+    throw new Error('A claimed reward is required before continuing.');
+  }
   const nextResume: BattleResumeSnapshot = {
     ...checkpoint,
     checkpointAt: new Date().toISOString(),
-    rewardCheckpoint: { ...checkpoint.rewardCheckpoint, continueRequested: true },
+    rewardCheckpoint: {
+      runId,
+      stage,
+      status: 'CLAIMED',
+      shelf: reward.shelf,
+      purchases: reward.purchases,
+      continueRequested: true,
+    },
   };
   const nextSave: GameSaveData = {
     ...previous,
