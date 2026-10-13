@@ -7,6 +7,10 @@ import { resolveBeforeMoveChecks } from './resolveBeforeMoveChecks';
 import { resolveEndTurn } from './resolveEndTurn';
 import { resolveActionSelection } from './resolveActionSelection';
 import { calculateDamage } from './resolveDamage';
+import { createCurrentFieldDamageResolver } from '../../hooks/currentFieldDamage';
+import { executeRoundTransaction, startRound } from './roundTransaction';
+import { resolveSecondaryEffectsStep } from './resolveSecondaryEffects';
+import { buildMoveBattleDataFromPokeApiMove } from '../../data/battle';
 import { isRepeatFieldFailure, nextFieldStates, nextFieldTurns } from './fieldEffectTransition';
 import { completeEndTurnResolution, presentEndTurnResolution } from '../../hooks/presentEndTurnResolution';
 import { setNonVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
@@ -801,5 +805,101 @@ test('the second action and end-turn retain the first action snapshot on both hi
     assert.equal(result.snapshot.playerTeam[0].currentHp, 325 - secondHit.damage);
     assert.equal(result.snapshot.weatherTurns, 2);
     assert.equal(originalPlayer.selectedMoves[0].currentPp, undefined, 'old input was not mutated to disguise snapshot loss');
+  }
+});
+
+test('a retained controller damage callback sees first-action Sandstorm before either side uses a status move', async () => {
+  for (const firstSide of ['player', 'enemy'] as const) {
+    const fieldRef = { current: { weather: 'none' as BattleSnapshot['weather'], fieldState: [] as BattleSnapshot['fieldState'] } };
+    const retainedResolver = createCurrentFieldDamageResolver(fieldRef, () => 0.85);
+    const attacker = createPokemon(1, 'status-user');
+    const defender = createPokemon(2, 'sand-veil-target', { abilities: [{ ability: { name: 'sand-veil', url: '' } }] });
+    const move = createMove({ name: 'feather-dance', power: 0, accuracy: 100, damage_class: 'status' });
+    assert.equal(retainedResolver(move, attacker, defender, false, false).isMiss, false);
+    const outcomes: boolean[] = [];
+    let endTurns = 0;
+    const final = await executeRoundTransaction(startRound(1, 1, firstSide), {
+      isCurrent: () => true,
+      runAction: async (side) => {
+        if (side === firstSide) fieldRef.current = { ...fieldRef.current, weather: 'sandstorm' };
+        else outcomes.push(retainedResolver(move, attacker, defender, false, false).isMiss);
+        return { status: 'ACTED' };
+      },
+      runEndTurn: async () => { endTurns += 1; return {}; },
+    });
+    assert.deepEqual(outcomes, [true], firstSide);
+    assert.equal(endTurns, 1);
+    assert.equal(final.phase, 'DONE');
+  }
+});
+
+test('the same controller damage callback receives first-action rain and terrain without changing RNG draws', async () => {
+  for (const fieldChange of ['rainy', 'grassy_terrain'] as const) {
+    const fieldRef = { current: { weather: 'none' as BattleSnapshot['weather'], fieldState: [] as BattleSnapshot['fieldState'] } };
+    let rolls = 0;
+    const retainedResolver = createCurrentFieldDamageResolver(fieldRef, () => { rolls += 1; return 0.5; });
+    const attacker = createPokemon(1, 'attacker');
+    const defender = createPokemon(2, 'defender');
+    const move = fieldChange === 'rainy'
+      ? createMove({ name: 'surf', power: 90, type: 'water', damage_class: 'special' })
+      : createMove({ name: 'earthquake', power: 100, type: 'ground' });
+    const baseline = retainedResolver(move, attacker, defender, false, false);
+    const baselineRolls = rolls;
+    const damage: number[] = [];
+    await executeRoundTransaction(startRound(1, 2, 'enemy'), {
+      isCurrent: () => true,
+      runAction: async (side) => {
+        if (side === 'enemy') {
+          fieldRef.current = fieldChange === 'rainy'
+            ? { ...fieldRef.current, weather: 'rainy' }
+            : { ...fieldRef.current, fieldState: ['grassy_terrain'] };
+        } else {
+          rolls = 0;
+          damage.push(retainedResolver(move, attacker, defender, false, false).damage);
+        }
+        return { status: 'ACTED' };
+      },
+      runEndTurn: async () => ({}),
+    });
+    assert.equal(rolls, baselineRolls, 'the adapter does not consume or reorder RNG');
+    assert.ok(fieldChange === 'rainy' ? damage[0] > baseline.damage : damage[0] < baseline.damage, fieldChange);
+  }
+});
+
+test('first-action Misty Terrain is applied to second-action status eligibility for both sides', async () => {
+  for (const firstSide of ['player', 'enemy'] as const) {
+    for (const terrainActive of [false, true]) {
+      for (const airborne of [false, true]) {
+        const initial = createSnapshot();
+        const fieldRef = { current: { weather: initial.weather, fieldState: initial.fieldState } };
+        const retainedDamage = createCurrentFieldDamageResolver(fieldRef, () => 0.5);
+        const toxicData = { name: 'toxic', damage_class: { name: 'status' }, target: { name: 'selected-pokemon' }, type: { name: 'poison' } };
+        const toxic = createMove({ name: 'toxic', damage_class: 'status', type: 'poison', power: 0, accuracy: 90, battleData: buildMoveBattleDataFromPokeApiMove(toxicData) });
+        const target = createPokemon(1, 'terrain-setter', { types: [{ type: { name: airborne ? 'flying' : 'normal' } }] });
+        const actor = createPokemon(2, 'toxic-user');
+        let state = { ...initial, playerTeam: firstSide === 'player' ? [target] : [actor], enemyTeam: firstSide === 'player' ? [actor] : [target] };
+        await executeRoundTransaction(startRound(1, 3, firstSide), {
+          isCurrent: () => true,
+          runAction: async (side) => {
+            if (side === firstSide) fieldRef.current = { ...fieldRef.current, fieldState: terrainActive ? ['misty_terrain'] : [] };
+            else {
+              const hit = retainedDamage(toxic, actor, target, false, false);
+              assert.equal(hit.isMiss, false);
+              const effects = resolveSecondaryEffectsStep({
+                move: toxic, actingSide: side, playerTeam: state.playerTeam, enemyTeam: state.enemyTeam,
+                weather: fieldRef.current.weather, fieldState: fieldRef.current.fieldState,
+                getLocalized: (pokemon) => pokemon.name,
+                allowUserEffects: hit.applyUserSecondaryEffects, allowTargetEffects: hit.applyTargetSecondaryEffects,
+              });
+              state = { ...state, playerTeam: effects.playerTeam, enemyTeam: effects.enemyTeam };
+            }
+            return { status: 'ACTED' };
+          },
+          runEndTurn: async () => ({}),
+        });
+        const affected = firstSide === 'player' ? state.playerTeam[0] : state.enemyTeam[0];
+        assert.equal(affected.nonVolatileStatus?.id, terrainActive && !airborne ? undefined : 'bad_poison');
+      }
+    }
   }
 });

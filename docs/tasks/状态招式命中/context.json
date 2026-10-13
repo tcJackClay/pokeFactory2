@@ -14,6 +14,7 @@
       { "file": "src/features/game/data/battle/index.ts", "reason": "目标读取及正文转换" },
       { "file": "src/features/game/data/battle/moveEffectTable.ts", "reason": "本地目标与效果override" },
       { "file": "src/features/game/hooks/useBattleController.ts", "reason": "PP、单一终态、副效果和香草接线" },
+      { "file": "src/features/game/hooks/currentFieldDamage.ts", "reason": "A1复审后的动作期天气场地适配器" },
       { "file": "src/features/game/lib/battleResolution.ts", "reason": "实际状态/能力效果" }
     ],
     "auditor": [

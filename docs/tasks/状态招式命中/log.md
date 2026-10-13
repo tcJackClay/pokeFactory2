@@ -11,3 +11,18 @@
 - 决策：PokeAPI `users-field` 与设计表 `user-field` 作为同义己方场地识别，已报 orchestrator 获认可。气势头带、飞翔两回合、保存结构及未知特殊机制均未扩改。
 - 静态门禁：lint PASS；302/302 测试 PASS；build PASS；Go 全套 PASS；diff check PASS。构建原有主 chunk 大小提示仍在。
 - 已追加实施记录 `implementation.md`。没有执行浏览器或生成运行证据；待独立 auditor 与 player 完成 AC1–AC8。
+
+# Auditor
+
+- What I checked: 独立审阅 `2022d20..3245304` 的真实 diff，PRD F1–F6、plan V1–V9、目标转换、共用命中、防护/副效果/香草、伤害 RNG 顺序，以及两处出招前置检查的队伍快照来源。
+- Fixed locally: none；未改业务代码、未运行游戏、未启动服务、未提交。
+- Found but not fixed (needs lead routing): A1，`useBattleController.ts` 的 calculateDamage wrapper 捕获旧 weather/fieldState，同一回合先手改天气后，后手状态命中没有读取 liveFieldRef 当前天气。与 F1/F3 不符，已交 orchestrator 路由。
+- Independent gates: lint PASS；302/302 tests PASS；build PASS（原有主 chunk 大小提示）；Go PASS；diff check PASS。
+- Verdict: BLOCKED（A1）。详见 `audit.md`；静态门禁不代替最终代码实玩。
+
+# Programmer
+
+- 根据独立 Auditor A1 修复动作期 weather/fieldState 的闭包旧值；新增 currentFieldDamage.ts，控制器从 liveFieldRef 读取当前输入。F1直接作用链其它同类输入按 plan A1 表核对、替换；没有改倍率/概率、初始先后手或保存结构。
+- plan/context 与 implementation 已更新。Auditor首轮 BLOCKED记录保持原样，本段追加在其后。
+- 新增3项同轮天气/场地回归，共305/305 tests PASS；lint、build、go test ./...、diff check 均PASS；构建仍有既有chunk提示。
+- 仍未运行游戏。待独立复审与player最终SHA实玩，不能以此次静态绿灯宣告F1运行通过。

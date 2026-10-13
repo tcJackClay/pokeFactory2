@@ -19,6 +19,7 @@
 | `battle/engine/resolveMoveTargeting.test.ts`（新增）与 `resolveDamage.test.ts` | 分类表、真实转换目标、概率边界、绕过、阻挡和伤害回归。不能只测新 helper 自身；必须断言 calculateDamage 和效果组合的可见状态结果。 | AC1–AC4/AC6 |
 | `features/game/lib/battleResolution.test.ts`、`battle/engine/resolveWhiteHerb.test.ts`、既有 `resolveControllerProtectionCollision` 测试 | 复用现有下降/香草与接触惩罚覆盖；必要时追加“命中结果许可→实际效果→香草”组合断言，确保旧序列化羽毛舞主效果 chance=0 仍正常，未命中不进入效果。 | F2/F5、AC5 |
 | `hooks/useBattleController.ts` | 按新增 F6 修复敌方出招前置检查遗漏当前我方队伍：补传 currentPlayerTeam，将前置检查的两个队伍参数设为必填并删除旧闭包 fallback；仅两处调用，玩家侧已传齐。不给 PP 补扣，不改变轮次事务或保存结构。 | F1/F2/F6、AC8 |
+| `hooks/currentFieldDamage.ts`（复审新增）与控制器动作期场地读取 | A1 复审发现闭包天气过旧；抽原伤害适配器为稳定 ref 读取函数，控制器 useMemo 绑定一次，每次实际调用才读 liveFieldRef。其他动作期调用按下表切当前输入，不重写引擎、概率或效果算法。 | F1/F3、AC2/AC6 |
 
 ### 目标分类（只用于 status；伤害招式保持既有行为）
 
@@ -35,6 +36,26 @@
 ### 数据流
 
 合法选择 → 既有前置检查 → 既有出招日志/一次 PP 扣除 → 专用招式早退或 calculateDamage → 状态目标分类 → 防护终态或共用命中 → 未命中早退 / 命中效果及香草 → 原轮次事务完成 → 完整回合保存。新辅助不持久化任何字段，不增加网络请求或新的随机源。
+
+### A1 复审：当前场地输入审计表
+
+2026-10-13 独立 auditor 对 `3245304` 指出先手改天气后，后手仍由旧 calculateDamage 闭包传入回合开始天气。orchestrator 批准本次完整核对 F1 直接作用链。下表全部是读取来源替换，调用时点、算法、数值、两侧顺序不变。
+
+| 执行入口 | 旧读取 → 新读取 | 受影响的既有结果 |
+| --- | --- | --- |
+| calculateDamage | 闭包 weather/fieldState → currentFieldDamage 适配器调用时读取 ref.current | 后手命中、天气伤害与场地伤害修正；保留同一 resolver 经两次行动验证 |
+| applyMoveSecondaryEffects | 闭包 weather/fieldState → liveFieldRef.current | 后手异常/能力效果适用性，包括先手薄雾场地后对接地目标异常保护 |
+| resolvePreTurnStatus | 闭包 weather/weatherTurns/fieldState/fieldTurns/tailwindTurns → liveFieldRef.current；hazards 保持已有即时 hazardsRef | 当前行动前置检查快照不夹杂旧场地；队伍仍来自显式当前参数 |
+| isSleepPreventingFieldActive | 闭包 fieldState → liveFieldRef.current.fieldState | 睡觉专用路径的既有场地限制 |
+| enterBattlefield | 闭包 fieldState/weather → liveFieldRef.current；陷阱仍读 hazardsRef | 同轮补位的既有接地/陷阱效果 |
+| 顺风专用分支 | 闭包 tailwindTurns → liveFieldRef.current.tailwindTurns | 保留另一方本轮刚设的计时，不覆盖为旧值 |
+| resolveTypeImmunityReaction 调用 | 闭包 fieldState → liveFieldRef.current.fieldState | 命中后的既有属性免疫响应 |
+| getMoveHealingPercent 调用 | 闭包 weather → liveFieldRef.current.weather；天气抑制条件原样 | 既有天气相关自疗倍率使用动作期天气 |
+| isRepeatFieldFailure 调用 | 闭包 fieldState → liveFieldRef.current.fieldState | 同轮重复场地失败与空间判断 |
+| 初始 AI 选招/先后手 | 保持选择时快照，不改 | 不在回合中重新选招或重排行动 |
+| applyFieldEffect、commitRoundEndTurn | 已使用功能式即时 setter / liveFieldRef，保留 | 当前状态写入与回合末一次结算 |
+
+原始 `resolveDamage`、`resolveAccuracy` 和副效果引擎不因 A1 再改算法。适配器可由测试注入 RNG 但生产不传；它自身不抽随机。特殊招式尚未实现的机制仍不扩入。
 
 ## 3. 状态契约
 
@@ -63,6 +84,7 @@
 | V7 / AC6：伤害招式概率、PP 和顺序不回退 | 既有 resolveDamage / strikes / actionSelection 与战斗效果测试全跑；伤害命中/未命中 RNG 顺序不变 | `evidence/damaging-regression/`；复用自然招式正文，包含首次 currentPp 缺省及玩家命中后敌方未命中的一轮；并复核 player 报告的飞翔样本。证据若无法复现只记线索，不能称缺陷关闭 | 伤害/PP/日志快照 |
 | V8 / AC7：最终代码真实服务与反馈可读 | `npm run lint`、`npm test`、`npm run build`、`go test ./...` 及独立 auditor PASS | `runtime.md`、`evidence/final-<sha>/` 或上述各目录的清单：Go+Vite 同工作树固定提交，主要390×844；320×568、844×390分别截未命中/保护/香草关键反馈。记录请求与console错误、操作、源码SHA、服务根、截图；受控夹具与未用DEV Win明确标注 | 服务记录、结果清单、截图人工检查 |
 | V9 / AC8、F6：另一方 miss/hit 后前一方完整状态不回滚 | `engine.test.ts` 以首次 currentPp 缺省的真实结构派生第一行动结果，经过真实 resolveBeforeMoveChecks → calculateDamage 的 miss/hit → resolveEndTurn，断言先前 PP/能力/持有物保留、HP 只产生合法伤害/剩饭、计时仅一次；必填类型防再次遗漏任一队伍。该纯引擎测试不替代实际控制器接线复验 | `evidence/pp-miss-leftovers/` 与 `pp-hit-leftovers/`：player 复用冻结主线失败夹具，重新采集最终 SHA 的 15→14 后不回15轨迹、完整回合与刷新保存。此前记录 `D:/Games/pokeFactory2/docs/tasks/手机资源基线/pp-probe/` 为修复前证据，不能覆盖 | 流水线结果断言、DOM轨迹、快照、截图 |
+| V10 / F1/F3、AC2/AC6：同轮先手天气/场地立即影响后手 | `engine.test.ts` 同一个 createCurrentFieldDamageResolver 在真实 executeRoundTransaction 第一行动更新 ref、第二行动实际调用；双方先手分别验证沙暴→沙隐目标状态技变为miss。雨增强水伤害、青草场地下地震减伤，同时核对 RNG 调用数不变。薄雾场地先施加、后手真实 secondary 引擎对接地目标不上异常；无场地或飞行目标可上异常，两侧互换 | `evidence/same-round-weather/`、`same-round-misty/`：player 真实 UI 先设天气/场地，再后手出状态技；沙隐样本可受控 accuracy 边界但明确注入；薄雾接地保护及无场地/非接地对照。其余清单共享输入靠代码审计及既有静态测试，未逐项实玩的特殊交互明确留待后续 | 当前场地快照、后手结果、操作/日志、截图 |
 
 ### 运行夹具可行性与检查点
 
