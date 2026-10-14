@@ -1,0 +1,204 @@
+{
+  "startedAt": "2026-10-14T03:56:56.188Z",
+  "name": "r5-win-continue-keeps-balls",
+  "sha": "f713afd9b189b13e57e89404d638d1985c74eca2",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlledSave": true,
+  "controls": [
+    "Current natural battle; enemy team trimmed to one HP1 and speed1, player speed10000/PP0 to bound victory via real Struggle",
+    "No DEV Win, no battle RNG override; not a natural full battle or seven-battle set"
+  ],
+  "noDevWin": true,
+  "errors": [],
+  "http": [],
+  "requestfailed": [],
+  "requests": [
+    {
+      "at": "2026-10-14T03:56:57.391Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/back/69.png"
+    },
+    {
+      "at": "2026-10-14T03:56:57.391Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/96.png"
+    },
+    {
+      "at": "2026-10-14T03:57:08.700Z",
+      "url": "http://127.0.0.209:4308/api/data/factory-species-index"
+    },
+    {
+      "at": "2026-10-14T03:57:08.716Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/47/"
+    },
+    {
+      "at": "2026-10-14T03:57:08.985Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/69.png"
+    },
+    {
+      "at": "2026-10-14T03:57:08.985Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/29.png"
+    },
+    {
+      "at": "2026-10-14T03:57:08.985Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/132.png"
+    },
+    {
+      "at": "2026-10-14T03:57:09.222Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/47/"
+    },
+    {
+      "at": "2026-10-14T03:57:09.712Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/27/"
+    },
+    {
+      "at": "2026-10-14T03:57:10.840Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/87/"
+    },
+    {
+      "at": "2026-10-14T03:57:10.840Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/6/"
+    },
+    {
+      "at": "2026-10-14T03:57:10.840Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/fury-cutter/"
+    },
+    {
+      "at": "2026-10-14T03:57:10.840Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/x-scissor/"
+    },
+    {
+      "at": "2026-10-14T03:57:10.840Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/aerial-ace/"
+    },
+    {
+      "at": "2026-10-14T03:57:10.840Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/natural-gift/"
+    },
+    {
+      "at": "2026-10-14T03:57:10.841Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/35/"
+    },
+    {
+      "at": "2026-10-14T03:57:10.870Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/35/"
+    },
+    {
+      "at": "2026-10-14T03:57:12.159Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/56/"
+    },
+    {
+      "at": "2026-10-14T03:57:12.160Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/98/"
+    },
+    {
+      "at": "2026-10-14T03:57:12.160Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/132/"
+    },
+    {
+      "at": "2026-10-14T03:57:12.405Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/calm-mind/"
+    },
+    {
+      "at": "2026-10-14T03:57:12.405Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/misty-terrain/"
+    },
+    {
+      "at": "2026-10-14T03:57:12.405Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/dazzling-gleam/"
+    },
+    {
+      "at": "2026-10-14T03:57:12.405Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/grass-knot/"
+    },
+    {
+      "at": "2026-10-14T03:57:12.889Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/64/"
+    },
+    {
+      "at": "2026-10-14T03:57:13.568Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/64/"
+    },
+    {
+      "at": "2026-10-14T03:57:14.807Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/28/"
+    },
+    {
+      "at": "2026-10-14T03:57:14.934Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/39/"
+    },
+    {
+      "at": "2026-10-14T03:57:14.943Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/snatch/"
+    },
+    {
+      "at": "2026-10-14T03:57:14.943Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/mega-punch/"
+    },
+    {
+      "at": "2026-10-14T03:57:14.943Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/bide/"
+    },
+    {
+      "at": "2026-10-14T03:57:16.123Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/47.png"
+    },
+    {
+      "at": "2026-10-14T03:57:23.676Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/back/69.png"
+    },
+    {
+      "at": "2026-10-14T03:57:23.676Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/47.png"
+    }
+  ],
+  "checks": {
+    "winSwapNextBattleRefreshKeepsBalls": true
+  },
+  "steps": [
+    {
+      "at": "2026-10-14T03:57:08.530Z",
+      "label": "01-win",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n1/7\n连胜\n1\n本场胜利\n本场胜利\n当前进度\n组别进度：1/7\n连胜数: 1\n交换次数: 0\n本局补给券：1\n对手信息\n敌方 AI 档位: RANDOM\nPAYTON / PKMN_BREEDER_M\n前往换怪"
+    },
+    {
+      "at": "2026-10-14T03:57:12.579Z",
+      "label": "02-swap",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n1/7\n连胜\n1\n对战工厂：交换宝可梦\n\n先选择我方宝可梦，再选择一只对手宝可梦完成交换。\n\n我的队伍\n可交换\n我的已选\n草\n毒\n喇叭芽\n我的已选\n毒\n尼多兰\n选我方\n一般\n百变怪\n选我方\n对手队伍\n待选择\n超能\n催眠貘\n选对手\n当前选择\n喇叭芽\n交换目标\n未选择\n跳过交换\n确认交换"
+    },
+    {
+      "at": "2026-10-14T03:57:22.233Z",
+      "label": "03-next-battle",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n2/7\n连胜\n1\n派拉斯特\n♂\nLV.50\n虫\n草\nHP\n100%\n喇叭芽\n♀\nLV.50\n草\n毒\nHP\n112/112\n战斗日志\nFCT-01\n\n对手 派出了 派拉斯特！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n紧束\n一般\n威力 15\n命中 90\nPP 20/20\n麻痹粉\n草\n威力 --\n命中 75\nPP 30/30\n忍耐\n一般\n威力 --\n命中 --\nPP 10/10\n反射壁\n超能\n威力 --\n命中 --\nPP 20/20"
+    },
+    {
+      "at": "2026-10-14T03:57:29.442Z",
+      "label": "04-resume",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n2/7\n连胜\n1\n派拉斯特\n♂\nLV.50\n虫\n草\nHP\n100%\n喇叭芽\n♀\nLV.50\n草\n毒\nHP\n112/112\n战斗日志\nFCT-01\n\n对手 派出了 派拉斯特！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n紧束\n一般\n威力 15\n命中 90\nPP 20/20\n麻痹粉\n草\n威力 --\n命中 75\nPP 30/30\n忍耐\n一般\n威力 --\n命中 --\nPP 10/10\n反射壁\n超能\n威力 --\n命中 --\nPP 20/20"
+    }
+  ],
+  "endedAt": "2026-10-14T03:57:29.442Z",
+  "injectedTrace": {}
+}

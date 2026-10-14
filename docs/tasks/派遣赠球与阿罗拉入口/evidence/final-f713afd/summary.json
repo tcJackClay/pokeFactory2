@@ -1,0 +1,583 @@
+{
+  "sha": "f713afd9b189b13e57e89404d638d1985c74eca2",
+  "generatedAt": "2026-10-14T04:00:11.576Z",
+  "cases": [
+    {
+      "name": "r1-empty-team-battle-retry",
+      "startedAt": "2026-10-14T03:48:02.188Z",
+      "endedAt": "2026-10-14T03:48:08.783Z",
+      "checks": {
+        "noBlankNoConsumePendingKept": true,
+        "noRerollAfterReload": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Real gift save with a separately identified READY dispatch",
+        "RNG battle then item retry, no injected team"
+      ]
+    },
+    {
+      "name": "r1-natural-rockruff-r2-first-gift",
+      "startedAt": "2026-10-14T03:46:33.414Z",
+      "endedAt": "2026-10-14T03:46:44.390Z",
+      "checks": {
+        "naturalRockruffAlolaTenHours": true,
+        "originalItemAndThreeBalls": true,
+        "noPartnerAddedToParty": true,
+        "refreshNoDuplicate": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "After natural start, Date.now advanced to readyAt+1000; outcome RNG forced item. No real ten-hour wait."
+      ]
+    },
+    {
+      "name": "r1-start-write-failure",
+      "startedAt": "2026-10-14T03:47:37.236Z",
+      "endedAt": "2026-10-14T03:47:42.210Z",
+      "checks": {
+        "failedStartRemainsIdle": true,
+        "retryTenHours": true
+      },
+      "expectedErrors": 1,
+      "controls": [
+        "Real gift save; setItem only rejects RUNNING start write"
+      ]
+    },
+    {
+      "name": "r2-second-item-and-import",
+      "startedAt": "2026-10-14T03:47:46.388Z",
+      "endedAt": "2026-10-14T03:48:00.153Z",
+      "checks": {
+        "distinctResultAddsThree": true,
+        "importNoAddition": true,
+        "importFullyReplaces": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Starts from real first-gift save",
+        "Second real UI start; Date.now advanced ten hours; RNG item"
+      ]
+    },
+    {
+      "name": "r2-training-item-with-party",
+      "startedAt": "2026-10-14T03:49:22.874Z",
+      "endedAt": "2026-10-14T03:49:28.387Z",
+      "checks": {
+        "originalTrainingItemAndBallsAtomic": true,
+        "noRepeatedTraining": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Actual joined member and earned balls; matching region READY clock controlled",
+        "Item RNG only"
+      ]
+    },
+    {
+      "name": "r3-commit-failure",
+      "startedAt": "2026-10-14T03:47:36.674Z",
+      "endedAt": "2026-10-14T03:47:44.182Z",
+      "checks": {
+        "noPartialAward": true,
+        "sameResultAndSingleAward": true,
+        "persistent": true
+      },
+      "expectedErrors": 1,
+      "controls": [
+        "Real natural-running save; readyAt/status advanced to READY",
+        "Result RNG item then battle on retry, testing frozen outcome",
+        "Storage.prototype.setItem fault only at named transaction stage"
+      ]
+    },
+    {
+      "name": "r3-pending-failure",
+      "startedAt": "2026-10-14T03:47:27.181Z",
+      "endedAt": "2026-10-14T03:47:34.459Z",
+      "checks": {
+        "noPartialAward": true,
+        "sameResultAndSingleAward": true,
+        "persistent": true
+      },
+      "expectedErrors": 1,
+      "controls": [
+        "Real natural-running save; readyAt/status advanced to READY",
+        "Result RNG item then battle on retry, testing frozen outcome",
+        "Storage.prototype.setItem fault only at named transaction stage"
+      ]
+    },
+    {
+      "name": "r4-first-join-real-gift",
+      "startedAt": "2026-10-14T03:47:47.573Z",
+      "endedAt": "2026-10-14T03:47:56.574Z",
+      "checks": {
+        "realGiftConsumedAndPermanentJoin": true,
+        "reloadKeepsPartyAndBalls": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Actual first gift save; next Alola READY timing controlled",
+        "Outcome join and target left to original RNG; no injected ball/team"
+      ]
+    },
+    {
+      "name": "r4-last-ball-concurrent-and-zero",
+      "startedAt": "2026-10-14T03:52:19.902Z",
+      "endedAt": "2026-10-14T03:52:35.474Z",
+      "checks": {
+        "lastBallOnlyOneJoin": true,
+        "zeroBallNoGiftNoCatch": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Actual earned3 reduced through two actual joins to1; one additional READY dispatch clock",
+        "Two same-page DOM button clicks in same event task; single page only",
+        "Only join outcome RNG controlled"
+      ]
+    },
+    {
+      "name": "r4-two-region-two-balls",
+      "startedAt": "2026-10-14T03:48:36.548Z",
+      "endedAt": "2026-10-14T03:49:21.515Z",
+      "checks": {
+        "twoRegionsRetainAllTransactions": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Actual gifted3 minus real join1; two READY dispatch clocks controlled",
+        "Join outcome only, all target RNG natural"
+      ]
+    },
+    {
+      "name": "r5-factory-natural-and-pending-recovery",
+      "startedAt": "2026-10-14T03:48:26.389Z",
+      "endedAt": "2026-10-14T03:49:18.665Z",
+      "checks": {
+        "factoryRetainsBallsClearsTemporary": true,
+        "factoryNoBallButton": true,
+        "realFactoryTurn": true,
+        "failedEndStaysResult": true,
+        "forfeitRetainsTeamBallsAndPending": true,
+        "samePreparedBattleRecovers": true
+      },
+      "expectedErrors": 1,
+      "controls": [
+        "Real first gift, controlled READY battle pending save from empty-team case",
+        "Natural factory draft and real attack; actual forfeit UI, no DEV Win",
+        "RNG controls pending retry target only; outcome already frozen battle"
+      ]
+    },
+    {
+      "name": "r5-win-continue-keeps-balls",
+      "startedAt": "2026-10-14T03:56:56.188Z",
+      "endedAt": "2026-10-14T03:57:29.442Z",
+      "checks": {
+        "winSwapNextBattleRefreshKeepsBalls": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Current natural battle; enemy team trimmed to one HP1 and speed1, player speed10000/PP0 to bound victory via real Struggle",
+        "No DEV Win, no battle RNG override; not a natural full battle or seven-battle set"
+      ]
+    },
+    {
+      "name": "r6-captured-hp-change",
+      "startedAt": "2026-10-14T03:54:55.082Z",
+      "endedAt": "2026-10-14T03:55:31.486Z",
+      "checks": {
+        "actualCapturedMemberPpChanges": true,
+        "actualGrowthItemConsumed": true,
+        "actualEndTurnHpChange": true,
+        "resourceRevisionStable": true,
+        "hpPpTeamAndItemsPersist": true,
+        "noBallConsumed": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Actual captured member/growth reward/earned balls from current SHA success case",
+        "Temporary team reordered and HP/defense increased, offense reduced solely to survive persistence test; no permanent identity fabricated",
+        "New READY clock and battle outcome controlled; target and battle RNG natural",
+        "Controlled initial poison on captured member; real end-turn damage verifies HP changes"
+      ]
+    },
+    {
+      "name": "r6-catch-failure",
+      "startedAt": "2026-10-14T03:50:05.429Z",
+      "endedAt": "2026-10-14T03:50:30.783Z",
+      "checks": {
+        "failedThrowConsumesOneNoOwned": true,
+        "reloadPreservesConsumption": true,
+        "revisionStableAfterReload": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Real first gift balance; natural factory party after actual UI forfeit",
+        "Already-prepared battle result; target RNG and throw RNG controlled"
+      ]
+    },
+    {
+      "name": "r6-catch-full-cancel",
+      "startedAt": "2026-10-14T03:51:38.508Z",
+      "endedAt": "2026-10-14T03:52:18.863Z",
+      "checks": {
+        "revisionStableAfterCaptureAndPopup": true,
+        "successConsumesOneAndPermanent": true,
+        "reloadPreservesConsumption": true,
+        "revisionStableAfterReload": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Real first gift balance; natural factory party after actual UI forfeit",
+        "Already-prepared battle result; target RNG and throw RNG controlled",
+        "Temporary party cloned to six; full-team boundary only"
+      ],
+      "revisionSamples": [
+        {
+          "at": "2026-10-14T03:51:55.407Z",
+          "revision": 11
+        },
+        {
+          "at": "2026-10-14T03:52:00.449Z",
+          "revision": 11
+        },
+        {
+          "at": "2026-10-14T03:52:04.519Z",
+          "revision": 11
+        }
+      ]
+    },
+    {
+      "name": "r6-catch-full-replace",
+      "startedAt": "2026-10-14T03:52:20.560Z",
+      "endedAt": "2026-10-14T03:52:52.822Z",
+      "checks": {
+        "revisionStableAfterCaptureAndPopup": true,
+        "successConsumesOneAndPermanent": true,
+        "reloadPreservesConsumption": true,
+        "revisionStableAfterReload": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Real first gift balance; natural factory party after actual UI forfeit",
+        "Already-prepared battle result; target RNG and throw RNG controlled",
+        "Temporary party cloned to six; full-team boundary only"
+      ],
+      "revisionSamples": [
+        {
+          "at": "2026-10-14T03:52:32.588Z",
+          "revision": 11
+        },
+        {
+          "at": "2026-10-14T03:52:37.144Z",
+          "revision": 11
+        },
+        {
+          "at": "2026-10-14T03:52:40.718Z",
+          "revision": 11
+        }
+      ]
+    },
+    {
+      "name": "r6-catch-success",
+      "startedAt": "2026-10-14T03:50:32.391Z",
+      "endedAt": "2026-10-14T03:50:59.177Z",
+      "checks": {
+        "revisionStableAfterCaptureAndPopup": true,
+        "successConsumesOneAndPermanent": true,
+        "reloadPreservesConsumption": true,
+        "revisionStableAfterReload": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Real first gift balance; natural factory party after actual UI forfeit",
+        "Already-prepared battle result; target RNG and throw RNG controlled"
+      ],
+      "revisionSamples": [
+        {
+          "at": "2026-10-14T03:50:44.565Z",
+          "revision": 11
+        },
+        {
+          "at": "2026-10-14T03:50:48.909Z",
+          "revision": 11
+        },
+        {
+          "at": "2026-10-14T03:50:52.343Z",
+          "revision": 11
+        }
+      ]
+    },
+    {
+      "name": "r6-catch-write-failure",
+      "startedAt": "2026-10-14T03:51:00.690Z",
+      "endedAt": "2026-10-14T03:51:36.118Z",
+      "checks": {
+        "noConsumeNoOwnedNoEnemyAction": true,
+        "revisionStableAfterCaptureAndPopup": true,
+        "successConsumesOneAndPermanent": true,
+        "reloadPreservesConsumption": true,
+        "revisionStableAfterReload": true
+      },
+      "expectedErrors": 1,
+      "controls": [
+        "Real first gift balance; natural factory party after actual UI forfeit",
+        "Already-prepared battle result; target RNG and throw RNG controlled",
+        "setItem rejects CATCH transaction only"
+      ],
+      "revisionSamples": [
+        {
+          "at": "2026-10-14T03:51:18.530Z",
+          "revision": 11
+        },
+        {
+          "at": "2026-10-14T03:51:23.204Z",
+          "revision": 11
+        },
+        {
+          "at": "2026-10-14T03:51:26.996Z",
+          "revision": 11
+        }
+      ]
+    },
+    {
+      "name": "r6-caught-member-resources-persist",
+      "startedAt": "2026-10-14T03:53:18.414Z",
+      "endedAt": "2026-10-14T03:53:54.294Z",
+      "checks": {
+        "actualCapturedMemberPpChanges": true,
+        "actualGrowthItemConsumed": true,
+        "resourceRevisionStable": true,
+        "hpPpTeamAndItemsPersist": true,
+        "noBallConsumed": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Actual captured member/growth reward/earned balls from current SHA success case",
+        "Temporary team reordered and HP/defense increased, offense reduced solely to survive persistence test; no permanent identity fabricated",
+        "New READY clock and battle outcome controlled; target and battle RNG natural"
+      ]
+    },
+    {
+      "name": "r6-growth-item-write-fault",
+      "startedAt": "2026-10-14T03:57:34.732Z",
+      "endedAt": "2026-10-14T03:58:18.367Z",
+      "checks": {
+        "actualCapturedMemberPpChanges": true,
+        "failedItemNoConsumeOrEffectOrEnemy": true,
+        "actualGrowthItemConsumed": true,
+        "resourceRevisionStable": true,
+        "hpPpTeamAndItemsPersist": true,
+        "noBallConsumed": true
+      },
+      "expectedErrors": 1,
+      "controls": [
+        "Actual captured member/growth reward/earned balls from current SHA success case",
+        "Temporary team reordered and HP/defense increased, offense reduced solely to survive persistence test; no permanent identity fabricated",
+        "New READY clock and battle outcome controlled; target and battle RNG natural",
+        "setItem rejects inventory depletion until released"
+      ]
+    },
+    {
+      "name": "r7-bag-en",
+      "startedAt": "2026-10-14T03:58:34.672Z",
+      "endedAt": "2026-10-14T03:59:02.843Z",
+      "checks": {
+        "threeViewportBallTouchable": true,
+        "realTouchThrow": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Current SHA earned3/natural factory party/preserved pending source",
+        "Language only; three simulated touch viewports; throw probability failure only controlled"
+      ]
+    },
+    {
+      "name": "r7-bag-zh-hans",
+      "startedAt": "2026-10-14T03:55:51.039Z",
+      "endedAt": "2026-10-14T03:56:18.738Z",
+      "checks": {
+        "threeViewportBallTouchable": true,
+        "realTouchThrow": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Current SHA earned3/natural factory party/preserved pending source",
+        "Language only; three simulated touch viewports; throw probability failure only controlled"
+      ]
+    },
+    {
+      "name": "r7-bag-zh-hant",
+      "startedAt": "2026-10-14T03:56:21.191Z",
+      "endedAt": "2026-10-14T03:56:47.797Z",
+      "checks": {
+        "threeViewportBallTouchable": true,
+        "realTouchThrow": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Current SHA earned3/natural factory party/preserved pending source",
+        "Language only; three simulated touch viewports; throw probability failure only controlled"
+      ]
+    },
+    {
+      "name": "r7-late-start-clear",
+      "startedAt": "2026-10-14T03:48:47.009Z",
+      "endedAt": "2026-10-14T03:48:52.504Z",
+      "checks": {
+        "lateResponseCannotStart": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Real gifted save",
+        "Playwright route delays real pokemon/744 response only; response content unchanged"
+      ]
+    },
+    {
+      "name": "r7-late-start-import",
+      "startedAt": "2026-10-14T03:49:02.997Z",
+      "endedAt": "2026-10-14T03:49:11.737Z",
+      "checks": {
+        "lateResponseCannotStart": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Real gifted save",
+        "Playwright route delays real pokemon/744 response only; response content unchanged"
+      ]
+    },
+    {
+      "name": "r7-late-start-leave",
+      "startedAt": "2026-10-14T03:48:54.005Z",
+      "endedAt": "2026-10-14T03:49:00.517Z",
+      "checks": {
+        "lateResponseCannotStart": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Real gifted save",
+        "Playwright route delays real pokemon/744 response only; response content unchanged"
+      ]
+    },
+    {
+      "name": "r7-mobile-en",
+      "startedAt": "2026-10-14T03:48:12.468Z",
+      "endedAt": "2026-10-14T03:48:23.085Z",
+      "checks": {
+        "threeViewportActionsNoOverflow": true,
+        "permanentBallsUnchanged": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Language only changed on real gifted save; simulated touch/DPR2"
+      ]
+    },
+    {
+      "name": "r7-mobile-zh-hans",
+      "startedAt": "2026-10-14T03:47:44.264Z",
+      "endedAt": "2026-10-14T03:47:56.742Z",
+      "checks": {
+        "threeViewportActionsNoOverflow": true,
+        "permanentBallsUnchanged": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Language only changed on real gifted save; simulated touch/DPR2"
+      ]
+    },
+    {
+      "name": "r7-mobile-zh-hant",
+      "startedAt": "2026-10-14T03:47:58.878Z",
+      "endedAt": "2026-10-14T03:48:10.377Z",
+      "checks": {
+        "threeViewportActionsNoOverflow": true,
+        "permanentBallsUnchanged": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Language only changed on real gifted save; simulated touch/DPR2"
+      ]
+    },
+    {
+      "name": "regression-mental-herb",
+      "startedAt": "2026-10-14T03:50:15.002Z",
+      "endedAt": "2026-10-14T03:50:37.124Z",
+      "checks": {
+        "mentalHerbConsumptionAndRefresh": true,
+        "baseBallsUnchanged": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Current natural factory save; old accepted battle-only fixture transplanted for bounded regression",
+        "No controlled RNG, no DEV Win; original battle evidence not reused as current acceptance"
+      ]
+    },
+    {
+      "name": "regression-struggle-terminal",
+      "startedAt": "2026-10-14T03:52:11.523Z",
+      "endedAt": "2026-10-14T03:52:34.337Z",
+      "checks": {
+        "struggleDoubleFaintSingleLoss": true,
+        "noUnexpectedConsole": true,
+        "baseBallsUnchanged": true
+      },
+      "expectedErrors": 0,
+      "controls": [
+        "Current natural factory save; old accepted battle-only fixture transplanted for bounded regression",
+        "No controlled RNG, no DEV Win; original battle evidence not reused as current acceptance"
+      ]
+    }
+  ],
+  "expectedConsole": 6,
+  "unexpectedConsole": 0,
+  "httpErrors": 0,
+  "requestFailures": 0,
+  "postChecks": {
+    "full-cancel": {
+      "pass": true,
+      "before": [
+        69,
+        29,
+        132,
+        69,
+        29,
+        132
+      ],
+      "after": [
+        69,
+        29,
+        132,
+        69,
+        29,
+        132
+      ],
+      "caught": 791,
+      "balls": 2
+    },
+    "full-replace": {
+      "pass": true,
+      "before": [
+        69,
+        29,
+        132,
+        69,
+        29,
+        132
+      ],
+      "after": [
+        792,
+        29,
+        132,
+        69,
+        29,
+        132
+      ],
+      "caught": 792,
+      "balls": 2
+    },
+    "hp": {
+      "before": 800,
+      "after": 552,
+      "pp": 9,
+      "items": 0
+    }
+  }
+}

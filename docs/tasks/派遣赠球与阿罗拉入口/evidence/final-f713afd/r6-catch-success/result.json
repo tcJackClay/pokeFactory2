@@ -1,0 +1,735 @@
+{
+  "startedAt": "2026-10-14T03:50:32.391Z",
+  "name": "r6-catch-success",
+  "sha": "f713afd9b189b13e57e89404d638d1985c74eca2",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlledSave": true,
+  "controls": [
+    "Real first gift balance; natural factory party after actual UI forfeit",
+    "Already-prepared battle result; target RNG and throw RNG controlled"
+  ],
+  "noDevWin": true,
+  "errors": [],
+  "http": [],
+  "requestfailed": [],
+  "requests": [
+    {
+      "at": "2026-10-14T03:50:32.789Z",
+      "url": "http://127.0.0.209:4308/api/data/factory-species-index"
+    },
+    {
+      "at": "2026-10-14T03:50:32.810Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/132/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.816Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/132/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.831Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/7/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.839Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/150/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.846Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/transform/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.857Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/138/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.889Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/138/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.898Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/33/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.907Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/75/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.914Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/133/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.922Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/bide/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.922Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/bind/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.923Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/rock-slide/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.923Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/thief/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.951Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/56/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.982Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/56/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.993Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/72/"
+    },
+    {
+      "at": "2026-10-14T03:50:32.998Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/83/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.007Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/128/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.015Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/scratch/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.015Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/rain-dance/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.015Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/rage/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.015Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/double-edge/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.052Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/60/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.080Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/60/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.092Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/11/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.099Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/6/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.109Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/icy-wind/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.109Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/water-sport/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.109Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/earth-power/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.109Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/scald/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.136Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/63/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.161Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/63/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.169Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/28/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.178Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/39/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.334Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/98/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.411Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/iron-tail/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.411Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/fire-punch/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.411Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/take-down/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.411Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/ice-punch/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.440Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/54/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.467Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/54/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.479Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/13/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.485Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/yawn/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.486Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/whirlpool/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.486Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/metronome/"
+    },
+    {
+      "at": "2026-10-14T03:50:33.578Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": "2026-10-14T03:50:34.174Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": "2026-10-14T03:50:34.174Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/744.png"
+    },
+    {
+      "at": "2026-10-14T03:50:34.203Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/744/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.228Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/744/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.528Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/744/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.542Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/744/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.544Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/51/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.677Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/80/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.686Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/764/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.717Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/724/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.724Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/755/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.731Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/746/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.740Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/796/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.746Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/806/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.751Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/753/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.760Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/767/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.766Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/742/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.775Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/740/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.781Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/730/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.787Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/758/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.796Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/731/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.801Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/793/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.809Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/788/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.815Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/754/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.823Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/739/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.829Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/787/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.836Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/794/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.843Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/775/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.849Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/807/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.857Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/759/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.863Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/781/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.870Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/735/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.877Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/809/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.882Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/792/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.890Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/750/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.897Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/727/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.905Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/757/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.913Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/799/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.920Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/737/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.927Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/795/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.933Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/785/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.942Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/801/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.948Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/749/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.954Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/769/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.961Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/722/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.967Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/803/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.976Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/780/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.982Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/782/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.989Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/752/"
+    },
+    {
+      "at": "2026-10-14T03:50:34.996Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/786/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.001Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/774/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.009Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/756/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.015Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/798/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.024Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/779/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.030Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/729/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.037Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/789/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.045Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/726/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.051Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/778/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.060Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/768/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.068Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/792/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.080Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/792/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.082Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/231/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.092Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/phantom-force/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.098Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/focus-blast/"
+    },
+    {
+      "at": "2026-10-14T03:50:35.245Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/magic-room/"
+    },
+    {
+      "at": "2026-10-14T03:50:36.028Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/moonblast/"
+    },
+    {
+      "at": "2026-10-14T03:50:36.997Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/back/69.png"
+    },
+    {
+      "at": "2026-10-14T03:50:36.997Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/792.png"
+    },
+    {
+      "at": "2026-10-14T03:50:42.860Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": "2026-10-14T03:50:42.860Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/744.png"
+    },
+    {
+      "at": "2026-10-14T03:50:53.065Z",
+      "url": "http://127.0.0.209:4308/api/data/factory-species-index"
+    },
+    {
+      "at": "2026-10-14T03:50:53.091Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/147/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.129Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/147/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.140Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/61/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.148Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/63/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.156Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/iron-head/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.156Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/iron-tail/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.156Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/bind/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.156Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/helping-hand/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.766Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/81/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.843Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/other/official-artwork/744.png"
+    },
+    {
+      "at": "2026-10-14T03:50:53.968Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/81/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.980Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/42/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.988Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/5/"
+    },
+    {
+      "at": "2026-10-14T03:50:53.996Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/148/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.004Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/steel-beam/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.004Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/charge-beam/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.588Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/116/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.998Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/116/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.998Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/33/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.998Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/97/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.998Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/6/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.998Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/ice-beam/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.998Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/water-gun/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.998Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/mimic/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.998Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/chilling-water/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.998Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/52/"
+    },
+    {
+      "at": "2026-10-14T03:50:54.999Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/52/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.000Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/53/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.000Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/101/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.000Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/127/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.000Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/feint/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.000Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/captivate/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.000Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/uproar/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.423Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/120/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.833Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/120/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.839Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/35/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.850Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/30/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.862Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/thunder-wave/"
+    },
+    {
+      "at": "2026-10-14T03:50:55.862Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/cosmic-power/"
+    },
+    {
+      "at": "2026-10-14T03:50:56.820Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon/54/"
+    },
+    {
+      "at": "2026-10-14T03:50:56.849Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/pokemon-species/54/"
+    },
+    {
+      "at": "2026-10-14T03:50:56.856Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/ability/13/"
+    },
+    {
+      "at": "2026-10-14T03:50:56.861Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/rain-dance/"
+    },
+    {
+      "at": "2026-10-14T03:50:56.861Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/brick-break/"
+    },
+    {
+      "at": "2026-10-14T03:50:56.861Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/synchronoise/"
+    },
+    {
+      "at": "2026-10-14T03:50:56.861Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi/move/cross-chop/"
+    }
+  ],
+  "checks": {
+    "revisionStableAfterCaptureAndPopup": true,
+    "successConsumesOneAndPermanent": true,
+    "reloadPreservesConsumption": true,
+    "revisionStableAfterReload": true
+  },
+  "steps": [
+    {
+      "at": "2026-10-14T03:50:39.475Z",
+      "label": "01-event-bag",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n1/7\n连胜\n0\n露奈雅拉\n◇\nLV.70\n超能\n幽灵\nHP\n100%\n喇叭芽\n♀\nLV.50\n草\n毒\nHP\n112/112\n战斗日志\nFCT-01\n\n等待战斗指令。\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n精灵球 × 3\n用于捕捉野生宝可梦"
+    },
+    {
+      "at": "2026-10-14T03:50:44.565Z",
+      "label": "03-caught",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "事件派遣\n\n基地精灵球：2\n\n返回主页\n\n关都\n\n派遣时长: 4 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n城都\n\n派遣时长: 6 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n丰缘\n\n派遣时长: 7 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n神奥\n\n派遣时长: 8 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n合众\n\n派遣时长: 9 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n卡洛斯\n\n派遣时长: 10 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉\n\n派遣时长: 10 小时\n\n岩狗狗 #744\n\n岩石\n\n已匹配地区属性 (1)\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉: 战胜了 露奈雅拉，获得特防增强剂；派遣宝可梦不在当前队伍，训练收益已跳过。\n\n伽勒尔\n\n派遣时长: 12 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n帕底亚\n\n派遣时长: 12 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n获得道具: 特防增强剂\n\n特殊地点「月轮祭坛」调查完成。派遣宝可梦不在当前队伍，训练收益已跳过。"
+    },
+    {
+      "at": "2026-10-14T03:50:55.840Z",
+      "label": "06-reload",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n0/7\n连胜\n0\n待命\n对战工厂\n\n开始下一轮挑战\n\n开始挑战\n伙伴：岩狗狗\n商店\n图鉴\n事件\n设置"
+    }
+  ],
+  "revisionSamples": [
+    {
+      "at": "2026-10-14T03:50:44.565Z",
+      "revision": 11
+    },
+    {
+      "at": "2026-10-14T03:50:48.909Z",
+      "revision": 11
+    },
+    {
+      "at": "2026-10-14T03:50:52.343Z",
+      "revision": 11
+    }
+  ],
+  "endedAt": "2026-10-14T03:50:59.177Z",
+  "injectedTrace": {}
+}

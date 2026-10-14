@@ -1,0 +1,18 @@
+{
+  "started": {
+    "status": "RUNNING",
+    "startedAt": 1791947190903,
+    "readyAt": 1791961590903,
+    "lastResolvedAt": null,
+    "lastResult": ""
+  },
+  "draftRevision": 1,
+  "storedRevision": 1,
+  "afterOldBuilderSave": {
+    "status": "IDLE",
+    "startedAt": null,
+    "readyAt": null,
+    "lastResolvedAt": null,
+    "lastResult": ""
+  }
+}

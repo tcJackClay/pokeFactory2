@@ -1,0 +1,8 @@
+import assert from 'node:assert/strict';
+import {run,raw,waitBase,events,card,readSave} from './run-harness.mjs';
+const s=await readSave('natural-first-gift.json.gz');
+for(const mode of ['clear','leave','import']){let release,arrive;let entered=new Promise(r=>arrive=r),hold=new Promise(r=>release=r),released=false;
+await run('r7-late-start-'+mode,s,async(p,r,snap)=>{await events(p);await entered;await card(p).getByRole('button',{name:'开始派遣',exact:true}).tap();await snap('01-start-waiting');
+if(mode==='clear')await card(p).getByRole('button',{name:'清除',exact:true}).tap();else {await p.getByRole('button',{name:'返回主页',exact:true}).tap();await waitBase(p);if(mode==='import'){await p.getByRole('button',{name:'设置',exact:true}).tap();const imported=structuredClone(s);imported.settings.currentLanguage='en';released=true;release();await p.locator('input[type=file]').setInputFiles({name:'same-version-import.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(imported))});await waitBase(p);}}
+released=true;release();await p.waitForTimeout(1200);let a=await snap('02-late-response');assert.equal(a.save.events.dispatches.alola.status,'IDLE');assert.equal(a.save.baseInventory.balls.pokeball,3);if(mode==='clear')assert.equal(a.save.events.dispatchPokemonByRegion.alola,null);if(mode==='import')assert.equal(a.save.settings.currentLanguage,'en');r.checks.lateResponseCannotStart=true;
+},{controls:['Real gifted save','Playwright route delays real pokemon/744 response only; response content unchanged'],before:async p=>{await p.route('**/api/pokeapi/pokemon/744/',async route=>{const response=await route.fetch();arrive();if(!released)await hold;await route.fulfill({response}).catch(()=>{})})}});}

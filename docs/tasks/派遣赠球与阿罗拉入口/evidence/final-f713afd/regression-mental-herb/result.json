@@ -1,0 +1,75 @@
+{
+  "startedAt": "2026-10-14T03:50:15.002Z",
+  "name": "regression-mental-herb",
+  "sha": "f713afd9b189b13e57e89404d638d1985c74eca2",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlledSave": true,
+  "controls": [
+    "Current natural factory save; old accepted battle-only fixture transplanted for bounded regression",
+    "No controlled RNG, no DEV Win; original battle evidence not reused as current acceptance"
+  ],
+  "noDevWin": true,
+  "errors": [],
+  "http": [],
+  "requestfailed": [],
+  "requests": [
+    {
+      "at": "2026-10-14T03:50:16.340Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/back/84.png"
+    },
+    {
+      "at": "2026-10-14T03:50:16.340Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/96.png"
+    },
+    {
+      "at": "2026-10-14T03:50:31.111Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/back/84.png"
+    },
+    {
+      "at": "2026-10-14T03:50:31.111Z",
+      "url": "http://127.0.0.209:4308/api/pokeapi-sprites/pokemon/96.png"
+    }
+  ],
+  "checks": {
+    "mentalHerbConsumptionAndRefresh": true,
+    "baseBallsUnchanged": true
+  },
+  "steps": [
+    {
+      "at": "2026-10-14T03:50:20.465Z",
+      "label": "01-before",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n1/7\n连胜\n0\n催眠貘\n♂\nLV.50\n一般\nHP\n100%\n嘟嘟\n♀\nLV.50\n一般\n特殊状态\nHP\n400/400\n战斗日志\nFCT-01\n\n九道具受控验收起点\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n跃起\n一般\n威力 --\n命中 --\nPP 40/40"
+    },
+    {
+      "at": "2026-10-14T03:50:29.786Z",
+      "label": "02-consumed",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n1/7\n连胜\n0\n催眠貘\n♂\nLV.50\n一般\nHP\n100%\n嘟嘟\n♀\nLV.50\n一般\nHP\n400/400\n战斗日志\nFCT-01\n\n嘟嘟 使用了 跃起！\n\n对手的 催眠貘 使用了 跃起！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n跃起\n一般\n威力 --\n命中 --\nPP 39/40"
+    },
+    {
+      "at": "2026-10-14T03:50:35.776Z",
+      "label": "03-refresh",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n1/7\n连胜\n0\n催眠貘\n♂\nLV.50\n一般\nHP\n100%\n嘟嘟\n♀\nLV.50\n一般\nHP\n400/400\n战斗日志\nFCT-01\n\n嘟嘟 使用了 跃起！\n\n对手的 催眠貘 使用了 跃起！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n跃起\n一般\n威力 --\n命中 --\nPP 39/40"
+    }
+  ],
+  "endedAt": "2026-10-14T03:50:37.124Z",
+  "injectedTrace": {}
+}
