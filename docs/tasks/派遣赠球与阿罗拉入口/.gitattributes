@@ -13,3 +13,5 @@ runtime.md -text -whitespace
 log.md -text -whitespace
 audit.md -text -whitespace
 *.json -text -whitespace
+
+static-integration/*.log -text -whitespace
