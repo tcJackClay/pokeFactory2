@@ -12,6 +12,7 @@ import type {
 import { ABILITY_BATTLE_DATA } from './abilityEffects';
 import { ITEM_BATTLE_DATA } from './itemEffects';
 import { MOVE_BATTLE_DATA_OVERRIDES } from './moveEffectTable';
+import { ROGUE_MOVE_ITEM_FLAGS } from './rogueMoveItemFlags';
 import { mapPokeApiMoveFlags } from './moveFlags';
 
 function normalizeMoveOrAbilityId(id?: string | null) {
@@ -98,8 +99,11 @@ export function buildMoveBattleDataFromPokeApiMove(data: any): MoveBattleData {
     Array.isArray(data?.flags) ? data.flags.map((flag: { name?: string }) => String(flag?.name ?? '')) : [],
   );
 
+  const fixedFlags = ROGUE_MOVE_ITEM_FLAGS[normalizedMoveName];
   const flags = mergeMoveFlags(baseFlags, moveOverride.flags);
-  const makesContact = moveOverride.makesContact ?? flags.includes('contact');
+  const makesContact = moveOverride.makesContact ?? fixedFlags?.makesContact ?? flags.includes('contact');
+  if (makesContact && !flags.includes('contact')) flags.push('contact');
+  if (!makesContact && flags.includes('contact')) flags.splice(flags.indexOf('contact'), 1);
   const soundMove = moveOverride.soundMove ?? flags.includes('sound');
   const powderMove = moveOverride.powderMove ?? flags.includes('powder');
   const ballisticMove = moveOverride.ballisticMove ?? flags.includes('ballistic');
@@ -124,6 +128,9 @@ export function buildMoveBattleDataFromPokeApiMove(data: any): MoveBattleData {
     secondaryEffects,
     substituteInteraction: moveOverride.substituteInteraction ?? (soundMove ? 'bypass' : 'blocked'),
     makesContact,
+    ignoresKingsRock: moveOverride.ignoresKingsRock ?? fixedFlags?.ignoresKingsRock,
+    sheerForceBoost: moveOverride.sheerForceBoost ?? fixedFlags?.sheerForceBoost,
+    healBlockBanned: moveOverride.healBlockBanned ?? fixedFlags?.healBlockBanned,
     soundMove,
     powderMove,
     ballisticMove,

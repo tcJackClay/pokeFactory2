@@ -6,6 +6,10 @@ type MoveBattleDataOverride = Partial<MoveBattleData> & {
 };
 
 export const MOVE_BATTLE_DATA_OVERRIDES: Partial<Record<string, MoveBattleDataOverride>> = {
+  'heal-block': { effectId: 'HEAL_BLOCK', target: 'all-opponents', substituteInteraction: 'bypass', secondaryEffects: [] },
+  'heal-pulse': { effectId: 'HEAL_PULSE', target: 'selected-pokemon', healingPercent: 0 },
+  'floral-healing': { effectId: 'HEAL_PULSE', target: 'selected-pokemon', healingPercent: 0 },
+  struggle: { ignoreAccuracyCheck: true, recoilPercent: 0 },
   rest: {
     effectId: 'REST',
     target: 'user',

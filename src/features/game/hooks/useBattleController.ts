@@ -1,3 +1,9 @@
+import { prepareMoveUse } from '../battle/engine/prepareMoveUse';
+import { resolveSitrusBerry } from '../battle/engine/resolveHealingItem';
+import { resolveMentalHerb } from '../battle/engine/resolveMentalHerb';
+import { isHealingBlocked, isMoveHealBlocked, isTargetHealingMove } from '../battle/engine/resolveHealBlock';
+import { resolveHeldItemHit } from '../battle/engine/resolveHeldItemHit';
+import { resolveLegalMoves, isMoveRestricted, struggleRecoil } from '../battle/engine/resolveLegalMoves';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { completeEndTurnResolution } from './presentEndTurnResolution';
@@ -39,20 +45,16 @@ import { isRepeatFieldFailure, nextFieldStates, nextFieldTurns } from '../battle
 import {
   getItemDamageBasedHealDenominator,
   getItemFlinchChance,
-  getItemMentalStatuses,
   getMoveDrainPercent,
   getMoveFieldState,
   getMoveHealingPercent,
   getMoveRecoilPercent,
-  getMoveSecondaryEffects,
   getItemBattleData,
-  getItemPinchHealDenominator,
   getItemPinchStat,
   getItemPinchTriggerDenominator,
   getItemPpRestoreAmount,
   getItemPriorityProcChance,
   getItemStatusCures,
-  getItemSurviveAtOneHpChance,
   getMoveTarget,
   getMoveWeather,
   hasAbilityBattleEffect,
@@ -71,7 +73,6 @@ import { restoreFactoryParty } from '../utils/restoreFactoryParty';
 import {
   clearNonVolatileStatus,
   clearVolatileStatus,
-  clearVolatileStatuses,
   getNonVolatileStatusId,
   getVolatileStatus,
   hasVolatileStatus,
@@ -580,7 +581,7 @@ export function useBattleController({
       return null;
     }
 
-    const eligibleMoves = pokemon.selectedMoves.filter((candidate) => !isSleepTalkBannedMove(candidate));
+    const eligibleMoves = pokemon.selectedMoves.filter((candidate) => !isSleepTalkBannedMove(candidate) && !isMoveHealBlocked(pokemon, candidate));
     if (eligibleMoves.length === 0) return null;
 
     return eligibleMoves[Math.floor(Math.random() * eligibleMoves.length)] ?? null;
@@ -657,26 +658,12 @@ export function useBattleController({
   const tryActivateSitrusBerry = useCallback((pokemon: GamePokemon | null | undefined) => {
     if (!pokemon) return { pokemon, message: null as string | null };
     const heldId = normalizeHeldItemId(pokemon.factoryHeldItemId);
-    const triggerDenominator = getItemPinchTriggerDenominator(heldId);
-    const healDenominator = getItemPinchHealDenominator(heldId);
-    if (!hasHeldItemEffect(pokemon, 'SITRUS_BERRY') || !triggerDenominator || !healDenominator) {
-      return { pokemon, message: null as string | null };
-    }
-    if (pokemon.currentHp <= 0) return { pokemon, message: null as string | null };
-    const triggerThreshold = Math.floor(pokemon.maxHp / triggerDenominator);
-    if (pokemon.currentHp > triggerThreshold) return { pokemon, message: null as string | null };
-
-    const maxRecover = Math.floor(pokemon.maxHp / healDenominator);
-    const recover = Math.max(1, Math.min(maxRecover, pokemon.maxHp - pokemon.currentHp));
-    if (recover <= 0) return { pokemon, message: null as string | null };
-
-    const consumed = consumeHeldItem(pokemon, heldId);
-    const nextPokemon = { ...consumed, currentHp: Math.min(consumed.maxHp, consumed.currentHp + recover) };
+    const result = resolveSitrusBerry(pokemon);
     return {
-      pokemon: nextPokemon,
-      message: battleItemMessage(currentLanguage, 'heal', getLocalized(nextPokemon), getHeldItemLabel(heldId)),
+      pokemon: result.pokemon,
+      message: result.activated ? battleItemMessage(currentLanguage, 'heal', getLocalized(result.pokemon), getHeldItemLabel(heldId)) : null,
     };
-  }, [consumeHeldItem, currentLanguage, getHeldItemLabel, getLocalized, hasHeldItemEffect, normalizeHeldItemId]);
+  }, [currentLanguage, getHeldItemLabel, getLocalized, normalizeHeldItemId]);
 
   const tryActivatePinchStatBerry = useCallback((pokemon: GamePokemon | null | undefined) => {
     if (!pokemon) return { pokemon, message: null as string | null };
@@ -722,19 +709,13 @@ export function useBattleController({
   const tryConsumeMentalHerb = useCallback((pokemon: GamePokemon | null | undefined) => {
     if (!pokemon) return { pokemon, message: null as string | null };
     const heldId = normalizeHeldItemId(pokemon.factoryHeldItemId);
-    const mentalStatuses = getItemMentalStatuses(heldId);
-    if (!hasHeldItemEffect(pokemon, 'MENTAL_HERB') || mentalStatuses.length === 0) {
-      return { pokemon, message: null as string | null };
-    }
-    const activeMentalStatuses = [...mentalStatuses].filter((statusId) => hasVolatileStatus(pokemon, statusId));
-    if (activeMentalStatuses.length === 0) return { pokemon, message: null as string | null };
-
-    const nextPokemon = clearVolatileStatuses(consumeHeldItem(pokemon, heldId), activeMentalStatuses);
+    const result = resolveMentalHerb(pokemon);
+    if (result.cleared.length === 0) return { pokemon, message: null as string | null };
     return {
-      pokemon: nextPokemon,
-      message: battleItemMessage(currentLanguage, 'mentalCure', getLocalized(nextPokemon), getHeldItemLabel(heldId), getStatusLabel(activeMentalStatuses[0])),
+      pokemon: result.pokemon,
+      message: battleItemMessage(currentLanguage, 'mentalCure', getLocalized(result.pokemon), getHeldItemLabel(heldId), getStatusLabel(result.cleared[0])),
     };
-  }, [consumeHeldItem, currentLanguage, getHeldItemLabel, getLocalized, getItemMentalStatuses, getStatusLabel, hasHeldItemEffect, normalizeHeldItemId]);
+  }, [currentLanguage, getHeldItemLabel, getLocalized, getStatusLabel, normalizeHeldItemId]);
 
   const addMessagesSequentially = useCallback(async (messages: string[]) => {
     const expectedEpoch = roundTransactionRef.current?.battleEpoch;
@@ -846,20 +827,8 @@ export function useBattleController({
   }, []);
 
   const isMoveBlockedByRestrictions = useCallback((pokemon: GamePokemon | null | undefined, move: Move | null | undefined) => {
-    if (!pokemon || !move) return false;
-
-    const encoredMove = getEncoredMove(pokemon);
-    if (encoredMove && move.name !== encoredMove.name) return true;
-
-    const disabledMoveName = getVolatileStatus(pokemon, 'disable')?.linkedMoveName;
-    if (disabledMoveName && move.name === disabledMoveName) return true;
-
-    if (hasVolatileStatus(pokemon, 'taunt') && move.damage_class === 'status') return true;
-
-    if (hasVolatileStatus(pokemon, 'torment') && pokemon.factoryLastUsedMoveName === move.name) return true;
-
-    return false;
-  }, [getEncoredMove]);
+    return Boolean(pokemon && move && isMoveRestricted(resolveMentalHerb(pokemon).pokemon, move));
+  }, []);
 
   const applyFieldEffect = useCallback((nextField: FieldState) => {
     setFieldState((prev) => nextFieldStates(prev, nextField));
@@ -1086,7 +1055,7 @@ export function useBattleController({
         await addMessagesSequentially([summary]);
       }
     } catch (error) {
-      console.error(error);
+      if (!(error instanceof StaleRoundError)) console.error(error);
     } finally {
       setLoading(false);
     }
@@ -1791,25 +1760,7 @@ export function useBattleController({
     const isContinuingUproar = hasMoveBattleEffect(selectedMove, 'UPROAR') && hasVolatileStatus(actor, 'uproar');
 
     if (actorMoveIndex >= 0 && !isContinuingUproar) {
-      updatedActor = {
-        ...actor,
-        selectedMoves: actor.selectedMoves.map((candidate, index) => {
-          if (index !== actorMoveIndex) return candidate;
-          const maxPp = getMoveMaxPp(candidate);
-          const currentPp = getMoveCurrentPp(candidate);
-          return {
-            ...candidate,
-            maxPp,
-            currentPp: Math.max(0, currentPp - 1),
-          };
-        }),
-      };
-      if (hasHeldItemEffect(updatedActor, 'CHOICE_BAND') && !updatedActor.factoryChoiceLockedMoveName) {
-        updatedActor = {
-          ...updatedActor,
-          factoryChoiceLockedMoveName: selectedMove.name,
-        };
-      }
+      updatedActor = prepareMoveUse(actor, selectedMove);
       if (hasHeldItemEffect(updatedActor, 'LEPPA_BERRY')) {
         const ppRestoreAmount = getItemPpRestoreAmount(updatedActor.factoryHeldItemId);
         const selectedMove = updatedActor.selectedMoves[actorMoveIndex];
@@ -1853,6 +1804,14 @@ export function useBattleController({
       await addMessagesSequentially([battleLine(currentLanguage,
         `${actorLabel}'s Sleep Talk used ${battleMoveName(calledMove, currentLanguage)}!`,
         `${actorLabel}的梦话使出了${battleMoveName(calledMove, currentLanguage)}！`)]);
+    }
+    // Called moves enter the fixed source's Heal Block canceller too; Sleep Talk has already spent its PP.
+    if (resolvedMove !== selectedMove && isMoveHealBlocked(updatedActor, resolvedMove)) {
+      await addMessagesSequentially([battleLine(currentLanguage,
+        `${actorLabel} cannot use ${battleMoveName(resolvedMove, currentLanguage)} because of Heal Block!`,
+        `${actorLabel}因回复封锁而无法使出${battleMoveName(resolvedMove, currentLanguage)}！`)]);
+      finishActionDisplay();
+      return;
     }
     if (hasMoveBattleEffect(resolvedMove, 'SNORE') && getNonVolatileStatusId(updatedActor) !== 'sleep') {
       await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s Snore failed!`, `${actorLabel}的打鼾失败了！`)]);
@@ -2021,9 +1980,6 @@ export function useBattleController({
       return;
     }
 
-    const moveFlinchChance = getMoveSecondaryEffects(resolvedMove)
-      .filter((effect) => effect.kind === 'flinch')
-      .reduce((maxChance, effect) => Math.max(maxChance, effect.chance), 0);
     const kingsRockFlinchChance = (
       resolvedMove.damage_class !== 'status'
       && hasHeldItemEffect(updatedActor, 'KINGS_ROCK')
@@ -2110,7 +2066,7 @@ export function useBattleController({
       if (itemResolutionMessages.length > 0) {
         await addMessagesSequentially(itemResolutionMessages);
       }
-      if (extraFlinchChance > 0 && secondaryEffects.flinched && moveFlinchChance < extraFlinchChance) {
+      if (secondaryEffects.kingsRockFlinched) {
         await addMessagesSequentially([battleLine(currentLanguage, `${actorLabel}'s King's Rock triggered!`, `${actorLabel}的王者之证生效了！`)]);
       }
     };
@@ -2238,7 +2194,7 @@ export function useBattleController({
           await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)}'s substitute broke!`, `${getLocalized(updatedDefender)}的替身消失了！`)]);
         }
         await resolvePostHitSecondaryEffects({
-          extraFlinchChance: kingsRockFlinchChance,
+          extraFlinchChance: 0,
           allowUserEffects: hitResult.applyUserSecondaryEffects,
           allowTargetEffects: false,
         });
@@ -2246,22 +2202,13 @@ export function useBattleController({
       }
 
       const defenderHpBeforeHit = updatedDefender.currentHp;
-      newDefenderHp = Math.max(0, defenderHpBeforeHit - Math.max(0, hitResult.damage));
-      if (
-        newDefenderHp <= 0
-        && hitResult.damage > 0
-        && hasHeldItemEffect(updatedDefender, 'FOCUS_BAND')
-        && Math.random() < getItemSurviveAtOneHpChance(updatedDefender.factoryHeldItemId)
-      ) {
-        newDefenderHp = 1;
-        updatedDefender = consumeHeldItem(updatedDefender, 'focus_band');
-        focusBandTriggered = true;
-      }
+      const heldHit = resolveHeldItemHit(updatedDefender, hitResult.damage);
+      newDefenderHp = heldHit.hp;
+      focusBandTriggered ||= heldHit.focusBandTriggered;
 
       updatedDefender = {
         ...updatedDefender,
         currentHp: newDefenderHp,
-        factoryHeldItemId: focusBandTriggered ? undefined : updatedDefender.factoryHeldItemId,
         factoryLastDamageReceived: (updatedDefender.factoryLastDamageReceived ?? 0) + Math.max(0, defenderHpBeforeHit - newDefenderHp),
         factoryLastDamageCategory: newDefenderHp < defenderHpBeforeHit
           ? (resolvedMove.damage_class === 'special' ? 'special' : 'physical')
@@ -2272,7 +2219,7 @@ export function useBattleController({
       syncLeadBySide(defendingSide, updatedDefender);
 
       await resolvePostHitSecondaryEffects({
-        extraFlinchChance: kingsRockFlinchChance,
+        extraFlinchChance: hitResult.damage > 0 && updatedDefender.currentHp > 0 ? kingsRockFlinchChance : 0,
         allowUserEffects: hitResult.applyUserSecondaryEffects,
         allowTargetEffects: hitResult.applyTargetSecondaryEffects && updatedDefender.currentHp > 0,
       });
@@ -2292,7 +2239,7 @@ export function useBattleController({
         )
       ) {
         const knockedOffItem = updatedDefender.factoryHeldItemId;
-        updatedDefender = { ...updatedDefender, factoryHeldItemId: undefined };
+        updatedDefender = { ...updatedDefender, factoryHeldItemId: undefined, factoryChoiceLockedMoveName: null };
         syncLeadBySide(defendingSide, updatedDefender);
         await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(updatedDefender)} lost ${getHeldItemLabel(knockedOffItem)}!`, `${getLocalized(updatedDefender)}失去了${getHeldItemLabel(knockedOffItem)}！`)]);
       }
@@ -2338,10 +2285,10 @@ export function useBattleController({
     const weatherSuppressedForHealing = hasPrimaryAbilityEffect(updatedActor, 'WEATHER_SUPPRESSION')
       || hasPrimaryAbilityEffect(updatedDefender, 'WEATHER_SUPPRESSION');
     const moveHealingPercent = getMoveHealingPercent(resolvedMove, weatherSuppressedForHealing ? 'none' : liveFieldRef.current.weather);
-    if (moveDrainPercent !== 0 && totalDamage > 0) actorHpChange += Math.floor(totalDamage * moveDrainPercent / 100);
+    if (moveDrainPercent !== 0 && totalDamage > 0 && !isHealingBlocked(updatedActor)) actorHpChange += Math.floor(totalDamage * moveDrainPercent / 100);
     if (moveRecoilPercent !== 0 && totalDamage > 0) actorHpChange -= Math.max(1, Math.floor(totalDamage * moveRecoilPercent / 100));
-    if (moveHealingPercent !== 0) actorHpChange += Math.floor(updatedActor.maxHp * moveHealingPercent / 100);
-    if (hasMoveBattleEffect(resolvedMove, 'SWALLOW')) {
+    if (moveHealingPercent !== 0 && !isTargetHealingMove(resolvedMove) && !isHealingBlocked(updatedActor)) actorHpChange += Math.floor(updatedActor.maxHp * moveHealingPercent / 100);
+    if (hasMoveBattleEffect(resolvedMove, 'SWALLOW') && !isHealingBlocked(updatedActor)) {
       const stockpileCount = Math.max(0, Math.min(3, updatedActor.factoryStockpileCount ?? 0));
       const healRatio = stockpileCount === 1 ? 0.25 : stockpileCount === 2 ? 0.5 : stockpileCount >= 3 ? 1 : 0;
       actorHpChange += Math.floor(updatedActor.maxHp * healRatio);
@@ -2350,12 +2297,14 @@ export function useBattleController({
     const shellBellRecover = (
       totalDamage > 0
       && resolvedMove.damage_class !== 'status'
+      && !isHealingBlocked(updatedActor)
       && hasHeldItemEffect(updatedActor, 'SHELL_BELL')
       && shellBellHealDenominator
     )
       ? Math.max(1, Math.floor(totalDamage / shellBellHealDenominator))
       : 0;
     actorHpChange += shellBellRecover;
+    if (resolvedMove.name === 'struggle' && (totalDamage > 0 || totalSubstituteDamage > 0)) actorHpChange -= struggleRecoil(updatedActor);
 
     updatedActor = {
       ...updatedActor,
@@ -2401,6 +2350,26 @@ export function useBattleController({
 
     if (updatedActor.currentHp <= 0) {
       await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedActor))]);
+      if (updatedDefender.currentHp <= 0) {
+        await addMessagesSequentially([t('fainted').replace('{name}', getLocalized(updatedDefender))]);
+        finishActionDisplay();
+        pendingPlayerSwitchRef.current = false;
+        // Resolve both complete teams after target damage and recoil, before either replacement can settle alone.
+        if (!nextPlayerTeam.some((pokemon) => pokemon.currentHp > 0)) {
+          await loseBattle(); // The fixed source maps a double team wipe to defeat.
+          return;
+        }
+        if (!nextEnemyTeam.some((pokemon) => pokemon.currentHp > 0)) {
+          await winBattle();
+          return;
+        }
+        const faintEpoch = battleInstanceRef.current.epoch;
+        const enemyReplaced = await sendOutNextEnemy(nextEnemyTeam, nextEnemyTeam[0].id);
+        if (!enemyReplaced || !battleMountedRef.current || battleInstanceRef.current.epoch !== faintEpoch
+          || liveBattleStateRef.current.gameState !== 'BATTLE') return;
+        await sendOutNextPlayer(nextPlayerTeam, { nextTurnAfterSwitch: isPlayerActing ? 'ENEMY' : 'PLAYER' });
+        return;
+      }
       if (actingSide === 'player') {
         await sendOutNextPlayer(nextPlayerTeam, { nextTurnAfterSwitch: 'ENEMY' });
       } else {
@@ -2506,6 +2475,8 @@ export function useBattleController({
     getMoveMaxPp,
     sendOutNextEnemy,
     sendOutNextPlayer,
+    winBattle,
+    loseBattle,
     setActiveBuffs,
     setActiveMoveType,
     setEnemyAnim,
@@ -2539,18 +2510,10 @@ export function useBattleController({
       };
     }
 
-    const usableMoves = actingEnemy.selectedMoves.filter((move) => getMoveCurrentPp(move) > 0);
-    const baseCandidateMoves = usableMoves.length > 0 ? usableMoves : actingEnemy.selectedMoves;
-    const lockedMoveName = actingEnemy.factoryChoiceLockedMoveName;
-    const candidateMoves = (
-      hasHeldItemEffect(actingEnemy, 'CHOICE_BAND')
-      && lockedMoveName
-      && baseCandidateMoves.some((move) => move.name === lockedMoveName)
-    )
-      ? baseCandidateMoves.filter((move) => move.name === lockedMoveName)
-      : baseCandidateMoves;
-    const legalCandidateMoves = candidateMoves.filter((move) => !isMoveBlockedByRestrictions(actingEnemy, move));
-    const selectableMoves = legalCandidateMoves.length > 0 ? legalCandidateMoves : candidateMoves;
+    const legal = resolveLegalMoves(actingEnemy);
+    const selectableMoves = legal.moves;
+    if (legal.struggle) return { selectedMove: selectableMoves[0], useGimmick: false, usableGimmick: null,
+      aiFlags: getAiFlagsForTier(enemyAiTier), moveEvals: [] };
     const aiFlags = getAiFlagsForTier(enemyAiTier);
     const usableGimmick = getEnemyUsableGimmick(actingEnemy);
     let useGimmick = decideEnemyGimmickUse(usableGimmick, actingEnemy, defender, aiFlags);
@@ -2821,26 +2784,10 @@ export function useBattleController({
   const handleAttack = useCallback(async (move: Move) => {
     if (!enemy || gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing || roundActionLockedRef.current) return;
 
-    const forcedLockedMove = getForcedLockedMove(playerTeam[0]);
-    if (forcedLockedMove && move.name !== forcedLockedMove.name) {
-      await addMessagesSequentially([battleLine(currentLanguage, `${getLocalized(playerTeam[0])} must keep making an uproar!`, `${getLocalized(playerTeam[0])}必须继续大闹！`)]);
-      return;
-    }
-    if (!forcedLockedMove && getMoveCurrentPp(move) <= 0) return;
-    // 讲究头带锁招：已锁定时只能继续使出被锁的招式，其余选择提示并拦截，不进入轮次。
-    const selectingLead = playerTeam[0];
-    if (
-      hasHeldItemEffect(selectingLead, 'CHOICE_BAND')
-      && selectingLead.factoryChoiceLockedMoveName
-      && selectingLead.factoryChoiceLockedMoveName !== move.name
-    ) {
-      const lockedMove = selectingLead.selectedMoves.find((candidate) => candidate.name === selectingLead.factoryChoiceLockedMoveName);
-      const lockedMoveLabel = battleMoveName(lockedMove, currentLanguage) || selectingLead.factoryChoiceLockedMoveName;
-      await addMessagesSequentially([battleLine(currentLanguage,
-        `${getLocalized(selectingLead)} is locked into ${lockedMoveLabel}!`,
-        `${getLocalized(selectingLead)}只能使出${lockedMoveLabel}！`)]);
-      return;
-    }
+    const legal = resolveLegalMoves(playerTeam[0]);
+    const canonicalMove = legal.moves.find((candidate) => candidate.name === move.name);
+    if (!canonicalMove) return;
+    move = canonicalMove;
     const selectedPlayerId = playerTeam[0].id;
     const selectedEnemyId = enemy.id;
     const enemyDecision = chooseEnemyMove(enemy, playerTeam[0]);

@@ -1,6 +1,13 @@
 ﻿import { Coins, Flame, Hash } from 'lucide-react';
 import { APP_PALETTE } from '../../../../theme/palette';
 import { FACTORY_REWARD_CONFIG, getBattleIndexInSet } from '../../config/factoryRewards';
+import './topRecordPanel.css';
+
+const RECORD_LABELS = {
+  'zh-hans': { round: '轮次', streak: '连胜' },
+  'zh-hant': { round: '輪次', streak: '連勝' },
+  en: { round: 'Round', streak: 'Streak' },
+} as const;
 
 interface TopRecordPanelProps {
   currentLanguage: string;
@@ -11,7 +18,7 @@ interface TopRecordPanelProps {
 }
 
 export function TopRecordPanel({ currentLanguage, coins, stage, streak, battleIndexOverride }: TopRecordPanelProps) {
-  const isZh = currentLanguage.startsWith('zh');
+  const labels = RECORD_LABELS[currentLanguage === 'zh-hant' ? 'zh-hant' : currentLanguage.startsWith('zh') ? 'zh-hans' : 'en'];
 
   const panelStyle = {
     backgroundColor: APP_PALETTE.surface.panel,
@@ -29,8 +36,8 @@ export function TopRecordPanel({ currentLanguage, coins, stage, streak, battleIn
 
   const items = [
     { key: 'bp', label: 'BP', value: String(coins), icon: Coins, iconClass: 'text-amber-500' },
-    { key: 'round', label: isZh ? '轮次' : 'Round', value: `${battleIndex}/${battlesPerSet}`, icon: Hash, iconClass: 'text-sky-600' },
-    { key: 'streak', label: isZh ? '连胜' : 'Streak', value: String(streak), icon: Flame, iconClass: 'text-orange-500' },
+    { key: 'round', label: labels.round, value: `${battleIndex}/${battlesPerSet}`, icon: Hash, iconClass: 'text-sky-600' },
+    { key: 'streak', label: labels.streak, value: String(streak), icon: Flame, iconClass: 'text-orange-500' },
   ] as const;
 
   return (
@@ -43,20 +50,15 @@ export function TopRecordPanel({ currentLanguage, coins, stage, streak, battleIn
             return (
               <div
                 key={item.key}
-                className="pf-top-record-chip pf-hud-chip min-w-0 px-2.5 py-2"
+                className="pf-top-record-chip pf-hud-chip min-w-0"
                 style={chipStyle}
-                title={item.label}
                 aria-label={item.label}
               >
-                <div className="flex items-center gap-2 min-w-0">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/70 bg-white shadow-sm">
-                    <Icon className={`h-3.5 w-3.5 ${item.iconClass}`} />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="pf-data-value truncate">{item.value}</div>
-                    <div className="mt-0.5 truncate text-[10px] font-bold text-slate-500">{item.label}</div>
-                  </div>
+                <div className="pf-top-record-label">
+                  <Icon aria-hidden="true" className={`pf-top-record-icon ${item.iconClass}`} />
+                  <span>{item.label}</span>
                 </div>
+                <div className="pf-top-record-value pf-data-value">{item.value}</div>
               </div>
             );
           })}

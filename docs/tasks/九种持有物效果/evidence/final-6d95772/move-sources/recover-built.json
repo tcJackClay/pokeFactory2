@@ -1,0 +1,119 @@
+{
+  "url": "http://127.0.0.1:3006/api/pokeapi/move/recover",
+  "rawSha256": "85c388b1acc7dd8c1060c76dc990c1bd102bf8454de19bea5d09cf1b58e2abcb",
+  "built": {
+    "name": "recover",
+    "names": [
+      {
+        "name": "じこさいせい",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        }
+      },
+      {
+        "name": "HP회복",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        }
+      },
+      {
+        "name": "自我再生",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        }
+      },
+      {
+        "name": "Soin",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        }
+      },
+      {
+        "name": "Genesung",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        }
+      },
+      {
+        "name": "Recuperación",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        }
+      },
+      {
+        "name": "Ripresa",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        }
+      },
+      {
+        "name": "Recover",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        }
+      },
+      {
+        "name": "じこさいせい",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        }
+      },
+      {
+        "name": "自我再生",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        }
+      },
+      {
+        "name": "Recuperación",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        }
+      }
+    ],
+    "zhName": "自我再生",
+    "power": null,
+    "accuracy": null,
+    "type": "normal",
+    "damage_class": "status",
+    "pp": 5,
+    "battleData": {
+      "effectId": "NONE",
+      "priority": 0,
+      "target": "user",
+      "flags": [],
+      "critStage": 0,
+      "drainPercent": 0,
+      "recoilPercent": 0,
+      "healingPercent": 50,
+      "strikeMode": "single",
+      "minHits": 1,
+      "maxHits": 1,
+      "secondaryEffects": [],
+      "substituteInteraction": "blocked",
+      "makesContact": false,
+      "ignoresKingsRock": false,
+      "sheerForceBoost": false,
+      "healBlockBanned": true,
+      "soundMove": false,
+      "powderMove": false,
+      "ballisticMove": false,
+      "punchMove": false,
+      "bypassProtect": false,
+      "ignoreAccuracyCheck": false,
+      "thawsUser": false,
+      "thawsTarget": false
+    }
+  }
+}

@@ -1,0 +1,74 @@
+.pf-top-record-panel .pf-top-record-chip {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.4rem;
+  text-align: center;
+}
+
+.pf-top-record-label {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  color: var(--pf-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pf-top-record-label span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.pf-top-record-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.pf-top-record-panel .pf-top-record-value {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  line-height: 1.15;
+}
+
+@media (max-width: 359px) {
+  .pf-top-record-panel .pf-top-record-grid {
+    gap: 0.45rem;
+  }
+
+  .pf-top-record-panel .pf-top-record-chip {
+    padding: 0.45rem 0.35rem;
+    border-radius: 14px;
+  }
+
+  .pf-top-record-panel .pf-top-record-value {
+    font-size: 0.95rem;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 460px) {
+  .pf-top-record-panel {
+    border-radius: 18px;
+  }
+
+  .pf-top-record-panel .pf-top-record-grid {
+    gap: 0.55rem;
+  }
+
+  .pf-top-record-panel .pf-top-record-chip {
+    padding: 0.45rem 0.75rem;
+    border-radius: 15px;
+  }
+
+  .pf-top-record-panel .pf-top-record-value {
+    font-size: clamp(0.95rem, 1.9vw, 1.08rem);
+  }
+}

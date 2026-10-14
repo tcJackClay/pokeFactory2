@@ -137,7 +137,7 @@ test('item battle helpers expose structured metadata', () => {
   assert.equal(getItemPinchTriggerDenominator('sitrus-berry'), 2);
   assert.equal(getItemPinchHealDenominator('sitrus-berry'), 4);
   assert.equal(getItemPinchStat('salac-berry'), 'speed');
-  assert.deepEqual(getItemMentalStatuses('mental-herb'), ['attract', 'infatuation', 'taunt', 'encore', 'torment', 'disable']);
+  assert.deepEqual(getItemMentalStatuses('mental-herb'), ['attract', 'infatuation', 'taunt', 'encore', 'torment', 'disable', 'heal_block']);
   assert.equal(getItemCritStageBonus('scope-lens'), 1);
   assert.equal(getItemPpRestoreAmount('leppa-berry'), 10);
   assert.equal(getItemPriorityProcChance('quick-claw'), 0.2);

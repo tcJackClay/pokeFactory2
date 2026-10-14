@@ -1,0 +1,14 @@
+[
+  {
+    "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/normal.png\")",
+    "bg": "rgb(100, 116, 139)"
+  },
+  {
+    "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/water.png\")",
+    "bg": "rgb(82, 148, 223)"
+  },
+  {
+    "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/grass.png\")",
+    "bg": "rgb(99, 197, 90)"
+  }
+]

@@ -1,0 +1,121 @@
+{
+  "url": "http://127.0.0.1:3006/api/pokeapi/move/knock-off",
+  "rawSha256": "b2c7471c498561f294cced105b1de446b852292a497e5ce4e72827d0c1ffbf2c",
+  "built": {
+    "name": "knock-off",
+    "names": [
+      {
+        "name": "はたきおとす",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        }
+      },
+      {
+        "name": "탁쳐서떨구기",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        }
+      },
+      {
+        "name": "拍落",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        }
+      },
+      {
+        "name": "Sabotage",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        }
+      },
+      {
+        "name": "Abschlag",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        }
+      },
+      {
+        "name": "Desarme",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        }
+      },
+      {
+        "name": "Privazione",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        }
+      },
+      {
+        "name": "Knock Off",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        }
+      },
+      {
+        "name": "はたきおとす",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        }
+      },
+      {
+        "name": "拍落",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        }
+      },
+      {
+        "name": "Desarme",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        }
+      }
+    ],
+    "zhName": "拍落",
+    "power": 65,
+    "accuracy": 100,
+    "type": "dark",
+    "damage_class": "physical",
+    "pp": 20,
+    "battleData": {
+      "effectId": "KNOCK_OFF",
+      "priority": 0,
+      "target": "selected-pokemon",
+      "flags": [
+        "contact"
+      ],
+      "critStage": 0,
+      "drainPercent": 0,
+      "recoilPercent": 0,
+      "healingPercent": 0,
+      "strikeMode": "single",
+      "minHits": 1,
+      "maxHits": 1,
+      "secondaryEffects": [],
+      "substituteInteraction": "blocked",
+      "makesContact": true,
+      "ignoresKingsRock": false,
+      "sheerForceBoost": false,
+      "healBlockBanned": false,
+      "soundMove": false,
+      "powderMove": false,
+      "ballisticMove": false,
+      "punchMove": false,
+      "bypassProtect": false,
+      "ignoreAccuracyCheck": false,
+      "thawsUser": false,
+      "thawsTarget": false
+    }
+  }
+}

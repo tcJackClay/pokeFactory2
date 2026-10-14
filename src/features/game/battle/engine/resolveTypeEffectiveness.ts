@@ -46,6 +46,7 @@ export function getMoveTypeMultiplier(
   attacker?: GamePokemon,
   fieldState: FieldState[] = [],
 ) {
+  if (move.name === 'struggle') return 1;
   const effectId = move.battleData?.effectId;
   const moveType = getResolvedBattleMoveType(move, attacker);
   if (effectId === 'SHEER_COLD' && defender.types.some((slot) => slot.type.name === 'ice')) {

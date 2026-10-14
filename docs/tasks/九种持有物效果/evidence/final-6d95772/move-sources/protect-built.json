@@ -1,0 +1,130 @@
+{
+  "url": "http://127.0.0.1:3006/api/pokeapi/move/protect",
+  "rawSha256": "6c3ae74ac4567641b8b20568b2b9a878c7a12e50ff7f7226c703cb4967a903cd",
+  "built": {
+    "name": "protect",
+    "names": [
+      {
+        "name": "まもる",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        }
+      },
+      {
+        "name": "방어",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        }
+      },
+      {
+        "name": "守住",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        }
+      },
+      {
+        "name": "Abri",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        }
+      },
+      {
+        "name": "Schutzschild",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        }
+      },
+      {
+        "name": "Protección",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        }
+      },
+      {
+        "name": "Protezione",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        }
+      },
+      {
+        "name": "Protect",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        }
+      },
+      {
+        "name": "まもる",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        }
+      },
+      {
+        "name": "守住",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        }
+      },
+      {
+        "name": "Protección",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        }
+      }
+    ],
+    "zhName": "守住",
+    "power": null,
+    "accuracy": null,
+    "type": "normal",
+    "damage_class": "status",
+    "pp": 10,
+    "battleData": {
+      "effectId": "PROTECT",
+      "priority": 4,
+      "target": "user",
+      "flags": [],
+      "critStage": 0,
+      "drainPercent": 0,
+      "recoilPercent": 0,
+      "healingPercent": 0,
+      "strikeMode": "single",
+      "minHits": 1,
+      "maxHits": 1,
+      "secondaryEffects": [
+        {
+          "kind": "status",
+          "chance": 100,
+          "group": "ailment",
+          "appliesTo": "target",
+          "isPrimary": true,
+          "requiresHit": false,
+          "blockedBySubstitute": true,
+          "statusId": "protect"
+        }
+      ],
+      "substituteInteraction": "blocked",
+      "makesContact": false,
+      "ignoresKingsRock": false,
+      "sheerForceBoost": false,
+      "healBlockBanned": false,
+      "soundMove": false,
+      "powderMove": false,
+      "ballisticMove": false,
+      "punchMove": false,
+      "bypassProtect": true,
+      "ignoreAccuracyCheck": false,
+      "thawsUser": false,
+      "thawsTarget": false
+    }
+  }
+}

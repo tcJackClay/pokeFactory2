@@ -1,0 +1,9 @@
+{"actingSide":"player","playerReserve":false,"enemyReserve":false,"focusAtOneHp":false,"hp":[0,0],"calls":["sendOutNextPlayer"],"endTurnCommitted":false,"messages":["usedMove","fainted"]}
+{"actingSide":"player","playerReserve":false,"enemyReserve":true,"focusAtOneHp":false,"hp":[0,0],"calls":["sendOutNextPlayer"],"endTurnCommitted":false,"messages":["usedMove","fainted"]}
+{"actingSide":"player","playerReserve":true,"enemyReserve":false,"focusAtOneHp":false,"hp":[0,0],"calls":["sendOutNextPlayer"],"endTurnCommitted":false,"messages":["usedMove","fainted"]}
+{"actingSide":"player","playerReserve":true,"enemyReserve":true,"focusAtOneHp":false,"hp":[0,0],"calls":["sendOutNextPlayer","end-turn"],"endTurnCommitted":true,"messages":["usedMove","fainted"]}
+{"actingSide":"enemy","playerReserve":false,"enemyReserve":false,"focusAtOneHp":false,"hp":[0,0],"calls":["sendOutNextEnemy"],"endTurnCommitted":false,"messages":["enemyUsedMove","fainted"]}
+{"actingSide":"enemy","playerReserve":false,"enemyReserve":true,"focusAtOneHp":false,"hp":[0,0],"calls":["sendOutNextEnemy"],"endTurnCommitted":false,"messages":["enemyUsedMove","fainted"]}
+{"actingSide":"enemy","playerReserve":true,"enemyReserve":false,"focusAtOneHp":false,"hp":[0,0],"calls":["sendOutNextEnemy"],"endTurnCommitted":false,"messages":["enemyUsedMove","fainted"]}
+{"actingSide":"enemy","playerReserve":true,"enemyReserve":true,"focusAtOneHp":false,"hp":[0,0],"calls":["sendOutNextEnemy","end-turn"],"endTurnCommitted":true,"messages":["enemyUsedMove","fainted"]}
+{"actingSide":"player","playerReserve":false,"enemyReserve":false,"focusAtOneHp":true,"hp":[150,1],"calls":["end-turn"],"endTurnCommitted":true,"messages":["usedMove","mon-2靠focus_band挺住了！","causedDamage"]}

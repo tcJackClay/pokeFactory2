@@ -1,0 +1,121 @@
+{
+  "url": "http://127.0.0.1:3006/api/pokeapi/move/quick-attack",
+  "rawSha256": "226251f5e32392044257275fdfb203ec5bec6346637cb302e917cbbf3cd06491",
+  "built": {
+    "name": "quick-attack",
+    "names": [
+      {
+        "name": "でんこうせっか",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        }
+      },
+      {
+        "name": "전광석화",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        }
+      },
+      {
+        "name": "電光一閃",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        }
+      },
+      {
+        "name": "Vive-Attaque",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        }
+      },
+      {
+        "name": "Ruckzuckhieb",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        }
+      },
+      {
+        "name": "Ataque Rápido",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        }
+      },
+      {
+        "name": "Attacco Rapido",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        }
+      },
+      {
+        "name": "Quick Attack",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        }
+      },
+      {
+        "name": "でんこうせっか",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        }
+      },
+      {
+        "name": "电光一闪",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        }
+      },
+      {
+        "name": "Ataque Rápido",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        }
+      }
+    ],
+    "zhName": "电光一闪",
+    "power": 40,
+    "accuracy": 100,
+    "type": "normal",
+    "damage_class": "physical",
+    "pp": 30,
+    "battleData": {
+      "effectId": "NONE",
+      "priority": 1,
+      "target": "selected-pokemon",
+      "flags": [
+        "contact"
+      ],
+      "critStage": 0,
+      "drainPercent": 0,
+      "recoilPercent": 0,
+      "healingPercent": 0,
+      "strikeMode": "single",
+      "minHits": 1,
+      "maxHits": 1,
+      "secondaryEffects": [],
+      "substituteInteraction": "blocked",
+      "makesContact": true,
+      "ignoresKingsRock": false,
+      "sheerForceBoost": false,
+      "healBlockBanned": false,
+      "soundMove": false,
+      "powderMove": false,
+      "ballisticMove": false,
+      "punchMove": false,
+      "bypassProtect": false,
+      "ignoreAccuracyCheck": false,
+      "thawsUser": false,
+      "thawsTarget": false
+    }
+  }
+}

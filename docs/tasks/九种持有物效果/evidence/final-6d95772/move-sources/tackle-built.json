@@ -1,0 +1,121 @@
+{
+  "url": "http://127.0.0.1:3006/api/pokeapi/move/tackle",
+  "rawSha256": "2fa7f924e063257e47f3bd2df1006ef72fae9b95ab4072d73e631e317ab74cce",
+  "built": {
+    "name": "tackle",
+    "names": [
+      {
+        "name": "たいあたり",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        }
+      },
+      {
+        "name": "몸통박치기",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        }
+      },
+      {
+        "name": "撞擊",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        }
+      },
+      {
+        "name": "Charge",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        }
+      },
+      {
+        "name": "Tackle",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        }
+      },
+      {
+        "name": "Placaje",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        }
+      },
+      {
+        "name": "Azione",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        }
+      },
+      {
+        "name": "Tackle",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        }
+      },
+      {
+        "name": "たいあたり",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        }
+      },
+      {
+        "name": "撞击",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        }
+      },
+      {
+        "name": "Tacleada",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        }
+      }
+    ],
+    "zhName": "撞击",
+    "power": 40,
+    "accuracy": 100,
+    "type": "normal",
+    "damage_class": "physical",
+    "pp": 35,
+    "battleData": {
+      "effectId": "NONE",
+      "priority": 0,
+      "target": "selected-pokemon",
+      "flags": [
+        "contact"
+      ],
+      "critStage": 0,
+      "drainPercent": 0,
+      "recoilPercent": 0,
+      "healingPercent": 0,
+      "strikeMode": "single",
+      "minHits": 1,
+      "maxHits": 1,
+      "secondaryEffects": [],
+      "substituteInteraction": "blocked",
+      "makesContact": true,
+      "ignoresKingsRock": false,
+      "sheerForceBoost": false,
+      "healBlockBanned": false,
+      "soundMove": false,
+      "powderMove": false,
+      "ballisticMove": false,
+      "punchMove": false,
+      "bypassProtect": false,
+      "ignoreAccuracyCheck": false,
+      "thawsUser": false,
+      "thawsTarget": false
+    }
+  }
+}

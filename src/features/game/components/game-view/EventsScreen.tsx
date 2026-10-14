@@ -20,6 +20,11 @@ import mapSevii45 from '../../../../assets/maps/region-map-sevii45.png';
 
 const REGION_CARD_BACKGROUNDS = [mapKanto, mapHoenn, mapSevii123, mapSevii45];
 
+// These icons sit on white circles; normal's global color remains white for badges.
+function getEventTypeIconColor(type: string): string {
+  return type === 'normal' ? '#64748b' : TYPE_COLORS[type] ?? '#64748b';
+}
+
 function getEventItemIcon(itemId?: string): string {
   if (itemId === 'hp_up') return eventHpUpIcon;
   return eventBattleStatItemIcon;
@@ -244,7 +249,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                   <div className="flex items-center gap-1.5">
                     {region.requiredTypes.map((type) => {
                       const TypeIcon = TYPE_ICONS[type];
-                      const color = TYPE_COLORS[type] ?? '#64748b';
+                      const color = getEventTypeIconColor(type);
                       return TypeIcon ? (
                         <span
                           key={`${region.id}-${type}`}
@@ -540,7 +545,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
                               <div className="mt-0.5 flex items-center gap-1">
                                 {snapshot.types.map((type) => {
                                   const TypeIcon = TYPE_ICONS[type];
-                                  const color = TYPE_COLORS[type] ?? '#64748b';
+                                  const color = getEventTypeIconColor(type);
                                   return TypeIcon ? (
                                     <span
                                       key={`${pokemonId}-${type}`}

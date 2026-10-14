@@ -1,0 +1,99 @@
+{
+  "name": "v2-zh-hans-9007199254740991-final",
+  "sha": "ba5c0c286d588868b081aa15851e89941f790f2a",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": "Natural first battle team preserved; wallet=9999, stage=7, streak=9007199254740991 injected via production createSaveData+parse. No seven-win or earned-BP claim.",
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791943678645,
+      "url": "http://127.0.0.204:4307/api/pokeapi-sprites/pokemon/back/90.png"
+    },
+    {
+      "at": 1791943678645,
+      "url": "http://127.0.0.204:4307/api/pokeapi-sprites/pokemon/74.png"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "battle": true,
+    "movesAccessible": true,
+    "actualStatusNavigation": true
+  },
+  "steps": [
+    {
+      "label": "battle-320",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BATTLE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "battle-390",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BATTLE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "battle-844",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BATTLE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "moves-320",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BATTLE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "moves-390",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BATTLE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "moves-844",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BATTLE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "status-control",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BATTLE",
+      "currentBaseTab": "HOME"
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "url": "http://127.0.0.1:3006/api/pokeapi/move/superpower",
+  "rawSha256": "31abdad5e22f2f7e2bdc6122a565c75e6670c9fc49b080f6465de8a70a39a45a",
+  "built": {
+    "name": "superpower",
+    "names": [
+      {
+        "name": "ばかぢから",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        }
+      },
+      {
+        "name": "엄청난힘",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        }
+      },
+      {
+        "name": "蠻力",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        }
+      },
+      {
+        "name": "Surpuissance",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        }
+      },
+      {
+        "name": "Kraftkoloss",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        }
+      },
+      {
+        "name": "Fuerza Bruta",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        }
+      },
+      {
+        "name": "Troppoforte",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        }
+      },
+      {
+        "name": "Superpower",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        }
+      },
+      {
+        "name": "ばかぢから",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        }
+      },
+      {
+        "name": "蛮力",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        }
+      },
+      {
+        "name": "Fuerza Bruta",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        }
+      }
+    ],
+    "zhName": "蛮力",
+    "power": 120,
+    "accuracy": 100,
+    "type": "fighting",
+    "damage_class": "physical",
+    "pp": 5,
+    "battleData": {
+      "effectId": "NONE",
+      "priority": 0,
+      "target": "selected-pokemon",
+      "flags": [
+        "contact"
+      ],
+      "critStage": 0,
+      "drainPercent": 0,
+      "recoilPercent": 0,
+      "healingPercent": 0,
+      "strikeMode": "single",
+      "minHits": 1,
+      "maxHits": 1,
+      "secondaryEffects": [
+        {
+          "kind": "stat-stage",
+          "chance": 100,
+          "group": "superpower-drop",
+          "appliesTo": "user",
+          "isPrimary": true,
+          "requiresHit": true,
+          "blockedBySubstitute": false,
+          "stat": "attack",
+          "change": -1
+        },
+        {
+          "kind": "stat-stage",
+          "chance": 100,
+          "group": "superpower-drop",
+          "appliesTo": "user",
+          "isPrimary": true,
+          "requiresHit": true,
+          "blockedBySubstitute": false,
+          "stat": "defense",
+          "change": -1
+        }
+      ],
+      "substituteInteraction": "blocked",
+      "makesContact": true,
+      "ignoresKingsRock": false,
+      "sheerForceBoost": false,
+      "healBlockBanned": false,
+      "soundMove": false,
+      "powderMove": false,
+      "ballisticMove": false,
+      "punchMove": false,
+      "bypassProtect": false,
+      "ignoreAccuracyCheck": false,
+      "thawsUser": false,
+      "thawsTarget": false
+    }
+  }
+}

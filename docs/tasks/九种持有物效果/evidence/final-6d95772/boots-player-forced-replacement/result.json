@@ -1,0 +1,66 @@
+{
+  "name": "boots-player-forced-replacement",
+  "sha": "6d9577268df1e45207bdd54d8ec2f8ae08a7564e",
+  "browser": "151.0.7922.34",
+  "controlled": true,
+  "noDevWin": true,
+  "errors": [],
+  "http": [],
+  "requests": [],
+  "steps": [
+    {
+      "label": "before",
+      "phase": "BATTLE",
+      "checkpoint": "2026-10-14T02:08:37.366Z",
+      "body": "0\nBP\n1/7\n轮次\n0\n连胜\n催眠貘\n♂\nLV.50\n一般\nHP\n100%\n嘟嘟\n♀\nLV.50\n一般\nHP\n1/400\n战斗日志\nFCT-01\n\n九道具受控验收起点\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n跃起\n一般\n威力 --\n命中 --\nPP 40/40",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "fainted",
+      "phase": "BATTLE",
+      "checkpoint": "2026-10-14T02:08:37.366Z",
+      "body": "0\nBP\n1/7\n轮次\n0\n连胜\n催眠貘\n♂\nLV.50\n一般\nHP\n100%\n嘟嘟\n♀\nLV.50\n一般\nHP\n0/400\n战斗日志\nFCT-01\n\n对手的 催眠貘 造成了 15 点伤害。\n\n嘟嘟 倒下了！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n请选择一只仍可战斗的宝可梦出战。\n嘟嘟\nLV.50\nHP 0/400\n出战\n详情\n玛瑙水母\nLV.50\nHP 400/400\n出战\n详情\n尼多朗\nLV.50\nHP 400/400\n出战\n详情",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "label": "replacement",
+      "phase": "BATTLE",
+      "checkpoint": "2026-10-14T02:09:09.181Z",
+      "body": "0\nBP\n1/7\n轮次\n0\n连胜\n催眠貘\n♂\nLV.50\n一般\nHP\n100%\n玛瑙水母\n♂\nLV.50\n一般\nHP\n400/400\n战斗日志\nFCT-01\n\n嘟嘟 倒下了！\n\n你派出了 玛瑙水母！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n跃起\n一般\n威力 --\n命中 --\nPP 40/40",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390
+      }
+    }
+  ],
+  "checks": {
+    "hp": true,
+    "noPoison": true,
+    "item": true,
+    "layers": true
+  },
+  "rng": [
+    {
+      "v": 0.5,
+      "stack": "Error\n    at Math.random (eval at evaluate (:311:30), <anonymous>:1:104)\n    at http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2029:54\n    at http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2247:27\n    at onClick (http://127.0.0.206:4305/src/features/game/components/game-view/battle/BattleMovesPanel.tsx:53:28)\n    at executeDispatch (http://127.0.0.206:4305/node_modules/.vite/deps/react-dom_client.js?v=21db25e4:13620:11)\n    at runWithFiberInDEV (http://127.0.0.206:4305/node_modules/.vite/deps/react-dom_client.js?v=21db25e4:995:72)\n    at processDispatchQueue (http://127.0.0.206:4305/node_modules/.vite/deps/react-dom_client.js?v=21db25e4:13656:37)\n    at http://127.0.0.206:4305/node_modules/.vite/deps/react-dom_client.js?v=21db25e4:14069:11\n    at batchedUpdates$1 (http://127.0.0.206:4305/node_modules/.vite/deps/react-dom_client.js?v=21db25e4:2624:42)\n    at dispatchEventForPluginEventSystem (http://127.0.0.206:4305/node_modules/.vite/deps/react-dom_client.js?v=21db25e4:13761:9)"
+    },
+    {
+      "v": 0.5,
+      "stack": "Error\n    at Math.random (eval at evaluate (:311:30), <anonymous>:1:104)\n    at resolveAccuracy (http://127.0.0.206:4305/src/features/game/battle/engine/resolveAccuracy.ts:56:58)\n    at calculateDamage (http://127.0.0.206:4305/src/features/game/battle/engine/resolveDamage.ts:420:28)\n    at http://127.0.0.206:4305/src/features/game/hooks/currentFieldDamage.ts:3:67\n    at http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:1630:25\n    at async http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2154:5\n    at async Object.runAction (http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2312:28)\n    at async executeRoundTransaction (http://127.0.0.206:4305/src/features/game/battle/engine/roundTransaction.ts:65:22)\n    at async http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2276:26"
+    },
+    {
+      "v": 0.5,
+      "stack": "Error\n    at Math.random (eval at evaluate (:311:30), <anonymous>:1:104)\n    at calculateDamage (http://127.0.0.206:4305/src/features/game/battle/engine/resolveDamage.ts:469:86)\n    at http://127.0.0.206:4305/src/features/game/hooks/currentFieldDamage.ts:3:67\n    at http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:1630:25\n    at async http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2154:5\n    at async Object.runAction (http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2312:28)\n    at async executeRoundTransaction (http://127.0.0.206:4305/src/features/game/battle/engine/roundTransaction.ts:65:22)\n    at async http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2276:26"
+    },
+    {
+      "v": 0.5,
+      "stack": "Error\n    at Math.random (eval at evaluate (:311:30), <anonymous>:1:104)\n    at calculateDamage (http://127.0.0.206:4305/src/features/game/battle/engine/resolveDamage.ts:545:72)\n    at http://127.0.0.206:4305/src/features/game/hooks/currentFieldDamage.ts:3:67\n    at http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:1630:25\n    at async http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2154:5\n    at async Object.runAction (http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2312:28)\n    at async executeRoundTransaction (http://127.0.0.206:4305/src/features/game/battle/engine/roundTransaction.ts:65:22)\n    at async http://127.0.0.206:4305/src/features/game/hooks/useBattleController.ts:2276:26"
+    }
+  ]
+}

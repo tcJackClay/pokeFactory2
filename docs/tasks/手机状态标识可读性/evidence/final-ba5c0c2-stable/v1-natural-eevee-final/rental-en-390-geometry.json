@@ -1,0 +1,197 @@
+{
+  "width": 390,
+  "scrollWidth": 390,
+  "cards": [
+    {
+      "text": "BP\n0",
+      "rect": {
+        "x": 33,
+        "y": 27,
+        "w": 102.65625,
+        "h": 55.984375
+      },
+      "nodes": [
+        {
+          "text": "BP",
+          "client": 14,
+          "scroll": 14,
+          "font": "11px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 86.421875,
+            "y": 36.125,
+            "w": 13.8125,
+            "h": 13.75
+          }
+        },
+        {
+          "text": "0",
+          "client": 88,
+          "scroll": 88,
+          "font": "16px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 40.390625,
+            "y": 55.59375,
+            "w": 87.875,
+            "h": 18.390625
+          }
+        }
+      ]
+    },
+    {
+      "text": "Round\n0/7",
+      "rect": {
+        "x": 143.65625,
+        "y": 27,
+        "w": 102.671875,
+        "h": 55.984375
+      },
+      "nodes": [
+        {
+          "text": "Round",
+          "client": 34,
+          "scroll": 34,
+          "font": "11px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 187.109375,
+            "y": 36.125,
+            "w": 33.765625,
+            "h": 13.75
+          }
+        },
+        {
+          "text": "0/7",
+          "client": 88,
+          "scroll": 88,
+          "font": "16px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 151.046875,
+            "y": 55.59375,
+            "w": 87.890625,
+            "h": 18.390625
+          }
+        }
+      ]
+    },
+    {
+      "text": "Streak\n0",
+      "rect": {
+        "x": 254.328125,
+        "y": 27,
+        "w": 102.65625,
+        "h": 55.984375
+      },
+      "nodes": [
+        {
+          "text": "Streak",
+          "client": 33,
+          "scroll": 33,
+          "font": "11px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 298.390625,
+            "y": 36.125,
+            "w": 32.53125,
+            "h": 13.75
+          }
+        },
+        {
+          "text": "0",
+          "client": 88,
+          "scroll": 88,
+          "font": "16px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 261.71875,
+            "y": 55.59375,
+            "w": 87.875,
+            "h": 18.390625
+          }
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/water.png\")",
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "x": 34.484375,
+      "y": 178.9375,
+      "w": 8,
+      "h": 8
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/normal.png\")",
+      "bg": "oklch(0.129 0.042 264.695)",
+      "color": "oklch(0.129 0.042 264.695)",
+      "x": 209.8125,
+      "y": 178.9375,
+      "w": 8,
+      "h": 8
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/electric.png\")",
+      "bg": "oklch(0.129 0.042 264.695)",
+      "color": "oklch(0.129 0.042 264.695)",
+      "x": 30.71875,
+      "y": 331.84375,
+      "w": 8,
+      "h": 8
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/normal.png\")",
+      "bg": "oklch(0.129 0.042 264.695)",
+      "color": "oklch(0.129 0.042 264.695)",
+      "x": 209.8125,
+      "y": 319.84375,
+      "w": 8,
+      "h": 8
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/flying.png\")",
+      "bg": "oklch(0.129 0.042 264.695)",
+      "color": "oklch(0.129 0.042 264.695)",
+      "x": 213.5625,
+      "y": 343.84375,
+      "w": 8,
+      "h": 8
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/fire.png\")",
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "x": 40.5,
+      "y": 484.75,
+      "w": 8,
+      "h": 8
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/ghost.png\")",
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "x": 213.96875,
+      "y": 472.75,
+      "w": 8,
+      "h": 8
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/poison.png\")",
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "x": 212.25,
+      "y": 496.75,
+      "w": 8,
+      "h": 8
+    }
+  ]
+}

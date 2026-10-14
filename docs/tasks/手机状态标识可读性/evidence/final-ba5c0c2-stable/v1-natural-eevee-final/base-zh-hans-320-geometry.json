@@ -1,0 +1,124 @@
+{
+  "width": 320,
+  "scrollWidth": 320,
+  "cards": [
+    {
+      "text": "BP\n0",
+      "rect": {
+        "x": 33,
+        "y": 27,
+        "w": 79.875,
+        "h": 53.4375
+      },
+      "nodes": [
+        {
+          "text": "BP",
+          "client": 14,
+          "scroll": 14,
+          "font": "11px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 75.03125,
+            "y": 35.3125,
+            "w": 13.8125,
+            "h": 13.75
+          }
+        },
+        {
+          "text": "0",
+          "client": 67,
+          "scroll": 67,
+          "font": "15.2px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 39.59375,
+            "y": 54.78125,
+            "w": 66.6875,
+            "h": 17.46875
+          }
+        }
+      ]
+    },
+    {
+      "text": "轮次\n0/7",
+      "rect": {
+        "x": 120.0625,
+        "y": 27,
+        "w": 79.875,
+        "h": 53.4375
+      },
+      "nodes": [
+        {
+          "text": "轮次",
+          "client": 22,
+          "scroll": 22,
+          "font": "11px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 158,
+            "y": 35.3125,
+            "w": 22,
+            "h": 13.75
+          }
+        },
+        {
+          "text": "0/7",
+          "client": 67,
+          "scroll": 67,
+          "font": "15.2px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 126.65625,
+            "y": 54.78125,
+            "w": 66.6875,
+            "h": 17.46875
+          }
+        }
+      ]
+    },
+    {
+      "text": "连胜\n0",
+      "rect": {
+        "x": 207.125,
+        "y": 27,
+        "w": 79.875,
+        "h": 53.4375
+      },
+      "nodes": [
+        {
+          "text": "连胜",
+          "client": 22,
+          "scroll": 22,
+          "font": "11px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 245.0625,
+            "y": 35.3125,
+            "w": 22,
+            "h": 13.75
+          }
+        },
+        {
+          "text": "0",
+          "client": 67,
+          "scroll": 67,
+          "font": "15.2px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 213.71875,
+            "y": 54.78125,
+            "w": 66.6875,
+            "h": 17.46875
+          }
+        }
+      ]
+    }
+  ],
+  "icons": []
+}

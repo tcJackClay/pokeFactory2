@@ -1,0 +1,367 @@
+{
+  "name": "v1-v3-zero-events-zh-hant-final",
+  "sha": "ba5c0c286d588868b081aa15851e89941f790f2a",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": "This run recreates the current natural Eevee base/selected133 save with only language changed through current createSaveData. Traditional Chinese has no Settings button and is controlled.",
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791943705121,
+      "url": "http://127.0.0.204:4307/api/data/factory-species-index"
+    },
+    {
+      "at": 1791943705142,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/63/"
+    },
+    {
+      "at": 1791943705185,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/63/"
+    },
+    {
+      "at": 1791943705196,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/28/"
+    },
+    {
+      "at": 1791943705208,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/39/"
+    },
+    {
+      "at": 1791943705216,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/98/"
+    },
+    {
+      "at": 1791943705225,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/power-swap/"
+    },
+    {
+      "at": 1791943705225,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/thunder-wave/"
+    },
+    {
+      "at": 1791943705225,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/thunder-punch/"
+    },
+    {
+      "at": 1791943705225,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/confusion/"
+    },
+    {
+      "at": 1791943705926,
+      "url": "http://127.0.0.204:4307/api/pokeapi-sprites/pokemon/other/official-artwork/133.png"
+    },
+    {
+      "at": 1791943711489,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/confusion/"
+    },
+    {
+      "at": 1791943712171,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/137/"
+    },
+    {
+      "at": 1791943712307,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/137/"
+    },
+    {
+      "at": 1791943712379,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/36/"
+    },
+    {
+      "at": 1791943712452,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/88/"
+    },
+    {
+      "at": 1791943712513,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/148/"
+    },
+    {
+      "at": 1791943712546,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/headbutt/"
+    },
+    {
+      "at": 1791943712546,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/tackle/"
+    },
+    {
+      "at": 1791943712546,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/barrier/"
+    },
+    {
+      "at": 1791943712546,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/spark/"
+    },
+    {
+      "at": 1791943712887,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/109/"
+    },
+    {
+      "at": 1791943713041,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/109/"
+    },
+    {
+      "at": 1791943713125,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/26/"
+    },
+    {
+      "at": 1791943713156,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/256/"
+    },
+    {
+      "at": 1791943713224,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/1/"
+    },
+    {
+      "at": 1791943713260,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/thunder/"
+    },
+    {
+      "at": 1791943713260,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/mimic/"
+    },
+    {
+      "at": 1791943713260,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/endure/"
+    },
+    {
+      "at": 1791943713260,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/take-down/"
+    },
+    {
+      "at": 1791943719620,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/thunder/"
+    },
+    {
+      "at": 1791943719986,
+      "url": "http://127.0.0.204:4307/api/pokeapi-sprites/pokemon/133.png"
+    },
+    {
+      "at": 1791943719986,
+      "url": "http://127.0.0.204:4307/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": 1791943720027,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/133/"
+    },
+    {
+      "at": 1791943720089,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/133/"
+    },
+    {
+      "at": 1791943720200,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/108/"
+    },
+    {
+      "at": 1791943721476,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/108/"
+    },
+    {
+      "at": 1791943722064,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/20/"
+    },
+    {
+      "at": 1791943723762,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/12/"
+    },
+    {
+      "at": 1791943724262,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/13/"
+    },
+    {
+      "at": 1791943724835,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/swagger/"
+    },
+    {
+      "at": 1791943724835,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/mega-punch/"
+    },
+    {
+      "at": 1791943724835,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/fling/"
+    },
+    {
+      "at": 1791943724835,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/dream-eater/"
+    },
+    {
+      "at": 1791943726022,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/77/"
+    },
+    {
+      "at": 1791943726150,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/77/"
+    },
+    {
+      "at": 1791943726165,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/50/"
+    },
+    {
+      "at": 1791943726179,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/18/"
+    },
+    {
+      "at": 1791943726193,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/49/"
+    },
+    {
+      "at": 1791943726206,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/substitute/"
+    },
+    {
+      "at": 1791943726206,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/echoed-voice/"
+    },
+    {
+      "at": 1791943726206,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/flame-charge/"
+    },
+    {
+      "at": 1791943726726,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/95/"
+    },
+    {
+      "at": 1791943727540,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/95/"
+    },
+    {
+      "at": 1791943728534,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/69/"
+    },
+    {
+      "at": 1791943728622,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/5/"
+    },
+    {
+      "at": 1791943728635,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/133/"
+    },
+    {
+      "at": 1791943728680,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/facade/"
+    },
+    {
+      "at": 1791943728680,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/rock-throw/"
+    },
+    {
+      "at": 1791943728680,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/strength/"
+    },
+    {
+      "at": 1791943728680,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/captivate/"
+    }
+  ],
+  "http": [
+    {
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/confusion/",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    },
+    {
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/thunder/",
+      "failure": {
+        "errorText": "net::ERR_ABORTED"
+      }
+    }
+  ],
+  "checks": {
+    "base": true,
+    "kantoAndSelectedNormal": true
+  },
+  "steps": [
+    {
+      "label": "base-320",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "base-390",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "base-844",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "events-320",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "picker-320",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "events-390",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "picker-390",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "events-844",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "picker-844",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    }
+  ]
+}

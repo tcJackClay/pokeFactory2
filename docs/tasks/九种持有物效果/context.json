@@ -1,0 +1,140 @@
+{
+  "_comment": "architect owns; Route A approved, actual implementation base d4a17b6; status accuracy/current-field and permanent collection controller changes preserved; latest integrated design M5-M8/S applies.",
+  "inject_config": {
+    "all": [
+      {
+        "file": "AGENTS.md",
+        "reason": "Roles, serial controller ownership, evidence discipline"
+      },
+      {
+        "file": "docs/tasks/九种持有物效果/prd.md",
+        "reason": "Nine approved items and acceptance contract"
+      },
+      {
+        "file": "docs/tasks/九种持有物效果/plan.md",
+        "reason": "Implementation boundaries, state contract, V1-V10 and prerequisites"
+      },
+      {
+        "file": "docs/tasks/工厂内容准入/design.md",
+        "reason": "Fixed source K/M/H rules and approved user decisions"
+      },
+      {
+        "file": "docs/公开版规则定稿.md",
+        "reason": "Current rules outrank obsolete dual-mode plans"
+      }
+    ],
+    "programmer": [
+      {
+        "file": ".agents/roles/programmer.md",
+        "reason": "Implementation and gate requirements"
+      },
+      {
+        "file": "src/features/game/hooks/useBattleController.ts",
+        "reason": "Shared action transaction, hit loop, item callbacks and PP"
+      },
+      {
+        "file": "src/features/game/lib/battleResolution.ts",
+        "reason": "Current secondary-effect and flinch behavior"
+      },
+      {
+        "file": "src/features/game/data/battle/index.ts",
+        "reason": "Natural move body metadata construction"
+      },
+      {
+        "file": "src/features/game/data/battle/itemEffects.ts",
+        "reason": "Existing item-owned numerical configuration"
+      },
+      {
+        "file": "src/features/game/battle/engine/resolveActionSelection.ts",
+        "reason": "Quick Claw priority defect"
+      },
+      {
+        "file": "src/features/game/battle/engine/resolveBeforeMoveChecks.ts",
+        "reason": "Mental Herb timing and existing restrictions"
+      },
+      {
+        "file": "src/features/game/battle/engine/resolveEndTurn.ts",
+        "reason": "Timed status and existing recovery paths"
+      },
+      {
+        "file": "src/features/game/components/game-view/battle/BattleMovesPanel.tsx",
+        "reason": "No-legal-moves usable UI entry"
+      },
+      {
+        "file": "src/features/game/utils/restoreFactoryParty.ts",
+        "reason": "Equipped baseline is distinct from current held item"
+      },
+      {
+        "file": "docs/tasks/状态招式命中/plan.md",
+        "reason": "Read after integration; preserve current field and PP fixes"
+      }
+    ],
+    "auditor": [
+      {
+        "file": ".agents/roles/auditor.md",
+        "reason": "Independent static review only"
+      },
+      {
+        "file": "docs/公开版需求矩阵.md",
+        "reason": "Do not equate code with runtime acceptance"
+      },
+      {
+        "file": "src/features/game/battle/engine/resolveSwitchState.ts",
+        "reason": "Choice lock and volatile cleanup"
+      },
+      {
+        "file": "src/features/game/battle/engine/resolveEntryHazards.ts",
+        "reason": "Poison absorption before boots check is already correct"
+      },
+      {
+        "file": "docs/tasks/九种持有物效果/implementation.md",
+        "reason": "Actual changed paths, source findings and gate results"
+      },
+      {
+        "file": "docs/tasks/九种持有物效果/move-flags-source.json",
+        "reason": "Fixed normal GEN9 source, 919 mapped slugs and 35 explicit exclusions"
+      },
+      {
+        "file": "src/features/game/battle/engine/heldItemEffects.test.ts",
+        "reason": "Production helper and real engine/round result assertions"
+      }
+    ],
+    "player": [
+      {
+        "file": ".agents/roles/player.md",
+        "reason": "Real Go and Vite evidence, no implementation edits"
+      },
+      {
+        "file": "docs/tasks/状态招式命中/runtime.md",
+        "reason": "Final integrated status evidence and controlled scenario conventions"
+      },
+      {
+        "file": "docs/tasks/奖励商店/runtime.md",
+        "reason": "Item equipment baseline and next-battle return entry"
+      },
+      {
+        "file": "docs/tasks/单线工厂奖励/run-toxic-spikes-browser.mjs",
+        "reason": "Existing browser source isolation and hazard scenario harness"
+      },
+      {
+        "file": "docs/手机端试玩验收记录.md",
+        "reason": "Viewport and evidence boundaries"
+      }
+    ]
+  },
+  "external_read_only_reference": {
+    "root": "D:/Games/pokeFactory2/output/rogue-expansion-reference",
+    "sha": "a6adfcf18d7eaf99c2803e4b0bc04eca7af2f014",
+    "profile": "normal",
+    "files": [
+      "include/config/battle.h",
+      "include/config.h",
+      "src/data/items.h",
+      "src/data/battle_moves.h",
+      "src/battle_util.c",
+      "src/battle_script_commands.c",
+      "src/battle_main.c",
+      "data/battle_scripts_1.s"
+    ]
+  }
+}

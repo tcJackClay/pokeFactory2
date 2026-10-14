@@ -1,0 +1,19 @@
+{
+  "sha": "6d9577268df1e45207bdd54d8ec2f8ae08a7564e",
+  "frontend": "0.0.0.0:4305 DISABLE_HMR=true",
+  "backend": "3006 cwd held-item-effects",
+  "health": {
+    "runtime": "go",
+    "status": "ok"
+  },
+  "content": {
+    "cries": "",
+    "csv": "",
+    "pokeapi": "",
+    "sprites": "2026-04-04T00:43:30.784Z"
+  },
+  "goSession": 15208,
+  "viteSession": 20965,
+  "controlled": false,
+  "physicalPhone": false
+}

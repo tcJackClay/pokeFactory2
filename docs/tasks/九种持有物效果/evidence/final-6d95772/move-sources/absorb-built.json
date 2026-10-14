@@ -1,0 +1,119 @@
+{
+  "url": "http://127.0.0.1:3006/api/pokeapi/move/absorb",
+  "rawSha256": "6f62313e1b0e5f9b20b8daa893f0905bd91f36651c37096087e1b85351e09b63",
+  "built": {
+    "name": "absorb",
+    "names": [
+      {
+        "name": "すいとる",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        }
+      },
+      {
+        "name": "흡수",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        }
+      },
+      {
+        "name": "吸取",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        }
+      },
+      {
+        "name": "Vole-Vie",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        }
+      },
+      {
+        "name": "Absorber",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        }
+      },
+      {
+        "name": "Absorber",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        }
+      },
+      {
+        "name": "Assorbimento",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        }
+      },
+      {
+        "name": "Absorb",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        }
+      },
+      {
+        "name": "すいとる",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        }
+      },
+      {
+        "name": "吸取",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        }
+      },
+      {
+        "name": "Absorción",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        }
+      }
+    ],
+    "zhName": "吸取",
+    "power": 20,
+    "accuracy": 100,
+    "type": "grass",
+    "damage_class": "special",
+    "pp": 25,
+    "battleData": {
+      "effectId": "NONE",
+      "priority": 0,
+      "target": "selected-pokemon",
+      "flags": [],
+      "critStage": 0,
+      "drainPercent": 50,
+      "recoilPercent": 0,
+      "healingPercent": 0,
+      "strikeMode": "single",
+      "minHits": 1,
+      "maxHits": 1,
+      "secondaryEffects": [],
+      "substituteInteraction": "blocked",
+      "makesContact": false,
+      "ignoresKingsRock": false,
+      "sheerForceBoost": false,
+      "healBlockBanned": true,
+      "soundMove": false,
+      "powderMove": false,
+      "ballisticMove": false,
+      "punchMove": false,
+      "bypassProtect": false,
+      "ignoreAccuracyCheck": false,
+      "thawsUser": false,
+      "thawsTarget": false
+    }
+  }
+}

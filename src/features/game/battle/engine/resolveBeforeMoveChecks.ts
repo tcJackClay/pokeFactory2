@@ -3,6 +3,8 @@ import { battleLine, battleMoveName } from '../battleLogText';
 import { clearNonVolatileStatus, clearVolatileStatus, getNonVolatileStatusId, getVolatileStatus, hasVolatileStatus, setNonVolatileStatus, setVolatileStatus } from '../../utils/battleStatus';
 import type { BattleSnapshot, BeforeMoveCheckResult, EngineBattleSide } from './types';
 
+import { isMoveHealBlocked } from './resolveHealBlock';
+
 interface ResolveBeforeMoveChecksOptions {
   snapshot: BattleSnapshot;
   side: EngineBattleSide;
@@ -137,29 +139,34 @@ export function resolveBeforeMoveChecks({
     return { canAct: false, combatant: nextCombatant, snapshot: nextSnapshot, events, nextTurn: side === 'enemy' ? 'PLAYER' : 'ENEMY' };
   }
 
+  if (move && isMoveHealBlocked(nextCombatant, move)) {
+    events.push({ type: 'message', message: battleLine(currentLanguage, `${displayName} cannot use ${battleMoveName(move, currentLanguage)} due to Heal Block!`, `${displayName}因回复封锁无法使用${battleMoveName(move, currentLanguage)}！`) });
+    return { canAct: false, combatant: nextCombatant, snapshot: nextSnapshot, events, nextTurn: side === 'enemy' ? 'PLAYER' : 'ENEMY' };
+  }
+
   const encoredMove = getEncoredMove(nextCombatant);
   if (hasVolatileStatus(nextCombatant, 'encore')) {
     if (!encoredMove || getMoveCurrentPp(encoredMove) <= 0) {
       syncCombatant(clearVolatileStatus(nextCombatant, 'encore'));
-    } else if (move && move.name !== encoredMove.name) {
+    } else if (move && move.name !== 'struggle' && move.name !== encoredMove.name) {
       events.push({ type: 'message', message: battleLine(currentLanguage, `${displayName} must use ${encoredMove.name} due to Encore!`, `${displayName}受到再来一次影响，只能使用${battleMoveName(encoredMove, currentLanguage)}！`) });
       return { canAct: false, combatant: nextCombatant, snapshot: nextSnapshot, events, nextTurn: side === 'enemy' ? 'PLAYER' : 'ENEMY' };
     }
   }
 
   const disabledMoveName = getVolatileStatus(nextCombatant, 'disable')?.linkedMoveName;
-  if (move && disabledMoveName && move.name === disabledMoveName) {
+  if (move && move.name !== 'struggle' && disabledMoveName && move.name === disabledMoveName) {
     events.push({ type: 'message', message: battleLine(currentLanguage, `${displayName}'s ${disabledMoveName} is disabled!`, `${displayName}的${localizedMoveName(disabledMoveName)}被封住了！`) });
     return { canAct: false, combatant: nextCombatant, snapshot: nextSnapshot, events, nextTurn: side === 'enemy' ? 'PLAYER' : 'ENEMY' };
   }
 
-  if (move && hasVolatileStatus(nextCombatant, 'taunt') && move.damage_class === 'status') {
+  if (move && move.name !== 'struggle' && hasVolatileStatus(nextCombatant, 'taunt') && move.damage_class === 'status') {
     events.push({ type: 'message', message: battleLine(currentLanguage, `${displayName} can't use status moves due to Taunt!`, `${displayName}受到挑衅，无法使用变化招式！`) });
     return { canAct: false, combatant: nextCombatant, snapshot: nextSnapshot, events, nextTurn: side === 'enemy' ? 'PLAYER' : 'ENEMY' };
   }
 
   if (
-    move
+    move && move.name !== 'struggle'
     && hasVolatileStatus(nextCombatant, 'torment')
     && nextCombatant.factoryLastUsedMoveName
     && nextCombatant.factoryLastUsedMoveName === move.name

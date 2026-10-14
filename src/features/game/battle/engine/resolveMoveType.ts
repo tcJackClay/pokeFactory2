@@ -6,6 +6,7 @@ const HIDDEN_POWER_TYPES = [
 ] as const;
 
 export function getResolvedBattleMoveType(move: Move, attacker?: GamePokemon) {
+  if (move.name === 'struggle') return 'typeless';
   if (move.battleData?.effectId !== 'HIDDEN_POWER' || !attacker) return move.type;
   const ivValue = Math.floor((
     ((attacker.ivs.hp & 1)

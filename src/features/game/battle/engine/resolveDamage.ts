@@ -409,7 +409,7 @@ function getExpectedSpecialCaseDamage(move: Move, attacker: GamePokemon, defende
 }
 
 function shouldTreatAsZPoweredMove(attacker: GamePokemon, move: Move) {
-  return attacker.specialBoostActive && attacker.specialBoostMode === 'ZMOVE' && move.damage_class !== 'status';
+  return move.name !== 'struggle' && attacker.specialBoostActive && attacker.specialBoostMode === 'ZMOVE' && move.damage_class !== 'status';
 }
 
 export function calculateConfusionSelfHitDamage(pokemon: GamePokemon, random: () => number = Math.random) {
@@ -694,7 +694,7 @@ export function calculateDamage({
   }
   const levelMultiplier = (2 * attacker.level / 5) + 2;
   const typeMultiplier = resolveTypeEffectiveness(move, defender, attacker, fieldState);
-  const stabMultiplier = getSameTypeAttackBonusMultiplier(attacker, move.type);
+  const stabMultiplier = move.name === 'struggle' ? 1 : getSameTypeAttackBonusMultiplier(attacker, move.type);
   const weatherMultiplier = getWeatherMultiplier(effectiveWeather, move.type);
   const terrainMultiplier = getTerrainMoveMultiplier(fieldState, move.type, attacker, defender);
   const critMultiplier = isCrit ? (getPrimaryAbilityName(attacker) === 'sniper' ? 2.25 : 1.5) : 1;
@@ -829,7 +829,7 @@ export function estimateDeterministicDamage(
   const expectedHits = getExpectedMoveHitCount(move, simulatedAttacker);
   const levelScale = ((2 * attacker.level) / 5) + 2;
   const typeMultiplier = resolveTypeEffectiveness(move, defender, simulatedAttacker);
-  const stabMultiplier = getSameTypeAttackBonusMultiplier(simulatedAttacker, move.type);
+  const stabMultiplier = move.name === 'struggle' ? 1 : getSameTypeAttackBonusMultiplier(simulatedAttacker, move.type);
   const heldTypeBoost = getHeldMovePowerMultiplier(attacker, move.type);
   const zMoveBoost = gimmickMode === 'ZMOVE' ? 1.55 : 1;
   const burnMultiplier = getNonVolatileStatusId(simulatedAttacker) === 'burn'
@@ -909,7 +909,7 @@ export function estimateDeterministicDamageWithContext(
   const expectedHits = getExpectedMoveHitCount(move, simulatedAttacker);
   const levelScale = ((2 * attacker.level) / 5) + 2;
   const typeMultiplier = resolveTypeEffectiveness(move, simulatedDefender, simulatedAttacker);
-  const stabMultiplier = getSameTypeAttackBonusMultiplier(simulatedAttacker, move.type);
+  const stabMultiplier = move.name === 'struggle' ? 1 : getSameTypeAttackBonusMultiplier(simulatedAttacker, move.type);
   const heldTypeBoost = getHeldMovePowerMultiplier(attacker, move.type);
   const zMoveBoost = attackerGimmick === 'ZMOVE' ? 1.55 : 1;
   const burnMultiplier = getNonVolatileStatusId(simulatedAttacker) === 'burn'

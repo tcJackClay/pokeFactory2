@@ -1,3 +1,4 @@
+import { isHealingBlocked } from './resolveHealBlock';
 import type { FieldState, GamePokemon, Move, StatStages } from '../../../../types';
 import { battleLine } from '../battleLogText';
 import { getMoveTypeMultiplier, getTypeEffectivenessMultiplierForTypes } from './resolveTypeEffectiveness';
@@ -62,7 +63,7 @@ export function resolveTypeImmunityReaction(
   if (!abilityMatchesMove) return { defender, message: null };
 
   if (healAbilities.has(ability)) {
-    const heal = Math.max(0, Math.min(Math.floor(defender.maxHp / 4), defender.maxHp - defender.currentHp));
+    const heal = isHealingBlocked(defender) ? 0 : Math.max(0, Math.min(Math.floor(defender.maxHp / 4), defender.maxHp - defender.currentHp));
     return {
       defender: heal > 0 ? { ...defender, currentHp: defender.currentHp + heal } : defender,
       message: battleLine(currentLanguage, `${defender.name}'s ${ability} absorbed the attack${heal > 0 ? ' and restored HP' : ''}!`, `${defender.zhName || defender.name}的特性吸收了招式${heal > 0 ? '，并恢复了体力' : ''}！`),

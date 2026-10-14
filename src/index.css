@@ -1060,28 +1060,6 @@ button {
 }
 
 @media (max-width: 359px) {
-  .pf-top-record-grid {
-    gap: 0.45rem;
-  }
-
-  .pf-top-record-chip {
-    padding: 0.45rem 0.6rem;
-    border-radius: 14px;
-  }
-
-  .pf-top-record-chip .pf-data-value {
-    font-size: 0.95rem;
-  }
-
-  .pf-top-record-chip > div {
-    gap: 0.3rem;
-  }
-
-  .pf-top-record-chip > div > div:first-child {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
   .pf-battle-screen {
     gap: 0.65rem;
     grid-template-rows: auto minmax(0, 1fr) 236px;
@@ -1161,28 +1139,6 @@ button {
 }
 
 @media (orientation: landscape) and (max-height: 460px) {
-  .pf-top-record-panel {
-    border-radius: 18px;
-  }
-
-  .pf-top-record-grid {
-    gap: 0.55rem;
-  }
-
-  .pf-top-record-chip {
-    padding: 0.45rem 0.75rem;
-    border-radius: 15px;
-  }
-
-  .pf-top-record-chip .pf-data-value {
-    font-size: clamp(0.9rem, 1.9vw, 1.08rem);
-  }
-
-  .pf-top-record-chip .pf-hud-chip,
-  .pf-top-record-chip .pf-data-value {
-    line-height: 1;
-  }
-
   .pf-battle-screen {
     grid-template-columns: minmax(0, 1fr) clamp(240px, 35vw, 300px);
     grid-template-rows: auto minmax(0, 1fr);

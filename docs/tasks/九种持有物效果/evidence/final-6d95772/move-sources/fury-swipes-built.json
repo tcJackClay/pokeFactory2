@@ -1,0 +1,121 @@
+{
+  "url": "http://127.0.0.1:3006/api/pokeapi/move/fury-swipes",
+  "rawSha256": "0f3e30bbe17f5a209e1cdc26512d8f50025c635dceaba0a7788858b848ca66d3",
+  "built": {
+    "name": "fury-swipes",
+    "names": [
+      {
+        "name": "みだれひっかき",
+        "language": {
+          "name": "ja-hrkt",
+          "url": "/api/pokeapi/language/1/"
+        }
+      },
+      {
+        "name": "마구할퀴기",
+        "language": {
+          "name": "ko",
+          "url": "/api/pokeapi/language/3/"
+        }
+      },
+      {
+        "name": "亂抓",
+        "language": {
+          "name": "zh-hant",
+          "url": "/api/pokeapi/language/4/"
+        }
+      },
+      {
+        "name": "Combo-Griffe",
+        "language": {
+          "name": "fr",
+          "url": "/api/pokeapi/language/5/"
+        }
+      },
+      {
+        "name": "Kratzfurie",
+        "language": {
+          "name": "de",
+          "url": "/api/pokeapi/language/6/"
+        }
+      },
+      {
+        "name": "Golpes Furia",
+        "language": {
+          "name": "es",
+          "url": "/api/pokeapi/language/7/"
+        }
+      },
+      {
+        "name": "Sfuriate",
+        "language": {
+          "name": "it",
+          "url": "/api/pokeapi/language/8/"
+        }
+      },
+      {
+        "name": "Fury Swipes",
+        "language": {
+          "name": "en",
+          "url": "/api/pokeapi/language/9/"
+        }
+      },
+      {
+        "name": "みだれひっかき",
+        "language": {
+          "name": "ja",
+          "url": "/api/pokeapi/language/11/"
+        }
+      },
+      {
+        "name": "乱抓",
+        "language": {
+          "name": "zh-hans",
+          "url": "/api/pokeapi/language/12/"
+        }
+      },
+      {
+        "name": "Garras Furiosas",
+        "language": {
+          "name": "es-419",
+          "url": "/api/pokeapi/language/14/"
+        }
+      }
+    ],
+    "zhName": "乱抓",
+    "power": 18,
+    "accuracy": 80,
+    "type": "normal",
+    "damage_class": "physical",
+    "pp": 15,
+    "battleData": {
+      "effectId": "NONE",
+      "priority": 0,
+      "target": "selected-pokemon",
+      "flags": [
+        "contact"
+      ],
+      "critStage": 0,
+      "drainPercent": 0,
+      "recoilPercent": 0,
+      "healingPercent": 0,
+      "strikeMode": "multi-hit",
+      "minHits": 2,
+      "maxHits": 5,
+      "secondaryEffects": [],
+      "substituteInteraction": "blocked",
+      "makesContact": true,
+      "ignoresKingsRock": false,
+      "sheerForceBoost": false,
+      "healBlockBanned": false,
+      "soundMove": false,
+      "powderMove": false,
+      "ballisticMove": false,
+      "punchMove": false,
+      "bypassProtect": false,
+      "ignoreAccuracyCheck": false,
+      "thawsUser": false,
+      "thawsTarget": false
+    }
+  }
+}
