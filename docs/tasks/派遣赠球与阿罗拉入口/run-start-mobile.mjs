@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {run,raw,waitBase,events,card,readSave} from './run-harness.mjs';
+const first=await readSave('natural-first-gift.json.gz');
+await run('r1-start-write-failure',first,async(p,r,snap)=>{
+ await events(p);await p.evaluate(()=>{window.__realSet=Storage.prototype.setItem;window.__failStart=true;Storage.prototype.setItem=function(k,v){if(window.__failStart&&k==='pokefactory_save_v1'&&JSON.parse(v).events.dispatches.alola.status==='RUNNING')throw Error('PLAYER start write fault');return window.__realSet.call(this,k,v)}});
+ await card(p).getByRole('button',{name:'开始派遣',exact:true}).tap();await p.getByText(/保存失败/).first().waitFor();let a=await snap('01-start-failed');assert.equal(a.save.events.dispatches.alola.status,'IDLE');assert.equal(a.save.baseInventory.balls.pokeball,3);r.checks.failedStartRemainsIdle=true;
+ await p.evaluate(()=>window.__failStart=false);await card(p).getByRole('button',{name:'开始派遣',exact:true}).tap();await p.waitForFunction(()=>JSON.parse(localStorage.getItem('pokefactory_save_v1')).events.dispatches.alola.status==='RUNNING');let b=await snap('02-retry-started');assert.equal(b.save.events.dispatches.alola.readyAt-b.save.events.dispatches.alola.startedAt,36000000);r.checks.retryTenHours=true;
+},{controls:['Real gift save; setItem only rejects RUNNING start write']});
+for(const lang of ['zh-hans','zh-hant','en']){let s=structuredClone(first);s.settings.currentLanguage=lang;await run('r7-mobile-'+lang,s,async(p,r,snap)=>{
+ await events(p);for(const view of [{width:320,height:568},{width:390,height:844},{width:844,height:390}]){await p.setViewportSize(view);await p.locator('main').first().count();await snap('top-'+view.width);await card(p).scrollIntoViewIfNeeded();let st=await snap('alola-'+view.width);assert.equal(st.layout.width,st.layout.scrollWidth);await card(p).getByRole('button',{name:/^(选择|選擇|Pick)$/}).tap();await p.getByRole('dialog').waitFor();await snap('picker-'+view.width);await p.getByRole('dialog').getByRole('button',{name:/岩狗狗|Rockruff/}).tap();assert.equal((await raw(p)).events.dispatchPokemonByRegion.alola,744);}r.checks.threeViewportActionsNoOverflow=true;r.checks.permanentBallsUnchanged=(await raw(p)).baseInventory.balls.pokeball===3;
+},{controls:['Language only changed on real gifted save; simulated touch/DPR2']});}

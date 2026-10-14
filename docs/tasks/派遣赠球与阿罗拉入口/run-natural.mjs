@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import {run,raw,waitBase,events,card,store,rng} from './run-harness.mjs';
+await run('r1-natural-rockruff-r2-first-gift',null,async(p,r,snap)=>{
+ await p.getByRole('heading',{name:'初遇伙伴'}).waitFor({timeout:60000});
+ await p.getByRole('group',{name:'选择基地伙伴'}).getByRole('button',{name:/岩狗狗/}).tap();
+ await p.getByRole('button',{name:'确认伙伴并进入基地'}).tap();await waitBase(p);
+ let base=await snap('01-natural-base');assert.deepEqual(base.save.collection.ownedIds,[744]);assert.equal(base.save.baseInventory.balls.pokeball,0);
+ await events(p);await card(p).getByRole('button',{name:/^(选择|Pick)$/}).tap();await p.getByRole('dialog').getByRole('button',{name:/岩狗狗/}).tap();
+ await card(p).getByRole('button',{name:'开始派遣',exact:true}).tap();
+ await p.waitForFunction(()=>JSON.parse(localStorage.getItem('pokefactory_save_v1')).events.dispatches.alola.status==='RUNNING');
+ const started=await snap('02-natural-alola-started');const d=started.save.events.dispatches.alola;
+ assert.equal(d.readyAt-d.startedAt,36000000);assert.equal(started.save.events.dispatchPokemonByRegion.alola,744);await store('natural-running.json.gz',started.save);
+ r.checks.naturalRockruffAlolaTenHours=true;
+ r.controls.push('After natural start, Date.now advanced to readyAt+1000; outcome RNG forced item. No real ten-hour wait.');
+ await p.evaluate(now=>{Date.now=()=>now},d.readyAt+1000);await rng(p,.1);
+ await card(p).getByRole('button',{name:'领取结果',exact:true}).waitFor({timeout:10000});await card(p).getByRole('button',{name:'领取结果',exact:true}).tap();
+ await p.waitForFunction(()=>JSON.parse(localStorage.getItem('pokefactory_save_v1')).baseInventory.balls.pokeball===3);
+ const gift=await snap('03-real-item-gift');assert.equal(gift.save.baseInventory.transactions.length,1);assert.equal(gift.save.events.dispatches.alola.status,'IDLE');assert.equal(gift.save.events.resourceCheckpoint.inventoryItemIds.length,1);assert.deepEqual(gift.save.events.resourceCheckpoint.playerTeam,[]);
+ await store('natural-first-gift.json.gz',gift.save);r.checks.originalItemAndThreeBalls=true;r.checks.noPartnerAddedToParty=true;
+ await p.reload();await waitBase(p);await events(p);const re=await snap('04-gift-reload');assert.equal(re.save.baseInventory.balls.pokeball,3);assert.equal(re.save.events.resourceCheckpoint.inventoryItemIds.length,1);assert.equal(re.save.baseInventory.transactions.length,1);r.checks.refreshNoDuplicate=true;
+});

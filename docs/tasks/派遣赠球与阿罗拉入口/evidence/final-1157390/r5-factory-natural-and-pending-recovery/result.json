@@ -1,0 +1,101 @@
+{
+  "startedAt": "2026-10-14T03:15:16.636Z",
+  "name": "r5-factory-natural-and-pending-recovery",
+  "sha": "11573909569213af6cadd62e46b266ff83c4dbba",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlledSave": true,
+  "controls": [
+    "Real first gift, controlled READY battle pending save from empty-team case",
+    "Natural factory draft and real attack; actual forfeit UI, no DEV Win",
+    "RNG controls pending retry target only; outcome already frozen battle"
+  ],
+  "noDevWin": true,
+  "errors": [
+    {
+      "type": "console",
+      "message": "Dispatch result could not be saved Error: Factory challenge blocks dispatch rewards.\n    at prepareDispatchResult (http://127.0.0.207:4308/src/services/saveManager.ts:1039:48)\n    at http://127.0.0.207:4308/src/features/game/hooks/usePokeFactoryGame.ts:1605:26\n    at async http://127.0.0.207:4308/src/features/game/hooks/usePokeFactoryGame.ts:1791:7"
+    }
+  ],
+  "http": [],
+  "requestfailed": [],
+  "checks": {
+    "factoryRetainsBallsClearsTemporary": true,
+    "factoryNoBallButton": true,
+    "realFactoryTurn": true,
+    "forfeitRetainsTeamBallsAndPending": true
+  },
+  "steps": [
+    {
+      "label": "01-six-rentals",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n0/7\n连胜\n0\n草\n毒\n喇叭芽\n一般\n百变怪\n电\n霹雳电球\n水\n毒\n玛瑙水母\n草\n毒\n走路草\n水\n角金鱼\n选择租赁\n0/3\n待补全\n空位\n空位\n空位\n确认选择 (0/3)"
+    },
+    {
+      "label": "02-first-battle",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n1/7\n连胜\n0\n菊石兽\n♀\nLV.50\n岩石\n水\nHP\n100%\n喇叭芽\n♂\nLV.50\n草\n毒\nHP\n110/110\n战斗日志\nFCT-01\n\n对手 派出了 菊石兽！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n梦话\n一般\n威力 --\n命中 --\nPP 10/10\n催眠粉\n草\n威力 --\n命中 75\nPP 15/15\n剧毒\n毒\n威力 --\n命中 90\nPP 10/10\n影子分身\n一般\n威力 --\n命中 --\nPP 15/15"
+    },
+    {
+      "label": "03-factory-bag",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n1/7\n连胜\n0\n菊石兽\n♀\nLV.50\n岩石\n水\nHP\n100%\n喇叭芽\n♂\nLV.50\n草\n毒\nHP\n110/110\n战斗日志\nFCT-01\n\n对手 派出了 菊石兽！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n背包空空如也"
+    },
+    {
+      "label": "04-real-round",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n1/7\n连胜\n0\n菊石兽\n♀\nLV.50\n岩石\n水\nHP\n100%\n喇叭芽\n♂\nLV.50\n草\n毒\nHP\n64/110\n战斗日志\nFCT-01\n\n对手菊石兽的攻击命中了3次！\n\n喇叭芽通过剩饭恢复了体力！\n\n战斗\n变化\n背包\n宝可梦\n逃跑\n梦话\n一般\n威力 --\n命中 --\nPP 9/10\n催眠粉\n草\n威力 --\n命中 75\nPP 15/15\n剧毒\n毒\n威力 --\n命中 90\nPP 10/10\n影子分身\n一般\n威力 --\n命中 --\nPP 15/15"
+    },
+    {
+      "label": "05-forfeit-result",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n1/7\n连胜\n0\n本场失败\n本场失败\n当前进度\n组别进度：1/7\n连胜数: 0\n交换次数: 0\n本局补给券：0\n对手信息\n敌方 AI 档位: RANDOM\nNORTON / PSYCHIC_M\n本组实际获得 BP：+0\n当前 BP：0 / 9999\n返回基地"
+    },
+    {
+      "label": "06-base-after-forfeit",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n0/7\n连胜\n0\n事件派遣\n\n基地精灵球：3\n\n返回主页\n\n关都\n\n派遣时长: 4 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n城都\n\n派遣时长: 6 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n丰缘\n\n派遣时长: 7 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n神奥\n\n派遣时长: 8 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n合众\n\n派遣时长: 9 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n卡洛斯\n\n派遣时长: 10 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉\n\n派遣时长: 10 小时\n\n岩狗狗 #744\n\n岩石\n\n已匹配地区属性 (1)\n\n选择\n清除\n推荐\n领取结果\n\n当前没有可出战队伍。请先完成一次工厂挑战并返回基地，再领取这次遭遇；结果已保留。\n\n伽勒尔\n\n派遣时长: 12 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n帕底亚\n\n派遣时长: 12 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣"
+    },
+    {
+      "label": "failure",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "body": "BP\n0\n轮次\n0/7\n连胜\n0\n事件派遣\n\n基地精灵球：3\n\n返回主页\n\n关都\n\n派遣时长: 4 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n城都\n\n派遣时长: 6 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n丰缘\n\n派遣时长: 7 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n神奥\n\n派遣时长: 8 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n合众\n\n派遣时长: 9 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n卡洛斯\n\n派遣时长: 10 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n阿罗拉\n\n派遣时长: 10 小时\n\n岩狗狗 #744\n\n岩石\n\n已匹配地区属性 (1)\n\n选择\n清除\n推荐\n领取结果\n\n派遣保存失败，未发放奖励或消耗精灵球，请重试。\n\n伽勒尔\n\n派遣时长: 12 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣\n\n帕底亚\n\n派遣时长: 12 小时\n\n未选择派遣宝可梦\n\n请选择一只图鉴已拥有的宝可梦\n\n选择\n清除\n推荐\n开始派遣"
+    }
+  ],
+  "failure": "TimeoutError: locator.waitFor: Timeout 120000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '背包', exact: true }) to be visible\u001b[22m\n",
+  "endedAt": "2026-10-14T03:18:52.642Z",
+  "injectedTrace": {
+    "rng": []
+  }
+}

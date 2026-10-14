@@ -1,0 +1,21 @@
+Event resources could not be saved Error: storage fault
+    at Object.setItem (D:\Games\pokeFactory2-worktrees\dispatch-balls\src\features\game\hooks\dispatchBallTransactions.test.ts:48:135)
+    at writeEventSave (D:\Games\pokeFactory2-worktrees\dispatch-balls\src\services\saveManager.ts:1555:23)
+    at persistEventResources (D:\Games\pokeFactory2-worktrees\dispatch-balls\src\services\saveManager.ts:1663:10)
+    at actual (eval at resourceEffect (file:///D:/Games/pokeFactory2-worktrees/dispatch-balls/src/features/game/hooks/dispatchBallTransactions.test.ts:1:32414), <anonymous>:13:23)
+    at Object.flush (D:\Games\pokeFactory2-worktrees\dispatch-balls\src\features\game\hooks\dispatchBallTransactions.test.ts:530:46)
+    at <anonymous> (D:\Games\pokeFactory2-worktrees\dispatch-balls\src\features\game\hooks\dispatchBallTransactions.test.ts:560:31)
+    at storage (D:\Games\pokeFactory2-worktrees\dispatch-balls\src\features\game\hooks\dispatchBallTransactions.test.ts:50:40)
+    at TestContext.<anonymous> (D:\Games\pokeFactory2-worktrees\dispatch-balls\src\features\game\hooks\dispatchBallTransactions.test.ts:558:120)
+    at Test.runInAsyncScope (node:async_hooks:214:14)
+    at Test.run (node:internal/test_runner/test:1106:25)
+✔ actual resource effect converges for captured optional fields and subsequent HP PP inventory updates (388.8096ms)
+✔ actual resource effect preserves fault and stale-render guards while canonical snapshots stabilize (124.8598ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2441.4788

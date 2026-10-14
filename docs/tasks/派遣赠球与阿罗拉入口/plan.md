@@ -1,8 +1,8 @@
 # 技术方案：派遣赠球与阿罗拉入口
 
-状态：待 orchestrator 评审；仅方案，禁止实施。调研基线 `be353a11e7b80fad5bfff04ba2a0cf58bfa74b79`。
+状态：root 0 次实质修订通过 Route A，已授权实施。最终合并基线 `00f30d152596c185287f99b4be7227f93f581fe4`，调研基线 `be353a11e7b80fad5bfff04ba2a0cf58bfa74b79`。
 
-**blocked-by**：九道具 `6d95772` 与手机界面 `ba5c0c2` 各自最终代码实玩通过，并实际合入 dev。实施开始时由 root 指定最终合并 SHA，重新检查本方案所有接线；不能把上述候选 SHA 当作已通过基线。此任务先于高速旋转与 TM 业务接线，独占存档、主 Hook、捕捉控制器。
+**前置已解除（2026-10-14）**：九道具 `6d95772` 与手机界面 `ba5c0c2` 各自最终代码实玩通过，并实际合入 dev。root 已指定首段最终共同基线，接线已重新核对。此任务先于高速旋转与 TM 业务接线，独占存档、主 Hook、捕捉控制器。
 
 ## 1. PRD 一致性和实际代码
 
@@ -39,8 +39,8 @@ F1–F5 均来自本任务 design 中的用户决定；边界约束来自 PRD。
 - item 成长物品选择池、训练计算、物种不存在当前队伍时跳过的行为保持。保存成功的同一结果不能再次发放任何部分；不能以三球发放成功掩盖原奖励或训练保存失败。
 - join 改为专用交易扩展现有 `commitPermanentAcquisition`：从落盘基地库存按既有球顺序选一颗，验证余额，然后一次写扣球、永久来源、完成态、原训练/临时队伍结果。旧调用者不再 splice 临时 inventory。零球仍沿原结果提示与结束派遣规则，不赠球、不重新抽签。
 - 两个不同地区的同页领取依次从最新落盘 revision 计算；每次成功先同步资源 ref 再释放门闩。两球两次加入都保留；最后一球只让一个加入成功。每次同步不得用旧 draft 覆盖另一地区交易。
-- battle 分支只检查基地球数，不赠球；创建事件 context 时保留派遣键。记录事件会话标识及单调投球序号供永久交易幂等；这不是完整战斗断点。
-- useItem 的球路径改为 `commitEventBallAttempt({sessionId, attemptId, ballId, caught, pokemon})`。现有概率公式和 RNG 次序保持；成功概率结果由同一次保存完成扣一球+永久收藏收据+派遣完成态；失败概率结果保存扣一球及该次尝试收据，不登记 Owned。已提交重复 attempt 不再播新投球、不再扣球或推进敌方。
+- battle 分支只检查基地球数，不赠球；创建事件 context 时保留派遣键。以派遣键加唯一 attempt ID 供永久交易幂等（crypto UUID；LAN HTTP 缺 UUID 时用时间加模块单调序号，不消耗战斗 RNG）；这不是完整战斗断点。
+- useItem 的球路径改为 `commitEventBallAttempt({dispatchKey, attemptId, ballId, acquisition?, resources})`。现有概率公式和 RNG 次序保持；成功概率结果由同一次保存完成扣一球+永久收藏收据+派遣完成态；失败概率结果保存扣一球及该次尝试收据，不登记 Owned。已提交重复 attempt 不再播新投球、不再扣球或推进敌方。
 - 控制器原简单轮次门闩继续覆盖日志与提交。提交前复核 epoch/敌方/页面，事务拒绝或写盘失败不改变敌队、余额、Owned、队伍，不让敌方出手；返回可重试错误。成功写盘后的消息异常不能撤销永久交易。保留原满队替换/取消和训练不丢新捕获成员的修复。
 - 事件战刷新仍不恢复整场敌方/PP/回合；已提交 attempt 与消费不回滚。重新进入事件不得重复使用旧 attempt ID；旧成功捕捉收据禁止再次发放。现有 READY→IDLE、零球处理保持，不借此增加新的重开战或重抽入口。
 
@@ -125,3 +125,45 @@ F1–F5 均来自本任务 design 中的用户决定；边界约束来自 PRD。
 5. **并发范围**：本计划验证单页面多入口/异步并发与旧保存。localStorage 多浏览器标签的同时读写没有跨进程 CAS，不能宣称多人/多标签共享存档事务隔离；如要求多标签强一致须另议统一写锁，不能仅凭 revision 比较宣传已支持。
 
 未自行选择任何玩法数值。方案文件外只写 context.json；无业务修改、游戏运行或提交。
+
+实施补充：初次 pending 保存失败仅同页保留准备结果；关闭页面后不存在可恢复的已落盘结果，不承诺恢复未保存抽签。
+
+最终字段细化：已完成派遣记录为 events.completedResults；resourceCheckpoint 仅存临时 playerTeam/inventoryItemIds，写序由 baseInventory.revision 统一保护。beginFactoryWalletRun 的 serializeSaveData 同次清除此快照；旧普通保存采用已落盘字段，不能复活。投球 identity 采用派遣键+唯一 attempt ID 而非新增完整事件 session。
+
+静态测试实现归并至 hooks/dispatchBallTransactions.test.ts（16项，含纯校验与真实回调）；未另建重复的 baseBallInventory.test.ts。
+
+
+## A1 / A2 审计修复补充（Route A，经 orchestrator 批准）
+
+- F3/F5、边界“合法刷新/异步迟到”：`startEventDispatch` 从最新主档验证地区、Owned、当前选择、资格及 IDLE；一次写入 RUNNING/start/ready 和 revision 成功后才同步 UI。失败仍 IDLE，选择保留，可见失败并可重试。异步物种校验前后检查 dispatch context generation、页面、工厂与导入保护。普通旧 revision 草稿不得覆盖刚持久化的派遣状态。
+- F2/F3/F5、边界“不新增机制”：已准备 battle 结果遇空队或全濒死队伍，`deferDispatchBattle` 只保存 READY 与恢复提示，不完成结果、不消耗球、不改 Owned/临时资源。目标异步加载后再次验证可战成员；有健康后备但首发倒下时打开既有换人页，不自动改队。
+- 恢复提示指向现有工厂挑战：工厂胜负结算先恢复队伍，败退返基地或七战结算后结束挑战均保留当前临时队伍；随后重新领取已保存的 battle。此处为代码路径论证，自然流程仍由 player 验收。不能让初遇伙伴自动参战，也不能依赖另一地区 join 作为唯一恢复入口。
+- 新增9项实际回调测试：空队/全濒死保留与同结果续领；目标 await 后空队与首发倒下健康后备；IDLE 写失败重试、刷新/导出解析、旧草稿覆盖；选择/离页再回/工厂/导入/Owned 变化后的迟到。测试注入临时队伍只证明回调契约，不证明自然取得队伍。
+- 保留 `audit.md` 与 `audit-static-7c27209/` 的原始 BLOCKED 历史；新代码需新 SHA 独立复审和最终实玩，不沿用旧证据。
+
+
+### A2 复审补充：保存构建器的渲染代际（F3 / F4）
+
+`buildCurrentSaveData` 的 `baseInventory` 必须来自和 `eventDispatches` 相同的 React 渲染，并列入 useCallback 依赖。不能使用即时更新的 `baseInventoryRef.current` 为旧闭包中的 IDLE 标记新 revision。`syncEventSave` 同步更新 ref、异步调度 state 后，旧 builder 仍携带旧 revision，由 serializer 保留已保存 RUNNING；新渲染 builder 则正常持久化选择和到期 READY，不能一律丢弃 UI 派遣字段。
+
+新增实际 builder + sync 序列测试，保留复审复现脚本 `audit-stale-builder.mjs` 原文（脚本预期针对13dd1f2失败版本，并非修复版通过门禁）。专项26项；旧门禁和原审计历史不覆盖。
+
+
+## 自然败退恢复通路修复（F2 / F3 / F5，A1恢复入口）
+
+1157390 实玩确认：工厂败退已恢复队伍，但“返回基地”只改UI，wallet.currentRunId 与 ROUND_RESULT/LOSS 仍在磁盘，刷新回结算页，派遣交易正确拒绝未结束挑战。此前自然可达性的代码判断遗漏终止事务。
+
+最小修复 `returnFromFactoryLoss(runId, nonBallItemIds)`：仅从最新磁盘同run且已结算 ROUND_RESULT/LOSS 接受返回；一次主档写入清 currentRunId、续局与本局券，保存已结算的恢复队伍/当前非球背包为临时资源快照，并推进钱包和资源 revision。球库存、永久收藏和已准备派遣结果不变。不允许战斗进行中或胜利暂停阶段调用此专用交易，不放松派遣工厂隔离。
+
+实际 `continueAfterRoundResult` 成功才更新 refs、清工厂遭遇、显示基地；失败留在结算页显示可重试提示，不能提前写 handledRoundResultRef。结束成功后的旧run退出草稿由钱包 revision 防复活，重复返回不再写盘。原胜利暂停结束接口保持。
+
+实际回调测试包括真实 settlement → 返回写失败 → 同回调重试 → 旧退出草稿 → 重载 → 原pending事件领取；验证球/Owned/pending、恢复队伍/非球快照及仍在战斗时拒绝。自然手机流程必须在新SHA重新实玩。租借预取错误发现 harness 对全局 Math.random 固定值可能干扰候选去重，交player限定RNG调用域重测，未修改租借生成。
+
+
+## 捕获后资源保存收敛修复（F2 / F3）
+
+a70320b 实玩 r6-catch-success 于03:35:44.779Z报告 Maximum update depth；球与收藏单次成功，但资源revision由9升41再64。03-caught快照中，新捕获792的存档增加 factoryChoiceLockedMoveName:null，runtime缺字段。persistEventResources把已规范化读档与原始runtime直接JSON比较，永久判不同；写revision触发资源useEffect同依赖再次执行。
+
+按相同 validateEventPersistentState / sanitizeGamePokemonArray 规范化输入后再比较，并保存规范化结果，保留真正HP/PP/背包变化和既有revision/写故障保护。不删除effect依赖，不忽略console，不改捕获概率。
+
+验证使用实际资源useEffect表达式 + 真实saveManager，有限渲染驱动收到setBaseInventory后重建闭包并重执行，8轮不稳定即失败。旧实现两个测试均在8轮不收敛；修复后首次写入2轮稳定，后续不变1轮、真实HP/PP及背包变化各2轮且revision只增1。写失败无写/无状态推进，可显式重试；旧渲染revision与过期交易revision均拒绝覆盖。该证据为有限effect迭代静态回归，不是挂载React或浏览器验收；新SHA仍须完整实玩。API dark-pulse 502独立记录，不与此循环混为同因。

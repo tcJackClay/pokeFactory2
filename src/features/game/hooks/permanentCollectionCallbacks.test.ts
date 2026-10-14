@@ -1,3 +1,4 @@
+import { BASE_BALL_IDS, isBaseBallId } from '../utils/baseBallInventory';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -37,11 +38,14 @@ const ball = { id: 'pokeball', isBall: true, catchRate: 1 };
 
 function eventScope(ballCount = 1, teamCount = 1) {
   const team = [25, 1, 4, 7, 10, 13].slice(0, teamCount).map(pokemon);
-  const inventory = Array.from({ length: ballCount }, () => ({ ...ball }));
+  const inventory: any[] = [];
+  const baseInventory = { balls: { pokeball: ballCount, greatball: 0, ultraball: 0, masterball: 0 } };
+  const stored: any = { baseInventory, collection: { acquisitions: [] }, events: { pendingResults: {}, completedResults: {}, dispatches: {} } };
   const eventRuntimeRef = { current: { playerTeam: team, inventory, eventBattleActive: false, gameState: 'EVENTS', currentBaseTab: 'EVENTS' } };
   const state: Record<string, any> = { playerTeam: team, inventory, eventDispatches: { kanto: { status: 'READY', startedAt: 100, readyAt: 100 }, johto: { status: 'READY', startedAt: 200, readyAt: 200 } } };
   const scope: Record<string, any> = {
-    playerTeam: team, inventory, eventRuntimeRef,
+    playerTeam: team, inventory, eventRuntimeRef, BASE_BALL_IDS, isBaseBallId, createBallAttemptId: () => 'legacy-callback-test',
+    dispatchContextRef: { current: 'events' }, skipExitPersistRef: { current: false }, baseInventory, preparedDispatchRef: { current: {} },
     EVENT_REGIONS: [region('kanto', 133), region('johto', 175)],
     factoryResumeActiveRef: { current: false }, dispatchInFlightRef: { current: false },
     eventDispatches: state.eventDispatches, eventDispatchPokemonByRegion: { kanto: 25, johto: 25 },
@@ -52,7 +56,7 @@ function eventScope(ballCount = 1, teamCount = 1) {
     fetchPokemon: async () => ({ types: [{ type: { name: 'normal' } }] }),
     isEvolutionChainBaseSpecies: async () => true,
     rollDispatchOutcome: () => 'join', RARE_SPECIES_POOL: [], startLevel: 50,
-    getCurrentSaveDraft: () => ({}), loadSaveData: () => null,
+    getCurrentSaveDraft: () => ({}), loadSaveData: () => stored,
     getDispatchAcquisitionId, createDefaultDispatchState: blankDispatch,
     createEmptyBattleHazards: () => ({}), EMPTY_BATTLE_SPECIAL_USAGE: {},
     getStatLabel: () => 'Attack',
@@ -66,9 +70,26 @@ function eventScope(ballCount = 1, teamCount = 1) {
     const key = setter.slice(3, 4).toLowerCase() + setter.slice(4);
     scope[setter] = (value: any) => { state[key] = typeof value === 'function' ? value(state[key]) : value; };
   }
-  scope.commitPermanentAcquisition = (_draft: any, record: any, completion: any) => {
-    scope.commits.push(record);
-    return { applied: true, save: { collection: { acquisitions: [...scope.commits] }, events: { dispatches: { ...state.eventDispatches, [record.regionId]: completion } } } };
+  scope.prepareDispatchResult = (pending: any) => {
+    stored.events.pendingResults[pending.key] = pending;
+    stored.events.dispatches = state.eventDispatches;
+    return stored;
+  };
+  scope.commitDispatchResult = ({ key, result, resources, acquisition }: any) => {
+    const pending = stored.events.pendingResults[key];
+    if (acquisition) { scope.commits.push(acquisition); baseInventory.balls.pokeball--; }
+    stored.events.completedResults[key] = { result };
+    stored.events.dispatches = { ...state.eventDispatches, [pending.regionId]: { ...blankDispatch(), lastResult: result } };
+    stored.events.resourceCheckpoint = resources;
+    return { applied: true, save: stored };
+  };
+  scope.syncEventSave = (save: any, resources: boolean) => {
+    state.eventDispatches = save.events.dispatches;
+    if (resources && save.events.resourceCheckpoint) {
+      state.playerTeam = save.events.resourceCheckpoint.playerTeam;
+      state.inventory = save.events.resourceCheckpoint.inventoryItemIds.map((id: string) => ({ id }));
+      Object.assign(eventRuntimeRef.current, { playerTeam: state.playerTeam, inventory: state.inventory });
+    }
   };
   scope.isDispatchContextCurrent = callback('./usePokeFactoryGame.ts', 'isDispatchContextCurrent', scope);
   scope.awardDispatchTraining = callback('./usePokeFactoryGame.ts', 'awardDispatchTraining', scope);
@@ -84,7 +105,8 @@ async function catchToEvents(teamCount = 1) {
     gameState: 'BATTLE', turn: 'PLAYER', isMessageProcessing: false,
     battleInstanceRef: { current: { epoch: 1 } }, battleMountedRef: { current: true }, liveBattleStateRef,
     suppressFactoryBattleResult: true, onSuppressBattleResolved: scope.handleSuppressedBattleResolved,
-    allowWildCatch: true, commitCaughtPokemon: () => {
+    allowWildCatch: true, baseBallCounts: scope.baseInventory.balls, isBaseBallId, commitBallAttempt: () => {
+      scope.baseInventory.balls.pokeball--;
       state.collectionLedger = { ownedIds: [133] };
       state.captureCommitCount = (state.captureCommitCount ?? 0) + 1;
       return 'COMMITTED';
@@ -167,7 +189,7 @@ test(`a delayed join cannot overwrite ${destination}`, async () => {
   await first;
   assert.equal(scope.commits.length, 0);
   assert.deepEqual(state.playerTeam.map((entry: any) => entry.id), [7, 1]);
-  assert.equal(state.inventory.length, 1);
+  assert.equal(scope.baseInventory.balls.pokeball, 1);
   assert.equal(state.eventDispatches.kanto.status, 'READY');
   assert.equal(scope.dispatchInFlightRef.current, false);
 });

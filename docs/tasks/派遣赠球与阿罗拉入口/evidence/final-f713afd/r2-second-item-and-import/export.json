@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 16,
+  "updatedAt": "2026-10-14T03:47:53.413Z",
+  "wallet": {
+    "balance": 0,
+    "revision": 0,
+    "currentRunId": null,
+    "brainSymbols": 0,
+    "settledThrough": 0,
+    "lastSettlement": null
+  },
+  "runSupply": {
+    "runId": null,
+    "tickets": 0,
+    "lastCreditedStage": 0
+  },
+  "baseInventory": {
+    "revision": 7,
+    "balls": {
+      "pokeball": 6,
+      "greatball": 0,
+      "ultraball": 0,
+      "masterball": 0
+    },
+    "transactions": [
+      {
+        "id": "dispatch:alola:1791949598574",
+        "dispatchKey": "dispatch:alola:1791949598574",
+        "kind": "ITEM",
+        "ballId": "pokeball",
+        "delta": 3,
+        "at": 1791985599574
+      },
+      {
+        "id": "dispatch:alola:1791949669377",
+        "dispatchKey": "dispatch:alola:1791949669377",
+        "kind": "ITEM",
+        "ballId": "pokeball",
+        "delta": 3,
+        "at": 1791985670377
+      }
+    ]
+  },
+  "progress": {
+    "totalRents": 0,
+    "highestStreak": 0,
+    "specialModeUnlocked": false,
+    "companionSpeciesId": 744
+  },
+  "settings": {
+    "currentLanguage": "zh-hans",
+    "selectedGens": [
+      1
+    ],
+    "startLevel": 50,
+    "developerMode": false
+  },
+  "factory": {
+    "challengeStatus": 0,
+    "curChallengeBattleNum": 0,
+    "challengePaused": false,
+    "disableRecordBattle": false,
+    "winStreakActiveFlags": 0,
+    "winStreakActiveMasks": 4294967039,
+    "trainerIdsBySet": [],
+    "battleResume": {
+      "status": "EMPTY"
+    }
+  },
+  "collection": {
+    "seenIds": [
+      744
+    ],
+    "ownedIds": [
+      744
+    ],
+    "formKeys": [],
+    "acquisitions": []
+  },
+  "events": {
+    "pendingResults": {},
+    "completedResults": {
+      "dispatch:alola:1791949598574": {
+        "key": "dispatch:alola:1791949598574",
+        "regionId": "alola",
+        "startedAt": 1791949598574,
+        "result": "阿罗拉：获得速度增强剂，另获普通球 3 颗；派遣宝可梦不在当前队伍，训练收益已跳过。",
+        "at": 1791985599574
+      },
+      "dispatch:alola:1791949669377": {
+        "key": "dispatch:alola:1791949669377",
+        "regionId": "alola",
+        "startedAt": 1791949669377,
+        "result": "阿罗拉：获得攻击增强剂，另获普通球 3 颗；派遣宝可梦不在当前队伍，训练收益已跳过。",
+        "at": 1791985670377
+      }
+    },
+    "resourceCheckpoint": {
+      "playerTeam": [],
+      "inventoryItemIds": [
+        "carbos",
+        "protein"
+      ]
+    },
+    "speciesBattleCounts": {},
+    "dispatchPokemonByRegion": {
+      "kanto": null,
+      "johto": null,
+      "hoenn": null,
+      "sinnoh": null,
+      "unova": null,
+      "kalos": null,
+      "alola": 744,
+      "galar": null,
+      "paldea": null
+    },
+    "dispatches": {
+      "kanto": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "johto": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "hoenn": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "sinnoh": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "unova": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "kalos": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "alola": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": 1791985670377,
+        "lastResult": "阿罗拉：获得攻击增强剂，另获普通球 3 颗；派遣宝可梦不在当前队伍，训练收益已跳过。"
+      },
+      "galar": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      },
+      "paldea": {
+        "status": "IDLE",
+        "startedAt": null,
+        "readyAt": null,
+        "lastResolvedAt": null,
+        "lastResult": ""
+      }
+    }
+  }
+}

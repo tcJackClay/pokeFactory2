@@ -1,3 +1,5 @@
+import { ALL_ITEMS } from '../../../../uiAppConstants';
+import { BASE_BALL_IDS } from '../../utils/baseBallInventory';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { CheckCircle2, Sparkles, Trash2, UserPlus, X } from 'lucide-react';
@@ -40,6 +42,8 @@ function formatRemain(ms: number) {
 
 export function EventsScreen({ viewModel }: GameViewSectionProps) {
   const {
+    baseBallCounts,
+    t,
     devToolsAvailable,
     developerMode,
     currentLanguage,
@@ -197,6 +201,7 @@ export function EventsScreen({ viewModel }: GameViewSectionProps) {
       <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-md space-y-3">
         <div className="pf-event-header flex items-center justify-between">
           <h2 className="text-xl font-black tracking-wide">{copy.eventTitle}</h2>
+          <p className="mt-2 text-sm font-semibold" aria-live="polite">{t('baseBallCount', { count: baseBallCounts.pokeball })}{BASE_BALL_IDS.filter((id) => id !== 'pokeball' && baseBallCounts[id] > 0).map((id) => <span className="ml-2" key={id}>{getLocalized(ALL_ITEMS.find((item) => item.id === id)!)} × {baseBallCounts[id]}</span>)}</p>
           <div className="flex items-center gap-2">
             <button
               onClick={() => { cancelRecommendation(); enterBase(); }}

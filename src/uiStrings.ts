@@ -1,5 +1,15 @@
 const uiStrings: Record<string, Record<string, string>> = {
   'zh-hans': {
+    baseBallCount: "基地精灵球：{count}",
+    baseNoBalls: "基地没有可用的精灵球。",
+    dispatchSaveFailed: "派遣保存失败，未发放奖励或消耗精灵球，请重试。",
+    dispatchNeedsTeam: "当前没有可出战队伍。请先完成一次工厂挑战并返回基地，再领取这次遭遇；结果已保留。",
+    factoryReturnSaveFailed: "返回基地保存失败，请重试。挑战结果与精灵球未改变。",
+    dispatchCompleted: "派遣完成",
+    dispatchTrainingGain: "派遣宝可梦获得 {stat} +{count} 努力值",
+    dispatchTrainingSkipped: "派遣宝可梦不在当前队伍，训练收益已跳过。",
+    dispatchItemAndBalls: "{region}：获得{item}，另获普通球 {count} 颗；{training}",
+
     struggle: '挣扎',
     legacyCollectionSave: '新版图鉴只统计有正式获得来源的永久收藏。旧版把租借队登记为已拥有，无法可靠转换。请先备份旧存档，再重新开始。',
     legacyRecentSave: '此存档版本与当前规则不兼容。请先下载原始备份，再重新开始。',
@@ -162,6 +172,16 @@ const uiStrings: Record<string, Record<string, string>> = {
     enemySentOut: '对手 派出了 {name}！',
   },
   'zh-hant': {
+    baseBallCount: "基地精靈球：{count}",
+    baseNoBalls: "基地沒有可用的精靈球。",
+    dispatchSaveFailed: "派遣儲存失敗，未發放獎勵或消耗精靈球，請重試。",
+    dispatchNeedsTeam: "目前沒有可出戰隊伍。請先完成一次工廠挑戰並返回基地，再領取這次遭遇；結果已保留。",
+    factoryReturnSaveFailed: "返回基地儲存失敗，請重試。挑戰結果與精靈球未改變。",
+    dispatchCompleted: "派遣完成",
+    dispatchTrainingGain: "派遣寶可夢獲得 {stat} +{count} 努力值",
+    dispatchTrainingSkipped: "派遣寶可夢不在目前隊伍，訓練收益已略過。",
+    dispatchItemAndBalls: "{region}：獲得{item}，另獲普通球 {count} 顆；{training}",
+
     struggle: '掙扎',
     legacyCollectionSave: '新版圖鑑只統計有正式獲得來源的永久收藏。舊版把租借隊登記為已擁有，無法可靠轉換。請先備份舊存檔，再重新開始。',
     legacyRecentSave: '此存檔版本與目前規則不相容。請先下載原始備份，再重新開始。',
@@ -324,6 +344,16 @@ const uiStrings: Record<string, Record<string, string>> = {
     enemySentOut: '對手 派出了 {name}！',
   },
   'en': {
+    baseBallCount: "Base Poké Balls: {count}",
+    baseNoBalls: "No Poké Balls are available in the base inventory.",
+    dispatchSaveFailed: "Could not save the dispatch. No rewards were granted or balls spent. Please retry.",
+    dispatchNeedsTeam: "No team member can battle. Finish a factory challenge and return to base with a usable team, then claim this encounter. The result is saved.",
+    factoryReturnSaveFailed: "Could not save the return to base. Please retry. Your battle result and balls are unchanged.",
+    dispatchCompleted: "Dispatch complete",
+    dispatchTrainingGain: "Dispatched Pokémon gained {stat} +{count} EVs.",
+    dispatchTrainingSkipped: "Training skipped: the dispatched Pokémon is not in the current party.",
+    dispatchItemAndBalls: "{region}: received {item} and {count} Poké Balls. {training}",
+
     struggle: 'Struggle',
     legacyCollectionSave: 'The new Pokedex counts permanent acquisitions. This older save recorded rentals as owned and cannot be converted reliably. Download a backup before starting over.',
     legacyRecentSave: 'This save version is incompatible with the current rules. Download the original backup before starting over.',

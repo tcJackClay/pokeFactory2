@@ -1,0 +1,51 @@
+# 静态验证记录
+
+日期：2026-10-14。基线 `00f30d152596c185287f99b4be7227f93f581fe4`，工作树 `D:/Games/pokeFactory2-worktrees/dispatch-balls`。
+
+同一最终业务内容串行运行：
+
+| 门禁 | 结果 | 日志 |
+| --- | --- | --- |
+| npm run lint | PASS，tsc --noEmit | static/lint.txt |
+| npm test | PASS，387/387，0 skip/cancel | static/test.txt |
+| npm run build | PASS，8.59s | static/build.txt |
+| go test ./... | PASS，4 包通过，server 无测试文件 | static/go.txt |
+
+新增 16 项 dispatchBallTransactions 回调/事务测试；既有 371 项继续通过。故障注入日志为测试预期。主包 693.70 kB / gzip 209.94 kB，构建仍提示 >500 kB，未将其认定生产性能已通过。
+
+本记录仅静态证据。未运行游戏；待独立 auditor，再由 player 在冻结提交上完成真实 Go+Vite 的受控与自然入口实玩。
+
+
+## A1 / A2 修复门禁
+
+原提交7c27209审计 BLOCKED 的两项入口问题已修复；本节不覆盖原始审计结论。
+按 lint → test → build → go 串行执行，日志 `static-a1-a2/`：
+
+| 门禁 | 结果 |
+| --- | --- |
+| npm run lint | PASS |
+| npm test | PASS，396/396，0 skip/cancel |
+| npm run build | PASS，7.72秒；主包695.43 kB/gzip210.52 kB；保留 >500 kB 提示 |
+| go test ./... | PASS，4包通过，server无测试 |
+
+新增9项实际回调契约测试，专项25/25；第一次专项执行修正了测试本身的规范化快照比较及钱包参数，最终四门禁均以上述日志为准。未运行游戏，待独立复审后在新冻结SHA实玩。
+
+
+## A2 builder 复审修复门禁
+
+复审发现13dd1f2的旧 builder 可借新 ref revision 回写 IDLE。本轮将 builder 版本绑定同次渲染，增加真实 builder/sync 时序回归及新渲染选择/到期 READY 保存验证。串行门禁日志 `static-a2-builder/`：lint PASS；test **397/397**、0 skip/cancel；build PASS（8.27秒，主包695.43 kB/gzip210.52 kB，保留 >500 kB 提示）；Go PASS（4包/server无测试）。专项26/26。未实玩，等待新冻结提交独立复审；旧日志及复现脚本保留。
+
+
+## 自然败退返回基地修复门禁
+
+1157390 实玩失败路径另保留。新修复串行 lint → test → build → Go 均 PASS，日志 `static-loss-return/`；全量 **398/398**，0 skip/cancel；构建8.20秒，主包696.82 kB/gzip210.77 kB（既有 >500 kB 提示）；Go四包PASS、server无测试。专项27/27包含实际结算与返回回调故障/重试/重载/原pending领取，胜利暂停结束既有静态测试也通过。未由实现角色运行游戏，待新SHA独立复审后重新实玩。
+
+
+## 捕获资源effect循环修复门禁
+
+- `static-resource-loop/before-fix.txt`：旧a70320b实现运行新增实际effect有限迭代测试，两项均在8轮不收敛失败。
+- `after-fix.txt`：修复后两项PASS；期望注入storage fault仍原样记录，不屏蔽console。首次/HP+PP变化/背包变化均一次写入、下一轮停止；无变化不写，故障不推进，旧revision不覆盖。
+- 全量回归曾发现旧“物品消费故障”夹具其实资源无变化；修正为先持有protein再真实消耗，保留故障与消费断言。随后重新从lint开始串行跑四门禁。
+- 最终 `lint.txt` PASS；`test.txt` **400/400**、0 skip/cancel；`build.txt` PASS（8.25秒，主包696.90 kB/gzip210.78 kB，既有>500kB提示）；`go.txt` 四包PASS/server无测试。
+
+这是实际effect代码的有限渲染调度模型与静态门禁，不是完整React挂载或浏览器实玩。旧a70320b失败证据保留，整片必须在新冻结SHA重新验收。

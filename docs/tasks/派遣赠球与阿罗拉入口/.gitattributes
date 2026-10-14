@@ -1,0 +1,15 @@
+static/*.txt -text -whitespace
+static-a1-a2/*.txt -text -whitespace
+static-a2-builder/*.txt -text -whitespace
+static-loss-return/*.txt -text -whitespace
+static-resource-loop/*.txt -text -whitespace
+
+evidence/** -text -whitespace
+audit-static-*/* -text -whitespace
+*.mjs -text -whitespace
+runtime.md -text
+log.md -text
+runtime.md -text -whitespace
+log.md -text -whitespace
+audit.md -text -whitespace
+*.json -text -whitespace
