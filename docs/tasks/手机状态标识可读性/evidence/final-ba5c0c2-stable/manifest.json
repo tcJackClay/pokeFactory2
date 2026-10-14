@@ -1,0 +1,1365 @@
+{
+  "sha": "ba5c0c286d588868b081aa15851e89941f790f2a",
+  "scope": "11 final simulated-browser scenarios; no actual Android or production",
+  "cases": [
+    {
+      "name": "v1-natural-eevee-final",
+      "checks": {
+        "base-zh-hans": true,
+        "base-en": true,
+        "rental-en": true,
+        "first-battle": true
+      },
+      "errors": [],
+      "http": [],
+      "browser": "151.0.7922.34"
+    },
+    {
+      "name": "v4-normal-animation",
+      "checks": {
+        "normalAnimation": true,
+        "normalBadgeCurrentColor": true,
+        "actualMovePpDecreased": true
+      },
+      "errors": [],
+      "http": [],
+      "browser": "151.0.7922.34"
+    },
+    {
+      "name": "v1-v3-zero-events-zh-hans-final",
+      "checks": {
+        "base": true,
+        "kantoAndSelectedNormal": true
+      },
+      "errors": [],
+      "http": [],
+      "browser": "151.0.7922.34"
+    },
+    {
+      "name": "v2-zh-hans-999999-final",
+      "checks": {
+        "battle": true,
+        "movesAccessible": true,
+        "actualStatusNavigation": true
+      },
+      "errors": [],
+      "http": [],
+      "browser": "151.0.7922.34"
+    },
+    {
+      "name": "v2-zh-hans-9007199254740991-final",
+      "checks": {
+        "battle": true,
+        "movesAccessible": true,
+        "actualStatusNavigation": true
+      },
+      "errors": [],
+      "http": [],
+      "browser": "151.0.7922.34"
+    },
+    {
+      "name": "v1-v3-zero-events-zh-hant-final",
+      "checks": {
+        "base": true,
+        "kantoAndSelectedNormal": true
+      },
+      "errors": [],
+      "http": [
+        {
+          "url": "http://127.0.0.204:4307/api/pokeapi/move/confusion/",
+          "failure": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        },
+        {
+          "url": "http://127.0.0.204:4307/api/pokeapi/move/thunder/",
+          "failure": {
+            "errorText": "net::ERR_ABORTED"
+          }
+        }
+      ],
+      "browser": "151.0.7922.34"
+    },
+    {
+      "name": "v2-zh-hant-999999-final",
+      "checks": {
+        "battle": true,
+        "movesAccessible": true,
+        "actualStatusNavigation": true
+      },
+      "errors": [],
+      "http": [],
+      "browser": "151.0.7922.34"
+    },
+    {
+      "name": "v2-zh-hant-9007199254740991-final",
+      "checks": {
+        "battle": true,
+        "movesAccessible": true,
+        "actualStatusNavigation": true
+      },
+      "errors": [],
+      "http": [],
+      "browser": "151.0.7922.34"
+    },
+    {
+      "name": "v1-v3-zero-events-en-final",
+      "checks": {
+        "base": true,
+        "kantoAndSelectedNormal": true
+      },
+      "errors": [],
+      "http": [],
+      "browser": "151.0.7922.34"
+    },
+    {
+      "name": "v2-en-999999-final",
+      "checks": {
+        "battle": true,
+        "movesAccessible": true,
+        "actualStatusNavigation": true
+      },
+      "errors": [],
+      "http": [],
+      "browser": "151.0.7922.34"
+    },
+    {
+      "name": "v2-en-9007199254740991-final",
+      "checks": {
+        "battle": true,
+        "movesAccessible": true,
+        "actualStatusNavigation": true
+      },
+      "errors": [],
+      "http": [],
+      "browser": "151.0.7922.34"
+    }
+  ],
+  "files": [
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-en-320-geometry.json",
+      "bytes": 2528,
+      "sha256": "6d03529602a2ca2930921b4033b6a698ab73022cc64e11c3b608125835ea5e42"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-en-320.json.gz",
+      "bytes": 1658,
+      "sha256": "041a590d11e53b8f83771073268d6d41cea79958e74144ef61622b5bc4d41206"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-en-320.png",
+      "bytes": 386579,
+      "sha256": "a603d6376aa6b8a83b333b6d57b713ccb5c46d841da9bee5f4f9dba0939af68b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-en-390-geometry.json",
+      "bytes": 2545,
+      "sha256": "75c2fe0ba8d380b671394344b28ffcb313e5a6609bb21c797dce93199ab176f2"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-en-390.json.gz",
+      "bytes": 1655,
+      "sha256": "11955a25f5f6cc572ac539f6e712d9e52fa71a6bc2b366b998442515532fd9ff"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-en-390.png",
+      "bytes": 575413,
+      "sha256": "bd850d0e1c270174dfc9bec7dfaf5f4747410d27ab056178b59e59d9fe319566"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-en-844-geometry.json",
+      "bytes": 2565,
+      "sha256": "ce1282bc2393c0c2d555564145eb4cce5a626800bf60ea7a9533a0c75c056f2b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-en-844.json.gz",
+      "bytes": 1656,
+      "sha256": "8fa03052c6a14285634690380edaa51917dfa5736a1a145b59738cc6e94be499"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-en-844.png",
+      "bytes": 440366,
+      "sha256": "8aea5f473cfa2e748d1576e5333595a7fba2c9c5230406a5387104b9e39b3123"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-zh-hans-320-geometry.json",
+      "bytes": 2508,
+      "sha256": "3238841631adf055351dad6dd56491da52a137dfa3345dafa8774677ff8bc287"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-zh-hans-320.json.gz",
+      "bytes": 1730,
+      "sha256": "c64eb3720ba51cb5ba1925d36d868f96d00e4ce6ba06614eec625f28af947725"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-zh-hans-320.png",
+      "bytes": 393916,
+      "sha256": "edb6e9c69823c35609077c84864a4a09259cbe98b7d620ba2fe81a885e5ed21f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-zh-hans-390-geometry.json",
+      "bytes": 2533,
+      "sha256": "4d39b7b4ad6ff9d91df83f1631f144c372939aa5694c0156f16220525950e998"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-zh-hans-390.json.gz",
+      "bytes": 1731,
+      "sha256": "3229972c4c62fbd25c3a61cff232ab1e20d2fc517d866efffe94afd427a765d3"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-zh-hans-390.png",
+      "bytes": 586436,
+      "sha256": "edfe37a9ff325d7d5a66b2257114fa77da1f1344338bca783eb4ceeab726bdca"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-zh-hans-844-geometry.json",
+      "bytes": 2555,
+      "sha256": "32c9f64e76a022f51f80c61caf7eba52d26657af737cad5a20bad8511063739a"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-zh-hans-844.json.gz",
+      "bytes": 1732,
+      "sha256": "223acee47286f4913a9156898882dfd0b31b381a3e80bf0024ee963e24be13af"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/base-zh-hans-844.png",
+      "bytes": 443428,
+      "sha256": "63ef3a3d04b1d1fa8622b2585be0612d4273671c54b0f1af8178b2ea3a743994"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/events-eevee.json.gz",
+      "bytes": 1951,
+      "sha256": "6040aebf3831827e06cebb923ad08f52c0958aea7b2563029941125bf70c54fb"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/events-eevee.png",
+      "bytes": 333721,
+      "sha256": "5fff507bec8f397ba7ee356f073e6650127ee316334ed0576ab03292c88687d4"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/first-battle-320-geometry.json",
+      "bytes": 4330,
+      "sha256": "60da56a4bc64a2ff8689d8f9079e2b578b7f2be3cc514b38746104af5acc4040"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/first-battle-320.json.gz",
+      "bytes": 360841,
+      "sha256": "9c81910f17f4a8ef895958a0012ba3d39374be19cbd361a6d969c6cc5312f587"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/first-battle-320.png",
+      "bytes": 321443,
+      "sha256": "4bf61aad3ea14ae1f405a12f82373190b4fb34f71ff3ea3fe3d607d1e68a1025"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/first-battle-390-geometry.json",
+      "bytes": 4370,
+      "sha256": "346db1b0734211d4180f7095bd67f18531ccacbd746717d4dd3a56d8e3fe59ff"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/first-battle-390.json.gz",
+      "bytes": 360840,
+      "sha256": "3778c2f283e0732e7b0cb6fb75020d61dbf208d791c9ac027734d20ccf921ef3"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/first-battle-390.png",
+      "bytes": 488721,
+      "sha256": "3e98c729ce9c4ee7945c71c53931c7b4b13e93762d28085cae4e467978b875c0"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/first-battle-844-geometry.json",
+      "bytes": 4662,
+      "sha256": "a01386ae30ecdbe6c88e6f3e12e41a5627d34a43120e232cb52743d14bb7b745"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/first-battle-844.json.gz",
+      "bytes": 360841,
+      "sha256": "def76807862a0296ae80be416095852b27cb8d6409eb97bdcf16c0cfc0490397"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/first-battle-844.png",
+      "bytes": 408277,
+      "sha256": "1940f2ba2c83255f3b3e214116905d3fba5b490cdffd8d402bfa8671b2f09a31"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-en-320-geometry.json",
+      "bytes": 4540,
+      "sha256": "f720a6b7c8f1e0c7e98686602cd2d032d28602b4ded70a1fe504a45959139261"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-en-320.json.gz",
+      "bytes": 85510,
+      "sha256": "c024476b275a4d57105934b21c254bcc34f02829ce014c139c06191c47fd06e8"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-en-320.png",
+      "bytes": 210441,
+      "sha256": "2d22ccfd9087d800bbb74578350f6e5cc66f7547d3a28c0d3100c02eba5b6bbc"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-en-390-geometry.json",
+      "bytes": 4554,
+      "sha256": "0d2645c45184e0cf408065fe31d9bd0a2380fd55658336f23b0a5b572932be6f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-en-390.json.gz",
+      "bytes": 85511,
+      "sha256": "2c78bf5b76baf0ffced2d2ceec68688e3899cba62a5666df0849f682a0573bc7"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-en-390.png",
+      "bytes": 467229,
+      "sha256": "6f954d11302dfbedfb8587c809db4dcca5999fff1cefead62e41d99163358000"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-en-844-geometry.json",
+      "bytes": 4596,
+      "sha256": "1da20f7d4d43b5b64f7993dc3778de6dc1fe59fd7168ace63b9b96fccc058d04"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-en-844.json.gz",
+      "bytes": 85511,
+      "sha256": "49406b61ca0db39967cbf1ebf30261747b5d4d091320d4be71344cdb54c0f9c2"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-en-844.png",
+      "bytes": 293741,
+      "sha256": "35639aa6c3755cb773ce77285a657c9f6edb270f5a3eab04dd6c536d14e7b88a"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-picked.json.gz",
+      "bytes": 131986,
+      "sha256": "78fc27a4f6edf58d7d5f51e5c4813b2c1055f2c341863d5509b8561d90411512"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/rental-picked.png",
+      "bytes": 354714,
+      "sha256": "760f9180b506de9c3069422383180e44062b5366f02b6d691f1ae1fce0aea3c7"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-natural-eevee-final/result.json",
+      "bytes": 12775,
+      "sha256": "e5708769177a65b082a63b2aea0f07f908b5a6654ac7a10b6461ac0c9ea687ee"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v4-normal-animation/01-move-badges.json.gz",
+      "bytes": 366755,
+      "sha256": "59bbd7a1120ceab0630995b51153a94a85bb890aaca01965cc1b4138639977a2"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v4-normal-animation/01-move-badges.png",
+      "bytes": 498332,
+      "sha256": "61d331fd6b26df76fec413ecfd7cb482f72cf38ff7fa26e6d588408b643e4e06"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v4-normal-animation/02-normal-animation.png",
+      "bytes": 503281,
+      "sha256": "d318c8061241034035c1906129f25185c5b3a3440bfd492dd665ff2d018bd071"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v4-normal-animation/03-after-turn.json.gz",
+      "bytes": 367098,
+      "sha256": "f00be25215ce0f830d94e79174e4da4ee60f26533afa44c86c552af80e1ecce0"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v4-normal-animation/03-after-turn.png",
+      "bytes": 495871,
+      "sha256": "8bcb63a5265256da20484f4b710b54138a71c11cb827f265c7262cb81026c0a2"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v4-normal-animation/animation-style.json",
+      "bytes": 4678,
+      "sha256": "4660ebe4bdbc40d0aa0060c15a8f119e35c79348d32238192e647a4f74414a98"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v4-normal-animation/input.json.gz",
+      "bytes": 176095,
+      "sha256": "73e45fe5bc4eb65f16333561743043e266a0b8a952ff136a7670ec094a07d284"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v4-normal-animation/result.json",
+      "bytes": 1272,
+      "sha256": "33c86cf456d2b7deb25abee49f08e77307943ccfa3c7eecd402f57b794084347"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/base-320-geometry.json",
+      "bytes": 2508,
+      "sha256": "3238841631adf055351dad6dd56491da52a137dfa3345dafa8774677ff8bc287"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/base-320.json.gz",
+      "bytes": 915,
+      "sha256": "650f49035cdd0b43f01edc359976cd6176245d2495328f5bcd1fcd0d93fdd7f6"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/base-320.png",
+      "bytes": 393923,
+      "sha256": "f74a07eca527ddbf51127907d74edd6f5242c556fa1f1f5db7fd9ba7fa6a03e7"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/base-390-geometry.json",
+      "bytes": 2533,
+      "sha256": "4d39b7b4ad6ff9d91df83f1631f144c372939aa5694c0156f16220525950e998"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/base-390.json.gz",
+      "bytes": 915,
+      "sha256": "da02beb320c49f31b097e00d67aeb141f74cbc1a59e1ccd8b076ab8635a64419"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/base-390.png",
+      "bytes": 587284,
+      "sha256": "f8628cb7500e28a43c5bf9cbe2215bc0c150c27818eea19ea78fe47ea3fb0777"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/base-844-geometry.json",
+      "bytes": 2555,
+      "sha256": "32c9f64e76a022f51f80c61caf7eba52d26657af737cad5a20bad8511063739a"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/base-844.json.gz",
+      "bytes": 916,
+      "sha256": "dc2429168b08a35ef92a70ef11d08c22e77f33e50d6bf249d786995df0583ae0"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/base-844.png",
+      "bytes": 443589,
+      "sha256": "2260071def9e80c39c7afbbe3fda93512e25691b71989e433c54e43395be99af"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/events-320-icons.json",
+      "bytes": 384,
+      "sha256": "f35fa19ef904cd239ceb456ba9769f55c47b1dfed929f482ef4e46d868018e63"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/events-320.json.gz",
+      "bytes": 1121,
+      "sha256": "0f7014623528d4bf489e34c7fb2aa568df8d26644aa7b5f605d1e8e73b014934"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/events-320.png",
+      "bytes": 248791,
+      "sha256": "db5c230a28871336e7fc625a9196a9948abe7ac1e5a0ef19548b162c82cb2e64"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/events-390-icons.json",
+      "bytes": 384,
+      "sha256": "f35fa19ef904cd239ceb456ba9769f55c47b1dfed929f482ef4e46d868018e63"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/events-390.json.gz",
+      "bytes": 1121,
+      "sha256": "f1317b65b5d45f5fbcfcc8cbe55dcc2ddb5b60eac10d59e2799a2f725deabbd5"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/events-390.png",
+      "bytes": 375123,
+      "sha256": "bbfcf76bb4bbdaa7073db99482ed927620104241c52a237f09c033dec4558400"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/events-844-icons.json",
+      "bytes": 384,
+      "sha256": "f35fa19ef904cd239ceb456ba9769f55c47b1dfed929f482ef4e46d868018e63"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/events-844.json.gz",
+      "bytes": 1121,
+      "sha256": "bb1c0106e8e936896d17ead40a51d3052ffb5ef971aedb78af2dad9ca8754394"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/events-844.png",
+      "bytes": 314393,
+      "sha256": "ceb49e43393e427d631970ec867673883630621a5e2cad26eb1e08be4411516f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/input.json.gz",
+      "bytes": 617,
+      "sha256": "63ef0e3143f38f15ef539cba3e54022d10e027065b334f2c33d36a872d985831"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/picker-320.json.gz",
+      "bytes": 1165,
+      "sha256": "0a49f0574dd21bdd24b3593c86e36a5aa9890bb467993d37ae7660bfbe41d7c4"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/picker-320.png",
+      "bytes": 163653,
+      "sha256": "f7aec7cc4268c6ccb2806e329cf038933cf0ab8feba245cabc92a3cd1dd24e3f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/picker-390.json.gz",
+      "bytes": 1165,
+      "sha256": "1feb99cbb12b4daca2db7121a644d4e52de39dedc37119fe17f47a90aef3aff8"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/picker-390.png",
+      "bytes": 275072,
+      "sha256": "94a16228b0fbc8a9f2fa3217d80cef062358220e3acc38b67ef12d7c5e1c6cdd"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/picker-844.json.gz",
+      "bytes": 1166,
+      "sha256": "2c44bc007f4ca19dccf542b465f80d808ecbaa076b20eaf0d825d24e3f65bdc9"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/picker-844.png",
+      "bytes": 168920,
+      "sha256": "16df57264af4120abea90e3db4efe21b971a4c28a6348b01188433be83d00539"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hans-final/result.json",
+      "bytes": 7889,
+      "sha256": "4653caa78cec7747b58780a68bfc645ce31eab8ffb591df6434e46ba55194b46"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/battle-320-geometry.json",
+      "bytes": 4306,
+      "sha256": "693d8447c196809031701ddf03536673f36549231b4526587436f7fa42af23da"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/battle-320.json.gz",
+      "bytes": 2484,
+      "sha256": "6944ccf1f7817f9d2e21c920e044c68d6065d121d4b66064e45ff695739d017c"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/battle-320.png",
+      "bytes": 328653,
+      "sha256": "0d957b4d13111eadb295c4502a8ba8675108b48611b0c37ea3d99622e6d0c8c1"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/battle-390-geometry.json",
+      "bytes": 4334,
+      "sha256": "2aea0dcfadec4519954e2bb71fac9a1820eb0f00ac15375c49f82c983de351fb"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/battle-390.json.gz",
+      "bytes": 2485,
+      "sha256": "050ed53fb7af9c4b0f7c6fcac88e60f228518f40a1d2190264f47bf61ff941d0"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/battle-390.png",
+      "bytes": 492887,
+      "sha256": "102ad9256edd2c753b65d0adb4e47f6fbc73b4ed21328aca7d8e96bf4fb71d09"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/battle-844-geometry.json",
+      "bytes": 4691,
+      "sha256": "c52c99e724b6c29975ea81178a1e40bfe1c836f37b5dbd32b5ad469ecbbe41a7"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/battle-844.json.gz",
+      "bytes": 2486,
+      "sha256": "e512f03e297cc782a1b88fb451e52a40f2c8ee10356ced8aab13329cf876a7bb"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/battle-844.png",
+      "bytes": 413724,
+      "sha256": "5d0f77313077ccd34cb448925dc8974f15aca76d1e22c0ccd7e35e72208c44a8"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/input.json.gz",
+      "bytes": 172319,
+      "sha256": "1a0c39eb140510f250facdb4987746caeff0bbf6c688ba701476fb3b053d5501"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/moves-320.json.gz",
+      "bytes": 2484,
+      "sha256": "6944ccf1f7817f9d2e21c920e044c68d6065d121d4b66064e45ff695739d017c"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/moves-320.png",
+      "bytes": 328599,
+      "sha256": "eb32535585351248bf02ed91babb824b6a808bba939834d872a35b8635957ebb"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/moves-390.json.gz",
+      "bytes": 2485,
+      "sha256": "050ed53fb7af9c4b0f7c6fcac88e60f228518f40a1d2190264f47bf61ff941d0"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/moves-390.png",
+      "bytes": 496046,
+      "sha256": "731d907f31c6cf508ac76a40a0cde0364c940d0b0a1d603ac2bee918ca5fe5ab"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/moves-844.json.gz",
+      "bytes": 2486,
+      "sha256": "e512f03e297cc782a1b88fb451e52a40f2c8ee10356ced8aab13329cf876a7bb"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/moves-844.png",
+      "bytes": 413028,
+      "sha256": "085116dba0b7fcc66bf35924884621ba0375f2a5965a92387594be577becba7f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/result.json",
+      "bytes": 2161,
+      "sha256": "44cb5c2c18fc5a22a7fe8a55b8b64aadc9fd7c50fe956135143d1a7656c56422"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/status-control.json.gz",
+      "bytes": 2392,
+      "sha256": "f42943f78dcc8bee5075dc8e173a4275f0f69f98da611374d41a51d2e0511660"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-999999-final/status-control.png",
+      "bytes": 288912,
+      "sha256": "1a90407858211123d7bcba06846da303070005a7c5722815df10fe309f76efb2"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/battle-320-geometry.json",
+      "bytes": 4480,
+      "sha256": "d1637ec16bf17cb7ac571fb22ae1739d5c82c77543d9c688560dcbce49921a0e"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/battle-320.json.gz",
+      "bytes": 2500,
+      "sha256": "80df9e3fc25bd5856149c70a84919ac52ee0f0ab8611aba335faf759afb0adf9"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/battle-320.png",
+      "bytes": 323952,
+      "sha256": "36d0b13f851f58c3cd53f0d1b0f9f59075eaa2dda889c53695eca4928356e07b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/battle-390-geometry.json",
+      "bytes": 4345,
+      "sha256": "63a23efa0c4d7e1e92df02b67ca73b585fe1a6aced16689799010799298049ae"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/battle-390.json.gz",
+      "bytes": 2500,
+      "sha256": "5834c9f1240c50121396460171cc9402093f969d2aa13713bafdaac3f4e3623e"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/battle-390.png",
+      "bytes": 488683,
+      "sha256": "ca987d4ad3e89da8d5252787f7f706a0d7c322c380420baf13a2257a9ad1607b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/battle-844-geometry.json",
+      "bytes": 4711,
+      "sha256": "1650d90a62cb63de3d2d44e1205b12930da252cbebb818cef7b7ad1da55ee7fe"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/battle-844.json.gz",
+      "bytes": 2501,
+      "sha256": "aca747d2df1e77c304cbc1c5060e11ba026c87c951d962926fd94154f4286c47"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/battle-844.png",
+      "bytes": 418057,
+      "sha256": "3b69b183770ca7929bbf4796fd5b552e95fc2c9f2e8083f7351d99e70f3647c8"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/input.json.gz",
+      "bytes": 172331,
+      "sha256": "75495aaea7d86b98ed02283a618a80084dcc134f8cba47e354d746551ef50bab"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/moves-320.json.gz",
+      "bytes": 2500,
+      "sha256": "80df9e3fc25bd5856149c70a84919ac52ee0f0ab8611aba335faf759afb0adf9"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/moves-320.png",
+      "bytes": 324634,
+      "sha256": "4c0c612fb749868272e53eeba1f2a28f344436c00b03098791ef699d4626300d"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/moves-390.json.gz",
+      "bytes": 2500,
+      "sha256": "5834c9f1240c50121396460171cc9402093f969d2aa13713bafdaac3f4e3623e"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/moves-390.png",
+      "bytes": 486940,
+      "sha256": "29235895a9119871788359200b35fa85b95f79223e71fe1b1ea9ed564b5e1915"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/moves-844.json.gz",
+      "bytes": 2501,
+      "sha256": "aca747d2df1e77c304cbc1c5060e11ba026c87c951d962926fd94154f4286c47"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/moves-844.png",
+      "bytes": 418225,
+      "sha256": "3f15cc82abc33f03931621de8a73bd18518c8052634baef86857895da224b000"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/result.json",
+      "bytes": 2181,
+      "sha256": "4191744320b3b48e20e2c9c0e58b2e37cbaba383e6743ae1bada6ab60396f36b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/status-control.json.gz",
+      "bytes": 2405,
+      "sha256": "aad85aaebab68a1d93698a5d16862b873e8a687fb94b8e3242b78429a538696f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hans-9007199254740991-final/status-control.png",
+      "bytes": 292333,
+      "sha256": "231b0d4bd04492f7b03e41538e5944ea061d088cd0022698421518b15c2e2e87"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/base-320-geometry.json",
+      "bytes": 2508,
+      "sha256": "18b6558e687fa8267572c82558f912cd8131858bede4d910f98ea1ff07468f1e"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/base-320.json.gz",
+      "bytes": 914,
+      "sha256": "c1becb240ef7ccefeea0a9bcbb768dd7c887cb40964ba54cc3217e14d33a0185"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/base-320.png",
+      "bytes": 396376,
+      "sha256": "802f59230a42cdd4c25b3354f58faddd49989b471f2910904ed1e6cef785e76f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/base-390-geometry.json",
+      "bytes": 2533,
+      "sha256": "edc1a079b0ce0087d9293f1a86bfc16754a5336ccdcd0674b1f01343ca12ba18"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/base-390.json.gz",
+      "bytes": 915,
+      "sha256": "317b2d66205a2ec9cd269401ec1ce4d92be42a23bf3ed5d2266545f4fc7d307b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/base-390.png",
+      "bytes": 588345,
+      "sha256": "16da397ed92c628bed8fe16849bfda8379a6030a44eedf417b65a12b9ecf6e95"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/base-844-geometry.json",
+      "bytes": 2555,
+      "sha256": "d8b91e01fd8ae2a78ccc9fc5a218cf663675a63e7cf3cd2a2b318b5c11f400c6"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/base-844.json.gz",
+      "bytes": 916,
+      "sha256": "5fa7bdb08fea2228eed109a75929e177ed6133dd981c223f7cb271b88a16ac48"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/base-844.png",
+      "bytes": 445133,
+      "sha256": "48d9fe80dca1c148c9e80915c83ec2980d3b933510ce505cdf3e7a1e0f3b262a"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/events-320-icons.json",
+      "bytes": 384,
+      "sha256": "f35fa19ef904cd239ceb456ba9769f55c47b1dfed929f482ef4e46d868018e63"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/events-320.json.gz",
+      "bytes": 1124,
+      "sha256": "dda20874c856ea437478671427c5e075013902b55c036fece3777376b1c7b33d"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/events-320.png",
+      "bytes": 251467,
+      "sha256": "a9fb1291fb8916357b485e200d61fcceeb4cd4ce28e776d8c5f8f00d2a768bb9"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/events-390-icons.json",
+      "bytes": 384,
+      "sha256": "f35fa19ef904cd239ceb456ba9769f55c47b1dfed929f482ef4e46d868018e63"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/events-390.json.gz",
+      "bytes": 1124,
+      "sha256": "ff58ec7b8447271edede62ef902029f788d0c954cd73a9703fdf373bdcef1b87"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/events-390.png",
+      "bytes": 378676,
+      "sha256": "d675fff2a299fbea40c466f5e7a273e5b667f0770d582a8f6af4486058f2c113"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/events-844-icons.json",
+      "bytes": 384,
+      "sha256": "f35fa19ef904cd239ceb456ba9769f55c47b1dfed929f482ef4e46d868018e63"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/events-844.json.gz",
+      "bytes": 1124,
+      "sha256": "3f221f85144fe08a4e33d411a463a0ddd03c386cb530ab4c68a7dc4d81fadbd9"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/events-844.png",
+      "bytes": 316432,
+      "sha256": "e8a78add97d83d5bbae37c7880cf5d960337ac4cca837ffbb3852a2d8fdf18d4"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/input.json.gz",
+      "bytes": 618,
+      "sha256": "63e609c7b7aab31ef6e070570dfbd036290c6dba3696505fbf31fbb995cba4ff"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/picker-320.json.gz",
+      "bytes": 1169,
+      "sha256": "898652d4018e1884baec54ce4feab66c6b2f1a3159195e1ad4e42c4117c0b471"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/picker-320.png",
+      "bytes": 164968,
+      "sha256": "10cbf0a29ee8465876685d268e61f82eede8646da5508be75d2c721c3e5924b4"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/picker-390.json.gz",
+      "bytes": 1169,
+      "sha256": "3a99eb20a2e5faa7e3be6d7e75304d4c15a8cfad0e5ca427a1da63b0ff73398a"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/picker-390.png",
+      "bytes": 276195,
+      "sha256": "52b6822198f1b96f8fcdcac8e99620670e9b38b51b223c8ce446b27cb5033f55"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/picker-844.json.gz",
+      "bytes": 1169,
+      "sha256": "3ab539d292f26630f586b260ff1b511fa0b9d4abef5b14489374cca11bbdea27"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/picker-844.png",
+      "bytes": 172033,
+      "sha256": "31dced94b9c6b32f8214dcec5aca0d4d96c1c56534e351d14c6a171d70bb62f0"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-zh-hant-final/result.json",
+      "bytes": 9127,
+      "sha256": "d713ace994067b011d85b7a12bff99dcad7259b3d768ac9239d7b80aef306610"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/battle-320-geometry.json",
+      "bytes": 4306,
+      "sha256": "727e51efe2d287b421bd45a656f77c61e43aafed5b27a4131548be32531e2063"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/battle-320.json.gz",
+      "bytes": 2486,
+      "sha256": "6a157110827b4fb666b3da8e59f6c29925d6774700ecdc7c1dad48447db765a8"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/battle-320.png",
+      "bytes": 330488,
+      "sha256": "cc98d4f6be57c30d06d5498d99ae1d16b9693607943dfbdd0421468006c8e52c"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/battle-390-geometry.json",
+      "bytes": 4334,
+      "sha256": "30507444e0fc95b388ca97452709ec4d1e570eaac979a2bdc5ca135c680005b1"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/battle-390.json.gz",
+      "bytes": 2488,
+      "sha256": "f74064ea563f3fb8d40c9f74772cc332571da3b67c8a10618f7fc15d1af061d7"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/battle-390.png",
+      "bytes": 496608,
+      "sha256": "cffa8bdfea2ba9257081889b33ce1f8cf3432e12a3021a4f5289ec44cb33ee07"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/battle-844-geometry.json",
+      "bytes": 4691,
+      "sha256": "20b803dd9595203ec695bfbc45595e9fe60253e32d940ff7d882da9b45e720d0"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/battle-844.json.gz",
+      "bytes": 2488,
+      "sha256": "984402a8b89506e62eb9a4eb37dbf24f81c72eb531226f2b929b8011d13a723b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/battle-844.png",
+      "bytes": 414494,
+      "sha256": "d503ab9bea4aa22fce1e13f8b662beb563543c525c17bfcc3b28b8a2141fde9b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/input.json.gz",
+      "bytes": 172319,
+      "sha256": "8d890e1197e2574b7c8449ac25afd6bd3b11197e44c3df3888068716692f0186"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/moves-320.json.gz",
+      "bytes": 2486,
+      "sha256": "6a157110827b4fb666b3da8e59f6c29925d6774700ecdc7c1dad48447db765a8"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/moves-320.png",
+      "bytes": 330800,
+      "sha256": "6b7c33b43c6c1a61dc556b1bf6c78ed97c1ab7f6b3636fb17f62764e81232182"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/moves-390.json.gz",
+      "bytes": 2488,
+      "sha256": "f74064ea563f3fb8d40c9f74772cc332571da3b67c8a10618f7fc15d1af061d7"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/moves-390.png",
+      "bytes": 496343,
+      "sha256": "ed046fc99dfb5a700646e1a06efee668e10d39d6e465a8cb035ac28be70a1214"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/moves-844.json.gz",
+      "bytes": 2488,
+      "sha256": "984402a8b89506e62eb9a4eb37dbf24f81c72eb531226f2b929b8011d13a723b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/moves-844.png",
+      "bytes": 414883,
+      "sha256": "fc38ac2ed91b89eeb786d186fe7a0d57a30822facd0fc93d725b23d69e11cbc1"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/result.json",
+      "bytes": 2161,
+      "sha256": "48a5611f138e0d720f7ed8954cc6f5e83701fa446f409b1e23fd63e00f25c9df"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/status-control.json.gz",
+      "bytes": 2394,
+      "sha256": "36de1b933d6a35804307215eb4d63583637f483ac034a6967cce20f000869a31"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-999999-final/status-control.png",
+      "bytes": 288860,
+      "sha256": "ad2f6cfe1e45c503490fcdf73baf05cd39e3b1d6b1906b595823aee26bbdb12c"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/battle-320-geometry.json",
+      "bytes": 4481,
+      "sha256": "2f655ac8ce77049c5624f5fb176b6e578e5df4b7436ec269c4a2fdeb0fdfcfb1"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/battle-320.json.gz",
+      "bytes": 2502,
+      "sha256": "95a9eb6580278bec444872c7cafb63f9ba2023b2418abdbfd08a8321079b237f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/battle-320.png",
+      "bytes": 325452,
+      "sha256": "33d149b136d370796b5f7d1ab1cba62fcdac8aa89484510f6265200b84801d6d"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/battle-390-geometry.json",
+      "bytes": 4345,
+      "sha256": "2651db796af78c991cf4d719d9273cd9d73c7d93d856e30d5b9915c07eb6c312"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/battle-390.json.gz",
+      "bytes": 2502,
+      "sha256": "89125e517e6bae99ecafefb6dfbc7ab45586f58e3eefdb2ad4a54b68e2710774"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/battle-390.png",
+      "bytes": 492936,
+      "sha256": "ccd7f7f7d45c86298a0dc093cba8f6574de3842df1e43f4e0954988ddb09643e"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/battle-844-geometry.json",
+      "bytes": 4711,
+      "sha256": "e1685f079e9411b416e492fc487d772804c8367bcd3d7c0b14d7bc6e54d3b099"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/battle-844.json.gz",
+      "bytes": 2502,
+      "sha256": "53749cd9cc332f4be3c4d779fed7c258d5c618217dfbc4bfb3c3a7aaf6fa5f0a"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/battle-844.png",
+      "bytes": 419657,
+      "sha256": "7e6cc6854bbbe4d21ca23f37ab9958f6d12f8658e90f8cda0395015d6b1d574b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/input.json.gz",
+      "bytes": 172331,
+      "sha256": "99b2586e5a41f00e21b20901e2861f64c653101b543adfead772b9f6a386cd4f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/moves-320.json.gz",
+      "bytes": 2502,
+      "sha256": "95a9eb6580278bec444872c7cafb63f9ba2023b2418abdbfd08a8321079b237f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/moves-320.png",
+      "bytes": 325885,
+      "sha256": "09fa31337d2840ac4dfa03365cd01edeab8aba879a6eafe34b51735faedc7a72"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/moves-390.json.gz",
+      "bytes": 2502,
+      "sha256": "89125e517e6bae99ecafefb6dfbc7ab45586f58e3eefdb2ad4a54b68e2710774"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/moves-390.png",
+      "bytes": 491426,
+      "sha256": "813d17be24e4be675b620daccb0b7c81f692a6b23272b66b551292110840c305"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/moves-844.json.gz",
+      "bytes": 2502,
+      "sha256": "53749cd9cc332f4be3c4d779fed7c258d5c618217dfbc4bfb3c3a7aaf6fa5f0a"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/moves-844.png",
+      "bytes": 418998,
+      "sha256": "7cc326327357fb2b653491349dc59b48fe47bd19856079026aa05d697a45d2d2"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/result.json",
+      "bytes": 2181,
+      "sha256": "debd463e80e46054f88325500465a2d5caab2c4236db08538d0ba35ac7be3b0c"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/status-control.json.gz",
+      "bytes": 2407,
+      "sha256": "d76d073220761326ce647d2f230b07a6487c7c2328d2bfc13d4a8e85398f055f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-zh-hant-9007199254740991-final/status-control.png",
+      "bytes": 293023,
+      "sha256": "beba726ede591e25d4f3cbcb824cd22b40647cbdbd6886420f977db4dae936e5"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/base-320-geometry.json",
+      "bytes": 2528,
+      "sha256": "6d03529602a2ca2930921b4033b6a698ab73022cc64e11c3b608125835ea5e42"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/base-320.json.gz",
+      "bytes": 836,
+      "sha256": "ef99e06f55f224043b21633365fe370aaef33694c4d855a0c84d8d646728a73d"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/base-320.png",
+      "bytes": 386539,
+      "sha256": "c6f62c76e1c7dfe8b764e9a4ddd09b51cd4b38b7f495ba643853b5bd2746ab39"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/base-390-geometry.json",
+      "bytes": 2545,
+      "sha256": "75c2fe0ba8d380b671394344b28ffcb313e5a6609bb21c797dce93199ab176f2"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/base-390.json.gz",
+      "bytes": 835,
+      "sha256": "988e91c2f38c26b26fd9d51a890a62bb28352c37e4e78bcabd5a688f135d8d5b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/base-390.png",
+      "bytes": 576748,
+      "sha256": "8ddfb382e1cea89b73ac5f4bf524e3dd01276d8465547776a9693188647f2c40"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/base-844-geometry.json",
+      "bytes": 2565,
+      "sha256": "ce1282bc2393c0c2d555564145eb4cce5a626800bf60ea7a9533a0c75c056f2b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/base-844.json.gz",
+      "bytes": 836,
+      "sha256": "3f84cb4c56f593f04b9360706dc910f65ee002210072f84718e07d0803f5f204"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/base-844.png",
+      "bytes": 439689,
+      "sha256": "5c1074a73ae4cb448ee0500a0aab0b0b8f65b9eca3c78f3e4195535b97d77738"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/events-320-icons.json",
+      "bytes": 384,
+      "sha256": "f35fa19ef904cd239ceb456ba9769f55c47b1dfed929f482ef4e46d868018e63"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/events-320.json.gz",
+      "bytes": 972,
+      "sha256": "5b2369a5bc77f46e741ecae68ac6e159394ce918a2a2fa8d7833de98bf09a1a7"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/events-320.png",
+      "bytes": 227381,
+      "sha256": "33271abe6b9f5dbfadf1e8aed95027df7f1844783633448feefec576acbcb946"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/events-390-icons.json",
+      "bytes": 384,
+      "sha256": "f35fa19ef904cd239ceb456ba9769f55c47b1dfed929f482ef4e46d868018e63"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/events-390.json.gz",
+      "bytes": 972,
+      "sha256": "0e722513b16f9b5ebb2932f63ad871131710e9f24d684ce85dae40731649ae96"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/events-390.png",
+      "bytes": 361942,
+      "sha256": "22da6fa868142a9ef407dcab4c1bcd2a63adf2922f3f8ed9755c2eb62c63551a"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/events-844-icons.json",
+      "bytes": 384,
+      "sha256": "f35fa19ef904cd239ceb456ba9769f55c47b1dfed929f482ef4e46d868018e63"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/events-844.json.gz",
+      "bytes": 973,
+      "sha256": "cd4a553dcc6a7b4a15ce92040679cd1ff747b7165147df0a925f60aca9bded28"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/events-844.png",
+      "bytes": 308138,
+      "sha256": "eb58453fdc92868c50648a572244b2a91287f2f6cf8df2724f2a8fa5c153ee6c"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/input.json.gz",
+      "bytes": 614,
+      "sha256": "f969ddbf358b9520fd577c058a2cd9d8a757088946cba9405125e99e713380bd"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/picker-320.json.gz",
+      "bytes": 1018,
+      "sha256": "bd6984c0a5eae3b58a77a0007ba0c18e2532079b23388e46dd1e06e2471c6186"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/picker-320.png",
+      "bytes": 149049,
+      "sha256": "5dbb2ecfa088d959ab443af12a631db8c35aa3c7ea4ba9d6f91cc3f61a88f5bb"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/picker-390.json.gz",
+      "bytes": 1018,
+      "sha256": "e74b32ad5503e214cd76e11a0137f9cb0920b0567ff8da11d34c2d19db7092c4"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/picker-390.png",
+      "bytes": 264768,
+      "sha256": "f79312b82624b986f84dca1b3e78dd69ea31644d83fa040eea284d755122b273"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/picker-844.json.gz",
+      "bytes": 1019,
+      "sha256": "f03ce16aa16aa297668b9bcabaff6a88eb92c1b1c3680e7ab6caa3e5db16cc2d"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/picker-844.png",
+      "bytes": 163454,
+      "sha256": "7b7ff78f7cdb8bd389605df4e98ad994c59f2db786a11961ce310279620d0df6"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v1-v3-zero-events-en-final/result.json",
+      "bytes": 8097,
+      "sha256": "dcbc5e9c52fa182473b56f60480b009eb3034ac1fb3ec3efa54254856af68d7c"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/battle-320-geometry.json",
+      "bytes": 4346,
+      "sha256": "b5e1b54f8ee91e4f36144c71a35bf08ecd07301e4ea105ddb68a27874106f5e2"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/battle-320.json.gz",
+      "bytes": 2365,
+      "sha256": "77f1e63625afbb49bb28246373437bc56b07c5411cc2244f564248f97fb65e76"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/battle-320.png",
+      "bytes": 324519,
+      "sha256": "3aee152b79f4dddf3da4f2d176b107181050cdfe4fee32aad8eab4af183506d6"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/battle-390-geometry.json",
+      "bytes": 4388,
+      "sha256": "000def29b5af7d97e59ea80aa8964a3ea509042b4bf6676babc5b4408c90330b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/battle-390.json.gz",
+      "bytes": 2365,
+      "sha256": "f15090d37ba0a5c66d3c3d7367ac0fc6140e6e626b2f618c9defa8f164da0bca"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/battle-390.png",
+      "bytes": 494326,
+      "sha256": "365b2c78c2d89c32332afad8dd613046a7d661d52b855289cf80727abc0dd83e"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/battle-844-geometry.json",
+      "bytes": 4678,
+      "sha256": "636e3f226a3cd3d93dc72db0028cb884e62e21d286605f459e8882102fb07d48"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/battle-844.json.gz",
+      "bytes": 2366,
+      "sha256": "9b029f062a415b1dc7ac834d00528bcbe919cf55fd0899d897a84627493b23f0"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/battle-844.png",
+      "bytes": 409507,
+      "sha256": "60834ff824ff4dfd4d08f849bbda725c79607a4682041cab4269c45e88666210"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/input.json.gz",
+      "bytes": 172317,
+      "sha256": "4f72ce3bb1fbc547402af1562d6a9b76ccd1666ce0c291f291713ab5d5cfd82d"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/moves-320.json.gz",
+      "bytes": 2365,
+      "sha256": "77f1e63625afbb49bb28246373437bc56b07c5411cc2244f564248f97fb65e76"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/moves-320.png",
+      "bytes": 324830,
+      "sha256": "24fbc93c05e1827ccd35482894dc48493dd66a5306a7e070ad00060a4b0ff380"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/moves-390.json.gz",
+      "bytes": 2365,
+      "sha256": "f15090d37ba0a5c66d3c3d7367ac0fc6140e6e626b2f618c9defa8f164da0bca"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/moves-390.png",
+      "bytes": 491122,
+      "sha256": "a35e686fbdae847c2bfe11f1d97468880a96e9f8340f278065104523546ea8f9"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/moves-844.json.gz",
+      "bytes": 2366,
+      "sha256": "9b029f062a415b1dc7ac834d00528bcbe919cf55fd0899d897a84627493b23f0"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/moves-844.png",
+      "bytes": 408998,
+      "sha256": "b07c750cdb9c292b7733ad3e57ada6b649bdd043b1dbae038f0d1237655e0f2c"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/result.json",
+      "bytes": 2156,
+      "sha256": "08b450c2ec9d5a4aa9f770da8c3c25ec6f23537998a5cc6f6d06ef2b2fe62b81"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/status-control.json.gz",
+      "bytes": 2287,
+      "sha256": "d9e82066514d4852fb2f711781a91871ad6fa483b4e93d496874210413b2922f"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-999999-final/status-control.png",
+      "bytes": 284943,
+      "sha256": "bab67683b605b3424d0e01fa70fa8643aa22bfb6dc31d485c17402b8ba72c32c"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/battle-320-geometry.json",
+      "bytes": 4504,
+      "sha256": "88c7eea49b7d08d47ab5602ee6ef85e980372f8b59fdba05d5beb52e19bce486"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/battle-320.json.gz",
+      "bytes": 2378,
+      "sha256": "8c9462facfb840bd5437eff5a08d8ee621742e92b9bb23c05ad4c0ecc42779aa"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/battle-320.png",
+      "bytes": 319668,
+      "sha256": "1d180a7e1b25a81ed01d16752dac30b62db26663077c708d2413ddc9a80df449"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/battle-390-geometry.json",
+      "bytes": 4399,
+      "sha256": "2531f95e2a82ae04548b104bcc81e0a050329c20c99fe2a7b384afe13786ca5b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/battle-390.json.gz",
+      "bytes": 2378,
+      "sha256": "07072d36bd2c48fe9a3c32d79438d204973b778cf8a1c6b982f7b71ec2cae2b3"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/battle-390.png",
+      "bytes": 483193,
+      "sha256": "eeab3a4ce937e6e4f890220ee4b29c6284bf21614fd26b19f81065a9a7d811d1"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/battle-844-geometry.json",
+      "bytes": 4698,
+      "sha256": "f5060c97360735995e10ccc32b04977fb33a33bfba70d425bbb62d426a717d81"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/battle-844.json.gz",
+      "bytes": 2379,
+      "sha256": "26d7d60b0afdc022dbeaff213b44490ff72aef07c4c4fb2ba68532b15338eef8"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/battle-844.png",
+      "bytes": 413585,
+      "sha256": "10a4fd4c2c4587968aebfc4031962c553adf6603e0bef9ffbcef54e53cc8aab1"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/input.json.gz",
+      "bytes": 172329,
+      "sha256": "a31dd957354fc88dc35cda0fa205bf03eccc59caba76c30fc04366b9ccafaca6"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/moves-320.json.gz",
+      "bytes": 2378,
+      "sha256": "8c9462facfb840bd5437eff5a08d8ee621742e92b9bb23c05ad4c0ecc42779aa"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/moves-320.png",
+      "bytes": 320249,
+      "sha256": "c73a5cf6915ff5ebfc99c22b1215c4d92c5c92baf42d573b12df79a587a13a97"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/moves-390.json.gz",
+      "bytes": 2378,
+      "sha256": "07072d36bd2c48fe9a3c32d79438d204973b778cf8a1c6b982f7b71ec2cae2b3"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/moves-390.png",
+      "bytes": 483777,
+      "sha256": "1ed28fb9255335bb0d33f2be74fce2d86ce41afc8a9a2759aac851b6c767c586"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/moves-844.json.gz",
+      "bytes": 2379,
+      "sha256": "26d7d60b0afdc022dbeaff213b44490ff72aef07c4c4fb2ba68532b15338eef8"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/moves-844.png",
+      "bytes": 415036,
+      "sha256": "634ddb85499889c60c74d8e84886eec08aa061c465c68a73e8d89b5a7749d23b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/result.json",
+      "bytes": 2176,
+      "sha256": "85a90400c8f6f9bd713c5081ecb921b7cbd990d743b09f2fd7c4cfbeee88c969"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/status-control.json.gz",
+      "bytes": 2301,
+      "sha256": "663dcfab859038fad56e69d55bc3ddd379828424e3ecc9f3a7f469c6ed610532"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/v2-en-9007199254740991-final/status-control.png",
+      "bytes": 289124,
+      "sha256": "a83b494e9a9d0bb94466e56a5dc52c6a370112552f82577f18fd101c8de7d87b"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/environment.json",
+      "bytes": 677,
+      "sha256": "26c069afedce912d803add37b6d7089a4fabce752fc0514bae50c545b977d7b2"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/natural-eevee.json.gz",
+      "bytes": 613,
+      "sha256": "ec3fa4338bb8190120ddfa83af6877baeb772d3e16a88742cd6229ccc48de9e7"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/natural-first-battle.json.gz",
+      "bytes": 172282,
+      "sha256": "a66a1b5d3a30e527d5381138b636158e7e0b0a78a96e6307cdf5b7541c1cfaef"
+    },
+    {
+      "path": "evidence/final-ba5c0c2-stable/fixture-sources/animation-natural-first-battle.json.gz",
+      "bytes": 176080,
+      "sha256": "9c0ea0d859d5dce6b30e2df63b7ba29cb02c3120506dffeb95b225fc0e379fbb"
+    }
+  ]
+}

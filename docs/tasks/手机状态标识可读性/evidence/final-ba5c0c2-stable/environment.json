@@ -1,0 +1,18 @@
+{
+  "sha": "ba5c0c286d588868b081aa15851e89941f790f2a",
+  "goSession": 14364,
+  "viteSession": 15185,
+  "backendTree": "653145c29e68ff1c69697d95efd3f4214915af46",
+  "spriteReportSha256": "CA575D0727111D11CB0FD9EAC4AFDCF7F72050CB48310409B03D69B8295C3C03",
+  "type": "Chromium mobile viewport emulation; not physical Android",
+  "created": "2026-10-14T10:02:44.3496059+08:00",
+  "srcTree": "fdba3ea7cd3fc79b19038f1cf7490230cec4a75d",
+  "hmr": false,
+  "speciesIndexSha256": "050CD9359609752A4BA53DA5B54AC03A8967F93DFB0BB9A57056258A622C1DCD",
+  "host": "0.0.0.0",
+  "goHealth": {
+    "runtime": "go",
+    "status": "ok"
+  },
+  "origin": "http://127.0.0.204:4307"
+}

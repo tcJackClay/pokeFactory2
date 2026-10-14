@@ -1,0 +1,318 @@
+{
+  "name": "v1-v3-zero-events-zh-hans-final",
+  "sha": "ba5c0c286d588868b081aa15851e89941f790f2a",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": "This run recreates the current natural Eevee base/selected133 save with only language changed through current createSaveData. Traditional Chinese has no Settings button and is controlled.",
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791943617488,
+      "url": "http://127.0.0.204:4307/api/data/factory-species-index"
+    },
+    {
+      "at": 1791943617550,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/84/"
+    },
+    {
+      "at": 1791943617699,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/84/"
+    },
+    {
+      "at": 1791943617812,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/50/"
+    },
+    {
+      "at": 1791943617854,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/48/"
+    },
+    {
+      "at": 1791943617944,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/77/"
+    },
+    {
+      "at": 1791943618077,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/wing-attack/"
+    },
+    {
+      "at": 1791943618078,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/swords-dance/"
+    },
+    {
+      "at": 1791943618078,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/growl/"
+    },
+    {
+      "at": 1791943618078,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/drill-peck/"
+    },
+    {
+      "at": 1791943618301,
+      "url": "http://127.0.0.204:4307/api/pokeapi-sprites/pokemon/other/official-artwork/133.png"
+    },
+    {
+      "at": 1791943622020,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/16/"
+    },
+    {
+      "at": 1791943622169,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/16/"
+    },
+    {
+      "at": 1791943622271,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/51/"
+    },
+    {
+      "at": 1791943622317,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/145/"
+    },
+    {
+      "at": 1791943622398,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/defog/"
+    },
+    {
+      "at": 1791943622398,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/uproar/"
+    },
+    {
+      "at": 1791943622398,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/tackle/"
+    },
+    {
+      "at": 1791943622398,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/tailwind/"
+    },
+    {
+      "at": 1791943623321,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/83/"
+    },
+    {
+      "at": 1791943624704,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/83/"
+    },
+    {
+      "at": 1791943625165,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/39/"
+    },
+    {
+      "at": 1791943625251,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/128/"
+    },
+    {
+      "at": 1791943625267,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/thief/"
+    },
+    {
+      "at": 1791943625267,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/close-combat/"
+    },
+    {
+      "at": 1791943625267,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/cut/"
+    },
+    {
+      "at": 1791943625267,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/poison-jab/"
+    },
+    {
+      "at": 1791943625731,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/132/"
+    },
+    {
+      "at": 1791943626345,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/132/"
+    },
+    {
+      "at": 1791943627803,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/7/"
+    },
+    {
+      "at": 1791943628768,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/150/"
+    },
+    {
+      "at": 1791943631129,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/transform/"
+    },
+    {
+      "at": 1791943631559,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/118/"
+    },
+    {
+      "at": 1791943631705,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/118/"
+    },
+    {
+      "at": 1791943631796,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/33/"
+    },
+    {
+      "at": 1791943631832,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/41/"
+    },
+    {
+      "at": 1791943631925,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/31/"
+    },
+    {
+      "at": 1791943631956,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/endure/"
+    },
+    {
+      "at": 1791943631956,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/supersonic/"
+    },
+    {
+      "at": 1791943631956,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/frustration/"
+    },
+    {
+      "at": 1791943631956,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/body-slam/"
+    },
+    {
+      "at": 1791943632987,
+      "url": "http://127.0.0.204:4307/api/pokeapi-sprites/pokemon/133.png"
+    },
+    {
+      "at": 1791943632987,
+      "url": "http://127.0.0.204:4307/api/pokeapi-sprites/pokemon/25.png"
+    },
+    {
+      "at": 1791943633035,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/133/"
+    },
+    {
+      "at": 1791943633109,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/133/"
+    },
+    {
+      "at": 1791943633620,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon/104/"
+    },
+    {
+      "at": 1791943633721,
+      "url": "http://127.0.0.204:4307/api/pokeapi/pokemon-species/104/"
+    },
+    {
+      "at": 1791943633736,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/69/"
+    },
+    {
+      "at": 1791943633747,
+      "url": "http://127.0.0.204:4307/api/pokeapi/ability/4/"
+    },
+    {
+      "at": 1791943633758,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/water-gun/"
+    },
+    {
+      "at": 1791943633758,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/stomping-tantrum/"
+    },
+    {
+      "at": 1791943633758,
+      "url": "http://127.0.0.204:4307/api/pokeapi/move/substitute/"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "base": true,
+    "kantoAndSelectedNormal": true
+  },
+  "steps": [
+    {
+      "label": "base-320",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "base-390",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "base-844",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "events-320",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "picker-320",
+      "layout": {
+        "width": 320,
+        "scrollWidth": 320,
+        "height": 568
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "events-390",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "picker-390",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "events-844",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    },
+    {
+      "label": "picker-844",
+      "layout": {
+        "width": 844,
+        "scrollWidth": 844,
+        "height": 390
+      },
+      "gameState": "BASE",
+      "currentBaseTab": "EVENTS"
+    }
+  ]
+}

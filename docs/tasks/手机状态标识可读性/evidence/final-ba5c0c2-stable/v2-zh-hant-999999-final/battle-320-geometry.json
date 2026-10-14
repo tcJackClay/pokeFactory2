@@ -1,0 +1,188 @@
+{
+  "width": 320,
+  "scrollWidth": 320,
+  "cards": [
+    {
+      "text": "BP\n9999",
+      "rect": {
+        "x": 33,
+        "y": 27,
+        "w": 79.875,
+        "h": 53.4375
+      },
+      "nodes": [
+        {
+          "text": "BP",
+          "client": 14,
+          "scroll": 14,
+          "font": "11px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 75.03125,
+            "y": 35.3125,
+            "w": 13.8125,
+            "h": 13.75
+          }
+        },
+        {
+          "text": "9999",
+          "client": 67,
+          "scroll": 67,
+          "font": "15.2px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 39.59375,
+            "y": 54.78125,
+            "w": 66.6875,
+            "h": 17.46875
+          }
+        }
+      ]
+    },
+    {
+      "text": "輪次\n7/7",
+      "rect": {
+        "x": 120.0625,
+        "y": 27,
+        "w": 79.875,
+        "h": 53.4375
+      },
+      "nodes": [
+        {
+          "text": "輪次",
+          "client": 22,
+          "scroll": 22,
+          "font": "11px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 158,
+            "y": 35.3125,
+            "w": 22,
+            "h": 13.75
+          }
+        },
+        {
+          "text": "7/7",
+          "client": 67,
+          "scroll": 67,
+          "font": "15.2px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 126.65625,
+            "y": 54.78125,
+            "w": 66.6875,
+            "h": 17.46875
+          }
+        }
+      ]
+    },
+    {
+      "text": "連勝\n999999",
+      "rect": {
+        "x": 207.125,
+        "y": 27,
+        "w": 79.875,
+        "h": 53.4375
+      },
+      "nodes": [
+        {
+          "text": "連勝",
+          "client": 22,
+          "scroll": 22,
+          "font": "11px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 245.0625,
+            "y": 35.3125,
+            "w": 22,
+            "h": 13.75
+          }
+        },
+        {
+          "text": "999999",
+          "client": 67,
+          "scroll": 67,
+          "font": "15.2px",
+          "overflow": "visible",
+          "textOverflow": "clip",
+          "rect": {
+            "x": 213.71875,
+            "y": 54.78125,
+            "w": 66.6875,
+            "h": 17.46875
+          }
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/rock.png\")",
+      "bg": "oklch(0.129 0.042 264.695)",
+      "color": "oklch(0.129 0.042 264.695)",
+      "x": 35.75,
+      "y": 147.65625,
+      "w": 7,
+      "h": 7
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/ground.png\")",
+      "bg": "oklch(0.129 0.042 264.695)",
+      "color": "oklch(0.129 0.042 264.695)",
+      "x": 67.25,
+      "y": 147.65625,
+      "w": 7,
+      "h": 7
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/water.png\")",
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "x": 168.3125,
+      "y": 208.03125,
+      "w": 7,
+      "h": 7
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/water.png\")",
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "x": 57.296875,
+      "y": 405.546875,
+      "w": 6,
+      "h": 6
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/normal.png\")",
+      "bg": "oklch(0.129 0.042 264.695)",
+      "color": "oklch(0.129 0.042 264.695)",
+      "x": 177.296875,
+      "y": 405.546875,
+      "w": 6,
+      "h": 6
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/psychic.png\")",
+      "bg": "rgb(255, 255, 255)",
+      "color": "rgb(255, 255, 255)",
+      "x": 54.296875,
+      "y": 489.546875,
+      "w": 6,
+      "h": 6
+    },
+    {
+      "mask": "url(\"http://127.0.0.204:4307/src/assets/icons/types-52poke/normal.png\")",
+      "bg": "oklch(0.129 0.042 264.695)",
+      "color": "oklch(0.129 0.042 264.695)",
+      "x": 177.296875,
+      "y": 489.546875,
+      "w": 6,
+      "h": 6
+    }
+  ]
+}

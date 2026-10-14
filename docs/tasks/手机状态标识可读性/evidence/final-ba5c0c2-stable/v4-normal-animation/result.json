@@ -1,0 +1,53 @@
+{
+  "name": "v4-normal-animation",
+  "sha": "ba5c0c286d588868b081aa15851e89941f790f2a",
+  "browser": "151.0.7922.34",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "controlled": "Replayed this SHA natural first-battle save with production createSaveData; no random override, no DEV Win; real Strength tap.",
+  "errors": [],
+  "requests": [
+    {
+      "at": 1791942657537,
+      "url": "http://127.0.0.204:4307/api/pokeapi-sprites/pokemon/back/29.png"
+    },
+    {
+      "at": 1791942657537,
+      "url": "http://127.0.0.204:4307/api/pokeapi-sprites/pokemon/75.png"
+    }
+  ],
+  "http": [],
+  "checks": {
+    "normalAnimation": true,
+    "normalBadgeCurrentColor": true,
+    "actualMovePpDecreased": true
+  },
+  "steps": [
+    {
+      "label": "01-move-badges",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BATTLE",
+      "currentBaseTab": "HOME"
+    },
+    {
+      "label": "02-normal-animation",
+      "kind": "actual attack animation captured, not stabilized/static"
+    },
+    {
+      "label": "03-after-turn",
+      "layout": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844
+      },
+      "gameState": "BATTLE",
+      "currentBaseTab": "HOME"
+    }
+  ]
+}
