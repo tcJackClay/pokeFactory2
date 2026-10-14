@@ -1,0 +1,21 @@
+{
+  "sha": "6d9577268df1e45207bdd54d8ec2f8ae08a7564e",
+  "resumedAt": "2026-10-14T09:49:08+08:00",
+  "finishedAt": "2026-10-14T02:13:02.892Z",
+  "goSession": 87275,
+  "viteSession": 41560,
+  "frontend": "0.0.0.0:4305; DISABLE_HMR=true",
+  "backend": "3006; cwd held-item-effects",
+  "health": {
+    "runtime": "go",
+    "status": "ok"
+  },
+  "content": {
+    "cries": "",
+    "csv": "",
+    "pokeapi": "",
+    "sprites": "2026-04-04T00:43:30.784Z"
+  },
+  "sourceDirty": false,
+  "browserBatchesRunning": false
+}

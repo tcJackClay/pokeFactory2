@@ -1,0 +1,8 @@
+evidence/** -text -whitespace
+static-audit/** -text -whitespace
+static-integration/** -text -whitespace
+static-repair/** -text -whitespace
+run-held-*.mjs -text -whitespace
+build-held-manifest.mjs -text -whitespace
+runtime*.md -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+commit-manifest.json -text -whitespace

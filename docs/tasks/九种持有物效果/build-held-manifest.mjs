@@ -1,0 +1,12 @@
+import {readdir,readFile,writeFile,stat} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+const root='D:/Games/pokeFactory2-worktrees/held-item-effects',sha='6d9577268df1e45207bdd54d8ec2f8ae08a7564e';
+const task=root+'/docs/tasks/九种持有物效果',base=task+'/evidence/final-6d95772';
+if(execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()!==sha)throw Error('Frozen SHA changed');
+if(execFileSync('git',['diff','--name-only','HEAD','--','src','backend','scripts'],{cwd:root,encoding:'utf8'}).trim())throw Error('Business source dirty');
+const accepted=[],history=[],files=[];
+async function walk(relative){for(const e of await readdir(base+'/'+relative,{withFileTypes:true})){const p=(relative?relative+'/':'')+e.name;if(e.isDirectory())await walk(p);else{const buf=await readFile(base+'/'+p);files.push({path:p,bytes:buf.length,sha256:createHash('sha256').update(buf).digest('hex')})}}}
+for(const e of await readdir(base,{withFileTypes:true})){if(e.isDirectory()){if(e.name.startsWith('interrupted-')||e.name.startsWith('harness-attempt')){history.push(e.name);continue}if(e.name==='move-sources'){await walk(e.name);continue}const r=JSON.parse(await readFile(base+'/'+e.name+'/result.json','utf8'));if(r.sha!==sha||r.failure||r.errors.length||r.http.length||Object.values(r.checks).some(v=>v!==true))throw Error('Not accepted: '+e.name);accepted.push({name:r.name,controlled:r.controlled,browser:r.browser,checks:Object.keys(r.checks),requests:r.requests,steps:r.steps.map(x=>({label:x.label,layout:x.layout}))});await walk(e.name);}else if(e.name!=='manifest.json'){const buf=await readFile(base+'/'+e.name);files.push({path:e.name,bytes:buf.length,sha256:createHash('sha256').update(buf).digest('hex')})}}
+const manifest={sha,createdAt:new Date().toISOString(),acceptedCases:accepted.length,naturalCases:accepted.filter(x=>!x.controlled).length,evidenceKind:'Chromium touch simulation; all non-natural scenarios use controlled saves and stated RNG; no DEV Win; no physical phone or production acceptance',accepted:accepted.sort((a,b)=>a.name.localeCompare(b.name)),historicalLocalDirectories:history.sort(),artifacts:files.sort((a,b)=>a.path.localeCompare(b.path)),bytes:files.reduce((n,x)=>n+x.bytes,0)};
+await writeFile(base+'/manifest.json',JSON.stringify(manifest,null,2));console.log(JSON.stringify({cases:manifest.acceptedCases,artifacts:files.length,bytes:manifest.bytes,manifestSha256:createHash('sha256').update(await readFile(base+'/manifest.json')).digest('hex')}));

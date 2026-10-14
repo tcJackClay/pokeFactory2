@@ -1,0 +1,5 @@
+?   	pokefactory/backend/cmd/server	[no test files]
+ok  	pokefactory/backend/cmd/sync	2.216s
+ok  	pokefactory/backend/internal/assets	(cached)
+ok  	pokefactory/backend/internal/content	3.992s
+ok  	pokefactory/backend/internal/web	(cached)
