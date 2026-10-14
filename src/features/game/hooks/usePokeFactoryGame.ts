@@ -51,6 +51,7 @@ import {
   bindCompanionToSave,
   beginFactoryWalletRun,
   endFactoryWalletRun,
+  returnFromFactoryLoss,
   adjustWalletBalance,
   commitFactoryGroupSettlement,
   prepareDispatchResult,
@@ -1267,8 +1268,25 @@ export function usePokeFactoryGame(): GameViewModel {
 
   const continueAfterRoundResult = () => {
     if (gameState !== 'ROUND_RESULT' || !roundResult) return;
+    if (roundResult === 'LOSS' && !walletRef.current.currentRunId) return;
     const roundKey = `${walletRef.current.currentRunId}:${stage}`;
     if (handledRoundResultRef.current === roundKey) return;
+    if (roundResult === 'LOSS') {
+      try {
+        const saved = returnFromFactoryLoss(walletRef.current.currentRunId ?? '', inventory.map((item) => item.id));
+        syncWallet(saved.wallet);
+        syncRunSupply(saved.runSupply);
+        syncEventSave(saved, true);
+        factoryResumeActiveRef.current = false;
+        battleResumeSnapshotRef.current = null;
+        clearFactoryEncounter();
+        setPostBattleActionError(null);
+      } catch (error) {
+        console.error('Could not return from factory loss', error);
+        setPostBattleActionError(t('factoryReturnSaveFailed'));
+        return;
+      }
+    }
     handledRoundResultRef.current = roundKey;
     const setNo = getSetNoByStage(stage);
     const battleIndexInSet = getBattleIndexInSet(stage);

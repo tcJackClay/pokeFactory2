@@ -6,7 +6,7 @@ import type { GamePokemon } from '../../../types';
 import {
   parseSaveDataFromText, replaceSaveData, loadSaveData, persistSaveData, prepareDispatchResult,
   commitDispatchResult, commitEventBallAttempt, persistEventResources, beginFactoryWalletRun,
-  endFactoryWalletRun, adjustWalletBalance, startEventDispatch, deferDispatchBattle, createSaveData,
+  endFactoryWalletRun, adjustWalletBalance, startEventDispatch, deferDispatchBattle, createSaveData, returnFromFactoryLoss, commitFactoryGroupSettlement,
 } from '../../../services/saveManager';
 import { BASE_BALL_IDS, createEmptyBaseInventory, createEmptyEventPersistentState, isBaseBallId, validateBaseInventory } from '../utils/baseBallInventory';
 import { EVENT_REGIONS, DISPATCH_ITEM_BALL_REWARD, createDefaultDispatchState } from '../config/events';
@@ -18,7 +18,7 @@ function callback(file: string, name: string, scope: Record<string, unknown>) {
   const tree = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
   let expression = '';
   const visit = (node: ts.Node) => {
-    if (ts.isVariableDeclaration(node) && node.name.getText(tree) === name && node.initializer && ts.isCallExpression(node.initializer)) expression = node.initializer.arguments[0].getText(tree);
+    if (ts.isVariableDeclaration(node) && node.name.getText(tree) === name && node.initializer) expression = ts.isCallExpression(node.initializer) ? node.initializer.arguments[0].getText(tree) : node.initializer.getText(tree);
     ts.forEachChild(node, visit);
   };
   visit(tree);
@@ -441,4 +441,62 @@ test('actual builder and sync keep old render revision; fresh selection and elap
   const hookSource = fs.readFileSync(new URL('./usePokeFactoryGame.ts', import.meta.url), 'utf8');
   const builderSource = hookSource.slice(hookSource.indexOf('  const buildCurrentSaveData'), hookSource.indexOf('  currentSaveBuilderRef.current = buildCurrentSaveData'));
   assert.match(builderSource, /}, \[\s*baseInventory,/);
+}));
+
+
+test('actual loss return saves terminal run and party atomically, retries faults, rejects stale exit, and resumes pending dispatch after reload', async () => storage(async (data, fail) => {
+  const saved = base(); saved.baseInventory.balls.pokeball = 3;
+  saved.events.pendingResults[pending().key] = pending('battle');
+  saved.wallet.currentRunId = 'run:loss';
+  saved.runSupply = { runId: 'run:loss', tickets: 0, lastCreditedStage: 0 };
+  const source = { ...saved, factory: { ...saved.factory, battleResume: {
+    status: 'READY', battleKind: 'FACTORY', phase: 'BATTLE', checkpointAt: new Date().toISOString(),
+    stage: 1, streak: 0, swapCount: 0, totalRents: 0, coins: 0, enemyAiTier: 'RANDOM',
+    playerTeam: [{ ...pokemon(), factoryOriginalHeldItemId: null, factoryEquippedHeldItemId: null, currentHp: 0 }],
+    enemyTeam: [{ ...pokemon(25), factoryOriginalHeldItemId: null, factoryEquippedHeldItemId: null }],
+    factoryRentals: [], selectedRentalIndices: [], inventoryItemIds: [], currentEnemyTrainerId: 'FRONTIER_TRAINER_LIZBETH',
+    battleLog: [], turn: 'PLAYER', battleMenuTab: 'MAIN', weather: 'none', weatherTurns: 0,
+    fieldState: [], fieldTurns: {}, tailwindTurns: { player: 0, enemy: 0 },
+    activeBuffs: { atk: false, def: false }, enemyBuffs: { atk: false, def: false },
+  } } };
+  replaceSaveData(parseSaveDataFromText(JSON.stringify(source)));
+  assert.throws(() => returnFromFactoryLoss('run:loss', []), /settled/);
+  commitFactoryGroupSettlement(loadSaveData()!, 'run:loss', 1, 'LOSS', false);
+  const loss = loadSaveData()!;
+  assert.equal(loss.factory.battleResume.status, 'READY');
+  const { scope, state } = scopeFor('battle');
+  scope.gameState = 'ROUND_RESULT'; scope.roundResult = 'LOSS'; scope.stage = 1;
+  scope.walletRef = { current: loss.wallet }; scope.handledRoundResultRef = { current: null };
+  scope.battleResumeSnapshotRef = { current: loss.factory.battleResume };
+  scope.returnFromFactoryLoss = returnFromFactoryLoss;
+  scope.inventory = [{ id: 'protein' }]; scope.clearFactoryEncounter = () => {};
+  scope.syncWallet = (wallet: any) => { scope.walletRef.current = wallet; };
+  scope.syncRunSupply = () => {};
+  scope.getSetNoByStage = () => 1; scope.getBattleIndexInSet = () => 1;
+  scope.getClassicPostBattleDestination = () => 'BASE'; scope.streak = 0; scope.highestStreak = 0;
+  scope.lastTokenGain = 0;
+  const proceed = callback('./usePokeFactoryGame.ts', 'continueAfterRoundResult', scope);
+  const original = data.get(key); fail(); proceed();
+  assert.equal(data.get(key), original); assert.equal(scope.handledRoundResultRef.current, null);
+  assert.notEqual(state.gameState, 'BASE'); assert.match(state.postBattleActionError, /factoryReturnSaveFailed/);
+  proceed();
+  const ended = loadSaveData()!;
+  assert.equal(state.gameState, 'BASE'); assert.equal(ended.wallet.currentRunId, null);
+  assert.equal(ended.factory.battleResume.status, 'EMPTY'); assert.equal(ended.runSupply.runId, null);
+  assert.equal(ended.baseInventory.balls.pokeball, 3); assert.deepEqual(ended.collection, loss.collection);
+  assert.deepEqual(ended.events.resourceCheckpoint?.inventoryItemIds, ['protein']);
+  assert.ok(ended.events.resourceCheckpoint!.playerTeam[0].currentHp > 0);
+  assert.equal(ended.events.pendingResults[pending().key].outcome, 'battle');
+  const afterReturn = data.get(key); proceed(); assert.equal(data.get(key), afterReturn);
+  assert.equal(state.postBattleActionError, null);
+  persistSaveData(loss); // Same persisted writer used by an old exit builder must not resurrect the run.
+  assert.equal(loadSaveData()!.wallet.currentRunId, null);
+  assert.equal(loadSaveData()!.factory.battleResume.status, 'EMPTY');
+  replaceSaveData(parseSaveDataFromText(data.get(key)!));
+  const reloaded = scopeFor('battle');
+  reloaded.scope.eventRuntimeRef.current.playerTeam = loadSaveData()!.events.resourceCheckpoint!.playerTeam;
+  await reloaded.dispatch('kanto');
+  assert.equal(reloaded.state.gameState, 'BATTLE');
+  assert.equal(loadSaveData()!.baseInventory.balls.pokeball, 3);
+  assert.equal(loadSaveData()!.events.pendingResults[pending().key], undefined);
 }));

@@ -18,6 +18,7 @@ export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
     lastTokenGain,
     t,
     continueAfterRoundResult,
+    postBattleActionError,
   } = viewModel;
 
   const shouldReduceMotion = useReducedMotion();
@@ -90,6 +91,7 @@ export function RoundResultScreen({ viewModel }: GameViewSectionProps) {
             </div>
           )}
 
+          {postBattleActionError && <p role="alert" className="mt-4 text-sm font-bold text-red-700">{postBattleActionError}</p>}
           <button
             type="button"
             data-tone="primary"

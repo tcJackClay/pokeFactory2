@@ -34,3 +34,8 @@
 ## A2 builder 复审修复门禁
 
 复审发现13dd1f2的旧 builder 可借新 ref revision 回写 IDLE。本轮将 builder 版本绑定同次渲染，增加真实 builder/sync 时序回归及新渲染选择/到期 READY 保存验证。串行门禁日志 `static-a2-builder/`：lint PASS；test **397/397**、0 skip/cancel；build PASS（8.27秒，主包695.43 kB/gzip210.52 kB，保留 >500 kB 提示）；Go PASS（4包/server无测试）。专项26/26。未实玩，等待新冻结提交独立复审；旧日志及复现脚本保留。
+
+
+## 自然败退返回基地修复门禁
+
+1157390 实玩失败路径另保留。新修复串行 lint → test → build → Go 均 PASS，日志 `static-loss-return/`；全量 **398/398**，0 skip/cancel；构建8.20秒，主包696.82 kB/gzip210.77 kB（既有 >500 kB 提示）；Go四包PASS、server无测试。专项27/27包含实际结算与返回回调故障/重试/重载/原pending领取，胜利暂停结束既有静态测试也通过。未由实现角色运行游戏，待新SHA独立复审后重新实玩。

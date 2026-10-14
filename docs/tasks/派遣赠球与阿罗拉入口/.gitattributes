@@ -1,3 +1,4 @@
 static/*.txt -text -whitespace
 static-a1-a2/*.txt -text -whitespace
 static-a2-builder/*.txt -text -whitespace
+static-loss-return/*.txt -text -whitespace

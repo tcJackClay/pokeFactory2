@@ -1,5 +1,5 @@
 {
-  "status": "a1-a2-repaired-awaiting-independent-reaudit",
+  "status": "loss-return-repaired-awaiting-independent-reaudit",
   "research_baseline": "be353a11e7b80fad5bfff04ba2a0cf58bfa74b79",
   "blocked_by": [],
   "implementation_base": "00f30d152596c185287f99b4be7227f93f581fe4",
@@ -87,7 +87,7 @@
       },
       {
         "file": "src/features/game/hooks/dispatchBallTransactions.test.ts",
-        "reason": "26 actual callback/storage tests; includes builder/sync stale render and fresh selection/READY persistence"
+        "reason": "27 actual callback/storage tests including loss settlement -> return failure/retry -> stale exit -> reload -> pending encounter"
       }
     ],
     "player": [
@@ -122,7 +122,8 @@
     "saveWriters": "serializeSaveData protects all regular callers; event transactions use validated eventWrite; replaceSaveData replaces whole imported save",
     "dispatchStart": "startEventDispatch atomically persists RUNNING before UI; metadata continuation validates generation/import/current selection/Owned; older revision drafts keep stored dispatch states",
     "deferredBattle": "deferDispatchBattle retains pending battle/READY/resources when no usable team; check before generation and after target await; existing replacement panel for fainted lead with healthy reserve",
-    "saveBuilder": "buildCurrentSaveData captures render baseInventory (dependency) paired with closure dispatches; never uses latest ref to label old dispatch fields"
+    "saveBuilder": "buildCurrentSaveData captures render baseInventory (dependency) paired with closure dispatches; never uses latest ref to label old dispatch fields",
+    "lossReturn": "returnFromFactoryLoss accepts persisted same-run ROUND_RESULT/LOSS; one write ends run/resume/supply and keeps restored party/non-ball inventory in resourceCheckpoint; continuation navigates only after success"
   },
-  "repair_of": "13dd1f222c1630ff56c67791aa46f887575c7bf3"
+  "repair_of": "11573909569213af6cadd62e46b266ff83c4dbba"
 }

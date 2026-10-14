@@ -147,3 +147,14 @@ F1–F5 均来自本任务 design 中的用户决定；边界约束来自 PRD。
 `buildCurrentSaveData` 的 `baseInventory` 必须来自和 `eventDispatches` 相同的 React 渲染，并列入 useCallback 依赖。不能使用即时更新的 `baseInventoryRef.current` 为旧闭包中的 IDLE 标记新 revision。`syncEventSave` 同步更新 ref、异步调度 state 后，旧 builder 仍携带旧 revision，由 serializer 保留已保存 RUNNING；新渲染 builder 则正常持久化选择和到期 READY，不能一律丢弃 UI 派遣字段。
 
 新增实际 builder + sync 序列测试，保留复审复现脚本 `audit-stale-builder.mjs` 原文（脚本预期针对13dd1f2失败版本，并非修复版通过门禁）。专项26项；旧门禁和原审计历史不覆盖。
+
+
+## 自然败退恢复通路修复（F2 / F3 / F5，A1恢复入口）
+
+1157390 实玩确认：工厂败退已恢复队伍，但“返回基地”只改UI，wallet.currentRunId 与 ROUND_RESULT/LOSS 仍在磁盘，刷新回结算页，派遣交易正确拒绝未结束挑战。此前自然可达性的代码判断遗漏终止事务。
+
+最小修复 `returnFromFactoryLoss(runId, nonBallItemIds)`：仅从最新磁盘同run且已结算 ROUND_RESULT/LOSS 接受返回；一次主档写入清 currentRunId、续局与本局券，保存已结算的恢复队伍/当前非球背包为临时资源快照，并推进钱包和资源 revision。球库存、永久收藏和已准备派遣结果不变。不允许战斗进行中或胜利暂停阶段调用此专用交易，不放松派遣工厂隔离。
+
+实际 `continueAfterRoundResult` 成功才更新 refs、清工厂遭遇、显示基地；失败留在结算页显示可重试提示，不能提前写 handledRoundResultRef。结束成功后的旧run退出草稿由钱包 revision 防复活，重复返回不再写盘。原胜利暂停结束接口保持。
+
+实际回调测试包括真实 settlement → 返回写失败 → 同回调重试 → 旧退出草稿 → 重载 → 原pending事件领取；验证球/Owned/pending、恢复队伍/非球快照及仍在战斗时拒绝。自然手机流程必须在新SHA重新实玩。租借预取错误发现 harness 对全局 Math.random 固定值可能干扰候选去重，交player限定RNG调用域重测，未修改租借生成。

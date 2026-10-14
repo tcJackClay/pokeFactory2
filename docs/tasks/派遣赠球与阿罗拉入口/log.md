@@ -31,3 +31,19 @@
 # Programmer
 
 修复 A2 复审残留：实际 buildCurrentSaveData 捕获同渲染 baseInventory 并加入依赖，防止 syncEventSave 更新 ref 后旧闭包借新 revision 回写 IDLE。新增真实 builder/sync/start/persist 时序测试，并验证新渲染选择与到期 READY 保存；专项26/26，全量397/397，lint/build/Go串行 PASS。日志 `static-a2-builder/`。原复现脚本和审计证据未修改；提交后再次冻结，不游戏、不推送、不合并。
+
+# Auditor
+
+- What I checked: 冻结1157390全切片静态复审；独立实际builder/sync修复验证，正常选择/READY保存，A1/A2及397项回归；四门禁严格串行PASS。
+- Fixed locally: none，仅新增独立修复验证脚本与审计日志/报告，原复现保留；未提交、未运行游戏。
+- Found but not fixed (needs lead routing): none in this slice；实体Android、生产、完整事件续局/跨标签强一致等既有边界见audit。
+- Verdict: PASS（静态）；A1/A2均关闭，交player在1157390冻结源码执行R1–R7及九道具/手机代表回归。
+
+# Player
+
+1157390 首轮模拟浏览器因自然工厂逃跑后钱包 currentRunId 未清，事件领取被拒绝而阻断。11:20:36 +08 停止全部游戏验收；服务保留、浏览器已关闭。详见 runtime.md 与 evidence/final-1157390/r5-factory-natural-and-pending-recovery。此前局部通过仅历史，不是修复版最终验收；另保留 join 场景 Failed rentals 控制台观察，未归因环境。
+
+
+# Programmer
+
+player停止后，按批准边界修复自然败退返回：新增同写终止run/resume/supply和已恢复临时队伍/非球背包的returnFromFactoryLoss；实际continue保存成功才切BASE，失败可见、可重试，重复动作和旧退出草稿不复活挑战。球/Owned/pending不变，不放宽工厂内领取，不改租借生成。更新plan/context/implementation；全量398/398、lint/build/Go串行PASS，专项27/27，日志static-loss-return。提交后冻结待独立复审和新代码实玩。

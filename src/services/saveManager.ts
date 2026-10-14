@@ -1796,6 +1796,25 @@ export function endFactoryWalletRun(draft: GameSaveData, runId: string): Factory
   return wallet;
 }
 
+/** A settled loss returns to base only after run termination and the restored party share one write. */
+export function returnFromFactoryLoss(runId: string, inventoryItemIds: string[]): GameSaveData {
+  const save = requireEventSave();
+  const resume = save.factory.battleResume;
+  if (!runId || save.wallet.currentRunId !== runId || resume.status !== 'READY'
+    || resume.phase !== 'ROUND_RESULT' || resume.roundResult !== 'LOSS') throw new Error('A settled factory loss is required.');
+  const committed = writeEventSave({ ...save,
+    wallet: { ...save.wallet, revision: nextWalletRevision(save.wallet), currentRunId: null, settledThrough: 0, lastSettlement: null },
+    runSupply: createEmptyRunSupply(),
+    factory: { ...save.factory, challengeStatus: 0, curChallengeBattleNum: 0, challengePaused: false,
+      winStreakActiveFlags: 0, trainerIdsBySet: [], battleResume: createEmptyBattleResume() },
+    baseInventory: nextBaseInventory(save.baseInventory),
+    events: { ...save.events, resourceCheckpoint: { playerTeam: resume.playerTeam, inventoryItemIds } },
+    updatedAt: new Date().toISOString(),
+  });
+  clearPendingFactorySettlement();
+  return committed;
+}
+
 export function adjustWalletBalance(draft: GameSaveData, delta: number): FactoryWallet {
   if (!Number.isSafeInteger(delta)) throw new Error('Invalid wallet adjustment.');
   if (typeof window === 'undefined') throw new Error('Save storage is unavailable.');

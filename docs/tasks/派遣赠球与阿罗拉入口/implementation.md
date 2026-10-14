@@ -45,3 +45,8 @@
 ### A2 复审修复
 
 13dd1f2 仍允许实际旧 builder 借用同步更新的 ref revision 回写旧 IDLE；此前“旧草稿”测试未构造这一实际时序。现改为 builder 捕获同渲染 `baseInventory` 并加入依赖，新增真实 builder/sync 序列与新选择/到期 READY 回归。专项26项，重新执行四门禁，证据另存 `static-a2-builder/`。不以13dd1f2门禁替代本次结果。
+
+
+### 自然败退返回基地修复
+
+1157390 实玩阻断为旧 LOSS 返回只改UI、没有结束磁盘 run。新增 `returnFromFactoryLoss` 原子结束并保留恢复队伍，实际continue成功才切BASE/清refs；保存失败结算页出现三语言提示可重试，双击及旧退出写不复活。原工厂内禁派遣、原胜利暂停流程不改。新增实际结算/continue/存储故障/重载/派遣续领回归，专项27项；原失败实玩证据保留，等待新SHA复审与重跑。租借RNG夹具干扰仅交player修验证脚本，不改业务。
