@@ -1,3 +1,4 @@
+import { createBallAttemptId, isBaseBallId, type BaseBallId, type BaseBallCounts } from '../utils/baseBallInventory';
 import { prepareMoveUse } from '../battle/engine/prepareMoveUse';
 import { resolveSitrusBerry } from '../battle/engine/resolveHealingItem';
 import { resolveMentalHerb } from '../battle/engine/resolveMentalHerb';
@@ -116,7 +117,9 @@ interface UseBattleControllerParams {
   battleSpecialUsage: BattleSpecialUsageState;
   enemySpecialUsage: BattleSpecialUsageState;
   allowWildCatch: boolean;
-  commitCaughtPokemon: (pokemon: GamePokemon) => 'COMMITTED' | 'ALREADY_COMMITTED' | 'FAILED';
+  commitEventItemUse: (team: GamePokemon[], items: Item[]) => boolean;
+  baseBallCounts: BaseBallCounts;
+  commitBallAttempt: (pokemon: GamePokemon, ballId: BaseBallId, caught: boolean, attemptId: string) => 'COMMITTED' | 'ALREADY_COMMITTED' | 'NO_BALLS' | 'FAILED';
   suppressFactoryBattleResult: boolean;
   onSuppressBattleResolved: (result: 'WIN' | 'LOSS', resolvedTeam: GamePokemon[]) => void;
   factoryRunId: string | null;
@@ -385,7 +388,9 @@ export function useBattleController({
   battleSpecialUsage,
   enemySpecialUsage,
   allowWildCatch,
-  commitCaughtPokemon,
+  commitBallAttempt,
+  commitEventItemUse,
+  baseBallCounts,
   suppressFactoryBattleResult,
   onSuppressBattleResolved,
   factoryRunId,
@@ -1525,7 +1530,7 @@ export function useBattleController({
 
   const useItem = useCallback(async (item: Item, index: number) => {
     if (gameState !== 'BATTLE' || turn !== 'PLAYER' || isMessageProcessing || !enemy || playerTeam[0]?.currentHp <= 0) return;
-    if (item.isBall && inventory[index]?.id !== item.id) throw new ItemActionCancelledError();
+    if (item.isBall && (!allowWildCatch || !isBaseBallId(item.id) || baseBallCounts[item.id] < 1)) throw new ItemActionCancelledError();
     const epoch = battleInstanceRef.current.epoch;
     const isCurrent = () => battleMountedRef.current && battleInstanceRef.current.epoch === epoch
       && liveBattleStateRef.current.gameState === 'BATTLE' && liveBattleStateRef.current.enemy?.id === enemy.id;
@@ -1548,19 +1553,14 @@ export function useBattleController({
       const hpFactor = 1 - (enemy.currentHp / Math.max(1, enemy.maxHp));
       const catchRate = Math.max(0.08, Math.min(0.95, 0.25 + hpFactor * 0.55 + ((item.catchRate ?? 1) - 1) * 0.18));
       const caught = Math.random() < catchRate;
-      if (caught) {
-        const committed = commitCaughtPokemon(enemy);
-        if (committed !== 'COMMITTED') {
-          setIsCatching(false);
-          setCatchSuccess(null);
-          await addMessagesSequentially([t(committed === 'FAILED' ? 'permanentCollectionSaveFailed' : 'permanentCollectionAlreadySaved')]);
-          // No action was committed: do not spend a ball or let the opponent act.
-          throw new ItemActionCancelledError();
-        }
+      if (!isBaseBallId(item.id)) throw new ItemActionCancelledError();
+      const committed = commitBallAttempt(enemy, item.id, caught, createBallAttemptId());
+      if (committed !== 'COMMITTED') {
+        setIsCatching(false);
+        setCatchSuccess(null);
+        await addMessagesSequentially([t(committed === 'NO_BALLS' ? 'baseNoBalls' : committed === 'FAILED' ? 'dispatchSaveFailed' : 'permanentCollectionAlreadySaved')]);
+        throw new ItemActionCancelledError();
       }
-      const newInventory = [...inventory];
-      newInventory.splice(index, 1);
-      setInventory(newInventory);
       setCatchSuccess(caught);
       setIsCatching(false);
 
@@ -1593,17 +1593,22 @@ export function useBattleController({
 
     const newInventory = [...inventory];
     newInventory.splice(index, 1);
-    setInventory(newInventory);
-
     const updatedTeam = [...playerTeam];
     updatedTeam[0] = item.effect(updatedTeam[0]);
+    if (allowWildCatch && (!isCurrent() || !commitEventItemUse(updatedTeam, newInventory))) {
+      await addMessagesSequentially([t('dispatchSaveFailed')]);
+      throw new ItemActionCancelledError();
+    }
+    setInventory(newInventory);
     setPlayerTeam(updatedTeam);
 
     return true;
   }, [
     addMessagesSequentially,
     allowWildCatch,
-    commitCaughtPokemon,
+    commitBallAttempt,
+    commitEventItemUse,
+    baseBallCounts,
     currentLanguage,
     enemy,
     gameState,

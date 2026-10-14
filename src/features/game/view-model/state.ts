@@ -1,3 +1,4 @@
+import type { BaseBallCounts } from '../utils/baseBallInventory';
 import type {
   BattleMenuTab,
   BattleHazards,
@@ -71,6 +72,8 @@ export interface GameViewRosterState {
   factoryRentals: GamePokemon[];
   selectedRentalIndices: number[];
   inventory: Item[];
+  baseBallCounts: BaseBallCounts;
+  eventBattleActive: boolean;
   battleLog: string[];
 }
 

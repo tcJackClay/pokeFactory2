@@ -1,3 +1,5 @@
+import { createEmptyBaseInventory, createEmptyEventPersistentState, validateBaseInventory, validatePendingResult, nextBaseInventory, isBaseBallId, BASE_BALL_IDS, type BaseBallInventory, type EventPersistentState, type EventResourceCheckpoint, type PendingDispatchResult, type BaseBallId, type DispatchResultReceipt } from '../features/game/utils/baseBallInventory';
+import { DISPATCH_ITEM_BALL_REWARD, EVENT_REGIONS } from '../features/game/config/events';
 import type { BattleHazards, FieldState, FieldTurns, GamePokemon, TailwindTurns } from '../types';
 import {
   getBattleIndexInSet,
@@ -34,7 +36,7 @@ import { normalizePermanentCollection, samePermanentAcquisition, validatePermane
 
 const SAVE_STORAGE_KEY = 'pokefactory_save_v1';
 const PENDING_SETTLEMENT_KEY = 'pokefactory_pending_settlement_v1';
-const SAVE_SCHEMA_VERSION = 15 as const;
+const SAVE_SCHEMA_VERSION = 16 as const;
 
 export type SaveInspection =
   | { kind: 'none' }
@@ -206,6 +208,7 @@ export interface CollectionLedger {
 }
 
 export interface GameSaveData {
+  baseInventory: BaseBallInventory;
   schemaVersion: typeof SAVE_SCHEMA_VERSION;
   updatedAt: string;
   wallet: FactoryWallet;
@@ -236,7 +239,7 @@ export interface GameSaveData {
     battleResume: FactoryBattleResume;
   };
   collection: CollectionLedger;
-  events: {
+  events: EventPersistentState & {
     speciesBattleCounts: Record<string, number>;
     dispatchPokemonByRegion: Record<string, number | null>;
     dispatches: Record<string, {
@@ -262,7 +265,8 @@ interface SaveDraftInput {
   developerMode: boolean;
   factory: GameSaveData['factory'];
   collection: CollectionLedger;
-  events: GameSaveData['events'];
+  events: Omit<GameSaveData['events'], keyof EventPersistentState> & Partial<EventPersistentState>;
+  baseInventory?: BaseBallInventory;
 }
 
 const NON_VOLATILE_STATUS_IDS = new Set([
@@ -793,6 +797,7 @@ function sanitizeEvents(value: unknown): GameSaveData['events'] {
   });
 
   return {
+    ...validateEventPersistentState(source),
     speciesBattleCounts: sanitizeEventBattleCounts(source.speciesBattleCounts),
     dispatchPokemonByRegion: Object.fromEntries(
       Object.entries(source.dispatchPokemonByRegion && typeof source.dispatchPokemonByRegion === 'object'
@@ -807,6 +812,35 @@ function sanitizeEvents(value: unknown): GameSaveData['events'] {
     ),
     dispatches: Object.fromEntries(dispatchEntries),
   };
+}
+
+function validateEventPersistentState(source: Record<string, unknown>): EventPersistentState {
+  if (!isRecord(source.pendingResults) || !isRecord(source.completedResults)
+    || !(source.resourceCheckpoint === null || isRecord(source.resourceCheckpoint))) throw new Error('Event transaction state is missing.');
+  const pendingResults: EventPersistentState['pendingResults'] = {};
+  for (const [key, value] of Object.entries(source.pendingResults)) {
+    const pending = validatePendingResult(value);
+    if (pending.key !== key) throw new Error('Pending dispatch identity mismatch.');
+    pendingResults[key] = pending;
+  }
+  const completedResults: EventPersistentState['completedResults'] = {};
+  for (const [key, value] of Object.entries(source.completedResults)) {
+    if (!isRecord(value) || value.key !== key || typeof value.regionId !== 'string'
+      || !EVENT_REGIONS.some((r) => r.id === value.regionId) || !Number.isSafeInteger(value.startedAt)
+      || (value.startedAt as number) <= 0 || key !== `dispatch:${value.regionId}:${value.startedAt}`
+      || !Number.isSafeInteger(value.at) || (value.at as number) < (value.startedAt as number)
+      || typeof value.result !== 'string' || pendingResults[key]) throw new Error('Invalid completed dispatch.');
+    completedResults[key] = value as unknown as DispatchResultReceipt;
+  }
+  let resourceCheckpoint: EventResourceCheckpoint | null = null;
+  if (isRecord(source.resourceCheckpoint)) {
+    const checkpoint = source.resourceCheckpoint;
+    if (!Array.isArray(checkpoint.playerTeam) || checkpoint.playerTeam.length > 6
+      || !checkpoint.playerTeam.every(hasRecoverablePokemonCore) || !Array.isArray(checkpoint.inventoryItemIds)
+      || !checkpoint.inventoryItemIds.every((id) => typeof id === 'string' && !isBaseBallId(id) && /^[a-z][a-z0-9_]*$/.test(id))) throw new Error('Invalid event resources.');
+    resourceCheckpoint = { playerTeam: sanitizeGamePokemonArray(checkpoint.playerTeam), inventoryItemIds: [...checkpoint.inventoryItemIds] };
+  }
+  return { pendingResults, completedResults, resourceCheckpoint };
 }
 
 function normalizeSaveData(value: unknown): GameSaveData {
@@ -831,6 +865,7 @@ function normalizeSaveData(value: unknown): GameSaveData {
     updatedAt: new Date().toISOString(),
     wallet,
     runSupply,
+    baseInventory: validateBaseInventory(source.baseInventory),
     progress: {
       totalRents: sanitizePositiveInt(progress.totalRents, 0),
       highestStreak: sanitizePositiveInt(progress.highestStreak, 0),
@@ -1128,6 +1163,7 @@ function assertCurrentSaveRecoverability(value: unknown): void {
   }
 
   if (resume.status === 'READY') {
+    if (Array.isArray(resume.inventoryItemIds) && resume.inventoryItemIds.some(isBaseBallId)) throw new Error('Factory inventory cannot contain base balls.');
     if (resume.hazards !== undefined && !hasValidBattleHazards(resume.hazards)) {
       throw new Error('Battle checkpoint has invalid entry hazards.');
     }
@@ -1222,7 +1258,8 @@ export function createSaveData(input: SaveDraftInput): GameSaveData {
     },
     factory: input.factory,
     collection: input.collection,
-    events: input.events,
+    events: { ...createEmptyEventPersistentState(), ...input.events },
+    baseInventory: input.baseInventory ?? createEmptyBaseInventory(),
   });
 }
 
@@ -1282,7 +1319,7 @@ export function loadSaveData(): GameSaveData | null {
 }
 
 /** Keep committed acquisition receipts when an older in-memory draft is saved. */
-function serializeSaveData(draft: GameSaveData, replace = false): string {
+function serializeSaveData(draft: GameSaveData, replace = false, eventWrite = false): string {
   const inspection = inspectStoredSave();
   if (inspection.kind !== 'none' && inspection.kind !== 'valid') {
     throw new Error('Stored save requires backup or removal before writing.');
@@ -1298,6 +1335,19 @@ function serializeSaveData(draft: GameSaveData, replace = false): string {
     acquisitions,
   }, companionSpeciesId);
   const dispatches = { ...draft.events.dispatches };
+  let baseInventory = stored && !eventWrite ? stored.baseInventory : draft.baseInventory;
+  let persistent = stored && !eventWrite ? stored.events : draft.events;
+  if (stored && !replace && draft.wallet.currentRunId !== null && draft.wallet.currentRunId !== stored.wallet.currentRunId) {
+    baseInventory = nextBaseInventory(baseInventory);
+    persistent = { ...persistent, resourceCheckpoint: null };
+  }
+  if (stored) {
+    for (const receipt of Object.values(stored.events.completedResults)) {
+      if (dispatches[receipt.regionId]?.startedAt === receipt.startedAt) {
+        dispatches[receipt.regionId] = stored.events.dispatches[receipt.regionId];
+      }
+    }
+  }
   if (stored) {
     for (const record of stored.collection.acquisitions) {
       const stale = dispatches[record.regionId];
@@ -1311,7 +1361,9 @@ function serializeSaveData(draft: GameSaveData, replace = false): string {
     ...draft,
     collection,
     progress: { ...draft.progress, companionSpeciesId },
-    events: { ...draft.events, dispatches },
+    baseInventory,
+    events: { ...draft.events, dispatches, pendingResults: persistent.pendingResults,
+      completedResults: persistent.completedResults, resourceCheckpoint: persistent.resourceCheckpoint },
   });
 }
 
@@ -1488,6 +1540,96 @@ export function commitPermanentAcquisition(
   const committed = parseSaveDataFromText(serialized);
   window.localStorage.setItem(SAVE_STORAGE_KEY, serialized);
   return { save: committed, applied: true };
+}
+
+/** All event resource transactions use one current stored save and one final write. */
+function requireEventSave(): GameSaveData {
+  const save = loadSaveData();
+  if (!save || save.progress.companionSpeciesId === null) throw new Error('A bound, valid save is required.');
+  return save;
+}
+function writeEventSave(save: GameSaveData): GameSaveData {
+  const serialized = serializeSaveData(save, false, true);
+  const normalized = parseSaveDataFromText(serialized);
+  window.localStorage.setItem(SAVE_STORAGE_KEY, serialized);
+  return normalized;
+}
+function assertDispatchReady(save: GameSaveData, pending: PendingDispatchResult) {
+  validatePendingResult(pending);
+  const dispatch = save.events.dispatches[pending.regionId];
+  if (!dispatch || dispatch.startedAt !== pending.startedAt
+    || !(dispatch.status === 'READY' || (dispatch.status === 'RUNNING' && dispatch.readyAt !== null && dispatch.readyAt <= Date.now()))
+    || !save.collection.ownedIds.includes(pending.selectedPokemonId)
+    || save.events.dispatchPokemonByRegion[pending.regionId] !== pending.selectedPokemonId) throw new Error('Dispatch changed before receipt.');
+}
+export function prepareDispatchResult(pending: PendingDispatchResult): GameSaveData {
+  const save = requireEventSave();
+  if (save.wallet.currentRunId !== null) throw new Error('Factory challenge blocks dispatch rewards.');
+  if (save.events.completedResults[pending.key] || save.events.pendingResults[pending.key]) return save;
+  assertDispatchReady(save, pending);
+  return writeEventSave({ ...save, baseInventory: nextBaseInventory(save.baseInventory), events: { ...save.events,
+    pendingResults: { ...save.events.pendingResults, [pending.key]: pending } } });
+}
+export function commitDispatchResult(input: {
+  key: string; result: string; resources: EventResourceCheckpoint; acquisition?: PermanentAcquisition;
+}): { save: GameSaveData; applied: boolean } {
+  const save = requireEventSave();
+  if (save.wallet.currentRunId !== null) throw new Error('Factory challenge blocks dispatch rewards.');
+  if (save.events.completedResults[input.key]) return { save, applied: false };
+  const pending = save.events.pendingResults[input.key];
+  if (!pending) throw new Error('A saved dispatch result is required.');
+  assertDispatchReady(save, pending);
+  const at = Date.now();
+  let baseInventory = save.baseInventory;
+  let collection = save.collection;
+  if (pending.outcome === 'item') {
+    baseInventory = nextBaseInventory(baseInventory, { id: input.key, dispatchKey: input.key,
+      kind: 'ITEM', ballId: 'pokeball', delta: DISPATCH_ITEM_BALL_REWARD, at });
+  } else if (input.acquisition) {
+    if (pending.outcome !== 'join' || input.acquisition.acquisitionId !== input.key || input.acquisition.source !== 'DISPATCH_JOIN') throw new Error('Dispatch acquisition mismatch.');
+    const ballId = BASE_BALL_IDS.find((id) => baseInventory.balls[id] > 0);
+    if (!ballId) throw new Error('No base balls available.');
+    baseInventory = nextBaseInventory(baseInventory, { id: input.key, dispatchKey: input.key, kind: 'JOIN', ballId, delta: -1, at });
+    collection = normalizePermanentCollection({ ...collection,
+      acquisitions: validatePermanentAcquisitions([...collection.acquisitions, input.acquisition]) }, save.progress.companionSpeciesId);
+  } else baseInventory = nextBaseInventory(baseInventory);
+  const pendingResults = { ...save.events.pendingResults };
+  delete pendingResults[input.key];
+  const receipt: DispatchResultReceipt = { key: input.key, regionId: pending.regionId, startedAt: pending.startedAt, result: input.result, at };
+  return { applied: true, save: writeEventSave({ ...save, baseInventory, collection, events: { ...save.events,
+    pendingResults, completedResults: { ...save.events.completedResults, [input.key]: receipt },
+    resourceCheckpoint: input.resources,
+    dispatches: { ...save.events.dispatches, [pending.regionId]: { status: 'IDLE', startedAt: null, readyAt: null, lastResolvedAt: at, lastResult: input.result } },
+  } }) };
+}
+export function commitEventBallAttempt(input: {
+  dispatchKey: string; attemptId: string; ballId: BaseBallId; acquisition?: PermanentAcquisition;
+  resources: EventResourceCheckpoint;
+}): { save: GameSaveData; applied: boolean } {
+  const save = requireEventSave();
+  if (save.wallet.currentRunId !== null) throw new Error('Factory challenge cannot consume base balls.');
+  const receipt = save.events.completedResults[input.dispatchKey];
+  if (!receipt) throw new Error('Unknown event battle source.');
+  if (save.baseInventory.transactions.some((tx) => tx.id === input.attemptId)
+    || save.collection.acquisitions.some((entry) => entry.acquisitionId === input.dispatchKey)) return { save, applied: false };
+  if (!input.attemptId.startsWith(`${input.dispatchKey}:attempt:`) || !isBaseBallId(input.ballId)) throw new Error('Invalid ball attempt.');
+  let collection = save.collection;
+  if (input.acquisition) {
+    if (input.acquisition.acquisitionId !== input.dispatchKey || input.acquisition.source !== 'DISPATCH_CATCH') throw new Error('Catch source mismatch.');
+    collection = normalizePermanentCollection({ ...collection,
+      acquisitions: validatePermanentAcquisitions([...collection.acquisitions, input.acquisition]) }, save.progress.companionSpeciesId);
+  }
+  const baseInventory = nextBaseInventory(save.baseInventory, { id: input.attemptId, dispatchKey: input.dispatchKey,
+    kind: input.acquisition ? 'CATCH' : 'ATTEMPT', ballId: input.ballId, delta: -1, at: Date.now() });
+  return { applied: true, save: writeEventSave({ ...save, baseInventory, collection,
+    events: { ...save.events, resourceCheckpoint: input.resources } }) };
+}
+export function persistEventResources(resources: EventResourceCheckpoint, expectedRevision: number): GameSaveData {
+  const save = requireEventSave();
+  if (save.baseInventory.revision !== expectedRevision || save.wallet.currentRunId !== null) return save;
+  if (JSON.stringify(save.events.resourceCheckpoint) === JSON.stringify(resources)) return save;
+  return writeEventSave({ ...save, baseInventory: nextBaseInventory(save.baseInventory),
+    events: { ...save.events, resourceCheckpoint: resources } });
 }
 
 export function loadPendingFactorySettlement(): PendingFactorySettlement | null {

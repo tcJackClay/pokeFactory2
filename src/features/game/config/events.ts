@@ -1,4 +1,4 @@
-﻿export type EventRegionCategory = 'normal' | 'ev_train' | 'rare_hunt';
+export type EventRegionCategory = 'normal' | 'ev_train' | 'rare_hunt';
 
 export type DispatchStatus = 'IDLE' | 'RUNNING' | 'READY';
 
@@ -113,7 +113,7 @@ export const EVENT_REGIONS: EventRegionConfig[] = [
     name: '阿罗拉',
     category: 'normal',
     dexRange: [722, 809],
-    requiredTypes: ['fairy', 'ghost', 'grass'],
+    requiredTypes: ['fairy', 'ghost', 'grass', 'rock'],
     specialSites: [
       { id: 'altar-of-the-sun', name: '日轮祭坛', speciesPool: [791], weight: 3, minLevel: 70 },
       { id: 'altar-of-the-moon', name: '月轮祭坛', speciesPool: [792], weight: 3, minLevel: 70 },
@@ -169,3 +169,8 @@ export function createDefaultDispatchState(): RegionDispatchState {
     lastResult: '',
   };
 }
+
+/** User-approved extra ordinary balls for each item dispatch result. */
+export const DISPATCH_ITEM_BALL_REWARD = 3;
+
+export const EVENT_GROWTH_ITEM_IDS = ['protein', 'iron', 'calcium', 'zinc_item', 'carbos', 'hp_up'];

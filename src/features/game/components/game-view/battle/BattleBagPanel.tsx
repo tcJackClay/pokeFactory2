@@ -1,11 +1,17 @@
+import { ALL_ITEMS } from '../../../../../uiAppConstants';
+import { BASE_BALL_IDS } from '../../../utils/baseBallInventory';
 import { motion, useReducedMotion } from 'motion/react';
 import type { GameViewSectionProps } from '../shared';
 
 export function BattleBagPanel({ viewModel }: GameViewSectionProps) {
-  const { inventory, playerTeam, t, getLocalized, getLocalizedDesc, useItem } = viewModel;
+  const { inventory, baseBallCounts, eventBattleActive, playerTeam, t, getLocalized, getLocalizedDesc, useItem } = viewModel;
   const shouldReduceMotion = useReducedMotion();
   const mustChooseReplacement = playerTeam[0]?.currentHp <= 0 && playerTeam.some((pokemon, index) => index !== 0 && pokemon.currentHp > 0);
 
+  const ballEntries = eventBattleActive ? BASE_BALL_IDS.flatMap((id) => {
+    const item = ALL_ITEMS.find((entry) => entry.id === id);
+    return item && baseBallCounts[id] > 0 ? [{ item, count: baseBallCounts[id] }] : [];
+  }) : [];
   return (
     <motion.div
       key="items"
@@ -16,6 +22,13 @@ export function BattleBagPanel({ viewModel }: GameViewSectionProps) {
       className="flex h-full flex-col p-3 sm:p-4"
     >
       <div className="custom-scrollbar grid min-h-0 flex-1 grid-cols-1 gap-2 overflow-y-auto pr-1 min-[420px]:grid-cols-2 sm:grid-cols-3">
+        {ballEntries.map(({ item, count }) => (
+          <button key={item.id} type="button" disabled={mustChooseReplacement} onClick={() => useItem(item, -1)}
+            className="min-h-[96px] rounded-[18px] border border-slate-200 bg-white p-3 text-left">
+            <span className="block text-sm font-black">{getLocalized(item)} × {count}</span>
+            <span className="block text-xs leading-5">{getLocalizedDesc(item)}</span>
+          </button>
+        ))}
         {inventory.length > 0 ? (
           inventory.map((item, index) => (
             <button
@@ -35,11 +48,11 @@ export function BattleBagPanel({ viewModel }: GameViewSectionProps) {
               </div>
             </button>
           ))
-        ) : (
+        ) : ballEntries.length === 0 ? (
           <div className="col-span-full flex h-full items-center justify-center rounded-[18px] border border-dashed border-slate-200 bg-slate-50/80 px-4 py-8 text-center text-sm font-bold text-slate-400">
             {t('bagEmpty')}
           </div>
-        )}
+        ) : null}
       </div>
     </motion.div>
   );

@@ -1,8 +1,8 @@
 # 技术方案：派遣赠球与阿罗拉入口
 
-状态：待 orchestrator 评审；仅方案，禁止实施。调研基线 `be353a11e7b80fad5bfff04ba2a0cf58bfa74b79`。
+状态：root 0 次实质修订通过 Route A，已授权实施。最终合并基线 `00f30d152596c185287f99b4be7227f93f581fe4`，调研基线 `be353a11e7b80fad5bfff04ba2a0cf58bfa74b79`。
 
-**blocked-by**：九道具 `6d95772` 与手机界面 `ba5c0c2` 各自最终代码实玩通过，并实际合入 dev。实施开始时由 root 指定最终合并 SHA，重新检查本方案所有接线；不能把上述候选 SHA 当作已通过基线。此任务先于高速旋转与 TM 业务接线，独占存档、主 Hook、捕捉控制器。
+**前置已解除（2026-10-14）**：九道具 `6d95772` 与手机界面 `ba5c0c2` 各自最终代码实玩通过，并实际合入 dev。root 已指定首段最终共同基线，接线已重新核对。此任务先于高速旋转与 TM 业务接线，独占存档、主 Hook、捕捉控制器。
 
 ## 1. PRD 一致性和实际代码
 
@@ -39,8 +39,8 @@ F1–F5 均来自本任务 design 中的用户决定；边界约束来自 PRD。
 - item 成长物品选择池、训练计算、物种不存在当前队伍时跳过的行为保持。保存成功的同一结果不能再次发放任何部分；不能以三球发放成功掩盖原奖励或训练保存失败。
 - join 改为专用交易扩展现有 `commitPermanentAcquisition`：从落盘基地库存按既有球顺序选一颗，验证余额，然后一次写扣球、永久来源、完成态、原训练/临时队伍结果。旧调用者不再 splice 临时 inventory。零球仍沿原结果提示与结束派遣规则，不赠球、不重新抽签。
 - 两个不同地区的同页领取依次从最新落盘 revision 计算；每次成功先同步资源 ref 再释放门闩。两球两次加入都保留；最后一球只让一个加入成功。每次同步不得用旧 draft 覆盖另一地区交易。
-- battle 分支只检查基地球数，不赠球；创建事件 context 时保留派遣键。记录事件会话标识及单调投球序号供永久交易幂等；这不是完整战斗断点。
-- useItem 的球路径改为 `commitEventBallAttempt({sessionId, attemptId, ballId, caught, pokemon})`。现有概率公式和 RNG 次序保持；成功概率结果由同一次保存完成扣一球+永久收藏收据+派遣完成态；失败概率结果保存扣一球及该次尝试收据，不登记 Owned。已提交重复 attempt 不再播新投球、不再扣球或推进敌方。
+- battle 分支只检查基地球数，不赠球；创建事件 context 时保留派遣键。以派遣键加唯一 attempt ID 供永久交易幂等（crypto UUID；LAN HTTP 缺 UUID 时用时间加模块单调序号，不消耗战斗 RNG）；这不是完整战斗断点。
+- useItem 的球路径改为 `commitEventBallAttempt({dispatchKey, attemptId, ballId, acquisition?, resources})`。现有概率公式和 RNG 次序保持；成功概率结果由同一次保存完成扣一球+永久收藏收据+派遣完成态；失败概率结果保存扣一球及该次尝试收据，不登记 Owned。已提交重复 attempt 不再播新投球、不再扣球或推进敌方。
 - 控制器原简单轮次门闩继续覆盖日志与提交。提交前复核 epoch/敌方/页面，事务拒绝或写盘失败不改变敌队、余额、Owned、队伍，不让敌方出手；返回可重试错误。成功写盘后的消息异常不能撤销永久交易。保留原满队替换/取消和训练不丢新捕获成员的修复。
 - 事件战刷新仍不恢复整场敌方/PP/回合；已提交 attempt 与消费不回滚。重新进入事件不得重复使用旧 attempt ID；旧成功捕捉收据禁止再次发放。现有 READY→IDLE、零球处理保持，不借此增加新的重开战或重抽入口。
 
@@ -125,3 +125,9 @@ F1–F5 均来自本任务 design 中的用户决定；边界约束来自 PRD。
 5. **并发范围**：本计划验证单页面多入口/异步并发与旧保存。localStorage 多浏览器标签的同时读写没有跨进程 CAS，不能宣称多人/多标签共享存档事务隔离；如要求多标签强一致须另议统一写锁，不能仅凭 revision 比较宣传已支持。
 
 未自行选择任何玩法数值。方案文件外只写 context.json；无业务修改、游戏运行或提交。
+
+实施补充：初次 pending 保存失败仅同页保留准备结果；关闭页面后不存在可恢复的已落盘结果，不承诺恢复未保存抽签。
+
+最终字段细化：已完成派遣记录为 events.completedResults；resourceCheckpoint 仅存临时 playerTeam/inventoryItemIds，写序由 baseInventory.revision 统一保护。beginFactoryWalletRun 的 serializeSaveData 同次清除此快照；旧普通保存采用已落盘字段，不能复活。投球 identity 采用派遣键+唯一 attempt ID 而非新增完整事件 session。
+
+静态测试实现归并至 hooks/dispatchBallTransactions.test.ts（16项，含纯校验与真实回调）；未另建重复的 baseBallInventory.test.ts。

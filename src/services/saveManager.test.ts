@@ -1,3 +1,4 @@
+import { createEmptyBaseInventory, createEmptyEventPersistentState } from '../features/game/utils/baseBallInventory';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import type { GamePokemon } from '../types';
@@ -170,7 +171,7 @@ function buildLegacyReadyBattleResume(overrides: Record<string, unknown> = {}) {
 
 function draft(runId = 'run:test', balance = 0, settledThrough = 0, stage = 7) {
   return parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 15, collection: { acquisitions: [] },
+    schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] },
     progress: { companionSpeciesId: 25 },
     wallet: { balance, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough },
     runSupply: { runId, tickets: stage - 1, lastCreditedStage: stage - 1 },
@@ -286,13 +287,13 @@ test('battle checkpoint retains both hazard sides and rejects malformed present 
 
 test('new save preserves battle snapshots, including postbattle phase', () => {
   const saved = parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 15, collection: { acquisitions: [] },
+    schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] },
     progress: { companionSpeciesId: 25 },
     wallet: { balance: 3, revision: 1, currentRunId: 'run:one', brainSymbols: 0, settledThrough: 1 },
     runSupply: { runId: 'run:one', tickets: 8, lastCreditedStage: 8 },
     factory: { battleResume: buildLegacyReadyBattleResume({ stage: 8, phase: 'FACTORY_SWAP', roundResult: 'WIN', lastBpGain: 0 }) },
   }));
-  assert.equal(saved.schemaVersion, 15);
+  assert.equal(saved.schemaVersion, 16);
   assert.equal(saved.wallet.balance, 3);
   assert.equal(saved.factory.battleResume.status, 'READY');
   if (saved.factory.battleResume.status !== 'READY') return;
@@ -624,7 +625,7 @@ test('battle result keeps unrelated data from a newer persisted wallet revision'
 
 test('companion candidates are fixed and same-version saves require null or one approved ID', () => {
   assert.deepEqual(COMPANION_CANDIDATES.map((candidate) => candidate.id), [25, 133, 175, 447, 744, 921]);
-  const base = { schemaVersion: 15, collection: { acquisitions: [] }, runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 }, factory: { battleResume: { status: 'EMPTY' } }, settings: { selectedGens: [9] } };
+  const base = { schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] }, runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 }, factory: { battleResume: { status: 'EMPTY' } }, settings: { selectedGens: [9] } };
   assert.equal(parseSaveDataFromText(JSON.stringify({ ...base, progress: { companionSpeciesId: null } })).progress.companionSpeciesId, null);
   for (const candidate of COMPANION_CANDIDATES) {
     assert.equal(parseSaveDataFromText(JSON.stringify({ ...base, progress: { companionSpeciesId: candidate.id } })).progress.companionSpeciesId, candidate.id);
@@ -649,7 +650,7 @@ test('companion candidates are fixed and same-version saves require null or one 
 test('companion binding writes before use, retries failed writes, and cannot be changed by stale saves', () => {
   withStorage((storage, failNextWrite) => {
     const unbound = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 15, collection: { acquisitions: [] },
+      schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] },
       runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 },
       progress: { companionSpeciesId: null },
       settings: { selectedGens: [1] },
@@ -784,7 +785,7 @@ test('generation setting keeps exactly one valid generation and defaults to Kant
     [[2.5], [1]],
     [['3'], [1]],
   ] as const) {
-    const saved = parseSaveDataFromText(JSON.stringify({ schemaVersion: 15, collection: { acquisitions: [] }, runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 }, progress: { companionSpeciesId: null }, settings: { selectedGens: raw }, factory: { battleResume: { status: 'EMPTY' } } }));
+    const saved = parseSaveDataFromText(JSON.stringify({ schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] }, runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 }, progress: { companionSpeciesId: null }, settings: { selectedGens: raw }, factory: { battleResume: { status: 'EMPTY' } } }));
     assert.deepEqual(saved.settings.selectedGens, expected);
   }
 });
@@ -1031,7 +1032,7 @@ test('developer jump to the third set starts a fresh run at the correct group ba
 test('ending a paused completed set keeps earned BP and clears continuation without another settlement', () => {
   withStorage((_storage, failNextWrite) => {
     const saved = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 15, collection: { acquisitions: [] },
+      schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] },
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 14, revision: 4, currentRunId: 'run:pause', brainSymbols: 1, settledThrough: 3 },
       runSupply: { runId: 'run:pause', tickets: 21, lastCreditedStage: 21 },
@@ -1143,7 +1144,7 @@ function rewardSwapSave(options: {
     resume.playerTeam[index] = { ...resume.playerTeam[index], factoryHeldItemId: undefined };
   }
   return parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 15, collection: { acquisitions: [] },
+    schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] },
     progress: { companionSpeciesId: 25 },
     wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: stage },
     runSupply: { runId, tickets, lastCreditedStage: stage },
@@ -1506,7 +1507,7 @@ test('duplicate equipped baselines are rejected wherever they appear', () => {
       rewardCheckpoint: { runId: 'run:unique', stage: 3, status: 'PENDING' },
     });
     const inspection = classifySaveText(JSON.stringify({
-      schemaVersion: 15, collection: { acquisitions: [] },
+      schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] },
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 0, revision: 1, currentRunId: 'run:unique', brainSymbols: 0, settledThrough: 3 },
       runSupply: { runId: 'run:unique', tickets: 0, lastCreditedStage: 3 },
@@ -1818,7 +1819,7 @@ test('importing a save with duplicate baselines recovers with an honest notice i
       rewardCheckpoint: { runId, stage: 3, status: 'PENDING' },
     });
     const text = JSON.stringify({
-      schemaVersion: 15, collection: { acquisitions: [] },
+      schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] },
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: 3 },
       runSupply: { runId, tickets: 3, lastCreditedStage: 3 },
@@ -1882,7 +1883,7 @@ test('a legacy four-card CLAIMED save imports without crashing and migrates to a
       },
     });
     const imported = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 15, collection: { acquisitions: [] },
+      schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] },
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: 3 },
       runSupply: { runId, tickets: 0, lastCreditedStage: 3 },
@@ -1934,7 +1935,7 @@ test('a legacy four-card READY save imports without crashing and re-stocks six p
       },
     });
     const imported = parseSaveDataFromText(JSON.stringify({
-      schemaVersion: 15, collection: { acquisitions: [] },
+      schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } }, collection: { acquisitions: [] },
       progress: { companionSpeciesId: 25 },
       wallet: { balance: 0, revision: 1, currentRunId: runId, brainSymbols: 0, settledThrough: 3 },
       runSupply: { runId, tickets: 3, lastCreditedStage: 3 },
@@ -2013,13 +2014,13 @@ test('ticket conversion is capped together with the group reward at MAX_FACTORY_
 
 function permanentBase() {
   return parseSaveDataFromText(JSON.stringify({
-    schemaVersion: 15,
+    schemaVersion: 16, baseInventory: createEmptyBaseInventory(), ...{ events: { ...createEmptyEventPersistentState() } },
     progress: { companionSpeciesId: 25 },
     collection: { acquisitions: [], seenIds: [7], ownedIds: [7], formKeys: ['7:squirtle'] },
     wallet: { balance: 3, revision: 0, currentRunId: null, brainSymbols: 0, settledThrough: 0 },
     runSupply: { runId: null, tickets: 0, lastCreditedStage: 0 },
     factory: { battleResume: { status: 'EMPTY' } },
-    events: { dispatches: { kanto: { status: 'READY', startedAt: 100, readyAt: 200, lastResolvedAt: null, lastResult: '' } } },
+    events: { ...createEmptyEventPersistentState(), dispatches: { kanto: { status: 'READY', startedAt: 100, readyAt: 200, lastResolvedAt: null, lastResult: '' } } },
   }));
 }
 
@@ -2029,7 +2030,7 @@ const joinReceipt = {
 };
 const completedDispatch = { status: 'IDLE' as const, startedAt: null, readyAt: null, lastResolvedAt: 300, lastResult: 'Joined Eevee' };
 
-test('v15 derives Owned from sources and rejects missing or invalid receipts without migrating v14', () => {
+test('v16 derives Owned from sources and rejects missing or invalid receipts without migrating v14', () => {
   const base = permanentBase();
   assert.deepEqual(base.collection.ownedIds, [25]);
   assert.deepEqual(base.collection.seenIds, [7, 25]);
