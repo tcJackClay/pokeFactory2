@@ -1,0 +1,39 @@
+{
+  "status": "plan-review-only",
+  "research_baseline": "be353a11e7b80fad5bfff04ba2a0cf58bfa74b79",
+  "blocked_by": ["九道具 6d95772 最终实玩并合入 dev", "手机界面 ba5c0c2 最终实玩并合入 dev", "root 批准本 plan 并指定最终集成基线"],
+  "implementation_base": null,
+  "inject_config": {
+    "all": [
+      {"file":"AGENTS.md","reason":"当前团队纪律与证据等级"},
+      {"file":"docs/tasks/派遣赠球与阿罗拉入口/prd.md","reason":"F1-F5 及边界契约"},
+      {"file":"docs/tasks/派遣赠球与阿罗拉入口/design.md","reason":"用户批准 B+Q1，无售球/保底"},
+      {"file":"docs/tasks/派遣赠球与阿罗拉入口/plan.md","reason":"存档、交易、接线与验证"}
+    ],
+    "programmer": [
+      {"file":".agents/roles/programmer.md","reason":"Route A 实现阶段职责"},
+      {"file":"src/services/saveManager.ts","reason":"全部主档写入口、serialize、导入保护"},
+      {"file":"src/features/game/hooks/usePokeFactoryGame.ts","reason":"派遣及资源 ref、主存档构造"},
+      {"file":"src/features/game/hooks/useBattleController.ts","reason":"最终九道具基线上的球路径串行接线"},
+      {"file":"src/features/game/hooks/useFactoryFlow.ts","reason":"新工厂/快速开始临时清包"},
+      {"file":"src/features/game/utils/eventDispatchRewards.ts","reason":"保留概率与训练算法"},
+      {"file":"src/features/game/config/events.ts","reason":"Alola 首项决定训练属性，尾部加 rock"},
+      {"file":"src/features/game/utils/permanentCollection.ts","reason":"既有派遣来源唯一键及校验"},
+      {"file":"docs/tasks/永久收藏口径/plan.md","reason":"永久收藏原交易边界"},
+      {"file":"src/uiAppConstants.ts","reason":"四球 ID、效果与既有成长物品"}
+    ],
+    "auditor": [
+      {"file":".agents/roles/auditor.md","reason":"独立静态审计，不运行游戏"},
+      {"file":"src/services/saveManager.test.ts","reason":"事务失败、导入、自动保存回归"},
+      {"file":"src/features/game/hooks/permanentCollectionCallbacks.test.ts","reason":"真实回调提取与并发测试范式"},
+      {"file":"docs/公开版需求矩阵.md","reason":"证据边界，不以静态代实玩"}
+    ],
+    "player": [
+      {"file":".agents/roles/player.md","reason":"最终代码真实前后端实玩，不改实现"},
+      {"file":"docs/tasks/永久收藏口径/runtime.md","reason":"既有捕捉/派遣受控证据与局限"},
+      {"file":"docs/tasks/基地事件界面修整/runtime.md","reason":"BASE+EVENTS 真实入口、三视口和选择器陷阱"},
+      {"file":"docs/tasks/九种持有物效果/runtime.md","reason":"冻结后核对最终控制器与回归边界；若未产出先报告"},
+      {"file":"docs/手机端试玩验收记录.md","reason":"视口与实体手机证据区分"}
+    ]
+  }
+}
