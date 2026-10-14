@@ -158,3 +158,12 @@ F1–F5 均来自本任务 design 中的用户决定；边界约束来自 PRD。
 实际 `continueAfterRoundResult` 成功才更新 refs、清工厂遭遇、显示基地；失败留在结算页显示可重试提示，不能提前写 handledRoundResultRef。结束成功后的旧run退出草稿由钱包 revision 防复活，重复返回不再写盘。原胜利暂停结束接口保持。
 
 实际回调测试包括真实 settlement → 返回写失败 → 同回调重试 → 旧退出草稿 → 重载 → 原pending事件领取；验证球/Owned/pending、恢复队伍/非球快照及仍在战斗时拒绝。自然手机流程必须在新SHA重新实玩。租借预取错误发现 harness 对全局 Math.random 固定值可能干扰候选去重，交player限定RNG调用域重测，未修改租借生成。
+
+
+## 捕获后资源保存收敛修复（F2 / F3）
+
+a70320b 实玩 r6-catch-success 于03:35:44.779Z报告 Maximum update depth；球与收藏单次成功，但资源revision由9升41再64。03-caught快照中，新捕获792的存档增加 factoryChoiceLockedMoveName:null，runtime缺字段。persistEventResources把已规范化读档与原始runtime直接JSON比较，永久判不同；写revision触发资源useEffect同依赖再次执行。
+
+按相同 validateEventPersistentState / sanitizeGamePokemonArray 规范化输入后再比较，并保存规范化结果，保留真正HP/PP/背包变化和既有revision/写故障保护。不删除effect依赖，不忽略console，不改捕获概率。
+
+验证使用实际资源useEffect表达式 + 真实saveManager，有限渲染驱动收到setBaseInventory后重建闭包并重执行，8轮不稳定即失败。旧实现两个测试均在8轮不收敛；修复后首次写入2轮稳定，后续不变1轮、真实HP/PP及背包变化各2轮且revision只增1。写失败无写/无状态推进，可显式重试；旧渲染revision与过期交易revision均拒绝覆盖。该证据为有限effect迭代静态回归，不是挂载React或浏览器验收；新SHA仍须完整实玩。API dark-pulse 502独立记录，不与此循环混为同因。

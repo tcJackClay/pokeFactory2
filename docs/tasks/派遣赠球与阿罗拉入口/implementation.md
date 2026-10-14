@@ -50,3 +50,8 @@
 ### 自然败退返回基地修复
 
 1157390 实玩阻断为旧 LOSS 返回只改UI、没有结束磁盘 run。新增 `returnFromFactoryLoss` 原子结束并保留恢复队伍，实际continue成功才切BASE/清refs；保存失败结算页出现三语言提示可重试，双击及旧退出写不复活。原工厂内禁派遣、原胜利暂停流程不改。新增实际结算/continue/存储故障/重载/派遣续领回归，专项27项；原失败实玩证据保留，等待新SHA复审与重跑。租借RNG夹具干扰仅交player修验证脚本，不改业务。
+
+
+### 捕获后资源effect更新循环
+
+a70320b成功捕获后，runtime缺少可选字段而读档补null，资源JSON比较反复触发保存、revision依赖和React更新。现persistEventResources先沿读档同口径规范化，再比较/保存。实际effect有限渲染测试在旧代码8轮仍写，新代码一次写后稳定，并保持真实HP/PP/背包修改、故障与旧revision边界。`static-resource-loop/before-fix.txt` / `after-fix.txt` 为前后证据；控制台期望故障保留，未掩盖错误。此为静态effect调度模型，不能替代React浏览器实玩；旧失败证据不删除，整片需最终SHA重跑。

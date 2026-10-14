@@ -1657,9 +1657,11 @@ export function commitEventBallAttempt(input: {
 export function persistEventResources(resources: EventResourceCheckpoint, expectedRevision: number): GameSaveData {
   const save = requireEventSave();
   if (save.baseInventory.revision !== expectedRevision || save.wallet.currentRunId !== null) return save;
-  if (JSON.stringify(save.events.resourceCheckpoint) === JSON.stringify(resources)) return save;
+  // Compare using the same normalization as loadSaveData, including optional Pokemon defaults.
+  const normalized = validateEventPersistentState({ ...save.events, resourceCheckpoint: resources }).resourceCheckpoint;
+  if (JSON.stringify(save.events.resourceCheckpoint) === JSON.stringify(normalized)) return save;
   return writeEventSave({ ...save, baseInventory: nextBaseInventory(save.baseInventory),
-    events: { ...save.events, resourceCheckpoint: resources } });
+    events: { ...save.events, resourceCheckpoint: normalized } });
 }
 
 export function loadPendingFactorySettlement(): PendingFactorySettlement | null {

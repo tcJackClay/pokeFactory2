@@ -291,7 +291,8 @@ for (const caught of [false, true]) {
 }
 
 test('factory rejects injected ball callbacks and event growth-item failures cannot resurrect a consumed reward', async () => storage(async (_data, fail) => {
-  const issued = giveBalls();
+  const gift = giveBalls();
+  const issued = persistEventResources({ ...resources(), inventoryItemIds: ['protein'] }, gift.baseInventory.revision);
   const { scope, state } = scopeFor();
   scope.eventRuntimeRef.current.eventBattleActive = true;
   scope.persistEventResources = persistEventResources;
@@ -301,9 +302,11 @@ test('factory rejects injected ball callbacks and event growth-item failures can
   // Original resources persisted by the item transaction remain unchanged on failure.
   const original = loadSaveData()!.events.resourceCheckpoint;
   assert.ok(original);
+  assert.deepEqual(original.inventoryItemIds, ['protein']);
   assert.equal(scope.commitEventItemUse([pokemon(25)], []), true);
   persistSaveData(issued);
   assert.equal(loadSaveData()!.events.resourceCheckpoint!.playerTeam[0].id, 25);
+  assert.deepEqual(loadSaveData()!.events.resourceCheckpoint!.inventoryItemIds, []);
   const denied = callback('./useBattleController.ts', 'useItem', {
     gameState: 'BATTLE', turn: 'PLAYER', isMessageProcessing: false, enemy: pokemon(25), playerTeam: state.playerTeam,
     allowWildCatch: false, isBaseBallId, baseBallCounts: issued.baseInventory.balls,
@@ -499,4 +502,71 @@ test('actual loss return saves terminal run and party atomically, retries faults
   assert.equal(reloaded.state.gameState, 'BATTLE');
   assert.equal(loadSaveData()!.baseInventory.balls.pokeball, 3);
   assert.equal(loadSaveData()!.events.pendingResults[pending().key], undefined);
+}));
+
+
+function resourceEffect(scope: Record<string, unknown>) {
+  const source = fs.readFileSync(new URL('./usePokeFactoryGame.ts', import.meta.url), 'utf8');
+  const tree = ts.createSourceFile('hook.ts', source, ts.ScriptTarget.Latest, true);
+  let expression = '';
+  const visit = (node: ts.Node) => {
+    if (ts.isCallExpression(node) && node.expression.getText(tree) === 'useEffect'
+      && node.arguments[0]?.getText(tree).includes('persistEventResources(')) expression = node.arguments[0].getText(tree);
+    ts.forEachChild(node, visit);
+  };
+  visit(tree); assert.ok(expression, 'actual resource effect');
+  const js = ts.transpileModule(`const actual = ${expression};`, { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
+  return new Function(...Object.keys(scope), `${js};return actual;`)(...Object.values(scope));
+}
+function resourceRenderDriver(team: GamePokemon[]) {
+  const saved = loadSaveData()!;
+  let scheduled = false;
+  const scope: Record<string, any> = {
+    playerTeam: team, inventory: [], gameState: 'EVENTS', eventBattleActive: false, saveBlocked: false,
+    skipExitPersistRef: { current: false }, dispatchInFlightRef: { current: false }, factoryResumeActiveRef: { current: false },
+    companionCommittedRef: { current: 133 }, baseInventory: saved.baseInventory,
+    baseInventoryRef: { current: saved.baseInventory }, eventPersistentRef: { current: saved.events }, persistEventResources,
+    setBaseInventory: (value: any) => { if (scope.baseInventory !== value) { scope.baseInventory = value; scheduled = true; } },
+  };
+  return { scope, flush: () => {
+    for (let render = 1; render <= 8; render++) {
+      scheduled = false; resourceEffect(scope)();
+      // The actual effect depends on baseInventory.revision; a setter schedules its next render.
+      if (!scheduled) return render;
+    }
+    throw new Error('Resource effect did not converge within 8 renders');
+  } };
+}
+
+test('actual resource effect converges for captured optional fields and subsequent HP PP inventory updates', async () => storage(() => {
+  const captured = pokemon(792);
+  assert.equal(Object.hasOwn(captured, 'factoryChoiceLockedMoveName'), false);
+  captured.selectedMoves = [{ ...captured.selectedMoves[0], pp: 10, currentPp: 10 }];
+  const driver = resourceRenderDriver([captured]);
+  const initialRevision = loadSaveData()!.baseInventory.revision;
+  assert.equal(driver.flush(), 2);
+  assert.equal(loadSaveData()!.baseInventory.revision, initialRevision + 1);
+  assert.equal(driver.flush(), 1);
+  driver.scope.playerTeam = [{ ...captured, currentHp: 77, selectedMoves: [{ ...captured.selectedMoves[0], currentPp: 9 }] }];
+  assert.equal(driver.flush(), 2);
+  assert.equal(loadSaveData()!.events.resourceCheckpoint!.playerTeam[0].currentHp, 77);
+  assert.equal(loadSaveData()!.events.resourceCheckpoint!.playerTeam[0].selectedMoves[0].currentPp, 9);
+  driver.scope.inventory = [{ id: 'protein' }];
+  assert.equal(driver.flush(), 2);
+  assert.deepEqual(loadSaveData()!.events.resourceCheckpoint!.inventoryItemIds, ['protein']);
+  assert.equal(driver.flush(), 1);
+  assert.equal(loadSaveData()!.baseInventory.revision, initialRevision + 3);
+}));
+
+test('actual resource effect preserves fault and stale-render guards while canonical snapshots stabilize', async () => storage((data, fail) => {
+  const driver = resourceRenderDriver([pokemon(792)]); const original = data.get(key);
+  fail(); assert.equal(driver.flush(), 1); assert.equal(data.get(key), original);
+  assert.equal(driver.flush(), 2); const committed = data.get(key);
+  const currentRevision = loadSaveData()!.baseInventory.revision;
+  driver.scope.baseInventory = { ...driver.scope.baseInventory, revision: currentRevision - 1 };
+  driver.scope.playerTeam = [{ ...pokemon(792), currentHp: 1 }];
+  assert.equal(driver.flush(), 1); assert.equal(data.get(key), committed);
+  // The transaction itself also refuses a caller carrying an obsolete revision.
+  persistEventResources({ playerTeam: driver.scope.playerTeam, inventoryItemIds: [] }, currentRevision - 1);
+  assert.equal(data.get(key), committed);
 }));

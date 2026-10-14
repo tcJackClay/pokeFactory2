@@ -1,5 +1,5 @@
 {
-  "status": "loss-return-repaired-awaiting-independent-reaudit",
+  "status": "resource-loop-repaired-awaiting-independent-reaudit",
   "research_baseline": "be353a11e7b80fad5bfff04ba2a0cf58bfa74b79",
   "blocked_by": [],
   "implementation_base": "00f30d152596c185287f99b4be7227f93f581fe4",
@@ -87,7 +87,7 @@
       },
       {
         "file": "src/features/game/hooks/dispatchBallTransactions.test.ts",
-        "reason": "27 actual callback/storage tests including loss settlement -> return failure/retry -> stale exit -> reload -> pending encounter"
+        "reason": "29 actual callback/storage/effect tests; latest two drive real resource effect across finite dependency-triggered renders"
       }
     ],
     "player": [
@@ -123,7 +123,8 @@
     "dispatchStart": "startEventDispatch atomically persists RUNNING before UI; metadata continuation validates generation/import/current selection/Owned; older revision drafts keep stored dispatch states",
     "deferredBattle": "deferDispatchBattle retains pending battle/READY/resources when no usable team; check before generation and after target await; existing replacement panel for fainted lead with healthy reserve",
     "saveBuilder": "buildCurrentSaveData captures render baseInventory (dependency) paired with closure dispatches; never uses latest ref to label old dispatch fields",
-    "lossReturn": "returnFromFactoryLoss accepts persisted same-run ROUND_RESULT/LOSS; one write ends run/resume/supply and keeps restored party/non-ball inventory in resourceCheckpoint; continuation navigates only after success"
+    "lossReturn": "returnFromFactoryLoss accepts persisted same-run ROUND_RESULT/LOSS; one write ends run/resume/supply and keeps restored party/non-ball inventory in resourceCheckpoint; continuation navigates only after success",
+    "resourceConvergence": "persistEventResources normalizes input through the same event validator as loadSaveData before equality/write; finite actual-effect render driver proves convergence and retains HP/PP/item updates, faults and revision guards"
   },
-  "repair_of": "11573909569213af6cadd62e46b266ff83c4dbba"
+  "repair_of": "a70320b8f9dea7883b4e4f8f16c5832234f92cbb"
 }

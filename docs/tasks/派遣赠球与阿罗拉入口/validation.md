@@ -39,3 +39,13 @@
 ## 自然败退返回基地修复门禁
 
 1157390 实玩失败路径另保留。新修复串行 lint → test → build → Go 均 PASS，日志 `static-loss-return/`；全量 **398/398**，0 skip/cancel；构建8.20秒，主包696.82 kB/gzip210.77 kB（既有 >500 kB 提示）；Go四包PASS、server无测试。专项27/27包含实际结算与返回回调故障/重试/重载/原pending领取，胜利暂停结束既有静态测试也通过。未由实现角色运行游戏，待新SHA独立复审后重新实玩。
+
+
+## 捕获资源effect循环修复门禁
+
+- `static-resource-loop/before-fix.txt`：旧a70320b实现运行新增实际effect有限迭代测试，两项均在8轮不收敛失败。
+- `after-fix.txt`：修复后两项PASS；期望注入storage fault仍原样记录，不屏蔽console。首次/HP+PP变化/背包变化均一次写入、下一轮停止；无变化不写，故障不推进，旧revision不覆盖。
+- 全量回归曾发现旧“物品消费故障”夹具其实资源无变化；修正为先持有protein再真实消耗，保留故障与消费断言。随后重新从lint开始串行跑四门禁。
+- 最终 `lint.txt` PASS；`test.txt` **400/400**、0 skip/cancel；`build.txt` PASS（8.25秒，主包696.90 kB/gzip210.78 kB，既有>500kB提示）；`go.txt` 四包PASS/server无测试。
+
+这是实际effect代码的有限渲染调度模型与静态门禁，不是完整React挂载或浏览器实玩。旧a70320b失败证据保留，整片必须在新冻结SHA重新验收。
