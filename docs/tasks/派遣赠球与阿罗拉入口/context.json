@@ -1,5 +1,5 @@
 {
-  "status": "implemented-awaiting-independent-audit",
+  "status": "a1-a2-repaired-awaiting-independent-reaudit",
   "research_baseline": "be353a11e7b80fad5bfff04ba2a0cf58bfa74b79",
   "blocked_by": [],
   "implementation_base": "00f30d152596c185287f99b4be7227f93f581fe4",
@@ -87,7 +87,7 @@
       },
       {
         "file": "src/features/game/hooks/dispatchBallTransactions.test.ts",
-        "reason": "16 real callback/storage tests including final-ball concurrency and faults"
+        "reason": "25 real callback/storage tests, including A1/A2 start faults, stale continuations, empty/fainted teams and retry"
       }
     ],
     "player": [
@@ -119,6 +119,9 @@
     "eventResults": "events.{pendingResults,completedResults}",
     "temporaryRecovery": "events.resourceCheckpoint; new factory run clears it inside wallet write; regular serializer keeps committed revision",
     "attemptIdentity": "dispatch:<region>:<startedAt>:attempt:<unique-id>; UUID or timestamp plus module counter fallback; no battle RNG",
-    "saveWriters": "serializeSaveData protects all regular callers; event transactions use validated eventWrite; replaceSaveData replaces whole imported save"
-  }
+    "saveWriters": "serializeSaveData protects all regular callers; event transactions use validated eventWrite; replaceSaveData replaces whole imported save",
+    "dispatchStart": "startEventDispatch atomically persists RUNNING before UI; metadata continuation validates generation/import/current selection/Owned; older revision drafts keep stored dispatch states",
+    "deferredBattle": "deferDispatchBattle retains pending battle/READY/resources when no usable team; check before generation and after target await; existing replacement panel for fainted lead with healthy reserve"
+  },
+  "repair_of": "7c2720982facf73fedaaf318bc76ca82969cc405"
 }

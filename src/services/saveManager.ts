@@ -1334,7 +1334,8 @@ function serializeSaveData(draft: GameSaveData, replace = false, eventWrite = fa
     seenIds: [...new Set([...(stored?.collection.seenIds ?? []), ...draft.collection.seenIds])],
     acquisitions,
   }, companionSpeciesId);
-  const dispatches = { ...draft.events.dispatches };
+  const dispatches = { ...(stored && !eventWrite && draft.baseInventory.revision < stored.baseInventory.revision
+    ? stored.events.dispatches : draft.events.dispatches) };
   let baseInventory = stored && !eventWrite ? stored.baseInventory : draft.baseInventory;
   let persistent = stored && !eventWrite ? stored.events : draft.events;
   if (stored && !replace && draft.wallet.currentRunId !== null && draft.wallet.currentRunId !== stored.wallet.currentRunId) {
@@ -1562,6 +1563,35 @@ function assertDispatchReady(save: GameSaveData, pending: PendingDispatchResult)
     || !save.collection.ownedIds.includes(pending.selectedPokemonId)
     || save.events.dispatchPokemonByRegion[pending.regionId] !== pending.selectedPokemonId) throw new Error('Dispatch changed before receipt.');
 }
+/** Start is durable before the caller presents a countdown. */
+export function startEventDispatch(regionId: string, selectedPokemonId: number, selectedTypes: string[]): GameSaveData {
+  const save = requireEventSave();
+  const region = EVENT_REGIONS.find((entry) => entry.id === regionId);
+  if (!region || save.wallet.currentRunId !== null
+    || !save.collection.ownedIds.includes(selectedPokemonId)
+    || save.events.dispatchPokemonByRegion[regionId] !== selectedPokemonId
+    || !region.requiredTypes.some((type) => selectedTypes.includes(type))
+    || (save.events.dispatches[regionId]?.status ?? 'IDLE') !== 'IDLE') throw new Error('Dispatch changed before start.');
+  const now = Date.now();
+  return writeEventSave({ ...save, baseInventory: nextBaseInventory(save.baseInventory), events: { ...save.events,
+    dispatches: { ...save.events.dispatches, [regionId]: {
+      ...save.events.dispatches[regionId], status: 'RUNNING', startedAt: now,
+      readyAt: now + region.dispatchHours * 60 * 60 * 1000, lastResult: '', lastResolvedAt: null,
+    } } } });
+}
+
+/** Keep an already prepared encounter claimable while the player obtains a usable team. */
+export function deferDispatchBattle(key: string, message: string): GameSaveData {
+  const save = requireEventSave();
+  const pending = save.events.pendingResults[key];
+  if (save.wallet.currentRunId !== null || pending?.outcome !== 'battle') throw new Error('Prepared encounter is unavailable.');
+  assertDispatchReady(save, pending);
+  return writeEventSave({ ...save, baseInventory: nextBaseInventory(save.baseInventory), events: { ...save.events,
+    dispatches: { ...save.events.dispatches, [pending.regionId]: {
+      ...save.events.dispatches[pending.regionId], status: 'READY', lastResult: message,
+    } } } });
+}
+
 export function prepareDispatchResult(pending: PendingDispatchResult): GameSaveData {
   const save = requireEventSave();
   if (save.wallet.currentRunId !== null) throw new Error('Factory challenge blocks dispatch rewards.');

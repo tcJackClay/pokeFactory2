@@ -1,1 +1,2 @@
 static/*.txt -text -whitespace
+static-a1-a2/*.txt -text -whitespace

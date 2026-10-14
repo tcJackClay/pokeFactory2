@@ -6,7 +6,7 @@ import type { GamePokemon } from '../../../types';
 import {
   parseSaveDataFromText, replaceSaveData, loadSaveData, persistSaveData, prepareDispatchResult,
   commitDispatchResult, commitEventBallAttempt, persistEventResources, beginFactoryWalletRun,
-  endFactoryWalletRun, adjustWalletBalance,
+  endFactoryWalletRun, adjustWalletBalance, startEventDispatch, deferDispatchBattle,
 } from '../../../services/saveManager';
 import { BASE_BALL_IDS, createEmptyBaseInventory, createEmptyEventPersistentState, isBaseBallId, validateBaseInventory } from '../utils/baseBallInventory';
 import { EVENT_REGIONS, DISPATCH_ITEM_BALL_REWARD, createDefaultDispatchState } from '../config/events';
@@ -62,7 +62,7 @@ function scopeFor(outcome: 'item' | 'join' | 'battle' = 'item') {
     dispatchContextRef: { current: 'events' }, skipExitPersistRef: { current: false },
     StaleDispatchError: class StaleDispatchError extends Error {},
     fetchPokemon: async () => ({ types: [{ type: { name: 'normal' } }] }),
-    loadSaveData, prepareDispatchResult, commitDispatchResult, getDispatchAcquisitionId,
+    loadSaveData, prepareDispatchResult, commitDispatchResult, startEventDispatch, deferDispatchBattle, getDispatchAcquisitionId,
     applyDispatchTrainingToTeam, getStatLabel,
     pickGrowthRewardItem: () => ({ id: 'protein' }), getEventItemLabel: () => 'Protein',
     rollDispatchOutcome: () => outcome, ALL_ITEMS: [{ id: 'protein' }],
@@ -312,3 +312,88 @@ test('factory rejects injected ball callbacks and event growth-item failures can
   await assert.rejects(denied({ id: 'pokeball', isBall: true }, -1));
   assert.equal(loadSaveData()!.baseInventory.balls.pokeball, 3);
 }));
+
+for (const team of [[], [{ ...pokemon(), currentHp: 0 }]]) {
+  test(`actual battle claim retains pending and resources for ${team.length ? 'all fainted' : 'empty'} team; same result resumes`, async () => storage(async () => {
+    const saved = loadSaveData()!; saved.baseInventory.balls.pokeball = 3;
+    saved.events.resourceCheckpoint = { playerTeam: team, inventoryItemIds: ['protein'] }; replaceSaveData(saved);
+    const baselineResources = loadSaveData()!.events.resourceCheckpoint;
+    const { scope, state } = scopeFor('battle');
+    scope.eventRuntimeRef.current.playerTeam = team;
+    let generated = 0; scope.getProcessedPokemon = async () => { generated++; return pokemon(25); };
+    scope.resolveDispatchRegion = callback('./usePokeFactoryGame.ts', 'resolveDispatchRegion', scope);
+    await callback('./usePokeFactoryGame.ts', 'dispatchEventRegion', scope)('kanto');
+    const blocked = loadSaveData()!;
+    assert.equal(blocked.events.dispatches.kanto.status, 'READY');
+    assert.match(blocked.events.dispatches.kanto.lastResult, /dispatchNeedsTeam/);
+    assert.equal(blocked.events.pendingResults[pending().key].outcome, 'battle');
+    assert.equal(blocked.events.completedResults[pending().key], undefined);
+    assert.deepEqual(blocked.events.resourceCheckpoint, baselineResources);
+    assert.equal(blocked.baseInventory.balls.pokeball, 3); assert.equal(generated, 0);
+    assert.notEqual(state.gameState, 'BATTLE');
+    // A usable temporary team is supplied here; natural acquisition is player evidence, not this unit test.
+    scope.eventRuntimeRef.current.playerTeam = [pokemon()];
+    scope.rollDispatchOutcome = () => { throw new Error('must not reroll'); };
+    scope.resolveDispatchRegion = callback('./usePokeFactoryGame.ts', 'resolveDispatchRegion', scope);
+    await callback('./usePokeFactoryGame.ts', 'dispatchEventRegion', scope)('kanto');
+    assert.equal(state.gameState, 'BATTLE'); assert.equal(generated, 1);
+    assert.equal(loadSaveData()!.events.pendingResults[pending().key], undefined);
+    assert.equal(loadSaveData()!.baseInventory.balls.pokeball, 3);
+  }));
+}
+
+test('actual encounter rechecks usable team after target await, then opens replacement panel for fainted lead with reserve', async () => storage(async () => {
+  const saved = loadSaveData()!; saved.baseInventory.balls.pokeball = 1; replaceSaveData(saved);
+  const { scope, state } = scopeFor('battle'); const target = deferred<GamePokemon>(); const requested = deferred<void>();
+  scope.getProcessedPokemon = () => { requested.resolve(); return target.promise; };
+  scope.resolveDispatchRegion = callback('./usePokeFactoryGame.ts', 'resolveDispatchRegion', scope);
+  const operation = callback('./usePokeFactoryGame.ts', 'dispatchEventRegion', scope)('kanto');
+  await requested.promise; scope.eventRuntimeRef.current.playerTeam = []; target.resolve(pokemon(25)); await operation;
+  assert.notEqual(state.gameState, 'BATTLE'); assert.equal(loadSaveData()!.events.dispatches.kanto.status, 'READY');
+  scope.eventRuntimeRef.current.playerTeam = [{ ...pokemon(), currentHp: 0 }, pokemon(1)];
+  scope.getProcessedPokemon = async () => pokemon(25);
+  scope.resolveDispatchRegion = callback('./usePokeFactoryGame.ts', 'resolveDispatchRegion', scope);
+  await callback('./usePokeFactoryGame.ts', 'dispatchEventRegion', scope)('kanto');
+  assert.equal(state.gameState, 'BATTLE'); assert.equal(state.battleMenuTab, 'POKEMON');
+  assert.equal(state.playerTeam[0].currentHp, 0); assert.ok(state.playerTeam[1].currentHp > 0);
+}));
+
+function idleBase() {
+  const saved = loadSaveData()!; saved.events.dispatches.kanto = createDefaultDispatchState(); replaceSaveData(saved); return saved;
+}
+test('actual IDLE start persists before RUNNING; write fault is visible and retry/export/stale save preserve start', async () => storage(async (data, fail) => {
+  const stale = idleBase(); const { scope, state, dispatch } = scopeFor(); const before = data.get(key);
+  fail(); await dispatch('kanto');
+  assert.equal(data.get(key), before); assert.equal(state.eventDispatches.kanto.status, 'IDLE');
+  assert.match(state.eventDispatches.kanto.lastResult, /dispatchSaveFailed/);
+  assert.equal(loadSaveData()!.events.dispatchPokemonByRegion.kanto, 133);
+  await dispatch('kanto'); const started = loadSaveData()!;
+  assert.equal(started.events.dispatches.kanto.status, 'RUNNING');
+  assert.equal(state.eventDispatches.kanto.startedAt, started.events.dispatches.kanto.startedAt);
+  const region = EVENT_REGIONS.find((r) => r.id === 'kanto')!;
+  assert.equal(started.events.dispatches.kanto.readyAt! - started.events.dispatches.kanto.startedAt!, region.dispatchHours * 3600000);
+  assert.deepEqual(parseSaveDataFromText(data.get(key)!).events.dispatches.kanto, started.events.dispatches.kanto);
+  persistSaveData(stale); assert.deepEqual(loadSaveData()!.events.dispatches.kanto, started.events.dispatches.kanto);
+  await dispatch('kanto'); assert.deepEqual(loadSaveData()!.events.dispatches.kanto, started.events.dispatches.kanto);
+  assert.equal(scope.dispatchInFlightRef.current, false);
+}));
+for (const destination of ['selection', 'leave-return', 'factory', 'import', 'ownership']) {
+  test(`actual IDLE start rejects late metadata after ${destination}`, async () => storage(async (data) => {
+    idleBase(); const { scope, state } = scopeFor(); const fetched = deferred<any>();
+    scope.fetchPokemon = () => fetched.promise;
+    const operation = callback('./usePokeFactoryGame.ts', 'dispatchEventRegion', scope)('kanto');
+    if (destination === 'selection') {
+      const next = loadSaveData()!; next.events.dispatchPokemonByRegion.kanto = null; replaceSaveData(next);
+    }
+    if (destination === 'leave-return') scope.dispatchContextRef.current = 'returned events';
+    if (destination === 'factory') { scope.factoryResumeActiveRef.current = true; beginFactoryWalletRun(loadSaveData()!, 0); }
+    if (destination === 'import') { scope.skipExitPersistRef.current = true; const next = base(); next.events.dispatches.kanto = createDefaultDispatchState(); next.baseInventory.balls.pokeball = 8; replaceSaveData(next); }
+    if (destination === 'ownership') {
+      // Controlled external ownership loss: metadata was fetched for the old owner.
+      const next = loadSaveData()!; next.progress.companionSpeciesId = 25; next.events.dispatchPokemonByRegion.kanto = 133; replaceSaveData(next);
+    }
+    const before = data.get(key); fetched.resolve({ types: [{ type: { name: 'normal' } }] }); await operation;
+    assert.equal(data.get(key), before); assert.equal(state.eventDispatches.kanto.status, 'IDLE');
+    assert.equal(scope.dispatchInFlightRef.current, false);
+  }));
+}

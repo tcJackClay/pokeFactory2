@@ -54,6 +54,8 @@ import {
   adjustWalletBalance,
   commitFactoryGroupSettlement,
   prepareDispatchResult,
+  startEventDispatch,
+  deferDispatchBattle,
   commitDispatchResult,
   commitEventBallAttempt,
   persistEventResources,
@@ -1812,6 +1814,18 @@ export function usePokeFactoryGame(): GameViewModel {
       return result;
     }
 
+    const deferWithoutUsableTeam = () => {
+      assertCurrentDispatch();
+      if (eventRuntimeRef.current.playerTeam.some((member) => member.currentHp > 0)) return null;
+      const message = t('dispatchNeedsTeam');
+      syncEventSave(deferDispatchBattle(key, message));
+      return message;
+    };
+    if (outcome === 'battle') {
+      const deferred = deferWithoutUsableTeam();
+      if (deferred) return deferred;
+    }
+
     const [dexMin, dexMax] = region.dexRange;
     const regionalPool = Array.from({ length: dexMax - dexMin + 1 }, (_, index) => dexMin + index);
     const sampledBaseSpecies: number[] = [];
@@ -1876,6 +1890,9 @@ export function usePokeFactoryGame(): GameViewModel {
     const targetPokemon = await getProcessedPokemon(battleIdentifier, battleLevel);
     assertCurrentDispatch();
 
+    const deferred = deferWithoutUsableTeam();
+    if (deferred) return deferred;
+
     const battleResult = specialEncounter
       ? `${region.name}: 特殊事件地点 ${specialEncounter.site.name}，遭遇 ${getLocalized(targetPokemon)}`
       : `${region.name}: 遭遇战斗 ${getLocalized(targetPokemon)}`;
@@ -1894,7 +1911,7 @@ export function usePokeFactoryGame(): GameViewModel {
     setEnemy(targetPokemon);
     setBattleLog([]);
     setTurn('PLAYER');
-    setBattleMenuTab('MAIN');
+    setBattleMenuTab((eventRuntimeRef.current.playerTeam[0]?.currentHp ?? 0) > 0 ? 'MAIN' : 'POKEMON');
     setWeather('none');
     setWeatherTurns(0);
     setFieldState([]);
@@ -1946,45 +1963,25 @@ export function usePokeFactoryGame(): GameViewModel {
           }));
           return;
         }
-        try {
-          const selectedPokemonData = await fetchPokemon(selectedPokemonId);
-          if (!isDispatchContextCurrent()) return;
-          const selectedTypes = selectedPokemonData.types.map((slot) => slot.type.name);
-          const matched = region.requiredTypes.some((type) => selectedTypes.includes(type));
-          if (!matched) {
-            setEventDispatches((prev) => ({
-              ...prev,
-              [regionId]: {
-                ...current,
-                status: 'IDLE',
-                lastResolvedAt: now,
-                lastResult: `${region.name}: 当前选择宝可梦属性不匹配地区要求`,
-              },
-            }));
-            return;
-          }
-        } catch {
-          if (!isDispatchContextCurrent()) return;
-          setEventDispatches((prev) => ({
-            ...prev,
-            [regionId]: {
-              ...current,
-              status: 'IDLE',
-              lastResolvedAt: now,
-              lastResult: `${region.name}: 派遣前校验失败，请重试`,
-            },
-          }));
+        const expectedContext = dispatchContextRef.current;
+        const assertCurrentStart = () => {
+          if (!isDispatchContextCurrent() || dispatchContextRef.current !== expectedContext || skipExitPersistRef.current) throw new StaleDispatchError();
+          const latest = loadSaveData();
+          if (latest?.events.dispatchPokemonByRegion[regionId] !== selectedPokemonId
+            || !latest.collection.ownedIds.includes(selectedPokemonId)) throw new StaleDispatchError();
+        };
+        assertCurrentStart();
+        const selectedPokemonData = await fetchPokemon(selectedPokemonId);
+        assertCurrentStart();
+        const selectedTypes = selectedPokemonData.types.map((slot) => slot.type.name);
+        if (!region.requiredTypes.some((type) => selectedTypes.includes(type))) {
+          setEventDispatches((prev) => ({ ...prev, [regionId]: { ...current,
+            lastResult: `${region.name}: 当前选择宝可梦属性不匹配地区要求`,
+          } }));
           return;
         }
-        setEventDispatches((prev) => ({
-          ...prev,
-          [regionId]: {
-            ...current,
-            status: 'RUNNING',
-            startedAt: now,
-            readyAt: now + (region.dispatchHours * 60 * 60 * 1000),
-          },
-        }));
+        assertCurrentStart();
+        syncEventSave(startEventDispatch(regionId, selectedPokemonId, selectedTypes));
         return;
       }
 

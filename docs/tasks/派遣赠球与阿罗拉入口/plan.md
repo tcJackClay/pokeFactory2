@@ -131,3 +131,12 @@ F1–F5 均来自本任务 design 中的用户决定；边界约束来自 PRD。
 最终字段细化：已完成派遣记录为 events.completedResults；resourceCheckpoint 仅存临时 playerTeam/inventoryItemIds，写序由 baseInventory.revision 统一保护。beginFactoryWalletRun 的 serializeSaveData 同次清除此快照；旧普通保存采用已落盘字段，不能复活。投球 identity 采用派遣键+唯一 attempt ID 而非新增完整事件 session。
 
 静态测试实现归并至 hooks/dispatchBallTransactions.test.ts（16项，含纯校验与真实回调）；未另建重复的 baseBallInventory.test.ts。
+
+
+## A1 / A2 审计修复补充（Route A，经 orchestrator 批准）
+
+- F3/F5、边界“合法刷新/异步迟到”：`startEventDispatch` 从最新主档验证地区、Owned、当前选择、资格及 IDLE；一次写入 RUNNING/start/ready 和 revision 成功后才同步 UI。失败仍 IDLE，选择保留，可见失败并可重试。异步物种校验前后检查 dispatch context generation、页面、工厂与导入保护。普通旧 revision 草稿不得覆盖刚持久化的派遣状态。
+- F2/F3/F5、边界“不新增机制”：已准备 battle 结果遇空队或全濒死队伍，`deferDispatchBattle` 只保存 READY 与恢复提示，不完成结果、不消耗球、不改 Owned/临时资源。目标异步加载后再次验证可战成员；有健康后备但首发倒下时打开既有换人页，不自动改队。
+- 恢复提示指向现有工厂挑战：工厂胜负结算先恢复队伍，败退返基地或七战结算后结束挑战均保留当前临时队伍；随后重新领取已保存的 battle。此处为代码路径论证，自然流程仍由 player 验收。不能让初遇伙伴自动参战，也不能依赖另一地区 join 作为唯一恢复入口。
+- 新增9项实际回调测试：空队/全濒死保留与同结果续领；目标 await 后空队与首发倒下健康后备；IDLE 写失败重试、刷新/导出解析、旧草稿覆盖；选择/离页再回/工厂/导入/Owned 变化后的迟到。测试注入临时队伍只证明回调契约，不证明自然取得队伍。
+- 保留 `audit.md` 与 `audit-static-7c27209/` 的原始 BLOCKED 历史；新代码需新 SHA 独立复审和最终实玩，不沿用旧证据。
