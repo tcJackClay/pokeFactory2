@@ -1120,7 +1120,8 @@ export function usePokeFactoryGame(): GameViewModel {
     const checkpointPaused = hasFactoryRunToResume && battleResume.status === 'READY' && battleResume.phase === 'BASE';
 
     return createSaveData({
-      baseInventory: baseInventoryRef.current,
+      // This revision belongs to the same render as eventDispatches below.
+      baseInventory,
       wallet: walletRef.current,
       runSupply: runSupplyRef.current,
       companionSpeciesId,
@@ -1152,6 +1153,7 @@ export function usePokeFactoryGame(): GameViewModel {
       collection: collectionLedger,
     });
   }, [
+    baseInventory,
     collectionLedger,
     companionSpeciesId,
     currentLanguage,

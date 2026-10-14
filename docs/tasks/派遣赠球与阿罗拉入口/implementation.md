@@ -40,3 +40,8 @@
 ## A1 / A2 修复
 
 新增 `startEventDispatch` / `deferDispatchBattle` 事务；开始先持久成功才倒计时，迟到 metadata 检查 generation/导入/选择/Owned；空队遇战可恢复，不消费结果。旧 revision 自动保存保留最新派遣状态。新增9项实际回调测试（专项共25），本次全量396项。最终门禁单列在 `static-a1-a2/`；原审计 BLOCKED 记录保留，等待新提交独立复审。未运行游戏。
+
+
+### A2 复审修复
+
+13dd1f2 仍允许实际旧 builder 借用同步更新的 ref revision 回写旧 IDLE；此前“旧草稿”测试未构造这一实际时序。现改为 builder 捕获同渲染 `baseInventory` 并加入依赖，新增真实 builder/sync 序列与新选择/到期 READY 回归。专项26项，重新执行四门禁，证据另存 `static-a2-builder/`。不以13dd1f2门禁替代本次结果。

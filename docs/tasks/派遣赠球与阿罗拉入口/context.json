@@ -87,7 +87,7 @@
       },
       {
         "file": "src/features/game/hooks/dispatchBallTransactions.test.ts",
-        "reason": "25 real callback/storage tests, including A1/A2 start faults, stale continuations, empty/fainted teams and retry"
+        "reason": "26 actual callback/storage tests; includes builder/sync stale render and fresh selection/READY persistence"
       }
     ],
     "player": [
@@ -121,7 +121,8 @@
     "attemptIdentity": "dispatch:<region>:<startedAt>:attempt:<unique-id>; UUID or timestamp plus module counter fallback; no battle RNG",
     "saveWriters": "serializeSaveData protects all regular callers; event transactions use validated eventWrite; replaceSaveData replaces whole imported save",
     "dispatchStart": "startEventDispatch atomically persists RUNNING before UI; metadata continuation validates generation/import/current selection/Owned; older revision drafts keep stored dispatch states",
-    "deferredBattle": "deferDispatchBattle retains pending battle/READY/resources when no usable team; check before generation and after target await; existing replacement panel for fainted lead with healthy reserve"
+    "deferredBattle": "deferDispatchBattle retains pending battle/READY/resources when no usable team; check before generation and after target await; existing replacement panel for fainted lead with healthy reserve",
+    "saveBuilder": "buildCurrentSaveData captures render baseInventory (dependency) paired with closure dispatches; never uses latest ref to label old dispatch fields"
   },
-  "repair_of": "7c2720982facf73fedaaf318bc76ca82969cc405"
+  "repair_of": "13dd1f222c1630ff56c67791aa46f887575c7bf3"
 }

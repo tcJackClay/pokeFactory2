@@ -6,7 +6,7 @@ import type { GamePokemon } from '../../../types';
 import {
   parseSaveDataFromText, replaceSaveData, loadSaveData, persistSaveData, prepareDispatchResult,
   commitDispatchResult, commitEventBallAttempt, persistEventResources, beginFactoryWalletRun,
-  endFactoryWalletRun, adjustWalletBalance, startEventDispatch, deferDispatchBattle,
+  endFactoryWalletRun, adjustWalletBalance, startEventDispatch, deferDispatchBattle, createSaveData,
 } from '../../../services/saveManager';
 import { BASE_BALL_IDS, createEmptyBaseInventory, createEmptyEventPersistentState, isBaseBallId, validateBaseInventory } from '../utils/baseBallInventory';
 import { EVENT_REGIONS, DISPATCH_ITEM_BALL_REWARD, createDefaultDispatchState } from '../config/events';
@@ -397,3 +397,48 @@ for (const destination of ['selection', 'leave-return', 'factory', 'import', 'ow
     assert.equal(scope.dispatchInFlightRef.current, false);
   }));
 }
+
+
+test('actual builder and sync keep old render revision; fresh selection and elapsed READY still persist', async () => storage(() => {
+  const initial = idleBase();
+  const { scope } = scopeFor();
+  const builderScope: Record<string, any> = {
+    ...scope, baseInventory: initial.baseInventory,
+    startLevel: 50, STREAK_FACTORY_SINGLES_OPEN: 2, STREAK_FACTORY_SINGLES_50: 1,
+    CHALLENGE_ACTIVE_STATES: [], gameState: 'EVENTS', hasFactoryRunToResume: false,
+    WIN_STREAK_ACTIVE_MASK_DEFAULT: 3, FACTORY_REWARD_CONFIG: { battlesPerSet: 7 }, stage: 1,
+    getPersistableBattleResume: () => initial.factory.battleResume, createSaveData,
+    walletRef: { current: initial.wallet }, runSupplyRef: { current: initial.runSupply },
+    companionSpeciesId: 133, totalRents: 0, highestStreak: 0, specialModeUnlocked: false,
+    currentLanguage: 'en', selectedGens: [1], devToolsAvailable: false, developerMode: false,
+    exportUsedTrainerIdsBySet: () => [], eventSpeciesBattleCounts: {}, collectionLedger: initial.collection,
+  };
+  const oldBuilder = callback('./usePokeFactoryGame.ts', 'buildCurrentSaveData', builderScope);
+  const started = startEventDispatch('kanto', 133, ['normal']);
+  scope.syncEventSave(started); // Refs update synchronously; builder still belongs to the previous render.
+  assert.equal(scope.baseInventoryRef.current.revision, started.baseInventory.revision);
+  const oldDraft = oldBuilder();
+  assert.equal(oldDraft.baseInventory.revision, initial.baseInventory.revision);
+  assert.equal(oldDraft.events.dispatches.kanto.status, 'IDLE');
+  persistSaveData(oldDraft);
+  assert.deepEqual(loadSaveData()!.events.dispatches.kanto, started.events.dispatches.kanto);
+
+  // Model the next React render: paired state values, not the mutable ref, produce the new builder.
+  builderScope.baseInventory = started.baseInventory;
+  builderScope.eventDispatches = started.events.dispatches;
+  builderScope.eventDispatchPokemonByRegion = { ...started.events.dispatchPokemonByRegion, johto: null };
+  persistSaveData(callback('./usePokeFactoryGame.ts', 'buildCurrentSaveData', builderScope)());
+  assert.equal(loadSaveData()!.events.dispatchPokemonByRegion.johto, null);
+  assert.equal(loadSaveData()!.events.dispatches.kanto.status, 'RUNNING');
+  const originalNow = Date.now;
+  try {
+    Date.now = () => started.events.dispatches.kanto.readyAt! + 1;
+    builderScope.eventDispatches = { ...started.events.dispatches, kanto: { ...started.events.dispatches.kanto, status: 'READY' } };
+    persistSaveData(callback('./usePokeFactoryGame.ts', 'buildCurrentSaveData', builderScope)());
+    assert.equal(loadSaveData()!.events.dispatches.kanto.status, 'READY');
+    assert.equal(loadSaveData()!.events.dispatches.kanto.startedAt, started.events.dispatches.kanto.startedAt);
+  } finally { Date.now = originalNow; }
+  const hookSource = fs.readFileSync(new URL('./usePokeFactoryGame.ts', import.meta.url), 'utf8');
+  const builderSource = hookSource.slice(hookSource.indexOf('  const buildCurrentSaveData'), hookSource.indexOf('  currentSaveBuilderRef.current = buildCurrentSaveData'));
+  assert.match(builderSource, /}, \[\s*baseInventory,/);
+}));

@@ -29,3 +29,8 @@
 | go test ./... | PASS，4包通过，server无测试 |
 
 新增9项实际回调契约测试，专项25/25；第一次专项执行修正了测试本身的规范化快照比较及钱包参数，最终四门禁均以上述日志为准。未运行游戏，待独立复审后在新冻结SHA实玩。
+
+
+## A2 builder 复审修复门禁
+
+复审发现13dd1f2的旧 builder 可借新 ref revision 回写 IDLE。本轮将 builder 版本绑定同次渲染，增加真实 builder/sync 时序回归及新渲染选择/到期 READY 保存验证。串行门禁日志 `static-a2-builder/`：lint PASS；test **397/397**、0 skip/cancel；build PASS（8.27秒，主包695.43 kB/gzip210.52 kB，保留 >500 kB 提示）；Go PASS（4包/server无测试）。专项26/26。未实玩，等待新冻结提交独立复审；旧日志及复现脚本保留。

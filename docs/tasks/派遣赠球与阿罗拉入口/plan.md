@@ -140,3 +140,10 @@ F1–F5 均来自本任务 design 中的用户决定；边界约束来自 PRD。
 - 恢复提示指向现有工厂挑战：工厂胜负结算先恢复队伍，败退返基地或七战结算后结束挑战均保留当前临时队伍；随后重新领取已保存的 battle。此处为代码路径论证，自然流程仍由 player 验收。不能让初遇伙伴自动参战，也不能依赖另一地区 join 作为唯一恢复入口。
 - 新增9项实际回调测试：空队/全濒死保留与同结果续领；目标 await 后空队与首发倒下健康后备；IDLE 写失败重试、刷新/导出解析、旧草稿覆盖；选择/离页再回/工厂/导入/Owned 变化后的迟到。测试注入临时队伍只证明回调契约，不证明自然取得队伍。
 - 保留 `audit.md` 与 `audit-static-7c27209/` 的原始 BLOCKED 历史；新代码需新 SHA 独立复审和最终实玩，不沿用旧证据。
+
+
+### A2 复审补充：保存构建器的渲染代际（F3 / F4）
+
+`buildCurrentSaveData` 的 `baseInventory` 必须来自和 `eventDispatches` 相同的 React 渲染，并列入 useCallback 依赖。不能使用即时更新的 `baseInventoryRef.current` 为旧闭包中的 IDLE 标记新 revision。`syncEventSave` 同步更新 ref、异步调度 state 后，旧 builder 仍携带旧 revision，由 serializer 保留已保存 RUNNING；新渲染 builder 则正常持久化选择和到期 READY，不能一律丢弃 UI 派遣字段。
+
+新增实际 builder + sync 序列测试，保留复审复现脚本 `audit-stale-builder.mjs` 原文（脚本预期针对13dd1f2失败版本，并非修复版通过门禁）。专项26项；旧门禁和原审计历史不覆盖。
